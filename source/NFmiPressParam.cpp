@@ -1507,6 +1507,14 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  ReadNext();
 		  break;
 		}
+		case dSupplement:
+		{
+		  fSupplementary = true; //t‰m‰ segmentti
+		  itsPressProduct->SetSupplementMode(true); //muille segmenteille tiedoksi
+
+		  ReadNext();
+		  break;
+		}
 		default:
 		  {
 			ReadRemaining();
@@ -1792,6 +1800,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("l‰heisyysesto"))
 	return dDistanceCheck;
 
+  else if(lowChar==NFmiString("onlysupplement") ||
+		  lowChar==NFmiString("vaint‰ydennys"))
+	return dSupplement;
+
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }
@@ -1869,6 +1881,9 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 {
   UnsetAllErrorReported();
 
+  if(fSupplementary)
+	  *itsLogFile << "  VAINTƒYDENNYS" << endl;
+
   if (!itsDataIter)
 	{
 	  *itsLogFile << "  *** ERROR: data lost: "
@@ -1906,6 +1921,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   itsCurrentStep = 1;
   stationPointMovement.Set(0., 0.);
   FmiCounter statAll = 0;
+  bool done, supplementLater;
 
   /********* AIKA/PAINEpintaluuppi ********/
   while(itsCurrentStep <= itsNumberOfSteps) 
@@ -1921,11 +1937,15 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  if(fIsLevelLoop)
 			itsDataIter->Level(NFmiLevel(kFmiPressureLevel,itsLevels[currentStepInd]));
 
+		  done = fSupplementary && itsPressProduct->GetSegmentTimeStatus(itsCurrentStep);
+		  supplementLater = itsPressProduct->GetSupplementMode() && !fSupplementary;
+
 		  // HUOM segmentin aika pit‰‰ olla datassa vaikka piirtoalkiossa muutettaisiin tuntia
-		  if(itsDataIter->Time(time) || fDataNotNeeded)
- 	   {
-		 if(itsCurrentStep == 1 || fIsTimeLoop)
-		   {
+          // ei prosessoida jos t‰ydennyssegmentti ja on jo tehty		 
+ 		  if((itsDataIter->Time(time) || fDataNotNeeded) && !done)
+ 		 {
+		  if(itsCurrentStep == 1 || fIsTimeLoop)
+		  {
 			 bool writeLog = true;
 			 if(itsNumberOfSteps > 6)  // lyhennet‰‰n lokiskriptia
 			   {
@@ -1949,6 +1969,9 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 else if(writeLog)
 			   *itsLogFile << " utc"<< endl;
 		   }
+         if(!fSupplementary)  
+			 itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, true);
+
 		 if(fIsLevelLoop)
 		   *itsLogFile << "  Segmentin painepinta: " << itsLevels[currentStepInd] << endl;
 
@@ -2074,12 +2097,18 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 					  saveObject);
 
   // ********** Lopun AikaSidotutObjektit loppu **************
-
   } //if(itsData.Time())
 		  else
 			{   //HUOM QD:ss‰ pit‰‰ olla segmentin aika vaikka data-alkioissa k‰ytett‰issin eri tuntia
-			  if(itsLogFile)
-				*itsLogFile << "  *** ERROR: Segment time missing from data: "
+			  NFmiString firstText;
+			  if(done)
+			     firstText = "  aika tehty yll‰: ";
+			  else if(supplementLater)
+			     firstText = "  Segment time missing from this data: ";
+			  else
+			     firstText = "  *** ERROR: Segment time missing from data: ";
+
+			  *itsLogFile << static_cast<char *>(firstText)
 							<< static_cast<char *>(time.ToStr("DD.MM.YYYY HH"))
 							<< " utc"
 							<< endl;
@@ -2092,7 +2121,6 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 				  object->Move(itsSteps[currentStepInd]);
 				  object = static_cast<NFmiPressScaling *>(objectIter.Next());
 				}
-
 			}
 
 		} //if(itsDataIter)

@@ -140,6 +140,10 @@ public:
   float UseFromStorage(int queueNum=1, bool errorReport = true);
   bool GetElementsAfterSegments(void) const;
   bool ReadSeasonsStatus(void);
+  bool SetSegmentTimeStatus(int theSegmentNum, bool theStatus);
+  bool GetSegmentTimeStatus(int theSegmentNum) const;
+  void SetSupplementMode(bool theMode);
+  bool GetSupplementMode(void);
 protected:
 
   void StepMap(void);
@@ -159,6 +163,7 @@ public:
   std::queue<float> itsFloatQueue2;
   NFmiVoidPtrList itsObjects; //osakuvat voivat tuoda rekursiivisesti lisäkuvia
   bool IsSummerWeather(const NFmiString& theCountryPart);
+  std::vector<bool> itsSegmentDoneTimes;
 
 private:
 
@@ -206,9 +211,36 @@ private:
   unsigned long itsNumOfWritePS;
   NFmiPressArea itsArea;
   bool fNewestDataMode;
+  bool fSupplementMode;
 
 }; // class NFmiPressProduct
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressProduct::SetSupplementMode(bool theMode)
+{
+  fSupplementMode = theMode;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressProduct::GetSupplementMode(void)
+{
+  return fSupplementMode;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

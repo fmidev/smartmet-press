@@ -360,7 +360,7 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
 				itsString = valueString;
 			  }
 			
-			if(long1 > 0 && long2 > 0  && long3 > 0  && long1 < long3)
+			if(long1 > 0 && long2 > 0  && long3 > 0  && long1 <= long3)
 			  {
 				itsLoopActivity.startIndex = long1;
 				itsLoopActivity.step = long2;

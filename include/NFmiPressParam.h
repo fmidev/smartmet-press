@@ -70,7 +70,8 @@ enum NFmiPressParamObjects
   dStationsFromData,
   dDataNotNeeded,
   dAreaOperation,
-  dDistanceCheck = 3040
+  dDistanceCheck = 3040,
+  dSupplement
 };
 
 struct FmiValuePoint
@@ -203,6 +204,7 @@ protected:
   NFmiPoint itsCheckDistance;
   vector<FmiValuePoint> itsCheckLocations;
   bool fInterruptSymbolGroup;  
+  bool fSupplementary;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -247,6 +249,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fIsAreaOperation(false)
   , itsCheckDistance (NFmiPoint())
   , fInterruptSymbolGroup(false)
+  , fSupplementary(false)
 {
   itsLanguage=kFinnish;
 }
@@ -289,6 +292,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fIsAreaOperation(false)
   , itsCheckDistance (NFmiPoint())
   , fInterruptSymbolGroup(false)
+  , fSupplementary(false)
 {
   itsLanguage=kFinnish;
 }

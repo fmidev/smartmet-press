@@ -56,6 +56,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   fMakeElementsAfterSegments = false;
   itsMaskIter = 0;
   fNewestDataMode = false;
+  fSupplementMode = false;
 }
 
 // ----------------------------------------------------------------------
@@ -87,6 +88,46 @@ NFmiPressProduct::~NFmiPressProduct(void)
 	delete itsDescriptionFile;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param value Undocumented
+ * \param queueNum Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressProduct::SetSegmentTimeStatus(int theSegmentNum, bool theStatus)
+{
+  if(itsSegmentDoneTimes.size() < theSegmentNum)
+  {
+     itsSegmentDoneTimes.resize(itsSegmentDoneTimes.size()+5, false);
+  }
+  itsSegmentDoneTimes.at(theSegmentNum-1) = theStatus;
+
+  return true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param value Undocumented
+ * \param queueNum Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressProduct::GetSegmentTimeStatus(int theSegmentNum) const
+{
+  if(itsSegmentDoneTimes.size() < theSegmentNum)
+  {
+	 return false;
+  }
+  else
+  {
+	 return itsSegmentDoneTimes.at(theSegmentNum-1);
+  }
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -1073,7 +1114,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 23.2.2004" << endl;       
+   *itsLogFile << "program version = 27.2.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

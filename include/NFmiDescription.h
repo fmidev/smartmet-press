@@ -108,7 +108,7 @@ bool ReadOne(Type & retValue)
 	  return isTrue;
 	}
   retValue = 0;
-  *itsLogFile << "ERROR: pitää olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
+  *itsLogFile << "*** ERROR: pitää olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
   return isFalse;
 }
 // ----------------------------------------------------------------------
