@@ -153,6 +153,7 @@ public:
   NFmiLocationFinder * itsNameToLonLat;
   std::queue<float> itsFloatQueue;
   std::queue<float> itsFloatQueue2;
+  NFmiVoidPtrList itsObjects; //osakuvat voivat tuoda rekursiivisesti lisäkuvia
 
 private:
 
@@ -192,7 +193,6 @@ private:
   NFmiVoidPtrList itsDatas;
   NFmiVoidPtrList itsParams;
   NFmiVoidPtrList itsSameSymbols;
-  NFmiVoidPtrList itsObjects;
   NFmiString itsLogFileName;
   unsigned long itsNameTimeFormat;
   unsigned long itsSecondNameTimeFormat;

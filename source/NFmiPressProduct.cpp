@@ -1933,6 +1933,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    image->SetHome(GetHome());
             image->SetLogFile(itsLogFile);
 			image->SetDescriptionFile(itsDescriptionFile);
+			image->SetPressProduct(this);
 			if(image->ReadDescription(itsString))
 			  itsObjects.Add(image);
 			else
@@ -2190,7 +2191,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#vakiosymboli"))
 	return dImageObject;
   else if(lowChar==NFmiString("#subimage") ||
-		  lowChar==NFmiString("#osakuva"))
+		  lowChar==NFmiString("#subimages") ||
+		  lowChar==NFmiString("#osakuva")  ||
+		  lowChar==NFmiString("#osakuvia"))
 	return dSubImage;
   else if(lowChar==NFmiString("#consttext") ||
 		  lowChar==NFmiString("#vakioteksti")||

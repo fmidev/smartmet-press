@@ -40,7 +40,11 @@ public:
   virtual bool ReadDescription(NFmiString & retString); 
   virtual int ConvertDefText(NFmiString & object);
 
+#ifdef OLD_MSC
+  using NFmiPressText::WritePS;
+#else
   using NFmiPressScaling::WritePS;
+#endif
   virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
 
   void SetLanguage(FmiLanguage newLanguage);

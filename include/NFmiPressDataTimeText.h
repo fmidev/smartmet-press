@@ -40,7 +40,11 @@ public:
   bool ReadRemaining(void);
   int ConvertDefText(NFmiString & object);
 		
+#ifdef OLD_MSC
+  using NFmiPressTimeText::WritePS;
+#else
   using NFmiPressScaling::WritePS;
+#endif
   virtual bool WritePS(FmiPressOutputMode theOutput);
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
   virtual unsigned long ClassId(void);

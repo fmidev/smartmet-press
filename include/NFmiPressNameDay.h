@@ -40,7 +40,11 @@ public:
 
   virtual bool ReadRemaining(void);  
   virtual int ConvertDefText(NFmiString & object); 
+#ifdef OLD_MSC
+  using NFmiPressText::WritePS;
+#else
   using NFmiPressScaling::WritePS;
+#endif
   virtual bool WritePS(FmiPressOutputMode theOutput);
   void SetMaxNumber(FmiCounter maxNumber);
   void SetMaxLength(FmiCounter maxLength);

@@ -34,7 +34,11 @@ public:
   virtual void SetText(NFmiString theText);
   int ConvertDefText(NFmiString & object);
 
+#ifdef OLD_MSC
+  using NFmiPressTimeText::WritePS;
+#else
   using NFmiPressScaling::WritePS;
+#endif
   virtual bool WritePS(FmiPressOutputMode theOutput);
        
 protected:

@@ -31,7 +31,11 @@ public:
   NFmiPressParamText(void);
   NFmiPressParamText(const NFmiPressText & theTextParamRect); 
 
+#ifdef OLD_MSC
+  using NFmiPressText::WritePS;
+#else
   using NFmiPressScaling::WritePS;
+#endif
   virtual bool WritePS(FmiPressOutputMode theOutput);  
   virtual bool IsDataObject(void);
       

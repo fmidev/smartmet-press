@@ -10,10 +10,26 @@
 #endif
 
 #include "NFmiPressImage.h"
+#include "NFmiPressProduct.h"
 #include <iostream>
 
 using namespace std;
 
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+NFmiPressImage::NFmiPressImage(void)
+  : NFmiPressScaling()
+  ,itsPressProduct(0)
+{
+  NFmiPoint point1 = NFmiPoint(0.,0.);
+  NFmiPoint point2 = NFmiPoint(600.,750.);
+  itsImageScale.SetStartScales(NFmiRect(point1,point2));
+  itsImageScale.SetEndScales(NFmiRect(point1,point2));
+}
 // ----------------------------------------------------------------------
 /*!
  * The destructor does nothing special
@@ -35,6 +51,12 @@ NFmiPressImage::~NFmiPressImage(void)
 NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
   : NFmiPressScaling()
   , itsPath(thePressImage.itsPath)
+  , itsImageScale(thePressImage.itsImageScale)
+  , itsClippingRect(thePressImage.itsClippingRect)
+  , itsPressProduct(thePressImage.itsPressProduct)
+  , itsTempImageFile(thePressImage.itsTempImageFile)
+  , itsTempImagePath(thePressImage.itsTempImagePath)
+  , itsTempImageDir(thePressImage.itsTempImageDir)
 {
 }
 
@@ -49,18 +71,19 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
 
 bool NFmiPressImage::ReadDescription(NFmiString & retString)
 {
-  NFmiString  imageFile, imagePath, imageDir;
+  //NFmiString  imageFile, imagePath, imageDir;
+  NFmiString tempString;
   NFmiValueString valueString;
   double r1,r2,r3;
   double xmin,xmax,ymin,ymax;
   xmin = ymin = 0;
   xmax = ymax = 1;
-  
+ /* 
   NFmiPoint point1 = NFmiPoint(0.,0.);
   NFmiPoint point2 = NFmiPoint(600.,750.);
   itsImageScale.SetStartScales(NFmiRect(point1,point2));
   itsImageScale.SetEndScales(NFmiRect(point1,point2));
-  
+  */
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
@@ -98,6 +121,50 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dNewImage:
+		  {
+			NFmiPressImage* image = new NFmiPressImage;//owner pressProduct
+			*image = *this;
+			if(image->ReadDescription(itsString))
+			{
+			  if(itsPressProduct)
+			     itsPressProduct->itsObjects.Add(image);
+			  else
+				  *itsLogFile << "*** ERROR: OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE" << endl;
+			}
+			else
+			  delete image;
+
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
+	/*
+		case dNewImageRel:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			tempString = ReadString();
+			if(Read2Double (r1, r2))
+			{
+				NFmiPressImage* image = new NFmiPressImage;//owner pressProduct
+				*image = *this;
+				image->SetImageFile(tempString);
+				image->Scale
+				if(image->ReadDescription(itsString))
+				{
+				  if(itsPressProduct)
+					 itsPressProduct->itsObjects.Add(image);
+				  else
+					  *itsLogFile << "*** ERROR: OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE" << endl;
+				}
+				else
+				  delete image;
+			}
+
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
+		  */
 		case dSymbolPlace:
 		  {
 			if (!ReadEqualChar())
@@ -114,9 +181,9 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 			
-			imageFile = ReadString();
+			itsTempImageFile = ReadString();
 			
-			imageFile += NFmiString(".eps");
+			itsTempImageFile += NFmiString(".eps");
 			
 			ReadNext();
 			break;
@@ -126,7 +193,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 			
-            imageDir = ReadString();
+            itsTempImageDir = ReadString();
 			
 			ReadNext();
 			break;
@@ -136,7 +203,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 			
-            imagePath = ReadString();
+            itsTempImagePath = ReadString();
 			
 			ReadNext();
 			break;
@@ -239,7 +306,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		}
 	} //while
   
-  if(!imagePath.IsValue() && !imageFile.IsValue())
+  if(!itsTempImagePath.IsValue() && !itsTempImageFile.IsValue())
 	{
 	  if(itsLogFile)
 		*itsLogFile << "*** ERROR: OsaKuva-tiedosto ei määritelty" << endl;
@@ -247,7 +314,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 	  return false;
 	}
   else
-	itsPath = CreatePath(NFmiString("PuoliValmiit"),imagePath,imageDir,imageFile);
+	itsPath = CreatePath(NFmiString("PuoliValmiit"),itsTempImagePath,itsTempImageDir,itsTempImageFile);
   retString = itsString;
   return true;
 }
@@ -270,6 +337,10 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("tiedosto") ||
 	 lowChar==NFmiString("nimi"))
 	return dImageFile;
+
+  else if(lowChar==NFmiString("newimage") ||
+		  lowChar==NFmiString("uusikuva"))
+	return dNewImage;
 
   else if(lowChar==NFmiString("directory") ||
 		  lowChar==NFmiString("hakemisto"))

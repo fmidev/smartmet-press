@@ -19,7 +19,7 @@
 
 #include "NFmiFileString.h"
 #include "NFmiPressScaling.h"
-
+class NFmiPressProduct;
 
 //! Undocumented
 enum NFmiPressImageObjects
@@ -31,7 +31,8 @@ enum NFmiPressImageObjects
   dImagePlottingView,
   dImageClippingRectangle,
   dImageSizeFactor,
-  dImagePlaceMove
+  dImagePlaceMove,
+  dNewImage
 };
 
 
@@ -53,28 +54,54 @@ public:
   void SetPath(const NFmiString & thePath);
   NFmiFileString GetPath(void) const;
   virtual unsigned long ClassId(void);
+  void SetPressProduct(NFmiPressProduct*  thePressProductOwner);
+  NFmiPressProduct* GetPressProduct(void)const;
 		
 protected:               
 			 		
   NFmiFileString itsPath;
   NFmiRectScale itsImageScale;
   NFmiRect itsClippingRect;
+  //to be able to add recursively objects to the pressProducts object list: 
+  NFmiPressProduct* itsPressProduct; //not owner; 
+      
+private:
+	//tempit tarvitaan nyt rekursion takia
+  NFmiString  itsTempImageFile;
+  NFmiString  itsTempImagePath;
+  NFmiString  itsTempImageDir;
 
 }; // class NFmiPressImage
 
 
+
 // ----------------------------------------------------------------------
 /*!
- * Void constructor
+ * Undocumented
+ *
+ * \param thePath Undocumented
  */
 // ----------------------------------------------------------------------
 
 inline
-NFmiPressImage::NFmiPressImage(void)
-  : NFmiPressScaling()
+void NFmiPressImage::SetPressProduct(NFmiPressProduct* thePressProductOwner)
 {
+  itsPressProduct=thePressProductOwner;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressProduct* NFmiPressImage::GetPressProduct(void)const
+{
+  return itsPressProduct;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
