@@ -448,7 +448,21 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 		}
 	  if(fUseFromStorageInFrontOf)
 		{
-		  str += NFmiValueString(itsPressParam->UseFromStorage(itsStorageQueue),format);
+		  float inFrontOfValue = itsPressParam->UseFromStorage(itsStorageQueue);
+	      if(inFrontOfValue == kFloatMissing)  // NORMAALI POS. TAI NEG. ARVO
+		  {
+			  if(!itsEnvironment.GetLongNumberMinus())
+				{
+				  str += NFmiString ("-");
+				}
+			  else
+				{
+				  str += NFmiString("\\226");
+
+				}
+		  }
+		  else
+			str += NFmiValueString(inFrontOfValue,format);
 		}
 	  if(value == 0 && fZeroMinus)   //NOLLA PUUTTUVANA
 		{

@@ -99,6 +99,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsValueOption(theRect.itsValueOption)
   , itsIdentPar(theRect.itsIdentPar)
   , itsRandomInterval(theRect.itsRandomInterval)
+  , fRandomModifying(theRect.fRandomModifying)
   , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());
@@ -579,6 +580,12 @@ bool NFmiParamRect::ReadRemaining(void)
 		SetOne(itsRandomInterval);
 		break;
 	  }
+	case dRandomModifying:
+	  {
+		fRandomModifying = true;
+		ReadNext();
+		break;
+	  }
 	case dRelHour:
 	  {
 		*itsLogFile << "*** ERROR: Ei sallittu dataelementeille: "
@@ -784,6 +791,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("randominterval") ||
 		  lowChar==NFmiString("satunnaisväli"))
 	return dRandomInterval;
+
+  else if(lowChar==NFmiString("randommodifying") ||
+		  lowChar==NFmiString("satunnaiskäsittely"))
+	return dRandomModifying;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1632,6 +1643,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		}
 	  
 	}
+
+  //ekassa käsittely poltettu koodiin, jälkimmäsessä ohjattavissa määrittelystä
+  RandomModify(value, theQueryInfo->Param().GetParamIdent());
   if(IsRandom())
   {
       //srand(static_cast<unsigned int>(value)); PressProduktiin
@@ -1748,7 +1762,10 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 		
 		ReadCurrentValue(theQI, value, true); // =local time jo asetettu
 		
+		//RandomModify(value, theQI->Param().GetParamIdent()); tulee jo muualla
+
 		itsCurrentParamArray[i] = value;
+
 		
 		if(i>FmiMaxNumOfMappingParams) //varmuuden vuoksi
 		  {
@@ -1760,6 +1777,68 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 	return true;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theQueryInfo Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+bool NFmiParamRect::RandomModify(float& theValue, unsigned long theParIdent) const
+{
+	if(theValue != kFloatMissing && fRandomModifying)
+	{
+		switch (theParIdent)
+		{
+			case kFmiTemperature:
+				Randomize(theValue, 1.2f, -100.f, 100.f);
+				break;
+			case kFmiTotalCloudCover:
+				if(theValue > 1.f && theValue < 99.f)
+					Randomize(theValue, 32.f, 0.f, 100.f);
+				break;
+			case kFmiPrecipitation1h:
+				RandomizeRelatively(theValue, .8f, 0.f, 100.f);
+				break;					
+			case kFmiProbabilityThunderstorm:
+				if(theValue > 1.f)
+					Randomize(theValue, 6.f, 0.f, 100.f);
+				break;
+		}
+	}
+	return true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theQueryInfo Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiParamRect::Randomize(float& theValue, float theInterval, float theMin, float theMax) const
+{
+	theValue += theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+	theValue = max(theMin, min(theMax, theValue));
+	return true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theQueryInfo Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiParamRect::RandomizeRelatively(float& theValue, float theInterval, float theMin, float theMax) const
+{
+	theValue *= 1. + theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+	theValue = max(theMin, min(theMax, theValue));
+	return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

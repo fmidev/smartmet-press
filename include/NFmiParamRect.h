@@ -72,7 +72,8 @@ enum NFmiParamRectObjects
   dStorageQueue,
   dAcceptanceInterval,
   dInterval2Number,
-  dRandomInterval
+  dRandomInterval,
+  dRandomModifying = 6060
 };
 
 //! Undocumented
@@ -168,12 +169,14 @@ protected:
   float GetRandomInterval(void)const{return itsRandomInterval;};
   bool IsRandom(void)const {return GetRandomInterval() > .00001f;};
 
-
 private:
 
   int WaWa2PresentWeather(int value, NFmiFastQueryInfo * theData);
   int PreWeaWithPrecForm(int value, NFmiFastQueryInfo * theData);
-  
+  bool Randomize(float& theValue, float theInterval, float theMin, float theMax) const;
+  bool RandomizeRelatively(float& theValue, float theInterval, float theMin, float theMax) const;
+  bool RandomModify(float& theValue, unsigned long theParIdent) const;
+ 
 protected:
   bool fModifierUsed;
   float itsInterval2NumberMin;
@@ -223,6 +226,7 @@ protected:
   NFmiPsWriting itsPsWriting;
   unsigned long itsIdentPar;
   float itsRandomInterval;
+  bool fRandomModifying;
 
 private:
 
@@ -268,6 +272,7 @@ NFmiParamRect::NFmiParamRect(void)
   itsValueIntervalMin = kFloatMissing;
   itsInterval2NumberMin = kFloatMissing;
   itsRandomInterval=0.;
+  fRandomModifying = false;
 }
 
 // ----------------------------------------------------------------------
@@ -310,8 +315,9 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsAreaModifier(kNoneModifier)
   , itsValueOption(kNoneValueOption)
   , itsIdentPar(kFmiTemperature)
-  , itsRandomInterval(0.)
   , itsDataIdent(theParam)
+  , itsRandomInterval(0.)
+  , fRandomModifying(false)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
