@@ -761,6 +761,7 @@ bool NFmiPressProduct::GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus)
  * Undocumented
  *
  * \param thePrepr Undocumented
+ * \param theCondValue Undocumented
  * \param theConditionalBeginDirective Undocumented
  * \param theConditionalNotBeginDirective Undocumented
  * \param theConditionalEndDirective Undocumented
@@ -886,13 +887,13 @@ bool NFmiPressProduct::PreProcessDefinition(const string & inFileName,
 /*!
  * Undocumented
  *
- * \param inFile Undocumented
- * \param outFile Undocumented
+ * \param origInput Undocumented
+ * \param output Undocumented
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
+bool NFmiPressProduct::PreProcessProduct( ifstream& origInput, ofstream& output)
 {
   const short lineSize = 130;	//max rivipituus
   char inBuf[lineSize];
@@ -900,9 +901,9 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
   NFmiString incString = NFmiString("#Include");
   NFmiString liitaString = NFmiString("#Liitä");
 
-  while (inFile.getline(inBuf, lineSize, '\n'))
+  while (origInput.getline(inBuf, lineSize, '\n'))
 	{
-	  short num = inFile.gcount();
+	  short num = origInput.gcount();
 	  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
 
 	  unsigned short nRisu = static_cast<unsigned short>(str.Search( NFmiString("#")));// jotta löytyisi tabinkin takaa
@@ -930,7 +931,7 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
 		  ifstream includeFile(includeFileName, ios::in);
 		  if(includeFile.good() && !includeFile.eof())
 			{
-			  NFmiCopyFile(includeFile, outFile);
+			  NFmiCopyFile(includeFile, output);
 			}
 		  else
 			{
@@ -942,8 +943,8 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
 		}
 	  else
 		{
-		  outFile.write(inBuf, num-1);
-		  outFile.put('\x0A');
+		  output.write(inBuf, num-1);
+		  output.put('\x0A');
 		}
 	}
   return true;
