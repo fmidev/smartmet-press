@@ -62,6 +62,7 @@ public:
   
   virtual bool ReadDescription(NFmiString & retString);
   bool ReadDescriptionAndWrite(NFmiPressProduct & pressProduct,
+							   bool &theManagerReadFailed,
 							   FmiPressOutputMode theOutMode=kPostScript);   
 
   virtual int ConvertDefText(NFmiString & object);

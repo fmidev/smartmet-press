@@ -921,7 +921,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 18.2.2003" << endl;       
+   *itsLogFile << "program version = 20.2.2003" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2158,7 +2158,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#osakuva"))
 	return dSubImage;
   else if(lowChar==NFmiString("#consttext") ||
-		  lowChar==NFmiString("#vakioteksti"))
+		  lowChar==NFmiString("#vakioteksti")||
+		  lowChar==NFmiString("#teksti"))
 	return dTextObject;
   else if(lowChar==NFmiString("#columntext") ||
 		  lowChar==NFmiString("#palstateksti"))

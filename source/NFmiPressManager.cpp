@@ -52,13 +52,15 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
  
    string inputStdName(inputFile);
    string outputStdName(tempInput);
-/*
+
    if(!PreProcessDefinition(inputStdName, outputStdName))
    {
 	  *itsLogFile << "***ERROR: PROGRAM INTERRUPTED, see above" << endl;
 	  return false;
 	}
-*/	
+    delete itsDescriptionFile;
+    itsDescriptionFile = new ifstream(tempInput, ios::in);
+	
 	return true;
 }
 
@@ -73,8 +75,10 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 // ----------------------------------------------------------------------
 
 bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduct,
+											   bool &theManagerReadFailed,
 											   FmiPressOutputMode theOutMode)
 {
+  theManagerReadFailed = false;
   long long1,long2,statNum;
   unsigned long uLong;
   double lon, lat;
@@ -106,7 +110,12 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 	  *itsLogFile << "Manageri-tiedosto avattu: "<< static_cast<char *>(inputFileName) << endl;
 
   SetSeasonsStatus(thePressProduct.GetSeasonsStatus());
-  PreProcessManager(inputFileName);
+  SetHome(thePressProduct.GetHome());
+  if(!PreProcessManager(inputFileName))
+  {
+	  theManagerReadFailed = true;
+	  return false;
+  }
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
