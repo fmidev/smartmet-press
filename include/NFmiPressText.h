@@ -70,6 +70,7 @@ public:
   int ConvertDefText(NFmiString & object);
   NFmiString Construct(NFmiString * theString) const;
 
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   void SetValueDepending(float theValue);
 
