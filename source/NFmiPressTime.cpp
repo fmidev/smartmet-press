@@ -234,7 +234,10 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
 	  else if(str4 == NFmiString("Tttt") || str4 == NFmiString("tttt") || str4 == NFmiString("TTTT"))
 		{
 		  str6 = theTimeCode.GetChars(ind,6);
-		  theString += RelativeDay(theLanguage, str6, subPlusInd);
+		  NFmiString hString = RelativeDay(theLanguage, str6, subPlusInd);
+		  if(hString == "alivuoto" || hString == "ylivuoto")
+			  hString = Weekday(theLanguage);
+		  theString += hString;
 		  plusInd += subPlusInd;
 		}
 	  else
