@@ -1465,7 +1465,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
   bool varEtc = (fIsProbability ||
 				 itsAreaModifier != kNoneModifier &&
 				 itsModifier != kNoneModifier ||
-				 itsCurrentPar == 353 &&
+				 itsCurrentPar == kFmiPrecipitation1h &&
 				 itsAreaModifier == kMaximum); //HUOM w&c
 
   if(varEtc)
@@ -1505,7 +1505,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  value = areaRRProbMaxCalc;
 		}
 	  // **** tiehallinnon sateen int epävarmuusalueella laajennettuna *** /
-	  else if(itsCurrentPar == 353 && itsAreaModifier == kMaximum && itsModifier == kNoneModifier)
+	  else if(itsCurrentPar == kFmiPrecipitation1h && itsAreaModifier == kMaximum && itsModifier == kNoneModifier)
         {
 		  NFmiRelativeDataIterator variationArea(&ssinfo, 4, 4, 0);
 		  NFmiMaskedDataIterator geographicalArea(&ssinfo); //comb/vai ei (ei tartte)  //tiealueet,vika aikajakso
@@ -1559,8 +1559,13 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		{
 		  if (isWeightedMean || //ajan suhteen 
 			  period > 0 &&
-			  (par == 336 || par == 326 || par == 19 || par == 271 || par == 57 ||
-			   par == 353 || par == 375) &&
+			  (par == kFmiWeatherSymbol1 ||
+			   par == kFmiWeatherAndCloudiness ||
+			   par == kFmiTotalWindMS ||
+			   par == kFmiMiddleAndLowCloudCover ||
+			   par == kFmiPrecipitationForm ||
+			   par == kFmiPrecipitation1h ||
+			   par == 375) &&
 			  (itsModifier == kNoneModifier || itsModifier == kMean))
 			{
 			  value = static_cast<float>(theQueryInfo->InterpolatedTimePeriodFloatValue(itsPressParam->GetCurrentStation().GetLocation(),
@@ -1727,7 +1732,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	value = FmiCelsius2Fahrenheit(value);
   else if(itsValueOption == kDegreeDays)
 	value = FmiDegreeDays(value, (theQueryInfo)->Time().GetMonth());
-  if(itsRealPar == 362) // minimituuli
+  if(itsRealPar == kFmiMinimumWind) // minimituuli
 	{                   //väliaikaisesti
 	  if (value < 400) //muuten 32700 tai 999
 		{
