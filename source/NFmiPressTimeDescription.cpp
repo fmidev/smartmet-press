@@ -130,14 +130,15 @@ bool NFmiPressTimeDescription::PreProcessConditionally(NFmiPreProcessor & thePre
 											   const string & theConditionalEndDirective,
 											   const string & theConditionalElseDirective )
 {
-  bool res1, res2;
+  bool res1, res2, res3;
   res1 = thePrepr.SetConditionalStripping(theCondValue,
 										  theConditionalBeginDirective,
 										  theConditionalNotBeginDirective,
 										  theConditionalEndDirective,
 										  theConditionalElseDirective);
+  res3 = thePrepr.SetReplaceMap(itsReplaceMap);
   res2 = thePrepr.Strip();
-  if(!res1 || !res2)
+  if(!res1 || !res2 || !res3)
 	{
 	  *itsLogFile << "*** ERROR: Preprocessing failed: "
 				  << theConditionalBeginDirective
@@ -147,6 +148,13 @@ bool NFmiPressTimeDescription::PreProcessConditionally(NFmiPreProcessor & thePre
 		*itsLogFile << "*** "  << message << endl;
 	  return false;
 	}
+  int num = thePrepr.NumOfReplacesDone();
+  if (num>0)
+	  *itsLogFile << "  muuttujakorvauksia "
+				  << num
+				  << " kpl"
+				  << endl;
+
   return true;
 }
 

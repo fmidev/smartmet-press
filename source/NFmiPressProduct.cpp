@@ -22,6 +22,7 @@
 // newbase
 #include "NFmiLocationFinder.h"
 #include "NFmiSuperSmartInfo.h"
+#include "NFmiFileSystem.h"   
 // system
 #include <iostream>
 
@@ -561,6 +562,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->pollenOrSnow = itsSeasonsStatus->pollen || itsSeasonsStatus->snow;
   itsSeasonsStatus->weekday = today.GetWeekday();
   itsSeasonsStatus->dayAdvance = +0;
+  itsSeasonsStatus->editdata = true;
 
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
@@ -571,11 +573,11 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 
   if(!in)
 	{
-	  *itsLogFile << "ei kausitilanne-tiedostoa"<< endl;
+	  *itsLogFile << "ei kausitilanne/muuttuja-tiedostoa"<< endl;
 	  return true;
 	}
 
-  string::size_type start1, end1, start2, end2;
+  string::size_type start1, end1, start2, end2, start3, end3;
   const string delims(" \t");
   string line;
   while(getline(in,line))
@@ -592,8 +594,10 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 	  end1 = line.find_first_of(delims, start1);
 	  start2 = line.find_first_not_of(delims, end1);
 	  end2 = line.find_first_of(delims, start2);
+	  start3 = line.find_first_not_of(delims, end2);
+	  end3 = line.find_first_of(delims, start3);
 
-	  if(end2 == string::npos)
+	  if(end3 == string::npos)
 		{
 		  *itsLogFile << "***ERROR: invalid line in seasonstatus: "
 					  << line
@@ -613,6 +617,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 		  string shortStr2 = str2.substr(0, 2);
 		  NFmiString fmiShortStr2 = shortStr2;
 		  fmiShortStr2.LowerCase();
+		  string str3 = line.substr(start3, end3-start3);
 
 		  bool status;
 		  NFmiString statusString("???");
@@ -638,7 +643,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->wintertime = status;
-				  *itsLogFile << "Kausitilanne pakotettu: talviaika "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Kausitilanne pakotettu: talviaika "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "summ" || fmiShortStr1 == "kesä")
@@ -646,7 +651,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->summer = status;
-				  *itsLogFile << "Kausitilanne pakotettu: kesä "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Kausitilanne pakotettu: kesä "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "poll" || fmiShortStr1 == "siit")
@@ -654,7 +659,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->pollen = status;
-				  *itsLogFile << "Kausitilanne pakotettu: siitepölykausi "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Kausitilanne pakotettu: siitepölykausi "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "snow" || fmiShortStr1 == "lumi")
@@ -662,7 +667,15 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->snow = status;
-				  *itsLogFile << "Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
+				}
+			}
+		  else if(fmiShortStr1 == "edit")
+			{
+			  if(boolGiven && !undef)
+				{
+				  itsSeasonsStatus->editdata = status;
+				  *itsLogFile << "  Editoridata pakotettu: edotori "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "week" || fmiShortStr1 == "viik")
@@ -688,7 +701,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 					  *itsLogFile << "***ERROR: invalid weekday in seasonstatus"<< str2 << endl;
 					  continue;
 					}
-				  *itsLogFile << "Viikonpäivä pakotettu: "<< fmiShortStr2 << endl;
+				  *itsLogFile << "  Viikonpäivä pakotettu: "<< fmiShortStr2 << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "adva" || fmiShortStr1 == "enna")
@@ -697,8 +710,12 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				{
 				  itsSeasonsStatus->dayAdvance = atoi(str2.c_str()); //tarvitaanko missään tässä
 				  itsEnvironment.SetDayAdvance(itsSeasonsStatus->dayAdvance);
-				  *itsLogFile << "Ennakko pakotettu: "<< str2 << endl;
+				  *itsLogFile << "  Ennakko pakotettu: "<< str2 << endl;
 				}
+			}
+		  else if(fmiShortStr1 == "muut" || fmiShortStr1 == "vari")
+			{
+			  itsReplaceMap.insert(pair<string, string>(str2, str3));
 			}
 		  else
 			{
@@ -921,7 +938,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 28.3.2003" << endl;       
+   *itsLogFile << "program version = 25.6.2003" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1035,10 +1052,25 @@ bool NFmiPressProduct::ReadData(void)
 	  else
 		twoOptinalTypes = false;
 
+	  //oletus suoraan odinista; edelleen voi jonkin aikaa käyttää vanhaa kepaa jos
+	  // kausivaihtelut muutetaan
+	  // pitää laittaa myös LightBoy
+	  if(dataFile.Header() == NFmiString("kepa_suomi_168_1_uusin") && itsSeasonsStatus->editdata)
+	  {
+			std::string odinDir = "O:\\data\\in\\";
+			std::string path;
+			path = odinDir;
+			path += "PAL_Scand*";
+			std::string theFoundFileName;
+			time_t newestTime = FindFile(path, true, &theFoundFileName);
+			//cout << theFoundFileName << endl;
+			odinDir += theFoundFileName;
+			dataFile = NFmiString(odinDir);
+	  }
+
 	  //  käyetään nyt Vilin poikkeusmenettelyä
-
 	  // Yritetään sekä fqd-tiedostoa että sqd:tä ja kahdesta hakemistosta
-
+	 
 	  if(!ReadQueryData(*data,dataFile))
 		{
 		  if(!twoOptinalTypes || !ReadQueryData(*data,dataFileSqd))
@@ -2144,6 +2176,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datafile") ||
 		  lowChar==NFmiString("data"))
 	return dDataFile;
+  else if(lowChar==NFmiString("datafilewithtimestamp") ||
+		  lowChar==NFmiString("dataaikaleimalla"))
+	return dDataFileTimeStamp;
  else if(lowChar==NFmiString("mandatorydatafile") ||
 		  lowChar==NFmiString("pakollinendata"))
 	return dMandatoryDataFile;

@@ -16,6 +16,10 @@
 #ifndef NFMIPRESSTIMEDESCRIPTION_H
 #define NFMIPRESSTIMEDESCRIPTION_H
 
+#ifdef WIN32
+#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
+
 // press
 #include "NFmiPressDescription.h"
 // newbase
@@ -63,6 +67,7 @@ struct FmiPressSeasons
   bool pollenOrSnow;
   int weekday;
   int dayAdvance;
+  bool editdata;
 };
 
 
@@ -135,6 +140,7 @@ protected:
   NFmiString itsSecondStringNameTimeFormat;     
   bool fWriteAsUtc;
   FmiPressSeasons* itsSeasonsStatus; //owner NFmiPressProduct
+  std::map<std::string, std::string> itsReplaceMap;
 
 private: 
 

@@ -17,9 +17,14 @@
 #ifndef NFMIPRESSDESCRIPTION_H
 #define NFMIPRESSDESCRIPTION_H
 
+#ifdef WIN32
+#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
+
 #include "NFmiDescription.h"
 #include "NFmiPressEnvironment.h"
 #include "NFmiPressTypes.h"
+#include <map>
 
 // T‰m‰ nyt on t‰llainen kun tarvitaan rinnan vanhaa ja uutta skaalausta
 const double c40 = 40;
