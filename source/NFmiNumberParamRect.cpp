@@ -39,6 +39,7 @@ NFmiNumberParamRect::NFmiNumberParamRect(const NFmiNumberParamRect & theNumberPa
   , itsFormat(theNumberParamRect.itsFormat)
   , fZeroMinus(theNumberParamRect.fZeroMinus)
   , fDetachSign(theNumberParamRect.fDetachSign)
+  , fDotToComma(theNumberParamRect.fDotToComma)
 {
 }
 
@@ -271,6 +272,13 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dDotToComma:
+		  {
+			fDotToComma = true;
+
+			ReadNext();
+			break;
+		  }
 		default:
 		  {
 			ReadRemaining();
@@ -322,6 +330,8 @@ int NFmiNumberParamRect::ConvertDefText(NFmiString & object)
 	return dZeroMinus;
   else if(lowChar==NFmiString("detachsign") || lowChar==NFmiString("irrotaetumerkki"))
 	return dDetachSign;
+  else if(lowChar==NFmiString("dottocomma") || lowChar==NFmiString("pistepilkuksi"))
+	return dDotToComma;
   else
 	return NFmiTextParamRect::ConvertDefText(object);
 }
@@ -472,6 +482,11 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 		{
 		  str += NFmiString(")");
 		}
+	  if(fDotToComma)
+	  {
+		str.ReplaceChars(NFmiString("."), NFmiString(","));
+	  }
+	  
 	} //ei-mappi luuppi
 
   str = DetachSign(str, value);

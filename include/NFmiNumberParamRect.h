@@ -23,7 +23,8 @@ enum NFmiNumberParamRectObjects
 {
   dFormat = 27,
   dZeroMinus     ,
-  dDetachSign
+  dDetachSign,
+  dDotToComma = 1027
 };
 
 
@@ -60,6 +61,7 @@ protected:
   NFmiString itsFormat;
   bool fZeroMinus;
   bool fDetachSign;
+  bool fDotToComma;
 
 }; // class NFmiNumberParamRect
 
@@ -75,6 +77,7 @@ NFmiNumberParamRect::NFmiNumberParamRect(void)
   , itsFormat(NFmiString("%1.f"))
   , fZeroMinus(false)
   , fDetachSign(false)
+  , fDotToComma(false)
 {
 }
 

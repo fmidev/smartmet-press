@@ -21,6 +21,7 @@
 // newbase
 #include "NFmiMetTime.h"
 #include "NFmiQueryData.h"
+#include "NFmiPreProcessor.h"
 
 class NFmiFastQueryInfo;
 
@@ -108,6 +109,17 @@ protected:
   void SetPreReadingTimes(void); 
   void SetPostReadingTimes(void);
   void SetSeasonsStatus(FmiPressSeasons* theSeasonsStatus);
+
+  bool PreProcessDefinition(const std::string & inFileName,
+							const std::string & outFileName);
+  bool WeekdayDirectiveActive(const std::string & theDefinition,
+							  const FmiPressSeasons* theSeasons) const;
+  bool PreProcessConditionally(NFmiPreProcessor & thePrepr,
+							   bool theCondValue,
+							   const std::string & theConditionalBeginDirective,
+							   const std::string & theConditionalNotBeginDirective,
+							   const std::string & theConditionalEndDirective,
+							   const std::string & theConditionalElseDirective);
 
 protected:
 

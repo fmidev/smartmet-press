@@ -267,6 +267,34 @@ bool NFmiPressProduct::SetSegmentData(const NFmiString & theDataName)
 	}
   return retCode;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theActivity Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressProduct::SetFirstSegmentActivity(bool theActivity)
+{
+  //voisi kehittää niin että muutetaan eka sellainen joka
+  //on eri kuin theActivity, niin alusta voisi (de)aktivoida n kpl
+
+  NFmiVoidPtrIterator objectIter(itsParams);
+  NFmiPressParam* object;  //PsWriting kaataa, entä NFmiPressScaling
+  objectIter.Reset();
+  object = static_cast<NFmiPressParam *>(objectIter.Next());
+  if(object)
+	object->SetActivity(theActivity);
+  else
+  {
+	  *itsLogFile << "*** ERROR: elementtejä puuttuu (de)aktivoitavaksi managerista" << endl;
+	  return false;
+  }
+
+  return true;
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -286,7 +314,14 @@ bool NFmiPressProduct::SetFirstObjectActivity(bool theActivity)
   NFmiPressScaling* object;  //PsWriting kaataa, entä NFmiPressScaling
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
-  object->SetActivity(theActivity);
+  if(object)
+	object->SetActivity(theActivity);
+  else
+  {
+	  *itsLogFile << "*** ERROR: elementtejä puuttuu (de)aktivoitavaksi managerista" << endl;
+	  return false;
+  }
+
   return true;
 }
 
@@ -675,404 +710,6 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->pollenOrSnow = itsSeasonsStatus->pollen || itsSeasonsStatus->snow;
   return true;
 }
-// ----------------------------------------------------------------------
-/*!
- * Tarkistaa onko viikonpäiväehdot tähän vuodenaikaan voimassa, esim.
- * lumikartta ei piirretä torstaisin jos snow-kausi ei ole päällä
- * oletus tietysti että viikonpäivädirrit on aktiivisia.
- *
- * \param theDefinition Undocumented
- * \param theSeasons Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-bool NFmiPressProduct::WeekdayDirectiveActive(const string & theDefinition,
-											  const FmiPressSeasons* theSeasons) const
-{
-  string::size_type  start1, end1, start2, end2, pos;
-  const string delims(" \t\n");
-  pos = theDefinition.find("#Viikonpäivä");
-  if(pos == string::npos)
-	{
-	  pos = theDefinition.find("#viikonpäivä");
-	  if(pos == string::npos)
-		{
-		  pos = theDefinition.find("#Weekday");
-		  if(pos == string::npos)
-			{
-			  pos = theDefinition.find("#weekday");
-			}
-		}
-	}
-  if(pos != string::npos)
-	{
-	  pos = theDefinition.find_first_of(delims, pos);
-	  start1 = theDefinition.find_first_not_of(delims, pos);
-	  end1 = theDefinition.find_first_of(delims, start1);
-	  start2 = theDefinition.find_first_not_of(delims, end1);
-	  end2 = theDefinition.find_first_of(delims, start2);
-	  string str1 = theDefinition.substr(start1, end1-start1);
-	  string str2 = theDefinition.substr(start2, end2-start2);
-	  bool in;
-	  NFmiString str = str1;
-	  str.LowerCase();
-	  if(str == "onlyin" || str == "vainkun")
-		in = true;
-	  else if(str == "onlyoutside" || str == "vainkunei")
-		in = false;
-	  else
-		{
-		  *itsLogFile << "***ERROR: on #Weekday line"<< endl;
-		  return true;
-		}
-	  str = str2;
-	  str.LowerCase();
-	  if(str == "summer" || str == "kesä")
-		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: kesä"<< endl;
-		  return in == theSeasons->summer;
-		}
-	  else if(str == "snowperiod" || str == "lumikausi")
-		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: lumikausi"<< endl;
-		  return in == theSeasons->snow;
-		}
-	  else if(str == "pollenperiod" || str == "siitepölykausi")
-		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: siitepölykausi"<< endl;
-		  return in == theSeasons->pollen;
-		}
-	  else if(str == "wintertime" || str == "talviaika")
-		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: talviaika"<< endl;
-		  return in == theSeasons->wintertime;
-		}
-	  else if(str == "summertime" || str == "kesäaika")
-		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: kesäaika"<< endl;
-		  return in != theSeasons->wintertime; //HUOM
-		}
-	  else
-		{
-		  *itsLogFile << "***ERROR: on #weekday line"<< endl;
-		  return true;
-		}
-	}
-
-   //oletus: ei löydy tiedostoa -> ei kielletä viikonloppudirektiivien käyttöä
-  return true;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * ratkaisee voimassa olevat kausivaihtelut tiedostosta lukien tai
- * käyttämällä oletusarvoja
- *
- * \param theSeasonsStatus Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-/*
-bool NFmiPressProduct::GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus)
-{
-  //asetetaan oletukset
-  NFmiString statusString;
-  NFmiTime today;
-  NFmiTime summerStart(today);
-  summerStart.SetDate(today.GetYear(), 5, 31);
-  NFmiTime summerStop(today);
-  summerStop.SetDate(today.GetYear(), 8, 31);
-  theSeasonsStatus.wintertime = today.GetZoneDifferenceHour() == -2;
-  theSeasonsStatus.summer = today >= summerStart && today < summerStop;
-  theSeasonsStatus.pollen = !theSeasonsStatus.wintertime;
-  theSeasonsStatus.snow = !theSeasonsStatus.pollen;
-  theSeasonsStatus.pollenOrSnow = theSeasonsStatus.pollen || theSeasonsStatus.snow;
-  theSeasonsStatus.weekday = today.GetWeekday();
-  theSeasonsStatus.dayAdvance = +0;
-
-  string includePath(itsHomePath);
-  includePath += kFmiDirectorySeparator;
-  includePath += "Muut";
-  includePath += kFmiDirectorySeparator;
-  includePath += "KausiTilanne.txt";
-  ifstream in(includePath.c_str(),ios::in|ios::binary);
-
-  if(!in)
-	{
-	  *itsLogFile << "ei kausitilanne-tiedostoa"<< endl;
-	  return true;
-	}
-
-  string::size_type start1, end1, start2, end2;
-  const string delims(" \t");
-  string line;
-  while(getline(in,line))
-	{
-	  // Ignore the line if it is a comment line or "thrash" line
-
-	  if(line.substr(0,3)=="END" || line.substr(0,5)=="LOPPU")
-		break;
-
-	  if(line[0]=='#' || line.substr(0,2)=="//" || line.size() < 6)
-		continue;
-
-	  start1 = line.find_first_not_of(delims);
-	  end1 = line.find_first_of(delims, start1);
-	  start2 = line.find_first_not_of(delims, end1);
-	  end2 = line.find_first_of(delims, start2);
-
-	  if(end2 == string::npos)
-		{
-		  *itsLogFile << "***ERROR: invalid line in seasonstatus: "
-					  << line
-					  << endl;
-		  continue;
-		}
-	  else
-		{
-		  string str1 = line.substr(start1, end1-start1);
-		  NFmiString fmiStr1 = str1;
-		  fmiStr1.LowerCase();
-		  // loppuosan ei tartte olla oikein kirjoitettu
-		  string shortStr1 = str1.substr(start1, 4);
-		  NFmiString fmiShortStr1 = shortStr1;
-		  fmiShortStr1.LowerCase();
-		  string str2 = line.substr(start2, end2-start2);
-		  string shortStr2 = str2.substr(0, 2);
-		  NFmiString fmiShortStr2 = shortStr2;
-		  fmiShortStr2.LowerCase();
-
-		  bool status;
-		  NFmiString statusString("???");
-		  bool boolGiven = true;
-		  bool undef = false;
-		  if(fmiShortStr2 == "ye" || fmiShortStr2 == "on")
-			{
-			  status = true;
-			  statusString = "PÄÄLLE";
-			}
-		  else if(fmiShortStr2 == "no" || fmiShortStr2 == "ei")
-			{
-			  status = false;
-			  statusString = "POIS";
-			}
-		  else if(fmiShortStr2 == "de" || fmiShortStr2 == "ol")
-			undef = true;
-		  else
-			boolGiven = false;
-
-		  if(fmiStr1 == "wintertime" || fmiStr1 == "talviaika")
-			{
-			  if(boolGiven && !undef)
-				{
-				  theSeasonsStatus.wintertime = status;
-				  *itsLogFile << "Kausitilanne pakotettu: talviaika "<< static_cast<char *>(statusString) << endl;
-				}
-			}
-		  else if(fmiShortStr1 == "summ" || fmiShortStr1 == "kesä")
-			{
-			  if(boolGiven && !undef)
-				{
-				  theSeasonsStatus.summer = status;
-				  *itsLogFile << "Kausitilanne pakotettu: kesä "<< static_cast<char *>(statusString) << endl;
-				}
-			}
-		  else if(fmiShortStr1 == "poll" || fmiShortStr1 == "siit")
-			{
-			  if(boolGiven && !undef)
-				{
-				  theSeasonsStatus.pollen = status;
-				  *itsLogFile << "Kausitilanne pakotettu: siitepölykausi "<< static_cast<char *>(statusString) << endl;
-				}
-			}
-		  else if(fmiShortStr1 == "snow" || fmiShortStr1 == "lumi")
-			{
-			  if(boolGiven && !undef)
-				{
-				  theSeasonsStatus.snow = status;
-				  *itsLogFile << "Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
-				}
-			}
-		  else if(fmiShortStr1 == "week" || fmiShortStr1 == "viik")
-			{
-			  if(!undef)
-				{
-				  if(fmiShortStr2 == "mo" || fmiShortStr2 == "ma")
-					theSeasonsStatus.weekday = 1;
-				  else if(fmiShortStr2 == "tu" || fmiShortStr2 == "ti")
-					theSeasonsStatus.weekday = 2;
-				  else if(fmiShortStr2 == "we" || fmiShortStr2 == "ke")
-					theSeasonsStatus.weekday = 3;
-				  else if(fmiShortStr2 == "th" || fmiShortStr2 == "to")
-					theSeasonsStatus.weekday = 4;
-				  else if(fmiShortStr2 == "fr" || fmiShortStr2 == "pe")
-					theSeasonsStatus.weekday = 5;
-				  else if(fmiShortStr2 == "sa" || fmiShortStr2 == "la")
-					theSeasonsStatus.weekday = 6;
-				  else if(fmiShortStr2 == "su")
-					theSeasonsStatus.weekday = 7;
-				  else
-					{
-					  *itsLogFile << "***ERROR: invalid weekday in seasonstatus"<< str2 << endl;
-					  continue;
-					}
-				  *itsLogFile << "Viikonpäivä pakotettu: "<< fmiShortStr2 << endl;
-				}
-			}
-		  else if(fmiShortStr1 == "adva" || fmiShortStr1 == "enna")
-			{
-			  if(!undef)
-				{
-				  theSeasonsStatus.dayAdvance = atoi(str2.c_str()); //tarvitaanko missään tässä
-				  itsEnvironment.SetDayAdvance(theSeasonsStatus.dayAdvance);
-				  *itsLogFile << "Ennakko pakotettu: "<< str2 << endl;
-				}
-			}
-		  else
-			{
-			  *itsLogFile << "***ERROR: invalid keyword in seasonstatus"<< str1 << endl;
-			  continue;
-			}
-		}
-	}
-  theSeasonsStatus.pollenOrSnow = theSeasonsStatus.pollen || theSeasonsStatus.snow;
-  return true;
-}
-*/
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param thePrepr Undocumented
- * \param theCondValue Undocumented
- * \param theConditionalBeginDirective Undocumented
- * \param theConditionalNotBeginDirective Undocumented
- * \param theConditionalEndDirective Undocumented
- * \param theConditionalElseDirective Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-bool NFmiPressProduct::PreProcessConditionally(NFmiPreProcessor & thePrepr,
-											   bool theCondValue,
-											   const string & theConditionalBeginDirective,
-											   const string & theConditionalNotBeginDirective,
-											   const string & theConditionalEndDirective,
-											   const string & theConditionalElseDirective )
-{
-  bool res1, res2;
-  res1 = thePrepr.SetConditionalStripping(theCondValue,
-										  theConditionalBeginDirective,
-										  theConditionalNotBeginDirective,
-										  theConditionalEndDirective,
-										  theConditionalElseDirective);
-  res2 = thePrepr.Strip();
-  if(!res1 || !res2)
-	{
-	  *itsLogFile << "*** ERROR: Preprocessing failed: "
-				  << theConditionalBeginDirective
-				  << endl;
-	  string message = thePrepr.GetMessage();
-	  if(!message.empty())
-		*itsLogFile << "*** "  << message << endl;
-	  return false;
-	}
-  return true;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param inFileName Undocumented
- * \param outFileName Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-bool NFmiPressProduct::PreProcessDefinition(const string & inFileName,
-											const string & outFileName)
-// Tämä korvaa PreProcessProduct:n tehden kaikki siivoushommat: //-kommentit,
-// /* */-kommentit, if/else/endif-direktiivit ja Includet
-// nyt voi koodin käsittelystä poistaa kommenttien käsittelyn, entäs prem???
-
-{
-//  FmiPressSeasons seasonsStatus;
-//  GetSeasonsStatus(seasonsStatus);
-    ReadSeasonsStatus();
-//    FmiPressSeasons* seasonsStatus = GetSeasonsStatus();
-	if (!GetSeasonsStatus())
-	{
-			*itsLogFile << "*** ERROR: kausivaihtelutiedot puuttuvat; ohjelmointivirhe"  << endl;
-			return false;
-	}
-
-  NFmiPreProcessor prePr;
-  bool res, res2;
-  NFmiTime tim;
-
-  string includePath(itsHomePath);
-  includePath += kFmiDirectorySeparator;
-	includePath += "Include";
-	res = prePr.ReadFile(inFileName);
-
-	while (!prePr.NoFilesIncluded())
-	  {
-		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->pollenOrSnow, "#ifPollenOrSnowPeriod", "#ifNotPollenOrSnowPeriod", "#pollenOrSnowPeriodEndif", "#pollenOrSnowPeriodElse"))  //4.9.02
-		  return false;
-		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->wintertime, "#ifWinterTime", "#ifNotWinterTime", "#endif", "#else"))
-		  return false;
-		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->snow, "#ifSnowPeriod", "#ifNotSnowPeriod", "#snowPeriodEndif", "#snowPeriodElse"))
-		  return false;
-		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->summer, "#ifSummer", "#ifNotSummer", "#summerEndif", "#summerElse"))  //13.6.02
-		  return false;
-		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->pollen, "#ifPollenPeriod", "#ifNotPollenPeriod", "#pollenPeriodEndif", "#pollenPeriodElse"))  //4.9.02
-		  return false;
-		if(!prePr.IncludeFiles("#Include", includePath, "inc"))
-		  {
-			*itsLogFile << "*** ERROR: Preprocessing failed to include file" << endl;
-			string message = prePr.GetMessage();
-			if(!message.empty())
-			  *itsLogFile << "*** "  << message << endl;
-			return false;
-		  }
-	  }
-
-	//jokaisen viikonpäivän direktiivit tarkastetaan
-	bool isTheDay; //= true;
-	bool weekdayActive = WeekdayDirectiveActive(prePr.GetString(),GetSeasonsStatus());
-	for (int day = 1; day <= 7; day++)
-	  {
-		isTheDay = tim.GetWeekday() == GetSeasonsStatus()->weekday;
-		string weekday(tim.Weekday(kEnglish));
-		string ifDir = "#if" + weekday;
-		string ifNotDir = "#ifNot" + weekday;
-		string elseDir = "#" + weekday + "Else";
-		string endifDir = "#" + weekday + "Endif";
-		res = prePr.SetConditionalStripping(isTheDay && weekdayActive, ifDir, ifNotDir, endifDir, elseDir);
-		res2 = prePr.Strip();
-		string message = prePr.GetMessage();
-		if(!message.empty())
-		  *itsLogFile << "*** ERROR: "  << message << endl;
-		if(prePr.NumOfLiita() > 0)
-		  *itsLogFile << "*** WARNING: LIITÄ käytetty"  << endl;
-		if(!res || !res2)
-		  {
-			*itsLogFile << "*** ERROR: Preprocessing failed" << endl;
-			return false;
-		  }
-		tim.ChangeByDays(1);
-		//isToday = false;
-	  }
-
-	string outString = prePr.GetString();
-	ofstream file(outFileName.c_str());
-	file << outString ;
-	file.close();
-	file.clear();
-	return true;
-}
 
 // ----------------------------------------------------------------------
 /*!
@@ -1284,11 +921,18 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 17.2.2003" << endl;       
+   *itsLogFile << "program version = 18.2.2003" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
    string outputStdName(tempInput);
+
+    ReadSeasonsStatus();
+	if (!GetSeasonsStatus())
+	{
+			*itsLogFile << "*** ERROR: kausivaihtelutiedot puuttuvat; ohjelmointivirhe"  << endl;
+			return false;
+	}
 
    if(!PreProcessDefinition(inputStdName, outputStdName))
    {
@@ -2913,22 +2557,25 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 		  short segNum = 1;
 		  while (param)
 			{		
-			  if(itsLogFile)
-				*itsLogFile << segNum << ". segmentti ("
-							<< static_cast<char *>(param->MakeLogComment())
-							<< ")" << endl;
-			  if (!(param->WritePS(itsScale, outFile, output)))
+				if(param->IsActive())
 				{
-				  outFile.close();
-				  outFile.clear();
-				  mapFile.close();
-				  mapFile.clear();
 				  if(itsLogFile)
-					*itsLogFile << "*** ERROR: param->WritePS() in NFmiPressProduct" << endl;
-				  return false;
+					*itsLogFile << segNum << ". segmentti ("
+								<< static_cast<char *>(param->MakeLogComment())
+								<< ")" << endl;
+				  if (!(param->WritePS(itsScale, outFile, output)))
+					{
+					  outFile.close();
+					  outFile.clear();
+					  mapFile.close();
+					  mapFile.clear();
+					  if(itsLogFile)
+						*itsLogFile << "*** ERROR: param->WritePS() in NFmiPressProduct" << endl;
+					  return false;
+					}
 				}
-			  param = static_cast<NFmiPressParam *>(paramIter.Next());
-			  segNum++;
+			    param = static_cast<NFmiPressParam *>(paramIter.Next());
+			    segNum++;
 			}
 		}
 //	  else  // tarvittaisko segmenttiä ilman dataa

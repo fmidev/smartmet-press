@@ -131,6 +131,8 @@ public:
   void PutInStorage(const float value, int storageQueue);
   float UseFromStorage(int storageQueue);
   FmiCounter GetCurrentStep(void);
+  bool IsActive(void) const;
+  void SetActivity(bool theActivity);
 	
 protected:
 
@@ -144,6 +146,7 @@ protected:
   bool CreateAreaMask(void);
   bool CreateStationFromAreaMask(void);
 
+  bool fActivity;
   bool fDataNotNeeded;
   bool fErrorReported[4];  
   bool fIsFirstStation; 
@@ -221,6 +224,7 @@ NFmiPressParam::NFmiPressParam(void)
   , itsNumberOfSteps(1)
   , fIsPureRegTimeLoop(true)
   , fIsAreaOperation(false)
+  , fActivity(true)
 {
   itsLanguage=kFinnish;
 }
@@ -260,10 +264,38 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fIsPureRegTimeLoop(true)
   , itsScale(scale)
   , fIsAreaOperation(false)
+  , fActivity(true)
 {
   itsLanguage=kFinnish;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParam::IsActive(void) const
+{
+  return fActivity;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theActivity Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::SetActivity(bool theActivity)
+{
+  fActivity= theActivity;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -36,7 +36,6 @@
 #include "NFmiRectScale.h"
 // newbase
 #include "NFmiFileString.h"
-#include "NFmiPreProcessor.h"
 #include "NFmiVoidPtrList.h"
 // system
 #include <queue>
@@ -107,8 +106,6 @@ public:
   virtual bool ReadDescription(NFmiString & retString);
   int ConvertDefText(NFmiString & object);
   bool SetSegmentData(const NFmiString & theDataName);
-  bool PreProcessDefinition(const std::string & inFileName,
-							const std::string & outFileName);
   bool PreProcessProduct(std::ifstream & origInput, std::ofstream & output);
   bool SetAllLanguages(FmiLanguage theLanguage);
   NFmiStationPoint FirstParamLocation();
@@ -133,6 +130,7 @@ public:
   void ActivateNumberToName(long theStartNumber);
   void DeActivateNumberToName(void);
   bool SetFirstObjectActivity(bool theActivity);
+  bool SetFirstSegmentActivity(bool theActivity);
   void PutInStorage(const float value, int queueNum=1);
   float UseFromStorage(int queueNum=1, bool errorReport = true);
   bool GetElementsAfterSegments(void) const;
@@ -149,15 +147,6 @@ protected:
   bool WriteScalingObjects(bool doPreSegments, FmiPressOutputMode theOutput);
   bool WriteSameSymbols(bool doPreSegments, FmiPressOutputMode theOutput);
   bool WriteMetaInit(void);
-//  bool GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus);
-  bool WeekdayDirectiveActive(const std::string & theDefinition,
-							  const FmiPressSeasons* theSeasons) const;
-  bool PreProcessConditionally(NFmiPreProcessor & thePrepr,
-							   bool theCondValue,
-							   const std::string & theConditionalBeginDirective,
-							   const std::string & theConditionalNotBeginDirective,
-							   const std::string & theConditionalEndDirective,
-							   const std::string & theConditionalElseDirective);
 public:
 
   NFmiLocationFinder * itsNameToLonLat;

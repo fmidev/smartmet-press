@@ -22,6 +22,219 @@ using namespace std;
 
 // ----------------------------------------------------------------------
 /*!
+ * Tarkistaa onko viikonpäiväehdot tähän vuodenaikaan voimassa, esim.
+ * lumikartta ei piirretä torstaisin jos snow-kausi ei ole päällä
+ * oletus tietysti että viikonpäivädirrit on aktiivisia.
+ *
+ * \param theDefinition Undocumented
+ * \param theSeasons Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressTimeDescription::WeekdayDirectiveActive(const string & theDefinition,
+											  const FmiPressSeasons* theSeasons) const
+{
+  string::size_type  start1, end1, start2, end2, pos;
+  const string delims(" \t\n");
+  pos = theDefinition.find("#Viikonpäivä");
+  if(pos == string::npos)
+	{
+	  pos = theDefinition.find("#viikonpäivä");
+	  if(pos == string::npos)
+		{
+		  pos = theDefinition.find("#Weekday");
+		  if(pos == string::npos)
+			{
+			  pos = theDefinition.find("#weekday");
+			}
+		}
+	}
+  if(pos != string::npos)
+	{
+	  pos = theDefinition.find_first_of(delims, pos);
+	  start1 = theDefinition.find_first_not_of(delims, pos);
+	  end1 = theDefinition.find_first_of(delims, start1);
+	  start2 = theDefinition.find_first_not_of(delims, end1);
+	  end2 = theDefinition.find_first_of(delims, start2);
+	  string str1 = theDefinition.substr(start1, end1-start1);
+	  string str2 = theDefinition.substr(start2, end2-start2);
+	  bool in;
+	  NFmiString str = str1;
+	  str.LowerCase();
+	  if(str == "onlyin" || str == "vainkun")
+		in = true;
+	  else if(str == "onlyoutside" || str == "vainkunei")
+		in = false;
+	  else
+		{
+		  *itsLogFile << "***ERROR: on #Weekday line"<< endl;
+		  return true;
+		}
+	  str = str2;
+	  str.LowerCase();
+	  if(str == "summer" || str == "kesä")
+		{
+		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: kesä"<< endl;
+		  return in == theSeasons->summer;
+		}
+	  else if(str == "snowperiod" || str == "lumikausi")
+		{
+		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: lumikausi"<< endl;
+		  return in == theSeasons->snow;
+		}
+	  else if(str == "pollenperiod" || str == "siitepölykausi")
+		{
+		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: siitepölykausi"<< endl;
+		  return in == theSeasons->pollen;
+		}
+	  else if(str == "wintertime" || str == "talviaika")
+		{
+		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: talviaika"<< endl;
+		  return in == theSeasons->wintertime;
+		}
+	  else if(str == "summertime" || str == "kesäaika")
+		{
+		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: kesäaika"<< endl;
+		  return in != theSeasons->wintertime; //HUOM
+		}
+	  else
+		{
+		  *itsLogFile << "***ERROR: on #weekday line"<< endl;
+		  return true;
+		}
+	}
+
+   //oletus: ei löydy tiedostoa -> ei kielletä viikonloppudirektiivien käyttöä
+  return true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePrepr Undocumented
+ * \param theCondValue Undocumented
+ * \param theConditionalBeginDirective Undocumented
+ * \param theConditionalNotBeginDirective Undocumented
+ * \param theConditionalEndDirective Undocumented
+ * \param theConditionalElseDirective Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressTimeDescription::PreProcessConditionally(NFmiPreProcessor & thePrepr,
+											   bool theCondValue,
+											   const string & theConditionalBeginDirective,
+											   const string & theConditionalNotBeginDirective,
+											   const string & theConditionalEndDirective,
+											   const string & theConditionalElseDirective )
+{
+  bool res1, res2;
+  res1 = thePrepr.SetConditionalStripping(theCondValue,
+										  theConditionalBeginDirective,
+										  theConditionalNotBeginDirective,
+										  theConditionalEndDirective,
+										  theConditionalElseDirective);
+  res2 = thePrepr.Strip();
+  if(!res1 || !res2)
+	{
+	  *itsLogFile << "*** ERROR: Preprocessing failed: "
+				  << theConditionalBeginDirective
+				  << endl;
+	  string message = thePrepr.GetMessage();
+	  if(!message.empty())
+		*itsLogFile << "*** "  << message << endl;
+	  return false;
+	}
+  return true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param inFileName Undocumented
+ * \param outFileName Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
+											const string & outFileName)
+// Tämä korvaa PreProcessProduct:n tehden kaikki siivoushommat: //-kommentit,
+// /* */-kommentit, if/else/endif-direktiivit ja Includet
+// nyt voi koodin käsittelystä poistaa kommenttien käsittelyn, entäs prem???
+
+{
+
+  NFmiPreProcessor prePr;
+  bool res, res2;
+  NFmiTime tim;
+
+  string includePath(itsHomePath);
+  includePath += kFmiDirectorySeparator;
+	includePath += "Include";
+	res = prePr.ReadFile(inFileName);
+
+	while (!prePr.NoFilesIncluded())
+	  {
+		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->pollenOrSnow, "#ifPollenOrSnowPeriod", "#ifNotPollenOrSnowPeriod", "#pollenOrSnowPeriodEndif", "#pollenOrSnowPeriodElse"))  //4.9.02
+		  return false;
+		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->wintertime, "#ifWinterTime", "#ifNotWinterTime", "#endif", "#else"))
+		  return false;
+		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->snow, "#ifSnowPeriod", "#ifNotSnowPeriod", "#snowPeriodEndif", "#snowPeriodElse"))
+		  return false;
+		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->summer, "#ifSummer", "#ifNotSummer", "#summerEndif", "#summerElse"))  //13.6.02
+		  return false;
+		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->pollen, "#ifPollenPeriod", "#ifNotPollenPeriod", "#pollenPeriodEndif", "#pollenPeriodElse"))  //4.9.02
+		  return false;
+		if(!prePr.IncludeFiles("#Include", includePath, "inc"))
+		  {
+			*itsLogFile << "*** ERROR: Preprocessing failed to include file" << endl;
+			string message = prePr.GetMessage();
+			if(!message.empty())
+			  *itsLogFile << "*** "  << message << endl;
+			return false;
+		  }
+	  }
+
+	//jokaisen viikonpäivän direktiivit tarkastetaan
+	bool isTheDay; //= true;
+	bool weekdayActive = WeekdayDirectiveActive(prePr.GetString(),GetSeasonsStatus());
+	for (int day = 1; day <= 7; day++)
+	  {
+		isTheDay = tim.GetWeekday() == GetSeasonsStatus()->weekday;
+		string weekday(tim.Weekday(kEnglish));
+		string ifDir = "#if" + weekday;
+		string ifNotDir = "#ifNot" + weekday;
+		string elseDir = "#" + weekday + "Else";
+		string endifDir = "#" + weekday + "Endif";
+		res = prePr.SetConditionalStripping(isTheDay && weekdayActive, ifDir, ifNotDir, endifDir, elseDir);
+		res2 = prePr.Strip();
+		string message = prePr.GetMessage();
+		if(!message.empty())
+		  *itsLogFile << "*** ERROR: "  << message << endl;
+		if(prePr.NumOfLiita() > 0)
+		  *itsLogFile << "*** WARNING: LIITÄ käytetty"  << endl;
+		if(!res || !res2)
+		  {
+			*itsLogFile << "*** ERROR: Preprocessing failed" << endl;
+			return false;
+		  }
+		tim.ChangeByDays(1);
+		//isToday = false;
+	  }
+
+	string outString = prePr.GetString();
+	ofstream file(outFileName.c_str());
+	file << outString ;
+	file.close();
+	file.clear();
+	return true;
+}
+// ----------------------------------------------------------------------
+/*!
  * Undocumented
  *
  * \param isSecond Undocumented

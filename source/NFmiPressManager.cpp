@@ -32,7 +32,7 @@ using namespace std;
 bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 {
  
-   NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
+   NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-4);
 //   itsInFileName = inputFileName.Header(); //27.8.02 skriptistä kun kutsutaan tulee muuten koko polku
 
    NFmiFileString tempInput;
@@ -58,9 +58,10 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 	  *itsLogFile << "***ERROR: PROGRAM INTERRUPTED, see above" << endl;
 	  return false;
 	}
-	*/
+*/	
 	return true;
 }
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -104,8 +105,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 	if(itsLogFile)
 	  *itsLogFile << "Manageri-tiedosto avattu: "<< static_cast<char *>(inputFileName) << endl;
 
-//  SetSeasonsStatus(thePressProduct.GetSeasonsStatus());
-//  PreProcessManager(inputFileName);
+  SetSeasonsStatus(thePressProduct.GetSeasonsStatus());
+  PreProcessManager(inputFileName);
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
@@ -289,6 +290,22 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 						  << static_cast<int>(helpEnumSpace)
 						  << endl;
 			}
+
+			ReadNext();
+			break;
+		  }
+		case dManActivateFirstSegment:
+		  {
+			thePressProduct.SetFirstSegmentActivity(true);
+			changed = true;
+
+			ReadNext();
+			break;
+		  }
+		case dManDeactivateFirstSegment:
+		  {
+			thePressProduct.SetFirstSegmentActivity(false);
+			changed = true;
 
 			ReadNext();
 			break;
@@ -483,6 +500,10 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
 	return dManActivateFirst;
   else if(lowChar==NFmiString("deaktivoiekaelementti"))
 	return dManDeactivateFirst;
+  else if(lowChar==NFmiString("aktivoiekasegmentti"))
+	return dManActivateFirstSegment;
+  else if(lowChar==NFmiString("deaktivoiekasegmentti"))
+	return dManDeactivateFirstSegment;
   else if(lowChar==NFmiString("tuotenimi"))
 	return dManProduct;
   else if(lowChar==NFmiString("tuotenimiformaatti"))

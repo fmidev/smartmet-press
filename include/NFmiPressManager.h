@@ -44,6 +44,8 @@ enum NFmiPressManagerObjects
   dManDeleteNumberAddingToName,
   dManActivateFirst,
   dManDeactivateFirst,
+  dManActivateFirstSegment,
+  dManDeactivateFirstSegment,
   dManMaskNumber,
   dManPressMaskNumber
 };
@@ -64,6 +66,7 @@ public:
 
   virtual int ConvertDefText(NFmiString & object);
 
+protected:
 private:
   bool PreProcessManager(const NFmiFileString& theInputFile);
 
