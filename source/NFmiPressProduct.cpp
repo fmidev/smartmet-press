@@ -1093,7 +1093,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 26.11.2002" << endl;       
+   *itsLogFile << "program version = 3.12.2002" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1101,48 +1101,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 
    if(!PreProcessDefinition(inputStdName, outputStdName))
    {
-  
-/* ja tänne Mika siirsi 9.2002 */
-/*
-  NFmiString logFileName = fmiString;
-  logFileName += kFmiDirectorySeparator;
-  logFileName += NFmiString("lehti.log");
-  itsLogFileName = logFileName;   // jotta voidaan sulkea/avata jatkossa
-
-  itsLogFile->open(logFileName, ios::out|ios::app); // edellinen aloitti alusta
-  NFmiTime tim;
-  *itsLogFile << endl << "** Loki avattu " << tim << " **" << endl;
-*/
-  /*
-  NFmiString retString;
-  NFmiString origInputFileName = inputFile;
-  NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
-  itsInFileName = inputFileName.Header(); // skriptistä kun kutsutaan tulee muuten koko polku
-
-  // .pss-tiedostot Temppiin
-  NFmiFileString tempInput;
-  tempInput = GetHome();
-  tempInput += kFmiDirectorySeparator;
-  tempInput += NFmiString("Temp");
-  tempInput += kFmiDirectorySeparator;
-
-  NFmiString inputOnlyFile = inputFileName.FileName();
-
-  tempInput += inputFileName.FileName();
-  tempInput += NFmiString("pss");
-
-  itsOutFileName = inputOnlyFile;
-
-  inputFileName += NFmiString("pss");
-
-  NFmiString writeString = inputFileName.Header();
-  *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-  *itsLogFile << "program version = 23.9.2002" << endl;
-  *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
-*/
-// Mika >>>>>>> 1.9
-
-	  *itsLogFile << "***ERROR: interrupted, see above" << endl;
+	  *itsLogFile << "***ERROR: PROGRAM INTERRUPTED, see above" << endl;
 	  return false;
 	}
 
@@ -1428,6 +1387,13 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName)
 
 bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 {
+
+  NFmiTime testTime;
+  NFmiString test1 = testTime.ToStr(NFmiString("DD.MM kk H:mm:SS %tarkkaan%"));
+  NFmiString test2 = testTime.ToStr(NFmiString("Www nnn D.M kk H:mm:SS %tark%%kaan"), kEnglish);
+  testTime.ChangeByDays(2);
+  NFmiString test3 = testTime.ToStr(NFmiString("Tttt nnn D.M kk H:mm:SS %äö%"), kSwedish);
+  NFmiString test4 = testTime.ToStr(NFmiString("Tttt+1 nnn D.M kk H:mm:SS %äö%"));
 
   NFmiString helpString;
   NFmiValueString valueString;
