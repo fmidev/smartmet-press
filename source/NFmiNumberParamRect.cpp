@@ -389,6 +389,9 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	  return true;
 	}
 
+  if(!fMarkingValue)
+	  return true;
+
   NFmiString format = itsFormat;
 
   NFmiHyphenationString hypString(itsFormat);

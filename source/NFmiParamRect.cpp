@@ -101,6 +101,9 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsRandomInterval(theRect.itsRandomInterval)
   , fRandomModifying(theRect.fRandomModifying)
   , itsDataIdent(theRect.itsDataIdent)
+  , itsEquiDistance(theRect.itsEquiDistance)
+  , itsEquiDistanceHalfInterval(theRect.itsEquiDistanceHalfInterval)
+  , fMarkingValue(theRect.fMarkingValue)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -580,6 +583,11 @@ bool NFmiParamRect::ReadRemaining(void)
 		SetOne(itsRandomInterval);
 		break;
 	  }
+	case dEquiDistanceMarking:
+	  {
+		SetTwo(itsEquiDistance, itsEquiDistanceHalfInterval);
+		break;
+	  }
 	case dRandomModifying:
 	  {
 		fRandomModifying = true;
@@ -795,6 +803,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("satunnaiskäsittely"))
 	return dRandomModifying;
 
+  else if(lowChar==NFmiString("equidistancemarking") ||
+		  lowChar==NFmiString("tasavälirajoitus"))
+	return dEquiDistanceMarking;
+
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
 }
@@ -992,7 +1004,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
   
   if(value == kFloatMissing)
 	{
-	  if(!itsMultiMapping)
+	  if(!itsMultiMapping && fMarkingValue)
 		itsNumOfMissing++;
 	  
 	  return true;
@@ -1644,7 +1656,18 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  value += GetRandomInterval() * (static_cast<float>(rand())/RAND_MAX -0.5);
   }
 
-
+  fMarkingValue = true;
+  if(IsEquiDistanceMode() && value != kFloatMissing)
+  {
+	  //float itsEquiDistanceHalfInterval = 0.5;
+	  //float itsEquiDistance = 5.;
+	  long help = static_cast<long>((value+itsEquiDistanceHalfInterval) / itsEquiDistance);
+	  float help1 = static_cast<float>(help) * itsEquiDistance;
+	  if(fabs(help1 - value) < itsEquiDistanceHalfInterval)
+		  value = help1;
+	  else
+		  fMarkingValue = false;
+  }
   if(modif)
 	delete modif;
   if(areaModif)

@@ -44,7 +44,7 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 #ifndef UNIX
    char * env = getenv("lehtiTempDir");
    if(env != 0)
-	 tempInput = env;
+	 tempInput = static_cast<NFmiString>(env);
 #else
    if(NFmiSettings::IsSet("press::tmppath"))
 	 {

@@ -334,6 +334,9 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	   return true;
    }
 
+  if(!fMarkingValue)
+	  return true;
+
   MapColor();
   NFmiString * mapString;
 

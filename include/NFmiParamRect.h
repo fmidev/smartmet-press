@@ -73,7 +73,8 @@ enum NFmiParamRectObjects
   dAcceptanceInterval,
   dInterval2Number,
   dRandomInterval,
-  dRandomModifying = 6060
+  dRandomModifying = 6060,
+  dEquiDistanceMarking
 };
 
 //! Undocumented
@@ -168,6 +169,7 @@ protected:
   float SunElevation(NFmiFastQueryInfo * theQueryInfo);
   float GetRandomInterval(void)const{return itsRandomInterval;};
   bool IsRandom(void)const {return GetRandomInterval() > .00001f;};
+  bool IsEquiDistanceMode(void) const;
 
 private:
 
@@ -227,7 +229,9 @@ protected:
   unsigned long itsIdentPar;
   float itsRandomInterval;
   bool fRandomModifying;
-
+  float itsEquiDistance;
+  float itsEquiDistanceHalfInterval;
+  bool fMarkingValue;
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -273,6 +277,9 @@ NFmiParamRect::NFmiParamRect(void)
   itsInterval2NumberMin = kFloatMissing;
   itsRandomInterval=0.;
   fRandomModifying = false;
+  itsEquiDistance = 0.;
+  itsEquiDistanceHalfInterval = 0.;
+  fMarkingValue = true;
 }
 
 // ----------------------------------------------------------------------
@@ -318,6 +325,9 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsRandomInterval(0.)
   , fRandomModifying(false)
   , itsDataIdent(theParam)
+  , itsEquiDistance(0.)
+  , itsEquiDistanceHalfInterval(0.)
+  , fMarkingValue(true)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
@@ -424,6 +434,19 @@ void NFmiParamRect::SetLanguage(FmiLanguage newLanguage)
 {
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param newLanguage Undocumented, unused
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiParamRect::IsEquiDistanceMode(void) const
+{
+	return itsEquiDistance > 0.;
+}
 
 #endif // NFMIPARAMRECT_H
 

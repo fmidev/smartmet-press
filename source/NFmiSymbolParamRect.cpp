@@ -598,6 +598,9 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 		return false;
 	}
  
+  if(!fMarkingValue)
+	  return true;
+
   bool isScaled;
   NFmiString * symbolFile;
  
