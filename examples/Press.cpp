@@ -31,7 +31,7 @@ int main(int argc, const char ** argv)
 {
   NFmiString dataExt[4] = {"pre", "PRE", "prt", "PRT"};
 
-  NFmiCmdLine cmdLine(argc,argv,"o!l!");
+  NFmiCmdLine cmdLine(argc,argv,"h!o!l!");
 
   if(cmdLine.Status().IsError())
 	{
@@ -45,6 +45,18 @@ int main(int argc, const char ** argv)
       cerr << "Error: Filename argument missing" << endl;
       return 1;
     }
+
+  string homedir("lehtiTuoteDir=");
+  if(cmdLine.isOption('h'))
+	{
+	  string dir = cmdLine.OptionValue('h');
+#ifdef UNIX
+	  NFmiSettings::Set("press::path",dir);
+#else
+	  homedir += dir;
+	  putenv(homedir.c_str());
+#endif	 
+	}
 
   string logdir("lehtiLokiDir=");
   if(cmdLine.isOption('l'))
