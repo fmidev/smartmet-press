@@ -333,6 +333,8 @@ NFmiString NFmiPsWriting::AlignmentToMeta (const FmiDirection& thePressAlignment
 			retString = NFmiString("SouthWest");
 			break;
 		}
+	default:
+	  break;
 	}
 	return retString;
 }
