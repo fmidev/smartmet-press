@@ -979,7 +979,6 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    tempInput = GetHome();
    tempInput += kFmiDirectorySeparator;
    tempInput += NFmiString("Temp");
-   tempInput += kFmiDirectorySeparator;
 #ifndef UNIX
    char * env = getenv("lehtiTempDir");
    if(env != 0)
@@ -991,6 +990,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 	   tempInput = NFmiString(tmp);
 	 }
 #endif
+   tempInput += kFmiDirectorySeparator;
 
    NFmiString inputOnlyFile = inputFileName.FileName();
 

@@ -41,7 +41,6 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
    tempInput = GetHome();
    tempInput += kFmiDirectorySeparator;
    tempInput += NFmiString("Temp");
-   tempInput += kFmiDirectorySeparator;
 #ifndef UNIX
    char * env = getenv("lehtiTempDir");
    if(env != 0)
@@ -53,6 +52,7 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 	   tempInput = NFmiString(tmp);
 	 }
 #endif
+   tempInput += kFmiDirectorySeparator;
 
    NFmiString inputOnlyFile = inputFileName.FileName();
 
