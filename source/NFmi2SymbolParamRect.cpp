@@ -40,7 +40,7 @@ bool NFmi2SymbolParamRect::ReadRemaining(void)
 				break;
 
 			if(ReadLong(long1))
-               itsSecondDataIdent.SetParam(long1);
+               itsSecondDataIdent.SetParam(NFmiParam(long1));
 			
 			ReadNext();
 
