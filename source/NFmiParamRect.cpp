@@ -1817,8 +1817,10 @@ bool NFmiParamRect::RandomModify(float& theValue, unsigned long theParIdent) con
 				Randomize(theValue, 1.2f, -100.f, 100.f);
 				break;
 			case kFmiTotalCloudCover:
-				if(theValue > 1.f && theValue < 99.f)
-					Randomize(theValue, 32.f, 0.f, 100.f);
+			// 35-> 50%:sta n. joka 7. muuta kuin puolipilvistä
+			//      0%:sta n. joka 5. melk.selkeätä
+				if(theValue < 99.f)
+					Randomize(theValue, 35.f, 0.f, 100.f);
 				break;
 			case kFmiPrecipitation1h:
 				RandomizeRelatively(theValue, .8f, 0.f, 100.f);
