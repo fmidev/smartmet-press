@@ -35,9 +35,9 @@ int domain(int argc, const char ** argv)
   NFmiString dataExt[4] = {"pre", "PRE", "prt", "PRT"};
 
 #ifdef UNIX
-  NFmiCmdLine cmdLine(argc,argv,"h!o!l!");
-#else
   NFmiCmdLine cmdLine(argc,argv,"h!o!l!L!");
+#else
+  NFmiCmdLine cmdLine(argc,argv,"h!o!l!");
 #endif
 
   if(cmdLine.Status().IsError())
