@@ -22,21 +22,21 @@
 #ifndef NFMIPARAMRECT_H
 #define NFMIPARAMRECT_H
 
-#include "NFmiDataIdent.h"
+// press
+#include "NFmiCopyFile.h"
 #include "NFmiMultiParamMapping.h"
 #include "NFmiPressTimeDescription.h"  
 #include "NFmiPsWriting.h"
 #include "NFmiRect.h"
 #include "NFmiRectScale.h"
+// newbase
+#include "NFmiDataIdent.h"
 #include "NFmiSaveBase.h"
 #include "NFmiSuperSmartInfo.h"
 
+
 class _FMI_DLL NFmiPressParam;
 
-extern bool NFmiCopyFile(std::ifstream &, std::ofstream &);
-extern bool NFmiWritePSConcat(NFmiRectScale, std::ofstream &);
-extern bool NFmiWritePSConcatRotating(NFmiRectScale, float, std::ofstream &);
-extern bool NFmiWritePSEnd(std::ofstream &);
 
 //! Undocumented
 enum NFmiParamRectObjects
