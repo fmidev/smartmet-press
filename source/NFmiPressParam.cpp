@@ -143,7 +143,7 @@ bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask)
 	itsName = NFmiString(name);
 
 	itsStations.First();
-	NFmiLocation* firstLocation= itsStations.Location();
+	const NFmiLocation* firstLocation= itsStations.Location();
 
 	firstLocation->SetName(itsName);
 
@@ -160,7 +160,7 @@ bool NFmiPressParam::SetFirstStation(const NFmiLocation& theLocation)
 //	NFmiString newName;
 
 	itsStations.First();
-	NFmiLocation* firstLocation= itsStations.Location();
+	const NFmiLocation * firstLocation= itsStations.Location();
 	firstLocation->SetLongitude(theLocation.GetLongitude());
 	firstLocation->SetLatitude(theLocation.GetLatitude());
 
@@ -679,7 +679,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 					currentTotalTimeDiff += itsTimeSteps[currentTimeInd-1];  
 					if(ReadTwo(x, y))
 					{
-						NFmiPoint point3, point4, point5;
+						NFmiPoint point3, point5;
 						//isRelativeTable = true;  //relatiivisuus tarkoittaa taulukkoa
 						fIsLevelLoop = false;
 						fIsTimeLoop = true;
@@ -1800,7 +1800,6 @@ bool NFmiPressParam::WritePS(
     NFmiPoint stationPoint;
 	NFmiPoint stationPointMovement;
 	NFmiPoint nameFromData;
-	NFmiMetTime saveTime;
 
 	if(itsLogFile)
 		if(itsDataName.IsValue())
