@@ -233,8 +233,6 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		string message = prePr.GetMessage();
 		if(!message.empty())
 		  *itsLogFile << "*** ERROR: "  << message << endl;
-		if(prePr.NumOfLiita() > 0)
-		  *itsLogFile << "*** WARNING: LIITÄ käytetty"  << endl;
 		if(!res || !res2)
 		  {
 			*itsLogFile << "*** ERROR: Preprocessing failed" << endl;
