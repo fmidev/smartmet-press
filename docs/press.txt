@@ -3,15 +3,20 @@
 
 \mainpage press - Lehtituotekirjasto
 
-\section johdanto_kap Johdanto
+\section sec_johdanto Johdanto
 
-L‰ssynl‰ssyn.
+Puuttuu.
 
-\section syntaksi_kap M‰‰rittelytiedoston syntaksi
+\section sec_syntaksi M‰‰rittelytiedoston syntaksi
 
 Lehtituotteiden m‰‰rittelyt sijaitsevat <em>.pre</em>
 p‰‰tteisiss‰ tiedostoissa, joiden syntaksi on kuvattu
 sivulla \ref syntaksi_sivu.
+
+\section sec_editoridata Editoridatan k‰yttˆ
+
+Sivulla \ref editdata on selvitetty editoridatan k‰yttˆ‰
+lehtis‰‰ohjelmassa.
 
 */
 // ======================================================================

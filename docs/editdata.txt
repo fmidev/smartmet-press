@@ -1,0 +1,261 @@
+// ======================================================================
+/*!
+
+\page editdata Editoridatan käytön nykytilanne lehtiohjelmassa
+
+\section sec_paikka Paikka
+
+Paikat määritellään tarkkojen lat/long -arvojen perusteella ja
+tarkoitus olisi että nämä pisteet ovat numeroiden ja symbolien
+keskipisteessä. Usein kuitenkin on valittu jonkin läheisen
+paikkakunnan nimi tai muuten edustavampi paikka (rannikko), vaikka se
+ei ihan tarkkaan osuisi piirtokohtaan. Piirtokohdat ja editoridata
+ovat siis toisistaan sillä tavalla riippumattomia, että joskus
+virhemäärittelyn seurauksena on piirtynyt esim. Lappiin Etelä-Suomen
+dataa. Suomi-karttojen paikat on standardoitu siten, että melkein
+kaikkiin tuotteisiin tulee samat lämpötilapaikat ja samat sääpaikat
+(laajempi ja suppeampi joukko). Maakuntakartat on usein määritelty
+niin, että annetaan paikat "paperilla" ja ohjelma laskee vastaavat
+lat/long-kordinaatit. Näin on tehty kun karttaprojektio on tunnettu ja
+paikkoja paljon ja silloin myös virhemahdollisuudet minimoituvat.
+
+Lehtiohjelma interpoloi arvot annettuun pisteeseen datahilan neljästä
+lähipisteestä, ei siis käytetä esim lähintä
+hilapistettä. Määrittelyssä viitataan paikkaan yleensä nimellä, joka
+saa tarkat lat/long arvot ohjelman tietokannasta. Siten samanniminen
+paikka eri tuotteissa aina tarkoittaa samaa pistettä
+datassa. Varsinkin rannikolla voi olla hankala valita sellaista
+pistettä paikkakunnalle, joka erilaisissa säätilanteissa olisi
+edustava. Nyt esim Helsingin lämpötila Hesarissa on sijoitettu
+koordinaatteihin 25.05E 60.19N (myös Hbl ja muutama muu), Espoo 24.63E
+60.25N:een (myös Hbl) ja Vantaa 25.01E 60.30N:een (pisteen jälkeen
+asteen desimaaleja eikä minuutteja). Editorissahan koordinaatit näkyy
+alalaidassa kun hiirellä liikutaan kartalla. Sää taas tulee Hesariin
+Länsimäestä, Soukasta ja Lahnuksesta
+\htmlonly
+<font face="Wingdings">&#74;</font>
+\endhtmlonly
+Editoijalla saattaisi olla apua siitä,
+että jollakin täpällä merkattaisiin tällaiset yleisesti käytettävät
+paikat editorin pohjakarttaan. Paikkojen koordinaatit voidaan
+tarvittaessa helposti muuttaa ohjelman tietokannassa.
+
+Lehtituotteiden lämpötilat, säät ja muut parametrit edustavat aina
+yhtä pistettä, ei aluetta. Isolla alueella(koko Suomi/Eurooppa)
+saataisiin ehkä parempia lämpötiloja ja säitä jos ne edustaisivat
+jotain määrättyä aluetta. Tämä ei kuitenkaan vielä ole mahdollista
+lehtiohjelmalla mutta aika pitkälle tämä toteutuu sillä, että aika
+tarkastellaan jaksona eikä yhtenä hetkenä koska sääjärjestelmät
+yleensä liikkuvat. Alueen käytössä pitäisi myös huomioida maa/meri
+jakauma ym.
+
+Ajat annetaan määrittelyissä utc:na mutta näytetään tuotteissa suomen
+aikoina. Näin tuotteissa on talvella varhaisempi tunti kuin kesällä
+(sa).
+
+Määrittelyssä annetaan parametreille aikajakso jonka yli ne
+tarkastetaan. Jos jakso on nollapituinen arvot käytetään sellaisenaan
+ao. hetkeltä. Eniten käytettävät jaksot on standardoitu siten että
+säälle ja lämpötilalle on kummallekin kolmenlaisia pituuksia: lyhyt,
+keskipitkä ja pitkä jakso. Periaatteena on että mitä pidemmälle
+ennustetaan ja mitä pienempi karttamittakaava (suurempi alue) sitä
+pidempi aikajakso. Tässä on esimerkki
+
+\image html KeskiSuomalainen.gif
+
+lehden sääsivusta, jossa maakunnassa käytetään lyhyttä jaksoa,
+Suomi-kartoissa keskipitkää ja taulukossa pitkää. Muissa lehdissä on
+sama periaate. Meteogrammeissa ja lehtien sarjakuvissa
+
+\image html 1501Kotkansi.gif
+
+on, kun päivää kohti on vain yksi arvo, käytetty pitkää jaksoa, muuten
+lyhyempää.
+
+Jaksot on nyt helppo muuttaa kun kaikki määrittelyt lukevat ne
+yhteisestä paikasta ja vaikutus on välitön. Voitaisiin jopa ajatella
+että ne muutettaisiin vuodenaikojen mukaan mutta ihan hyvä sellainen
+järjestelmä ei olisi.
+
+\section sec_lampotilat Lämpötilat
+
+Tuotteiden lämpötilana on normaalisti jakson maksimiarvo. Aamu- ja
+iltakartoissa käytetään hetkellisiä arvoja. Vuorokauden minimiin
+käytetään aikaa edellisestä illasta klo 18 tähän päivään klo 18utc
+(Hbl).
+
+Kaikki maksimilämpötilajaksot on tällä hetkellä kuitenkin asetettu
+nollaksi eli otetaan hetkellinen lämpötila. Tämä sen takia että
+muutamana päivänä äsken oli hyvin voimakas aamusta iltaan jatkunut
+lämpötilan nousu/lasku, joka eri jaksoja käyttäen antoi ristiriitaisia
+arvoja tuotteisiin (kun niissä usein on karttoja eri
+skaaloissa). Kesätilanteissa maksimi usein kuitenkin saavutetaan
+12utc:n jälkeen tai sitten esim. aamupäivä on lämmin ja iltäpäiväksi
+saadaan sadealue päälle. Mikä olisi se jakso joka parhaiten antaisi
+"päivän lämpötilan" (olisko edes maksimi?) kaikissa tilanteissa, kesät
+talvet. Erikseen kannattaa miettiä maakuntakarttoja, Suomineitoja tai
+meteogrammeja.
+
+\section Sääsymbolit
+
+Sääsymbolit saadaan kun sääparametrit ensin interpoloidaan tarkkaan
+paikkaansa hilaruudun neljästä kulmapisteestä ja kun sen jälkeen
+integroidaan annetun aikajakson yli. Symbolit rakennetaan
+kokonaispilvisyydestä ja sateen intensiteetista ja olomuodosto, myös
+ukkosen todennäköisyys ja sumu vaikuttavat. Jokainen osaparametri
+integroidaan erikseen ja lopputuloksen tulisi kuvata säätä jakson
+aikana ao. paikkakunnalla mahdollisimman hyvin. Ohjelman periaate on
+että otetaan "keskiarvo" paikan ja ajan suhteen kuitenkin painottaen
+ääreviä ilmiöitä. Koska editorin esitystarkkuus myös on suurempi
+useimpien parametrien kohdalla kuin mitä tuotteissa kannattaa käyttää
+(esim kokonaispilvisyydellä luokkia 11) pitää olla selvät säännöt
+luokitusta varten.
+
+Symbolijoukko on joissakin tuotteissa suppeampi kuin toisissa, oheisessa
+kaaviossa <a name="selite">
+\image html EditorSymboliSelite.gif
+
+</a>
+
+näkyy täydellisin käytössä oleva joukko (Kymi-symboit, jotka käytössä
+aika laajasti). Jäätävät sateet, tihkut ja rakeet puuttuvat muista ja
+usein puuttuvat myös sateiden yhdistelmät melkein pilvisen
+kanssa. HS:ssä on aika suppea symbolivalikoima.
+
+Sääjaksot on nyt standardoitu aika lyhyiksi (olivat aikaisemmin
+pidempiä), jakson keskikohtana on normaalisti 12utc;
+aamu/iltakartoille 06/18 utc:
+
+ - Lyhyt = -1 +1 tuntia (kolme aikaa)
+ - Keskipitkä = -1 +1 (nyt sama)
+ - Pitkä = -3 +2
+
+Lyhyt jakso näyttää maakuntakartassa kapean rintaman hyvin kun pitkä
+jakso taas ei Suomi-kartassa kadota sitä pirrettävien paikkojen
+välimaastoon. Pitkä jakso toimii siis alueen laajentajana kun
+sääjärjestelmät liikkuvat.
+
+Eri parametrien kohdalla integrointi ja luokitus on toteutettu alla
+kuvatulla tavalla.
+
+\subsection sec_pilvisyys Pilvisyys
+
+Pilvisyys on keskiarvo. Tuotteissa esiintyy kahta luokitusta, kolme ja
+viisi luokkaa (jälkimmäiseen pyritään). Vaikka poutatilanteet olisi
+jaettu viiteen luokkaan esitetään sateet vähintään puolipilvisinä ja
+useista tuotteista puuttuu lisäksi melkein pilviset sateet.
+
+Kolme luokkaa:
+
+ -  0-30% selkeää
+ - 30-85 puolipilvistä
+ - 85-100 pilvistä
+
+Viisi luokkaa:
+
+ - 0-8%    selkeää
+ - 8-35     melkeinselkeää
+ - 35-65   puolipilvistä
+ - 65-92   melkeinpilvistä
+ - 92-100 pilvistä
+
+Editorista käytetään kokonaispilvisyyttä. Siihen ei kai sisälly
+yläpilvet ainakaan kun editoidaan. Joskus ennen automaatiota on
+joihinkin tuotteisiin merkitty omalla symbolilla erikseen yläpilvet,
+mikä edelleen olisi mahdollista jos editori ne luotettavasti antaisi.
+
+\subsection sec_olomuoto Sateen olomuoto
+
+Sateen olomuoto määrätään alkuperäisistä olomuodoista aiemmin esitetyn
+<a href="#selite">kaavion</a> mukaan. Huomaa että käytetään sademääriä
+eikä vain kestoa. Lopputulos on kaavion mukaan lunta/vettä jos
+vähintään 90% sademäärästä on ao olomuotoa, muuten räntää. Jäätäville
+sateille riittää 30% sademäärästä ja tihkusade vaatii 70%
+sademäärästä. Ukkosissa olomuoto ei ilmene symboleista, tuskin
+tarpeellista. Tihkusateet ja jäätävät sateet puuttuvat monesta
+lehdestä (esim HS), jolloin käytetään vesisadetta.
+
+\subsection sec_voimakkuus Sateen voimakkuus
+
+Sateen voimakkuuden määräytyminen on nähtävissä samasta
+<A HREF="#selite">kaaviosta</A>. Voimakkuus eli intensiteetti esitetään
+kolmena luokkana paitsi muutamissa tuotteissa vain yhtenä (HS):
+
+ - 0.1  - 0.4mm/h  heikkoa
+ - 0.4  - 2.0      kohtalaista
+ - 2.0  -          kovaa/runsasta
+
+Intensiteetti lasketaan alkuperäisistä keskiarvona painottaen
+maksimia: (keskiarvo+maksimi)/2 (esim 1 ja 3 antaa 2.5). Alarajana
+sateelle on ollut 0.1mm, joka on ollut hiukan ongelmallinen, koska se
+editorin pienimpänä arvona usein vain on edustanut numeerista
+kohinaa. Editoridatan siirtyessä näinä päivinä versioon 7 saataneen
+sademäärien alapää paremmin hallintaan. Sateen intensiteetti esitetään
+siitä riippumattomasti lasketun pilvisyyden kanssa, kuitenkin aina
+vähintään puolipilvisyytenä. Usein symboleista myös puuttuu melkein
+pilviset kuvat sateiden kanssa, jolloin pilvisyys noudattaa jakoa
+kolmeen luokkaan.
+
+\subsection sec_ukkonen Ukkonen
+
+Ukkonen esitetään kun sen todennäköisyys ylittää 29% ja on
+sadetta. Jos symboleista löytyy kovan ukkosen kuva, sen rajana on 55%
+(ks edelleen yllä oleva kaavio) Todennäköisyys lasketaan maksimia
+painottaen kuten sademäärä eli (keskiarvo+maksimi)/2. Joissakin
+tuotteissa on kovalle ukkoselle lisäehtona voimakas
+sade. Esitystekninen asia on että ukkosen kanssa ei esitetä
+sadepisaroita, olomuoto harvoin on muuta kuin vettä mutta
+intensiteetti kyllä vaihtelee.
+
+\subsection sec_sumu Sumu
+
+Sumun symboli tulee tuotteisiin kun tiheys editorissa on kaksi eikä
+sada. Ohjelmassa sumu käsitellään kokonaislukuna pyöristettynä
+lähimpään. Eli jos tulos lasketaan kolmesta ajasta ja niissä on kaksi
+sumutilannetta ja yksi ilman sumua on tulos sumua, mutta yhdellä
+sumutilanteella saadaan sumuton tulos. Utua ei käytetä
+lehtiohjelmassa, mutta olisi niin haluttaessa lisättävissä
+tiheysarvolle 1.
+
+\subsection sec_tuuli Tuuli
+
+Tuulelle ei tehdä aikainterpolointeja vaan käytetään hetkellisiä
+arvoja koska yhtälöt eivät kaikissa tilanteissa ole toimineet. Suunta
+tulee editorin täydellä resoluutiolla eli 10
+\htmlonly&deg;\endhtmlonly
+tarkkuudella. Merialueille ei lyhyille jaksoille käytetä editorin
+dataa vaan tuulitaulukkoarvoja niin pitkälle kuin ovat saatavissa,
+joka lehtituotteissa kuitenkin vain on se ensimmäinen päivä.
+
+\section sec_lopuksi Lopuksi
+
+Edellä kuvatut säännöt ovat jatkuvasti eläneet kun kokemusta
+erilaisista tilanteista on kertynyt. Olisi hyvä saada ne lopullisesti
+yhteisesti sovittua, niin tuotteet olisivat yhdenmukaisia, määrittely
+helpompaa ja ennenkaikkea editoitaessa tietäisi vaikutuksen
+tuotteisiin. Vaikka tässä on selostettu asiaa lehtiohjelman kannalta
+voidaan samoja periaatteita aika pitkälle käyttää myös muilla keinoin
+tehdyissä tuotteissa. Pyytäisin jokaista, joka joutuu editoinnin tai
+lopputuotteiden kanssa tekemisiin, vähän paneutumaan asiaan ja
+ilmoittamaan minulle mielipidettään vaikka maililla:
+<A HREF="mailto:lars.winberg@fmi.fi">lars.winberg@fmi.fi</A> Onko
+esimerkiksi
+<A HREF="#selite">kaavion</A> symbolivalikoima sopiva
+(mikä puuttuu/on turhaa) ja eri kynnysarvoista voi olla monenlaista
+mielipidettä. Tai jos jokin asia jäi epäselväksi tässä sekavassa
+sepustuksessa, kysykää. Suurin osa tuotteista käyttää yhteisiä
+määrittelypalasia, jolloin muutosten teko on
+yksinkertaista. Editoinnissa periaate kai pitäisi olla että pyritään
+mahdollisimman realistiseen sään esittämiseen, jota sovellukset tulee
+osata käyttää, eikä päinvastoin että editoidaan esim lehtiohjelmaa
+varten. Lopullinen päämäärähän on että mallit ovat niin hyviä että
+editointi voidaan jättää kokonaan pois ja muut ketjun osat edelleen
+toimivat.
+
+Yhteydenpitoa varten asiasta ehkä kannattaisi myös perustaa uutisryhmä
+nettiin kuten editorin kohdalla on tehty? Hartosen Sarilta sain jo
+paperin, jossa jotkut arvot poikkeavat omista (mm sade alkaen 0.3mm,
+ei kovaa ukkosta, täysin pilvistä kun >86% viidellä
+luokalla). Voidaan katsoa niitä yhdessä muiden ajatusten kanssa.
+
+*/
