@@ -272,11 +272,20 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		{
 		  itsNumOfMissing++;
 		  if(!mapString)
+		  {
+			if(!itsMissingString)
 			  return false;
+			else
+				mapString = itsMissingString;
+		  }
 		}
 	}
-  else 
-	mapString = itsMapping->Map(value); 
+  else
+  {
+	mapString = itsMapping->Map(value);
+	if(mapString == 0 && itsMissingString != 0)
+		mapString = itsMissingString;
+  }
 
   if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
 	{

@@ -48,6 +48,8 @@ NFmiParamRect::~NFmiParamRect(void)
 	  delete [] itsMultiParams;
 	  delete itsMultiMapping;
 	}
+  if(itsMissingString)
+	  delete itsMissingString;
 }
 
 // ----------------------------------------------------------------------
@@ -137,6 +139,10 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   itsStringNameTimeFormat = theRect.itsStringNameTimeFormat;
   itsLoopActivity = theRect.itsLoopActivity;
   itsStationLoopActivity = theRect.itsStationLoopActivity;
+  if(theRect.itsMissingString)
+	itsMissingString = new NFmiString(*theRect.itsMissingString);
+  else
+	itsMissingString = 0;
 }
 
 // ----------------------------------------------------------------------
@@ -652,7 +658,8 @@ bool NFmiParamRect::ReadRemaining(void)
 		  break;
 		ReadNext();
 
-		itsMultiMapping->SetMissing(NFmiString(itsObject));
+		itsMissingString = new NFmiString(itsObject);
+		//itsMultiMapping->SetMissing(NFmiString(itsObject));
 
 		ReadNext();
 		break;

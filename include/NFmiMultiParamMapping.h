@@ -65,7 +65,6 @@ private:
   FmiMultiMapping * itsMappingIntervals;
 
   short itsNumOfParams;
-  NFmiString *itsMissingString;
 
 
 }; // class NFmiMultiParamMapping
@@ -81,7 +80,6 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(void)
   : NFmiSize(0)
   , itsMappingIntervals(0)
   , itsNumOfParams(0)
-  , itsMissingString(0)
 {
 }
 

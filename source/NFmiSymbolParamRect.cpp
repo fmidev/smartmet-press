@@ -651,12 +651,26 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  if(missingFound)
 			{
 			  itsNumOfMissing++;
-			  return false;
+			  if(!symbolFile)
+			  {
+				if(!itsMissingString)
+				  return false;
+				else
+					symbolFile = itsMissingString;
+			  }	
 			}
 		  isScaled = false;         //skaalaus vielä poissa
 		}
 	  else
-		symbolFile = itsMapping->Map(itsCurrentParamValue, isScaled);
+	  {
+		  symbolFile = itsMapping->Map(itsCurrentParamValue, isScaled);
+		  if(!symbolFile && itsCurrentParamValue==kFloatMissing 
+			  && itsMissingString)
+		  {
+			symbolFile = itsMissingString;
+		    isScaled = false;         
+		  }
+	  }
 	}
  
   if(isScaled)

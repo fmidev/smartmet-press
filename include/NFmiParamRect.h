@@ -245,6 +245,7 @@ protected:
   bool fMeanWindToMax;
   long itsRoundingNumber;
   bool fSupplementForMissing;
+  NFmiString * itsMissingString;
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -298,6 +299,7 @@ NFmiParamRect::NFmiParamRect(void)
   fMeanWindToMax = false;
   itsRoundingNumber = kLongMissing;
   fSupplementForMissing =  false;
+  itsMissingString = 0;
 }
 
 // ----------------------------------------------------------------------
@@ -350,6 +352,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsRoundingNumber(kLongMissing)
   , fSupplementForMissing(false)
   , itsDataIdent(theParam)
+  , itsMissingString(0)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
