@@ -18,21 +18,21 @@ typedef enum
 }NFmiSunTimeParamRectObjects;
 
 
-#include "ntimparr.h"
-//#include "npretime.h"
+#include "NFmiTimeParamRect.h"
+//#include "NFmiPressTime.h"
 
 class _FMI_DLL NFmiSunTimeParamRect : public NFmiTimeParamRect
 {
 	public:
 		NFmiSunTimeParamRect(void) :  NFmiTimeParamRect()
-						,fIsSunRise(kTrue)
+						,fIsSunRise(true)
 						{itsFormat=kHHdMM;};
 
 		NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theTimeParamRect); 
 
 		virtual ~NFmiSunTimeParamRect();
 
-		virtual FmiBoolean		ReadRemaining(void); 
+		virtual bool		ReadRemaining(void); 
 		virtual NFmiParamRect*	Clone(void) const; 
         int ConvertDefText(NFmiString & object);
 
@@ -40,7 +40,7 @@ class _FMI_DLL NFmiSunTimeParamRect : public NFmiTimeParamRect
 		NFmiTime	TimeToWrite(NFmiFastQueryInfo* theQI);
 
 	private:
-		FmiBoolean fIsSunRise;
+		bool fIsSunRise;
 };
 
 #endif //__NLETPARR_H__

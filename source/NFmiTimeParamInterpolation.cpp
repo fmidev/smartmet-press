@@ -7,7 +7,7 @@
 //
 //Muutettu xxxxxx/LW
 //
-/*---------------------------------------------------------------------------nhyphstr.cpp*/
+/*---------------------------------------------------------------------------NFmiHyphenationString.cpp*/
 
  #include  "NFmiTimeParamInterpolation.h"
  

@@ -31,7 +31,7 @@ NFmiParamRect* NFmiSunTimeParamRect::Clone() const
 };
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
-FmiBoolean NFmiSunTimeParamRect::ReadRemaining(void) 
+bool NFmiSunTimeParamRect::ReadRemaining(void) 
 {			 
 //	long long1;
 //	double double1,double2; 
@@ -40,14 +40,14 @@ FmiBoolean NFmiSunTimeParamRect::ReadRemaining(void)
 	{
 		case dSunRise:	  
 		{
-			fIsSunRise = kTrue;
+			fIsSunRise = true;
 			ReadNext();
 
 			break;
 		}
 		case dSunSet:	  
 		{
-			fIsSunRise = kFalse;
+			fIsSunRise = false;
 			ReadNext();
 
 			break;
@@ -58,7 +58,7 @@ FmiBoolean NFmiSunTimeParamRect::ReadRemaining(void)
 			break;
 		}
 	}
-	return kTrue;
+	return true;
 }
 //---------------------------------------------------------------------------
 int NFmiSunTimeParamRect::ConvertDefText(NFmiString & object) 
@@ -87,14 +87,14 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI)
 			*itsLogFile << "*** ERROR: aurinkoajan longitudi puuttuu " << (char*)itsStationPoint.GetName()
 			            << ":lta paikalliseen aikaan"<< endl;
 		
-//	FmiBoolean currentDay; 
+//	bool currentDay; 
 	if(fIsSunRise)
 	{    //2.6.00 +fIsValidTime; false jos ei laske/nouse
-		return itsStationPoint.TimeOfSunrise(time, (FmiBoolean&)fIsValidTime);
+		return itsStationPoint.TimeOfSunrise(time, (bool&)fIsValidTime);
 	}
 	else
 	{
-		return itsStationPoint.TimeOfSunset(time, (FmiBoolean&)fIsValidTime);
+		return itsStationPoint.TimeOfSunset(time, (bool&)fIsValidTime);
 	}
 }
 

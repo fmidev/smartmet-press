@@ -35,7 +35,7 @@ class _FMI_DLL NFmiMultiParamMapping : public NFmiSize
 
 		void AddMappingInterval(const FmiMultiMapping & theInterval);
 
-		NFmiString*	Map(float values[FmiMaxNumOfMappingParams], FmiBoolean& missingFound);
+		NFmiString*	Map(float values[FmiMaxNumOfMappingParams], bool& missingFound);
 		void NumOfParams (short num) {itsNumOfParams=num;};
 		short NumOfParams(void){return itsNumOfParams;};
 	protected:

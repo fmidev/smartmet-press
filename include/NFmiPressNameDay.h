@@ -15,7 +15,7 @@
 #ifndef __NFMIPRESSNAMEDAY_H__
 #define __NFMIPRESSNAMEDAY_H__
 
-#include "npretext.h"
+#include "NFmiPressText.h"
 #include "NFmiNameDay.h"
 #include "NFmiMetTime.h"
 
@@ -35,9 +35,9 @@ class _FMI_DLL NFmiPressNameDay : public NFmiPressText
 
 		virtual ~NFmiPressNameDay();
 
-		virtual FmiBoolean ReadRemaining(void);  
+		virtual bool ReadRemaining(void);  
 		virtual int ConvertDefText(NFmiString & object); 
-		virtual FmiBoolean	WritePS(FmiPressOutputMode theOutput);
+		virtual bool	WritePS(FmiPressOutputMode theOutput);
 		void SetMaxNumber(FmiCounter maxNumber) {itsMaxNumber=maxNumber;};
  		void SetMaxLength(FmiCounter maxLength) {itsMaxLength=maxLength;};
   		void SetNameDay(NFmiNameDay* theNameDay) {itsNameDay=theNameDay;};

@@ -20,7 +20,7 @@
 using namespace std; //27.8.01
 
 //----------------------------------------------------------------------------
-FmiBoolean NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
+bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 											,FmiPressOutputMode theOutMode) 
 {
 	long long1,long2,statNum;
@@ -48,7 +48,7 @@ FmiBoolean NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressP
 	{
 		if(itsLogFile)
 				*itsLogFile << "ei manageria" << endl;  
-		return kFalse;
+		return false;
 	}
 	else
 		if(itsLogFile)
@@ -71,7 +71,7 @@ FmiBoolean NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressP
 		if(itsLogFile)
 			*itsLogFile << "*** ERROR: max length exceeded in the Manager" << endl;
 //		retString = itsString;
-		return kFalse;
+		return false;
 	  }
 	  itsLoopNum++;
 	  if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
@@ -99,7 +99,7 @@ FmiBoolean NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressP
 				{
 					if(itsLogFile)
 					    *itsLogFile << "*** ERROR: problems with the manager" << endl;  
-					return kFalse;
+					return false;
 				}
 			}
 			else
@@ -303,7 +303,7 @@ FmiBoolean NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressP
 		case dManCloseLog:	  
 			{                 //8.9.00 järj. muutettu
 			*itsLogFile << "** Loki suljetaan managerista" << endl;  
-			thePressProduct.SetLogFile(kFalse);
+			thePressProduct.SetLogFile(false);
 
 			ReadNext();
 			break;
@@ -311,7 +311,7 @@ FmiBoolean NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressP
 		case dManOpenLog:	  
 		{
 			// ei toimi
-			thePressProduct.SetLogFile(kTrue);
+			thePressProduct.SetLogFile(true);
 
 			ReadNext();
 			break;
@@ -395,12 +395,12 @@ FmiBoolean NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressP
 		}
 		case dEnd:	  
 		{
-			return kTrue;
+			return true;
 			break;
 		}
 	  }
 	}
-	return kTrue;
+	return true;
 }
 //---------------------------------------------------------------------------------------
 int NFmiPressManager:: ConvertDefText(NFmiString & object)

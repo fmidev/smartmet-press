@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 
 #include "NFmiMultiParamMapping.h"
-#include "nhyphstr.h"
+#include "NFmiHyphenationString.h"
 #include "NFmiValueString.h"
 
 #include <iostream>  //STL 27.8.01
@@ -111,9 +111,9 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping& theInterva
 };
 
 //---------------------------------------------------------------------------
-NFmiString*	NFmiMultiParamMapping::Map(float* values, FmiBoolean& missingFound)
+NFmiString*	NFmiMultiParamMapping::Map(float* values, bool& missingFound)
 {
-	missingFound = kFalse;
+	missingFound = false;
 	for(int j=0; j<(int)itsSize; j++)
 	{
 		int i;
@@ -133,7 +133,7 @@ NFmiString*	NFmiMultiParamMapping::Map(float* values, FmiBoolean& missingFound)
 		if(i<(int)itsNumOfParams && values[i] == kFloatMissing    //moniparametrien puuttuva-testi täällä eli
 		||i==(int)itsNumOfParams && values[i-1] == kFloatMissing) //puuttuva vain jos jokin signifikantti puuttuu
 		{											
-			missingFound = kTrue;
+			missingFound = true;
 			return 0;
 		}
 	}

@@ -14,7 +14,7 @@
 #ifndef __NFMIEXTREMETIMEPARAMRECT_H__
 #define __NFMIEXTREMETIMEPARAMRECT_H__
 
-#include "ntimparr.h"
+#include "NFmiTimeParamRect.h"
 
 class _FMI_DLL NFmiExtremeTimeParamRect : public NFmiTimeParamRect
 {
@@ -26,7 +26,7 @@ class _FMI_DLL NFmiExtremeTimeParamRect : public NFmiTimeParamRect
 
 		virtual ~NFmiExtremeTimeParamRect();
 
-//		virtual FmiBoolean		ReadRemaining(void); 
+//		virtual bool		ReadRemaining(void); 
 		virtual NFmiParamRect*	Clone(void) const; 
 //        int ConvertDefText(NFmiString & object);
 

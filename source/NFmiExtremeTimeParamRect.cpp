@@ -3,7 +3,7 @@
 
 //Muutettu xxxxxx/LW puuttuva lasku/nousu hoidettu
 
-#include "npresspa.h"
+#include "NFmiPressParam.h"
 
 //---------------------------------------------------------------------------
 

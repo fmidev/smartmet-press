@@ -11,7 +11,7 @@
 #ifndef __NFMISCALINGPARAMRECT_H__
 #define __NFMISCALINGPARAMRECT_H__
 
-#include "n2SymbolParamRect.h"
+#include "NFmi2SymbolParamRect.h"
 
 typedef struct       //17.10.00
 {
@@ -43,7 +43,7 @@ class _FMI_DLL NFmiScalingParamRect : public NFmi2SymbolParamRect
 */		
 		NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect);
 
-		virtual FmiBoolean      ReadRemaining(void);
+		virtual bool      ReadRemaining(void);
 		
 		virtual ~NFmiScalingParamRect();
         virtual int ConvertDefText(NFmiString & object);
@@ -51,7 +51,7 @@ class _FMI_DLL NFmiScalingParamRect : public NFmi2SymbolParamRect
 
 	protected:
 		virtual void    DoPostReading(void); 
-		FmiBoolean ReadSymbolScale(FmiValueScaling& theScale); //201000
+		bool ReadSymbolScale(FmiValueScaling& theScale); //201000
 		void       ScaleByValue();             //7.11.00
 		FmiValueScaling     itsXValueScaling;  //17.10.00
 		FmiValueScaling     itsYValueScaling;  //17.10.00
@@ -60,7 +60,7 @@ class _FMI_DLL NFmiScalingParamRect : public NFmi2SymbolParamRect
 
 
 	private:
-//		FmiBoolean CopyShortSymbol2Dest(NFmiString* symbolFile, ofstream theDestinationFile); //11.2
+//		bool CopyShortSymbol2Dest(NFmiString* symbolFile, ofstream theDestinationFile); //11.2
 
 	private:
 

@@ -39,20 +39,20 @@
 class _FMI_DLL NFmiNameDay 
 {
 	public:
-		NFmiNameDay(void) {fRead=kFalse; fValue = kFalse;};
+		NFmiNameDay(void) {fRead=false; fValue = false;};
 
 		virtual ~NFmiNameDay();
 
-		FmiBoolean IsRead(void) {return fRead;};
-		FmiBoolean IsValue(void) {return fValue;};
-		FmiBoolean ReadFile(const NFmiString& theFileName);  
+		bool IsRead(void) {return fRead;};
+		bool IsValue(void) {return fValue;};
+		bool ReadFile(const NFmiString& theFileName);  
 		NFmiString GetName(NFmiMetTime time, FmiCounter maxNumber=kShortMissing, FmiCounter maxLength=kShortMissing);
 				
 	private:
 
 		NFmiString itsNames[366]; //0 ei käytetä
-		FmiBoolean fRead;
-		FmiBoolean fValue;
+		bool fRead;
+		bool fValue;
 };
 
 #endif //__NFMIPRESSNAMEDAY_H__

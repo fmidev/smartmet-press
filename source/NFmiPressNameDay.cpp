@@ -16,7 +16,7 @@ NFmiPressNameDay::~NFmiPressNameDay()
 {
 };
 //---------------------------------------------------------------------------
-FmiBoolean NFmiPressNameDay::ReadRemaining(void)  
+bool NFmiPressNameDay::ReadRemaining(void)  
 {
 	unsigned long long1;
 	FmiCounter count;
@@ -69,7 +69,7 @@ FmiBoolean NFmiPressNameDay::ReadRemaining(void)
 			break;
 		}
 	}
-	return kTrue;
+	return true;
 }
 //---------------------------------------------------------------------------
 int NFmiPressNameDay::ConvertDefText(NFmiString & object) 
@@ -84,12 +84,12 @@ int NFmiPressNameDay::ConvertDefText(NFmiString & object)
 }
 
 //---------------------------------------------------------------------------
-FmiBoolean	NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)									
+bool	NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)									
 {
 	if(!itsNameDay)
 	{
 		*itsLogFile << "*** ERROR: NimiPäiväOlio puuttuu, ohjelmointivirhe" << endl;
-		return kFalse;
+		return false;
 	}
     ScalePlotting();
 
@@ -113,7 +113,7 @@ FmiBoolean	NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 		if(!itsNameDay->ReadFile(fileName))
 		{
 			*itsLogFile << "*** ERROR: Nimipäivien lukeminen epäonnistui" << endl;
-			return kFalse; 
+			return false; 
 		}
 	}
 
@@ -124,5 +124,5 @@ FmiBoolean	NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 		return WriteString(NFmiString("NIMIPÄIVÄ"), theOutput);
 	}
 	else
-		return kFalse;
+		return false;
 };

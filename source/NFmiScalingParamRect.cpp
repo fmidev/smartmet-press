@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 
 #include "NFmiScalingParamRect.h"
-#include "npresspa.h"
+#include "NFmiPressParam.h"
 
 #include <iostream>  //STL 27.8.01
 using namespace std; //27.8.01
@@ -33,13 +33,13 @@ NFmiParamRect* NFmiScalingParamRect::Clone() const
 };
 /*
 //---------------------------------------------------------------------------
-FmiBoolean NFmiscalingParamRect::Set(NFmiDataIdent theParam, NFmiRect theRect)
+bool NFmiscalingParamRect::Set(NFmiDataIdent theParam, NFmiRect theRect)
 {
 	itsscalingDataIdent = theParam; //080199 lisä tälle luokalle 
 	return NFmi2SymbolParamRect :: Set(theParam, theRect);
 	*/
 //----------------------------------------------------------------------------
-FmiBoolean NFmiScalingParamRect::ReadRemaining(void)  //161000
+bool NFmiScalingParamRect::ReadRemaining(void)  //161000
 {
 
 	switch(itsIntObject)
@@ -60,10 +60,10 @@ FmiBoolean NFmiScalingParamRect::ReadRemaining(void)  //161000
 			break;
 		}
 	}
-	return kTrue;
+	return true;
 }
 //181000----------------------------------------------------------------------------
-FmiBoolean NFmiScalingParamRect::ReadSymbolScale(FmiValueScaling& theScale) //20.10.00
+bool NFmiScalingParamRect::ReadSymbolScale(FmiValueScaling& theScale) //20.10.00
 {
 	if (SetThree(theScale.noneValue,theScale.symbolValue,theScale.maxValue))
 	{
@@ -71,11 +71,11 @@ FmiBoolean NFmiScalingParamRect::ReadSymbolScale(FmiValueScaling& theScale) //20
 		{
 			*itsLogFile << "*** ERROR: SymboliSkaalan kaksi ekaa arvoa ei voi olla samoja"  << endl;
 			theScale.symbolValue = kFloatMissing;
-			return kFalse;
+			return false;
 		}
-		return kTrue;
+		return true;
 	}
-	return kFalse;
+	return false;
 }
 //----------------------------------------------------------------------------
 int NFmiScalingParamRect::ConvertDefText(NFmiString & object)  //041198
@@ -127,7 +127,7 @@ void NFmiScalingParamRect::ScaleByValue()
 }
 /*
 //----------------------------------------------------------------------------
-FmiBoolean NFmiScalingParamRect::CopyShortSymbol2Dest(NFmiString* symbolFile, ofstream theDestinationFile)
+bool NFmiScalingParamRect::CopyShortSymbol2Dest(NFmiString* symbolFile, ofstream theDestinationFile)
 {//11.2
 	NFmiString fileName = *itsSubDir;
 	fileName += itsSymbolSetName;    
@@ -137,7 +137,7 @@ FmiBoolean NFmiScalingParamRect::CopyShortSymbol2Dest(NFmiString* symbolFile, of
 	ifstream inFile = ifstream(fileName, ios::in|ios::nocreate); 
     if(inFile.good() && !inFile.eof())  
     {
-	   FmiBoolean tempBool;
+	   bool tempBool;
 	   float direction = itsSecondParamValue;
 	   float adjustedDirection = AdjustToMap(direction);
 	   if(!Rotate()) adjustedDirection = 270.;

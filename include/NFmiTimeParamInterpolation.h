@@ -26,7 +26,7 @@ public:
 
 	virtual ~NFmiTimeParamInterpolation(void);
 
-/*	virtual FmiBoolean SubValue(double theValue, FmiParameterName theParam)=0;
+/*	virtual bool SubValue(double theValue, FmiParameterName theParam)=0;
 	virtual double SubValue(FmiParameterName theParam)=0;
 */
 protected:

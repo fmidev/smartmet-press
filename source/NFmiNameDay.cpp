@@ -16,13 +16,13 @@ NFmiNameDay::~NFmiNameDay()
 {
 };
 //---------------------------------------------------------------------------
-FmiBoolean	NFmiNameDay::ReadFile(const NFmiString& theFileName)									
+bool	NFmiNameDay::ReadFile(const NFmiString& theFileName)									
 {
 	if(fRead)       //turhat uusinta-readit estetty
 		return fValue;
 
-	fRead = kTrue;
-	fValue = kFalse;
+	fRead = true;
+	fValue = false;
 
 	char dateBuff[20];
 	char nameBuff[20];
@@ -52,7 +52,7 @@ FmiBoolean	NFmiNameDay::ReadFile(const NFmiString& theFileName)
 					if(julDay > 365)
 					{
 						in.close();
-						return kFalse;
+						return false;
 					}
 					itsNames[julDay] = name;
 				}
@@ -62,14 +62,14 @@ FmiBoolean	NFmiNameDay::ReadFile(const NFmiString& theFileName)
 		in.close();
 		if(julDay == 365)
 		{
-			fValue = kTrue;
-			return kTrue;
+			fValue = true;
+			return true;
 		}
 		else
-			return kFalse;
+			return false;
 	}
 	else
-		return kFalse;
+		return false;
 };
 //---------------------------------------------------------------------------
 NFmiString NFmiNameDay::GetName(NFmiMetTime time, FmiCounter maxNumber, FmiCounter maxLength)

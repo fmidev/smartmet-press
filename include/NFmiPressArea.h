@@ -23,7 +23,7 @@
 #define __NFMIPRESSAREA_H__ 
  
 //#include  "fglob.h"
-#include "nprdescr.h"
+#include "NFmiPressDescription.h"
 //#include "NFmiArea.h"
 //class NFmiArea;
 #include "NFmiYKJArea.h"
@@ -52,7 +52,7 @@ class _FMI_DLL NFmiPressArea : public NFmiPressDescription
     ~NFmiPressArea(); 
 //    virtual  NFmiArea *Clone(void) const;
     virtual int             ConvertDefText(NFmiString & object);
-	virtual FmiBoolean		ReadDescription(NFmiString& retString);
+	virtual bool		ReadDescription(NFmiString& retString);
 	NFmiArea* GetArea(void) const{return itsArea;};
 	void SetArea(NFmiArea* theArea) {itsArea = theArea;};
 	void SetXyRequest(bool value){fIsXyRequest=value;}; //18.5.01

@@ -32,7 +32,7 @@ NFmiArea *NFmiPressArea::Clone(void) const
 }
 */
 //----------------------------------------------------------------------------
-FmiBoolean NFmiPressArea::ReadDescription(NFmiString& retString) 
+bool NFmiPressArea::ReadDescription(NFmiString& retString) 
 {
 	//toistaiseksi vain ykj-projektio
 	
@@ -172,7 +172,7 @@ FmiBoolean NFmiPressArea::ReadDescription(NFmiString& retString)
 	                             ,NFmiPoint(tlX,tlY),NFmiPoint(brX,brY)
 								 ,trueLat);
 	//		itsArea->Init(); //25.3.02
-			return kTrue;
+			return true;
 		}
 		else if(brwY != kFloatMissing)
 		{
@@ -183,10 +183,10 @@ FmiBoolean NFmiPressArea::ReadDescription(NFmiString& retString)
 			}
 
 			itsArea = new NFmiYKJArea(NFmiPoint(tlwX,tlwY),NFmiPoint(brwX,brwY)
-								 ,kTrue
+								 ,true
 	                             ,NFmiPoint(tlX,tlY),NFmiPoint(brX,brY));
 	//		itsArea->Init(); //25.3.02
-			return kTrue;
+			return true;
 		}
 	}
 	else 
@@ -194,7 +194,7 @@ FmiBoolean NFmiPressArea::ReadDescription(NFmiString& retString)
 		*itsLogFile << "*** ERROR: " << "#Kartassa pitää LatLonin lisäksi antaa mitat jollei alueoperaatio"  << endl; 
 
 	}
-	return kFalse;
+	return false;
 }
 //----------------------------------------------------------------------------
 int NFmiPressArea::ConvertDefText(NFmiString & object)  

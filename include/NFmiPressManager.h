@@ -17,9 +17,9 @@
 #ifndef __NFMIPRESSMANAGER_H__
 #define __NFMIPRESSMANAGER_H__
 
-#include "npresspr.h"
-#include "nprdescr.h"
-//#include "npswrite.h"
+#include "NFmiPressProduct.h"
+#include "NFmiPressDescription.h"
+//#include "NFmiPsWriting.h"
 
 //#include "NFmiMetTime.h"
 
@@ -54,8 +54,8 @@ class _FMI_DLL NFmiPressManager : public NFmiPressDescription
 				{};
 		
 		virtual ~NFmiPressManager(void){};
-		virtual FmiBoolean		ReadDescription(NFmiString& retString){return kTrue;}; 
-		FmiBoolean ReadDescriptionAndWrite(NFmiPressProduct& pressProduct,FmiPressOutputMode theOutMode=kPostScript);   
+		virtual bool		ReadDescription(NFmiString& retString){return true;}; 
+		bool ReadDescriptionAndWrite(NFmiPressProduct& pressProduct,FmiPressOutputMode theOutMode=kPostScript);   
         virtual int ConvertDefText(NFmiString & object);
 
 	protected:
