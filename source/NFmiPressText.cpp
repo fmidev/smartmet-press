@@ -574,7 +574,13 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
   NFmiString lowChar = object;
   lowChar.LowerCase();
 
-  if(lowChar==NFmiString("language") ||
+  if(lowChar==NFmiString("size") ||
+	 lowChar==NFmiString("textsize") ||
+	 lowChar==NFmiString("koko") ||
+	 lowChar==NFmiString("tekstikoko"))
+	return dSymbolSize;
+
+  else if(lowChar==NFmiString("language") ||
 	 lowChar==NFmiString("kieli"))
 	return dTextLanguage;
 
