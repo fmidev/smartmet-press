@@ -284,15 +284,15 @@ bool NFmiPressTimeDescription::SetDataHour(NFmiFastQueryInfo* data, const NFmiSt
 					//     pidemmissä (>vrk) luupeissa pitäisi oma arvo toimia tässäkin
  {
    NFmiMetTime saveTime = ((NFmiQueryInfo*)data)->Time(); //4.9.01 HUOM
-   NFmiMetTime time = saveTime;
-   if(!(time.GetHour() == itsFirstPlotHours) )//&& fFirstStation)
+   NFmiMetTime tim = saveTime;
+   if(!(tim.GetHour() == itsFirstPlotHours) )//&& fFirstStation)
 		  *itsLogFile << "    tunti muutettu pirtoalkiossa: " << itsFirstPlotHours << " utc" << endl;
 
-   time.SetTime(itsFirstPlotHours); 
-   if(!data->Time(time))  //29.6 nyt aika ohjataan tällä alimmalla tasolla
+   tim.SetTime(itsFirstPlotHours); 
+   if(!data->Time(tim))  //29.6 nyt aika ohjataan tällä alimmalla tasolla
    {	                     //pääseeköhän tänne jos ei aikaa
 	   if(itsLogFile)      
-		  *itsLogFile << "*** ERROR: aikaa ei ole: " << time
+		  *itsLogFile << "*** ERROR: aikaa ei ole: " << tim
    	              << (char*)calledFrom << endl;
        data->Time(saveTime);  //pitää asettaa takaisin 
 	   return false;
