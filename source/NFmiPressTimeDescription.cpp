@@ -150,11 +150,21 @@ bool NFmiPressTimeDescription::PreProcessConditionally(NFmiPreProcessor & thePre
 	}
   int num = thePrepr.NumOfReplacesDone();
   if (num>0)
-	  *itsLogFile << "  muuttujakorvauksia "
+	  *itsLogFile << "  muuttujakorvauksia include-kierroksella "
 				  << num
 				  << " kpl"
 				  << endl;
+/*
+  unsigned long pos = oldString.find("$#");
+  if (pos != string::npos)
+  {
+	  string newString += oldString.substr(0, pos);
 
+	  *itsLogFile << "*** ERROR: Unknown variables: "
+				  << theConditionalBeginDirective
+				  << endl;
+  }
+*/
   return true;
 }
 
@@ -231,7 +241,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 			return false;
 		  }
 		tim.ChangeByDays(1);
-		//isToday = false;
+		//isToday = false;	
 	  }
 
 	string outString = prePr.GetString();
@@ -239,6 +249,17 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 	file << outString ;
 	file.close();
 	file.clear();
+
+	  unsigned long pos = outString.find("$#");
+	  if (pos != string::npos)
+	  {
+		  string newString = outString.substr(pos, 3);
+
+		  *itsLogFile << "*** ERROR: Määrittelemätön muuttuja: "
+					  << newString
+					  << endl;
+	  }
+
 	return true;
 }
 // ----------------------------------------------------------------------

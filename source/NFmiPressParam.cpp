@@ -771,6 +771,19 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			break;
 		  }
 
+		case dStationRelocation:
+		  {
+			if (SetTwo(x, y))
+			{
+				float upRight = 100.;
+				itsCurrentStationScale.SetStartScales(NFmiRect(NFmiPoint(0.,0.), NFmiPoint(upRight,upRight)));
+				itsCurrentStationScale.SetEndScales(NFmiRect(NFmiPoint(x,y), NFmiPoint(upRight+x,upRight+y)));
+			}
+			else
+				  *itsLogFile << "*** ERROR: AsemienSiirto-käskyn parametreissä"  << endl;
+
+			break;
+		  }
 		case dStationDefArea:
 		  {
 			if (!ReadEqualChar())
@@ -1659,6 +1672,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("stationdefarea") ||
 		  lowChar==NFmiString("asemienmittaalue"))
 	return dStationDefArea;
+
+  else if(lowChar==NFmiString("stationrelocation") ||
+		  lowChar==NFmiString("asemiensiirto"))
+	return dStationRelocation;
 
   else if(lowChar==NFmiString("stationplotarea") ||
 		  lowChar==NFmiString("asemiensijoitusalue"))
