@@ -21,6 +21,9 @@
 //Muutettu 080801/LW ConvertDefTextiin isot/pienet vapaus
 //Muutettu 021001/LW itsSubText->SetDescriptionFile() muutamalle alaoliolle
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPressText.h"
 #include "NFmiHyphenationString.h"

@@ -4,6 +4,10 @@
 // Muutettu xxxxxx/LW  
 //---------------------------------------------------------------------------
 
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
+
 #include "NFmi2SymbolParamRect.h"
 //#include "NFmiPressParam.h"
 
@@ -40,7 +44,8 @@ bool NFmi2SymbolParamRect::ReadRemaining(void)
 				break;
 
 			if(ReadLong(long1))
-               itsSecondDataIdent.SetParam(NFmiParam(long1));
+//               itsSecondDataIdent.SetParam(long1);
+               itsSecondDataIdent.SetParam(NFmiParam(long1)); //10.9.02
 			
 			ReadNext();
 

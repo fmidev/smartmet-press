@@ -5,6 +5,9 @@
 //Muutettu 180699/LW +itsDeltaDays, ReadRemaining(),ConvertDefText() 
 //Muutettu 180699/LW +InterpretToStr()-käyttö
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#endif
 
 #include "NFmiPressComputerTimeText.h"
 

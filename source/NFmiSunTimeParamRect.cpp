@@ -4,6 +4,9 @@
 //Muutettu 020600/LW puuttuva lasku/nousu hoidettu
 
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiSunTimeParamRect.h"
 

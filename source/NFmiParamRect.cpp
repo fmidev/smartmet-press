@@ -23,6 +23,9 @@
 // Muutettu 171000/LW +topWeatherAndCloudiness huomioitu
 // Muutettu 291100/LW +jaksoissa mahdollistettu vuosien asetus
 // Muutettu 080201/LW +WaWa-koodin k‰sittely
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPressParam.h"
 

@@ -2,6 +2,9 @@
 //  Original 3.1.2001 
 
 //Muutettu xxxxxx/LW puuttuva lasku/nousu hoidettu
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPressParam.h"
 

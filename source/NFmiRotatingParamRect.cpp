@@ -9,6 +9,9 @@
 // Muutettu 071100/LW perint‰ uudesta NFmi2SymbolParamRect:st‰
 // Muutettu 081100/LW +AddSymbolMetaOptions()  
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiRotatingParamRect.h"
 #include "NFmiPressParam.h"

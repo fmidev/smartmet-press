@@ -1064,7 +1064,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << (char*)writeString << " **"<< endl; 
-   *itsLogFile << "program version = 6.9.2002" << endl;       
+   *itsLogFile << "program version = 10.9.2002" << endl;       
    *itsLogFile << "Home dir " <<(char*)origHome << ": " << (char*)GetHome()  << endl;  
 
 /* pois 25.10.01

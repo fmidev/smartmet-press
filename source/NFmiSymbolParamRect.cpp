@@ -19,6 +19,9 @@
 // Muutettu 240500/LW +fIsConstSymbol.
 // Muutettu 171000/LW +itsYValueScaling ja X
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiSymbolParamRect.h"
 #include "NFmiRectScale.h"

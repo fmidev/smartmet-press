@@ -10,6 +10,10 @@
 // Muutettu 140201/LW TimeToWrite() 
 // Muutettu 040601/LW Vanhasta aikaformaatista pois ne jotka saadaan uudella 
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
+
 #include "NFmiPressTimeDescription.h"
 #include "NFmiPressTime.h"
 //#include "NFmiSuperSmartInfo.h"

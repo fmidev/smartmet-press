@@ -5,6 +5,9 @@
 //                    piti tehd‰ kun Vespassa prem:it meniv‰t prosessointiin pre-tiedostoina
 // Muutettu 060900/LW .prem tiedosto siirretty omaan Managerit-haaraan  
 // Muutettu 301100/LW +dMan(De)activateFirst
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPressManager.h"
 #include "NFmiTiesaaAlueet.h"

@@ -47,6 +47,9 @@
 //#ifdef WIN32
 //#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 //#endif
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include <fstream> //STD 27.8.01
 
@@ -143,9 +146,12 @@ bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask)
 	itsName = NFmiString(name);
 
 	itsStations.First();
-	const NFmiLocation* firstLocation= itsStations.Location();
-
+	
+//	NFmiLocation* firstLocation= itsStations.Location(); //10.9.02
+	NFmiLocation* firstLocation= const_cast<NFmiLocation*> (itsStations.Location());
 	firstLocation->SetName(itsName);
+
+//?	itsStations.Location();
 
 //	CreateStationFromAreaMask();
 	return true;
@@ -160,7 +166,7 @@ bool NFmiPressParam::SetFirstStation(const NFmiLocation& theLocation)
 //	NFmiString newName;
 
 	itsStations.First();
-	const NFmiLocation * firstLocation= itsStations.Location();
+	NFmiLocation* firstLocation= const_cast<NFmiLocation*>(itsStations.Location()); //10.9.02
 	firstLocation->SetLongitude(theLocation.GetLongitude());
 	firstLocation->SetLatitude(theLocation.GetLatitude());
 
@@ -1754,8 +1760,10 @@ bool NFmiPressParam::CreateAreaMask(void)
 		NFmiAreaMask::Type maskType = NFmiAreaMask::kInfo; // maski on siis info-tyyppinen (ei esim. bitmap tai lennossa laskettava kuten auringon-kulma-maski)
 		NFmiAreaMask::DataType dataType = NFmiAreaMask::kStationary;
 		bool ownsInfo = false;
+/* MUKAAN ********************
 		NFmiAreaMask::BinaryOperation postBinaryOperation = NFmiAreaMask::kAnd;
 		itsAreaMask = new NFmiInfoAreaMask(maskOperation, maskType, dataType, itsMaskIter, ownsInfo, postBinaryOperation);
+************/
 		*itsLogFile << "  areamask created: " <<  maskNr << endl;		
 	}
 	return true;

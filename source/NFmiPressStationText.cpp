@@ -6,6 +6,9 @@
 //Muutettu 240899/LW station eritavalla QI:sta kuin ajemmin QD:st‰
 
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPressStationText.h"
 #include "NFmiStationPoint.h"

@@ -26,6 +26,9 @@
 //Muutettu 071100/LW +NFmiScalingParamRect
 //Muutettu 040101/LW +‰‰riarvoaika
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
  
 #include "NFmiSymbolGroup.h"
 #include <iostream> //STD 27.8.01

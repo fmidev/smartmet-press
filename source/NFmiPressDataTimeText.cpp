@@ -6,6 +6,9 @@
 //Muutettu 131000/LW InterpretToStr-käyttö
 
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#endif
 
 #include "NFmiPressDataTimeText.h"
 //#include "NFmiSuperSmartInfo.h"

@@ -7,6 +7,9 @@
 // Muutettu 240101/LW +dMakeAsLast 
 // Muutettu 190802/LW +dTimestampDayGap
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPressScaling.h"
 #include "NFmiPressTime.h"

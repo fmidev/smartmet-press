@@ -3,6 +3,9 @@
 // 
 // Muutettu 060398/LW t‰st‰ erotettu n. puolet uuteen luokkaan NFmiPressScaling 
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPsSymbol.h"
 #include "NFmiFileString.h"

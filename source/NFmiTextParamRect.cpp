@@ -17,6 +17,9 @@
 //Muutettu 290200/LW Copykonstr. siivottu
 //Muutettu 300501/LW +suhteellinenmerkkileveys
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiTextParamRect.h"
 #include <iostream>  //STL 27.8.01

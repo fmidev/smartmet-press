@@ -5,6 +5,9 @@
 //Muutettu 131000/LW InterpretToStr()-käyttö
 //Muutettu 180402/LW utc-tulostus kuntoon
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#endif
 
 #include "NFmiPressGivenTimeText.h"
 

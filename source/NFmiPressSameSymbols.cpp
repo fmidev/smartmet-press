@@ -5,6 +5,9 @@
 //----------------------------------------------------------------------------
 
 //#include <fstream.h>
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #ifndef __NPRESAME_H__
 #include "NFmiPressSameSymbols.h"

@@ -7,6 +7,9 @@
 //Muutettu 291099/LW turha showpage pois-> sai aikaan animaatioita
 //Muutettu 011001/LW Isot/pienet ei en‰‰ merkitsevi‰ m‰‰rittelyss‰
 //---------------------------------------------------------------------------
+#ifdef WIN32
+ #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#endif
 
 #include "NFmiPressImage.h"
 
