@@ -310,8 +310,8 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsAreaModifier(kNoneModifier)
   , itsValueOption(kNoneValueOption)
   , itsIdentPar(kFmiTemperature)
-  , itsDataIdent(theParam)
   , itsRandomInterval(0.)
+  , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;

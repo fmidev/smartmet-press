@@ -98,9 +98,8 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsAreaModifier(theRect.itsAreaModifier)
   , itsValueOption(theRect.itsValueOption)
   , itsIdentPar(theRect.itsIdentPar)
-  , itsDataIdent(theRect.itsDataIdent)
   , itsRandomInterval(theRect.itsRandomInterval)
-
+  , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
