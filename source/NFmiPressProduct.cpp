@@ -1795,7 +1795,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			{
 				NFmiString lowChar = itsObject;
 				lowChar.LowerCase(); 
-				NFmiString helpString = lowChar.GetChars(1,3);
+				helpString = lowChar.GetChars(1,3);
 				NFmiString helpString2 = lowChar.GetChars(1,2);
 				pageSet = true;
 
