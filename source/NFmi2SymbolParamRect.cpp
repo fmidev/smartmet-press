@@ -80,7 +80,6 @@ bool NFmi2SymbolParamRect::ReadRemaining(void)
 	default: 
 	  {
 		return NFmiSymbolParamRect::ReadRemaining();  
-		break;
 	  }
 	}
 
