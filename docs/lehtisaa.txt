@@ -9,6 +9,7 @@
 -# \ref sec_automaatti
 -# \ref sec_data
 -# \ref sec_ongelmat
+  -# \ref sec_poikkeusaika
   -# \ref sec_lehtikaipaa
   -# \ref sec_poikkeavaennakko
 -# \ref sec_ratkaisut
@@ -16,6 +17,10 @@
   -# \ref sec_kaikkiautotuotteet
   -# \ref sec_manuaalituotteenteko 
   -# \ref sec_manuaalituotteenlahetys
+  -# \ref sec_automatiikansiirto
+  -# \ref sec_distillerkaynnistys 
+  -# \ref sec_manennakkomuutos 
+  -# \ref sec_autoennakkomuutos 
 
 \section sec_yleista Yleistä
  
@@ -31,7 +36,9 @@ Automaatiikassa on lähinnä sellaisia lehtiä, jotka voidaan toimittaa pdf-muodoss
 
 Automaattilehtien määrittelytiedostot pitää olla hakemistossa LehtiAuto/Tuotteet/Auto, jotta automatiikka osaisi ne käyttää. Sieltä määrittelyt voi ajaa myös käsin normaalilla tavalla kaksoisklikkaamalla mutta pdf-muunnoksesta ja jakelusta on silloin huolehdittava itse. On myös skripti (TeeYksiTuoteRaahaamalla) joka loppuun asti jakeluineen tekee halutun tuotteen sillä hetkellä kun sen käynnistää, ks \ref sec_yksiautotuote. Automatiikan saa myös pyörähtämään milloin tahansa, ks xxxx, jolloin kaikki tuotteet, joiden ajoaika on käsillä (päivä ja tunti oikein) tehdään.
 
-Automaatiajot voi siirtää apmet2002-koneelle (muttei 2000:lle), jos apmet2003-konetta jostain syystä ei voida käyttää. Tarvittavat määrittelyt, pohjat jne on myös 2002:lla ja pdf-muunnos tapahtuu samalla tavalla samoin kuin automaattiskriptit on sinne määritelty, ne pitää vain aktivoida, ks \ref sec_automatiikansiirto . 
+Poikkeusjärjestelyt, jotka koskevat useampia lehtiä(juhlapyhät), kannattaa tehdä niin että automatiikka-tiedostosta tehdään oma versio ja säilytetään normaali tilanne omannimisenä tiedostona joka pyhien jälkeen taas otetaan käyttöön nimiä vaihtamalla. 
+
+Automaatiajot voi siirtää apmet2002-koneelle (muttei 2000:lle), jos apmet2003-konetta jostain syystä ei voida käyttää. Tarvittavat määrittelyt, pohjat jne on myös 2002:lla ja pdf-muunnos tapahtuu samalla tavalla, samoin kuin automaattiskriptit on sinne määritelty, ne pitää vain aktivoida, ks \ref sec_automatiikansiirto . 
 
 \section sec_data Data
 
@@ -41,7 +48,7 @@ Muut datat (synoptiset havainnot, meriveden korkeudet ja lämpötilat sekä myös Su
 
 Siitepölydataa varten on aivan oma rutiininsa: Bat/Siitepoly.bat, joka ajetaan apmet2003:lla joka päivä 12.05 ja varmistetaan vielä muutaman kerran tunnin välein. Skripti hakee ensin aerobiologien webbilomakkeesta tehdyn tiedoston Odin-koneesta ja muokkaa sen lehtiohjelman vaatimaan muotoon. Sen jälkeen se jaetaan piirtokoneille ja myös takaisin Odiniin.  
 
-Ennustetekstejä (vain suomineito.txt) käytetään lehtiohjelman kautta vain kahdessa lehdessä, automaattisessa Perniössä ja manuaalisessa Karjalaisessa. Apmet2003:ssa on skripti KopioiEnnusteet.bat joka ajetaan alkaen 12.12 puolen tunnin välein. Ajo hakee Apmet2000-koneelta, missä se tällä hetkellä editoidaan, tekstin kaikkiin koneisiin LehtiAuto/Tekstit/Suomineito-hakemistoon ja myös Odiniin. Sen voi myös siirtää käsin ja vaikka muuttaa vielä omalla koneella (toki paikalliset muutokset häviävät puolen tunnin sisällä kun seuraava automaattikopionti tehdään). Lehtiohjelma tarkistaa että DDMMsuomineito.txt:n aikaleima on oikein.    
+Ennusteteksteistä käytetään tällä hetkellä vain suomineito-tekstiä lehtiohjelman kautta ja sitäkin vain kahdessa lehdessä, automaattisessa Perniössä ja manuaalisessa Karjalaisessa. Apmet2003:ssa on skripti KopioiEnnusteet.bat joka ajetaan alkaen 12.12 puolen tunnin välein. Ajo hakee tekstin Apmet2000-koneelta, missä se tällä hetkellä editoidaan, kaikkiin koneisiin LehtiAuto/Tekstit/Suomineito-hakemistoon ja myös Odiniin. Sen voi myös siirtää käsin ja vaikka muuttaa vielä omalla koneella (toki tällaiset muutokset häviävät puolen tunnin sisällä kun seuraava automaattikopionti tehdään). Ennustetiedoston nimessä on aikaleima (ddmmSuomineito), jonka lehtiohjelma tarkistaa että on tätä päivää.    
 
 \section sec_ongelmat Ongelmatilanteet ja muut poikkeavuudet
 
@@ -55,26 +62,26 @@ Jos on kyseessä automaattituote (tarkista <a href="docs/Lehtimuistio.xls"> lehti
 
 \subsection sec_poikkeavaennakko Tuotteen tekopäivän ja ilmestymispäivän ero poikkeava
 
- 
+Yleensä lehtiohjelma tekee tuotteet niin että sää alkaa tekopäivästä seuraavana päivänä eli lehden ilmestymispäivänä (ei tietysti havainnot), pienissä lehdissä usein vasta ylihuomisesta. Esim arkipyhien takia lehti voi toivoa että tuote tehdään aikaisemmin vaikka ilmestyy entisenä päivänä ja sään pitäisi myös silloin alkaa ilmestymispäivästä. Koska lehtiohjelma operoi aikaerojen kanssa pitää se muuttaa määrittelyssä. Ei kuitenkaan tarvitse koskea itse määrittelytiedostoon vaan asia kerrotaan erityisessä ohjaustiedostossa: LehtiAuto/Muut/KausiTilanne.txt, joka saa lehtiohjelman lisäämään/vähentämään aikaeroihin toivotun määrän päiviä (esim +2 -> ma:na piirretty tuote, joka aikaisemmin teki tiistain tekee nyt torstain). Tiedosto on vain voimassa omassa koneessaan ja koskee kaikkia tuotteita, joten se pitää muuttaa takaisin kun kyseinen lehti on ajettu. Lämpövyöhykkeisiin ja muihin valmisosiin tämä ei vaikuta, joten ei sovi monimutkaisempiin tuotteisiin (tai sitten nämä osat voi manuaalisesti vaihtaa valmiista tuotteesta). Myös, jos on pitkiä ennusteita mukana, viimeiset päivät voivat jäädä tyhjiksi kun editoridata ei ulotu loppupäiviksi. Automaattituotteissa asian voi hoitaa ohjelman kutsulla skriptissä ja taas ennallistaa lehden jälkeen. Toimenpiteet ovat, jos kyseessä on manuaalilehti \ref sec_manennakkomuutos , jos automaattilehti \ref sec_autoennakkomuutos 
 
- 
+\subsection sec_poikkeavaviikonpaiva Tuote tehdään kuin jonain toisena päivänä
 
-\section sec_ratkaisut Ratkaisut
+Monet lehdet tehdään eri viikonpäivinä eri tavalla (lumi/siitepölykartta, eri layout, eri ennustepituudet). Lehtiohjelmaa voi huijata että on eri päivä kuin oikeasti. Tämäkin muutos tehdään LehtiAuto/Muut/KausiTilanne.txt -tiedoston kautta, ks \ref sec_poikkeavaennakko . Eli jos maanantaina halutaan että tuote näyttää siltä kuin tiistaina tehtynä laitetaan kausitilanteeseen Viikonpäivä TI. Viikonpäivä on siis tekopäivä eikä lehden ilmestymispäivä. 
 
-Tässä ratkaisut
+\section sec_ratkaisut Ongelmatilanteiden ratkaisuja
 
 \subsection sec_muutosautomaattiaikatauluun Muutos automaattiaikatauluun
 
 - Mene apmet2003-koneelle 
 - Avaa vaikka Notepadilla LehtiAuto/Bat/Automaatti.bat
 - Jos muutos tehdään viikonpäivään lisätään tai poistetaan X oikean päivän sarakkeesta ao lehden riviltä
-- Jos muutos tulee kellonaikaan laitetaan toivottu tunti (ajetaan 20 yli) toiseen aikasarakkeeseen (2.h); ensimmäiseen voi laittaa kaksi tuntia aikaisemmin, joka toimii varatuotteena jos jokin ei toimi ennen deadlinea
+- Jos muutos tulee kellonaikaan laitetaan toivottu tunti (ajetaan 20 yli) toiseen aikasarakkeeseen (2.h); ensimmäiseen voi laittaa kaksi tuntia aikaisemman ajan, joka toimii vara-ajona jos jokin ei toimi ennen deadlinea
 - Jos muutos tulee mailiosoitteeseen kirjoita uusi vanhan tilalle 
 - Jos maili otetaan uudeksi lähetystavaksi kirjoita maili-osoite none-sanan tilalle ja mailisarakkeisiin X(varsinainen lähetys), E(ennakko lähetys) tai V((ftp:n) varalähetys); kirjain vaikuttaa mailitekstiin ja aiheeseen
 - Jos maili poistetaan lähetystapana laita molempiin mailisarakkeisiin -
 - Jos lehti poistetaan automatiikasta kirjoita rivin alkuun "rem " tai ota rastit joka päivän kohdalta pois tai jos lopullisesti poistetaan hävitä koko rivi
 - Talleta tiedosto 
-Poikkeusjärjestelyt, jotka koskevat useampia lehtiä(juhlapyhät), kannattaa tehdä niin että automatiikka-tiedostosta tehdään oma versio ja säilytetään normaali tilanne omannimisenä tiedostona joka pyhien jälkeen taas otetaan käyttöön nimiä vaihtamalla. Huomaa automaatti-tiedostosta että parametrit viimeiseen viikonpäivään saakka pitää olla erotettuina vähintään yhdellä välilyönnillä tai tabulaattorilla mutta sen jälkeen nämä merkit on ehdottomasti kielletty ja erottimena toimii kauttaviiva. 
+Huomaa automaatti-tiedostosta että parametrit viimeiseen viikonpäivään saakka pitää olla erotettuina vähintään yhdellä välilyönnillä tai tabulaattorilla mutta sen jälkeen nämä merkit on ehdottomasti kielletty ja erottimena toimii kauttaviiva. 
 
 \subsection sec_yksiautotuote Yhden automaattituotteen teko ja lähettäminen
 
@@ -104,5 +111,48 @@ Poikkeusjärjestelyt, jotka koskevat useampia lehtiä(juhlapyhät), kannattaa tehdä
 \subsection sec_manuaalituotteenlahetys Manuaalituotteen lähetys
 
 \subsection sec_automatiikansiirto Automatiikan siirto apmet2002:lle
+
+- avaa työpöydältä My Computer
+- avaa siitä Scheduled Tasks
+- tulee lista ajastettuja ajoja, jotka suurin osa pysäytetyssä tilassa (teksti Disabled ja ikonissa rasti punaisen pallon päällä)
+- käynnistä vuoronperään tarvittavat ajot: TeeAutoTuotteet, KopioEnnusteet, Siitepoly, SKWEB, PaSaPi2www (niitä muita ei tarvita) toimenpiteillä:
+- kaksoiklikkaa rivi
+- avatuvaan dialogi-ikkunan alavasempaan kulmaan laita rasti Enabled-kohtaan
+- paina ok 
+- sama seuraavalle
+- tämän jälkeen Sheduled Tasks-ikkunassa jokaisen kohdalla pitäisi näkyä seuraava ajohetki ja ikoniin on tullut pieni kellon kuva punaympyrän tilalle
+- sulje Sheduled Tasks ja My Computer -ikkunat
+
+\subsection sec_distillerkaynnistys Distillerin käynnistys
+
+- avaa työpöydältä Acrobat Distiller
+- valitse avautuvasta ikkunasta Settings-valikosta Watched Folders
+- tarkista että Checking...-kodassa on 35 sekuntia
+- paina ok
+- piilota ikkuna mutta älä lopeta sovellusta kokonaan oikeasta yläkulmasta
+- Distillerin pitää näkyä alapalkissa (Acrobatin ikonilla)
+
+\subsection sec_manennakkomuutos
+- avaa LehtiAuto/muut/kausiTilanne.txt (älä mielellään 2003:lla koska vaikuttaa myös automaattiajoihin)
+- riviltä Ennakko muuta sana OLETUS +1:ksi tai muuksi halutuksi
+- jätä tiedosto auki jotta muistat muuttaa takaisin
+- aja lehti (kunhan epstiedosto tehdään)
+- muuta takaisin OLETUS-sana (kumallekin puolelle tyhjää)
+- sulje tiedosto
+
+\subsection sec_autoennakkomuutos
+- avaa Bat/Automaatti.bat
+- ennen kyseisen lehden riviä lisää rivi: perl asetaEnnakko.pl +1 (tai muu ero) 
+- kyseisen lehden rivin jälkeen lisää rivi: perl asetaEnnakko.pl OLETUS (ks esim AutomaattiHelaT.bat)
+- muutettu aikaero huomioidaan kun lehti normaalin aikataulun puitteissa ajetaan
+- jos ei ole pysyvä ero muuta 
+  
+\subsection sec_viikonpaivamuutos
+- avaa LehtiAuto/muut/kausiTilanne.txt (älä mielellään 2003:lla koska vaikuttaa myös automaattiajoihin)
+- riviltä Viikonpäivä muuta sana OLETUS MA:ksi tai TI:ksi tai....
+- jätä tiedosto auki jotta muistat muuttaa takaisin
+- aja lehti (kunhan epstiedosto tehdään)
+- muuta takaisin OLETUS-sana (kumallekin puolelle tyhjää)
+- sulje tiedosto
 
 */
