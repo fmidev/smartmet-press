@@ -68,7 +68,7 @@ public:
   bool Set( NFmiRectScale & theRectScale, std::ofstream & theDestinationFile);
   bool SetScale(const NFmiRectScale & theRectScale);
   void Place(const NFmiPoint & thePlace);
-  void Move(const NFmiPoint& addPlace);
+  virtual void Move(const NFmiPoint& addPlace);
   NFmiPoint Place(void);
   void SetPrintOnceOn(void);
   void ScaleNotPlace(void);

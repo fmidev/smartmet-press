@@ -98,6 +98,7 @@ public:
   void SetLastLineStep(double lineStep);
   virtual void SetTime(const NFmiMetTime& theTime);
   double GetWidthFactor(void) const;
+  void Move(const NFmiPoint & addPlace);
 
 protected:               
 

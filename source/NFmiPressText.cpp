@@ -979,5 +979,20 @@ void NFmiPressText::ScalePlotting(void)
   itsTopMargin = itsRectScale.ScaleY(itsTopMargin);
   NFmiPressScaling::ScalePlotting(); //tarvitaankohan kaikki
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param addPlace Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiPressText::Move(const NFmiPoint & addPlace)
+{
+  itsTopMargin += addPlace.Y();
+  itsRightMargin += addPlace.X();
+  itsLeftMargin += addPlace.X();
+  NFmiPressScaling::Move(addPlace);
+}
 
 // ======================================================================
