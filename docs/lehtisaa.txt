@@ -24,7 +24,7 @@ höpö höpö
 
 \section sec_ongelmat Ongelmat
 
-Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä. Jos on kyseessä automaattituote (tarkista lehtimuistiosta) suorita \ref sec_yksiautotuote , jollei joudut hankaluuksiin. 
+Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä. Jos on kyseessä automaattituote (tarkista lehtimuistiostaa) suorita \ref sec_yksiautotuote , jollei joudut hankaluuksiin. 
 
 \section sec_ratkaisut Ratkaisut
 
