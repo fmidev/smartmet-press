@@ -35,7 +35,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 	// bool hasOwnData = isFalse; 
 	bool helpBool;
     NFmiString dataFileName;
-	NFmiString string;
+	NFmiString str;
 	NFmiValueString valueString;
 	NFmiPoint* place;
 	char object[255];// ch;
@@ -47,8 +47,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 	double xmin,xmax,ymin,ymax;
 
 	*itsDescriptionFile >> object;
-	string = object;
-	int iobject = ConvertDefText(string);
+	str = object;
+	int iobject = ConvertDefText(str);
 
 	numOfTablePlaces = 0;
 	itsNumberOfSteps = 1; 
@@ -62,7 +62,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 	{
 		if(itsLogFile)
 			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #SymboliPaikat-oliossa" << endl;
-	    retString = string;
+	    retString = str;
 		return isFalse;
 	}
     itsLoopNum++;
@@ -74,22 +74,22 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 			if(itsLogFile)
 				*itsLogFile << "*** ERROR: Tuntematon sana #ParametriAsematissa: " << (char*)object << endl;  
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dComment:	  
 		{
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dEndComment:	  
 		{
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dPlaceSubViews:	  		
@@ -100,8 +100,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
                itsNumberOfSteps = (unsigned short)long1;
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dPlaceStepSize:	  		 
@@ -116,8 +116,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 				                   ,point1.Y()*itsScale.GetScaling().Y());       
             }
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dPlaceTable:	  		 
@@ -140,8 +140,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
             currentPlaceNum = 0;
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dPlaceDefArea:   
@@ -153,8 +153,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 				itsCurrentScale.SetStartScales(NFmiRect(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax)));
 			}
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dPlacePlotArea:   //29.12
@@ -166,8 +166,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 			   itsCurrentScale.SetEndScales(NFmiRect(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax)));
             }
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dPlace:     
@@ -190,8 +190,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 			}
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dPlaceSymbol:     
@@ -200,16 +200,16 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 			itsPsSymbol.SetHome(GetHome());  //29.9
 			itsPsSymbol.SetDescriptionFile(itsDescriptionFile); //20.11.01
 
-			// bool ok = itsPsSymbol.ReadDescription(string);
-			itsPsSymbol.ReadDescription(string);
+			// bool ok = itsPsSymbol.ReadDescription(str);
+			itsPsSymbol.ReadDescription(str);
 
-			iobject = ConvertDefText(string);
+			iobject = ConvertDefText(str);
 			break;
 		}		
 	} 
 	
 	}
-	retString = string;
+	retString = str;
 	return isTrue;	
 }
 //---------------------------------------------------------------------------------------
