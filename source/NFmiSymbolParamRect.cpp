@@ -470,9 +470,9 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
   ifstream inFile(fileName, ios::in|ios::binary);
   if(inFile.good() && !inFile.eof())
 	{
-	  bool tempBool = NFmiWritePSConcat(itsDefToProductScale, theDestinationFile);
-	  tempBool = NFmiCopyFile(inFile,theDestinationFile);
-	  tempBool = NFmiWritePSEnd(theDestinationFile);
+	  NFmiWritePSConcat(itsDefToProductScale, theDestinationFile);
+	  NFmiCopyFile(inFile,theDestinationFile);
+	  NFmiWritePSEnd(theDestinationFile);
 	  return isTrue;
 	}
   else

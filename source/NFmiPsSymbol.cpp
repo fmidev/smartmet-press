@@ -81,9 +81,9 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 
   if(itsInFile->good() && !itsInFile->eof())
 	{
-	  bool tempBool = WritePSConcat();
-	  tempBool = CopyFile();
-	  tempBool = WritePSEnd();
+	  WritePSConcat();
+	  CopyFile();
+	  WritePSEnd();
 	  itsInFile->close();
 	  itsInFile->clear();
 	  return isTrue;

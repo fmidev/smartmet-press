@@ -94,7 +94,6 @@ bool NFmiRotatingParamRect::ReadRemaining(void)
 	  default:
 		{
 		  return NFmi2SymbolParamRect::ReadRemaining();
-		  break;
 		}
 	  }
 	return true;
@@ -171,16 +170,15 @@ bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
   ifstream inFile(fileName, ios::in|ios::binary);
   if(inFile.good() && !inFile.eof())
     {
-	  bool tempBool;
 	  float direction = itsSecondParamValue;
 	  float adjustedDirection = AdjustToMap(direction);
 	  if(!Rotate())
 		adjustedDirection = 270.;
-	  tempBool = NFmiWritePSConcatRotating(itsDefToProductScale,
-										   adjustedDirection,
-										   theDestinationFile);
-	  tempBool = NFmiCopyFile(inFile,theDestinationFile);
-	  tempBool = NFmiWritePSEnd(theDestinationFile);
+	  NFmiWritePSConcatRotating(itsDefToProductScale,
+								adjustedDirection,
+								theDestinationFile);
+	  NFmiCopyFile(inFile,theDestinationFile);
+	  NFmiWritePSEnd(theDestinationFile);
 	  return isTrue;
 	}
   else
