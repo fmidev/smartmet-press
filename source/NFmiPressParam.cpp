@@ -1868,18 +1868,18 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			   {
 				 if(itsCurrentStep == 1)
 				   {
-					 *itsLogFile << "  ekan ajan segmentti-aika: " << time;
+					 *itsLogFile << "  ekan ajan segmentti-aika: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
 				   }
 				 else if (itsCurrentStep == itsNumberOfSteps)
 				   {
-					 *itsLogFile << "  vikan ajan segmentti-aika: " << time;
+					 *itsLogFile << "  vikan ajan segmentti-aika: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
 				   }
 				 else
 				   writeLog = false;
 			   }
 			 else
 			   {
-				 *itsLogFile << "  Segmentin aika: " << time;
+				 *itsLogFile << "  Segmentin aika: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
 			   }
 			 if(IsStationLocalTimeMode() && writeLog)
 			   *itsLogFile << " pa"<< endl;
@@ -2032,7 +2032,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			{   //HUOM QD:ssä pitää olla segmentin aika vaikka data-alkioissa käytettäissin eri tuntia
 			  if(itsLogFile)
 				*itsLogFile << "  *** ERROR: Segment time missing from data: "
-							<< time
+							<< static_cast<char *>(time.ToStr("DD.MM.YYYY HH"))
 							<< " utc"
 							<< endl;
 

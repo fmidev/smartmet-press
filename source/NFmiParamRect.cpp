@@ -860,7 +860,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 	  if(!fTimeErrorReported)
 		{
 		  *itsLogFile << "    WARNING: invalid time: "
-					  << itsCurrentTime
+					  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
 					  << " (changed in data element)"
 					  << endl;
 		  fTimeErrorReported = true;
@@ -874,7 +874,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 	  if(itsMultiMapping)
 		{
 		  *itsLogFile << "    eka asema: aika paikan päällä= "
-					  << itsCurrentTime
+					  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
 					  << " utc; par=moni"
 					  << endl;
 		}
@@ -882,7 +882,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 		{
 		  unsigned long par = theQueryInfo->ParamDescriptor().Param().GetParam()->GetIdent();
 		  *itsLogFile << "    eka asema: aika paikan päällä= "
-					  << itsCurrentTime
+					  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
 					  << " utc; par="
 					  << par
 					  << endl;
@@ -1125,9 +1125,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		{
 		  
 		  *itsLogFile << "      ->aikajakso= "
-					  << firstTime
+					  << static_cast<char *>(firstTime.ToStr("DD.MM.YYYY HH"))
 					  << " - "
-					  << lastTime
+					  << static_cast<char *>(lastTime.ToStr("DD.MM.YYYY HH"))
 					  << " utc"
 					  << endl;
 		}
@@ -1139,19 +1139,22 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  break;
 		case kMaximum:
 		  modif = new NFmiDataModifierMax;
+		  //modif->SetMissingAllowed(false);
 		  isExtremeModifier = true;
 		  break;
 		case kSum:
-		  if(fAllowMissing)
-			modif = new NFmiDataModifierSum(kFmiAdd, true);
-		  else
-			modif = new NFmiDataModifierAllValidSum;
+//		  if(fAllowMissing)
+//			modif = new NFmiDataModifierSum(kFmiAdd, true); 
+			modif = new NFmiDataModifierSum; 
+//		  else
+//			modif = new NFmiDataModifierAllValidSum;
 		  break;
 		case kMean:
-		  if(fAllowMissing)
+		// ************* HUOM
+	//	  if(fAllowMissing)
 			modif = new NFmiDataModifierAvg;
-		  else
-			modif = new NFmiDataModifierAllValidAvg;
+	//	  else
+	//		modif = new NFmiDataModifierAllValidAvg;
 		  break;
 		default:
 		  modif = new NFmiDataModifierDummy;
@@ -1160,8 +1163,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	}
   else
 	modif = new NFmiDataModifierDummy;
-  
-  
+
+    modif->SetMissingAllowed(fAllowMissing); 
+   
   if(itsValueIntervalMin != kFloatMissing)
 	modif->SetLimits(itsValueIntervalMin, itsValueIntervalMax);
   
@@ -1195,7 +1199,10 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	default:
 	  break;
 	}
-  
+
+  if(areaModif)
+	areaModif->SetMissingAllowed(fAllowMissing);
+
   if(areaModif && itsValueIntervalMin != kFloatMissing)
 	areaModif->SetLimits(itsValueIntervalMin, itsValueIntervalMax);
   if(modif && itsValueIntervalMin != kFloatMissing)
