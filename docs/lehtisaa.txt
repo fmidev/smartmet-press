@@ -24,7 +24,7 @@ höpö höpö
 
 \section sec_ongelmat Ongelmat
 
-Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä. Jos on kyseessä automaattituote (tarkista <a href="Lehtimuistio.xls">lehtimuistiosta</a>) suorita \ref sec_yksiautotuote , jollei joudut hankaluuksiin. 
+Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä. Jos on kyseessä automaattituote (tarkista <a href="http://develop.weatherproof.fi/docs/lib/press/lehtimuistio.xls">lehtimuistiosta</a>) suorita \ref sec_yksiautotuote , jollei joudut hankaluuksiin. 
 
 \section sec_ratkaisut Ratkaisut
 
