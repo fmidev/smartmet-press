@@ -40,6 +40,7 @@ public:
   bool ReadRemaining(void);
   int ConvertDefText(NFmiString & object);
 		
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
   virtual unsigned long ClassId(void);

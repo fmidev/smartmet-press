@@ -40,6 +40,7 @@ public:
 
   virtual bool ReadRemaining(void);  
   virtual int ConvertDefText(NFmiString & object); 
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   void SetMaxNumber(FmiCounter maxNumber);
   void SetMaxLength(FmiCounter maxLength);

@@ -28,6 +28,7 @@ public:
   NFmiPressGivenTimeText(void);
 
   virtual bool ReadRemaining(void);  
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput); 
   virtual bool SetText(void);
   virtual void SetText(NFmiString theText);

@@ -47,6 +47,7 @@ public:
   virtual bool ReadDescription(NFmiString & retString); 
   int ConvertDefText(NFmiString & object);
 
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   void ScalePlotting(void);
   void SetPath(const NFmiString & thePath);

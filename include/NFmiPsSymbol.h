@@ -44,6 +44,7 @@ public:
   virtual bool ReadDescription(NFmiString & retString); 
   virtual NFmiPsSymbol * Clone(void) const; 
   virtual bool MakeAndWritePS(NFmiPoint place); //tän voi sitten joskus hylätä
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   NFmiString GetSymbol(void) const;
 

@@ -31,6 +31,7 @@ public:
   NFmiPressParamText(void);
   NFmiPressParamText(const NFmiPressText & theTextParamRect); 
 
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);  
   virtual bool IsDataObject(void);
       
