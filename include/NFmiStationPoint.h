@@ -135,6 +135,37 @@ NFmiStationPoint::NFmiStationPoint(const NFmiStation & theStation,
   
 // ----------------------------------------------------------------------
 /*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiStation * NFmiStationPoint::Station(void) const
+{
+  return static_cast<NFmiStation *>(NFmiStation(GetIdent(),
+												GetName(),
+												GetLongitude(),
+												GetLatitude()).Clone());
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPoint NFmiStationPoint::Point(void) const
+{
+  return itsPoint;
+}
+
+// ----------------------------------------------------------------------
+/*!
  * Copy constructor
  *
  * \param theStation The object being copied
@@ -175,37 +206,6 @@ inline
 double NFmiStationPoint::Y(void) const
 {
   return itsPoint.Y();
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-NFmiStation * NFmiStationPoint::Station(void) const
-{
-  return static_cast<NFmiStation *>(NFmiStation(GetIdent(),
-												GetName(),
-												GetLongitude(),
-												GetLatitude()).Clone());
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-NFmiPoint NFmiStationPoint::Point(void) const
-{
-  return itsPoint;
 }
 
 // ----------------------------------------------------------------------
