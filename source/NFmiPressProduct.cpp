@@ -25,6 +25,7 @@
 #include "NFmiSuperSmartInfo.h"
 #include "NFmiFileSystem.h"   
 // system
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
@@ -975,10 +976,21 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    itsInFileName = inputFileName.Header(); //27.8.02 skriptistä kun kutsutaan tulee muuten koko polku
 
    NFmiFileString tempInput;
-		   tempInput = GetHome();
-		   tempInput += kFmiDirectorySeparator;
-		   tempInput += NFmiString("Temp");
-		   tempInput += kFmiDirectorySeparator;
+   tempInput = GetHome();
+   tempInput += kFmiDirectorySeparator;
+   tempInput += NFmiString("Temp");
+   tempInput += kFmiDirectorySeparator;
+#ifndef UNIX
+   char * env = getenv("lehtiTempDir");
+   if(env != 0)
+	 tempInput = env;
+#else
+   if(NFmiSettings::IsSet("press::tmpdir"))
+	 {
+	   string tmp = NFmiSettings::Require<string>("press::tmpdir");
+	   tempInput = NFmiString(tmp);
+	 }
+#endif
 
    NFmiString inputOnlyFile = inputFileName.FileName();
 

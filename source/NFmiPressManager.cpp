@@ -13,8 +13,10 @@
 #include "NFmiPressManager.h"
 // newbase
 #include "NFmiEnumConverter.h"
+#include "NFmiSettings.h"
 #include "NFmiTiesaaAlueet.h"
 // system
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
@@ -36,10 +38,21 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 //   itsInFileName = inputFileName.Header(); //27.8.02 skriptistä kun kutsutaan tulee muuten koko polku
 
    NFmiFileString tempInput;
-		   tempInput = GetHome();
-		   tempInput += kFmiDirectorySeparator;
-		   tempInput += NFmiString("Temp");
-		   tempInput += kFmiDirectorySeparator;
+   tempInput = GetHome();
+   tempInput += kFmiDirectorySeparator;
+   tempInput += NFmiString("Temp");
+   tempInput += kFmiDirectorySeparator;
+#ifndef UNIX
+   char * env = getenv("lehtiTempDir");
+   if(env != 0)
+	 tempInput = env;
+#else
+   if(NFmiSettings::IsSet("press::tmpdir"))
+	 {
+	   string tmp = NFmiSettings::Require<string>("press::tmpdir");
+	   tempInput = NFmiString(tmp);
+	 }
+#endif
 
    NFmiString inputOnlyFile = inputFileName.FileName();
 
