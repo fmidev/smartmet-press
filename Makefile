@@ -5,9 +5,10 @@ MAINFLAGS = -Wall -W -Wno-unused-parameter
 EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 	-Wcast-align -Wwrite-strings -Wconversion -Winline \
 	-Wctor-dtor-privacy -Wnon-virtual-dtor -Wno-pmf-conversions \
-	-Wsign-promo -Wchar-subscripts -Wold-style-cast
+	-Wsign-promo -Wchar-subscripts -Wold-style-cast \
+	-Wredundant-decls -Wshadow
 
-DIFFICULTFLAGS = -Weffc++ -Wredundant-decls -Wshadow -Woverloaded-virtual -Wunreachable-code
+DIFFICULTFLAGS = -Weffc++l -Wunreachable-code -Woverloaded-virtual
 
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
