@@ -351,8 +351,8 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fMeanWindToMax(false)
   , itsRoundingNumber(kLongMissing)
   , fSupplementForMissing(false)
-  , itsDataIdent(theParam)
   , itsMissingString(0)
+  , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
