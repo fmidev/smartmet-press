@@ -20,7 +20,7 @@ using namespace std; //27.8.01
 //---------------------------------------------------------------------------
 NFmiPressScaling::NFmiPressScaling(const NFmiPressScaling& thePsSymbol)
 : NFmiPressTimeDescription() //121099
-, NFmiPsWriting(*(NFmiPsWriting*)&thePsSymbol)            //011200
+, NFmiPsWriting(thePsSymbol)            //011200
 
 , itsRectScale(thePsSymbol.itsRectScale)
 , itsRelArea(thePsSymbol.itsRelArea)
