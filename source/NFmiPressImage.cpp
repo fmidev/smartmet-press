@@ -213,6 +213,25 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dSummerWinterImageFile:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			NFmiString summerFile, winterFile, countryPart;
+			summerFile = ReadString();
+			winterFile = ReadString();
+			countryPart = ReadString();
+
+			if(itsPressProduct->IsSummerWeather(countryPart))
+				itsTempImageFile = summerFile;
+			else
+				itsTempImageFile = winterFile;
+
+			itsTempImageFile += NFmiString(".eps");
+			
+			ReadNext();
+			break;
+		  }
 		case dImageFile:
 		  {
 			if (!ReadEqualChar())
@@ -374,6 +393,11 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("tiedosto") ||
 	 lowChar==NFmiString("nimi") )
 	return dImageFile;
+
+  else if(lowChar==NFmiString("summerwinterfile") ||
+	 lowChar==NFmiString("kesätalvitiedosto") ||
+	 lowChar==NFmiString("kesätalvinimi") )
+	return dSummerWinterImageFile;
 
   else if(lowChar==NFmiString("newimage") ||
 		  lowChar==NFmiString("uusikuva"))

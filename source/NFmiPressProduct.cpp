@@ -496,7 +496,61 @@ bool NFmiPressProduct::SetAllLanguages(FmiLanguage theLanguage)
 
   return retCode;
 }
-
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
+{
+    NFmiMetTime today;
+	if(FirstData())
+	{	
+		NFmiFastQueryInfo info = NFmiFastQueryInfo(FirstData());
+		today.SetHour(12);
+		today.ChangeByDays(2); //tuotteet keskim‰‰rin kahden p‰iv‰n p‰‰ss‰
+		if (info.Time(today))
+		{
+			NFmiPoint lonLat(99.,99.); //not valid on earth 
+			NFmiString lowChar = theCountryPart;
+			lowChar.LowerCase();
+			if(lowChar == NFmiString("lounas") || lowChar == NFmiString("southwest"))
+				lonLat.Set(22.5, 60.5);
+			else if(lowChar == NFmiString("etel‰") || lowChar == NFmiString("south"))
+				lonLat.Set(25., 60.3);
+			else if(lowChar == NFmiString("kaakko") || lowChar == NFmiString("southeast"))
+				lonLat.Set(27.5, 61.2);
+			else if(lowChar == NFmiString("l‰nsi") || lowChar == NFmiString("west"))
+				lonLat.Set(22., 63.);
+			else if(lowChar == NFmiString("keski") || lowChar == NFmiString("centre"))
+				lonLat.Set(26., 62.5);
+			else if(lowChar == NFmiString("it‰") || lowChar == NFmiString("east"))
+				lonLat.Set(30., 62.5);
+			else if(lowChar == NFmiString("oulu"))
+				lonLat.Set(26., 65.);
+			else if(lowChar == NFmiString("lappi") || lowChar == NFmiString("north"))
+				lonLat.Set(26., 66.5);
+			else
+			{
+				*itsLogFile << "*** ERROR: #OsaKuvassa tuntematon maanosa: " 
+					<< static_cast<char *>(theCountryPart) 
+					<< endl;
+			}
+			if(lonLat.Y() < 98. && info.Location(lonLat)) //eka ehto pistetietokantoja varten
+			{                                             //jotka muuten aina menev‰t l‰himp‰‰n
+				if(info.Param(kFmiTemperature))
+				{
+					float temp = info.FloatValue();
+					return temp > 2.;
+				}
+			}
+		}
+	}
+	//jos dataa ei ole, hyv‰ aproksimaatio on kes‰/talviaika
+    return today.GetZoneDifferenceHour() == -3;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -938,7 +992,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 27.10.2003" << endl;       
+   *itsLogFile << "program version = 11.11.2003" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1112,6 +1166,7 @@ bool NFmiPressProduct::ReadData(void)
 				  nData->SetData(0);
 				  *itsLogFile << "  *** ERROR: datan luku ep‰onnistui: " << static_cast<char *>(nData->GetName()) << endl
 							 <<  "      jos pakollinen keskeytet‰‰n" << endl;
+
 				  if(nData->IsMandatory())
 					mandatoryNotFound = true;
 				}

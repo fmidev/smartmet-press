@@ -154,6 +154,7 @@ public:
   std::queue<float> itsFloatQueue;
   std::queue<float> itsFloatQueue2;
   NFmiVoidPtrList itsObjects; //osakuvat voivat tuoda rekursiivisesti lisäkuvia
+  bool IsSummerWeather(const NFmiString& theCountryPart);
 
 private:
 

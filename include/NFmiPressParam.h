@@ -145,7 +145,7 @@ public:
   void SetActivity(bool theActivity);
   bool IsDistanceCheck(void) const;
   bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
-	
+  bool InterruptSymbolGroup(void)const;	
 protected:
 
   void UnsetAllErrorReported(void);
@@ -197,7 +197,7 @@ protected:
   NFmiTime itsOptionTime;
   NFmiPoint itsCheckDistance;
   vector<FmiValuePoint> itsCheckLocations;
-  
+  bool fInterruptSymbolGroup;  
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -241,6 +241,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fIsPureRegTimeLoop(true)
   , fIsAreaOperation(false)
   , itsCheckDistance (NFmiPoint())
+  , fInterruptSymbolGroup(false)
 {
   itsLanguage=kFinnish;
 }
@@ -282,10 +283,24 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , itsScale(scale)
   , fIsAreaOperation(false)
   , itsCheckDistance (NFmiPoint())
+  , fInterruptSymbolGroup(false)
 {
   itsLanguage=kFinnish;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParam::InterruptSymbolGroup(void)const 
+{
+	return fInterruptSymbolGroup;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -20,6 +20,7 @@
 #include "NFmiPsSymbol.h"
 #include "NFmiSunTimeParamRect.h"
 #include "NFmiScalingParamRect.h"
+#include "NFmiPressParam.h"
 // newbase
 #include "NFmiSuperSmartInfo.h"
 // system
@@ -613,7 +614,7 @@ bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
   
   NFmiMetTime currentSegmentTime = (static_cast<NFmiQueryInfo *>(itsQueryDataIter))->Time();
 
-  for(int i=0; i < static_cast<int>(GetSize()); i++)
+  for(int i=0; i < static_cast<int>(GetSize()) && !(itsPressParam->InterruptSymbolGroup()); i++)
 	{
 	  itsQueryDataIter->Time(currentSegmentTime); // piirtoalkiot saattavat muuttaa (ainakin tuntia)
 	  itsParamRects[i]->WritePS(absRectOfGroup,

@@ -220,7 +220,10 @@ bool NFmiPressParam::CheckAndSetDistance(long theValue, const NFmiPoint& point)
 		if((*pos).value == theValue && 
 			 abs((*pos).point.X() - point.X()) < itsCheckDistance.X() &&
 			 abs((*pos).point.Y() - point.Y()) < itsCheckDistance.Y())
-		return false;
+		{
+			fInterruptSymbolGroup = true;
+			return false;
+		}
 	}
 	FmiValuePoint valuePoint;
 	valuePoint.value = theValue;
@@ -2067,6 +2070,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 				 statPoint.Point(statPoint.Point() + stationPointMovement);
 
 				 // ****** tässä itse symbolit/numerot jne
+				 fInterruptSymbolGroup = false; //läheisyystesti-optiota varten
 				 if(!(itsSymbols.WritePS(statPoint,theOutput)))
 				   {
 					 if(itsLogFile)

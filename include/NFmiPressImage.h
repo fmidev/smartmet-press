@@ -25,6 +25,7 @@ class NFmiPressProduct;
 enum NFmiPressImageObjects
 {
   dImageFile = 260,
+  dSummerWinterImageFile,
   dImagePath,
   dImageDir,
   dImageDefSize,
@@ -33,8 +34,8 @@ enum NFmiPressImageObjects
   dImageSizeFactor,
   dImagePlaceMove,
   dNewImage,
-  dNewImageName,
-  dNewImageRel = 1260
+  dNewImageName = 1260,
+  dNewImageRel 
 };
 
 
