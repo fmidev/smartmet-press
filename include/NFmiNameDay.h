@@ -46,7 +46,7 @@ class _FMI_DLL NFmiNameDay
 		bool IsRead(void) {return fRead;};
 		bool IsValue(void) {return fValue;};
 		bool ReadFile(const NFmiString& theFileName);  
-		NFmiString GetName(NFmiMetTime time, FmiCounter maxNumber=kShortMissing, FmiCounter maxLength=kShortMissing);
+		NFmiString GetName(NFmiMetTime theTime, FmiCounter maxNumber=kShortMissing, FmiCounter maxLength=kShortMissing);
 				
 	private:
 

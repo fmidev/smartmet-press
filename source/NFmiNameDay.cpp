@@ -72,14 +72,14 @@ bool	NFmiNameDay::ReadFile(const NFmiString& theFileName)
 		return false;
 };
 //---------------------------------------------------------------------------
-NFmiString NFmiNameDay::GetName(NFmiMetTime time, FmiCounter maxNumber, FmiCounter maxLength)
+NFmiString NFmiNameDay::GetName(NFmiMetTime theTime, FmiCounter maxNumber, FmiCounter maxLength)
 {
-	int indYear = time.GetJulianDay();
+	int indYear = theTime.GetJulianDay();
 	NFmiString names(itsNames[indYear]);
 
 	//karkausvuonna indeksi yhden eteenpäin
 	// HUOM oletetaan että nimipäivä on kuluvaa vuotta 
-	if(time.DaysInMonth(2, time.GetYear()) == 29)
+	if(theTime.DaysInMonth(2, theTime.GetYear()) == 29)
 	{
 		if(indYear == 60)
 		{
