@@ -37,7 +37,6 @@ using namespace std;
 
 NFmiPressProduct::NFmiPressProduct(void)
 {
-  fAllDataFilesCritical = false;
   itsNameTimeFormat = kUndefined;
   itsSecondNameTimeFormat = kUndefined;
   itsNameDay = 0;
@@ -1097,7 +1096,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 31.1.2003" << endl;       
+   *itsLogFile << "program version = 6.2.2003" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1122,7 +1121,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    itsDescriptionFile->close();
    itsDescriptionFile->clear();
 
-   if(!ReadData() && fAllDataFilesCritical)
+   if(!ReadData())
 		return false;
 
    if(itsLogFile)
@@ -1135,7 +1134,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 /*!
  * Undocumented
  *
- * \return Undocumented
+ * \return false if reading of mandatory file unsuccessful
  */
 // ----------------------------------------------------------------------
 
@@ -1147,7 +1146,7 @@ bool NFmiPressProduct::ReadData(void)
   if(itsLogFile)
 	*itsLogFile << "LUETAAN ANNETUT DATATIEDOSTOT" << endl;
 
-  bool notFound = false;
+  bool mandatoryNotFound = false;
 
   char * hChar;
   NFmiHyphenationString str;
@@ -1220,8 +1219,9 @@ bool NFmiPressProduct::ReadData(void)
 						{
 						  nData->SetData(0);
 						  *itsLogFile << "  *** ERROR: datan luku epäonnistui: " << static_cast<char *>(nData->GetName()) << endl
-							         <<  "      jos kriittinen keskeytetään" << endl;
-						  notFound = true;
+							         <<  "      jos pakollinen keskeytetään" << endl;
+						  if(nData->IsMandatory())
+						     mandatoryNotFound = true;
 						}
 					  else
 						{
@@ -1237,8 +1237,9 @@ bool NFmiPressProduct::ReadData(void)
 				{
 				  nData->SetData(0);
 				  *itsLogFile << "  *** ERROR: datan luku epäonnistui: " << static_cast<char *>(nData->GetName()) << endl
-							 <<  "      jos kriittinen keskeytetään" << endl;
-				  notFound = true;
+							 <<  "      jos pakollinen keskeytetään" << endl;
+				  if(nData->IsMandatory())
+					mandatoryNotFound = true;
 				}
 			}
 		  else
@@ -1271,7 +1272,7 @@ bool NFmiPressProduct::ReadData(void)
 		*itsLogFile << "EI ANNETTUJA DATATIEDOSTOJA" << endl;
 	}
 
-  return !notFound;
+  return !mandatoryNotFound;
 ;
 }
 
@@ -1407,6 +1408,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
   fMapIsEps = true;
   fTimeStamp = false;
   fDataTimeStamp = false;
+  bool allDataFilesCritical = false;
   itsLanguage = kFinnish;
   double xmin,xmax,ymin,ymax;
   long long1, long2, long3;
@@ -1625,7 +1627,33 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  }
 
 			NFmiQueryData * newData = new NFmiQueryData();
-			NFmiNamedQueryData * newNData = new NFmiNamedQueryData(newData,itsDataFileName);
+			NFmiNamedQueryData * newNData = new NFmiNamedQueryData(newData,itsDataFileName, allDataFilesCritical);
+			itsDatas.Add(newNData);
+
+			ReadNext();
+			break;
+		  }
+		case dMandatoryDataFile:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			itsDataFileName = ReadString();
+			itsDataFileName.LowerCase();
+
+			if(fDataRead)
+			  {
+				*itsLogFile << "*** ERROR: Data "
+							<< static_cast<char *>(itsDataFileName)
+							<< "pitää antaa ennen 'KäytäDatanAlkuAikaa' ja 'SuhteellinenTuntiDatasta'"
+							<< endl;
+				*itsLogFile << "            " << "sekä kaikkia jäsenelementtejä" << endl;
+				*itsLogFile << "       KESKEYTETÄÄN" << endl;
+				return false;
+			  }
+
+			NFmiQueryData * newData = new NFmiQueryData();
+			NFmiNamedQueryData * newNData = new NFmiNamedQueryData(newData,itsDataFileName, true);
 			itsDatas.Add(newNData);
 
 			ReadNext();
@@ -1757,7 +1785,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dDataTime:
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiQueryData * firstData = FirstData();
@@ -1809,7 +1837,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  {
 			SetOne (long1);
 
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiQueryData * firstData = FirstData();
@@ -1956,7 +1984,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dPressParam:
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
             itsCurrentMap = 1;
@@ -1992,7 +2020,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dSymbolPlaces:
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			itsCurrentMap = 1;
@@ -2015,7 +2043,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dImageObject:
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiPsSymbol * image = new NFmiPsSymbol;
@@ -2033,7 +2061,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dSubImage:
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiPressImage * image = new NFmiPressImage;
@@ -2051,7 +2079,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dNameDay:
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			if(!itsNameDay)
@@ -2076,7 +2104,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dTextObject:
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiPressText * text = new NFmiPressText;
@@ -2096,7 +2124,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dColumnTextObject: //vanhentunut
 		  {
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiPressText * text = new NFmiPressText;
@@ -2120,7 +2148,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  // jotta riippumaton QD:sta ja sen ajoista
 		  {
 
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiPressGivenTimeText * text = new NFmiPressGivenTimeText;
@@ -2142,7 +2170,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		case dComputerTimeTextObject:
 		  {
 
-			if(!ReadData() && fAllDataFilesCritical)
+			if(!ReadData())
 				return false;
 
 			NFmiPressComputerTimeText * text = new NFmiPressComputerTimeText;
@@ -2183,7 +2211,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dAllDataFilesCritical:
 		  {
-			fAllDataFilesCritical = true;
+			allDataFilesCritical = true;
 			ReadNext();
 			break;
 		  }
@@ -2284,6 +2312,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datafile") ||
 		  lowChar==NFmiString("data"))
 	return dDataFile;
+ else if(lowChar==NFmiString("mandatorydatafile") ||
+		  lowChar==NFmiString("pakollinendata"))
+	return dMandatoryDataFile;
   else if(lowChar==NFmiString("maskfile") ||
 		  lowChar==NFmiString("maskidata"))
 	return dMaskFile;

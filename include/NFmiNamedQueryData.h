@@ -26,17 +26,19 @@ public:
 
   ~NFmiNamedQueryData(void);
   NFmiNamedQueryData(void);
-  NFmiNamedQueryData(NFmiQueryData * data, NFmiString name);
+  NFmiNamedQueryData(NFmiQueryData * data, NFmiString name, bool mandatory=false);
   NFmiNamedQueryData(const NFmiNamedQueryData & theNQD);
 
   void SetData(NFmiQueryData * theData);
   NFmiQueryData * GetData(void);
   NFmiString GetName(void);
+  bool IsMandatory(void);
 
 private:
 
   NFmiQueryData * itsData ;
   NFmiString itsName;
+  bool fMandatory;
   
 }; // class NFmiNamedQueryData
 
@@ -49,6 +51,7 @@ private:
 inline
 NFmiNamedQueryData::NFmiNamedQueryData(void)
   : itsData(0)
+   ,fMandatory(false)
 {
 }
 
@@ -63,9 +66,11 @@ NFmiNamedQueryData::NFmiNamedQueryData(void)
 
 inline
 NFmiNamedQueryData::NFmiNamedQueryData(NFmiQueryData * data,
-									   NFmiString name)
+									   NFmiString name,
+									   bool mandatory)
   :	itsData(data)
   , itsName(name)
+  , fMandatory(mandatory)
 {
 }
 
@@ -82,6 +87,7 @@ NFmiNamedQueryData::NFmiNamedQueryData(const NFmiNamedQueryData & theNQD)
 {
   itsData = theNQD.itsData;
   itsName = theNQD.itsName;
+  fMandatory = theNQD.fMandatory;
 }
 
 // ----------------------------------------------------------------------
@@ -124,6 +130,20 @@ inline
 NFmiString NFmiNamedQueryData::GetName(void)
 {
   return itsName;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiNamedQueryData::IsMandatory(void)
+{
+  return fMandatory;
 }
 
 #endif // NFMINAMEDQUERYDATA_H

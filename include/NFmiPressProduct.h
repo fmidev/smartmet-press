@@ -52,6 +52,7 @@ enum NFmiPressProductObjects
   dOutDir,
   dMapFile,
   dDataFile,
+  dMandatoryDataFile,
   dMapIsReduced,
   dPlottingView,
   dMapDefSize,
@@ -67,9 +68,9 @@ enum NFmiPressProductObjects
   dPageSize,
   dDate,
   dProductWithTimeStamp,
-  dProductWithDataTimeStamp,
 
-  dTimeStampFormat = 1020,
+  dProductWithDataTimeStamp = 1020,
+  dTimeStampFormat ,
   dProductSizeFactor,
   dProductPlaceMove,
   dRelativeHours,
@@ -78,9 +79,9 @@ enum NFmiPressProductObjects
   dProductNameFormat,
   dProductNameTimeFormat,
   dSecondProductNameTimeFormat,
-  dOutputMode,
 
-  dNumberAddingToName = 2020,
+  dOutputMode = 2020,
+  dNumberAddingToName,
   dMagicSavePath,
   dMapArea,
   dMakeElementsAfterSegments,
@@ -177,7 +178,6 @@ public:
 
 private:
 
-  bool fAllDataFilesCritical;
   bool fMakeElementsAfterSegments;
   NFmiNameDay * itsNameDay;
   bool fChangeScandinavian;
