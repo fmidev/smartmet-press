@@ -752,7 +752,7 @@ bool NFmiPressProduct::PreProcessDefinition(const string& inFileName, const stri
 
 	NFmiPreProcessor prePr;
 	bool res, res2;
-	NFmiTime time;
+	NFmiTime tim;
  
 	string includePath(itsHomePath);
 	includePath += kFmiDirectorySeparator;
@@ -782,7 +782,7 @@ bool NFmiPressProduct::PreProcessDefinition(const string& inFileName, const stri
 	}
 
 /*
-	//bool isWinterTime= time.GetZoneDifferenceHour() == -2; 
+	//bool isWinterTime= tim.GetZoneDifferenceHour() == -2; 
 	res = prePr.SetConditionalStripping(seasonsStatus.wintertime, "#ifWinterTime", "#ifNotWinterTime", "#endif", "#else");
 
 
@@ -814,8 +814,8 @@ bool NFmiPressProduct::PreProcessDefinition(const string& inFileName, const stri
 	bool weekdayActive = WeekdayDirectiveActive(prePr.GetString(),seasonsStatus); 
 	for (int day = 1; day <= 7; day++)
 	{
-		isTheDay = time.GetWeekday() == seasonsStatus.weekday;
-		string weekday(time.Weekday(kEnglish));
+		isTheDay = tim.GetWeekday() == seasonsStatus.weekday;
+		string weekday(tim.Weekday(kEnglish));
 		string ifDir = "#if" + weekday;
 		string ifNotDir = "#ifNot" + weekday;
 		string elseDir = "#" + weekday + "Else";
@@ -832,7 +832,7 @@ bool NFmiPressProduct::PreProcessDefinition(const string& inFileName, const stri
 			*itsLogFile << "*** ERROR: Preprocessing failed" << endl;
 			return false;
 		}
-		time.ChangeByDays(1);
+		tim.ChangeByDays(1);
 		//isToday = false;
 	}
 
@@ -850,39 +850,39 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
  // unsigned char inBuf[lineSize];
   char inBuf[lineSize]; //27.8.01
 //  short comLevel = 0;
-  NFmiString string, file;
+  NFmiString str, file;
   NFmiString incString = NFmiString("#Include");
   NFmiString liitaString = NFmiString("#Liitä");
 
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
 	  short num = inFile.gcount();
-	  string.Set((unsigned char*)inBuf, num);
-//     unsigned short nStar = string.Search( NFmiString("*"));
+	  str.Set((unsigned char*)inBuf, num);
+//     unsigned short nStar = str.Search( NFmiString("*"));
 //	  if(nStar > 0)
 //	  {
-//		  NFmiString testS = string.GetCharsPtr(nStar+1,1);
-//		  if(string.GetCharsPtr(nStar+1,1) == NFmiString("/"))
+//		  NFmiString testS = str.GetCharsPtr(nStar+1,1);
+//		  if(str.GetCharsPtr(nStar+1,1) == NFmiString("/"))
 //			  *itsLogFile << "*/ " << endl;
 //	  }
   
-	  unsigned short nRisu = (unsigned short)string.Search( NFmiString("#"));//21.1 jotta löytyisi
+	  unsigned short nRisu = (unsigned short)str.Search( NFmiString("#"));//21.1 jotta löytyisi
 /*	                                                       // tabinkin takaa
 	  if(nRisu>0)               // TÄSTÄ OLISI TARKOITUS KEHITTÄÄ MÄÄRITTELYTIEDOSTON PARAMETRISOINTI
 	  {
-		  if(string.Search(NFmiString("##PAR")))
+		  if(str.Search(NFmiString("##PAR")))
 		  {
-			  if(!ReplacePar(string))
+			  if(!ReplacePar(str))
 			  {
 				  return false;
 			  }
 		  }
 
-		if(string.Search(NFmiString("#PAR")))    //080399 ##PARit yllä poistettu
+		if(str.Search(NFmiString("#PAR")))    //080399 ##PARit yllä poistettu
 		{
-			if(string.Search(NFmiString("##"))) //määrittely
+			if(str.Search(NFmiString("##"))) //määrittely
 			{
-				if(!DefinePar(string))
+				if(!DefinePar(str))
 				{
 //				  *itsLogFile << "*** ERROR: PARin asetus ei onnistunut" << endl;
 //				  *itsLogFile << "       keskeytetään" << endl;
@@ -891,13 +891,13 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
 			}
 		}
 		*/
-		if((nRisu>0 && num-nRisu > 8) && (string.GetChars(nRisu,8) == incString //Huom string-bugi
-		             || string.GetChars(nRisu,6) == liitaString)) //7.1
+		if((nRisu>0 && num-nRisu > 8) && (str.GetChars(nRisu,8) == incString //Huom string-bugi
+		             || str.GetChars(nRisu,6) == liitaString)) //7.1
 		  {
-			  if(string.GetChars(nRisu,8) == incString)   //8.1
-				 file = string.GetChars(nRisu+9,num-9 -nRisu); //vois toki tehdä alykkäämmin
+			  if(str.GetChars(nRisu,8) == incString)   //8.1
+				 file = str.GetChars(nRisu+9,num-9 -nRisu); //vois toki tehdä alykkäämmin
 			  else
-				 file = string.GetChars(nRisu+7,num-7-nRisu);
+				 file = str.GetChars(nRisu+7,num-7-nRisu);
 
 			  file.TrimR(' ');      //12.1
 
@@ -1033,8 +1033,8 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    itsLogFileName = logFileName;   //21.3.00 jotta voidaan sulkea/avata jatkossa
 //   itsLogFile->open(logFileName, ios::out|ios::ate);  
    itsLogFile->open(logFileName, ios::out|ios::app); //3.9.01, edellinen aloitti alusta
-   NFmiTime time;
-   *itsLogFile << endl << "** Loki avattu " << time << " **" << endl;
+   NFmiTime tim;
+   *itsLogFile << endl << "** Loki avattu " << tim << " **" << endl;
 
    NFmiString retString;
    NFmiString origInputFileName = inputFile;
@@ -1117,27 +1117,27 @@ bool NFmiPressProduct::ReadData()
 
 	
    char* hChar;
-   NFmiHyphenationString string; 
+   NFmiHyphenationString str; 
    hChar = getenv("lehtiDataDir");
    if(hChar == 0)
    {
 
-		string = GetHome();
+		str = GetHome();
 //Mikan vaihdos
-		string += kFmiDirectorySeparator;
-       string += NFmiString("Data");
-//       string += NFmiString("\\Data");
+		str += kFmiDirectorySeparator;
+       str += NFmiString("Data");
+//       str += NFmiString("\\Data");
    }
    else
-	   string = hChar;
+	   str = hChar;
 
-	*itsLogFile << "  datahakemistot: " << (char*)string << endl;	 
+	*itsLogFile << "  datahakemistot: " << (char*)str << endl;	 
 
    NFmiString dataPath, dataPath2;  //5.50.99 kaksi datahakemistoa, luupituksella voisi ottaa useampiakin
-   string.NextSubString(NFmiString(";"),dataPath);
+   str.NextSubString(NFmiString(";"),dataPath);
    bool secondDir = false;
    bool twoOptinalTypes = true; //6.8.01
-   if(string.NextSubString(NFmiString(";"),dataPath2))
+   if(str.NextSubString(NFmiString(";"),dataPath2))
 		secondDir = true;
 
 
@@ -1678,9 +1678,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 				{
 					if(ReadLong(long3))
 					{    //menis ehkä suoremmin mutta tämä on yhteensopivaa vanhan koodin kanssa
-						NFmiTime time = NFmiTime((short)long3, (short)long2, (short)long1);
+						NFmiTime tim = NFmiTime((short)long3, (short)long2, (short)long1);
 						NFmiTime thisDay;
-						firstDeltaDays = time.DifferenceInDays(thisDay);
+						firstDeltaDays = tim.DifferenceInDays(thisDay);
         				itsFirstPlotTime.ChangeByDays(firstDeltaDays-origFirstDeltaDays); 
 					}
 				}
@@ -2702,7 +2702,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	}
 
 //	outFile.close(); //24.10.00 pois metafileltä
-	NFmiTime time;           
+	NFmiTime tim;           
 
 	if(UseFromStorage(1,false) != kFloatMissing)  //4.10.01	
  	   *itsLogFile << "WARNING: Unused values in storage queue 1"  << endl;
@@ -2710,8 +2710,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
  	   *itsLogFile << "WARNING: Unused values in storage queue 2"  << endl;
 	
     if(itsLogFile)
- 	   *itsLogFile << "** " << (char*)itsOutFileName << " tehty "  << time << endl; //25.3.02
-// 	   *itsLogFile << "** Tuote tehty "  << time << endl; 
+ 	   *itsLogFile << "** " << (char*)itsOutFileName << " tehty "  << tim << endl; //25.3.02
+// 	   *itsLogFile << "** Tuote tehty "  << tim << endl; 
 
 	return true;
 }
@@ -2727,8 +2727,8 @@ bool NFmiPressProduct::WriteMetaInit(void)// const
 
 			//tästä se lähtee
 			outFile << "# Lehtisääohjelmalla tehtyä ImageMagick-ohjauskieltä" << endl;
-			NFmiTime time;
-			outFile << "# " << time << endl << endl;
+			NFmiTime tim;
+			outFile << "# " << tim << endl << endl;
 
 			outFile << "Define TuuliNuoli" << endl;
 			outFile << "Draw primitive=>polygon points=>\"7,7 0,20 -7,7\" stroke=>black fill=>$fill linewidth=>1.5 translate=>\"$x,$y\" rotate=>$rotate"  << endl;
@@ -2876,21 +2876,21 @@ bool NFmiPressProduct::Close()
 bool NFmiPressProduct::ConstructOutFileName() 
 {
 	char* hChar;
-	NFmiString string;  
+	NFmiString str;  
 
 	hChar = getenv("lehtiOutDir");
 	if(hChar == 0)
 	{
-	   string = GetHome();            
+	   str = GetHome();            
 //Mikan vaihdos
-	   string += kFmiDirectorySeparator;
-	   string += "Valmiit";
-//	   string += NFmiString("\\Valmiit");
+	   str += kFmiDirectorySeparator;
+	   str += "Valmiit";
+//	   str += NFmiString("\\Valmiit");
 	}
 	else
-	   string = hChar;
+	   str = hChar;
 
-	itsOutFile = string;
+	itsOutFile = str;
 	itsOutFile += NFmiString("/");
 
 	NFmiString name;
@@ -3019,12 +3019,12 @@ bool NFmiPressProduct::ConstructOutFileName()
 			else if(lowerString == NFmiString("analyysiaika") ||
 				    lowerString == NFmiString("analyysiaikautc"))  //5.6.02
 			{
-				NFmiPressTime time = ((NFmiMetTime)(FirstData()->OriginTime())); 
+				NFmiPressTime tim = ((NFmiMetTime)(FirstData()->OriginTime())); 
 
 				if(timeFormat.IsValue())    
-					addString = time.InterpretToStr(timeFormat);
+					addString = tim.InterpretToStr(timeFormat);
 				else
-					addString = time.ToStr(itsNameTimeFormat);
+					addString = tim.ToStr(itsNameTimeFormat);
 				
 				timeFormat = itsSecondStringNameTimeFormat; //27.10.00
 
