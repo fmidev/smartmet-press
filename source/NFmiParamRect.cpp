@@ -100,10 +100,10 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsIdentPar(theRect.itsIdentPar)
   , itsRandomInterval(theRect.itsRandomInterval)
   , fRandomModifying(theRect.fRandomModifying)
-  , itsDataIdent(theRect.itsDataIdent)
   , itsEquiDistance(theRect.itsEquiDistance)
   , itsEquiDistanceHalfInterval(theRect.itsEquiDistanceHalfInterval)
   , fMarkingValue(theRect.fMarkingValue)
+  , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
