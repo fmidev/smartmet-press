@@ -23,6 +23,8 @@
 #include "NFmiPreProcessor.h"
 #include "NFmiSettings.h"
 
+#include <cstdlib>
+
 using namespace std;
 
 int main(int argc, const char ** argv)
