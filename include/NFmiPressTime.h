@@ -58,10 +58,16 @@ public:
 
   NFmiPressTime(void);
   NFmiPressTime(const NFmiTime & theTime);
- 
+
   using NFmiTime::ToStr;
+ 
+  NFmiString ToStr(const unsigned long theTimeMask) const
+  {
+	return ToStr(theTimeMask,kFinnish);
+  }
+
   NFmiString ToStr(const unsigned long theTimeMask,
-				   const FmiLanguage theLanguage=kFinnish) const;
+				   const FmiLanguage theLanguage) const;
 
   //koodattu myös emoon ToStr-nimellä vähän kehitettynä
   NFmiString InterpretToStr(const NFmiString theTimeCode,
