@@ -1134,6 +1134,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  switch(itsModifier)
 		{
 		case kMinimum:
+		  modif = new NFmiDataModifierMin;
 		  isExtremeModifier = true;
 		  break;
 		case kMaximum:

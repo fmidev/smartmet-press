@@ -85,7 +85,265 @@ public:
   //
   // HUOM! Voi olla, ett‰ m‰‰ritelmien edess‰ luokan ulkopuolella
   // pit‰isi olla inline, selvinnee myˆhemmin linkatessa p‰‰ohjelma.
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retValue Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+template <class Type>
+bool ReadOne(Type & retValue)
+{
+  *itsDescriptionFile >> itsObject;
+  itsValueHelpString = itsObject;
+  if(itsValueHelpString.IsNumeric())
+	{
+	  // valueStringill‰ tulisi olla cast longiin ja uns.longiin
+	  retValue = static_cast<Type>(static_cast<double>(itsValueHelpString));
+	  return isTrue;
+	}
+  retValue = 0;
+  *itsLogFile << "ERROR: pit‰‰ olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
+  return isFalse;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retValue1 Undocumented
+ *†\param retValue2 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2>
+bool ReadTwo(Type1 & retValue1, Type2 & retValue2)
+{
+  if((ReadOne(retValue1)) && ReadOne(retValue2))
+	{
+	  return true;
+	}
+  return false;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theMember Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type>
+bool SetOne(Type & theMember)
+{
+  bool ok = false;
+  Type num;
+  if(ReadEqualChar())
+	{
+	  if(ReadOne(num))
+		{
+		  theMember = num;
+		  ok = true;
+		}
+	  ReadNext(); //ep‰onnistuneessa ReadEqualChar:ssa on jo
+	}
+  return ok;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theMember1 Undocumented
+ * \param theMember2 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2>
+bool SetTwo(Type1 & theMember1,
+							 Type2 & theMember2)
+{
+  bool ok = false;
+  if (ReadEqualChar())
+	{
+	  Type1 num1;
+	  Type2 num2;
+	  // ei suoraan parametriin koska saatetaan lukea roskaa
+	  // ja parametriss‰ on ennest‰‰n j‰rkev‰ oletusarvo
+	  if(ReadTwo(num1, num2))
+		{
+		  theMember1 = num1;
+		  theMember2 = num2;
+		  ok = true;
+		}
+	  ReadNext();
+	}
+  return ok;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theMember1 Undocumented
+ * \param theMember2 Undocumented
+ * \param theMember3 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2, class Type3>
+bool SetThree(Type1 & theMember1,
+							   Type2 & theMember2,
+							   Type3 & theMember3)
+{
+  bool ok = false;
+  if (ReadEqualChar())
+	{
+	  Type1 num1;
+	  Type2 num2;
+	  Type3 num3;
+	  if(ReadTwo(num1, num2) && ReadOne(num3)) 					             
+		{
+		  theMember1 = num1;
+		  theMember2 = num2;
+		  theMember3 = num3;
+		  ok = true;
+		}
+	  ReadNext();
+	}
+  return ok;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theMember1 Undocumented
+ * \param theMember2 Undocumented
+ * \param theMember3 Undocumented
+ * \param theMember4 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2, class Type3, class Type4>
+bool SetFour(Type1 & theMember1,
+							  Type2 & theMember2,
+							  Type3 & theMember3,
+							  Type4 & theMember4)
+{
+  bool ok = false;
+  if (ReadEqualChar())
+	{
+	  Type1 num1;
+	  Type2 num2;
+	  Type3 num3;
+	  Type4 num4;
+	  if(ReadTwo(num1, num2) && ReadTwo(num3, num4)) 					             
+		{
+		  theMember1 = num1;
+		  theMember2 = num2;
+		  theMember3 = num3;
+		  theMember4 = num4;
+		  ok = true;
+		}
+	  ReadNext();
+	}
+  return ok;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theMember1 Undocumented
+ * \param theMember2 Undocumented
+ * \param theMember3 Undocumented
+ * \param theMember4 Undocumented
+ * \param theMember5 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2, class Type3, class Type4, class Type5>
+bool SetFive(Type1 & theMember1,
+							  Type2 & theMember2,
+							  Type3 & theMember3,
+							  Type4 & theMember4,
+							  Type5 & theMember5)
+{
+  bool ok = false;
+  if (ReadEqualChar())
+	{
+	  Type1 num1;
+	  Type2 num2;
+	  Type3 num3;
+	  Type4 num4;
+	  Type5 num5;
+	  if(ReadTwo(num1, num2) && ReadTwo(num3, num4) && ReadOne(num5)) 					             
+		{
+		  theMember1 = num1;
+		  theMember2 = num2;
+		  theMember3 = num3;
+		  theMember4 = num4;
+		  theMember5 = num5;
+		  ok = true;
+		}
+	  ReadNext();
+	}
+  return ok;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theMember1 Undocumented
+ * \param theMember2 Undocumented
+ * \param theMember3 Undocumented
+ * \param theMember4 Undocumented
+ * \param theMember5 Undocumented
+ * \param theMember6 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2, class Type3, class Type4, class Type5, class Type6>
+bool SetSix(Type1 & theMember1, Type2 & theMember2,
+							 Type3 & theMember3, Type4 & theMember4,
+							 Type5 & theMember5, Type6 & theMember6)
+{
+  bool ok = false;
+  if (ReadEqualChar())
+	{
+	  Type1 num1;
+	  Type2 num2;
+	  Type3 num3;
+	  Type4 num4;
+	  Type5 num5;
+	  Type6 num6;
+	  if(ReadTwo(num1, num2) && ReadTwo(num3, num4) && ReadTwo(num5, num6)) 					             
+		{
+		  theMember1 = num1;
+		  theMember2 = num2;
+		  theMember3 = num3;
+		  theMember4 = num4;
+		  theMember5 = num5;
+		  theMember6 = num6;
+		  ok = true;
+		}
+	  ReadNext();
+	}
+  return ok;
+}
+/*
   template<class Type>
   bool ReadOne(Type & retValue);
 
@@ -113,7 +371,7 @@ public:
   bool SetSix (Type1 & theMember1, Type2 & theMember2,
 			   Type3 & theMember3, Type4 & theMember4,
 			   Type5 & theMember5, Type6 & theMember6);
-
+*/
 protected:
 
   std::ofstream * itsLogFile;       
@@ -264,265 +522,6 @@ unsigned long NFmiDescription::ClassId(void)
   return kNFmiNone;
 }
 
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param retValue Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type>
-bool NFmiDescription::ReadOne(Type & retValue)
-{
-  *itsDescriptionFile >> itsObject;
-  itsValueHelpString = itsObject;
-  if(itsValueHelpString.IsNumeric())
-	{
-	  // valueStringill‰ tulisi olla cast longiin ja uns.longiin
-	  retValue = static_cast<Type>(static_cast<double>(itsValueHelpString));
-	  return isTrue;
-	}
-  retValue = 0;
-  *itsLogFile << "ERROR: pit‰‰ olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
-  return isFalse;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param retValue1 Undocumented
- *†\param retValue2 Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type1, class Type2>
-bool NFmiDescription::ReadTwo(Type1 & retValue1, Type2 & retValue2)
-{
-  if((ReadOne(retValue1)) && ReadOne(retValue2))
-	{
-	  return true;
-	}
-  return false;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theMember Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type>
-bool NFmiDescription::SetOne(Type & theMember)
-{
-  bool ok = false;
-  Type num;
-  if(ReadEqualChar())
-	{
-	  if(ReadOne(num))
-		{
-		  theMember = num;
-		  ok = true;
-		}
-	  ReadNext(); //ep‰onnistuneessa ReadEqualChar:ssa on jo
-	}
-  return ok;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theMember1 Undocumented
- * \param theMember2 Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type1, class Type2>
-bool NFmiDescription::SetTwo(Type1 & theMember1,
-							 Type2 & theMember2)
-{
-  bool ok = false;
-  if (ReadEqualChar())
-	{
-	  Type1 num1;
-	  Type2 num2;
-	  // ei suoraan parametriin koska saatetaan lukea roskaa
-	  // ja parametriss‰ on ennest‰‰n j‰rkev‰ oletusarvo
-	  if(ReadTwo(num1, num2))
-		{
-		  theMember1 = num1;
-		  theMember2 = num2;
-		  ok = true;
-		}
-	  ReadNext();
-	}
-  return ok;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theMember1 Undocumented
- * \param theMember2 Undocumented
- * \param theMember3 Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type1, class Type2, class Type3>
-bool NFmiDescription::SetThree(Type1 & theMember1,
-							   Type2 & theMember2,
-							   Type3 & theMember3)
-{
-  bool ok = false;
-  if (ReadEqualChar())
-	{
-	  Type1 num1;
-	  Type2 num2;
-	  Type3 num3;
-	  if(ReadTwo(num1, num2) && ReadOne(num3)) 					             
-		{
-		  theMember1 = num1;
-		  theMember2 = num2;
-		  theMember3 = num3;
-		  ok = true;
-		}
-	  ReadNext();
-	}
-  return ok;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theMember1 Undocumented
- * \param theMember2 Undocumented
- * \param theMember3 Undocumented
- * \param theMember4 Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type1, class Type2, class Type3, class Type4>
-bool NFmiDescription::SetFour(Type1 & theMember1,
-							  Type2 & theMember2,
-							  Type3 & theMember3,
-							  Type4 & theMember4)
-{
-  bool ok = false;
-  if (ReadEqualChar())
-	{
-	  Type1 num1;
-	  Type2 num2;
-	  Type3 num3;
-	  Type4 num4;
-	  if(ReadTwo(num1, num2) && ReadTwo(num3, num4)) 					             
-		{
-		  theMember1 = num1;
-		  theMember2 = num2;
-		  theMember3 = num3;
-		  theMember4 = num4;
-		  ok = true;
-		}
-	  ReadNext();
-	}
-  return ok;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theMember1 Undocumented
- * \param theMember2 Undocumented
- * \param theMember3 Undocumented
- * \param theMember4 Undocumented
- * \param theMember5 Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type1, class Type2, class Type3, class Type4, class Type5>
-bool NFmiDescription::SetFive(Type1 & theMember1,
-							  Type2 & theMember2,
-							  Type3 & theMember3,
-							  Type4 & theMember4,
-							  Type5 & theMember5)
-{
-  bool ok = false;
-  if (ReadEqualChar())
-	{
-	  Type1 num1;
-	  Type2 num2;
-	  Type3 num3;
-	  Type4 num4;
-	  Type5 num5;
-	  if(ReadTwo(num1, num2) && ReadTwo(num3, num4) && ReadOne(num5)) 					             
-		{
-		  theMember1 = num1;
-		  theMember2 = num2;
-		  theMember3 = num3;
-		  theMember4 = num4;
-		  theMember5 = num5;
-		  ok = true;
-		}
-	  ReadNext();
-	}
-  return ok;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theMember1 Undocumented
- * \param theMember2 Undocumented
- * \param theMember3 Undocumented
- * \param theMember4 Undocumented
- * \param theMember5 Undocumented
- * \param theMember6 Undocumented
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-template <class Type1, class Type2, class Type3, class Type4, class Type5, class Type6>
-bool NFmiDescription::SetSix(Type1 & theMember1, Type2 & theMember2,
-							 Type3 & theMember3, Type4 & theMember4,
-							 Type5 & theMember5, Type6 & theMember6)
-{
-  bool ok = false;
-  if (ReadEqualChar())
-	{
-	  Type1 num1;
-	  Type2 num2;
-	  Type3 num3;
-	  Type4 num4;
-	  Type5 num5;
-	  Type6 num6;
-	  if(ReadTwo(num1, num2) && ReadTwo(num3, num4) && ReadTwo(num5, num6)) 					             
-		{
-		  theMember1 = num1;
-		  theMember2 = num2;
-		  theMember3 = num3;
-		  theMember4 = num4;
-		  theMember5 = num5;
-		  theMember6 = num6;
-		  ok = true;
-		}
-	  ReadNext();
-	}
-  return ok;
-}
 
 #endif // NFMIDESCRIPTION_H
 

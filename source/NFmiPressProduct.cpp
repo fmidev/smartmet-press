@@ -1059,6 +1059,51 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   else
 	   fmiString = hChar;
 
+/* Mika siirsi t‰m‰n alas lohkon sis‰‰n */
+//  <<<<<<< NFmiPressProduct.cpp
+   
+   NFmiString logFileName = fmiString;
+   logFileName += kFmiDirectorySeparator;
+   logFileName += NFmiString("lehti.log");
+   itsLogFileName = logFileName;   //jotta voidaan sulkea/avata jatkossa
+//   itsLogFile->open(logFileName, ios::out|ios::ate);  
+   itsLogFile->open(logFileName, ios::out|ios::app); // edellinen aloitti alusta
+   NFmiTime time;
+   *itsLogFile << endl << "** Loki avattu " << time << " **" << endl;
+//*******
+   NFmiString retString;
+   NFmiString origInputFileName = inputFile;
+   NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
+   itsInFileName = inputFileName.Header(); //27.8.02 skriptist‰ kun kutsutaan tulee muuten koko polku
+
+   NFmiFileString tempInput;
+		   tempInput = GetHome();
+		   tempInput += kFmiDirectorySeparator;
+		   tempInput += NFmiString("Temp");
+		   tempInput += kFmiDirectorySeparator;
+
+   NFmiString inputOnlyFile = inputFileName.FileName();
+
+   tempInput += inputFileName.FileName();  
+   tempInput += NFmiString("pss");
+   
+   itsOutFileName = inputOnlyFile;  
+
+   inputFileName += NFmiString("pss");
+ 
+   NFmiString writeString = inputFileName.Header();
+   *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
+   *itsLogFile << "program version = 6.11.2002" << endl;       
+   *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
+
+   string inputStdName(origInputFileName);
+   string outputStdName(tempInput);
+
+   if(!PreProcessDefinition(inputStdName, outputStdName))
+   {
+  
+/* ja t‰nne Mika siirsi 9.2002 */
+/*
   NFmiString logFileName = fmiString;
   logFileName += kFmiDirectorySeparator;
   logFileName += NFmiString("lehti.log");
@@ -1067,7 +1112,8 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   itsLogFile->open(logFileName, ios::out|ios::app); // edellinen aloitti alusta
   NFmiTime tim;
   *itsLogFile << endl << "** Loki avattu " << tim << " **" << endl;
-
+*/
+  /*
   NFmiString retString;
   NFmiString origInputFileName = inputFile;
   NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
@@ -1093,11 +1139,9 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
   *itsLogFile << "program version = 23.9.2002" << endl;
   *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
+*/
+// Mika >>>>>>> 1.9
 
-  string inputStdName(origInputFileName);
-  string outputStdName(tempInput);
-  if(!PreProcessDefinition(inputStdName, outputStdName))
-	{
 	  *itsLogFile << "***ERROR: interrupted, see above" << endl;
 	  return false;
 	}
