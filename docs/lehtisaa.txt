@@ -12,15 +12,23 @@
   -# \ref sec_poikkeusaika
   -# \ref sec_lehtikaipaa
   -# \ref sec_poikkeavaennakko
+  -# \ref sec_poikkeavaviikonpaiva
+  -# \ref sec_virhemaili
 -# \ref sec_ratkaisut
+  -# \ref sec_yleistavikaa
   -# \ref sec_yksiautotuote
   -# \ref sec_kaikkiautotuotteet
   -# \ref sec_manuaalituotteenteko 
   -# \ref sec_manuaalituotteenlahetys
   -# \ref sec_automatiikansiirto
-  -# \ref sec_distillerkaynnistys 
+  -# \ref sec_distillerkaynnistys
+  -# \ref sec_tekstienhaku 
+  -# \ref sec_siitepolyhaku 
   -# \ref sec_manennakkomuutos 
   -# \ref sec_autoennakkomuutos 
+  -# \ref sec_viikonpaivamuutos
+  -# \ref sec_pohjamuutos
+  -# \ref sec_symbolimuutos
 
 \section sec_yleista Yleist‰
  
@@ -62,20 +70,30 @@ Jos on kyseess‰ automaattituote (tarkista <a href="docs/Lehtimuistio.xls"> lehti
 
 \subsection sec_poikkeavaennakko Tuotteen tekop‰iv‰n ja ilmestymisp‰iv‰n ero poikkeava
 
-Yleens‰ lehtiohjelma tekee tuotteet niin ett‰ s‰‰ alkaa tekop‰iv‰st‰ seuraavana p‰iv‰n‰ eli lehden ilmestymisp‰iv‰n‰ (ei tietysti havainnot), pieniss‰ lehdiss‰ usein vasta ylihuomisesta. Esim arkipyhien takia lehti voi toivoa ett‰ tuote tehd‰‰n aikaisemmin vaikka ilmestyy entisen‰ p‰iv‰n‰ ja s‰‰n pit‰isi myˆs silloin alkaa ilmestymisp‰iv‰st‰. Koska lehtiohjelma operoi aikaerojen kanssa pit‰‰ se muuttaa m‰‰rittelyss‰. Ei kuitenkaan tarvitse koskea itse m‰‰rittelytiedostoon vaan asia kerrotaan erityisess‰ ohjaustiedostossa: LehtiAuto/Muut/KausiTilanne.txt, joka saa lehtiohjelman lis‰‰m‰‰n/v‰hent‰m‰‰n aikaeroihin toivotun m‰‰r‰n p‰ivi‰ (esim +2 -> ma:na piirretty tuote, joka aikaisemmin teki tiistain tekee nyt torstain). Tiedosto on vain voimassa omassa koneessaan ja koskee kaikkia tuotteita, joten se pit‰‰ muuttaa takaisin kun kyseinen lehti on ajettu. L‰mpˆvyˆhykkeisiin ja muihin valmisosiin t‰m‰ ei vaikuta, joten ei sovi monimutkaisempiin tuotteisiin (tai sitten n‰m‰ osat voi manuaalisesti vaihtaa valmiista tuotteesta). Myˆs, jos on pitki‰ ennusteita mukana, viimeiset p‰iv‰t voivat j‰‰d‰ tyhjiksi kun editoridata ei ulotu loppup‰iviksi. Automaattituotteissa asian voi hoitaa ohjelman kutsulla skriptiss‰ ja taas ennallistaa lehden j‰lkeen. Toimenpiteet ovat, jos kyseess‰ on manuaalilehti \ref sec_manennakkomuutos , jos automaattilehti \ref sec_autoennakkomuutos 
+Yleens‰ lehtiohjelma tekee tuotteet niin ett‰ s‰‰ alkaa tekop‰iv‰st‰ seuraavana p‰iv‰n‰ eli lehden ilmestymisp‰iv‰n‰ (ei tietysti havainnot), pieniss‰ lehdiss‰ usein vasta ylihuomisesta. Esim arkipyhien takia lehti voi toivoa ett‰ tuote tehd‰‰n aikaisemmin vaikka ilmestyy entisen‰ p‰iv‰n‰ ja s‰‰n pit‰isi myˆs silloin alkaa ilmestymisp‰iv‰st‰. Koska lehtiohjelma operoi aikaerojen kanssa pit‰‰ se muuttaa m‰‰rittelyss‰. Ei kuitenkaan tarvitse koskea itse m‰‰rittelytiedostoon vaan asia kerrotaan erityisess‰ ohjaustiedostossa: LehtiAuto/Muut/KausiTilanne.txt, joka saa lehtiohjelman lis‰‰m‰‰n/v‰hent‰m‰‰n aikaeroihin toivotun m‰‰r‰n p‰ivi‰ (esim +2 -> ma:na piirretty tuote, joka aikaisemmin teki tiistain tekee nyt torstain). Tiedosto on vain voimassa omassa koneessaan ja koskee kaikkia tuotteita, joten se pit‰‰ muuttaa takaisin kun kyseinen lehti on ajettu. L‰mpˆvyˆhykkeisiin ja muihin valmisosiin t‰m‰ ei vaikuta, joten ei sovi monimutkaisempiin tuotteisiin (tai sitten n‰m‰ osat voi manuaalisesti vaihtaa valmiista tuotteesta). Myˆs, jos on pitki‰ ennusteita mukana, viimeiset p‰iv‰t voivat j‰‰d‰ tyhjiksi kun editoridata ei ulotu loppup‰iville. Automaattituotteissa asian voi hoitaa erityisohjelman kutsulla Automaatti-skriptiss‰ ja taas ennallistaa lehden j‰lkeen. Toimenpiteet ovat, jos kyseess‰ on manuaalilehti \ref sec_manennakkomuutos , jos automaattilehti \ref sec_autoennakkomuutos 
 
-\subsection sec_poikkeavaviikonpaiva Tuote tehd‰‰n kuin jonain toisena p‰iv‰n‰
+\subsection sec_poikkeavaviikonpaiva Tuote tehd‰‰n kuten jonain toisena p‰iv‰n‰
 
 Monet lehdet tehd‰‰n eri viikonp‰ivin‰ eri tavalla (lumi/siitepˆlykartta, eri layout, eri ennustepituudet). Lehtiohjelmaa voi huijata ett‰ on eri p‰iv‰ kuin oikeasti. T‰m‰kin muutos tehd‰‰n LehtiAuto/Muut/KausiTilanne.txt -tiedoston kautta, ks \ref sec_poikkeavaennakko . Eli jos maanantaina halutaan ett‰ tuote n‰ytt‰‰ silt‰ kuin tiistaina tehtyn‰ laitetaan kausitilanteeseen Viikonp‰iv‰ TI. Viikonp‰iv‰ on siis tekop‰iv‰ eik‰ lehden ilmestymisp‰iv‰. 
 
+\subsection sec_virhemaili Automatiikka l‰hett‰‰ virhepostia
+
+Jos automatiikka ei saa tehty‰ tuotetta (eps-tiedostoa) lehtiohjelmalla tai pdf-versio ei lˆydy kun maili/ftp-siirto pit‰‰ suorittaa siit‰ tulee virhemaili Lasselle (myˆs kotipostilaatikkoon jota en seuraa), Raimolle ja apmeteor.pal:lle. Joka aamu (ei su) 8.20 tehd‰‰n testituote, joka n‰in h‰lytt‰‰ jos jokin on perusteellisesti pieless‰. Pienet puutteet, esim joku osa datasta puuttuu, ei viel‰ h‰lyt‰, vaan lehtiohjelman virhe edellytt‰‰ ett‰ koko m‰‰rittely‰ ei lˆydy tms. Syy jakeluh‰iriˆˆn voi olla Distiller-ohjelman pys‰htyminen, jolloin 2003:lla (tai jos varasysteemi on p‰‰ll‰, 2002:lla) pit‰‰ tehd‰ \ref sec_distillerkaynnistys. Muu syy voi sitten olla mik‰ tahansa.
+
 \section sec_ratkaisut Ongelmatilanteiden ratkaisuja
+
+\subsection sec_yleistavikaa Lehtituotteet viallisia
+- avaa LehtiAuto/Loki/lehti.log -tiedosto
+- mene loppup‰‰h‰n ja etsi kohta miss‰ kyseinen lehti alkaa (Notepadilla Search/Find ja nimi)
+- katso onko ***ERROR -ilmoituksia, kaikki periaatteessa vakavia virheit‰ ja yritt‰v‰t selitt‰‰ mist‰ kysymys
+- jos ei ERROR:eita muutkin ilmoitukset voivat antaa vinkkej‰, WARNING on usein ilmoitus puuttuvista datoista, joita havainnoissa tosin s‰‰nnˆllisesti
 
 \subsection sec_muutosautomaattiaikatauluun Muutos automaattiaikatauluun
 
 - Mene apmet2003-koneelle 
 - Avaa vaikka Notepadilla LehtiAuto/Bat/Automaatti.bat
-- Jos muutos tehd‰‰n viikonp‰iv‰‰n lis‰t‰‰n tai poistetaan X oikean p‰iv‰n sarakkeesta ao lehden rivilt‰
-- Jos muutos tulee kellonaikaan laitetaan toivottu tunti (ajetaan 20 yli) toiseen aikasarakkeeseen (2.h); ensimm‰iseen voi laittaa kaksi tuntia aikaisemman ajan, joka toimii vara-ajona jos jokin ei toimi ennen deadlinea
+- Jos muutos tehd‰‰n viikonp‰iv‰‰n lis‰‰ tai poista X oikean p‰iv‰n sarakkeesta ao lehden rivilt‰
+- Jos muutos tulee kellonaikaan laita toivottu tunti (ajetaan 20 yli) toiseen aikasarakkeeseen (2.h); ensimm‰iseen voit laittaa kaksi tuntia aikaisemman ajan, joka toimii vara-ajona jos jokin ei toimi deadline-hetken‰
 - Jos muutos tulee mailiosoitteeseen kirjoita uusi vanhan tilalle 
 - Jos maili otetaan uudeksi l‰hetystavaksi kirjoita maili-osoite none-sanan tilalle ja mailisarakkeisiin X(varsinainen l‰hetys), E(ennakko l‰hetys) tai V((ftp:n) varal‰hetys); kirjain vaikuttaa mailitekstiin ja aiheeseen
 - Jos maili poistetaan l‰hetystapana laita molempiin mailisarakkeisiin -
@@ -88,13 +106,15 @@ Huomaa automaatti-tiedostosta ett‰ parametrit viimeiseen viikonp‰iv‰‰n saakka pi
  - Mene apmet2003-koneelle (ei toimi apmet2002:lla), v‰lt‰ kuitenkin aikaa 20 yli tasatunnin koska voi menn‰ ristiin varsinaisen automaattiajon kanssa.
  - Valitse LehtiAuto/Tuotteet/Auto -kansiosta (LehtiAuto-ikoni tyˆpˆyd‰ll‰) kyseinen pre-tiedosto ja raahaa se tyˆpˆyd‰n TeeYksiAutoRaahaamalla-ikonin (oikella  kolmas ylh‰‰lt‰) p‰‰lle (jos ei automaattituote ei lˆydi t‰‰lt‰)
  - k‰ynnistyy DOS-ikkuna. Seuraa tuleeko virheilmoituksia (****-riveill‰ erotettu). Ajo seisoo v‰lill‰ minuutin ja lopussa vilisee paljon rivej‰.
- - DOS-ikkuna sulkeutuu kun tuote mennyt mailin‰ ja/tai ftp-palvelimelle, voit viel‰ tarkistaa C:/Pdf_pres/out -hakemistosta ett‰ kyseinen pdf on syntynyt ja ok (sen voi vaikka l‰hett‰‰ k‰sin uudestaan)
- - Seuraavan kerran 20 yli automaattiajon yhteydess‰ kaikki pdf:t siirret‰‰n Pdf_pres/Vanhat-haaraan, josta k‰ytett‰viss‰ 1 kuukauden ajan   
+ - DOS-ikkuna sulkeutuu kun tuote mennyt mailin‰ ja/tai ftp-palvelimelle, voit viel‰ tarkistaa C:/Pdf_pres/out -hakemistosta ett‰ kyseinen pdf on syntynyt vaikka avata sen sen voi vaikka l‰hett‰‰ k‰sin uudestaan)
+ - Seuraavan kerran 20 yli automaattiajon yhteydess‰ kaikki pdf:t siirret‰‰n Pdf_pres/Vanhat-haaraan, josta edelleen k‰ytett‰viss‰ 1 kuukauden ajan   
 
-\subsection sec_kaikkiautotuotteet Kaikkien automaattituotteiden teko
+\subsection sec_kaikkiautotuotteet Automatiikan ylim‰‰r‰inen ajo
 
 - Mene apmet2003-koneelle, v‰lt‰ kuitenkin aikaa 20 yli tasatunnin koska voi menn‰ ristiin varsinaisen automaattiajon kanssa.
-- K‰ynnist‰ Bat/TeeAutoTuotteet.bat joko klikkaamalla samannimist‰ ikonia tyˆpˆyd‰ll‰ (oikealla toinen ylh‰‰lt‰) tai suoraan itse tiedostoa
+- K‰ynnist‰ Bat/TeeAutoTuotteitaNyt.bat joko klikkaamalla samannimist‰ ikonia tyˆpˆyd‰ll‰ (oikealla toinen ylh‰‰lt‰) tai suoraan itse tiedostoa
+- Automatiikka tekee ne lehdet, joiden viikonp‰iv‰ ja tuntiarvo t‰sm‰‰v‰t
+T‰t‰ ei pid‰ k‰ytt‰‰ yksitt‰isen lehden tekoon, koska se voi k‰ynnist‰‰ muitakin lehti‰ turhaan. L‰hinn‰ tulee kyseeseen tilanteet, joissa normaali automatiikka ei ollenkaan ole toiminut.
 
 \subsection sec_manuaalituotteenteko Manuaalituotteen teko 
 
@@ -109,6 +129,8 @@ Huomaa automaatti-tiedostosta ett‰ parametrit viimeiseen viikonp‰iv‰‰n saakka pi
 - \ref sec_manuaalituotteenlahetys 
 
 \subsection sec_manuaalituotteenlahetys Manuaalituotteen l‰hetys
+
+Ei auta muu kuin katsoa lehtimuistiota ja apmetkujen (paperi)kansioita.
 
 \subsection sec_automatiikansiirto Automatiikan siirto apmet2002:lle
 
@@ -132,7 +154,13 @@ Huomaa automaatti-tiedostosta ett‰ parametrit viimeiseen viikonp‰iv‰‰n saakka pi
 - piilota ikkuna mutta ‰l‰ lopeta sovellusta kokonaan oikeasta yl‰kulmasta
 - Distillerin pit‰‰ n‰ky‰ alapalkissa (Acrobatin ikonilla)
 
-\subsection sec_manennakkomuutos
+\subsection sec_tekstienhaku Suomineito-tekstin haku
+- aja 2003:lla Bat/KopioEnnusteet.bat
+
+\subsection sec_siitepolyhaku Siitepolydatan haku
+- aja 2003:lla Bat/Siitepoly.bat
+
+\subsection sec_manennakkomuutos Teko- ja ilmestymisp‰iv‰n erotuksen muuttaminen manuaalituotteessa
 - avaa LehtiAuto/muut/kausiTilanne.txt (‰l‰ mielell‰‰n 2003:lla koska vaikuttaa myˆs automaattiajoihin)
 - rivilt‰ Ennakko muuta sana OLETUS +1:ksi tai muuksi halutuksi
 - j‰t‰ tiedosto auki jotta muistat muuttaa takaisin
@@ -140,19 +168,35 @@ Huomaa automaatti-tiedostosta ett‰ parametrit viimeiseen viikonp‰iv‰‰n saakka pi
 - muuta takaisin OLETUS-sana (kumallekin puolelle tyhj‰‰)
 - sulje tiedosto
 
-\subsection sec_autoennakkomuutos
+\subsection sec_autoennakkomuutos Teko- ja ilmestymisp‰iv‰n erotuksen muuttaminen automaattituotteessa
 - avaa Bat/Automaatti.bat
 - ennen kyseisen lehden rivi‰ lis‰‰ rivi: perl asetaEnnakko.pl +1 (tai muu ero) 
 - kyseisen lehden rivin j‰lkeen lis‰‰ rivi: perl asetaEnnakko.pl OLETUS (ks esim AutomaattiHelaT.bat)
 - muutettu aikaero huomioidaan kun lehti normaalin aikataulun puitteissa ajetaan
 - jos ei ole pysyv‰ ero muuta 
   
-\subsection sec_viikonpaivamuutos
+\subsection sec_viikonpaivamuutos Viikonp‰iv‰riippuvuuksien muuttaminen
 - avaa LehtiAuto/muut/kausiTilanne.txt (‰l‰ mielell‰‰n 2003:lla koska vaikuttaa myˆs automaattiajoihin)
 - rivilt‰ Viikonp‰iv‰ muuta sana OLETUS MA:ksi tai TI:ksi tai....
 - j‰t‰ tiedosto auki jotta muistat muuttaa takaisin
 - aja lehti (kunhan epstiedosto tehd‰‰n)
 - muuta takaisin OLETUS-sana (kumallekin puolelle tyhj‰‰)
 - sulje tiedosto
+
+\subsection sec_pohjanmuutos Karttapohjan muuttaminen
+- avaa LehtiAuto/Pohjat, yleens‰ ao pohja nimell‰ <lehti>Pohja.eps
+- kopio varmistukseksi vanha karttapohja vaikka Apmet2000:n LehtiAuto/Vanhat-kansioon
+- avaa pohja Illuun
+- tee muutokset
+- talleta takaisin Pohjat-kansioon (eps, 8, None, ei optioita)
+- kun todettu toimivaksi kopioi myˆs muihin koneisiin 
+
+\subsection sec_symbolimuutos S‰‰symbolin muuttaminen
+- mene LehtiAuto/Symbolit/ao.symbolisetti -kansioon
+- avaa kyseinen symboli Illuun
+- tee muutokset
+- talleta ai,8-muodossa samaan paikkaan
+- tuhoa kyseinen symboli (tai vaikka kaikki) LehtiAuto/LyhytSymbolit-kansiosta jotta ohjelma tekee uuden tiivistetyn version
+- kun todettu toimivaksi kopioi muihin koneisiin ja tuhoa se niiden LyhytSymbolit-kansiosta
 
 */
