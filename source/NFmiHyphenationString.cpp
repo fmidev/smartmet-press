@@ -170,12 +170,16 @@ bool NFmiHyphenationString::BackPosition(void)
   // return itsCurrentCharPos-- < 0;
   // aivan oikein Mika, mutta oleellista on nyt tuo -- eli sitten näin
   // (sitäpaitsi tuo < pitää olla päinvastoin (ei käytetä missään))
+  // Mika: Ei seuraavakaan toimi järkevästi, vaihdoin else-haaran
+  // return itsCurrentCharPos-- >= 0;
+
   if(itsCurrentCharPos == 0)
 	  return false;
   else
-	  return itsCurrentCharPos-- >= 0;
-
-  // return false;
+	{
+	  --itsCurrentCharPos;
+	  return true;
+	}
 }
 //---------------------------------------------------------------
 bool NFmiHyphenationString::NextPosition(void)
