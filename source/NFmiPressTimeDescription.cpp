@@ -194,13 +194,12 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString & object)
 bool NFmiPressTimeDescription::ActiveTimeIndex(int currentInd)const
 {   //halutessa olioita voidaan piirt‰‰ esim joka n:teen aika-askeleeseen
   // Mika: Kannattaisikohan laittaa sulkuja?
-	if(itsLoopActivity.startIndex < 1 || (currentInd-itsLoopActivity.startIndex)
-		      % itsLoopActivity.step == 0
-			  && currentInd >= itsLoopActivity.startIndex
-			  && currentInd <= itsLoopActivity.stopIndex
-//			  && itsPressParam->GetCurrentStep() <= itsLoopActivity.stopIndex
-	  ) return true;
-	return false;
+  if(itsLoopActivity.startIndex < 1 || (currentInd-itsLoopActivity.startIndex)
+	 % itsLoopActivity.step == 0
+	 && currentInd >= static_cast<int>(itsLoopActivity.startIndex)
+	 && currentInd <= static_cast<int>(itsLoopActivity.stopIndex)
+	 ) return true;
+  return false;
 }
 //8.2.01---------------------------------------------------------------------------
 NFmiMetTime NFmiPressTimeDescription::NextUseTime(long relHours, long hourRes, long hourDelta) 
