@@ -9,9 +9,12 @@
 -# \ref sec_automaatti
 -# \ref sec_ongelmat
   -# \ref sec_lehtikaipaa
+  -# \ref sec_poikkeavaennakko
 -# \ref sec_ratkaisut
   -# \ref sec_yksiautotuote
   -# \ref sec_kaikkiautotuotteet
+  -# \ref sec_manuaalituotteenteko 
+  -# \ref sec_manuaalituotteenlahetys
 
 \section sec_yleista Yleistä
  
@@ -23,15 +26,27 @@ Lehtisääohjelman kriittiset tiedostot sijaitsevat LehtiAuto-hakemistossa (C:/Pro
  
 höpö höpö  
 
-\section sec_ongelmat Ongelmat
+\section sec_ongelmat Ongelmatilanteet ja muut poikkeavuudet
 
-\subsection sec_lehtikaipaa Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä.
+\subsection sec_lehtikaipaa Lehti ilmoittaa hyvissä ajoin poikkeusaikataulusta
 
-Jos on kyseessä automaattituote (tarkista <A href="http=://weather.weatherproof.fi/data/local/src/c++/lib/press/docs/Lehtimuistio.xls">lehtimuistiosta</A>) suorita \ref sec_yksiautotuote . Jollei ole automaattituote mutta apumetkut tehneet tuotteen aikaisemmin sen voi lähettää uudelleen, varmimmin mailitse (ks /ref manuaalituotteenlahetys ), koska ftp-häiriö on saattanut sotkea normaalilähetyksen. Manuaalituotteiden teko aikataulun ulkopuolella on normaalisti hankalaa, koska ne sisältävär tekstejä ja tuoreita havaintoja ja vaativat ehkä lämpövyöhykkeitä. Muutamat yksinkertaiset kuitenkin tehdään manuualisesti vain siksi ettei niille kelpaa pdf-formaatti ja ne voi tehdä koska tahansa: /ref sec_ manuaalituotteenteko 
+Jos on kyse automaattituotteesta tehdään /ref muutosautomaattiaikatauluun . Muuten...
+
+\subsection sec_lehtikaipaa Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä
+
+Jos on kyseessä automaattituote (tarkista <A href="http=://weather.weatherproof.fi/data/local/src/c++/lib/press/docs/Lehtimuistio.xls">lehtimuistiosta</A>) suorita \ref sec_yksiautotuote . Jollei ole automaattituote mutta apumetkut tehneet tuotteen aikaisemmin sen voi lähettää uudelleen, varmimmin mailitse (ks /ref manuaalituotteenlahetys ), koska ftp-häiriö on saattanut sotkea normaalilähetyksen. Manuaalituotteiden teko aikataulun ulkopuolella on normaalisti hankalaa, koska ne sisältävär tekstejä ja tuoreita havaintoja ja vaativat ehkä lämpövyöhykkeitä. Muutamat yksinkertaiset kuitenkin tehdään manuualisesti vain siksi ettei niille kelpaa pdf-formaatti ja ne voi tehdä koska tahansa: /ref sec_manuaalituotteenteko 
+
+\subsection sec_poikkeavaennakko Tuotteen tekopäivän ja ilmestymispäivän ero poikkeava
+
+ 
+
+ 
 
 \section sec_ratkaisut Ratkaisut
 
 Tässä ratkaisut
+
+\subsection sec_muutosautomaattiaikatauluun Muutos automaattiaikatauluun 
 
 \subsection sec_yksiautotuote Yhden automaattituotteen teko ja lähettäminen
 
@@ -45,7 +60,7 @@ Tässä ratkaisut
 
 bla 
 
-\subsection sec_ manuaalituotteenteko Manuaalituotteen teko
+\subsection sec_manuaalituotteenteko Tuotteen teko manuaalisesti
 
 \subsection sec_manuaalituotteenlahetys Manuaalituotteen lähetys
 
