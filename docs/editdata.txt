@@ -96,7 +96,7 @@ saadaan sadealue p‰‰lle. Mik‰ olisi se jakso joka parhaiten antaisi
 talvet. Erikseen kannattaa mietti‰ maakuntakarttoja, Suomineitoja tai
 meteogrammeja.
 
-\section S‰‰symbolit
+\section sec_saasymbolit S‰‰symbolit
 
 S‰‰symbolit saadaan kun s‰‰parametrit ensin interpoloidaan tarkkaan
 paikkaansa hilaruudun nelj‰st‰ kulmapisteest‰ ja kun sen j‰lkeen
