@@ -63,29 +63,29 @@ bool	NFmiPressDataTimeText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 
 	if(fUseOriginTime)
 	{
-			utcTime = ((NFmiMetTime)(itsData->OriginTime())); 
-			localTime = ((NFmiMetTime)(itsData->OriginTime())).LocalTime(); 
+			utcTime = (static_cast<NFmiMetTime>(itsData->OriginTime())); 
+			localTime = (static_cast<NFmiMetTime>(itsData->OriginTime())).LocalTime(); 
 	}
 	else
 	{
-			utcTime = ((NFmiMetTime)(((NFmiQueryInfo*)itsData)->Time())); 
-			localTime = ((NFmiMetTime)(((NFmiQueryInfo*)itsData)->Time())).LocalTime(); 
+			utcTime = (static_cast<NFmiMetTime>((static_cast<NFmiQueryInfo *>(itsData))->Time())); 
+			localTime = (static_cast<NFmiMetTime>((static_cast<NFmiQueryInfo *>(itsData))->Time())).LocalTime(); 
 	}
 
 	if(itsStringNameTimeFormat.IsValue())
 	{
 		if(fWriteAsUtc) //25.2.01		
-			SetText(((NFmiPressTime)(utcTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage));
+			SetText((static_cast<NFmiPressTime>(utcTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage));
 		else
-			SetText(((NFmiPressTime)(localTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage));
+			SetText((static_cast<NFmiPressTime>(localTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage));
 
 	}
 	else
 	{
 		if(fWriteAsUtc) //18.4.02		
-			SetText(((NFmiPressTime)(utcTime)).ToStr(itsFormat,itsLanguage));
+			SetText((static_cast<NFmiPressTime>(utcTime)).ToStr(itsFormat,itsLanguage));
 		else
-			SetText(((NFmiPressTime)(localTime)).ToStr(itsFormat,itsLanguage));
+			SetText((static_cast<NFmiPressTime>(localTime)).ToStr(itsFormat,itsLanguage));
 	}
 
 	if(itsSubText)
@@ -101,8 +101,10 @@ bool	NFmiPressDataTimeText::WritePS(FmiPressOutputMode theOutput)
 {
     ScalePlotting();
 
-	NFmiTime tim = ((NFmiMetTime)(((NFmiQueryData*)itsData)->Time())).LocalTime(); //oletus Suomen aika
-    SetText(((NFmiPressTime)(tim)).ToStr(itsFormat,itsLanguage)); 
+	// Mika suspects a bug in the reinterpret cast,
+	// since the cast is from NFmiFastQueryInfo * to NFmiQueryData *
+	NFmiTime tim = (static_cast<NFmiMetTime>((reinterpret_cast<NFmiQueryData *>(itsData))->Time())).LocalTime(); //oletus Suomen aika
+    SetText((static_cast<NFmiPressTime>(tim)).ToStr(itsFormat,itsLanguage)); 
 
 	return WriteString(NFmiString("AIKATEKSTI"), theOutput);
 };
