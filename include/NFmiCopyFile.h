@@ -35,6 +35,12 @@ bool NFmiCopyFileCropping(std::ifstream & inFile,
 						  std::ofstream & outFile,
 						  NFmiRect theRect);
 
+bool NFmiGenerateAndCopyUniversalSize(std::ifstream & inFile,
+						  std::ofstream & outFile,
+						  const NFmiRect& theRect,
+						  const NFmiString& theName,
+						  const NFmiString& theDate);
+
 bool NFmiWritePSConcat(NFmiRectScale theScale, std::ofstream & outFile);
 bool NFmiWriteEPSConcat(NFmiRectScale theScale, std::ofstream & outFile);
 

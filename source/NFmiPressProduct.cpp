@@ -1117,7 +1117,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 13.8.2004" << endl;       
+   *itsLogFile << "program version = 17.8.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2774,7 +2774,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   if(!outFile)
 	{
 	  if(itsLogFile)
-		*itsLogFile << "*** ERROR: Output-tiedostossa vikaa: "
+		*itsLogFile << "*** ERROR: Output-tiedostossa vikaa: "	
 					<< static_cast<char *>(itsOutFile)
 					<< endl;
 	  return false;
@@ -2782,10 +2782,23 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   if(output==kPostScript)
 	{
-	  if (itsBoundingBorder.IsEmpty())
-		NFmiCopyFile(startFile, outFile);
+	  if(itsPageSize == kUniversal)
+	  {
+		  NFmiPressTime pTime; 
+		  NFmiString stringTime(pTime.InterpretToStr("(M/D/YY) (H:mm)"));
+		  NFmiString name(itsOutFileName);
+		  name.TrimR('.'); //jostain syystä piste on jollain määrittelyoptiolla mukana
+		  if (!NFmiGenerateAndCopyUniversalSize
+			   (startFile, outFile, itsBoundingBorder, name, stringTime))
+					return false;
+	  }
 	  else
-		NFmiCopyFileCropping(startFile, outFile, itsBoundingBorder);
+	  {
+		  if (itsBoundingBorder.IsEmpty())
+			NFmiCopyFile(startFile, outFile);
+		  else
+			NFmiCopyFileCropping(startFile, outFile, itsBoundingBorder);
+	  }
 	}
   else if(output==kXml)
 	{

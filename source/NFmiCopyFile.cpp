@@ -357,6 +357,81 @@ bool NFmiCopyFileCropping(ifstream & inFile,
 	}
   return isTrue;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param inFile Undocumented
+ * \param outFile Undocumented
+ * \param theRect Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
+						  ofstream & outFile,
+						  const NFmiRect& theRect,
+						  const NFmiString& theName,
+						  const NFmiString& theDate)
+{ 
+  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰	
+  const short lineSize = 2800;
+  char inBuf[lineSize];
+  
+  unsigned short nSlash, num;
+  bool PsFound = false;
+  NFmiString line("%!PS-Adobe-3.0 EPSF-3.0\n");
+  outFile.write(line.CharPtr(), line.GetLen());
+  line = NFmiString("%%Title: ");
+  line += theName;
+  line += NFmiString(".eps");
+  line += "\n";
+  outFile.write(line.CharPtr(), line.GetLen());
+  line = NFmiString("%%Creator: Windows XP\n");
+  outFile.write(line.CharPtr(), line.GetLen());
+  line = NFmiString("%%CreationDate: ");
+  line += theDate;
+  line += "\n";
+  outFile.write(line.CharPtr(), line.GetLen());
+  line = NFmiString("%%Pages: (atend)\n");
+  outFile.write(line.CharPtr(), line.GetLen());
+
+  NFmiWriteBoundingBox(outFile, theRect);
+
+  NFmiString str;
+  while(inFile.getline(inBuf, lineSize, '\n'))
+	{
+	  num = inFile.gcount();
+	  // vain kerran startTiedostoon, epseihin pit‰‰ erikseen
+	  if(!PsFound)
+		{
+		  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+		  nSlash = static_cast<short>(str.Search( NFmiString("PageSize [")));
+		  if (nSlash > 0)
+			{
+			  PsFound = true;
+			  line = NFmiString("	<</DeferredMediaSelection true /PageSize [");
+			  line += NFmiValueString(long(theRect.Left()));
+			  line += NFmiString(" ");
+			  line += NFmiValueString(long(theRect.Top()));
+			  line += NFmiString(" ");
+			  line += NFmiValueString(long(theRect.Right()));
+			  line += NFmiString(" ");
+			  line += NFmiValueString(long(theRect.Bottom()));
+			  line += NFmiString("] /ImagingBBox null>> setpagedevice");
+			  outFile.write(line.CharPtr(), line.GetLen());
+			}
+		  else
+			outFile.write(inBuf, num-1);
+		}
+	  else
+		{
+		  outFile.write(inBuf, num-1);
+		}
+	  outFile.put('\x0A');		  
+	}
+  return isTrue;
+}
 
 // ----------------------------------------------------------------------
 /*!
