@@ -214,6 +214,7 @@ NFmiPressParam::~NFmiPressParam (void)
 inline
 NFmiPressParam::NFmiPressParam(void)  
   : NFmiPressTimeDescription()
+  , fActivity(true)
   , fDataNotNeeded(false)
   , fStationsAreLocalTime(0)
   , fGridMode(false)
@@ -224,7 +225,6 @@ NFmiPressParam::NFmiPressParam(void)
   , itsNumberOfSteps(1)
   , fIsPureRegTimeLoop(true)
   , fIsAreaOperation(false)
-  , fActivity(true)
 {
   itsLanguage=kFinnish;
 }
@@ -252,6 +252,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
 							   const unsigned long producer,
 							   NFmiPressProduct * pressProduct)  
   : NFmiPressTimeDescription(firstDeltaDays,firstPlotHours,firstPlotMinutes) 
+  , fActivity(true)
   , fDataNotNeeded(false)
   , fStationsAreLocalTime(0)
   , fGridMode(false)
@@ -264,7 +265,6 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fIsPureRegTimeLoop(true)
   , itsScale(scale)
   , fIsAreaOperation(false)
-  , fActivity(true)
 {
   itsLanguage=kFinnish;
 }
