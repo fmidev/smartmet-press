@@ -34,7 +34,11 @@ int domain(int argc, const char ** argv)
 
   NFmiString dataExt[4] = {"pre", "PRE", "prt", "PRT"};
 
+#ifdef UNIX
   NFmiCmdLine cmdLine(argc,argv,"h!o!l!");
+#else
+  NFmiCmdLine cmdLine(argc,argv,"h!o!l!L!");
+#endif
 
   if(cmdLine.Status().IsError())
 	throw runtime_error(cmdLine.Status().ErrorLog().CharPtr());
@@ -65,6 +69,14 @@ int domain(int argc, const char ** argv)
 	  putenv(logdir.c_str());
 #endif	 
 	}
+
+#ifdef UNIX
+  if(cmdLine.isOption('L'))
+	{
+	  string file = cmdLine.OptionValue('L');
+	  NFmiSettings::Set("press::logfile",file);
+	}
+#endif
 
   string outdir("lehtiOutDir=");
   if(cmdLine.isOption('o'))

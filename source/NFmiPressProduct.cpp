@@ -958,14 +958,19 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   fmiString = NFmiSettings::Require<string>("press::logpath");
 #endif
 
-/* Mika siirsi t‰m‰n alas lohkon sis‰‰n */
-//  <<<<<<< NFmiPressProduct.cpp
-   
    NFmiString logFileName = fmiString;
    logFileName += kFmiDirectorySeparator;
+#ifdef UNIX
+   if(NFmiSettings::IsSet("press::logfile"))
+	 logFileName += NFmiSettings::Require<string>("press::logfile");
+   else
+	 logFileName += NFmiString("lehti.log");
+#else
    logFileName += NFmiString("lehti.log");
+#endif
+
+
    itsLogFileName = logFileName;   //jotta voidaan sulkea/avata jatkossa
-//   itsLogFile->open(logFileName, ios::out|ios::ate);  
    itsLogFile->open(logFileName, ios::out|ios::app); // edellinen aloitti alusta
    NFmiTime time;
    *itsLogFile << endl << "** Loki avattu " << time << " **" << endl;
