@@ -45,6 +45,7 @@ public:
   void SetNewNames(NFmiVoidPtrList * theNames);
   bool SetNewName(const NFmiRenaming & theNames);
   void SetPressParam(NFmiPressParam * pressParam);
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   NFmiString StationName(void);
   virtual unsigned long ClassId(void);
