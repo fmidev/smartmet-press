@@ -1062,7 +1062,7 @@ bool NFmiPressProduct::ReadData(void)
 			path = odinDir;
 			path += "PAL_Scand*";
 			std::string theFoundFileName;
-			time_t newestTime = FindFile(path, true, &theFoundFileName);
+			FindFile(path, true, &theFoundFileName);
 			//cout << theFoundFileName << endl;
 			odinDir += theFoundFileName;
 			dataFile = NFmiString(odinDir);
