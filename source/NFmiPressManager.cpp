@@ -47,9 +47,9 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
    if(env != 0)
 	 tempInput = env;
 #else
-   if(NFmiSettings::IsSet("press::tmpdir"))
+   if(NFmiSettings::IsSet("press::tmppath"))
 	 {
-	   string tmp = NFmiSettings::Require<string>("press::tmpdir");
+	   string tmp = NFmiSettings::Require<string>("press::tmppath");
 	   tempInput = NFmiString(tmp);
 	 }
 #endif
