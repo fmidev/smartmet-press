@@ -127,7 +127,7 @@ public:
   void SetOptionTime(NFmiTime theTime);
   bool IsAreaOperation(void);
   NFmiArea * GetGeoArea(void);
-  bool ChangeMaskNumber(unsigned long theMask);
+  bool ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnumSpace);
   void PutInStorage(const float value, int storageQueue);
   float UseFromStorage(int storageQueue);
   FmiCounter GetCurrentStep(void);

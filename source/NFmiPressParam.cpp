@@ -89,12 +89,13 @@ void NFmiPressParam::SetNewGeoArea(const NFmiPressArea & theArea)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask)
+bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask,
+									  FmiEnumSpace theEnumSpace)
 {
   if(!itsStations.IsLocations())
 	return false;
 
-  itsEnvironment.ChangeMaskNumber(theMask);
+  itsEnvironment.ChangeMask(theMask, theEnumSpace);
 
   NFmiEnumConverter converter(itsEnvironment.GetEnumSpace());
   string name = converter.ToString(itsEnvironment.GetMaskNumber());

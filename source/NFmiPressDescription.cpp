@@ -29,9 +29,12 @@ bool NFmiPressDescription::ReadRemaining(void)
   FmiRGBColor rgb;
   double r1,r2,r3,r4;
   unsigned long helpLong;
+  FmiEnumSpace helpEnumSpace = kPressRegions;
   switch(itsIntObject)
 	{
 	  // tänne vaikka vain Produktissa ja segmentissä käytössä
+	case dMaskNumber: //vain tiealueet
+	  helpEnumSpace = kRoadRegions;
 	case dPressMaskNumber: //muut kuin tiealueet
 	  {
 		if (!ReadEqualChar())
@@ -39,50 +42,27 @@ bool NFmiPressDescription::ReadRemaining(void)
 
 		NFmiString maskName = ReadString();
 		string stdString(maskName);
-		NFmiEnumConverter converter(kPressRegions);
+		NFmiEnumConverter converter(helpEnumSpace);
 		helpLong = converter.ToEnum(stdString);
 
 		if(helpLong == 0)
+		{
 		  *itsLogFile << "*** ERROR: Not valid PressMask: "
 					  << static_cast<char *>(maskName)
+					  << " in space "
+					  << helpEnumSpace 
 					  << endl;
+		}
 
 		else
 		{
-		  itsEnvironment.SetMaskNumber(helpLong);
-		  itsEnvironment.SetEnumSpace(kPressRegions);
+		  itsEnvironment.SetMask(helpLong, helpEnumSpace);
 		}
 
 		ReadNext();
 
 		break;
 	  }
-	case dMaskNumber: //vain tiealueet
-	  {
-		if (!ReadEqualChar())
-		  break;
-
-		NFmiString maskName = ReadString();
-		string stdString(maskName);
-		NFmiEnumConverter converter(kRoadRegions);
-		helpLong = converter.ToEnum(stdString);
-
-		if(helpLong == 0)
-		  *itsLogFile << "*** ERROR: Not valid RoadMask: "
-					  << static_cast<char *>(maskName)
-					  << endl;
-
-		else
-		{
-		  itsEnvironment.SetMaskNumber(helpLong);
-		  itsEnvironment.SetEnumSpace(kRoadRegions);
-		}
-
-		ReadNext();
-
-		break;
-	  }
-
 	case dLanguage:
 	  {
 		if (!ReadEqualChar())

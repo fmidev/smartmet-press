@@ -38,6 +38,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   NFmiString helpString;
   itsLogFile = thePressProduct.GetLogFile();
   FmiPressOutputMode outMode = theOutMode;
+  FmiEnumSpace helpEnumSpace = kPressRegions;
+
 
   NFmiMetTime firstPlotTime(thePressProduct.GetFirstPlotTime());
 
@@ -218,6 +220,9 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 
 			break;
 		}
+		case dManMaskNumber:  //vain tiemaskit;
+			                  //MANAGERISSA TOSIN EI ONNISTUNE ENUMSPACEN VAIHTO 
+			helpEnumSpace = kRoadRegions;
 		case dManPressMaskNumber: //muut kuin tiemaskit
 		  {
 			if (!ReadEqualChar())
@@ -225,41 +230,22 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 
 			NFmiString maskName = ReadString();
 			string stdString(maskName);
-			NFmiEnumConverter converter(kPressRegions);
+			NFmiEnumConverter converter(helpEnumSpace);
 			uLong = converter.ToEnum(stdString);
 
 			if(uLong != kTieAlueNone)
 			  {
-				thePressProduct.SetMaskNumber(uLong);
+				thePressProduct.SetMaskNumber(uLong, helpEnumSpace);
 				changed = true;
 			  }
 			else
-			  *itsLogFile << "*** ERROR: Not valid PressMask: "
+			{
+			  *itsLogFile << "*** ERROR: Not valid PressMask : "
 						  << static_cast<char *>(maskName)
+						  << " in space "
+						  << helpEnumSpace 
 						  << endl;
-
-			ReadNext();
-			break;
-		  }
-		case dManMaskNumber:  //vain tiemaskit
-		  {
-			if (!ReadEqualChar())
-				break;
-
-			NFmiString maskName = ReadString();
-			string stdString(maskName);
-			NFmiEnumConverter converter(kRoadRegions);
-			uLong = converter.ToEnum(stdString);
-
-			if(uLong != kTieAlueNone)
-			  {
-				thePressProduct.SetMaskNumber(uLong);
-				changed = true;
-			  }
-			else
-			  *itsLogFile << "*** ERROR: Not valid Mask: "
-						  << static_cast<char *>(maskName)
-						  << endl;
+			}
 
 			ReadNext();
 			break;

@@ -222,10 +222,11 @@ bool NFmiPressProduct::SetProductNameFormat(const NFmiString & theName)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::SetMaskNumber(unsigned long theNumber)
+bool NFmiPressProduct::SetMaskNumber(unsigned long theNumber, FmiEnumSpace theEnumSpace)
 {
   bool retCode = false;
-  if (GetEnvironment().ChangeMaskNumber(theNumber)) //muutetaan vain asetettua
+//  if (GetEnvironment().ChangeMaskNumber(theNumber)) //muutetaan vain asetettua
+  if (GetEnvironment().ChangeMask(theNumber, theEnumSpace)) //muutetaan vain asetettua
 	retCode = true;
   NFmiVoidPtrIterator paramIter(itsParams);
   NFmiPressParam * param;
@@ -233,7 +234,7 @@ bool NFmiPressProduct::SetMaskNumber(unsigned long theNumber)
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while(param)
 	{
-	  if (param->ChangeMaskNumber(theNumber))	// muutetaan vain asetettua
+	  if (param->ChangeMaskNumber(theNumber, theEnumSpace))	// muutetaan vain asetettua
 		retCode = true;							// ainakin yhdessä vaihdettu
 	  param = static_cast<NFmiPressParam *>(paramIter.Next());
 	}
@@ -1093,7 +1094,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 3.12.2002" << endl;       
+   *itsLogFile << "program version = 5.12.2002" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1387,14 +1388,6 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName)
 
 bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 {
-
-  NFmiTime testTime;
-  NFmiString test1 = testTime.ToStr(NFmiString("DD.MM kk H:mm:SS %tarkkaan%"));
-  NFmiString test2 = testTime.ToStr(NFmiString("Www nnn D.M kk H:mm:SS %tark%%kaan"), kEnglish);
-  testTime.ChangeByDays(2);
-  NFmiString test3 = testTime.ToStr(NFmiString("Tttt nnn D.M kk H:mm:SS %äö%"), kSwedish);
-  NFmiString test4 = testTime.ToStr(NFmiString("Tttt+1 nnn D.M kk H:mm:SS %äö%"));
-
   NFmiString helpString;
   NFmiValueString valueString;
   itsScale.SetStartScales(NFmiRect(NFmiPoint(0,0), NFmiPoint(614,794)));

@@ -127,7 +127,7 @@ public:
   NFmiQueryData * FirstData(void);
   NFmiString FirstDataName(void);
   NFmiString FirstSegmentName(void);
-  bool SetMaskNumber(unsigned long theNumber); 
+  bool SetMaskNumber(unsigned long theNumber, FmiEnumSpace theEnumSpace); 
   bool SetFirstStation(const NFmiLocation & theLocation);
   bool SetStationRename(const NFmiRenaming & theRename);
   bool SetImagePreNames(const NFmiLocation & theLocation);

@@ -40,7 +40,10 @@ public:
   void SetColor(const FmiGenericColor & theColor);
   void SetMaskNumber(unsigned long theMaskNumber);
   void SetEnumSpace(FmiEnumSpace theEnumSpace);
+  void SetMask(unsigned long theMaskNumber, FmiEnumSpace theEnumSpace);
+  //! use change if to be performed only when already set, otherwise Set
   bool ChangeMaskNumber(unsigned long theMaskNumber);
+  bool ChangeMask(unsigned long theMaskNumber, FmiEnumSpace theEnumSpace);
 
   unsigned long GetMaskNumber(void)const;
   FmiEnumSpace GetEnumSpace(void)const;
@@ -149,6 +152,20 @@ void NFmiPressEnvironment::SetColor(const FmiGenericColor & theColor)
 {
   itsGenericColor = theColor;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theMaskNumber Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetMask(unsigned long theMaskNumber, FmiEnumSpace theEnumSpace)
+{
+  itsMaskNumber = theMaskNumber;
+  itsEnumSpace = theEnumSpace;
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -179,7 +196,29 @@ void NFmiPressEnvironment::SetEnumSpace(FmiEnumSpace theEnumSpace)
 
 // ----------------------------------------------------------------------
 /*!
- * Undocumented
+ * Only performed if already set (as opposite to SetMask)
+ *
+ * \param theMaskNumber Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressEnvironment::ChangeMask(unsigned long theMaskNumber,
+									  FmiEnumSpace theEnumSpace)
+{
+  if(itsMaskNumber > 0)
+	{
+	  itsMaskNumber = theMaskNumber;
+	  itsEnumSpace = theEnumSpace;
+	  return true;
+	}
+  else
+	return false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Only performed if already set (as opposite to SetMaskNumber)
  *
  * \param theMaskNumber Undocumented
  * \return Undocumented
