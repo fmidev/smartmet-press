@@ -29,6 +29,48 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
+bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
+{
+ 
+   NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
+//   itsInFileName = inputFileName.Header(); //27.8.02 skriptistä kun kutsutaan tulee muuten koko polku
+
+   NFmiFileString tempInput;
+		   tempInput = GetHome();
+		   tempInput += kFmiDirectorySeparator;
+		   tempInput += NFmiString("Temp");
+		   tempInput += kFmiDirectorySeparator;
+
+   NFmiString inputOnlyFile = inputFileName.FileName();
+
+   tempInput += inputFileName.FileName();  
+   tempInput += NFmiString("pssm");
+   
+   NFmiString outFileName = inputOnlyFile;  
+
+   inputFileName += NFmiString("pssm");
+ 
+   string inputStdName(inputFile);
+   string outputStdName(tempInput);
+/*
+   if(!PreProcessDefinition(inputStdName, outputStdName))
+   {
+	  *itsLogFile << "***ERROR: PROGRAM INTERRUPTED, see above" << endl;
+	  return false;
+	}
+	*/
+	return true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePressProduct Undocumented
+ * \param theOutMode Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduct,
 											   FmiPressOutputMode theOutMode)
 {
@@ -40,10 +82,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   FmiPressOutputMode outMode = theOutMode;
   FmiEnumSpace helpEnumSpace = kPressRegions;
 
-
   NFmiMetTime firstPlotTime(thePressProduct.GetFirstPlotTime());
 
-  // prem nyt omassa managerit-haarassa, aikaisemmin muut-haarassa
   NFmiFileString inputFileName = thePressProduct.GetHome();
   inputFileName += kFmiDirectorySeparator;
   inputFileName += NFmiString("Managerit");
@@ -63,6 +103,9 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   else
 	if(itsLogFile)
 	  *itsLogFile << "Manageri-tiedosto avattu: "<< static_cast<char *>(inputFileName) << endl;
+
+//  SetSeasonsStatus(thePressProduct.GetSeasonsStatus());
+//  PreProcessManager(inputFileName);
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;

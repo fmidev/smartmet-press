@@ -50,7 +50,7 @@ enum NFmiPressManagerObjects
 
 
 //! Undocumented
-class _FMI_DLL NFmiPressManager : public NFmiPressDescription 
+class _FMI_DLL NFmiPressManager : public NFmiPressTimeDescription 
 {
 
 public:
@@ -63,6 +63,9 @@ public:
 							   FmiPressOutputMode theOutMode=kPostScript);   
 
   virtual int ConvertDefText(NFmiString & object);
+
+private:
+  bool PreProcessManager(const NFmiFileString& theInputFile);
 
 }; // class NFmiPressManager
 

@@ -92,19 +92,6 @@ enum NFmiPressProductObjects
 
 
 //! Undocumented
-struct FmiPressSeasons
-{
-  bool wintertime;
-  bool summer;
-  bool pollen;
-  bool snow;
-  bool pollenOrSnow;
-  int weekday;
-  int dayAdvance;
-};
-
-
-//! Undocumented
 class _FMI_DLL NFmiPressProduct : public NFmiPressTimeDescription
 {
 
@@ -149,7 +136,8 @@ public:
   void PutInStorage(const float value, int queueNum=1);
   float UseFromStorage(int queueNum=1, bool errorReport = true);
   bool GetElementsAfterSegments(void) const;
- protected:
+  bool ReadSeasonsStatus(void);
+protected:
 
   void StepMap(void);
   void Scale(void);
@@ -161,9 +149,9 @@ public:
   bool WriteScalingObjects(bool doPreSegments, FmiPressOutputMode theOutput);
   bool WriteSameSymbols(bool doPreSegments, FmiPressOutputMode theOutput);
   bool WriteMetaInit(void);
-  bool GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus);
+//  bool GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus);
   bool WeekdayDirectiveActive(const std::string & theDefinition,
-							  const FmiPressSeasons & theSeasons) const;
+							  const FmiPressSeasons* theSeasons) const;
   bool PreProcessConditionally(NFmiPreProcessor & thePrepr,
 							   bool theCondValue,
 							   const std::string & theConditionalBeginDirective,

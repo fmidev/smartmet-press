@@ -52,6 +52,18 @@ struct FmiLoopActivity
   float bypassValue;   
 };
 
+//! Undocumented
+struct FmiPressSeasons
+{
+  bool wintertime;
+  bool summer;
+  bool pollen;
+  bool snow;
+  bool pollenOrSnow;
+  int weekday;
+  int dayAdvance;
+};
+
 
 //! Undocumented
 class _FMI_DLL NFmiPressTimeDescription : public NFmiPressDescription 
@@ -88,12 +100,14 @@ public:
   NFmiMetTime TimeToWrite(NFmiMetTime givenTime) const;
   bool ActiveTimeIndex(int currentInd) const;
   bool IsWriteAsUtc(void) const;
+  FmiPressSeasons* GetSeasonsStatus(void)const;
 
 protected:
 
   long JustifyByLeaps(long dayDiff); 
   void SetPreReadingTimes(void); 
   void SetPostReadingTimes(void);
+  void SetSeasonsStatus(FmiPressSeasons* theSeasonsStatus);
 
 protected:
 
@@ -108,6 +122,7 @@ protected:
   NFmiString itsStringNameTimeFormat; 
   NFmiString itsSecondStringNameTimeFormat;     
   bool fWriteAsUtc;
+  FmiPressSeasons* itsSeasonsStatus; //owner NFmiPressProduct
 
 private: 
 
@@ -139,6 +154,7 @@ NFmiPressTimeDescription::NFmiPressTimeDescription(void)
   , itsFirstPlotMinutes(0)
   , itsFirstDeltaDays(+1)
   , fWriteAsUtc(false)
+  , itsSeasonsStatus(0)
 {
   itsLoopActivity.startIndex = 0;
   itsLoopActivity.bypassWithValue = false;
@@ -166,6 +182,7 @@ NFmiPressTimeDescription::NFmiPressTimeDescription(short theFirstPlotMinutes,
   fWriteAsUtc = false;
   itsLoopActivity.startIndex = 0;
   itsLoopActivity.bypassWithValue = false;
+  itsSeasonsStatus = 0;
 }
 
 // ----------------------------------------------------------------------
@@ -318,6 +335,34 @@ inline
 bool NFmiPressTimeDescription::IsWriteAsUtc(void) const
 {
   return fWriteAsUtc;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+FmiPressSeasons* NFmiPressTimeDescription::GetSeasonsStatus(void) const
+{
+  return itsSeasonsStatus;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressTimeDescription::SetSeasonsStatus(FmiPressSeasons* theSeasonsStatus) 
+{
+  itsSeasonsStatus = theSeasonsStatus;
 }
 
 #endif // NFMIPRESSTIMEDESCRIPTION_H
