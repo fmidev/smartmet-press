@@ -209,10 +209,10 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		  return false;
 		if(!prePr.IncludeFiles("#Include", includePath, "inc"))
 		  {
-			*itsLogFile << "*** ERROR: Preprocessing failed to include file" << endl;
+			*itsLogFile << "*** ERROR: Preprocessing failed to include file:" << endl;
 			string message = prePr.GetMessage();
 			if(!message.empty())
-			  *itsLogFile << "*** "  << message << endl;
+			  *itsLogFile << "    "  << message << endl;
 			return false;
 		  }
 	  }
