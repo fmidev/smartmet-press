@@ -52,6 +52,7 @@
 #endif
 
 #include <fstream> //STD 27.8.01
+#include <algorithm>
 
 #ifndef __NPRESSPA_H__
 #include "NFmiPressParam.h"
@@ -494,7 +495,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 
 				if(ReadLong(long1))
 				{
-					numberOfLevelSteps = FmiMin(kMaxNumOfTableElements,static_cast<unsigned short>(long1));
+					numberOfLevelSteps = std::min(kMaxNumOfTableElements,static_cast<unsigned short>(long1));
 				}
 			}
 				// itsStepSize joudutaan asettamaan luupin jälkeen alla
@@ -1547,7 +1548,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			itsName = logName;
 	}
 	*/
-	short numberOfRegularSteps = static_cast<unsigned short>(FmiMax(numberOfTimeSteps,numberOfLevelSteps));
+	short numberOfRegularSteps = static_cast<unsigned short>(std::max(numberOfTimeSteps,numberOfLevelSteps));
 	itsNumberOfSteps = numberOfRegularSteps;
 	if(fIsLevelLoop)
 		itsNumberOfSteps = currentLevelInd;
@@ -1579,7 +1580,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 		}
 		else
 		{
-			short factor = (FmiMax(numberOfRegularSteps-1,1)); //12.4.00 oli ..Time..; nollalla jaon esto
+			short factor = (std::max(numberOfRegularSteps-1,1)); //12.4.00 oli ..Time..; nollalla jaon esto
 			stepSize.Set((scaledTimeLast.X()-point.X())/factor
 			             ,(scaledTimeLast.Y()-point.Y())/factor);
 			unscaledStepSize.Set((unscaledTimeLast.X()-firstUnscaledPoint.X())/factor //3.11
@@ -1831,7 +1832,7 @@ bool NFmiPressParam::WritePS(
 	FmiCounter statAll = 0;
 	while(itsCurrentStep <= itsNumberOfSteps) /********* AIKA/PAINEpintaluuppi ********/ //12.4.00
 	{
-	  FmiCounter itsCurrentStepInd = FmiMin(itsCurrentStep,kMaxNumOfTableElements-1); //1.8.01 
+	  FmiCounter itsCurrentStepInd = std::min(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1); //1.8.01 
 	  if(!itsDataIter)  
 	  {
 		if(itsLogFile)

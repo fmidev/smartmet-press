@@ -18,14 +18,15 @@
 // 120397/LW hyväksytään akseli jossa alkuarvo=loppuarvo->saadaan meteogramiin yksi sarake
 ///*-------------------------------------------------------------------------------------*/
 
-#include <stdlib.h>
-#include <math.h>
-
 #ifndef __NSCALE_H__
 #include "NFmiScale.h"
 #endif//__NSCALE_H__
 
+#include <stdlib.h>
+#include <math.h>
 #include <iostream>  //STL 27.8.01
+#include <algorithm>
+
 using namespace std; //27.8.01
 
 
@@ -88,7 +89,7 @@ NFmiScale& NFmiScale :: operator+= (const NFmiScale& anOtherScale)
 	}
 	else if (anOtherScale.itsStartValue != kFloatMissing)
 	{
-	   itsStartValue = FmiMin(anOtherScale.itsStartValue, itsStartValue);
+	   itsStartValue = std::min(anOtherScale.itsStartValue, itsStartValue);
 	}
 	if (itsEndValue == kFloatMissing)
 	{
@@ -96,7 +97,7 @@ NFmiScale& NFmiScale :: operator+= (const NFmiScale& anOtherScale)
 	}
 	else if (anOtherScale.itsEndValue != kFloatMissing)
 	{
-	    itsEndValue = FmiMax(anOtherScale.itsEndValue, itsEndValue);
+	    itsEndValue = std::max(anOtherScale.itsEndValue, itsEndValue);
 	}
 	Check();
 	return *this;
@@ -175,7 +176,7 @@ void NFmiScale :: StartFromZeroOptionally (float theFactor)
 {    // ei toimi laskevalle skaalalle
     if(!IsMissing()) // 041196/LW oli itsDataOk 
 	{
-	   if ((itsEndValue-itsStartValue)*theFactor > FmiMin(fabs(itsEndValue), fabs(itsStartValue))
+	   if ((itsEndValue-itsStartValue)*theFactor > std::min(fabs(itsEndValue), fabs(itsStartValue))
 		   && !Inside(0.f))
 	   {
 		   if(itsStartValue > 0.)

@@ -13,10 +13,10 @@
 //Muutettu 140502/LW + www -formaatit
 /*---------------------------------------------------------------------------*/
 
- #include  "NFmiPressTime.h"
- #include  "NFmiHyphenationString.h" //13.10.00
- #include  "NFmiValueString.h" //27.08.01
- 
+#include "NFmiPressTime.h"
+#include "NFmiHyphenationString.h" //13.10.00
+#include "NFmiValueString.h" //27.08.01
+#include <algorithm> 
 
 
 //__________________________________________________________________ 
@@ -342,7 +342,7 @@ NFmiString NFmiPressTime :: RelativeDay(FmiLanguage theLanguage, NFmiString theS
 		diff += -addDiff;
 		thePlusInd = 2;
 	}
-	diff =  FmiMin(FmiMax(diff,-3),3); //pys‰ytet‰‰n ali/ylivuotoon
+	diff =  std::min(std::max(diff,static_cast<short>(-3)),static_cast<short>(3)); //pys‰ytet‰‰n ali/ylivuotoon
 	retString = NFmiString(reldays[(theLanguage-1)*7+diff +3]);
 	if (theStr6.GetChars(1,4) == NFmiString("tttt"))  //oletus Tttt
 		retString.LowerCase();

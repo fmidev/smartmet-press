@@ -11,6 +11,8 @@
 #include "NFmiPressParam.h"
 
 #include <iostream>  //STL 27.8.01
+#include <algorithm>
+
 using namespace std; //27.8.01
 
 
@@ -113,7 +115,7 @@ void NFmiScalingParamRect::ScaleByValue()
 	{
 		NFmiScale endYScale = itsDefToProductScale.GetYEndScale();
 //		endYScale.Set(endYScale.StartValue()+20., endYScale.EndValue()+20.); //8.11.00
-		double valueScale = (FmiMin(itsSecondParamValue,itsYValueScaling.maxValue)-itsYValueScaling.noneValue)
+		double valueScale = (std::min(static_cast<double>(itsSecondParamValue),itsYValueScaling.maxValue)-itsYValueScaling.noneValue)
 			/(itsYValueScaling.symbolValue-itsYValueScaling.noneValue);
 		endYScale.SetEndValue((endYScale.EndValue()-endYScale.StartValue())*valueScale + endYScale.StartValue());
 		itsDefToProductScale.SetYEndScale(endYScale);
@@ -122,7 +124,7 @@ void NFmiScalingParamRect::ScaleByValue()
 	{
 		NFmiScale endXScale = itsDefToProductScale.GetXEndScale();
 //		endXScale.Set(endXScale.StartValue()+20., endXScale.EndValue()+20.); //8.11.00
-		double valueScale = (FmiMin(itsSecondParamValue,itsXValueScaling.maxValue)-itsXValueScaling.noneValue)
+		double valueScale = (std::min(static_cast<double>(itsSecondParamValue),itsXValueScaling.maxValue)-itsXValueScaling.noneValue)
 			/(itsXValueScaling.symbolValue-itsXValueScaling.noneValue);
 		endXScale.SetEndValue((endXScale.EndValue()-endXScale.StartValue())*valueScale + endXScale.StartValue());
 		itsDefToProductScale.SetXEndScale(endXScale);
