@@ -619,7 +619,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 		  fmiShortStr2.LowerCase();
 		  string str3 = line.substr(start3, end3-start3);
 
-		  bool status;
+		  bool status = false;
 		  NFmiString statusString("???");
 		  bool boolGiven = true;
 		  bool undef = false;
