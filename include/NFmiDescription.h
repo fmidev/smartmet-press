@@ -244,6 +244,7 @@ unsigned short NFmiDescription::GetMaxLoopNum(void) const
  */
 // ----------------------------------------------------------------------
 
+inline
 std::ofstream * NFmiDescription::GetLogFile(void) const
 {
   return itsLogFile;
