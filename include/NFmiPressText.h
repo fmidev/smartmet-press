@@ -142,7 +142,7 @@ NFmiPressText::NFmiPressText(void)
   , fAddLocalTime(false)  
   , itsText(0)
   , itsCharSpace(0.)
-  , itsMaxLen(kLongMissing)
+  , itsMaxLen(kUnsignedLongMissing)
 {
   itsSubText = 0;
   itsLanguage = kFinnish;
