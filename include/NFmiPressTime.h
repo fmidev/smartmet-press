@@ -59,7 +59,6 @@ public:
   NFmiPressTime(void);
   NFmiPressTime(const NFmiTime & theTime);
  
-  using NFmiTime::ToStr;
   NFmiString ToStr(const unsigned long theTimeMask,
 				   const FmiLanguage theLanguage=kFinnish) const;
 
