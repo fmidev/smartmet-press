@@ -1,0 +1,17 @@
+// ======================================================================
+/*!
+
+\mainpage press - Lehtituotekirjasto
+
+\section johdanto_kap Johdanto
+
+L‰ssynl‰ssyn.
+
+\section syntaksi_kap M‰‰rittelytiedoston syntaksi
+
+Lehtituotteiden m‰‰rittelyt sijaitsevat <em>.pre</em>
+p‰‰tteisiss‰ tiedostoissa, joiden syntaksi on kuvattu
+sivulla \ref syntaksi_sivu.
+
+*/
+// ======================================================================

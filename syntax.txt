@@ -1,0 +1,49 @@
+// ======================================================================
+/*!
+
+\page syntaksi_sivu M‰‰rittelytiedoston syntaksi
+
+\section maari_kap M‰‰ritelm‰t
+
+Syntaksin m‰‰rittelyss‰ k‰ytet‰‰n seuraavanlaisia kirjasintyylej‰:
+
+\htmlonly
+<blockquote>
+<table border=0>
+<tr>
+ <td><b>Lihavoitu</b></td>
+ <td>Avainsana</td>
+</tr><tr>
+ <td><em>Kursiivi</em></td>
+ <td>Muuttujan arvo</td>
+</tr><tr>
+ <td><em><b>Kursiivi</b></em></td>
+ <td>Muuttujan vakioitu arvo (lueteltu)</td>
+</tr><tr>
+ <td>[optio]</td>
+ <td>Ei pakollinen osa</td>
+</tr><tr>
+ <td><b>[optio]</b></td>
+ <td>Ei pakollinen osa, mutta suositeltava/yleens‰ tarvitaan</td>
+</tr><tr>
+ <td>[ ]? { }?</td>
+ <td>Osan toisto n kertaa ja pakollinen osa</td>
+</tr><tr>
+ <td>{ } -or- { }</td>
+ <td>Vaihtoehtoisia osia, { } puuttuu jos yksi sana (tai rivi)</td>
+</tr><tr>
+ <td><s>vanhentunut</s></td>
+ <td>Vanhentunut, ei suositella uusissa tuotteissa</td>
+</tr><tr>
+ <td>( )</td>
+ <td>Selvennys (ei kirjoiteta m‰‰rittelyyn)</td>
+</tr><tr>
+ <td><u>alleviivattu</u></td>
+ <td>Painotettu asia</td>
+</tr>
+</table>
+</blockquote>
+\endhtmlonly
+
+*/
+// ======================================================================
