@@ -14,6 +14,7 @@
 #include "NFmiPsWriting.h"
 #include "NFmiPressParam.h"
 #include "NFmiSettings.h"
+#include "NFmiFileSystem.h"
 #include <iostream>
 
 using namespace std;
@@ -478,6 +479,38 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
 
 // ----------------------------------------------------------------------
 /*!
+ * raw, uncompressed symbol code newer than compressed one; 
+ * a new compressed one should be built
+ *
+ * \param symbolFile Undocumented
+ * \param theDestinationFile Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiSymbolParamRect::RawSymbolToBeConverted(NFmiString * symbolFile)
+{
+  NFmiString fileName = *itsSubDir;
+  fileName += itsSymbolSetName;
+  fileName += NFmiString("_");
+  fileName += *symbolFile;
+  fileName += NFmiString(".ps");
+  long comprAge = NFmiFileSystem::FileAge(fileName.CharPtr());
+
+  NFmiString inputName = *itsOrigDir;
+  inputName += itsSymbolSetName;
+  inputName += kFmiDirectorySeparator;
+  inputName += *symbolFile;
+  inputName += NFmiString(".ai");
+  long unComprAge = NFmiFileSystem::FileAge(inputName.CharPtr());
+
+  return unComprAge >= 0 
+	  && (comprAge < 0 || unComprAge <= comprAge);
+}
+
+
+// ----------------------------------------------------------------------
+/*!
  * Undocumented
  *
  * \param symbolFile Undocumented
@@ -655,47 +688,45 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	}
   else if(*symbolFile != NFmiString("None")  && theOutput == kPostScript)
 	{
-		if (itsPressParam->IsDistanceCheck())
+	  if (itsPressParam->IsDistanceCheck())
 		{
 			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(itsCurrentParamValue)), AbsoluteRectOfSymbolGroup.Place()))
 				return false;
 		}
-	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile))
-		{
-		}
-	 
-	  else
-		{
+
+      bool rawToBeConverted = RawSymbolToBeConverted(symbolFile);
+
+	  if(rawToBeConverted)
+	  {
 		  if(ConvertOrig2Short(symbolFile))
 			{
 			  if(itsLogFile)
 				*itsLogFile << "Symboli "
 							<< static_cast<char *>(*symbolFile)
 							<< " konvertoitu"
-							<< endl;
-			 
-			  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile))
-				{
-				}
-		      else
-				{
-				  if(itsLogFile)
-					{
-					  *itsLogFile << "*** ERROR: Symbol not found after conversion: "
-								  << static_cast<char *>(*symbolFile)
-								  << endl;
-					  *itsLogFile << "       missing permission ?"
-								  << endl;
-					}
-				}
+							<< endl;			 
 			}
 		  else
-			if(itsLogFile)
 			  *itsLogFile << "*** ERROR: Symbol missing from set: "
 						  << static_cast<char *>(itsSymbolSetName)
 						  << ":" << static_cast<char *>(*symbolFile)
 						  << endl;
-
+	  }
+	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile))
+		{
+		}
+	  else
+		{
+		  if(itsLogFile)
+			{
+			  *itsLogFile << "*** ERROR: Short symbol not found: "
+						  << static_cast<char *>(itsSymbolSetName)
+						  << ":" << static_cast<char *>(*symbolFile)
+						  << endl;
+			 if(rawToBeConverted)
+			  *itsLogFile << "       missing permission ?"
+						  << endl;
+			}
 		}
 	}
   else if(*symbolFile != NFmiString("None") && theOutput == kMetaLanguage)

@@ -70,6 +70,7 @@ protected:
   virtual void WriteMetaCode(NFmiString * symbolFile,
 							 NFmiPoint realPos,
 							 std::ofstream & os);
+  bool RawSymbolToBeConverted(NFmiString * symbolFil);
 
 protected:
 
