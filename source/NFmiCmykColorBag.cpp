@@ -82,20 +82,20 @@ NFmiString NFmiCmykColorBag::GetColorString(const NFmiString& theName) const
 				break;
 	}
 	NFmiString format = NFmiString("%.2f");  //HUOM hardkoodattu
-	NFmiString string;
+	NFmiString str;
 	if(j == (int)itsSize)
-		string = NFmiString("0. 0. 0. 0.");
+		str = NFmiString("0. 0. 0. 0.");
 	else
 	{
-		string = NFmiValueString((float)itsColors[j].color.c, format);
-		string += NFmiString(" ");
-		string += NFmiValueString((float)itsColors[j].color.m, format);
-		string += NFmiString(" ");
-		string += NFmiValueString((float)itsColors[j].color.y, format);
-		string += NFmiString(" ");
-		string += NFmiValueString((float)itsColors[j].color.k, format);
-		string += NFmiString(" "); //Huom viimeiseksikin välilyönti
+		str = NFmiValueString((float)itsColors[j].color.c, format);
+		str += NFmiString(" ");
+		str += NFmiValueString((float)itsColors[j].color.m, format);
+		str += NFmiString(" ");
+		str += NFmiValueString((float)itsColors[j].color.y, format);
+		str += NFmiString(" ");
+		str += NFmiValueString((float)itsColors[j].color.k, format);
+		str += NFmiString(" "); //Huom viimeiseksikin välilyönti
 	}
-	return string;
+	return str;
 };
 
