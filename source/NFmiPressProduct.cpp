@@ -90,7 +90,7 @@
 
 //#include <fstream> //STD 27.8.01  Mika poisti
 //#include <iostream>  //STL 27.8.01
-#include <istream>  //STL 27.8.01
+#include <iostream>  //STL 27.8.01
 using namespace std; //27.8.01
 
 extern bool NFmiCopyFile(ifstream&, ofstream&);
@@ -454,7 +454,6 @@ bool NFmiPressProduct::ReadNameToLonLatList()
 {
 	NFmiString fileName, fileName1;
     fileName = GetHome();
-	bool ok = false;
 
 //Mikan vaihdos
 	fileName += kFmiDirectorySeparator;
