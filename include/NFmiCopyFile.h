@@ -16,38 +16,38 @@
 #include <iostream>
 #include <fstream>
 
-bool NFmiCopyFile(ifstream & inFile, ofstream & outFile);
+bool NFmiCopyFile(std::ifstream & inFile, std::ofstream & outFile);
 
-bool NFmiCopyFileWithoutShowpage(ifstream & inFile, ofstream & outFile);
+bool NFmiCopyFileWithoutShowpage(std::ifstream & inFile, std::ofstream & outFile);
 
-bool NFmiCopyFileColoring(ifstream & inFile,
-						  ofstream & outFile,
+bool NFmiCopyFileColoring(std::ifstream & inFile,
+						  std::ofstream & outFile,
 						  NFmiCmykColorBag * colorBag);
 
-bool NFmiCopyFileCroppingAndColoring(ifstream & inFile,
-									 ofstream & outFile,
+bool NFmiCopyFileCroppingAndColoring(std::ifstream & inFile,
+									 std::ofstream & outFile,
 									 NFmiRect theRect,
 									 NFmiCmykColorBag * colorBag);
 
-bool NFmiWriteBoundingBox(ofstream & outFile, NFmiRect theRect);
+bool NFmiWriteBoundingBox(std::ofstream & outFile, NFmiRect theRect);
 
-bool NFmiCopyFileCropping(ifstream & inFile,
-						  ofstream & outFile,
+bool NFmiCopyFileCropping(std::ifstream & inFile,
+						  std::ofstream & outFile,
 						  NFmiRect theRect);
 
-bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream & outFile);
-bool NFmiWriteEPSConcat(NFmiRectScale theScale, ofstream & outFile);
+bool NFmiWritePSConcat(NFmiRectScale theScale, std::ofstream & outFile);
+bool NFmiWriteEPSConcat(NFmiRectScale theScale, std::ofstream & outFile);
 
 bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale,
-								ofstream & outFile,
+								std::ofstream & outFile,
 								NFmiRect theClippingRect);
 
 bool NFmiWritePSConcatRotating(NFmiRectScale theScale,
 							   float theDirection,
-							   ofstream & outFile);
+							   std::ofstream & outFile);
 
-bool NFmiWritePSEnd(ofstream & outFile);
-bool NFmiWriteEPSEnd(ofstream & outFile);
+bool NFmiWritePSEnd(std::ofstream & outFile);
+bool NFmiWriteEPSEnd(std::ofstream & outFile);
 
 #endif // NFMICOPYFILE_H
 
