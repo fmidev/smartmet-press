@@ -977,7 +977,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 //			  }
 
 			NFmiPressNameDay * text = new NFmiPressNameDay;
-			if(!itsPressProduct->GetNameDay())
+		/*	if(!itsPressProduct->GetNameDay())
 			{
 			  NFmiNameDay *nameDay = new NFmiNameDay;
 			  itsPressProduct->SetNameDay(nameDay); //omistaja
@@ -985,7 +985,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			}
 			else
 			  text->SetNameDay(itsPressProduct->GetNameDay());
-
+*/
             text->SetEnvironment(itsEnvironment);
             text->SetHome(GetHome());
 		    text->SetLogFile(itsLogFile);
@@ -996,10 +996,21 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			if(text->ReadDescription(itsString))
 			  {
 				text->ScalePlotting();
+				if(!itsPressProduct->GetNameDay(text->GetLanguage()))
+				{
+				  NFmiNameDay *nameDay = new NFmiNameDay;
+				  itsPressProduct->SetNameDay(nameDay, text->GetLanguage()); //omistaja
+				  text->SetNameDay(nameDay);
+				}
+				else
+				{
+				  text->SetNameDay(itsPressProduct->GetNameDay(text->GetLanguage()));
+				}
 				itsTimeDepObjects.Add(text);
 			  }
 			else
 			  delete text;
+
 
 			itsIntObject = ConvertDefText(itsString);
 			break;

@@ -165,13 +165,14 @@ public:
   NFmiVoidPtrList itsObjects; //osakuvat voivat tuoda rekursiivisesti lisäkuvia
   bool IsSummerWeather(const NFmiString& theCountryPart);
   std::vector<bool> itsSegmentDoneTimes;
-  void SetNameDay(NFmiNameDay* nameDay);
-  NFmiNameDay* GetNameDay(void)const;
+  void SetNameDay(NFmiNameDay* nameDay, FmiLanguage=kFinnish);
+  NFmiNameDay* GetNameDay(FmiLanguage=kFinnish)const;
 
 private:
 
   bool fMakeElementsAfterSegments;
-  NFmiNameDay * itsNameDay;
+  NFmiNameDay * itsNameDayFi;
+  NFmiNameDay * itsNameDaySw;
   bool fChangeScandinavian;
   bool fDataRead;
   FmiPageSize itsPageSize;
@@ -266,9 +267,12 @@ bool NFmiPressProduct::GetElementsAfterSegments(void) const
 // ----------------------------------------------------------------------
 
 inline
-NFmiNameDay* NFmiPressProduct::GetNameDay(void) const
+NFmiNameDay* NFmiPressProduct::GetNameDay(FmiLanguage theLanguage) const
 {
-  return itsNameDay;
+  if(theLanguage == kFinnish)
+      return itsNameDayFi;
+  else
+      return itsNameDaySw;
 }
 
 // ----------------------------------------------------------------------
@@ -280,9 +284,12 @@ NFmiNameDay* NFmiPressProduct::GetNameDay(void) const
 // ----------------------------------------------------------------------
 
 inline
-void NFmiPressProduct::SetNameDay(NFmiNameDay* nameDay) 
+void NFmiPressProduct::SetNameDay(NFmiNameDay* nameDay, FmiLanguage theLanguage)
 {
-   itsNameDay = nameDay;
+  if(theLanguage == kFinnish)
+      itsNameDayFi = nameDay;
+  else
+      itsNameDaySw = nameDay;
 }
 // ----------------------------------------------------------------------
 /*!

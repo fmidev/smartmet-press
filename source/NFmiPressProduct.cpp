@@ -42,7 +42,8 @@ NFmiPressProduct::NFmiPressProduct(void)
 {
   itsNameTimeFormat = kUndefined;
   itsSecondNameTimeFormat = kUndefined;
-  itsNameDay = 0;
+  itsNameDayFi = 0;
+  itsNameDaySw = 0;
   itsLogFile = new ofstream;
   itsCurrentDataIter = 0;
   itsNameToLonLat = new NFmiLocationFinder();
@@ -69,8 +70,10 @@ NFmiPressProduct::NFmiPressProduct(void)
 
 NFmiPressProduct::~NFmiPressProduct(void)
 {
-  if(itsNameDay)
-	delete itsNameDay;
+  if(itsNameDayFi)
+	delete itsNameDayFi;
+  if(itsNameDaySw)
+	delete itsNameDaySw;
   if(itsCurrentDataIter)
 	delete itsCurrentDataIter;
   if(itsMaskIter)
@@ -1114,7 +1117,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 3.6.2004" << endl;       
+   *itsLogFile << "program version = 8.6.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2224,22 +2227,34 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			if(!ReadData())
 				return false;
 
-			if(!itsNameDay)
-			  itsNameDay = new NFmiNameDay;
-
 			NFmiPressNameDay * text = new NFmiPressNameDay;
 			text->SetWriteLast(fMakeElementsAfterSegments);
             text->SetEnvironment(itsEnvironment);
-			text->SetNameDay(itsNameDay);
+			//text->SetNameDay(itsNameDay);
             text->SetHome(GetHome());
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
 			//text->SetTime(itsFirstPlotTime);
 			if(text->ReadDescription(itsString))
+			{
+				if(text->GetLanguage() == kFinnish)
+				{
+					if(!itsNameDayFi)
+					  itsNameDayFi = new NFmiNameDay;
+					text->SetNameDay(itsNameDayFi);
+				}
+				else
+				{
+					if(!itsNameDaySw)
+					  itsNameDaySw = new NFmiNameDay;
+					text->SetNameDay(itsNameDaySw);
+				}
 				itsObjects.Add(text);
+			}
 			else
 			  delete text;
+
 
 			itsIntObject = ConvertDefText(itsString);
 			break;
