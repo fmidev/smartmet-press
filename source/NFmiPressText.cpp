@@ -733,7 +733,6 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 
 		NFmiRect rect = itsWriteScale.GetEndScales();
 		NFmiPoint topLeft = rect.TopLeft(); 
-		NFmiPoint bottomRight = rect.BottomRight();      
 		double centerX = itsWriteScale.GetEndCenter().X();  
 		// int number = text.GetLen();
  //TESTI

@@ -39,7 +39,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 	long long1;    
 	unsigned short numOfTablePlaces, currentPlaceNum=0;
 	NFmiString string1;
-	NFmiPoint point1, point2;
+	NFmiPoint point1;
 	double tableX=0, tableY1=0, tableY2=0, x, y;
 	double xmin,xmax,ymin,ymax;
 
