@@ -79,9 +79,6 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
   NFmiValueString valueString;
   NFmiString  textFile, textPath, textDir;
   double r1,r2,r3;
-  double xmin,xmax,ymin,ymax;
-  xmin = ymin = 0;
-  xmax = ymax = 1;
 
   itsFont = NFmiString("Times-Roman");
 
