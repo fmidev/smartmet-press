@@ -62,7 +62,7 @@ class _FMI_DLL NFmiRotatingParamRect : public NFmi2SymbolParamRect  //7.11.00
 	private:
 		bool CopyShortSymbol2Dest(NFmiString* symbolFile, std::ofstream& theDestinationFile); //11.2
 		float AdjustToMap(float theDirection)const;    //110400
-		void virtual WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream & os); //14.11.00
+		virtual void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream & os); //14.11.00
 
 	private:
 //		float itsSecondParamValue;             
