@@ -85,17 +85,17 @@ bool NFmiPsWriting::CopyFileWithoutShowpage(void)
   char inBuf[lineSize];
   unsigned short n, m, num;
   NFmiString notShowpage("gsave annotatepage grestore");
-  NFmiString string;
+  NFmiString str;
   // while (itsInFile.getline(inBuf, lineSize, '\n'))
   while (itsInFile->getline(inBuf, lineSize, '\n'))
   {
 	   // num = itsInFile.gcount();
 	   num = itsInFile->gcount();
-	   string.Set((unsigned char*)inBuf, num); //27.8.01
-	   n = (short)string.Search( NFmiString("showp"));
+	   str.Set((unsigned char*)inBuf, num); //27.8.01
+	   n = (short)str.Search( NFmiString("showp"));
 	   if (n > 0 )
 	   {
-		   m = (short)string.Search( NFmiString("grestore showpage"));
+		   m = (short)str.Search( NFmiString("grestore showpage"));
 		   if(m > 0)
 				// itsOutFile.write(notShowpage.GetCharPtr(), notShowpage.GetLen());
 				//HUOM 19.3.02: + (const char*)
