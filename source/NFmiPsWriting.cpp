@@ -22,21 +22,15 @@ NFmiPsWriting::NFmiPsWriting(const NFmiPsWriting& thePsWriting)
   , itsRotatingPoint(thePsWriting.itsRotatingPoint)  
   , itsRotatingAngle(thePsWriting.itsRotatingAngle)  
   , fOverPrint(thePsWriting.fOverPrint)
-  , itsInFile(thePsWriting.itsInFile ?
-		new ifstream(*(ifstream*)thePsWriting.itsInFile) : 0)  //25.3.02
-  , itsOutFile(thePsWriting.itsOutFile ?
-		new ofstream(*(ofstream*)thePsWriting.itsOutFile) : 0)
-
-//  , itsInFile(thePsWriting.itsInFile)
-//  , itsOutFile(thePsWriting.itsOutFile)
+  , itsInFile(thePsWriting.itsInFile)
+  , itsOutFile(thePsWriting.itsOutFile)
   , itsWriteScale(thePsWriting.itsWriteScale)
 {
+
 };
 //---------------------------------------------------------------------------
 NFmiPsWriting::~NFmiPsWriting()
 {
-	if (itsInFile)    //25.3.02
-		delete itsInFile;
 };
 //141298---------------------------------------------------------------------------
 bool NFmiPsWriting::WriteOutString(const NFmiString& outString)
