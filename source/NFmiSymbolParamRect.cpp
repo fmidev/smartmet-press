@@ -398,15 +398,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 
 bool NFmiSymbolParamRect::ReadRemaining(void)
 {
-  switch(itsIntObject)
-	{
-	default:
-	  {
-		return NFmiParamRect::ReadRemaining();
-		break;
-	  }
-	}
-  return true;
+  return NFmiParamRect::ReadRemaining();
 }
 
 // ----------------------------------------------------------------------
