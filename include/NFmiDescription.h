@@ -74,6 +74,7 @@ public:
   bool Set1Double(double & theMember); 
   bool Set1Long(long & theMember); 
   bool Set1UnsignedLong(unsigned long & theMember);
+  void SetTrue(bool& theBool);
 
   unsigned short GetMaxLoopNum(void) const;
   std::ofstream * GetLogFile (void) const;
@@ -87,6 +88,7 @@ public:
   //
   // HUOM! Voi olla, että määritelmien edessä luokan ulkopuolella
   // pitäisi olla inline, selvinnee myöhemmin linkatessa pääohjelma.
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -454,6 +456,21 @@ NFmiDescription::NFmiDescription(const NFmiDescription & theD)
   itsMaxLoopNum = theD.itsMaxLoopNum;
 }
 
+  // ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retValue1 Undocumented
+ * \param retValue2 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiDescription::SetTrue(bool& theBool) 
+{
+	theBool = true;	
+	ReadNext(); 
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

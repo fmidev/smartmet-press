@@ -41,6 +41,7 @@ NFmiTimeParamRect::NFmiTimeParamRect(const NFmiTimeParamRect & theTimeParamRect)
   , itsStationPoint(theTimeParamRect.itsStationPoint)
   , fIsValidTime(theTimeParamRect.fIsValidTime)
   , itsLanguage(theTimeParamRect.itsLanguage)
+  , fFinnishTimezone(theTimeParamRect.fFinnishTimezone)
 {
 }
 
@@ -283,6 +284,11 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dFinnishTimezone:
+		  {
+			SetTrue(fFinnishTimezone);
+			break;
+		  }
 		default:
 		  {
 			ReadRemaining();
@@ -327,10 +333,15 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 
 int NFmiTimeParamRect::ConvertDefText(NFmiString & object)
 {
-  if(object==NFmiString("Format") || object==NFmiString("Formaatti"))
+  NFmiString lowChar = object;
+  lowChar.LowerCase(); // kaikille sallitaan vapaasti isot/pienet kirjaimet
+
+  if(lowChar==NFmiString("format") || lowChar==NFmiString("formaatti"))
 	return dTimeFormat;
-  else if(object==NFmiString("Language") || object==NFmiString("Kieli"))
+  else if(lowChar==NFmiString("language") || lowChar==NFmiString("kieli"))
 	return dParamRectLanguage;
+  else if(lowChar==NFmiString("finnishtimezone") || lowChar==NFmiString("suomenaikavyöhyke"))
+	return dFinnishTimezone;
   else
 	return NFmiTextParamRect::ConvertDefText(object);
 
@@ -375,8 +386,15 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
   //aina local time piirtoalkioissa (vrt segmentti ja tuote missä ei)
   int errCode;
-  itsStationPoint.LocalTime(pTime, errCode);
-  if(errCode > 0  && !itsPressParam->GetErrorReported(errCode))
+
+  NFmiStationPoint tempStationPoint(itsStationPoint);
+
+  if(fFinnishTimezone)
+		tempStationPoint.SetLongitude(25.);
+
+  tempStationPoint.LocalTime(pTime, errCode);
+
+  if(!fFinnishTimezone && errCode > 0  && !itsPressParam->GetErrorReported(errCode))
 	{
 	  *itsLogFile << "  WARNING: possible problems to calculate local time, first: "
 				  << static_cast<char *>(static_cast<const NFmiString &>(itsStationPoint.GetName()))

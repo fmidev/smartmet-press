@@ -105,6 +105,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fMarkingValue(theRect.fMarkingValue)
   , itsSymbolGroupOrder(theRect.itsSymbolGroupOrder)
   , itsDataIdent(theRect.itsDataIdent)
+  , fMeanWindToMax(theRect.fMeanWindToMax)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -624,6 +625,12 @@ bool NFmiParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dFromMeanWindToMax:
+	  {
+		itsIdentPar = 21;
+		SetTrue(fMeanWindToMax);
+		break;
+	  }
 	case dStationTableActive:
 	  {
 		if (!ReadEqualChar())
@@ -872,6 +879,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("stationtableactive") ||
 		  lowChar==NFmiString("asemataulukonaktiiviset"))
 	return dStationTableActive;
+
+  else if(lowChar==NFmiString("frommeanwindtomax") ||
+		  lowChar==NFmiString("keskituulestamaksimi"))
+  return dFromMeanWindToMax;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1713,6 +1724,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		}
 	  
 	}
+
+  if(fMeanWindToMax)
+		value += max(value*.25, 2.);
 
   //ekassa käsittely poltettu koodiin, jälkimmäsessä ohjattavissa määrittelystä
   RandomModify(value, theQueryInfo->Param().GetParamIdent());

@@ -24,8 +24,8 @@
 enum NFmiTimeParamRectObjects
 {
   dTimeFormat = 190,
-  dParamRectLanguage
-
+  dParamRectLanguage,
+  dFinnishTimezone
 };
 
 
@@ -63,7 +63,7 @@ protected:
 private:
 
   FmiLanguage itsLanguage;
-
+  bool fFinnishTimezone;
 }; // class NFmiTimeParamRect
 
 // ----------------------------------------------------------------------
@@ -78,6 +78,7 @@ NFmiTimeParamRect::NFmiTimeParamRect(void)
   , itsFormat(kHHdMM)
   , fIsValidTime(true)
   , itsLanguage(kFinnish)
+  , fFinnishTimezone(false)
 {
 }
 
