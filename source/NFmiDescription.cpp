@@ -30,7 +30,7 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter (float &retValue1, float &retVa
 	itsValueHelpString = itsObject;
 	if(itsValueHelpString.IsNumeric())
 	{
-		retValue1 = (float)itsValueHelpString;
+		retValue1 = static_cast<float>(itsValueHelpString);
 	}
 	else 
 	{
@@ -58,7 +58,7 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter (float &retValue1, float &retVa
 	itsValueHelpString = itsObject;
 	if(itsValueHelpString.IsNumeric())
 	{
-		retValue2 = (float)itsValueHelpString;
+		retValue2 = static_cast<float>(itsValueHelpString);
 		*itsDescriptionFile >> itsObject;   //luetaan aina seuraava stringi itsObjektiin
 		itsString = itsObject;
 		if(itsString == NFmiString(","))
@@ -165,7 +165,7 @@ NFmiString NFmiDescription::ReadString (void)
 		}
 
 		if(loop >= 11)
-				*itsLogFile << "*** ERROR: lainausmerkiltä puuttuu pari: " << (char*)helpObject  << endl; 
+				*itsLogFile << "*** ERROR: lainausmerkiltä puuttuu pari: " << static_cast<char *>(helpObject)  << endl; 
 
         return helpObject.GetChars(1, helpObject.GetLen()-1);
 
@@ -182,7 +182,7 @@ bool NFmiDescription::ReadEqualChar (void)
 		return true;
 	}
 	itsValueHelpString = itsObject;
-	*itsLogFile << "*** ERROR: yhtäkuin-merkki (=) puuttuu: " << (char*)itsValueHelpString << endl;
+	*itsLogFile << "*** ERROR: yhtäkuin-merkki (=) puuttuu: " << static_cast<char *>(itsValueHelpString) << endl;
 	ReadNext();
 	return false;
 }
@@ -193,11 +193,11 @@ bool NFmiDescription::ReadUnsignedLong (unsigned long &retValue)
 	itsValueHelpString = itsObject;
 	if(itsValueHelpString.IsNumeric())
 	{
-		retValue = (unsigned long)(int)itsValueHelpString;
+		retValue = static_cast<unsigned long>(static_cast<int>(itsValueHelpString));
 		return true;
 	}
 	retValue = 0;
-	*itsLogFile << "*** ERROR: pitää olla luku: " << (char*)itsValueHelpString << endl;
+	*itsLogFile << "*** ERROR: pitää olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
 	return false;
 }
 /* ei onnaa täällä, yritetään Siirtää headeriin (markon ohje)
@@ -224,12 +224,12 @@ bool NFmiDescription::ReadLong (long &retValue, bool errorReport) //24.9.99
 	itsValueHelpString = itsObject;
 	if(itsValueHelpString.IsNumeric())
 	{
-		retValue = (long)(int)itsValueHelpString;
+		retValue = static_cast<long>(static_cast<int>(itsValueHelpString));
 		return true;
 	}
 	retValue = 0;
 	if(errorReport)
-		*itsLogFile << "*** ERROR: pitää olla luku: " << (char*)itsValueHelpString << endl;
+		*itsLogFile << "*** ERROR: pitää olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
 
 	return false;
 }
@@ -240,12 +240,12 @@ bool NFmiDescription::ReadDouble (double &retValue)
 	itsValueHelpString = itsObject;
 	if(itsValueHelpString.IsNumeric())
 	{
-		retValue = (double)itsValueHelpString;
+		retValue = static_cast<double>(itsValueHelpString);
 		return true;
 	}
 	retValue = 0.;
 
-	*itsLogFile << "*** ERROR: pitää olla luku: " << (char*)itsValueHelpString << endl;
+	*itsLogFile << "*** ERROR: pitää olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
 	return false;
 }
 //---------------------------------------------------------------------------

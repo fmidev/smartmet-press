@@ -53,7 +53,7 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect)
 NFmiTextParamRect::~NFmiTextParamRect() 
 {
 	if(itsMapping)    //181199
-		delete (NFmiParamMapping*)itsMapping;
+		delete static_cast<NFmiParamMapping *>(itsMapping);
 };
 /*
 //---------------------------------------------------------------------------
@@ -84,7 +84,7 @@ bool NFmiTextParamRect::ReadRemaining(void)  //300699
 				helpValueString = NFmiValueString(itsObject);
 	            if(helpValueString.IsNumeric())
 				{
-					r2 = (double)helpValueString;      
+					r2 = static_cast<double>(helpValueString);      
                  	*itsDescriptionFile >> itsObject;
 					helpString = itsObject;
 				}
@@ -287,7 +287,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString& theText
 
 		if(theOutput == kPlainText) //4.1.01
 		{
-			theDestinationFile << "\t" << (char*)theText;			
+			theDestinationFile << "\t" << static_cast<char *>(theText);			
 		}
 		else if(theOutput == kXml)
 		{
@@ -298,8 +298,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString& theText
 		}
 		else if(theOutput == kMetaLanguage)
 		{
-			theDestinationFile << endl << "Font " << (char*)itsFont << endl; 
-			theDestinationFile << "TextAlign " << (char*)itsPsWriting.AlignmentToMeta(itsAlignment) << endl;
+			theDestinationFile << endl << "Font " << static_cast<char *>(itsFont) << endl; 
+			theDestinationFile << "TextAlign " << static_cast<char *>(itsPsWriting.AlignmentToMeta(itsAlignment)) << endl;
 			theDestinationFile << "FontSize " << numberRect.Height() << endl;
 			
 /*			NFmiString font = NFmiString("-*-");
@@ -310,12 +310,12 @@ bool NFmiTextParamRect::WriteCode(const NFmiString& theText
 			theDestinationFile << (char*)font << endl;
 */
 			itsPsWriting.WriteColor(MapColor(), theOutput, theDestinationFile);
-			theDestinationFile << "Text \"" << (char*)theText << "\" " 
+			theDestinationFile << "Text \"" << static_cast<char *>(theText) << "\" " 
 				<< x << " " << y << endl;			
 		}
 		else
 		{
-			theDestinationFile << "%*** " << (char*)theObjectName << " ALKAA ***" << endl;
+			theDestinationFile << "%*** " << static_cast<char *>(theObjectName) << " ALKAA ***" << endl;
 			theDestinationFile << "gsave" << endl;
 
 			if(IsPureBlack())   //12.10
@@ -350,12 +350,12 @@ bool NFmiTextParamRect::WriteCode(const NFmiString& theText
 
 			if (fUseSelectLatinFont)
 			{
-				theDestinationFile << "/" << (char*)itsFont << " /" << (char*)itsFont << "_" << endl;
+				theDestinationFile << "/" << static_cast<char *>(itsFont) << " /" << static_cast<char *>(itsFont) << "_" << endl;
 				theDestinationFile << numberRect.Height() << " selectlatinfont" << endl;
 			}
 			else
 			{
-				theDestinationFile << "/" << (char*)itsFont << " " << numberRect.Height() << " selectfont" << endl;
+				theDestinationFile << "/" << static_cast<char *>(itsFont) << " " << numberRect.Height() << " selectfont" << endl;
 			}
 
 			bool firstIs226 = theText.GetLen() > 3 
@@ -423,21 +423,21 @@ bool NFmiTextParamRect::WriteShowString( double x
 		os << x << " " << y << " moveto" << endl;
 	    if(itsAlignment == kRight )
 		{
-		    os << "(" << (char*)theWidthString << ") " << "stringwidth" << endl;
+		    os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
 		    os << "neg exch neg exch" << endl; 
 		    os  << " rmoveto" << endl;
 		}
 		else if (itsAlignment == kCenter)
 		{
-		    os << "(" << (char*)theWidthString << ") " << "stringwidth" << endl;
+		    os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
 		    os << "-2. div exch -2. div exch" << endl; //puolikas matka
 		    os  << " rmoveto" << endl;
 		}
 		if(itsRelCharWidth == 0.) //300501 merkkien levennys/kavennus
-				os << "(" << (char*)theShowString << ") show" << endl;
+				os << "(" << static_cast<char *>(theShowString) << ") show" << endl;
 		//os << "(" << (char*)theShowString << ") " << "show" << endl;
 		else    
-				os << itsRelCharWidth << " 0. (" << (char*)theShowString << ") ashow" << endl;
+				os << itsRelCharWidth << " 0. (" << static_cast<char *>(theShowString) << ") ashow" << endl;
 
 		return true;
 }

@@ -26,9 +26,9 @@ bool	NFmiPressComputerTimeText::SetText()
 //	NFmiMetTime localTime(computerTime.LocalTime(25.f),1); 
 	useTime.ChangeByDays(itsDeltaDays);  
 	if(itsStringNameTimeFormat.IsValue())   //13.10.00
-		SetText(((NFmiPressTime)(useTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
+		SetText((static_cast<NFmiPressTime>(useTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
 	else
-		SetText(((NFmiPressTime)useTime).ToStr(itsFormat,itsLanguage));
+		SetText((static_cast<NFmiPressTime>(useTime)).ToStr(itsFormat,itsLanguage));
 
 	return true;
 }
@@ -45,7 +45,7 @@ bool NFmiPressComputerTimeText::ReadRemaining(void)
 				break;
 
  			if(ReadOne(long1))    
-              itsDeltaDays =  (short)long1;
+              itsDeltaDays =  static_cast<short>(long1);
 
 			ReadNext();
 			break;

@@ -28,7 +28,7 @@ NFmi2SymbolParamRect::~NFmi2SymbolParamRect()
 
 NFmiParamRect* NFmi2SymbolParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmi2SymbolParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmi2SymbolParamRect(*this));
 };
 //----------------------------------------------------------------------------
 bool NFmi2SymbolParamRect::ReadRemaining(void)  

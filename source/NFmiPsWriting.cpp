@@ -39,7 +39,7 @@ bool NFmiPsWriting::WriteOutString(const NFmiString& outString)
 	// cout = itsOutFile;
 	
 	// itsOutFile << (char*) outString << endl;
-	*itsOutFile << (char*) outString << endl;
+	*itsOutFile << static_cast<char *>(outString) << endl;
 
 	// cout = saveCout;
 
@@ -91,15 +91,15 @@ bool NFmiPsWriting::CopyFileWithoutShowpage(void)
   {
 	   // num = itsInFile.gcount();
 	   num = itsInFile->gcount();
-	   str.Set((unsigned char*)inBuf, num); //27.8.01
-	   n = (short)str.Search( NFmiString("showp"));
+	   str.Set(reinterpret_cast<unsigned char *>(inBuf), num); //27.8.01
+	   n = static_cast<short>(str.Search( NFmiString("showp")));
 	   if (n > 0 )
 	   {
-		   m = (short)str.Search( NFmiString("grestore showpage"));
+		   m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
 		   if(m > 0)
 				// itsOutFile.write(notShowpage.GetCharPtr(), notShowpage.GetLen());
 				//HUOM 19.3.02: + (const char*)
-				itsOutFile->write((const char*)(notShowpage.GetCharPtr()), notShowpage.GetLen());
+				itsOutFile->write(reinterpret_cast<const char *>(notShowpage.GetCharPtr()), notShowpage.GetLen());
 		   else
 			   	// itsOutFile.write(inBuf, num-1);
 			   	itsOutFile->write(inBuf, num-1);

@@ -202,7 +202,7 @@ void NFmiHyphenationString::SuperResetPosition(void)
 bool NFmiHyphenationString::IsConsonant(const NFmiString &theChar) const
 {
 	NFmiString consonants("bdfghjklmnprstv"); 
-	for(int i = 1; i <= (int)consonants.GetLen(); i++)  
+	for(int i = 1; i <= static_cast<int>(consonants.GetLen()); i++)  
 	{
 		if(!strcmp(consonants.GetCharsPtr(i,1), theChar))
 			return true;
@@ -213,7 +213,7 @@ bool NFmiHyphenationString::IsConsonant(const NFmiString &theChar) const
 bool NFmiHyphenationString::IsNumeric(const NFmiString &theChar) const
 {
 	NFmiString numerics("0123456789"); 
-	for(int i = 1; i <= (int)numerics.GetLen(); i++)  
+	for(int i = 1; i <= static_cast<int>(numerics.GetLen()); i++)  
 	{
 		if(!strcmp(numerics.GetCharsPtr(i,1), theChar))
 			return true;
@@ -224,7 +224,7 @@ bool NFmiHyphenationString::IsNumeric(const NFmiString &theChar) const
 bool NFmiHyphenationString::IsVowel(const NFmiString &theChar) const
 {
 	NFmiString vowels("aeiouyäö");  
-	for(int i = 1; i <= (int)vowels.GetLen(); i++)
+	for(int i = 1; i <= static_cast<int>(vowels.GetLen()); i++)
 	{
 		if(!strcmp(vowels.GetCharsPtr(i,1), theChar))
 			return true;
@@ -245,7 +245,7 @@ bool NFmiHyphenationString::IsLastCharPosition(void) const
 bool NFmiHyphenationString :: NextSubString (const NFmiString &toDelimiter, NFmiString& resString) // 5.10.1999/Lasse
 {
   //ei toimi ilman casteja vaikkei kääntäjä varoita
-  if(!IsValue() || (int)GetLen()-(int)itsCurrentCharPos <= -1)
+  if(!IsValue() || static_cast<int>(GetLen())-static_cast<int>(itsCurrentCharPos) <= -1)
   {
 	  resString = NFmiString();
 	  return false;
@@ -265,7 +265,7 @@ bool NFmiHyphenationString :: NextSubString (const NFmiString &toDelimiter, NFmi
 bool NFmiHyphenationString :: NextSubString (NFmiString& resString) // 19.10.1999/Lasse
 { //seuraava välilyöntien erottama 
   //ei toimi ilman casteja vaikkei kääntäjä varoita
-  if(!IsValue() || (int)GetLen()-(int)itsCurrentCharPos <= -1)
+  if(!IsValue() || static_cast<int>(GetLen())-static_cast<int>(itsCurrentCharPos) <= -1)
   {
 	  resString = NFmiString();
 	  return false;

@@ -40,7 +40,7 @@ NFmiRotatingParamRect::~NFmiRotatingParamRect()
 
 NFmiParamRect* NFmiRotatingParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmiRotatingParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmiRotatingParamRect(*this));
 };
 /*
 //---------------------------------------------------------------------------
@@ -164,12 +164,12 @@ void NFmiRotatingParamRect::WriteMetaCode(NFmiString* symbolFile, NFmiPoint real
 	NFmiString hStr(*symbolFile);
 	hStr.FirstCharToUpper();
 //	os << endl << "SymbolPath Symbolit/" << (char*)itsSymbolSetName << endl;
-	os << endl << (char*)hStr  
+	os << endl << static_cast<char *>(hStr)
 		<< " -x " << realPos.X() 
 		<< " -y " << realPos.Y() 
 //			<< " -scalex " << int(itsDefToProductScale.GetXScaling()*100.) << "%"     
 //			<< " -scaley " << int(itsDefToProductScale.GetYScaling()*100.) << "%";
-		<< " -angle " << (int)itsSecondParamValue;
+		<< " -angle " << static_cast<int>(itsSecondParamValue);
 	os << endl;
 }	
 /*
@@ -186,12 +186,12 @@ float NFmiRotatingParamRect::AdjustToMap(float theDirection) const
 	{
 		double lon = itsPressParam->GetCurrentStation().GetLongitude();
 		if(lon != kFloatMissing)
-			return theDirection - (float)lon + (float)itsVerticalLong;
+			return theDirection - static_cast<float>(lon) + static_cast<float>(itsVerticalLong);
 		else
 		{
 //			NFmiString name = itsPressParam->GetCurrentStation().GetName();
 		   *itsLogFile << "*** ERROR: longitudi puuttuu tuulensuuntaa varten asemalta "
-			           << (char*)(itsPressParam->GetCurrentStation().GetName()) << endl;
+			           << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
 		   return theDirection;
 		}
 	}

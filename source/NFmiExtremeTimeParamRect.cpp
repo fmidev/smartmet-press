@@ -27,7 +27,7 @@ NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect()
 //---------------------------------------------------------------------------
 NFmiParamRect* NFmiExtremeTimeParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmiExtremeTimeParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmiExtremeTimeParamRect(*this));
 };
 //----------------------------------------------------------------------------
 //---------------------------------------------------------------------------

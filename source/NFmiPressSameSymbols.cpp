@@ -72,7 +72,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 		case dOther:	  
 		{
 			if(itsLogFile)
-				*itsLogFile << "*** ERROR: Tuntematon sana #ParametriAsematissa: " << (char*)object << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon sana #ParametriAsematissa: " << static_cast<char *>(object) << endl;  
 			*itsDescriptionFile >> object;
 			str = object;
 			iobject = ConvertDefText(str);
@@ -97,7 +97,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 			if (!ReadEqualChar())
 				break;
 			if(ReadLong(long1))  //15.1
-               itsNumberOfSteps = (unsigned short)long1;
+               itsNumberOfSteps = static_cast<unsigned short>(long1);
 
 			*itsDescriptionFile >> object;
 			str = object;
@@ -133,7 +133,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString& retString) //16.1
 						tableX = xmin;
 						tableY1 = ymax;
 						tableY2 = ymin;
-						numOfTablePlaces = (unsigned short)long1;
+						numOfTablePlaces = static_cast<unsigned short>(long1);
 					}
 				}
 			}
@@ -258,7 +258,7 @@ bool NFmiPressSameSymbols::WritePS(ofstream& theOutFile)
 	      while(item)
            {	
 			  placeAll++;
-              place = *(NFmiPoint*)item;
+              place = *static_cast<NFmiPoint *>(item);
 		      {
 			     if(!(itsPsSymbol.MakeAndWritePS(place)))
 			     {
@@ -273,7 +273,7 @@ bool NFmiPressSameSymbols::WritePS(ofstream& theOutFile)
 	    itsCurrentStep++;
 	}
 	if(itsLogFile)
-         *itsLogFile << "VakioPaikat: " << (char*)itsPsSymbol.GetSymbol() 
+	  *itsLogFile << "VakioPaikat: " << static_cast<char *>(itsPsSymbol.GetSymbol())
 		 << ": " << placeAll << " paikkaa käsitelty" << endl;
 
 	for(int i=0; i< itsNumberOfSteps; i++)  //11.12

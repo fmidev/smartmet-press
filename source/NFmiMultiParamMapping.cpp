@@ -16,7 +16,7 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(const NFmiMultiParamMapping& thePar
 : NFmiSize(theParamMapping.GetSize())
 {
 	itsMappingIntervals = new FmiMultiMapping[itsSize];
-	for(int i=0; i< (int)itsSize; i++)
+	for(int i=0; i< static_cast<int>(itsSize); i++)
 	{
 		itsMappingIntervals[i] = theParamMapping.itsMappingIntervals[i];
 	}
@@ -26,7 +26,7 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(const NFmiMultiParamMapping& thePar
 //---------------------------------------------------------------------------
 NFmiMultiParamMapping::~NFmiMultiParamMapping() 
 {
-	delete [] (FmiMultiMapping*)itsMappingIntervals;
+	delete [] static_cast<FmiMultiMapping *>(itsMappingIntervals);
 };
  //9.9---------------------------------------------------------------------------
 FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping (ifstream* inFile)
@@ -61,12 +61,12 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping (ifstream* inFile)
 
 		if(str.IsNumeric())
 		{
-			mapping.mappingInterval[ind].lowBorder = (float)str;
+			mapping.mappingInterval[ind].lowBorder = static_cast<float>(str);
 
 			hyphOnePair.NextSubString(str);
 			if(str.IsNumeric())
 			{
-				mapping.mappingInterval[ind].highBorder = (float)str;
+				mapping.mappingInterval[ind].highBorder = static_cast<float>(str);
 				if(hyphOnePair.NextSubString(str)) //mahdollinen symboli
 					break;     //jotta mahdollinen kommentii pilkkuineen ei sotkisi
 			}
@@ -91,7 +91,7 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping& theInterva
 		tempIntervals = new FmiMultiMapping[GetSize() + 1];
 
 		int j;
-		for(j=0; j<(int)itsSize; j++)
+		for(j=0; j<static_cast<int>(itsSize); j++)
 		{
 			tempIntervals[j]= itsMappingIntervals[j];
 		}
@@ -103,7 +103,7 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping& theInterva
 
 		itsMappingIntervals = new FmiMultiMapping[GetSize()+1];
 		itsSize = GetSize()+1;
-		for(j=0; j< (int)GetSize(); j++)
+		for(j=0; j< static_cast<int>(GetSize()); j++)
 		{
 			itsMappingIntervals[j] = tempIntervals[j];
 		}
@@ -114,10 +114,10 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping& theInterva
 NFmiString*	NFmiMultiParamMapping::Map(float values[FmiMaxNumOfMappingParams], bool& missingFound)
 {
 	missingFound = false;
-	for(int j=0; j<(int)itsSize; j++)
+	for(int j=0; j<static_cast<int>(itsSize); j++)
 	{
 		int i;
-		for(i=0; i<(int)itsNumOfParams; i++)
+		for(i=0; i<static_cast<int>(itsNumOfParams); i++)
 		{
 			if(!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing
 				|| itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing
@@ -128,10 +128,10 @@ NFmiString*	NFmiMultiParamMapping::Map(float values[FmiMaxNumOfMappingParams], b
 					&& itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing)))
 				break;
 		}
-		if(i >= (int)itsNumOfParams) 
+		if(i >= static_cast<int>(itsNumOfParams)) 
 					return &itsMappingIntervals[j].symbol;
-		if(i<(int)itsNumOfParams && values[i] == kFloatMissing    //moniparametrien puuttuva-testi t‰‰ll‰ eli
-		||i==(int)itsNumOfParams && values[i-1] == kFloatMissing) //puuttuva vain jos jokin signifikantti puuttuu
+		if(i<static_cast<int>(itsNumOfParams) && values[i] == kFloatMissing    //moniparametrien puuttuva-testi t‰‰ll‰ eli
+		||i==static_cast<int>(itsNumOfParams) && values[i-1] == kFloatMissing) //puuttuva vain jos jokin signifikantti puuttuu
 		{											
 			missingFound = true;
 			return 0;

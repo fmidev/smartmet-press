@@ -98,11 +98,11 @@ class _FMI_DLL NFmiDescription
 			itsValueHelpString = itsObject;
 			if(itsValueHelpString.IsNumeric())
 			{
-				retValue = (Type)(double)itsValueHelpString; //110299 valueStringillä tulisi olla cast longiin ja uns.longiin
+				retValue = static_cast<Type>(static_cast<double>(itsValueHelpString)); //110299 valueStringillä tulisi olla cast longiin ja uns.longiin
 				return isTrue;
 			}
 			retValue = 0;
-			*itsLogFile << "ERROR: pitää olla luku: " << (char*)itsValueHelpString << endl;
+			*itsLogFile << "ERROR: pitää olla luku: " << static_cast<char *>(itsValueHelpString) << endl;
 			return isFalse;
 		};
 

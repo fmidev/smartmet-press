@@ -98,7 +98,7 @@ bool NFmiPressTimeText::ReadDescription(NFmiString& retString) //16.1
 			case dOther:	  
 			{    
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #AikaTekstissä: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #AikaTekstissä: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -185,7 +185,7 @@ bool NFmiPressTimeText::ReadDescription(NFmiString& retString) //16.1
 				|| lowChar == NFmiString ("vasen"))
                itsAlignment = kLeft;
 			else
-				*itsLogFile << "*** ERROR: Tuntematon kohdistus ajalla: " << (char*)itsObject << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon kohdistus ajalla: " << static_cast<char *>(itsObject) << endl;  
 
 
 			ReadNext();
@@ -232,7 +232,7 @@ bool NFmiPressTimeText::ReadDescription(NFmiString& retString) //16.1
 			       valueString = itsObject;
 				   if(valueString.IsNumeric())  
 				   {
-					  r2 = (double)valueString;
+					  r2 = static_cast<double>(valueString);
 					  itsRectSize.Set(r1,r2);
 
 					  *itsDescriptionFile >> itsObject;

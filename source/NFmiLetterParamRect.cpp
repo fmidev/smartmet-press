@@ -39,7 +39,7 @@ NFmiLetterParamRect::~NFmiLetterParamRect()
 //---------------------------------------------------------------------------
 NFmiParamRect* NFmiLetterParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmiLetterParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmiLetterParamRect(*this));
 };
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
@@ -81,7 +81,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString& retString)
 			case dOther:	  
 			{    
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #Tekstisssä: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #Tekstisssä: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -146,7 +146,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString& retString)
 				|| itsString == NFmiString ("Vasen"))
                itsAlignment = kLeft;      //7.9
 			else
-				*itsLogFile << "*** ERROR: Tuntematon kohdistus #Tekstissä: " << (char*)itsObject << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon kohdistus #Tekstissä: " << static_cast<char *>(itsObject) << endl;  
 
 			ReadNext();
 			break;
@@ -247,7 +247,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString& retString)
 			if (!ReadEqualChar())
 				break;
 			if(ReadLong(long1))    //15.1
-               itsFirstDeltaDays = (unsigned short)(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); ;
+               itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); ;
 
 			ReadNext();
 			if(itsLogFile)
@@ -272,7 +272,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString& retString)
 			if (!ReadEqualChar())
 				break;
 			if(ReadLong(long1))    //15.1
-               itsFirstPlotHours = (unsigned short)long1;
+               itsFirstPlotHours = static_cast<unsigned short>(long1);
 
 			ReadNext();
 			break;
@@ -314,7 +314,7 @@ bool	NFmiLetterParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 										,FmiPressOutputMode theOutput) //15.3.00									
 
 {
-   itsCurrentSegmentTime = ((NFmiQueryInfo*)theQI)->Time(); //4.9.01 
+   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time(); //4.9.01 
    itsCurrentTime = itsCurrentSegmentTime;//16.2.2000
 
 	NFmiString hString;

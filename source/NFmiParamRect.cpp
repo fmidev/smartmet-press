@@ -218,7 +218,7 @@ bool NFmiParamRect::ReadRemaining(void)  //090299
 			for(i=0; i<FmiMaxNumOfMappingParams; i++)
 			{
 				if(ReadLong(long1, false))
-					itsMultiParams[i] = (FmiParameterName) long1;
+					itsMultiParams[i] = FmiParameterName(long1);
 				else
 					break;
 			}
@@ -444,7 +444,7 @@ bool NFmiParamRect::ReadRemaining(void)  //090299
 			   valueString = itsObject;
 			   if(valueString.IsNumeric())  
 			   {
-				  itsIntegrationPeriod.startWeight = (float)valueString;
+				  itsIntegrationPeriod.startWeight = static_cast<float>(valueString);
 
 				  ReadTwo(itsIntegrationPeriod.centreWeight,itsIntegrationPeriod.endWeight);
 
@@ -475,7 +475,7 @@ bool NFmiParamRect::ReadRemaining(void)  //090299
 		}
 		case dRelHour:   //8.2.01 vain PressParamille ja Segmentille	  
 		{
-			*itsLogFile << "*** ERROR: Ei sallittu dataelementeille: " << (char*)itsString << endl;
+			*itsLogFile << "*** ERROR: Ei sallittu dataelementeille: " << static_cast<char *>(itsString) << endl;
 			ReadNext();
 			break;
 		}
@@ -702,13 +702,13 @@ bool NFmiParamRect:: PointOnMultiParam(NFmiFastQueryInfo* theQI, short theNum)
     fParamErrorReported = false;  
     itsCombinedIdent = kFmiLastParameter;  // onko tarkoitettu tähän?
 //	NFmiWeatherAndCloudiness* testComParam = new NFmiWeatherAndCloudiness(theQI->Param(326));
-	if (!theQI->Param(NFmiParam((unsigned long) itsMultiParams[theNum]))) 
+	if (!theQI->Param(NFmiParam(static_cast<unsigned long>(itsMultiParams[theNum]))))
 	{
 		{
 			if(itsLogFile && !fParamErrorReported)
 			{
 //			   long paramIdent = GetDataIdent().GetParam()->GetIdent();
-			   long paramIdent = (unsigned long) itsMultiParams[theNum]; //12.9.99
+			   long paramIdent = static_cast<unsigned long>(itsMultiParams[theNum]); //12.9.99
 			   *itsLogFile << "  *** ERROR: multiParametria ei löydy: " << paramIdent << endl;
 			   fParamErrorReported = true;
 			}
@@ -785,7 +785,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo* theQueryInfo, float& va
 			unsigned long par = theQueryInfo->ParamDescriptor().Param().GetParam()->GetIdent();
 			*itsLogFile << "    eka asema: aika paikan päällä= " << itsCurrentTime << " utc; par=" << par << endl;
 		}
-		*itsLogFile << "      ->lähin data-aika= " << ((NFmiFastQueryInfo*)theQueryInfo)->Time() << " utc" << endl;
+		*itsLogFile << "      ->lähin data-aika= " << (static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time() << " utc" << endl;
 	}
 
 	FloatValue(theQueryInfo, value);
@@ -793,7 +793,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo* theQueryInfo, float& va
 	if(value != kFloatMissing && itsIdentPar == kFmiPresentWeather //8.2.01 WaWa koodin pot. muunto
 	  && value >= 100 && value < 200)
 	{
-		value = (float)WaWa2PresentWeather((int)value, theQueryInfo);
+		value = static_cast<float>(WaWa2PresentWeather(static_cast<int>(value), theQueryInfo));
 	}
 
 	if(value == kFloatMissing)                 
@@ -805,7 +805,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo* theQueryInfo, float& va
 	}
 	else
 	{
-		value = (float)(value * itsValueFactor);
+		value = static_cast<float>(value * itsValueFactor);
 		
 		return true;
 	}
@@ -969,7 +969,7 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 		par = kFmiChillFactor;
 
 //	NFmiMetTime firstTime = ((NFmiFastQueryInfo*)theQueryInfo)->Time(); //4.9.01
-	NFmiMetTime firstTime = ((NFmiFastQueryInfo*)theQueryInfo)->Time(); //16.5.02
+	NFmiMetTime firstTime = (static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time(); //16.5.02
 	NFmiMetTime lastTime = firstTime;             //2.2.01
 	NFmiDataModifier* modif=0;            //4.1.01
 	NFmiDataModifier* areaModif=0;       //18.5.01
@@ -1116,7 +1116,7 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 	{
 		firstTime = itsCurrentSegmentTime;
 		lastTime = itsCurrentSegmentTime;
-		firstTime.ChangeByHours((-(long)period)/2);
+		firstTime.ChangeByHours((-static_cast<long>(period))/2);
 		lastTime.ChangeByHours(period/2);
 
 
@@ -1131,11 +1131,11 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 			double longitude = itsPressParam->GetCurrentStation().GetLongitude();
 			double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
 			if(longitude <= .001 && latitude <= .001)
-				*itsLogFile << "*** ERROR: longitudi puuttuu " << (char*)itsPressParam->GetCurrentStation().GetName()
+			  *itsLogFile << "*** ERROR: longitudi puuttuu " << static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
 						<< ":lta paikallista aikaa varten"<< endl; 
 
-			firstTime = firstTime.LocalTime(-(float)longitude);
-			lastTime = lastTime.LocalTime(-(float)longitude);
+			firstTime = firstTime.LocalTime(-static_cast<float>(longitude));
+			lastTime = lastTime.LocalTime(-static_cast<float>(longitude));
 		}
 	}
 
@@ -1332,8 +1332,8 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 			&& (itsModifier == kNoneModifier  //9.5.00
 			    || itsModifier == kMean)) //8.12.00 olomuodon ka tulee flotarina modifierista
 	   {                                                
-		   	value = (float)theQueryInfo->InterpolatedTimePeriodFloatValue(itsPressParam->GetCurrentStation().GetLocation(),
-			                                 firstTime,lastTime,startWeight,centreWeight,endWeight); 
+		   	value = static_cast<float>(theQueryInfo->InterpolatedTimePeriodFloatValue(itsPressParam->GetCurrentStation().GetLocation(),
+			                                 firstTime,lastTime,startWeight,centreWeight,endWeight)); 
 
 //		   value = (float)theQueryInfo->InterpolatedTimePeriodFloatValue(itsPressParam->GetCurrentStation().GetLocation(),
 //			                                 period,startWeight,centreWeight,endWeight); 
@@ -1358,8 +1358,8 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 					 {
 								*itsLogFile << "***ERROR: data should be in SuperSmartInfo" << endl;
 					 }
-					((NFmiSuperSmartInfo*)theQueryInfo)->AreaMask(itsPressParam->GetAreaMask());
-					((NFmiSuperSmartInfo*)theQueryInfo)->UseAreaMask(true);
+					(static_cast<NFmiSuperSmartInfo *>(theQueryInfo))->AreaMask(itsPressParam->GetAreaMask());
+					(static_cast<NFmiSuperSmartInfo *>(theQueryInfo))->UseAreaMask(true);
 
 					//theQueryInfo->AreaMask(itsPressParam->GetAreaMask());
 					//theQueryInfo->UseAreaMask(true);
@@ -1367,7 +1367,7 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 
 				theQueryInfo->CalcInterpolatedTimeData(modif, firstTime, lastTime,itsPressParam->GetCurrentStation().GetLocation());
 				if(isExtremeModifier)
-					itsPressParam->SetOptionTime(((NFmiDataModifierExtreme*)modif)->GetTime());
+					itsPressParam->SetOptionTime((static_cast<NFmiDataModifierExtreme *>(modif))->GetTime());
 				value = modif->CalculationResult();
 			 }
 		  }
@@ -1436,10 +1436,10 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 							else
 							
 							{
-								((NFmiSuperSmartInfo*)theQueryInfo)->AreaMask(itsPressParam->GetAreaMask());
-								((NFmiSuperSmartInfo*)theQueryInfo)->UseAreaMask(true);
-								((NFmiSuperSmartInfo*)theQueryInfo)->CalcLocationData(areaModif); 
-								((NFmiSuperSmartInfo*)theQueryInfo)->UseAreaMask(false);
+								(static_cast<NFmiSuperSmartInfo *>(theQueryInfo))->AreaMask(itsPressParam->GetAreaMask());
+								(static_cast<NFmiSuperSmartInfo *>(theQueryInfo))->UseAreaMask(true);
+								(static_cast<NFmiSuperSmartInfo *>(theQueryInfo))->CalcLocationData(areaModif); 
+								(static_cast<NFmiSuperSmartInfo *>(theQueryInfo))->UseAreaMask(false);
 							}
 
 //							if(theQueryInfo->AreaMask() == 0)
@@ -1483,7 +1483,7 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 			{    //2.3.00
 				theQueryInfo->CalcTimeData(modif, firstTime, lastTime);
 				if(isExtremeModifier)
-					itsPressParam->SetOptionTime(((NFmiDataModifierExtreme*)modif)->GetTime());
+					itsPressParam->SetOptionTime((static_cast<NFmiDataModifierExtreme *>(modif))->GetTime());
 
 				value = modif->CalculationResult();
 			}
@@ -1577,7 +1577,7 @@ float NFmiParamRect:: SunElevation(NFmiFastQueryInfo* theQueryInfo)
 	else
 		location = *(theQueryInfo->Location());
 
-	return (float)location.ElevationAngle(((NFmiFastQueryInfo*)theQueryInfo)->Time());
+	return static_cast<float>(location.ElevationAngle((static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time()));
 }
 //-090200---------------------------------------------------------------------------
 NFmiMetTime NFmiParamRect:: CalculatePeriodTime(long theHour)
@@ -1608,7 +1608,7 @@ NFmiMetTime NFmiParamRect:: CalculatePeriodTime(long theHour)
 		hour = 24 + hour; //hour on neg.
 
 	}
-	tim.SetHour((short)hour);
+	tim.SetHour(static_cast<short>(hour));
 	long diff = itsCurrentSegmentTime.DifferenceInHours(itsPressParam->GetFirstPlotTime());
 	tim.ChangeByHours(diff); //16.2.2000
 
@@ -1617,10 +1617,10 @@ NFmiMetTime NFmiParamRect:: CalculatePeriodTime(long theHour)
 		double longitude = itsPressParam->GetCurrentStation().GetLongitude();
 		double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
 		if(fabs(longitude) <= .001 && fabs(latitude) <= .001)   //24.5.00 abs lisätty
-			*itsLogFile << "*** ERROR: longitudi puuttuu " << (char*)itsPressParam->GetCurrentStation().GetName()
+		  *itsLogFile << "*** ERROR: longitudi puuttuu " << static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
 					<< ":lta paikallista aikaa varten"<< endl; 
 
-		tim = tim.LocalTime(-(float)longitude);
+		tim = tim.LocalTime(-static_cast<float>(longitude));
 
 	}
 	return tim;
@@ -1637,7 +1637,7 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo* theQI)
 	}
 //	NFmiCombinedParam* combPar;
 //	bool singleTime = itsIntegrationPeriod.period == 0 || itsIntegrationPeriod.period == kLongMissing;
-	for (int i = 0; (int)itsMultiParams[i] != (int)kFmiLastParameter; i++) 
+	for (int i = 0; static_cast<int>(itsMultiParams[i]) != static_cast<int>(kFmiLastParameter); i++) 
 	{
 		itsCurrentMultiParNum = i+1; //15.2.2000
 
@@ -1700,10 +1700,10 @@ bool NFmiParamRect:: SetStationLocalTime(NFmiFastQueryInfo* theQI)
 		double longitude = itsPressParam->GetCurrentStation().GetLongitude();
 		double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
 		if(fabs(longitude) <= .001 && fabs(latitude) <= .001) //24.5.00 +fabs 
-			*itsLogFile << "*** ERROR: longitudi puuttuu " << (char*)itsPressParam->GetCurrentStation().GetName()
+		  *itsLogFile << "*** ERROR: longitudi puuttuu " << static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
 			            << ":lta paikallista aikaa varten"<< endl; 
 
-		itsCurrentTime = itsCurrentTime.LocalTime(-(float)longitude);
+		itsCurrentTime = itsCurrentTime.LocalTime(-static_cast<float>(longitude));
 	}
 	return true;
 }
@@ -1717,9 +1717,9 @@ bool NFmiParamRect::SetRelativeHour(NFmiFastQueryInfo* data, const NFmiString& c
 	   if(itsPressParam->IsFirstStation())
 	   {
 		   if(itsPressParam->IsStationLocalTimeMode())  //18.9.00
-	         *itsLogFile << "    tunti muutettu " << (char*)calledFrom << ":ssa: " << itsFirstPlotHours << " pa" << endl;
+	         *itsLogFile << "    tunti muutettu " << static_cast<char *>(calledFrom) << ":ssa: " << itsFirstPlotHours << " pa" << endl;
 		   else
-		     *itsLogFile << "    tunti muutettu " << (char*)calledFrom << ":ssa: " << itsFirstPlotHours << " utc" << endl;
+		     *itsLogFile << "    tunti muutettu " << static_cast<char *>(calledFrom) << ":ssa: " << itsFirstPlotHours << " utc" << endl;
 	   }
 	   }
    return true;

@@ -45,7 +45,7 @@ NFmiTimeParamRect::~NFmiTimeParamRect()
 //---------------------------------------------------------------------------
 NFmiParamRect* NFmiTimeParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmiTimeParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmiTimeParamRect(*this));
 };
 //----------------------------------------------------------------------------
 void NFmiTimeParamRect:: SetLanguage(FmiLanguage newLanguage)		
@@ -100,7 +100,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString& retString)
 			case dOther:	  
 			{    
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #AikaTekstissä: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #AikaTekstissä: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -259,7 +259,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString& retString)
 			if (!ReadEqualChar())
 				break;
 			if(ReadLong(long1))    //15.1
-               itsFirstDeltaDays = (unsigned short)(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); ;
+               itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); ;
 
 			*itsDescriptionFile >> itsObject;
 			itsString = itsObject;
@@ -288,7 +288,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString& retString)
 			if (!ReadEqualChar())
 				break;
 			if(ReadLong(long1))    //15.1
-               itsFirstPlotHours = (unsigned short)long1;
+               itsFirstPlotHours = static_cast<unsigned short>(long1);
 
 			ReadNext();
 			break;
@@ -345,7 +345,7 @@ bool	NFmiTimeParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 		   return true;
     }
 
-    itsCurrentSegmentTime = ((NFmiQueryInfo*)theQI)->Time(); //8.2.2000 
+    itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time(); //8.2.2000 
     itsCurrentTime = itsCurrentSegmentTime;//16.2.2000
 
 	//2.3.2000 StationPoint hallitsee lokaaliajat (wmo-nro ja longitudi)
@@ -367,7 +367,7 @@ bool	NFmiTimeParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 	if(errCode > 0  && !itsPressParam->GetErrorReported(errCode))
 	{
 		*itsLogFile     << "  WARNING: possible problems to calculate local time, first: " <<
-			    (char*) ((NFmiString&)itsStationPoint.GetName()) << endl; //Markon maili 3.3.00
+			    static_cast<char *>(static_cast<const NFmiString &>(itsStationPoint.GetName())) << endl; //Markon maili 3.3.00
 
 		if(errCode == 1)
 			*itsLogFile << "  ->ei Wmo-numeroa eikä longitudia" << endl;
@@ -447,13 +447,13 @@ NFmiTime	NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI)
 		double latitude = itsStationPoint.GetLatitude();//Testiin
 		double longitude = itsStationPoint.GetLongitude();//Testiin
 		if(fabs(longitude) <= .001 && fabs(latitude) <= .001)
-			*itsLogFile << "*** ERROR: longitudi puuttuu " << (char*)itsStationPoint.GetName()
+		  *itsLogFile << "*** ERROR: longitudi puuttuu " << static_cast<char *>(itsStationPoint.GetName())
 			            << ":lta paikalliseen aikaan"<< endl; 
-		NFmiTime localTime = tim.LocalTime(-(float)longitude);
+		NFmiTime localTime = tim.LocalTime(-static_cast<float>(longitude));
 	//Hullua näin
-		NFmiMetTime saveTime = ((NFmiQueryInfo*)theQI)->Time(); 
+		NFmiMetTime saveTime = (static_cast<NFmiQueryInfo *>(theQI))->Time(); 
 		theQI->TimeToNearestStep (localTime, kCenter, theQI->TimeResolution()/2);
-		tim =  ((NFmiQueryInfo*)theQI)->Time();
+		tim =  (static_cast<NFmiQueryInfo *>(theQI))->Time();
 		theQI->Time(saveTime);
 	}
 	return tim;	

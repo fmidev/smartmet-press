@@ -67,7 +67,7 @@ bool NFmiPressArea::ReadDescription(NFmiString& retString)
 			case dOther:	  
 			{    
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #Kartassa: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #Kartassa: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -97,7 +97,7 @@ bool NFmiPressArea::ReadDescription(NFmiString& retString)
 			else if (helpString.GetChars(1,6) == NFmiString ("equidi")) //17.8.01
 			   proj = kNFmiEquiDistArea;
 			else
-				*itsLogFile << "*** ERROR: Tuntematon projektio: " << (char*)helpString << endl;
+				*itsLogFile << "*** ERROR: Tuntematon projektio: " << static_cast<char *>(helpString) << endl;
 	
 			ReadNext();
  			break;

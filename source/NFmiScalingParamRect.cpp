@@ -16,7 +16,7 @@ using namespace std; //27.8.01
 
 //---------------------------------------------------------------------------
 NFmiScalingParamRect::NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect)
-: NFmi2SymbolParamRect(*(NFmi2SymbolParamRect*)&theSymbolRect)
+: NFmi2SymbolParamRect(*static_cast<const NFmi2SymbolParamRect *>(&theSymbolRect))
 , itsXValueScaling(theSymbolRect.itsXValueScaling)  //17.10.00
 , itsYValueScaling(theSymbolRect.itsYValueScaling)  //17.10.00                               
 
@@ -32,7 +32,7 @@ NFmiScalingParamRect::~NFmiScalingParamRect()
 
 NFmiParamRect* NFmiScalingParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmiScalingParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmiScalingParamRect(*this));
 };
 /*
 //---------------------------------------------------------------------------

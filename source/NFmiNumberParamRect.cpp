@@ -47,7 +47,7 @@ NFmiNumberParamRect::~NFmiNumberParamRect()
 //---------------------------------------------------------------------------
 NFmiParamRect* NFmiNumberParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmiNumberParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmiNumberParamRect(*this));
 };
 
 //----------------------------------------------------------------------------
@@ -87,7 +87,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString& retString)
 			case dOther:	  
 			{    
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #Numerossa: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #Numerossa: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -118,7 +118,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString& retString)
 				|| itsString == NFmiString ("Vasen"))
                itsAlignment = kLeft;      //7.9
 			else
-				*itsLogFile << "*** ERROR: Tuntematon kohdistus #Numerossa: " << (char*)itsObject << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon kohdistus #Numerossa: " << static_cast<char *>(itsObject) << endl;  
 
 
 			ReadNext();
@@ -281,7 +281,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString& retString)
 			if (!ReadEqualChar())
 				break;
 			if(ReadLong(long1))   
-               itsFirstDeltaDays = (unsigned short)(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); ;
+               itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); ;
 
 			ReadNext();
 			if(itsLogFile)
@@ -306,7 +306,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString& retString)
 			if (!ReadEqualChar())
 				break;
 			if(ReadLong(long1))    //15.1
-               itsFirstPlotHours = (unsigned short)long1;
+               itsFirstPlotHours = static_cast<unsigned short>(long1);
 
 			ReadNext();
 			break;
@@ -385,7 +385,7 @@ bool NFmiNumberParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 {
 
    float value;
-   itsCurrentSegmentTime = ((NFmiQueryInfo*)theQI)->Time(); //4.9.01 
+   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time(); //4.9.01 
    itsCurrentTime = itsCurrentSegmentTime;//16.2.2000
 
    if(fUseFromStorage)   //18.9.01
@@ -503,7 +503,7 @@ bool NFmiNumberParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 				str += NFmiString("\\226");
 				NFmiHyphenationString helpFormat = format;
 				NFmiString hFormat = helpFormat.DropChar("+");
-				str += NFmiValueString ((float)fabs(value),hFormat);
+				str += NFmiValueString (static_cast<float>(fabs(value)),hFormat);
 			}
 		else      // PUUTTUVA
 		{

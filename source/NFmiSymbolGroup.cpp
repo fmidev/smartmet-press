@@ -79,7 +79,7 @@ NFmiSymbolGroup::NFmiSymbolGroup(NFmiPressParam* pressParam  //13.8.99
   , itsQueryDataIter(0)
 {
 	itsParamRects = new NFmiParamRect*[numOfItems];
-	for(int i=0; i < (int)GetSize(); i++)
+	for(int i=0; i < static_cast<int>(GetSize()); i++)
 		itsParamRects[i] = theItemList[i];
 
 };
@@ -89,7 +89,7 @@ bool NFmiSymbolGroup::Set(NFmiRectScale &theRectScale
 							 , NFmiFastQueryInfo* theQueryDataIter 
 							 , ofstream& theDestinationFile)
 {
-	if(itsRectScale) delete (NFmiRectScale*)itsRectScale;
+	if(itsRectScale) delete static_cast<NFmiRectScale *>(itsRectScale);
 	itsRectScale = new NFmiRectScale(theRectScale);	
 	itsQueryDataIter = theQueryDataIter; 
 	itsOutFile = &theDestinationFile;
@@ -97,8 +97,8 @@ bool NFmiSymbolGroup::Set(NFmiRectScale &theRectScale
 };
 //---------------------------------------------------------------------------
 NFmiSymbolGroup::~NFmiSymbolGroup()
-{	if(itsParamRects) delete [] (NFmiParamRect**)itsParamRects;
-	if(itsRectScale) delete (NFmiRectScale*)itsRectScale;
+{	if(itsParamRects) delete [] static_cast<NFmiParamRect **>(itsParamRects);
+	if(itsRectScale) delete static_cast<NFmiRectScale *>(itsRectScale);
 	if(itsPsSymbol) delete itsPsSymbol;
 	itsPressScalingObjects.Clear(isTrue);      
 };
@@ -107,7 +107,7 @@ bool NFmiSymbolGroup::SetAllTimes(const NFmiMetTime& theTime)
 {
 	SetTime(theTime); //varmaan turha
 
-	for(int i=0; i < (int)GetSize(); i++)
+	for(int i=0; i < static_cast<int>(GetSize()); i++)
 	{
 		itsParamRects[i]->SetTime(theTime); 
 		itsParamRects[i]->UpdateModifierTimes(); //3.6.02	
@@ -120,7 +120,7 @@ bool NFmiSymbolGroup::SetAllLanguages(FmiLanguage theLanguage)
 {
 	itsLanguage = theLanguage;
 
-	for(int i=0; i < (int)GetSize(); i++)
+	for(int i=0; i < static_cast<int>(GetSize()); i++)
 	{
 		itsParamRects[i]->SetLanguage(theLanguage); 
 	}
@@ -134,19 +134,19 @@ bool NFmiSymbolGroup::Add(const NFmiParamRect & theParamRect)
 		NFmiParamRect** tempRects;
 		tempRects = new NFmiParamRect*[itsSize + 1];
 		int j;
-		for(j=0; j<(int)itsSize; j++)
+		for(j=0; j<static_cast<int>(itsSize); j++)
 			tempRects[j] = itsParamRects[j];
 		tempRects[j] = theParamRect.Clone(); 
 
 		if(itsParamRects)
-			delete [] (NFmiParamRect**)itsParamRects;
+			delete [] static_cast<NFmiParamRect **>(itsParamRects);
 
 		itsParamRects = new NFmiParamRect*[itsSize+1];
 		itsSize = itsSize+1;
-		for(j=0; j< (int)itsSize; j++)
+		for(j=0; j< static_cast<int>(itsSize); j++)
 			itsParamRects[j] = tempRects[j];
 
-		delete [] (NFmiParamRect**)tempRects;
+		delete [] static_cast<NFmiParamRect **>(tempRects);
 		return true;//doesn't compare if already in the list ->true is returned as a default. 
 	
 };
@@ -154,7 +154,7 @@ bool NFmiSymbolGroup::Add(const NFmiParamRect & theParamRect)
 long NFmiSymbolGroup::NumOfMissing(void) const //4.2
 {
 	long num = 0;
-	for(int i=0; i < (int)GetSize(); i++)
+	for(int i=0; i < static_cast<int>(GetSize()); i++)
 	{
 		num += itsParamRects[i]->NumOfMissing();
 	}
@@ -165,7 +165,7 @@ long NFmiSymbolGroup::NumOfMissing(void) const //4.2
 //---------------------------------------------------------------------------
 void NFmiSymbolGroup::InitMissing(void)  //27.6.00
 {
-	for(int i=0; i < (int)GetSize(); i++)
+	for(int i=0; i < static_cast<int>(GetSize()); i++)
 	{
 		itsParamRects[i]->InitMissing();
 	}
@@ -212,7 +212,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString& retString) //16.1
 			case dOther:	  //ylimääräistä roinaa, End.. lopettaa
 			{
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #DataAlkiot-elementissä: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #DataAlkiot-elementissä: " << static_cast<char *>(itsObject) << endl;  
 			    ReadNext();
 			/*	*itsDescriptionFile >> object;
 				itsString = object;
@@ -243,7 +243,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString& retString) //16.1
 			       valueString = itsObject;
 				   if(valueString.IsNumeric())  
 				   {
-					  y = (double)valueString;
+					  y = static_cast<double>(valueString);
 					  *itsDescriptionFile >> itsObject;
 					  itsString = itsObject;
 				    }
@@ -451,7 +451,7 @@ void NFmiSymbolGroup::SetScalingMode(void)
 {
      //pitäisi kai tarkistaa myös muut kuin datariippuvat
 	fNewScaling = false;
-	for(int i=0; i < (int)GetSize(); i++)
+	for(int i=0; i < static_cast<int>(GetSize()); i++)
 	{	
 		if(itsParamRects[i]->IsNewScaling())
 			fNewScaling = true;
@@ -522,7 +522,7 @@ bool	NFmiSymbolGroup::WritePS(const  NFmiStationPoint &theStationPoint
 //	itsSymbols.Set(theScale, itsData, theFile);  //28.8
      
 	 objectIter.Reset();
-	 object = (NFmiPressScaling*)objectIter.Next();
+	 object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	 while (object)
 	 {
 		NFmiRectScale rectScale = NFmiRectScale(*itsRectScale);
@@ -538,12 +538,12 @@ bool	NFmiSymbolGroup::WritePS(const  NFmiStationPoint &theStationPoint
 			  *itsLogFile << "*** ERROR: (timeDep)object->WritePS() in NFmiSymbolGroup" << endl;
 		   return false;
 		}
-		object = (NFmiPressScaling*)objectIter.Next();   
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	 }
 
-    NFmiMetTime currentSegmentTime = ((NFmiQueryInfo*)itsQueryDataIter)->Time(); //16.2.2000 
+    NFmiMetTime currentSegmentTime = (static_cast<NFmiQueryInfo *>(itsQueryDataIter))->Time(); //16.2.2000 
 
-	for(int i=0; i < (int)GetSize(); i++)
+	for(int i=0; i < static_cast<int>(GetSize()); i++)
 	{
 		itsQueryDataIter->Time(currentSegmentTime);//16.2.2000, piirtoalkiot saattavat muuttaa (ainakin tuntia)
 		itsParamRects[i]->WritePS(absRectOfGroup

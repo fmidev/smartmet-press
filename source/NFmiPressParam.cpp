@@ -203,11 +203,11 @@ bool NFmiPressParam::SetStationRename(const NFmiRenaming& theRenaming)
 	//ainoastaan asemanNimi‰
 	NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsStationDepObjects);
 	objectIter.Reset();
-	NFmiPressStationText* object = (NFmiPressStationText*)objectIter.Next();
+	NFmiPressStationText* object = static_cast<NFmiPressStationText *>(objectIter.Next());
 	while(object)
 	{
 		object->SetNewName(theRenaming);
-		object = (NFmiPressStationText*)objectIter.Next();
+		object = static_cast<NFmiPressStationText *>(objectIter.Next());
 	}
 	itsName = theRenaming.newName; //12.6.00 samalla muuttuu itse olion nimi  
 	
@@ -218,7 +218,7 @@ NFmiStationPoint NFmiPressParam::GetFirstStationPoint(void)
 {
 	if(itsStations.First())
 	{
-		return *(NFmiStationPoint*)itsStations.Location();
+		return *static_cast<const NFmiStationPoint *>(itsStations.Location());
 	}
 	else
 		return NFmiStationPoint();
@@ -228,7 +228,7 @@ NFmiPoint NFmiPressParam::GetFirstPoint(void)
 {
 	if(itsStations.First())  //28.1.2000
 	{
-		NFmiStationPoint* statPoint = (NFmiStationPoint*)itsStations.Location();
+		const NFmiStationPoint* statPoint = static_cast<const NFmiStationPoint *>(itsStations.Location());
 		return statPoint->Point();
 	}
 	else
@@ -265,7 +265,7 @@ bool NFmiPressParam::SetData(const NFmiString& dataName)
 	NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsTimeDepObjects);
 	NFmiPressScaling* scaleObject;
 	objectIter.Reset();
-	scaleObject = (NFmiPressScaling*)objectIter.Next();
+	scaleObject = static_cast<NFmiPressScaling *>(objectIter.Next());
 //	NFmiPressDataTimeText* timeObject;
 	while(scaleObject)
 	{
@@ -273,25 +273,25 @@ bool NFmiPressParam::SetData(const NFmiString& dataName)
 		{
 			case kNFmiPressDataTimeText:	  
 			{
-				((NFmiPressDataTimeText*)scaleObject)->SetData(itsDataIter);
+				(static_cast<NFmiPressDataTimeText *>(scaleObject))->SetData(itsDataIter);
 			}
 			case kNFmiNone:
 			default:
 			{
 			}
 		}
-		scaleObject = (NFmiPressScaling*)objectIter.Next();
+		scaleObject = static_cast<NFmiPressScaling *>(objectIter.Next());
 	}
 
 	//ainoastaan asemanNimi‰
 	NFmiPressStationText* object;
 	objectIter = NFmiVoidPtrIterator(itsStationDepObjects);
 	objectIter.Reset();
-	object = (NFmiPressStationText*)objectIter.Next();
+	object = static_cast<NFmiPressStationText *>(objectIter.Next());
 	while(object)
 	{
 		object->SetData(itsDataIter);
-		object = (NFmiPressStationText*)objectIter.Next();
+		object = static_cast<NFmiPressStationText *>(objectIter.Next());
 	}
 	return true;
 }
@@ -326,11 +326,11 @@ bool NFmiPressParam::SetAllLanguages(FmiLanguage theLanguage)
 	NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsTimeDepObjects); 
 	NFmiPressScaling *object;
 	objectIter.Reset();
-	object = (NFmiPressScaling*)objectIter.Next();
+	object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	while(object)
 	{
 		object->SetLanguage(theLanguage);
-		object = (NFmiPressScaling*)objectIter.Next();
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	}
 
 	itsSymbols.SetAllLanguages(theLanguage);
@@ -403,7 +403,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 	   case dOther:	  //ylim‰‰r‰ist‰ roinaa,
 	   {
 			if(itsLogFile)
-				*itsLogFile << "*** ERROR: Tuntematon sana #Segmentiss‰: " << (char*)itsObject << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon sana #Segmentiss‰: " << static_cast<char *>(itsObject) << endl;  
 
 			ReadNext(); //9.9 t‰m‰ korvaa seuraavat
 //			*itsDescriptionFile >> itsObject;
@@ -438,7 +438,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 				break;
 
 			if(ReadOne(long1))  
-               numberOfTimeSteps = (unsigned short)long1;
+               numberOfTimeSteps = static_cast<unsigned short>(long1);
 
 			ReadNext();
 			break;
@@ -454,7 +454,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			       valueString = itsObject;
 				   if(valueString.IsNumeric())  
 				   {
-					  y = (double)valueString;
+					  y = static_cast<double>(valueString);
 					  *itsDescriptionFile >> itsObject;
 					  itsString = itsObject;
 				    }
@@ -494,7 +494,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 
 				if(ReadLong(long1))
 				{
-					numberOfLevelSteps = FmiMin(kMaxNumOfTableElements,(unsigned short)long1);
+					numberOfLevelSteps = FmiMin(kMaxNumOfTableElements,static_cast<unsigned short>(long1));
 				}
 			}
 				// itsStepSize joudutaan asettamaan luupin j‰lkeen alla
@@ -573,19 +573,19 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 
 				if(ReadLong(long1))
 				{
-					numberOfTimeSteps = (unsigned short)long1;
+					numberOfTimeSteps = static_cast<unsigned short>(long1);
 					if(numberOfTimeSteps >= kMaxNumOfTableElements) //1.8.01
 					{
 						*itsLogFile << "*** WARNING: taulukkoon varattu aika-askelm‰‰r‰ ylitetty: " << numberOfTimeSteps << endl;
 					}
 					if(ReadLong(long1))       //12.8
 					{
-						itsHourStep = (unsigned short)long1;
+						itsHourStep = static_cast<unsigned short>(long1);
 						timeOrLevelTableSet = true; 
 						if(itsHourStep < 24) //050399 oli 25???
 							SetHourLoop(true);
 						currentTotalTimeDiff = (numberOfTimeSteps-1) * itsHourStep;
-						currentTimeInd = (short)numberOfTimeSteps;
+						currentTimeInd = static_cast<short>(numberOfTimeSteps);
 					}
 				}
 			}
@@ -615,19 +615,19 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 
 				if(ReadLong(long1))
 				{
-					numberOfTimeSteps = (unsigned short)long1;
+					numberOfTimeSteps = static_cast<unsigned short>(long1);
 					if(numberOfTimeSteps >= kMaxNumOfTableElements) //1.8.01
 					{
 						*itsLogFile << "*** WARNING: taulukkoon varattu aika-askelm‰‰r‰ ylitetty: " << numberOfTimeSteps << endl;
 					}
 					if(ReadLong(long1))       
 					{
-						itsHourStep = (unsigned short)long1;
+						itsHourStep = static_cast<unsigned short>(long1);
 						timeOrLevelTableSet = true; 
 						if(itsHourStep < 24) //050399 oli 25???
 							SetHourLoop(true);
 						currentTotalTimeDiff = (numberOfTimeSteps-1) * itsHourStep;
-						currentTimeInd = (short)numberOfTimeSteps;
+						currentTimeInd = static_cast<short>(numberOfTimeSteps);
 					}
 				}
 			}
@@ -729,7 +729,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 					tableX2 = xmax;
 					tableY1 = ymin;
 					tableY2 = ymax;
-					numOfTableStations = (int)valueString;
+					numOfTableStations = static_cast<int>(valueString);
 			        *itsDescriptionFile >> itsObject;
 			        itsString = itsObject;
 				}
@@ -739,7 +739,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 					tableX2 = xmin;
 					tableY1 = ymin;
 					tableY2 = xmax;  //! ok
-					numOfTableStations = (unsigned short)ymax;
+					numOfTableStations = static_cast<unsigned short>(ymax);
 					itsString = itsObject;    //4.3
 				}
 				stationStepSize.Set((tableX2 - tableX1) / (numOfTableStations-1)  //16.3
@@ -761,7 +761,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 
 			if(dataTimeGiven)
 			{
-			    *itsLogFile << "*** ERROR: Data '" << (char*)itsDataName << "' segmentiss‰ pit‰‰ antaa ennen" << endl;
+			    *itsLogFile << "*** ERROR: Data '" << static_cast<char *>(itsDataName) << "' segmentiss‰ pit‰‰ antaa ennen" << endl;
 			    *itsLogFile << "       'K‰yt‰DatanAlkuaikaa' ja 'SuhteellinenTuntiDatasta'" << endl;
 			    *itsLogFile << "       -> segmentiss‰ mahdollisesti v‰‰r‰ aika" << endl;
 			}
@@ -964,7 +964,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 				break;
 
 			if(ReadOne(long1))    
-               itsFirstDeltaDays = (short)(JustifyByLeaps(long1+ itsEnvironment.GetDayAdvance())); //23.5.02 +GetDayAdvance); 
+               itsFirstDeltaDays = static_cast<short>(JustifyByLeaps(long1+ itsEnvironment.GetDayAdvance())); //23.5.02 +GetDayAdvance); 
 
 			ReadNext();
 			break;
@@ -988,7 +988,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 
 //			if(ReadLong(long1))    
  			if(ReadOne(long1))    
-              itsFirstPlotHours = (unsigned short)long1;
+              itsFirstPlotHours = static_cast<unsigned short>(long1);
 
 			ReadNext();
 			break;
@@ -1001,7 +1001,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 //			if(ReadLong(long1))    
 			if(ReadOne(long1))    
 			{
-               itsHourStep = (unsigned short)long1;
+               itsHourStep = static_cast<unsigned short>(long1);
 			   if(itsHourStep < 25)                  
 							SetHourLoop(true);
 			}
@@ -1016,7 +1016,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			{
 				itsDataIter->Reset();
 				itsDataIter->NextTime();
-				itsFirstPlotTime = ((NFmiQueryInfo*)itsDataIter)->Time(); //4.9.01
+				itsFirstPlotTime = (static_cast<NFmiQueryInfo *>(itsDataIter))->Time(); //4.9.01
 				itsFirstPlotHours = itsFirstPlotTime.GetHour();
 			}
 			else
@@ -1039,7 +1039,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			{
 				itsDataIter->Reset();
 				itsDataIter->NextTime();
-				itsFirstPlotTime = ((NFmiQueryInfo*)itsDataIter)->Time();
+				itsFirstPlotTime = (static_cast<NFmiQueryInfo *>(itsDataIter))->Time();
 				itsFirstPlotTime.ChangeByHours(long1);
 				itsFirstPlotHours = itsFirstPlotTime.GetHour();
 			}
@@ -1066,7 +1066,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 		    if(valueString.IsNumeric())  //8.2.01
 			{
 				//lasketulla itsFirstPlotTime:ll‰ ei tee mit‰‰n
-				long3 = (int)valueString;
+				long3 = static_cast<int>(valueString);
 				itsFirstPlotTime = NextUseTime(long1, long2, long3);
 				*itsDescriptionFile >> itsObject;
 				itsString = itsObject;
@@ -1101,7 +1101,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 
 		    if(valueString.IsNumeric())
 			{
-				statNum = (int)valueString;
+				statNum = static_cast<int>(valueString);
 				*itsDescriptionFile >> itsObject;
 			    string1 = itsObject;
 				*itsDescriptionFile >> itsObject;
@@ -1118,14 +1118,14 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			valueString = itsObject;         // parillinen m‰‰r‰ lukuja sallittu: 0 2 tai 4
 		    if(valueString.IsNumeric())   // >= 1 luku
 			{
-			   lon = (double)valueString;
+			   lon = static_cast<double>(valueString);
 			   if(ReadDouble(lat))         // >= 2 lukua
 			   {
 			      *itsDescriptionFile >> itsObject;
 			      valueString = itsObject;
 			      if(valueString.IsNumeric())  // >= 3 lukua
 			      {
-				     x = (short)valueString;
+				     x = static_cast<short>(valueString);
 			         if(!ReadDouble(y))
 						  helpBool = false;  // 3 lukua virhe
 				     *itsDescriptionFile >> itsObject;            // 4 lukua
@@ -1153,7 +1153,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 				    itsString = valueString;
 					if(numOfTableStations < 1) //16.6.99
 					{
-						*itsLogFile << "*** ERROR: "<< (char*)string1 << ": asemalla, joka ei taulukossa, tulisi olla paikka"  << endl; 
+						*itsLogFile << "*** ERROR: "<< static_cast<char *>(string1) << ": asemalla, joka ei taulukossa, tulisi olla paikka"  << endl; 
 						helpBool = false;
 					}
 			   }
@@ -1232,7 +1232,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			valueString = ReadString();
 		    if(valueString.IsNumeric())
 			{
-				statNum = (int)valueString;
+				statNum = static_cast<int>(valueString);
 				*itsDescriptionFile >> itsObject;
 			    string1 = itsObject;
 
@@ -1246,7 +1246,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
                                           // parillinen m‰‰r‰ lukuja sallittu: 0 2 tai 4
 			if(valueString.IsNumeric())   // >= 1 luku
 			{
-			   lon = (double)valueString;
+			   lon = static_cast<double>(valueString);
 			   if(ReadOne(lat))         // >= 2 lukua
 			   {
 			      *itsDescriptionFile >> itsObject;
@@ -1254,7 +1254,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			      if(valueString.IsNumeric())  // >= 3 lukua
 			      {
 //				     x = (short)valueString;
-				     x = (double)valueString; //15.6.99
+				     x = static_cast<double>(valueString); //15.6.99
 			         if(!ReadOne(y))
 						  helpBool = false;  // 3 lukua virhe
 				     *itsDescriptionFile >> itsObject;            // 4 lukua
@@ -1288,7 +1288,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 				itsString = valueString;
 				if(numOfTableStations < 1)  //16.6.99
 				{
-					*itsLogFile << "*** ERROR: "<< (char*)string1 << ": asemalla, joka ei taulukossa, tulisi olla paikka"  << endl; 
+					*itsLogFile << "*** ERROR: "<< static_cast<char *>(string1) << ": asemalla, joka ei taulukossa, tulisi olla paikka"  << endl; 
 					helpBool = false;
 				}
 			}
@@ -1356,7 +1356,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 					  point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y)); //lis. 10.1.02 
   					  point2 = itsScale.Scale(point1);                  //10.1.02 0->1
 					  NFmiString name("As");     
-					  name += NFmiValueString(currentStationNumOnMap); //uniikki nimi jokaiselle
+					  name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					  NFmiStationPoint station 
 							  (NFmiStation(currentStationNumOnMap, name, lon, lat), point2); 
 					  itsStations.AddLocation(station);
@@ -1407,7 +1407,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 						  firstStation = false;
 					}
 						else
-						*itsLogFile << "*** ERROR: "<< "lat/lon puuttuu: "  << (char*)name << endl; 
+						*itsLogFile << "*** ERROR: "<< "lat/lon puuttuu: "  << static_cast<char *>(name) << endl; 
 				}
 				else
 					*itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu"  << endl; 
@@ -1442,7 +1442,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 //					  lat = lonlat.Y();
   					  point2 = itsScale.Scale(point0);
 					  NFmiString name("As");     
-					  name += NFmiValueString(currentStationNumOnMap); //uniikki nimi jokaiselle
+					  name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					  NFmiStationPoint station 
 							  (NFmiStation(currentStationNumOnMap, name, lon, lat), point2); 
 					  itsStations.AddLocation(station);
@@ -1493,7 +1493,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 					  point1 = NFmiPoint(point0.X(), bottom -(y0-top)); 
   					  point2 = itsScale.Scale(point1);
 					  NFmiString name("As");     
-					  name += NFmiValueString(currentStationNumOnMap); //uniikki nimi jokaiselle
+					  name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					  NFmiStationPoint station 
 							  (NFmiStation(currentStationNumOnMap, name, lonlat.X(), lonlat.Y()), point2); 
 					  itsStations.AddLocation(station);
@@ -1547,7 +1547,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 			itsName = logName;
 	}
 	*/
-	short numberOfRegularSteps = (unsigned short)FmiMax(numberOfTimeSteps,numberOfLevelSteps);
+	short numberOfRegularSteps = static_cast<unsigned short>(FmiMax(numberOfTimeSteps,numberOfLevelSteps));
 	itsNumberOfSteps = numberOfRegularSteps;
 	if(fIsLevelLoop)
 		itsNumberOfSteps = currentLevelInd;
@@ -1564,7 +1564,7 @@ bool NFmiPressParam::ReadDescription(NFmiString& retString)
 		
 		itsStations.Reset();
 		itsStations.Next();
-		NFmiStationPoint statPoint = *(NFmiStationPoint*)(itsStations.Location());
+		NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
 		NFmiPoint point = statPoint.Point();
 
 		if(isRelativeTable) //14.8.00
@@ -1794,7 +1794,7 @@ bool NFmiPressParam::WritePS(
 
 	if (!itsDataIter)  
 	{
-		*itsLogFile << "  *** ERROR: data lost: " << (char*)itsDataName << endl;
+		*itsLogFile << "  *** ERROR: data lost: " << static_cast<char *>(itsDataName) << endl;
 		return true; //false lopettaa kaikki segmentit
 	}
 	itsDataIter->First(); //3.5.00 ainakin level pit‰‰ asettaa nollaksi eik‰ -1:ksi
@@ -1809,7 +1809,7 @@ bool NFmiPressParam::WritePS(
 
 	if(itsLogFile)
 		if(itsDataName.IsValue())
-			*itsLogFile << "  data: " << (char*)itsDataName << endl;
+			*itsLogFile << "  data: " << static_cast<char *>(itsDataName) << endl;
 		else
 			*itsLogFile << "  data: tuotteessa ekana oleva" << endl;
 
@@ -1882,7 +1882,7 @@ bool NFmiPressParam::WritePS(
 			*itsLogFile << "  Segmentin painepinta: " << itsLevels[itsCurrentStepInd] << endl;  
 
 		 objectIter.Reset();
-		 object = (NFmiPressScaling*)objectIter.Next();
+		 object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		 while (object)
 		 {
 		   if(object->ActiveTimeIndex(GetCurrentStep())) //2.10.01
@@ -1909,7 +1909,7 @@ bool NFmiPressParam::WritePS(
 				object->WriteGRestore();
 			
  			object->Move(itsUnscaledSteps[itsCurrentStepInd]); 
-			object = (NFmiPressScaling*)objectIter.Next();   
+			object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		 }
 //		 AikaSidotutObjektit loppu
 //		 if(!fGridMode)  //21.10.99
@@ -1919,8 +1919,8 @@ bool NFmiPressParam::WritePS(
 	     while(itsStations.Next()) /********** ASEMAluuppi ********/
          {	
 			  statAll++;
-              stationPoint = NFmiStationPoint(*(NFmiStationPoint*)(itsStations.Location())).Point();
-		      NFmiStationPoint statPoint = *(NFmiStationPoint*)(itsStations.Location());
+              stationPoint = NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location())).Point();
+		      NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
 			  NFmiPoint lonLat = statPoint.GetLocation();
 				if(/*itsDataIter->IsGrid() && */ fabs(lonLat.X()) < 0.0001   // HUOM puuttuva testi, mikseiv‰t ole tasan nolla !!
 					&& fabs(lonLat.Y()) < 0.0001)   //31.1.2000 abs -> fabs
@@ -1952,7 +1952,7 @@ bool NFmiPressParam::WritePS(
 					// ***eli AsemanNimi (vain?)
 
 						 stationObjectIter.Reset();
-						 object = (NFmiPressScaling*)stationObjectIter.Next();
+						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 						 if(fIsFirstStation) 
 							 testObject = object;
 
@@ -1978,12 +1978,12 @@ bool NFmiPressParam::WritePS(
 								object->WriteGRestore(); 
 							object->Place(savePlace); //20.3.00 jotta toimisi seuraavalle writePs-k‰skylle
 
-							object = (NFmiPressScaling*)stationObjectIter.Next();   
+							object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 						 }
 
 						 //Testi
 						 stationObjectIter.Reset();
-						 object = (NFmiPressScaling*)stationObjectIter.Next();
+						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 						 unScaledPoint = itsScale.UnScale(stationPoint);
 						 //testi loppu
 
@@ -2007,7 +2007,7 @@ saveObject->WritePSUpdatingSubText(theOutput); //*******************************
 				  if(!(statName == NFmiString("Tyhj‰") || statName == NFmiString("None"))) 
 				  {
 				     if(itsLogFile)
-				        *itsLogFile << "  *** ERROR: Station missing from data: " << (char*)statName << endl;
+				        *itsLogFile << "  *** ERROR: Station missing from data: " << static_cast<char *>(statName) << endl;
 				  }
 		  
 			  }
@@ -2027,11 +2027,11 @@ saveObject->WritePSUpdatingSubText(theOutput); //*******************************
  
 			// aikariippuvat siirrett‰v‰ eteenp‰in vaikkei ole dataa 20.3
 			objectIter.Reset();
-		    object = (NFmiPressScaling*)objectIter.Next();
+		    object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		    while (object)
 		    {
  		       object->Move(itsSteps[itsCurrentStepInd]); 
-			   object = (NFmiPressScaling*)objectIter.Next();   
+			   object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		    }
 
 		}
@@ -2065,12 +2065,12 @@ saveObject->WritePSUpdatingSubText(theOutput); //*******************************
 	for(int i=1; i< itsNumberOfSteps; i++) //26.6.00 oli 0-> ; vikan siirto on nolla 
 	{
 		 objectIter.Reset();
-		 object = (NFmiPressScaling*)objectIter.Next();
+		 object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		 while (object)                    //17.3.00 toistuvat writePs:t vaativat
 		 {
 // 			object->Move(itsSteps[i]); 
  		    object->Move(NFmiPoint(-itsUnscaledSteps[i].X(), -itsUnscaledSteps[i].Y())); //26.6.00
-			object = (NFmiPressScaling*)objectIter.Next();   
+			object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		 }
 //	   theScale.MoveXEndScale(itsSteps[i].X()); //mik‰ vaikutus
 	}
@@ -2186,7 +2186,7 @@ bool NFmiPressParam::SetLonLat(NFmiStationPoint& theStation)
 	else
 	{
 		if(name != NFmiString("Tyhj‰"))   //2.4.02
-			*itsLogFile << "  WARNING: " << (char*)name << " ei ole nimi/lonLat-tiedostossa" << endl;
+			*itsLogFile << "  WARNING: " << static_cast<char *>(name) << " ei ole nimi/lonLat-tiedostossa" << endl;
 		return false;
 	}
 

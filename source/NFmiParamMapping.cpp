@@ -11,7 +11,7 @@ NFmiParamMapping::NFmiParamMapping(const NFmiParamMapping& theParamMapping)
 : NFmiSize(theParamMapping.GetSize())
 {
 	itsMappingIntervals = new NFmiMappingInterval[itsSize];
-	for(int i=0; i< (int)itsSize; i++)
+	for(int i=0; i< static_cast<int>(itsSize); i++)
 	{
 		itsMappingIntervals[i].itsBottomValue = theParamMapping.itsMappingIntervals[i].itsBottomValue;
 		itsMappingIntervals[i].itsTopValue = theParamMapping.itsMappingIntervals[i].itsTopValue;
@@ -22,7 +22,7 @@ NFmiParamMapping::NFmiParamMapping(const NFmiParamMapping& theParamMapping)
 }
 NFmiParamMapping::~NFmiParamMapping() 
 {
-	delete [] (NFmiMappingInterval*)itsMappingIntervals;
+	delete [] static_cast<NFmiMappingInterval *>(itsMappingIntervals);
 };
 
 
@@ -34,7 +34,7 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval & theInterva
 		tempIntervals = new NFmiMappingInterval[GetSize() + 1];
 
 		int j;
-		for(j=0; j<(int)itsSize; j++)
+		for(j=0; j<static_cast<int>(itsSize); j++)
 		{
 			tempIntervals[j].itsBottomValue = itsMappingIntervals[j].itsBottomValue;
 			tempIntervals[j].itsTopValue = itsMappingIntervals[j].itsTopValue;
@@ -52,7 +52,7 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval & theInterva
 
 		itsMappingIntervals = new NFmiMappingInterval[GetSize()+1];
 		itsSize = GetSize()+1;
-		for(j=0; j< (int)GetSize(); j++)
+		for(j=0; j< static_cast<int>(GetSize()); j++)
 		{
 			itsMappingIntervals[j].itsBottomValue = tempIntervals[j].itsBottomValue;
 			itsMappingIntervals[j].itsTopValue = tempIntervals[j].itsTopValue;
@@ -75,13 +75,13 @@ void NFmiParamMapping::AddMappingInterval(double theBottomValue, double theTopVa
 NFmiString*	NFmiParamMapping::Map(const double theValue)
 {  //6.4 tarvitaanko en‰‰ 
 	int j;
-	for(j=0; j<(int)itsSize; j++)
+	for(j=0; j<static_cast<int>(itsSize); j++)
 	{
 		if(theValue >= itsMappingIntervals[j].itsBottomValue
 			&& theValue <= itsMappingIntervals[j].itsTopValue)
 				break;
 	}
-	if(j == (int)itsSize)
+	if(j == static_cast<int>(itsSize))
 		return 0;
 	else
 		return &itsMappingIntervals[j].itsSymbol;
@@ -96,13 +96,13 @@ bool NFmiParamMapping::IsInFirst(const double theValue)
 NFmiString*	NFmiParamMapping::Map(const double theValue, bool &outIsScaled)
 {
 	int j;
-	for(j=0; j<(int)itsSize; j++)
+	for(j=0; j<static_cast<int>(itsSize); j++)
 	{
 		if(theValue >= itsMappingIntervals[j].itsBottomValue
 			&& theValue <= itsMappingIntervals[j].itsTopValue)
 				break;
 	}
-	if(j == (int)itsSize)
+	if(j == static_cast<int>(itsSize))
 		return 0;
 	else
         outIsScaled = itsMappingIntervals[j].fIsScaled;

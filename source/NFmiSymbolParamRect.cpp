@@ -51,17 +51,17 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect& theSymbolRec
 NFmiSymbolParamRect::~NFmiSymbolParamRect() 
 {
 	if(itsSubDir) 								 
-		delete (NFmiString*)itsSubDir;
+		delete static_cast<NFmiString *>(itsSubDir);
 	if(itsMapping)
-		delete (NFmiParamMapping*)itsMapping;
+		delete static_cast<NFmiParamMapping *>(itsMapping);
 	if(itsOrigDir)
-		delete (NFmiString*)itsOrigDir;;
+		delete static_cast<NFmiString *>(itsOrigDir);
 		
 };
 //---------------------------------------------------------------------------
 NFmiParamRect* NFmiSymbolParamRect::Clone() const
 {
-	return (NFmiParamRect *) new NFmiSymbolParamRect(*this);
+	return static_cast<NFmiParamRect *>(new NFmiSymbolParamRect(*this));
 };
 
 //----------------------------------------------------------------------------
@@ -128,7 +128,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString& retString)
 			case dOther:	  //tuntematon sana
 			{
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #Symbolissa: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #Symbolissa: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -175,7 +175,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString& retString)
 				helpValueString = NFmiValueString(itsObject);
 	            if(helpValueString.IsNumeric())
 				{
-					r2 = (double)helpValueString;      
+					r2 = static_cast<double>(helpValueString);
                  	*itsDescriptionFile >> itsObject;
 				}
 				else
@@ -233,7 +233,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString& retString)
 			   valueString = itsObject;
 			   if(valueString.IsNumeric())  
 			   {
-				  y = (double)valueString;
+				  y = static_cast<double>(valueString);
 				  if(y>0)
 					 yh = y;
 				  *itsDescriptionFile >> itsObject;
@@ -520,7 +520,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString* symbolFile)
    unsigned long len = mess.GetLen();  
 //   output.write(mess.CharPtr(),15);
    output.write(mess.CharPtr(),len);   
-   output.write((char*)NFmiString("\n"),1); 
+   output.write(static_cast<char *>(NFmiString("\n")),1); 
    short num;
    char endLine = '\n';  
    while (input.getline(inBuf, lineSize, endLine)) //newline PC:lle
@@ -531,7 +531,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString* symbolFile)
 //	if(NFmiString(inBuf) == NFmiString("%AI5_BeginLayer") && copyOn)
 	{
 		if(itsLogFile)
-			*itsLogFile << "*** ERROR: Symbolin " << (char*)*symbolFile
+		  *itsLogFile << "*** ERROR: Symbolin " << static_cast<char *>(*symbolFile)
                 << "konvertointi epäonnistui, BeginLayer:ta, sisäkkäin" << endl;
 		copyOn = isTrue;
 	}
@@ -558,7 +558,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString* symbolFile)
    mess += NFmiString (" LOPPU ***"); 
    len = mess.GetLen();                  
    output.write(mess.CharPtr(),len);     
-   output.write((char*)NFmiString("\n"),1);  
+   output.write(static_cast<char *>(NFmiString("\n")),1);  
    
    if(itsLogFile)
       *itsLogFile << "rivejä kopioitu: " << copiedLines << " kun" << endl;
@@ -579,7 +579,7 @@ bool NFmiSymbolParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 		   return true;
     }
 
-   itsCurrentSegmentTime = ((NFmiQueryInfo*)theQI)->Time(); //8.2.2000 
+   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time(); //8.2.2000 
    itsCurrentTime = itsCurrentSegmentTime;//16.2.2000
 
    itsDefToProductScale.SetEndScales(AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight())));
@@ -619,9 +619,9 @@ bool NFmiSymbolParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
     
 	if(isScaled)  
 	{
-		double scaleFactor = (((long) itsCurrentParamValue) % 1000)/100.; //tonni on nyt fixattu
+		double scaleFactor = ((static_cast<long>(itsCurrentParamValue)) % 1000)/100.; //tonni on nyt fixattu
 		NFmiRect endScales = itsDefToProductScale.GetEndScales();
-        endScales.Inflate (scaleFactor);
+        endScales.Inflate(scaleFactor);
 		itsDefToProductScale.SetEndScales(endScales);
 	}
 
@@ -647,7 +647,7 @@ bool NFmiSymbolParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
  		   if(ConvertOrig2Short(symbolFile))
 		   {
   		    if(itsLogFile)                               
-			      *itsLogFile << "Symboli " << (char*)*symbolFile << " konvertoitu" << endl;
+			      *itsLogFile << "Symboli " << static_cast<char *>(*symbolFile) << " konvertoitu" << endl;
  
 			if (CopyShortSymbol2Dest(symbolFile,theDestinationFile))
 		      {
@@ -658,14 +658,14 @@ bool NFmiSymbolParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 				  {
 //					  *itsLogFile << "*** ERROR: Symbolia ei konvertoinnin jälkeen löydy: " << (char*)*symbolFile << endl;
 //					  *itsLogFile << "       oliko oikeuksia LyhytSymbolit-kansioon ?" << endl;
-					  *itsLogFile << "*** ERROR: Symbol not found after conversion: " << (char*)*symbolFile << endl;
+					  *itsLogFile << "*** ERROR: Symbol not found after conversion: " << static_cast<char *>(*symbolFile) << endl;
 					  *itsLogFile << "       missing permission ?" << endl;
 				  }
 			  }
 		   }
 		   else
   		     if(itsLogFile)                                                       //31.10.01 +symbolset
-			      *itsLogFile << "*** ERROR: Symbol missing from set: " << (char*)itsSymbolSetName << ":" << (char*)*symbolFile << endl;
+			      *itsLogFile << "*** ERROR: Symbol missing from set: " << static_cast<char *>(itsSymbolSetName) << ":" << static_cast<char *>(*symbolFile) << endl;
 
 		}
 //		inFile.close();
@@ -694,7 +694,7 @@ bool NFmiSymbolParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
  
 		// ostream saveCout = cout;
 		// cout = theDestinationFile;
-		theDestinationFile <<  (char*)*symbolFile << endl;
+		theDestinationFile <<  static_cast<char *>(*symbolFile) << endl;
 		// cout = saveCout;
 
 	}
@@ -717,8 +717,8 @@ bool NFmiSymbolParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 void NFmiSymbolParamRect::WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, ofstream & os)
 {
 		os << endl 
-			<< "SymbolPath /var/www/share/symbolit/" << (char*)itsSymbolSetName << endl;
-		os << "Symbol " << (char*)*symbolFile << ".gif " 
+			<< "SymbolPath /var/www/share/symbolit/" << static_cast<char *>(itsSymbolSetName) << endl;
+		os << "Symbol " << static_cast<char *>(*symbolFile) << ".gif " 
 			<< realPos.X() << " "<< realPos.Y() 
 			<< " -scalex " << int(itsDefToProductScale.GetXScaling()*100.) << "%"     
 			<< " -scaley " << int(itsDefToProductScale.GetYScaling()*100.) << "%";

@@ -36,7 +36,7 @@ bool NFmiPressDescription::ReadRemaining(void)
 			helpLong = converter.ToEnum(stdString);
 
 			if(helpLong == 0)
-				*itsLogFile << "*** ERROR: Not valid Mask: " << (char*)maskName << endl;  
+				*itsLogFile << "*** ERROR: Not valid Mask: " << static_cast<char *>(maskName) << endl;  
 
 			else
 				itsEnvironment.SetMaskNumber(helpLong);
@@ -145,7 +145,7 @@ FmiLanguage NFmiPressDescription::ReadLanguage(void)
 	else if (helpString == NFmiString ("kiina") || helpString == NFmiString ("chinese"))
        language = kChinese;
 	else
-		*itsLogFile << "*** ERROR: Tuntematon kieli: " << (char*)helpString << endl; 
+		*itsLogFile << "*** ERROR: Tuntematon kieli: " << static_cast<char *>(helpString) << endl; 
     
 	return language;
 }

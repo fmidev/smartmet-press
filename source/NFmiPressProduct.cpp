@@ -283,14 +283,14 @@ bool NFmiPressProduct::SetMaskNumber(unsigned long theNumber)
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	while(param)
 	{
 //		if (param->GetEnvironment().ChangeMaskNumber(theNumber)) //muutetaan vain asetettua
 //			retCode = true; //ainakin yhdessä vaihdettu
 		if (param->ChangeMaskNumber(theNumber)) //muutetaan vain asetettua
 			retCode = true; //ainakin yhdessä vaihdettu
-		param = (NFmiPressParam*)paramIter.Next();
+		param = static_cast<NFmiPressParam *>(paramIter.Next());
 	}
 	return retCode;
 }; 
@@ -301,12 +301,12 @@ bool NFmiPressProduct::SetSegmentData(const NFmiString& theDataName)
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	while(param)
 	{
 		if (param->SetData(theDataName))
 			retCode = true; //ainakin yhdessä vaihdettu
-		param = (NFmiPressParam*)paramIter.Next();
+		param = static_cast<NFmiPressParam *>(paramIter.Next());
 	}
 	return retCode;
 }; 
@@ -318,7 +318,7 @@ bool NFmiPressProduct::SetFirstObjectActivity(bool theActivity)
 	NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsObjects);
 	NFmiPressScaling* object;  //PsWriting kaataa, entä NFmiPressScaling
 	objectIter.Reset();
-	object = (NFmiPressScaling*)objectIter.Next();
+	object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	object->SetActivity(theActivity);
 	return true;
 }
@@ -330,12 +330,12 @@ bool NFmiPressProduct::SetFirstStation(const NFmiLocation& theLocation)
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	while(param)
 	{
 		if (param->SetFirstStation(theLocation))
 			retCode = true; //ainakin yhdessä vaihdettu
-		param = (NFmiPressParam*)paramIter.Next();
+		param = static_cast<NFmiPressParam *>(paramIter.Next());
 	}
 	return retCode;
 }
@@ -350,7 +350,7 @@ bool NFmiPressProduct::SetImagePreNames(const NFmiLocation& theLocation)
 	NFmiFileString path, newFile;
 	NFmiString dummy;
 	NFmiString underScore("_"); // ennen alaviiva oleva osa korvataan uudella asemanimellä
-	image = (NFmiPressImage*)objectIter.Next();
+	image = static_cast<NFmiPressImage *>(objectIter.Next());
 	while(image)
 	{
 		if(image->ClassId() == kNFmiPressImage)
@@ -361,12 +361,12 @@ bool NFmiPressProduct::SetImagePreNames(const NFmiLocation& theLocation)
 			{
 				newFile = theLocation.GetName();
 				newFile += oldFile.GetChars(oldFile.CurrentCharPosition()-1, oldFile.GetLen());	
-				path.Header((char*)newFile);
+				path.Header(static_cast<char *>(newFile));
 				image->SetPath(path);
 				retCode = true;
 			}
 		}
-		image = (NFmiPressImage*)objectIter.Next();
+		image = static_cast<NFmiPressImage *>(objectIter.Next());
 	}
 	return retCode;
 }
@@ -377,12 +377,12 @@ bool NFmiPressProduct::SetStationRename(const NFmiRenaming& theRename)
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	while(param)
 	{
 		if (param->SetStationRename(theRename))
 			retCode = true; //ainakin yhdessä vaihdettu
-		param = (NFmiPressParam*)paramIter.Next();
+		param = static_cast<NFmiPressParam *>(paramIter.Next());
 	}
 	return retCode;
 }
@@ -396,24 +396,24 @@ bool NFmiPressProduct::SetAllTimes(const NFmiMetTime& theTime)
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams); //segmentit
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	while(param)
 	{
 		if (param->SetAllTimes(theTime))
 			retCode = true; //ainakin yhdessä vaihdettu
-		param = (NFmiPressParam*)paramIter.Next();
+		param = static_cast<NFmiPressParam *>(paramIter.Next());
 	}
                               //muut objektit, kaikissa ei tosin aikaa
 	NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsObjects); 
 	NFmiPressScaling *object;
 	objectIter.Reset();
-	object = (NFmiPressScaling*)objectIter.Next();
+	object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	while(object)
 	{
 		object->SetTime(theTime);
 //		if (object->SetTime(theTime)) //ei looginen
 //			retCode = true; //ainakin yhdessä vaihdettu
-		object = (NFmiPressScaling*)objectIter.Next();
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	}
 
 	return retCode;
@@ -428,23 +428,23 @@ bool NFmiPressProduct::SetAllLanguages(FmiLanguage theLanguage)
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams); //segmentit
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	while(param)
 	{
 //		param->SetLanguage(theLanguage));
 		if (param->SetAllLanguages(theLanguage))
 			retCode = true;          //ainakin yhdessä vaihdettu
-		param = (NFmiPressParam*)paramIter.Next();
+		param = static_cast<NFmiPressParam *>(paramIter.Next());
 	}
                               //muut objektit, kaikissa ei tosin aikaa
 	NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsObjects); 
 	NFmiPressScaling *object;
 	objectIter.Reset();
-	object = (NFmiPressScaling*)objectIter.Next();
+	object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	while(object)
 	{
 		object->SetLanguage(theLanguage);
-		object = (NFmiPressScaling*)objectIter.Next();
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	}
 
 	return retCode;
@@ -650,7 +650,7 @@ bool NFmiPressProduct::GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus)
 				if(boolGiven && !undef)
 				{
 					theSeasonsStatus.wintertime = status;				
-					*itsLogFile << "Kausitilanne pakotettu: talviaika "<< (char*)statusString << endl;
+					*itsLogFile << "Kausitilanne pakotettu: talviaika "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 			else if(fmiShortStr1 == "summ" || fmiShortStr1 == "kesä")
@@ -658,7 +658,7 @@ bool NFmiPressProduct::GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus)
 				if(boolGiven && !undef)
 				{
 					theSeasonsStatus.summer = status;				
-					*itsLogFile << "Kausitilanne pakotettu: kesä "<< (char*)statusString << endl;
+					*itsLogFile << "Kausitilanne pakotettu: kesä "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 			else if(fmiShortStr1 == "poll" || fmiShortStr1 == "siit")
@@ -666,7 +666,7 @@ bool NFmiPressProduct::GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus)
 				if(boolGiven && !undef)
 				{
 					theSeasonsStatus.pollen = status;				
-					*itsLogFile << "Kausitilanne pakotettu: siitepölykausi "<< (char*)statusString << endl;
+					*itsLogFile << "Kausitilanne pakotettu: siitepölykausi "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 			else if(fmiShortStr1 == "snow" || fmiShortStr1 == "lumi")
@@ -674,7 +674,7 @@ bool NFmiPressProduct::GetSeasonsStatus(FmiPressSeasons& theSeasonsStatus)
 				if(boolGiven && !undef)
 				{
 					theSeasonsStatus.snow = status;				
-					*itsLogFile << "Kausitilanne pakotettu: lumikausi "<< (char*)statusString << endl;
+					*itsLogFile << "Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 			else if(fmiShortStr1 == "week" || fmiShortStr1 == "viik")
@@ -857,7 +857,7 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
 	  short num = inFile.gcount();
-	  str.Set((unsigned char*)inBuf, num);
+	  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
 //     unsigned short nStar = str.Search( NFmiString("*"));
 //	  if(nStar > 0)
 //	  {
@@ -866,7 +866,7 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
 //			  *itsLogFile << "*/ " << endl;
 //	  }
   
-	  unsigned short nRisu = (unsigned short)str.Search( NFmiString("#"));//21.1 jotta löytyisi
+	  unsigned short nRisu = static_cast<unsigned short>(str.Search( NFmiString("#")));//21.1 jotta löytyisi
 /*	                                                       // tabinkin takaa
 	  if(nRisu>0)               // TÄSTÄ OLISI TARKOITUS KEHITTÄÄ MÄÄRITTELYTIEDOSTON PARAMETRISOINTI
 	  {
@@ -919,7 +919,7 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& inFile, ofstream& outFile)
 			  else
 			  {
 				  if(itsLogFile)
-					*itsLogFile << "*** ERROR: LiiteTiedostoa ei ole: " << (char*)file << endl;
+					*itsLogFile << "*** ERROR: LiiteTiedostoa ei ole: " << static_cast<char *>(file) << endl;
 			  }
 			  includeFile.close();
 			  includeFile.clear();
@@ -1063,9 +1063,9 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    inputFileName += NFmiString("pss");
  
    NFmiString writeString = inputFileName.Header();
-   *itsLogFile << "** " << (char*)writeString << " **"<< endl; 
+   *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl; 
    *itsLogFile << "program version = 23.9.2002" << endl;       
-   *itsLogFile << "Home dir " <<(char*)origHome << ": " << (char*)GetHome()  << endl;  
+   *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;  
 
 /* pois 25.10.01
    ifstream origInput(origInputFileName, ios::in);
@@ -1131,7 +1131,7 @@ bool NFmiPressProduct::ReadData()
    else
 	   str = hChar;
 
-	*itsLogFile << "  datahakemistot: " << (char*)str << endl;	 
+	*itsLogFile << "  datahakemistot: " << static_cast<char *>(str) << endl;	 
 
    NFmiString dataPath, dataPath2;  //5.50.99 kaksi datahakemistoa, luupituksella voisi ottaa useampiakin
    str.NextSubString(NFmiString(";"),dataPath);
@@ -1149,7 +1149,7 @@ bool NFmiPressProduct::ReadData()
 	NFmiFileString dataFile, dataFile2;
 	NFmiFileString dataFileSqd, dataFileSqd2;
 	iter.Reset();
-	nData = (NFmiNamedQueryData*)iter.Next();
+	nData = static_cast<NFmiNamedQueryData *>(iter.Next());
 	short loop = 1;
 	while(nData)
 	{
@@ -1191,36 +1191,36 @@ bool NFmiPressProduct::ReadData()
 						if(!twoOptinalTypes || !ReadQueryData(*data,dataFileSqd2))
 						{
 							nData->SetData(0);
-							*itsLogFile << "  *** ERROR: datan luku epäonnistui: " << (char*)nData->GetName() << endl;	 
+							*itsLogFile << "  *** ERROR: datan luku epäonnistui: " << static_cast<char *>(nData->GetName()) << endl;	 
 						}
 						else
 						{
-							*itsLogFile << "  sqd-data luettu: " <<  (char*)dataFileSqd2 << endl;
+							*itsLogFile << "  sqd-data luettu: " <<  static_cast<char *>(dataFileSqd2) << endl;
 						}
 					}
 					else
 					{
-						*itsLogFile << "  fqd-data luettu: " <<  (char*)dataFile2 << endl;
+						*itsLogFile << "  fqd-data luettu: " <<  static_cast<char *>(dataFile2) << endl;
 					}
 				}
 				else
 				{
 					nData->SetData(0);
-					*itsLogFile << "  *** ERROR: datan luku epäonnistui: " << (char*)nData->GetName() << endl;	 
+					*itsLogFile << "  *** ERROR: datan luku epäonnistui: " << static_cast<char *>(nData->GetName()) << endl;	 
 				}
 			}
 			else
 			{
-				*itsLogFile << "  sqd-data luettu: " <<  (char*)dataFileSqd << endl;
+				*itsLogFile << "  sqd-data luettu: " <<  static_cast<char *>(dataFileSqd) << endl;
 			}
 		}
 		else
 		{
-			*itsLogFile << "  fqd-data luettu: " <<  (char*)dataFile << endl;
+			*itsLogFile << "  fqd-data luettu: " <<  static_cast<char *>(dataFile) << endl;
 		}
  
 		loop++;		
-	    nData = (NFmiNamedQueryData*)iter.Next();
+	    nData = static_cast<NFmiNamedQueryData *>(iter.Next());
 	}
 	fDataRead = true;
 
@@ -1290,7 +1290,7 @@ NFmiQueryData* NFmiPressProduct::FirstData(void)
 	NFmiNamedQueryData* nData;
 	NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsDatas);
 	iter.Reset();
-	nData = (NFmiNamedQueryData*)iter.Next();
+	nData = static_cast<NFmiNamedQueryData *>(iter.Next());
 	if(nData)
 //		if(nData->GetData())
 			return nData->GetData();
@@ -1305,7 +1305,7 @@ NFmiString NFmiPressProduct::FirstDataName(void) //3.3.99
 	NFmiNamedQueryData* nData;
 	NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsDatas);
 	iter.Reset();
-	nData = (NFmiNamedQueryData*)iter.Next();
+	nData = static_cast<NFmiNamedQueryData *>(iter.Next());
 	if(nData)
 		return nData->GetName();
 	else
@@ -1318,13 +1318,13 @@ NFmiQueryData* NFmiPressProduct::DataByName(NFmiString givenName)
 	NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsDatas);
 	NFmiString name;
 	iter.Reset(); 
-	nData = (NFmiNamedQueryData*)iter.Next();
+	nData = static_cast<NFmiNamedQueryData *>(iter.Next());
 	while(nData)
 	{
 		name = nData->GetName();
 		if (name == givenName)
 			return nData->GetData();
-	    nData = (NFmiNamedQueryData*)iter.Next();
+	    nData = static_cast<NFmiNamedQueryData *>(iter.Next());
 	}
 	return 0;
 }
@@ -1388,7 +1388,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 	{
 		case dOther:	  //ylimääräistä roinaa, END lopettaa
 		{
-			*itsLogFile << "*** ERROR: Tuntematon sana päätasolla: " << (char*)itsObject << endl;  
+			*itsLogFile << "*** ERROR: Tuntematon sana päätasolla: " << static_cast<char *>(itsObject) << endl;  
 
 			ReadNext();
 //			*itsDescriptionFile >> itsObject;
@@ -1433,7 +1433,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 			else
 			{
 				if (itsLogFile)
-				   *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto: " << (char*)helpString << endl; 
+				   *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto: " << static_cast<char *>(helpString) << endl; 
 			}
 
 			ReadNext();
@@ -1561,7 +1561,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 
 			if(fDataRead)
 			{
-				*itsLogFile << "*** ERROR: Data " << (char*)itsDataFileName << "pitää antaa ennen 'KäytäDatanAlkuAikaa' ja 'SuhteellinenTuntiDatasta'" << endl; 
+				*itsLogFile << "*** ERROR: Data " << static_cast<char *>(itsDataFileName) << "pitää antaa ennen 'KäytäDatanAlkuAikaa' ja 'SuhteellinenTuntiDatasta'" << endl; 
 				*itsLogFile << "            " << "sekä kaikkia jäsenelementtejä" << endl; 
 				*itsLogFile << "       KESKEYTETÄÄN" << endl; 
 				return false;
@@ -1611,7 +1611,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 			else if (helpString == NFmiString ("Letter") || helpString == NFmiString ("letter"))
                itsPageSize = kLetter;
 			else
-				*itsLogFile << "*** ERROR: Tuntematon arkkikoko: " << (char*)helpString << endl; 
+				*itsLogFile << "*** ERROR: Tuntematon arkkikoko: " << static_cast<char *>(helpString) << endl; 
 
 			ReadNext();
 			break;
@@ -1622,7 +1622,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 				break;
 
 			if(ReadLong(long1))
-               itsNumberOfMaps = (unsigned short)long1;
+               itsNumberOfMaps = static_cast<unsigned short>(long1);
 
 			ReadNext();
 			break;
@@ -1678,7 +1678,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 				{
 					if(ReadLong(long3))
 					{    //menis ehkä suoremmin mutta tämä on yhteensopivaa vanhan koodin kanssa
-						NFmiTime tim = NFmiTime((short)long3, (short)long2, (short)long1);
+						NFmiTime tim = NFmiTime(static_cast<short>(long3),
+												static_cast<short>(long2),
+												static_cast<short>(long1));
 						NFmiTime thisDay;
 						firstDeltaDays = tim.DifferenceInDays(thisDay);
         				itsFirstPlotTime.ChangeByDays(firstDeltaDays-origFirstDeltaDays); 
@@ -1724,7 +1726,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 		    if(valueString.IsNumeric()) //7.2.01
 			{
 				//lasketulla itsFirstPlotTime:llä ei tee mitään
-				long3 = (int)valueString;
+				long3 = static_cast<int>(valueString);
 				itsFirstPlotTime = NextUseTime(long1, long2, long3);
 				*itsDescriptionFile >> itsObject;
 				itsString = itsObject;
@@ -1767,7 +1769,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 
 			if(ReadLong(long1))
 			{
-               firstDeltaDays = (short)(long1 + itsEnvironment.GetDayAdvance()); //23.5.02 
+               firstDeltaDays = static_cast<short>(long1 + itsEnvironment.GetDayAdvance()); //23.5.02 
 			   itsFirstPlotTime.ChangeByDays(JustifyByLeaps(firstDeltaDays)-origFirstDeltaDays); 
 			}
 
@@ -1795,7 +1797,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 				break;
 
 			if(ReadLong(long1))
-               firstPlotHours = (unsigned short)long1;
+               firstPlotHours = static_cast<unsigned short>(long1);
             itsFirstPlotTime.SetTime(firstPlotHours); 
 
 			ReadNext();
@@ -1823,7 +1825,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 				break;
 
 			if(ReadLong(long1))
-               hourStep = (unsigned short)long1;
+               hourStep = static_cast<unsigned short>(long1);
 
 			ReadNext();
 			break;
@@ -1931,13 +1933,13 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 			ReadData(); //24.8.99 ennen jäsenoilioita
             itsCurrentMap = 1;
 			Scale();
-			NFmiPressParam* newParam = new NFmiPressParam (itsScale
-				                                          ,(short)firstDeltaDays
-														  ,(short)firstPlotHours
-														  ,(short)firstPlotMinutes
-														  ,(short)hourStep    
-														  ,producer
-														  ,this);
+			NFmiPressParam* newParam = new NFmiPressParam (itsScale,
+														   static_cast<short>(firstDeltaDays),
+														   static_cast<short>(firstPlotHours),
+														   static_cast<short>(firstPlotMinutes),
+														   static_cast<short>(hourStep)    ,
+														   producer,
+														   this);
 			newParam->SetDataName(FirstDataName());  //030399
             newParam->SetEnvironment(itsEnvironment); 
 			newParam->SetHome(GetHome());
@@ -2183,7 +2185,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString& retString) //16.1
 */
 	if(itsLogFile)
 	{
-	   *itsLogFile << "Lopetusrivi (pitää olla #LOPPU): " << ( char*)itsString << endl;  
+	   *itsLogFile << "Lopetusrivi (pitää olla #LOPPU): " << static_cast<char *>(itsString) << endl;  
        if(itsString.GetLen() >= 2 &&                                 
 		     NFmiString(itsString.GetCharsPtr(1,2)) != NFmiString("#E") 
 	      && NFmiString(itsString.GetCharsPtr(1,2)) != NFmiString("#L"))
@@ -2436,7 +2438,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 		}
 
 		if(itsLogFile)
-			*itsLogFile << "Output: " << (char*)itsOutFile << endl; 
+			*itsLogFile << "Output: " << static_cast<char *>(itsOutFile) << endl; 
 
 // 		outFile.open(itsOutFile, ios::out | ios::binary); //24.10.00 nyt jäsen
 	}
@@ -2444,21 +2446,21 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	if(!startFile)   
 	{
 		if(itsLogFile)
-			*itsLogFile << "*** ERROR: StartPs-tiedostossa vikaa: " << (char*) startFileName << endl;
+			*itsLogFile << "*** ERROR: StartPs-tiedostossa vikaa: " << static_cast<char *>(startFileName) << endl;
 		return false;
 	}
 
 	if(!endFile)    
 	{   
 		if(itsLogFile)
-		   *itsLogFile << "*** ERROR: LoppuPs-tiedostossa vikaa: " << (char*) endFileName << endl;
+		   *itsLogFile << "*** ERROR: LoppuPs-tiedostossa vikaa: " << static_cast<char *>(endFileName) << endl;
 		return false;
 	}
 
 	if(!outFile)
 	{
 		if(itsLogFile)	
-		   *itsLogFile << "*** ERROR: Output-tiedostossa vikaa: " << (char*) itsOutFile << endl;
+		   *itsLogFile << "*** ERROR: Output-tiedostossa vikaa: " << static_cast<char *>(itsOutFile) << endl;
 		return false;
 	}
 
@@ -2478,7 +2480,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 		outFile << "$<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standlone=\"yes\"?>" << endl;
 //		cout << "$<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standlone=\"yes\"?>" << endl;
 
-		outFile << "<Name>" << (char*)itsOutFile.Header() << endl;
+		outFile << "<Name>" << static_cast<char *>(itsOutFile.Header()) << endl;
 //		cout << "<Name>" << (char*)itsOutFile.Header() << endl;
 		
 //		cout = saveCout;
@@ -2527,7 +2529,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 		NFmiVoidPtrIterator epsIter = NFmiVoidPtrIterator(itsEpsFileNames);
 		epsIter.Reset();
 		NFmiString* epsFileName;
-		epsFileName = (NFmiString*)epsIter.Next();
+		epsFileName = static_cast<NFmiString *>(epsIter.Next());
 		short numOfEps = 0;
 
 		/************* pohjat ****************/
@@ -2540,18 +2542,18 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 				{
 					NFmiString fileString("/var/www/share/pohjat/htv");//8.12.00 htv pitää parametrisoida
 
-					outFile << endl << "SymbolPath " << (char*)fileString << endl;
+					outFile << endl << "SymbolPath " << static_cast<char *>(fileString) << endl;
 
 					NFmiString epsFile = *epsFileName;
 					epsFile.Add(NFmiString(".jpg"));
-					outFile << "Symbol "  << (char*)epsFile; 
+					outFile << "Symbol "  << static_cast<char *>(epsFile); 
 				}
 			}
 			else if(output==kXml)   
 			{
 				outFile << "<Background>"  << endl;
 				outFile << "  <Set>Pohjat"  << endl;
-				outFile << "  <File>" << (char*)*epsFileName  << endl;				
+				outFile << "  <File>" << static_cast<char *>(*epsFileName)  << endl;				
 			}
 			else
 			{
@@ -2563,7 +2565,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 				if(!mapFile.good() || mapFile.eof())  //5.2
 				{
 					if(itsLogFile)
-					     *itsLogFile << "WARNING: Pohjaa ei ole: " << (char*)fullEpsFileName << endl;
+					     *itsLogFile << "WARNING: Pohjaa ei ole: " << static_cast<char *>(fullEpsFileName) << endl;
 		//			return false;    
 				}
 				else                   
@@ -2599,10 +2601,10 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 					  NFmiWritePSEnd(outFile);
 				   }
 				   if(itsLogFile)
-				      *itsLogFile << "Pohja kopioitu: " << (char*)fullEpsFileName << endl; //190599
+				      *itsLogFile << "Pohja kopioitu: " << static_cast<char *>(fullEpsFileName) << endl; //190599
 				}
 			} //14.3.00
-			epsFileName = (NFmiString*)epsIter.Next();
+			epsFileName = static_cast<NFmiString *>(epsIter.Next());
 			mapFile.close();
 			mapFile.clear();
 		}
@@ -2640,14 +2642,14 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 			NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 			NFmiPressParam *param;
 			paramIter.Reset();
-			param = (NFmiPressParam*)paramIter.Next();
+			param = static_cast<NFmiPressParam *>(paramIter.Next());
 			short segNum = 1;
 			while (param)
 			{
 				if(itsLogFile)
 				   *itsLogFile << segNum << ". segmentti (" 
-//				   << (char*)param->GetName()
-				   << (char*)param->MakeLogComment()             //16.10.00
+//				   << static_cast<char *>(param->GetName())
+				   << static_cast<char *>(param->MakeLogComment())             //16.10.00
 				               << ")" << endl;				
 				if (!(param->WritePS(itsScale, outFile, output))) //13.3.00 
 				{
@@ -2659,7 +2661,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 						*itsLogFile << "*** ERROR: param->WritePS() in NFmiPressProduct" << endl;
 					return false;
 				}
- 				param = (NFmiPressParam*)paramIter.Next();
+ 				param = static_cast<NFmiPressParam *>(paramIter.Next());
 				segNum++;
 			}
 		}
@@ -2698,7 +2700,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	{
 		ConstructOutFileName();
 //		cout << endl << "Save " << (char*)itsOutFile.Header() << ".gif" << endl;
-		outFile << endl << "Save " << (char*)itsOutFile.Header() << ".gif" << endl;//22.3.02
+		outFile << endl << "Save " << static_cast<char *>(itsOutFile.Header()) << ".gif" << endl;//22.3.02
 	}
 
 //	outFile.close(); //24.10.00 pois metafileltä
@@ -2710,7 +2712,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
  	   *itsLogFile << "WARNING: Unused values in storage queue 2"  << endl;
 	
     if(itsLogFile)
- 	   *itsLogFile << "** " << (char*)itsOutFileName << " tehty "  << tim << endl; //25.3.02
+ 	   *itsLogFile << "** " << static_cast<char *>(itsOutFileName) << " tehty "  << tim << endl; //25.3.02
 // 	   *itsLogFile << "** Tuote tehty "  << tim << endl; 
 
 	return true;
@@ -2764,7 +2766,7 @@ bool NFmiPressProduct::WriteMetaInit(void)// const
 //			outFile << "SavePath " << (char*)itsOutFileName << endl << endl;
 			if (itsMagicSavePath.IsValue())
 				outFile << "SavePath /var/www/share/saakartat/" 
-				<< (char*)itsMagicSavePath << endl << endl;
+				<< static_cast<char *>(itsMagicSavePath) << endl << endl;
 			else
 				*itsLogFile << "magicPolku puuttuu"  << endl; 
 
@@ -2800,7 +2802,7 @@ bool NFmiPressProduct::WriteSameSymbols(bool theDoPreSegments, FmiPressOutputMod
 		NFmiVoidPtrIterator constIter = NFmiVoidPtrIterator(itsSameSymbols);
 		NFmiPressSameSymbols *sameSymbols;
 		constIter.Reset();
-		sameSymbols = (NFmiPressSameSymbols*)constIter.Next();
+		sameSymbols = static_cast<NFmiPressSameSymbols *>(constIter.Next());
 		while (sameSymbols)
 		{
 			if(sameSymbols->GetPsSymbol()->IsToWriteLast() != theDoPreSegments)
@@ -2817,7 +2819,7 @@ bool NFmiPressProduct::WriteSameSymbols(bool theDoPreSegments, FmiPressOutputMod
 					 return false;
 				}
 			}
-			sameSymbols = (NFmiPressSameSymbols*)constIter.Next();   
+			sameSymbols = static_cast<NFmiPressSameSymbols *>(constIter.Next());
 		}
 	 return true;
 }
@@ -2833,7 +2835,7 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
 	 double lastLineStep =0.;
 	 double lineStep;
 	 objectIter.Reset();
-	 object = (NFmiPressScaling*)objectIter.Next();
+	 object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	 while (object)  
 	 {
 		object->Set(itsScale, outFile);
@@ -2851,7 +2853,7 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
 		}
 		lineStep = object->GetLineStep();
 		lastObject = object;
-		object = (NFmiPressScaling*)objectIter.Next();
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
         lastLineStep = lineStep;
 
 		if((!object || !(object->IsInParagraph())) && itsOutputMode == kPostScript)//4.1.01 +kPostScript
@@ -2866,7 +2868,7 @@ bool NFmiPressProduct::Close()
 	{
 		NFmiFileString inFile(itsInFileName);
 		NFmiString str(inFile.Header());
- 		*itsLogFile << "** Loki suljettu: "  << (char*)str << endl; 
+ 		*itsLogFile << "** Loki suljettu: "  << static_cast<char *>(str) << endl; 
 		itsLogFile->close();
 		itsLogFile->clear();
 	}
@@ -3019,7 +3021,7 @@ bool NFmiPressProduct::ConstructOutFileName()
 			else if(lowerString == NFmiString("analyysiaika") ||
 				    lowerString == NFmiString("analyysiaikautc"))  //5.6.02
 			{
-				NFmiPressTime tim = ((NFmiMetTime)(FirstData()->OriginTime())); 
+				NFmiPressTime tim = (static_cast<NFmiMetTime>(FirstData()->OriginTime())); 
 
 				if(timeFormat.IsValue())    
 					addString = tim.InterpretToStr(timeFormat);
@@ -3110,7 +3112,7 @@ NFmiString NFmiPressProduct::FirstSegmentName()
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	if(param)
 	{
 		return param->GetName();
@@ -3159,7 +3161,7 @@ NFmiStationPoint NFmiPressProduct::FirstParamLocation()
 	NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 	NFmiPressParam *param;
 	paramIter.Reset();
-	param = (NFmiPressParam*)paramIter.Next();
+	param = static_cast<NFmiPressParam *>(paramIter.Next());
 	if(param)
 		return param->GetFirstStationPoint();
 

@@ -83,7 +83,7 @@ bool NFmiPressScaling::ReadRemaining(void)
 			    valueString = itsObject;
 				if(valueString.IsNumeric())
 				{
-					r2 = (double)valueString;
+					r2 = static_cast<double>(valueString);
 
 					if(ReadDouble(r3))
 					{
@@ -191,7 +191,7 @@ NFmiFileString NFmiPressScaling:: CreatePath(NFmiString defDir, NFmiString given
    }
 
    if(theExtension.IsValue() && !fileStr.HasExtension())
-	    fileStr.Extension((char*)theExtension);
+	    fileStr.Extension(static_cast<char *>(theExtension));
    
    return fileStr;
 }

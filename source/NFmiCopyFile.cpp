@@ -51,11 +51,11 @@ bool NFmiCopyFileWithoutShowpage(ifstream& inFile, ofstream& outFile)
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
 	   num = inFile.gcount();
-	   str.Set((unsigned char*)inBuf, num);
-	   n = (short)str.Search( NFmiString("showp"));
+	   str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+	   n = static_cast<short>(str.Search( NFmiString("showp")));
 	   if (n > 0 )
 	   {
-		   m = (short)str.Search( NFmiString("grestore showpage"));
+		   m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
 		   if(m > 0)
 		                // Mika: GetCharPtr() takaisin; Lasse otti Get:n pois
 				outFile.write(notShowpage./*Get*/CharPtr(), notShowpage.GetLen());
@@ -91,7 +91,7 @@ bool NFmiCopyFileColoring(ifstream& inFile, ofstream& outFile, NFmiCmykColorBag*
   {
 	short num = inFile.gcount();
 //    string.Set(inBuf, num-1);
-	nColor = (short)str.Search(ownColor);
+	nColor = static_cast<short>(str.Search(ownColor));
 	if (nColor > 0)
 	{
 	   if (str.Search(proc2))
@@ -145,14 +145,14 @@ bool NFmiCopyFileCroppingAndColoring(ifstream& inFile, ofstream& outFile
  
   inFile.getline(inBuf, lineSize, '\n');
   num = inFile.gcount();
-  str.Set((unsigned char*)inBuf, num-1);
+  str.Set(reinterpret_cast<unsigned char *>(inBuf), num-1);
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
 	   num = inFile.gcount();
-	   str2.Set((unsigned char*)inBuf, num-1);
+	   str2.Set(reinterpret_cast<unsigned char *>(inBuf), num-1);
 	   if(!BBFound)   //vain kerran startTiedostoon, epseihin pit‰‰ erikseen
 	   {
-		   nSlash = (short)str2.Search(bounding); //NFmiString("%%BoundingBox:"));  //15.6
+		   nSlash = static_cast<short>(str2.Search(bounding)); //NFmiString("%%BoundingBox:"));  //15.6
 		   if (nSlash > 0)
 		   {
 			   BBFound = true;
@@ -168,7 +168,7 @@ bool NFmiCopyFileCroppingAndColoring(ifstream& inFile, ofstream& outFile
 	   }
 	   else  //riitt‰‰ kun aloitetaan vasta BoundBoxin j‰lkeen 
 	   {
-		    nColor = (short)str2.Search(ownColor);
+		    nColor = static_cast<short>(str2.Search(ownColor));
 		    if (nColor > 0)
 		    {
 			   hString = NFmiString(str2);
@@ -257,8 +257,8 @@ bool NFmiCopyFileCropping(ifstream& inFile, ofstream& outFile
 	   num = inFile.gcount();
 	   if(!BBFound)   //vain kerran startTiedostoon, epseihin pit‰‰ erikseen
 	   {
-		   str.Set((unsigned char*)inBuf, num);
-		   nSlash = (short)str.Search( NFmiString("%%BoundingBox:"));
+		   str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+		   nSlash = static_cast<short>(str.Search( NFmiString("%%BoundingBox:")));
 		   if (nSlash > 0)
 		   {
 			   BBFound = true;

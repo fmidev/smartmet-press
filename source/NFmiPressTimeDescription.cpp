@@ -125,7 +125,7 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
 			   valueString = itsObject;
 			   if(valueString.IsNumeric())  
 			   {
-				  long3 = (long)valueString;
+				  long3 = static_cast<long>(valueString);
 
 				  *itsDescriptionFile >> itsObject;
 				  itsString = itsObject;
@@ -259,7 +259,7 @@ void NFmiPressTimeDescription::SetPreReadingTimes(void)
 	NFmiTime firstPlotDate = NFmiTime(itsFirstPlotTime);
     firstPlotDate.SetHour(0);
     firstPlotDate.SetMin(0);
-	itsFirstDeltaDays = (short)firstPlotDate.DifferenceInDays(curDate);
+	itsFirstDeltaDays = static_cast<short>(firstPlotDate.DifferenceInDays(curDate));
 
 	itsFirstOriginalDeltaDays = itsFirstDeltaDays;  
 	itsFirstPlotHours = itsFirstPlotTime.GetHour() ; 
@@ -283,7 +283,7 @@ bool NFmiPressTimeDescription::SetDataHour(NFmiFastQueryInfo* data, const NFmiSt
 	                //     vaan k‰ytet‰‰n pressparamin aikaluuppi-arvoja
 					//     pidemmiss‰ (>vrk) luupeissa pit‰isi oma arvo toimia t‰ss‰kin
  {
-   NFmiMetTime saveTime = ((NFmiQueryInfo*)data)->Time(); //4.9.01 HUOM
+   NFmiMetTime saveTime = (static_cast<NFmiQueryInfo *>(data))->Time(); //4.9.01 HUOM
    NFmiMetTime tim = saveTime;
    if(!(tim.GetHour() == itsFirstPlotHours) )//&& fFirstStation)
 		  *itsLogFile << "    tunti muutettu pirtoalkiossa: " << itsFirstPlotHours << " utc" << endl;
@@ -293,7 +293,7 @@ bool NFmiPressTimeDescription::SetDataHour(NFmiFastQueryInfo* data, const NFmiSt
    {	                     //p‰‰seekˆh‰n t‰nne jos ei aikaa
 	   if(itsLogFile)      
 		  *itsLogFile << "*** ERROR: aikaa ei ole: " << tim
-   	              << (char*)calledFrom << endl;
+   	              << static_cast<char *>(calledFrom) << endl;
        data->Time(saveTime);  //pit‰‰ asettaa takaisin 
 	   return false;
    }

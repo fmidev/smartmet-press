@@ -41,9 +41,9 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
     inputFileName += NFmiString("Managerit");
     inputFileName += kFmiDirectorySeparator;
     inputFileName += NFmiString("nimi.prem");
-	inputFileName.Header((char*)NFmiFileString(thePressProduct.GetInFileName()).Header());
+	inputFileName.Header(static_cast<char *>(NFmiFileString(thePressProduct.GetInFileName()).Header()));
 
-	*itsLogFile << "manageri olisi: " << (char*)inputFileName << endl;  //29.9.00
+	*itsLogFile << "manageri olisi: " << static_cast<char *>(inputFileName) << endl;  //29.9.00
 
 //    ifstream input(inputFileName, ios::in);
     itsDescriptionFile = new ifstream(inputFileName, ios::in);
@@ -55,7 +55,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 	}
 	else
 		if(itsLogFile)
-				*itsLogFile << "Manageri-tiedosto avattu: "<< (char*)inputFileName << endl;  
+				*itsLogFile << "Manageri-tiedosto avattu: "<< static_cast<char *>(inputFileName) << endl;  
 
 //    istream saveCin = cin;
 //    cin = input;
@@ -83,7 +83,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 	   case dOther:	  //ylimääräistä roinaa,
 	   {
 			if(itsLogFile)
-				*itsLogFile << "*** ERROR: Tuntematon sana #Managerissa: " << (char*)itsObject << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon sana #Managerissa: " << static_cast<char *>(itsObject) << endl;  
 
 			ReadNext(); 
 			break;
@@ -128,7 +128,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 			NFmiValueString valueString = ReadString();
 		    if(valueString.IsNumeric())
 			{
-				statNum = (int)valueString;
+				statNum = static_cast<int>(valueString);
 				string1 = ReadString();
 	//			cin >> itsObject;
 	//		    string1 = itsObject;
@@ -142,7 +142,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
                                           
 			if(valueString.IsNumeric())   
 			{
-			    lon = (double)valueString;
+			    lon = static_cast<double>(valueString);
 				ReadOne(lat);
 				ReadNext();
 			}
@@ -178,7 +178,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 			NFmiValueString valueString = ReadString();
 		    if(valueString.IsNumeric())
 			{
-				statNum = (int)valueString;
+				statNum = static_cast<int>(valueString);
 				string1 = ReadString();
 	//			cin >> itsObject;
 	//		    string1 = itsObject;
@@ -195,7 +195,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
                                           
 			if(valueString.IsNumeric())   
 			{
-			    lon = (double)valueString;
+			    lon = static_cast<double>(valueString);
 				ReadOne(lat);
 				ReadNext();
 			}
@@ -237,7 +237,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 				changed = true;
 			}
 			else
-				*itsLogFile << "*** ERROR: Not valid Mask: " << (char*)maskName << endl;  
+				*itsLogFile << "*** ERROR: Not valid Mask: " << static_cast<char *>(maskName) << endl;  
 
 			ReadNext();
 			break;
@@ -389,7 +389,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 			else
 			{
 				if (itsLogFile)
-				   *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto managerissa: " << (char*)helpString << endl; 
+				   *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto managerissa: " << static_cast<char *>(helpString) << endl; 
 			}
 //			changed = true; //ei kuitenkaan kesken kaiken voi muuttaa
 

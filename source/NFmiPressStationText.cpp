@@ -32,7 +32,7 @@ bool NFmiPressStationText::SetNewName(const NFmiRenaming& theRename)//7.6.00
 	{
 		NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames); 
 		iter.Reset();
-		NFmiRenaming* renaming = (NFmiRenaming*)iter.Next();
+		NFmiRenaming* renaming = static_cast<NFmiRenaming *>(iter.Next());
 		while (renaming)
 		{
 			if(renaming->originalName == theRename.originalName)
@@ -40,7 +40,7 @@ bool NFmiPressStationText::SetNewName(const NFmiRenaming& theRename)//7.6.00
 				renaming->newName = theRename.newName;
 				return true;
 			}
-			renaming = (NFmiRenaming*)iter.Next();
+			renaming = static_cast<NFmiRenaming *>(iter.Next());
 		}
 	    NFmiRenaming* newRenaming = new NFmiRenaming;
 	    newRenaming->originalName = theRename.originalName;
@@ -82,7 +82,7 @@ bool	NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 			str += ("(");
 			str += tString;
 			if(tString == NFmiString("-"))
-			   *itsLogFile << "  *** ERROR: asemalta " << (char*)stationP.GetName() 
+			  *itsLogFile << "  *** ERROR: asemalta " << static_cast<char *>(stationP.GetName())
 							<< " puuttuu paik.aika" << endl;
 			str += (")");
 		}
@@ -105,13 +105,13 @@ NFmiString NFmiPressStationText::StationName()
 	{
 		NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames); 
 		iter.Reset();
-		NFmiRenaming* renaming = (NFmiRenaming*)iter.Next();
+		NFmiRenaming* renaming = static_cast<NFmiRenaming *>(iter.Next());
 		while (renaming)
 		{
 			if(renaming->originalName == name)
 				return renaming->newName;
 
-			renaming = (NFmiRenaming*)iter.Next();
+			renaming = static_cast<NFmiRenaming *>(iter.Next());
 		}
 	}
 	return name;

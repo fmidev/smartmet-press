@@ -53,7 +53,7 @@ bool NFmiPressGivenTimeText::ReadRemaining(void)
 				break;
 
  			if(ReadOne(long1))    
-			   itsFirstPlotTime.SetHour((short)long1);
+			   itsFirstPlotTime.SetHour(static_cast<short>(long1));
 
 			ReadNext();
 			break;
@@ -92,16 +92,16 @@ bool	NFmiPressGivenTimeText::SetText()
 	if(itsStringNameTimeFormat.IsValue())
 	{
 		if(fWriteAsUtc) //18.4.02
-			SetText(((NFmiPressTime)(itsFirstPlotTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
+			SetText((static_cast<NFmiPressTime>(itsFirstPlotTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
 		else
-			SetText(((NFmiPressTime)(itsFirstPlotTime.LocalTime(25.f))).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
+			SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f))).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
 	}
 	else
 	{
 		if(fWriteAsUtc) //18.4.02
-			SetText(((NFmiPressTime)(itsFirstPlotTime)).ToStr(itsFormat,itsLanguage));
+			SetText((static_cast<NFmiPressTime>(itsFirstPlotTime)).ToStr(itsFormat,itsLanguage));
 		else
-			SetText(((NFmiPressTime)(itsFirstPlotTime.LocalTime(25.f))).ToStr(itsFormat,itsLanguage));
+			SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f))).ToStr(itsFormat,itsLanguage));
 	}
 	return true;
 };

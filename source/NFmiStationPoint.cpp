@@ -58,7 +58,7 @@ void NFmiStationPoint::SetLocation(const NFmiLocation &theLocation)
 //----------------------------------------------------------------------------
 NFmiLocation* NFmiStationPoint::Clone() const
 {
-	return (NFmiLocation *) new NFmiStationPoint(*this);
+	return static_cast<NFmiLocation *>(new NFmiStationPoint(*this));
 }
 //----------------------------------------------------------------------------
 ostream& NFmiStationPoint::Write(ostream &file) 
@@ -127,7 +127,7 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 			*itsDescriptionFile >> ch; // =
 			*itsDescriptionFile >> value;
 
-			SetIdent((unsigned long)value);
+			SetIdent(static_cast<unsigned long>(value));
 
 			*itsDescriptionFile >> object;
 			str = object;
@@ -247,7 +247,7 @@ bool NFmiStationPoint:: LocalTime(NFmiTime& utc, int& errorCode) //const
 	 }
 	 else
 	 {
-		 utc = metTime.LocalTime((float)(GetLongitude()));
+		 utc = metTime.LocalTime(static_cast<float>(GetLongitude()));
 		 errorCode += 2; //aproksimaatio pituuspiiristä
 		 return true; 
 	 }
@@ -267,8 +267,8 @@ bool NFmiStationPoint:: LocalWmoTime(NFmiTime& utc) const
 	{
 		double min,hour;
 		min = modf(diffHour,&hour)*60.;
-		utc.ChangeByHours((long)hour);
-		utc.ChangeByMinutes((long)min);
+		utc.ChangeByHours(static_cast<long>(hour));
+		utc.ChangeByMinutes(static_cast<long>(min));
 		return true;
 	}
 }
@@ -283,9 +283,9 @@ NFmiString NFmiStationPoint:: LocalWmoTime(int utc) const
     if(diffHour < -80.) 
 		retString = NFmiString("-");
 	else if(fmod(diffHour,1.0f) == 0.)
-		retString.SetValue((int)(diffHour),NFmiString("%02d"));
+		retString.SetValue(static_cast<int>(diffHour),NFmiString("%02d"));
 	else
-		retString.SetValue((float)(diffHour),NFmiString("%05.2f"));
+		retString.SetValue(static_cast<float>(diffHour),NFmiString("%05.2f"));
 
 return retString;
 }

@@ -110,7 +110,7 @@ bool NFmiPressText::ReadDescription(NFmiString& retString) //16.1
 			case dOther:	  
 			{    
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #Tekstissä: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #Tekstissä: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -218,7 +218,7 @@ bool NFmiPressText::ReadDescription(NFmiString& retString) //16.1
 				|| lowChar == NFmiString ("vasen"))
                itsAlignment = kLeft;
 			else             //7.9
-				*itsLogFile << "*** ERROR: Tuntematon kohdistus tekstissä: " << (char*)itsObject << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon kohdistus tekstissä: " << static_cast<char *>(itsObject) << endl;  
 
 			ReadNext();
 			break;
@@ -264,7 +264,7 @@ bool NFmiPressText::ReadDescription(NFmiString& retString) //16.1
 			       valueString = itsObject;
 				   if(valueString.IsNumeric())  
 				   {
-					  r2 = (double)valueString;
+					  r2 = static_cast<double>(valueString);
 					  itsRectSize.Set(r1,r2);
 
 					  *itsDescriptionFile >> itsObject;
@@ -477,7 +477,7 @@ bool NFmiPressText::ReadDescription(NFmiString& retString) //16.1
 	  NFmiFileString dataFile = CreatePath(NFmiString("Tekstit"), textPath, textDir
 		                                  ,textFile, NFmiString("txt"));
 
-	  *itsLogFile << "VakioTeksti: "<< (char*)dataFile ;	 
+	  *itsLogFile << "VakioTeksti: "<< static_cast<char *>(dataFile) ;	 
 
 	  std::fstream in(dataFile, ios::in|ios::in);
 	  if(in.good())
@@ -533,7 +533,7 @@ bool NFmiPressText::ReadRemaining(void)
 			    valueString = itsObject;
 				if(valueString.IsNumeric())
 				{
-					itsParagraphMove = NFmiPoint(r1,(double)valueString);
+					itsParagraphMove = NFmiPoint(r1,static_cast<double>(valueString));
 					ReadNext();
 				}
 				else
@@ -806,29 +806,29 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 			// itsOutFile << "fontsize " << rect.Height()  << endl;
 			// itsOutFile << "textalign " << (char*)AlignmentToMeta(itsAlignment)  << endl; 
 			*itsOutFile << endl << "# TEKSTI" << endl; 
-			*itsOutFile << "font " << (char*)itsFont  << endl;
+			*itsOutFile << "font " << static_cast<char *>(itsFont)  << endl;
 			*itsOutFile << "fontsize " << rect.Height()  << endl;
-			*itsOutFile << "textalign " << (char*)AlignmentToMeta(itsAlignment)  << endl; 
+			*itsOutFile << "textalign " << static_cast<char *>(AlignmentToMeta(itsAlignment))  << endl; 
 
 			WriteColor(GetColor(), theOutput, *itsOutFile);
 
 			// itsOutFile << "text (" << (char*)text << ") " << x << " " << y << endl;
-			*itsOutFile << "text (" << (char*)text << ") " << x << " " << y << endl;
+			*itsOutFile << "text (" << static_cast<char *>(text) << ") " << x << " " << y << endl;
 		}
 		else if(theOutput == kPlainText)
 		{
 			// itsOutFile << endl << (char*)text;
-			*itsOutFile << endl << (char*)text;
+			*itsOutFile << endl << static_cast<char *>(text);
 		}
 		else if(theOutput == kXml)
 		{
 			// itsOutFile << "<text>" << (char*)text << ") " << x << " " << y << endl;
-			*itsOutFile << "<text>" << (char*)text << ") " << x << " " << y << endl;
+			*itsOutFile << "<text>" << static_cast<char *>(text) << ") " << x << " " << y << endl;
 		}
 		else
 		{
 			// itsOutFile << "%*** " << (char*)commentString << " ALKAA ***" << endl;
-			*itsOutFile << "%*** " << (char*)commentString << " ALKAA ***" << endl;
+			*itsOutFile << "%*** " << static_cast<char *>(commentString) << " ALKAA ***" << endl;
 		
 
 	// skandit vaatii erikoiskäsittelyn:
@@ -876,12 +876,12 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 			{
 				// itsOutFile << "/" << (char*)itsFont << " /" << (char*)itsFont << "_" << endl;
 				// itsOutFile << rect.Height() << " selectlatinfont" << endl;
-				*itsOutFile << "/" << (char*)itsFont << " /" << (char*)itsFont << "_" << endl;
+				*itsOutFile << "/" << static_cast<char *>(itsFont) << " /" << static_cast<char *>(itsFont) << "_" << endl;
 				*itsOutFile << rect.Height() << " selectlatinfont" << endl;
 			}
 			else
 				// itsOutFile << "/" << (char*)itsFont << " " << rect.Height() << " selectfont" << endl;
-				*itsOutFile << "/" << (char*)itsFont << " " << rect.Height() << " selectfont" << endl;
+				*itsOutFile << "/" << static_cast<char *>(itsFont) << " " << rect.Height() << " selectfont" << endl;
 
 	/*		if(isHyphen)              //161198
 				itsOutFile << "/" << (char*)itsFont << " " << rect.Height() << " selectfont" << endl;
@@ -937,7 +937,7 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 						// itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
 						// itsOutFile << "neg exch neg" << endl; 
 						// itsOutFile  << " rmoveto" << endl;
-						*itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
+						*itsOutFile << "(" << static_cast<char *>(text) << ") " << "stringwidth" << endl;
 						*itsOutFile << "neg exch neg" << endl; 
 						*itsOutFile  << " rmoveto" << endl;
 					}
@@ -946,7 +946,7 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 						// itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
 						// itsOutFile << "neg exch neg exch" << endl; 
 						// itsOutFile  << " rmoveto" << endl;
-						*itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
+						*itsOutFile << "(" << static_cast<char *>(text) << ") " << "stringwidth" << endl;
 						*itsOutFile << "neg exch neg exch" << endl; 
 						*itsOutFile  << " rmoveto" << endl;
 					}
@@ -958,7 +958,7 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 						// itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
 						// itsOutFile << "-2. div exch -2. div " << endl; //puolikas matka
 						// itsOutFile  << " rmoveto" << endl;
-						*itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
+						*itsOutFile << "(" << static_cast<char *>(text) << ") " << "stringwidth" << endl;
 						*itsOutFile << "-2. div exch -2. div " << endl; //puolikas matka
 						*itsOutFile  << " rmoveto" << endl;
 					}
@@ -967,7 +967,7 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 						// itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
 						// itsOutFile << "-2. div exch -2. div exch" << endl; //puolikas matka
 						// itsOutFile  << " rmoveto" << endl;
-						*itsOutFile << "(" << (char*)text << ") " << "stringwidth" << endl;
+						*itsOutFile << "(" << static_cast<char *>(text) << ") " << "stringwidth" << endl;
 						*itsOutFile << "-2. div exch -2. div exch" << endl; //puolikas matka
 						*itsOutFile  << " rmoveto" << endl;
 					}
@@ -995,16 +995,16 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 				*itsOutFile << "/Leading " << lineStep << " def" << endl;     //210199
 				*itsOutFile << itsParagraphMove.X() << " " <<             //171298 EI ONNAA X
 				               yMove << " rmoveto" << endl;
-				*itsOutFile << "(" << (char*)text << ") Paragraph" << endl;
+				*itsOutFile << "(" << static_cast<char *>(text) << ") Paragraph" << endl;
 			}
 			else
 			{
 				if(itsCharSpace == 0.) //131198 merkkivälin säätö
 					// itsOutFile << "(" << (char*)text << ") show" << endl;
-					*itsOutFile << "(" << (char*)text << ") show" << endl;
+					*itsOutFile << "(" << static_cast<char *>(text) << ") show" << endl;
 				else    //HUOM ashow
 					// itsOutFile << itsCharSpace << " 0. (" << (char*)text << ") ashow" << endl;
-					*itsOutFile << itsCharSpace << " 0. (" << (char*)text << ") ashow" << endl;
+					*itsOutFile << itsCharSpace << " 0. (" << static_cast<char *>(text) << ") ashow" << endl;
 			}
 
 			// itsOutFile << "false setoverprint" << endl; //9.10

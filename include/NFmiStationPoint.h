@@ -93,10 +93,14 @@ class _FMI_DLL NFmiStationPoint : public NFmiStation , public  NFmiDescription
 	double Y(void) const {return itsPoint.Y();};
 
 //  Ei hyv‰, eih‰n se s‰ily kun ei tehd‰ new:ll‰
-	NFmiStation* Station(void) const{return (NFmiStation*)NFmiStation(GetIdent()
-		                                               ,GetName()
-																	  ,GetLongitude() //15.6.99 lon/lat oli v‰‰rin p‰in
-																	  ,GetLatitude()).Clone();};
+  NFmiStation* Station(void) const
+  {
+	return static_cast<NFmiStation *>(NFmiStation(GetIdent(),
+												  GetName(),
+												  GetLongitude(), //15.6.99 lon/lat oli v‰‰rin p‰in
+												  GetLatitude()).Clone());
+  }
+
 /* Ei onnistu, virtuaali per.??? (ylh‰‰ll‰ copy-konstr.:sta oli * myˆs pois)
 	NFmiStation Station(void) const{return NFmiStation(GetIdent()
 		                                               ,GetName()

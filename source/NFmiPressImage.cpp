@@ -73,7 +73,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
 			case dOther:	  
 			{    
 				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #OsaKuvassa: " << (char*)itsObject << endl;  
+					*itsLogFile << "*** ERROR: Tuntematon sana #OsaKuvassa: " << static_cast<char *>(itsObject) << endl;  
 				ReadNext();
 				break;
 			}
@@ -303,7 +303,7 @@ bool	NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 	itsInFile->open(itsPath, ios::in|ios::binary); 
 	if(!itsInFile->good() || itsInFile->eof())  
 	{
-		*itsLogFile << "WARNING: Missing EPS image: " << (char*)itsPath << endl;
+		*itsLogFile << "WARNING: Missing EPS image: " << static_cast<char *>(itsPath) << endl;
 	}
 	else                  
 	{
@@ -316,7 +316,7 @@ bool	NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 	  
 	  WriteEPSEnd();
 
-	   *itsLogFile << "EPS image included into eps output: " << (char*)itsPath << endl;
+	   *itsLogFile << "EPS image included into eps output: " << static_cast<char *>(itsPath) << endl;
 	   
 	}
 	// itsInFile.close();
