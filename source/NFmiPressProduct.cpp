@@ -1037,7 +1037,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 2.2.2004" << endl;       
+   *itsLogFile << "program version = 9.2.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1138,42 +1138,59 @@ bool NFmiPressProduct::ReadData(void)
 	{
 	  dataPtr = nData->GetData();
 	  data = & dataPtr;
-	  dataFile = dataPath;
-	  dataFile2 = dataPath2;
-	  if(dataFile.IsValue()) dataFile += kFmiDirectorySeparator;
-	  if(dataFile2.IsValue()) dataFile2 += kFmiDirectorySeparator;
-	  dataFile += nData->GetName();
-	  dataFile2 += nData->GetName();
-	  dataFileSqd = dataFile;
-	  dataFileSqd2 = dataFile2;
-	  if(!dataFile.HasExtension())
-		{
-		  if(!NFmiFileSystem::DirectoryExists(dataFile.CharPtr()))
-			dataFile += NFmiString(".fqd");
-		  if(!NFmiFileSystem::DirectoryExists(dataFile2.CharPtr()))
-			dataFile2 += NFmiString(".fqd");
-		  if(!NFmiFileSystem::DirectoryExists(dataFileSqd.CharPtr()))
-			dataFileSqd += NFmiString(".sqd");
-		  if(!NFmiFileSystem::DirectoryExists(dataFileSqd2.CharPtr()))
-			dataFileSqd2 += NFmiString(".sqd");
-		}
-	  else
-		twoOptinalTypes = false;
-
-	  //oletus suoraan odinista; edelleen voi jonkin aikaa käyttää vanhaa kepaa jos
-	  // kausivaihtelut muutetaan
-	  // pitää laittaa myös LightBoy
-	  if(dataFile.Header() == NFmiString("kepa_suomi_168_1_uusin") && itsSeasonsStatus->editdata)
+	  if(nData->IsNewest())
 	  {
-			std::string odinDir = "O:\\data\\in\\";
 			std::string path;
-			path = odinDir;
-			path += "PAL_Scand*";
+			path = nData->GetName();
 			std::string theFoundFileName;
 			NFmiFileSystem::FindFile(path, true, &theFoundFileName);
 			//cout << theFoundFileName << endl;
-			odinDir += theFoundFileName;
-			dataFile = NFmiString(odinDir);
+			dataFile2 = nData->GetName();
+            //unsigned long pos = dataFile2.Search(NFmiString("ke"));
+			dataFile = dataFile2.Device();
+			dataFile += dataFile2.Path();
+			dataFile += NFmiString(theFoundFileName);
+			twoOptinalTypes = false;
+	  }
+	  else
+	  {
+		  dataFile = dataPath;
+		  dataFile2 = dataPath2;
+		  if(dataFile.IsValue()) dataFile += kFmiDirectorySeparator;
+		  if(dataFile2.IsValue()) dataFile2 += kFmiDirectorySeparator;
+		  dataFile += nData->GetName();
+		  dataFile2 += nData->GetName();
+		  dataFileSqd = dataFile;
+		  dataFileSqd2 = dataFile2;
+		  if(!dataFile.HasExtension())
+			{
+			  if(!NFmiFileSystem::DirectoryExists(dataFile.CharPtr()))
+				dataFile += NFmiString(".fqd");
+			  if(!NFmiFileSystem::DirectoryExists(dataFile2.CharPtr()))
+				dataFile2 += NFmiString(".fqd");
+			  if(!NFmiFileSystem::DirectoryExists(dataFileSqd.CharPtr()))
+				dataFileSqd += NFmiString(".sqd");
+			  if(!NFmiFileSystem::DirectoryExists(dataFileSqd2.CharPtr()))
+				dataFileSqd2 += NFmiString(".sqd");
+			}
+		  else
+			twoOptinalTypes = false;
+
+		  //oletus suoraan odinista; edelleen voi jonkin aikaa käyttää vanhaa kepaa jos
+		  // kausivaihtelut muutetaan
+		  // pitää laittaa myös LightBoy
+		  if(dataFile.Header() == NFmiString("kepa_suomi_168_1_uusin") && itsSeasonsStatus->editdata)
+		  {
+				std::string odinDir = "O:\\data\\in\\";
+				std::string path;
+				path = odinDir;
+				path += "PAL_Scand*";
+				std::string theFoundFileName;
+				NFmiFileSystem::FindFile(path, true, &theFoundFileName);
+				//cout << theFoundFileName << endl;
+				odinDir += theFoundFileName;
+				dataFile = NFmiString(odinDir);
+		  }
 	  }
 
 	  //  käyetään nyt Vilin poikkeusmenettelyä
@@ -1368,12 +1385,13 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName)
   iter.Reset();
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   while(nData)
-	{
-	  name = nData->GetName();
-	  if (name == givenName)
+  {
+	name = nData->GetName();
+	if(givenName.IsValue() && name.Search(givenName) > 0)
+	//if (name == givenName)
 		return nData->GetData();
-	  nData = static_cast<NFmiNamedQueryData *>(iter.Next());
-	}
+	nData = static_cast<NFmiNamedQueryData *>(iter.Next());
+  }
   return 0;
 }
 
@@ -1399,6 +1417,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
   fTimeStamp = false;
   fDataTimeStamp = false;
   bool allDataFilesCritical = false;
+  bool thisDataFileCritical = false;
+  bool thisFileNewest = false;
   itsLanguage = kFinnish;
   double xmin,xmax,ymin,ymax;
   long long1, long2, long3;
@@ -1597,6 +1617,15 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dMandatoryDataFile:
+		{
+			thisDataFileCritical = true; //must be set to false before next
+		}
+		case dNewestDataFile: //sekä Mandatory että newest ei voi antaa
+		{
+			if(!thisDataFileCritical)
+				thisFileNewest = true; //must be set to false before next
+		}
 		case dDataFile:
 		  {
 			if (!ReadEqualChar())
@@ -1617,12 +1646,17 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  }
 
 			NFmiQueryData * newData = new NFmiQueryData();
-			NFmiNamedQueryData * newNData = new NFmiNamedQueryData(newData,itsDataFileName, allDataFilesCritical);
+			NFmiNamedQueryData * newNData = new NFmiNamedQueryData(newData,itsDataFileName
+															,allDataFilesCritical || thisDataFileCritical
+															,thisFileNewest);
 			itsDatas.Add(newNData);
 
+			thisDataFileCritical = false;
+			thisFileNewest = false;
 			ReadNext();
 			break;
 		  }
+/*
 		case dMandatoryDataFile:
 		  {
 			if (!ReadEqualChar())
@@ -1649,6 +1683,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+*/
 		case dChangeScandinavian:
 		  {
 			fChangeScandinavian = true;
@@ -2333,6 +2368,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datafile") ||
 		  lowChar==NFmiString("data"))
 	return dDataFile;
+  else if(lowChar==NFmiString("newestdatafile") ||
+		  lowChar==NFmiString("uusindata"))
+	return dNewestDataFile;
   else if(lowChar==NFmiString("datafilewithtimestamp") ||
 		  lowChar==NFmiString("dataaikaleimalla"))
 	return dDataFileTimeStamp;
@@ -2342,7 +2380,6 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("maskfile") ||
 		  lowChar==NFmiString("maskidata"))
 	return dMaskFile;
-
   else if(lowChar==NFmiString("#constimage") ||
 		  lowChar==NFmiString("#vakiosymboli"))
 	return dImageObject;
