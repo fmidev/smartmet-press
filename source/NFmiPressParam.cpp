@@ -1397,7 +1397,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 
-			if(ReadTwo(x,y))
+			NFmiString name;
+			if(ReadOneStringAndTwoNumbers(name,x,y))
 			  {
 				if(itsArea.GetArea())
 				  {
@@ -1413,8 +1414,11 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					lat = lonlat.Y();
 					point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
 					point2 = itsScale.Scale(point1);
-					NFmiString name("As");
-					name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
+					if(!name.IsValue())
+					{
+						name = NFmiString("As");
+						name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
+					}
 					NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
 					itsStations.AddLocation(station, false);
 					if(firstStation)
@@ -1458,7 +1462,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  if(firstStation)
 						{
 						  itsName = station.GetName();
-						  firstUnscaledPoint = NFmiPoint(x,y);
+						  firstUnscaledPoint = NFmiPoint(point1);
 						  firstStation = false;
 						}
 					  firstStation = false;
@@ -1482,7 +1486,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 
-			if(ReadTwo(lon,lat))
+			NFmiString name;
+			if(ReadOneStringAndTwoNumbers(name,lon,lat))
 			  {
 				if(itsArea.GetArea())
 				  {
@@ -1495,17 +1500,19 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					double top = (itsArea.GetArea())->Top();
 					double y0 = point0.Y();
 					point1 = NFmiPoint(point0.X(), bottom -(y0-top));
-
-					point2 = itsScale.Scale(point0);
-					NFmiString name("As");
-					name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
+					point2 = itsScale.Scale(point1);
+					if(!name.IsValue())
+					{
+						name = NFmiString("As");
+						name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
+					}
 					NFmiStationPoint station
 					  (NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
 					itsStations.AddLocation(station, false);
 					if(firstStation)
 					  {
 						itsName = station.GetName();
-						firstUnscaledPoint = NFmiPoint(x,y);
+						firstUnscaledPoint = NFmiPoint(point1);
 						firstStation = false;
 					  }
 					firstStation = false;

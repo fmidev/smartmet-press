@@ -132,6 +132,34 @@ bool ReadTwo(Type1 & retValue1, Type2 & retValue2)
 	}
   return false;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retValue1 Undocumented
+ * \param retValue2 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2>
+bool ReadOneStringAndTwoNumbers(NFmiString& theString, Type1 & retValue1, Type2 & retValue2)
+
+{
+  *itsDescriptionFile >> itsObject;
+  itsValueHelpString = itsObject;
+  if(itsValueHelpString.IsNumeric())
+	{
+	  retValue1 = static_cast<int>(itsValueHelpString);
+	  theString = NFmiString();
+	  return ReadOne(retValue2);
+	}
+  else
+	{
+	  theString = itsValueHelpString;
+	  return ReadTwo(retValue1, retValue2);
+	}
+}
 
 // ----------------------------------------------------------------------
 /*!
