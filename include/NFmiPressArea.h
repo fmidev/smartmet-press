@@ -23,17 +23,19 @@
 
 #ifndef NFMIPRESSAREA_H 
 #define NFMIPRESSAREA_H
- 
+
 #include "NFmiPolSterArea.h"
 #include "NFmiPressDescription.h"
 #include "NFmiStereographicArea.h"
 #include "NFmiYKJArea.h"
+class NFmiPressProduct;  
 
 
 //! Undocumented
 enum NFmiAreaObjects
 {
   dLonLatCorners = 400,
+  dLonLatCornerNames,
   dXYCorners,
   dWorldXYCorners,
   dProjection,
@@ -56,11 +58,13 @@ public:
 
   NFmiArea * GetArea(void) const;
   void SetArea(NFmiArea* theArea);
+  void SetProduct(NFmiPressProduct* theProduct);
   void SetXyRequest(bool value);
 
 private:
   
   NFmiArea * itsArea;
+  NFmiPressProduct* itsPressProduct; //ei omista
   bool fIsXyRequest;
   
 }; // class NFmiPressArea
@@ -75,6 +79,7 @@ private:
 inline
 NFmiPressArea::NFmiPressArea(void)
   : itsArea(0)
+  , itsPressProduct(0)
   , fIsXyRequest(true)
 {                         
 }
@@ -107,6 +112,19 @@ void NFmiPressArea::SetArea(NFmiArea * theArea)
   itsArea = theArea;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theArea Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressArea::SetProduct(NFmiPressProduct * theProduct)
+{
+  itsPressProduct = theProduct;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -614,6 +614,41 @@ bool NFmiPressProduct::ReadNameToLonLatList(void)
 	  return false;
 	}
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theStation Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint & theLonLat)
+{
+  if(itsNameToLonLat->Empty())
+	{
+	  if(!ReadNameToLonLatList())
+		{
+		  *itsLogFile << "*** ERROR: nimi/lonlat-tiedoston luku epäonnistui" << endl;
+		  return false;
+		}
+	}
+
+  theLonLat = itsNameToLonLat->Find(theStationName);
+  if(!(theLonLat.X() == kFloatMissing))
+	{
+	  return true;
+	}
+  else
+	{
+	  if(theStationName != NFmiString("Tyhjä"))
+		*itsLogFile << "  WARNING: "
+					<< static_cast<char *>(theStationName)
+					<< " ei ole nimi/lonLat-tiedostossa"
+					<< endl;
+	  return false;
+	}
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -1038,7 +1073,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 13.2.2004" << endl;       
+   *itsLogFile << "program version = 23.2.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2254,6 +2289,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  {
 			itsArea.SetLogFile(itsLogFile);
 			itsArea.SetDescriptionFile(itsDescriptionFile);
+			itsArea.SetProduct(this);
 			itsArea.ReadDescription(itsString);
 			itsIntObject = ConvertDefText(itsString);
 			break;

@@ -60,6 +60,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , itsAlignment(thePressText.itsAlignment)
   , itsStyle(thePressText.itsStyle)
   , itsCharSpace(thePressText.itsCharSpace)
+  , itsMaxLen(thePressText.itsMaxLen)
 {
   itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : 0;
   itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : 0;
@@ -459,6 +460,19 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 				aString += NFmiHyphenationString(text) += NFmiHyphenationString(" ");
 			}
 		  in.close();
+			  if(aString.GetLen() > itsMaxLen)
+			  {
+		          *itsLogFile << endl << "  *** ERROR: teksti katkaistu sallittuun maxpituuteen: " 
+					          << itsMaxLen
+							  << endl
+	                          << "             menetetty "
+							  << aString.GetLen()-itsMaxLen
+							  << " merkkiä"
+							  << endl;
+				
+				  aString = aString.GetChars(1, itsMaxLen); 
+			  }
+			  
 		  *itsText = aString; //ReplaceChar(NFmiString("-"), NFmiString("\\255")); //29.6 Illussa "-" ei mene läpi ??
           *itsLogFile << " luettu" << endl;
 		}
@@ -585,6 +599,11 @@ bool NFmiPressText::ReadRemaining(void)
 		  }
 
 		itsIntObject = ConvertDefText(itsString);
+		break;
+	  }
+	case dMaxTextLength:
+	  {
+		SetOne(itsMaxLen);
 		break;
 	  }
 	default:
@@ -725,6 +744,11 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("timestamp") ||
 		  lowChar==NFmiString ("aikaleima"))
 	return dFileTimestamp;
+
+  else if(lowChar==NFmiString("maxlength") ||
+		  lowChar==NFmiString ("maksimipituus") ||
+		  lowChar==NFmiString ("maxpituus"))
+	return dMaxTextLength;
 
   else
 	return NFmiPressScaling::ConvertDefText(object);

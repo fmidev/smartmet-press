@@ -5,6 +5,7 @@
  */
 // ======================================================================
 
+#include "NFmiPressProduct.h"
 #include "NFmiPressArea.h"
 #include "NFmiEquidistArea.h"
 #include <iostream>
@@ -61,7 +62,7 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
   double tlwX,tlwY,brwX,brwY;  //world
   double trueLat;
   trLat=brY=brwY = kFloatMissing;
-  NFmiString helpString;
+  NFmiString helpString, helpString2;
   unsigned long proj = kNFmiYKJArea;
   double orientation = 0;
   
@@ -143,6 +144,31 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 		case dLonLatCorners:
 		  {
 			SetFour(blLon,blLat,trLon,trLat);
+			break;
+		  }
+		case dLonLatCornerNames:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			helpString = ReadString();
+			helpString2 = ReadString();
+
+			NFmiPoint lonLat1, lonLat2;
+			if(itsPressProduct->FindLonLatFromList(helpString, lonLat1)
+			&& itsPressProduct->FindLonLatFromList(helpString2, lonLat2))
+			{
+				blLon = lonLat1.X();
+				blLat = lonLat1.Y();
+				trLon = lonLat2.X();
+				trLat = lonLat2.Y();
+			}
+			else
+			  *itsLogFile << "*** ERROR: Kartta ei pysty käyttämään asemaparia: "
+						  << static_cast<char *>(helpString)
+						  << " "
+						  << static_cast<char *>(helpString2)
+						  << endl;
+			ReadNext();
 			break;
 		  }
 		case dXYCorners:
@@ -266,6 +292,10 @@ int NFmiPressArea::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("lonlatcorners") ||
 		  lowChar==NFmiString("lonlatkulmat"))
 	return dLonLatCorners;
+
+  else if(lowChar==NFmiString("lonlatcornersnames") ||
+		  lowChar==NFmiString("lonlatnimet"))
+	return dLonLatCornerNames;
 
   else if(lowChar==NFmiString("pointcorners") ||
 		  lowChar==NFmiString("pistekulmat") ||

@@ -127,6 +127,7 @@ public:
   bool DefinePar(const NFmiString & theString);
   bool ReplacePar(NFmiString & theString);
   bool ReadNameToLonLatList(void); 
+  bool FindLonLatFromList(NFmiString & theStationName, NFmiPoint & theLonLat);
   bool Close(void); 
   NFmiString GetInFileName(void) const;
   bool SetAllTimes(const NFmiMetTime & theTime);

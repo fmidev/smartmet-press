@@ -1452,6 +1452,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			itsArea.SetLogFile(itsLogFile);
 			itsArea.SetDescriptionFile(itsDescriptionFile);
 			itsArea.SetXyRequest(!fIsAreaOperation); // mittoja ei tarvita jos käytetään alueoperaatioihin
+			itsArea.SetProduct(itsPressProduct);
 			itsArea.ReadDescription(itsString);
 			itsIntObject = ConvertDefText(itsString);
 			break;
@@ -2283,34 +2284,19 @@ bool NFmiPressParam::SetLonLat(NFmiStationPoint & theStation)
 		}
 	}
 
-  if(itsPressProduct->itsNameToLonLat->Empty())
-	{
-	  if(!itsPressProduct->ReadNameToLonLatList())
-		{
-		  *itsLogFile << "*** ERROR: nimi/lonlat-tiedoston luku epäonnistui" << endl;
-		  return false;
-		}
-	}
+  //muuten asema/LonLat-tiedostosta
 
-  NFmiString name(theStation.GetName());
-  NFmiPoint lonLat(itsPressProduct->itsNameToLonLat->Find(name));
-  if(!(lonLat.X() == kFloatMissing))
-	{
+  NFmiPoint lonLat;
+  NFmiString statName(theStation.GetName());
+  if(itsPressProduct->FindLonLatFromList(statName, lonLat))
+  {
 	  theStation.SetLongitude(lonLat.X());
 	  theStation.SetLatitude(lonLat.Y());
-	}
-  else
-	{
-	  if(name != NFmiString("Tyhjä"))
-		*itsLogFile << "  WARNING: "
-					<< static_cast<char *>(name)
-					<< " ei ole nimi/lonLat-tiedostossa"
-					<< endl;
-	  return false;
-	}
-
-  return true;
+	  return true;
+  }
+  return false;
 }
+
 
 // ----------------------------------------------------------------------
 /*!

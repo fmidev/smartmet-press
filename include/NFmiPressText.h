@@ -51,8 +51,8 @@ enum NFmiPressTextObjects
   dSubComputerTimeTextObject,
   dTextLanguage,
   dTextDir,
-  dTextPath
-};
+  dTextPath,
+  dMaxTextLength};
 
 
 //! Undocumented
@@ -124,7 +124,7 @@ protected:
   FmiDirection itsAlignment;
   NFmiString itsStyle;
   double itsCharSpace;      
-
+  unsigned long itsMaxLen;
 }; // class NFmiPressText
 
 // ----------------------------------------------------------------------
@@ -149,7 +149,8 @@ NFmiPressText::NFmiPressText(void)
   , itsText(0)
   , itsFont(NFmiString("Courier"))
   , itsAlignment(kCenter) 
-  , itsCharSpace(0.)      
+  , itsCharSpace(0.)
+  , itsMaxLen(kLongMissing)
 {
   itsSubText = 0;
   itsLanguage = kFinnish;
