@@ -1434,17 +1434,16 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					}
 					currentStationNumOnMap++;
 					point0 = NFmiPoint(x,y);
-					point1 = itsCurrentStationScale.Scale(point0);
-					NFmiPoint point3 = NFmiPoint(point1);
+					
 					double bottom = (itsArea.GetArea())->Bottom();
 					double top = (itsArea.GetArea())->Top();
-					double y3 = point3.Y();
-					point3.Set(point1.X(), bottom -(y3-top));
+					double y0 = point0.Y();
+					point1.Set(point0.X(), bottom -(y0-top));
 
-					NFmiPoint lonlat(itsArea.GetArea()->ToLatLon(point3));
+					NFmiPoint lonlat(itsArea.GetArea()->ToLatLon(point1));
 					lon = lonlat.X();
 					lat = lonlat.Y();
-					//point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
+					point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
 					point2 = itsScale.Scale(point1);
 					if(!name.IsValue())
 					{
