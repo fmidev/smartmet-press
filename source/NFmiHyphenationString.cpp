@@ -123,7 +123,7 @@ NFmiString NFmiHyphenationString:: DropChar (const NFmiString &theChar)
 //	int helpLast = FmiMax(itsLastCharPosition,1); //28.3.00 yllä oleva SuperResetPosition ilmeisesti vaatii
 //	int helpLast = itsLastCharPosition; 
 
-	if (GetLen() - itsLastCharPosition >= 0)            
+	if (GetLen() >= itsLastCharPosition)            
 	   newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition+1);
 
 	return newString;
