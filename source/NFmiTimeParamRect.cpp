@@ -440,7 +440,7 @@ bool NFmiTimeParamRect::ToLocalTime(NFmiPressTime& theTime) const
 NFmiTime	NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI)
 	//aina local time piirtoalkioissa (vrt segmentti ja tuote missä ei)
 { //pitäisi mahdollistaa UTC-ajassa piirto/15.2.01
-	NFmiMetTime time(itsCurrentTime,1); //localTimea varten
+	NFmiMetTime tim(itsCurrentTime,1); //localTimea varten
 	if(itsPressParam->IsStationLocalTimeMode())  
 	{
 		//HUOM tämä koodi ylläpidettävä samanlaisena myös NFmiParamRectissä
@@ -449,14 +449,14 @@ NFmiTime	NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI)
 		if(fabs(longitude) <= .001 && fabs(latitude) <= .001)
 			*itsLogFile << "*** ERROR: longitudi puuttuu " << (char*)itsStationPoint.GetName()
 			            << ":lta paikalliseen aikaan"<< endl; 
-		NFmiTime localTime = time.LocalTime(-(float)longitude);
+		NFmiTime localTime = tim.LocalTime(-(float)longitude);
 	//Hullua näin
 		NFmiMetTime saveTime = ((NFmiQueryInfo*)theQI)->Time(); 
 		theQI->TimeToNearestStep (localTime, kCenter, theQI->TimeResolution()/2);
-		time =  ((NFmiQueryInfo*)theQI)->Time();
+		tim =  ((NFmiQueryInfo*)theQI)->Time();
 		theQI->Time(saveTime);
 	}
-	return time;	
+	return tim;	
 }
 
 //-050399---------------------------------------------------------------------------
