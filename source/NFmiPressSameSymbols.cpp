@@ -38,7 +38,6 @@ void NFmiPressSameSymbols::SetScale(const NFmiRectScale & scale)
 
 bool NFmiPressSameSymbols::ReadDescription(NFmiString & retString)
 {
-  bool helpBool;
   NFmiString dataFileName;
   NFmiString str;
   NFmiValueString valueString;
@@ -182,7 +181,6 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString & retString)
             currentPlaceNum++;
 			if (!ReadEqualChar())
 			  break;
-			helpBool = isTrue;
 			if(Read2Double(x,y))
 			  {
 				if (numOfTablePlaces > 1)
