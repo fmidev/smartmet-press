@@ -289,6 +289,14 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("suhteellinenpaikka"))
 	return dImagePlaceMove;
 
+  else if(lowChar==NFmiString("paikka"))
+  {
+	*itsLogFile << 
+	"*** ERROR: Paikka ei sallittu #OsaKuvassa, pitääkö olla suhtPaikka"
+	  << endl;
+	return dImagePlaceMove;
+  }
+
   else if(lowChar==NFmiString("sizefactor") ||
 		  lowChar==NFmiString("kokokerroin"))
 	return dImageSizeFactor;

@@ -60,6 +60,9 @@ NFmiParamRect::~NFmiParamRect(void)
 NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   : NFmiRect(NFmiRect(theRect.TopLeft(), theRect.BottomRight()))
   , NFmiPressTimeDescription()
+  , itsInterval2NumberMin(theRect.itsInterval2NumberMin)
+  , itsInterval2NumberMax(theRect.itsInterval2NumberMax)
+  , itsInterval2NumberValue(theRect.itsInterval2NumberValue)
   , itsValueIntervalMin(theRect.itsValueIntervalMin)
   , itsValueIntervalMax(theRect.itsValueIntervalMax)
   , fAllowMissing(theRect.fAllowMissing)
@@ -507,6 +510,11 @@ bool NFmiParamRect::ReadRemaining(void)
 		SetTwo(itsValueIntervalMin, itsValueIntervalMax);
 		break;
 	  }
+	case dInterval2Number:
+	  {
+		SetThree(itsInterval2NumberMin, itsInterval2NumberMax, itsInterval2NumberValue);
+		break;
+	  }
 	case dRelHour:
 	  {
 		*itsLogFile << "*** ERROR: Ei sallittu dataelementeille: "
@@ -700,6 +708,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("acceptanceinterval") ||
 		  lowChar==NFmiString("hyväksymisväli"))
 	return dAcceptanceInterval;
+
+  else if(lowChar==NFmiString("numbermapping") ||
+		  lowChar==NFmiString("numeromuunnos"))
+	return dInterval2Number;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1505,8 +1517,12 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  *itsLogFile << "   * INFO: "<< "stored value used instead of actual"  << endl;
         }
 	}
+  
+  if (itsInterval2NumberMin != kFloatMissing)
+	value = itsInterval2NumberMin <= value && value <= itsInterval2NumberMax ?
+						itsInterval2NumberValue : value;
 
-  if (itsValueIntervalMin != kFloatMissing)
+  if (itsValueIntervalMin != kFloatMissing && (itsInterval2NumberMin =! kFloatMissing && value == itsInterval2NumberValue))
 	  value = itsValueIntervalMin <= value && value <= itsValueIntervalMax ? value : kFloatMissing;
   
   if(itsValueOption == kFahrenheit)

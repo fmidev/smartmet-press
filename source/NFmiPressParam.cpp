@@ -1139,7 +1139,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
               NFmiStationPoint station
 				= NFmiStationPoint(NFmiStation(statNum, string1, lon, lat), point2);
 
-			  itsStations.AddLocation(station);
+			  itsStations.AddLocation(station, false);
 			  if(firstStation)
 				{
 				  //EI TOIMI
@@ -1254,7 +1254,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				// voidaan tallettaa point1:een kun kaikki periytyy NFmiPsSymbolista
 				// lat/loniahan ei tarvita mihink‰‰n
 
-				itsStations.AddLocation(station);
+				itsStations.AddLocation(station, false);
 				if(firstStation)
 				  {
 					itsName = station.GetName();  //EI TOIMI vai toimiiko
@@ -1290,7 +1290,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					NFmiString name("As");
 					name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
-					itsStations.AddLocation(station);
+					itsStations.AddLocation(station, false);
 					if(firstStation)
 					  {
 						itsName = station.GetName();
@@ -1328,7 +1328,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  point2 = itsScale.Scale(point1);
 					  NFmiStationPoint station
 						(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
-					  itsStations.AddLocation(station);
+					  itsStations.AddLocation(station, false);
 					  if(firstStation)
 						{
 						  itsName = station.GetName();
@@ -1375,7 +1375,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					NFmiStationPoint station
 					  (NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
-					itsStations.AddLocation(station);
+					itsStations.AddLocation(station, false);
 					if(firstStation)
 					  {
 						itsName = station.GetName();
@@ -1429,7 +1429,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					NFmiStationPoint station
 					  (NFmiStation(currentStationNumOnMap, name, lonlat.X(), lonlat.Y()), point2);
-					itsStations.AddLocation(station);
+					itsStations.AddLocation(station, false);
 					if(firstStation)
 					  {
 						itsName = station.GetName();
@@ -1784,7 +1784,7 @@ bool NFmiPressParam::CreateStationFromAreaMask(void)
 	  NFmiStationPoint station
 		(NFmiStation(100, itsName, 25, 60), NFmiPoint(100.,100.));
 	  // if(itsStations.GetSize() < 1)  // pit‰isi tuhota entinen ettei kumuloidu; p‰‰asia ett‰ nimi ok
-	  itsStations.AddLocation(station);
+	  itsStations.AddLocation(station, false);
 	}
   return true;
 }

@@ -496,6 +496,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 // ----------------------------------------------------------------------
 
 //tehty Hesaria varten, joka haluaa välilyönnin etumerkin jälkeen jos yksinumeroinen luku
+//myös kaksinumeroisessa pitää (pitkä) miinus siirtää jottei päällekkäin
 //ei universaali vielä, esim jos sulkuja mukana tms
 
 NFmiString NFmiNumberParamRect::DetachSign(const NFmiString & theString, float theValue) const

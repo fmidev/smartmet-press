@@ -69,8 +69,8 @@ enum NFmiParamRectObjects
   dAllowMissing,
   dUseFromStorageCond,
   dStorageQueue,
-  dAcceptanceInterval
-};
+  dAcceptanceInterval,
+  dInterval2Number};
 
 //! Undocumented
 struct FmiIntegrationPeriod
@@ -169,7 +169,9 @@ private:
   int PreWeaWithPrecForm(int value, NFmiFastQueryInfo * theData);
   
 protected:
-
+  float itsInterval2NumberMin;
+  float itsInterval2NumberMax;
+  float itsInterval2NumberValue;
   float itsValueIntervalMin;
   float itsValueIntervalMax;
   bool fAllowMissing;
@@ -253,6 +255,7 @@ NFmiParamRect::NFmiParamRect(void)
   fAllowMissing = false;
   itsFirstExtremRelHour = kLongMissing;
   itsValueIntervalMin = kFloatMissing;
+  itsInterval2NumberMin = kFloatMissing;
 }
 
 // ----------------------------------------------------------------------
