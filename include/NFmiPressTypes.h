@@ -33,14 +33,15 @@ struct FmiCMYK
 };
 
 
-//! Undocumented
+//! tämän mukaan aloitusromppeet; Universaali pyrkii kelpaamaan kaikkiin??
 enum FmiPageSize
   {
 	kLetter = 1,
 	kA4,
 	kA4Maisema,
 	kA3,
-	kA3Maisema
+	kA3Maisema,
+	kUniversal
 };
 
 //! Undocumented

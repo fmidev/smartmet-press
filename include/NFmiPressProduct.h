@@ -59,6 +59,7 @@ enum NFmiPressProductObjects
   dMapDefSize,
   dClippingRectangle,
   dBoundingBorder,
+  dUniBoundingBorder,
   dSubViews,
   dMargin,
   dGap,
@@ -66,8 +67,8 @@ enum NFmiPressProductObjects
   dSymbolPlaces,
   dPalette,
   dSubImage,
-  dPageSize,
-  dDate = 1020,
+  dPageSize = 1020,
+  dDate,
   dProductWithTimeStamp,
 
   dProductWithDataTimeStamp,
@@ -77,8 +78,8 @@ enum NFmiPressProductObjects
   dRelativeHours,
   dChangeScandinavian,
   dNameDay,
-  dProductNameFormat,
-  dProductNameTimeFormat = 2020,
+  dProductNameFormat = 2020,
+  dProductNameTimeFormat,
   dSecondProductNameTimeFormat,
 
   dOutputMode ,
@@ -88,8 +89,8 @@ enum NFmiPressProductObjects
   dMakeElementsAfterSegments,
   dMaskFile,
   dWeekdayDir,
-  dAllDataFilesCritical,
-  dDataFilesNotCritical = 3020
+  dAllDataFilesCritical = 3020,
+  dDataFilesNotCritical
 };
 
 

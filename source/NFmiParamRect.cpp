@@ -1734,7 +1734,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		}
 	  
 	}
-
+	
 
   if(itsRoundingNumber != kLongMissing)
 	  value = static_cast<float>(FmiRound(value/itsRoundingNumber)) * itsRoundingNumber;

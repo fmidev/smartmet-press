@@ -1114,7 +1114,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 6.4.2004" << endl;       
+   *itsLogFile << "program version = 6.5.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1526,6 +1526,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
 
+  bool uniBBset = false;
+  bool pageSet = false;
+
   while(itsIntObject != 9999 || itsCommentLevel)
 	{
 	  if(itsLoopNum > itsMaxLoopNum)
@@ -1787,30 +1790,37 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  break;
 
 			*itsDescriptionFile >> itsObject;
-			helpString = itsObject;
-			if (helpString == NFmiString ("A4") ||
-				helpString == NFmiString ("a4") ||
-				helpString == NFmiString ("A4Pysty"))
-			  itsPageSize = kA4;
-			else if (helpString == NFmiString ("A4Maisema") ||
-					 helpString == NFmiString ("a4maisema") ||
-					 helpString == NFmiString ("A4Vaaka"))
-			  itsPageSize = kA4Maisema;
-			else if (helpString == NFmiString ("A3Maisema") ||
-					 helpString == NFmiString ("a3maisema") ||
-					 helpString == NFmiString ("A3Vaaka"))
-			  itsPageSize = kA3Maisema;
-			else if (helpString == NFmiString ("A3") ||
-					 helpString == NFmiString ("a3") ||
-					 helpString == NFmiString ("A3Pysty"))
-			  itsPageSize = kA3; //HUOM toistaiseksi
-			else if (helpString == NFmiString ("Letter") ||
-					 helpString == NFmiString ("letter"))
-			  itsPageSize = kLetter;
+
+			if(!uniBBset)
+			{
+				NFmiString lowChar = itsObject;
+				lowChar.LowerCase(); 
+				NFmiString helpString = lowChar.GetChars(1,3);
+				NFmiString helpString2 = lowChar.GetChars(1,2);
+				pageSet = true;
+
+				if (helpString == NFmiString ("a4m") ||
+					helpString == NFmiString ("a4v"))
+				  itsPageSize = kA4Maisema;
+				else if (helpString == NFmiString ("a3m") ||
+					helpString == NFmiString ("a3v"))
+				  itsPageSize = kA3Maisema;
+				else if (helpString2 == NFmiString ("a4"))
+				  itsPageSize = kA4;
+				else if (helpString2 == NFmiString ("a3"))
+				  itsPageSize = kA3;
+				else if (helpString2 == NFmiString ("le"))
+				  itsPageSize = kLetter;
+				else
+				{
+				  *itsLogFile << "*** ERROR: Tuntematon arkkikoko: "
+							  << static_cast<char *>(lowChar)
+							  << endl;
+				   pageSet = false;
+				}
+			}
 			else
-			  *itsLogFile << "*** ERROR: Tuntematon arkkikoko: "
-						  << static_cast<char *>(helpString)
-						  << endl;
+			   *itsLogFile << "   WARNING: Turha ArkkiKoko"  << endl;
 
 			ReadNext();
 			break;
@@ -2057,7 +2067,31 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 				if(xmin == xmax || ymin == ymax)
 				  *itsLogFile << "*** ERROR: GifRajauksen min == max"  << endl;
 				else
+				{
 				  itsBoundingBorder.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
+				}
+			  }
+
+			ReadNext();
+			break;
+		  }
+		case dUniBoundingBorder:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			if(Read4Double(xmin,ymin,xmax,ymax))
+			  {
+				if(xmin == xmax || ymin == ymax)
+				  *itsLogFile << "*** ERROR: AlueRajauksen min == max"  << endl;
+				else
+				{
+				  itsBoundingBorder.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
+			      itsPageSize = kUniversal;
+				  uniBBset = true;
+				  if(pageSet)
+				     *itsLogFile << "   WARNING: Turha ArkkiKoko"  << endl;
+				}
 			  }
 
 			ReadNext();
@@ -2508,10 +2542,12 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("rajaus") ||
 		  lowChar==NFmiString("leikkausalue"))
 	return dClippingRectangle;
-  else if(lowChar==NFmiString("boundingborder") ||
-		  lowChar==NFmiString("gifrajaus") ||
-		  lowChar==NFmiString("rajaus"))
+  else if(lowChar==NFmiString("gifrectangle") ||
+		  lowChar==NFmiString("gifrajaus"))
 	return dBoundingBorder;
+  else if(lowChar==NFmiString("boundingborder") ||
+		  lowChar==NFmiString("aluerajaus"))
+	return dUniBoundingBorder;
   else if(lowChar==NFmiString("mapisreduced") ||
 		  lowChar==NFmiString("pohjaonriisuttu") ||
 		  lowChar==NFmiString("pohjaonps"))
@@ -2648,8 +2684,10 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	startFileName += NFmiString("startEpsLetter.ps");
   else if(itsPageSize == kA4Maisema)
 	startFileName += NFmiString("startEpsA4Maisema.ps");
-  else //A4Pysty
+  else if(itsPageSize == kA4)
 	startFileName += NFmiString("startEpsA4Potretti.ps");
+  else //Universal
+	startFileName += NFmiString("startEpsUniversal.ps");
 
   //miksi kaksi pistettä kun raahataan ikonin päälle
   if(!ConstructOutFileName())
