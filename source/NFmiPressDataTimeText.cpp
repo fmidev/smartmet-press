@@ -101,8 +101,8 @@ bool	NFmiPressDataTimeText::WritePS(FmiPressOutputMode theOutput)
 {
     ScalePlotting();
 
-	NFmiTime time = ((NFmiMetTime)(((NFmiQueryData*)itsData)->Time())).LocalTime(); //oletus Suomen aika
-    SetText(((NFmiPressTime)(time)).ToStr(itsFormat,itsLanguage)); 
+	NFmiTime tim = ((NFmiMetTime)(((NFmiQueryData*)itsData)->Time())).LocalTime(); //oletus Suomen aika
+    SetText(((NFmiPressTime)(tim)).ToStr(itsFormat,itsLanguage)); 
 
 	return WriteString(NFmiString("AIKATEKSTI"), theOutput);
 };
