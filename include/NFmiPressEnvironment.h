@@ -20,16 +20,20 @@
  
 #include  "NFmiGlobals.h"
 #include "NFmiPressTypes.h"
+#include "NFmiString.h"
 
 class NFmiPressArea;
 
-/*
+
 struct FmiPressTextAttributes
 {
-	long value;
-	NFmiPoint point;
+	NFmiString font; 
+	double size;
+	FmiDirection alignment;
+    FmiGenericColor color;  //käyttöön myöhemmin
+    bool fLongNumberMinus;  //käyttöön myöhemmin
 };
-*/
+
 //! Undocumented 
 class _FMI_DLL NFmiPressEnvironment  
 { 
@@ -40,11 +44,6 @@ public:
   NFmiPressEnvironment(void);
   NFmiPressEnvironment(const NFmiPressEnvironment & aTime);
 
-  void SetLongNumberMinus(void);
-  void SetShortNumberMinus(void);
-  void SetRGB(FmiRGBColor theColor);
-  void SetCMYK(FmiCMYK theColor);
-  void SetColor(const FmiGenericColor & theColor);
   void SetMaskNumber(unsigned long theMaskNumber);
   void SetEnumSpace(FmiEnumSpace theEnumSpace);
   void SetMask(unsigned long theMaskNumber, FmiEnumSpace theEnumSpace);
@@ -61,6 +60,19 @@ public:
   void SetDayAdvance(long theDayAdvance);
   long GetDayAdvance(void);
 
+  	NFmiString GetFont(void)const;
+	void SetFont(const NFmiString& font);
+	double GetTextSize(void)const;
+	void SetTextSize(double size);
+	FmiDirection GetTextAlignment(void)const;
+	void SetTextAlignment(FmiDirection alignment);
+
+  void SetLongNumberMinus(void);
+  void SetShortNumberMinus(void);
+  void SetRGB(FmiRGBColor theColor);
+  void SetCMYK(FmiCMYK theColor);
+  void SetColor(const FmiGenericColor & theColor);
+
 private:
 
   unsigned long itsMaskNumber;
@@ -68,6 +80,7 @@ private:
   bool fLongNumberMinus;
   FmiGenericColor itsGenericColor; 
   long itsAdditionalDayAdvance;
+  FmiPressTextAttributes itsTextAttributes;
 
 }; // class NFmiPressEnvironment
 
@@ -90,8 +103,81 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
   itsGenericColor.color.cmyk.yellow = 0.;
   itsGenericColor.color.cmyk.black = 1.;
   itsGenericColor.isRgb = false;
+
+	itsTextAttributes.font = NFmiString("Helvetica"); 
+	itsTextAttributes.size = 12.;
+	itsTextAttributes.alignment = kCenter;
+    //itsTextAttributes.color;                    //käyttöön myöhemmin
+    itsTextAttributes.fLongNumberMinus = false;  //käyttöön myöhemmin
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+FmiDirection NFmiPressEnvironment::GetTextAlignment(void)const
+{
+  return itsTextAttributes.alignment;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetTextAlignment(FmiDirection alignment)
+{
+  itsTextAttributes.alignment = alignment;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+double NFmiPressEnvironment::GetTextSize(void)const
+{
+  return itsTextAttributes.size;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetTextSize(double size)
+{
+  itsTextAttributes.size = size;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetFont(const NFmiString& font)
+{
+  itsTextAttributes.font = font;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressEnvironment::GetFont(void) const
+{
+  return itsTextAttributes.font;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -102,6 +188,7 @@ inline
 void NFmiPressEnvironment::SetLongNumberMinus(void)
 {
   fLongNumberMinus=true;
+  itsTextAttributes.fLongNumberMinus = true;
 }
 
 // ----------------------------------------------------------------------
@@ -114,6 +201,7 @@ inline
 void NFmiPressEnvironment::SetShortNumberMinus(void)
 {
   fLongNumberMinus=false;
+  itsTextAttributes.fLongNumberMinus = false;
 }
 
 // ----------------------------------------------------------------------

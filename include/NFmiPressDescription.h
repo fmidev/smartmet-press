@@ -46,7 +46,10 @@ enum NFmiPressDescriptionObjects
   dRGBColor,
   dColor,
   dMaskNumber,
-  dPressMaskNumber
+  dPressMaskNumber,
+  dDescFont,
+  dDescTextSize,
+  dDescTextAlignment
 };
 
 //! Undocumented
@@ -76,9 +79,16 @@ public:
   FmiGenericColor GetColor(void) const;
   void SetColor(const FmiGenericColor & theColor);
   bool IsPureBlack(void);
+  	NFmiString GetFont(void)const;
+	void SetFont(const NFmiString& font);
+	double GetTextSize(void)const;
+	void SetTextSize(double size);
+	FmiDirection GetTextAlignment(void)const;
+	void SetTextAlignment(FmiDirection alignment);
 
 protected:
 
+  FmiDirection String2FmiDirection(const NFmiString& theString) const;
   virtual bool ReadRemaining(void);
 
   NFmiPressEnvironment itsEnvironment;  
@@ -142,6 +152,72 @@ NFmiPressDescription::NFmiPressDescription(std::ofstream * theLogFile,
 }
 
 // ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+FmiDirection NFmiPressDescription::GetTextAlignment(void)const
+{
+  return itsEnvironment.GetTextAlignment();
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::SetTextAlignment(FmiDirection alignment)
+{
+  itsEnvironment.SetTextAlignment(alignment);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+double NFmiPressDescription::GetTextSize(void)const
+{
+  return itsEnvironment.GetTextSize();
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::SetTextSize(double size)
+{
+  itsEnvironment.SetTextSize(size);
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::SetFont(const NFmiString& font)
+{
+  itsEnvironment.SetFont(font);
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::GetFont(void) const
+{
+  return itsEnvironment.GetFont();
+}// ----------------------------------------------------------------------
 /*!
  * Undocumented
  *

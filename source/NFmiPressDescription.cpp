@@ -23,6 +23,37 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
+FmiDirection NFmiPressDescription::String2FmiDirection(const NFmiString& theString) const
+{
+	NFmiString lowChar = theString;
+	lowChar.LowerCase();
+
+	if (lowChar == NFmiString ("center") ||
+		lowChar == NFmiString ("keskipiste") ||
+		lowChar == NFmiString ("keski"))
+	  return kCenter;
+
+	else if (lowChar == NFmiString ("right") ||
+			 lowChar == NFmiString ("oikealaita") ||
+			 lowChar == NFmiString ("oikea"))
+	  return kRight;
+
+	else if (lowChar == NFmiString ("left") ||
+			 lowChar == NFmiString ("vasenlaita") ||
+			 lowChar == NFmiString ("vasen"))
+	  return kLeft;
+	else
+		return kNoDirection;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 bool NFmiPressDescription::ReadRemaining(void)
 {
   //tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
@@ -109,7 +140,48 @@ bool NFmiPressDescription::ReadRemaining(void)
 		  ReadNext();
 		  break;
 		}
+	  case dDescFont:
+		  {
+			if (!ReadEqualChar())
+			  break;
 
+			//itsOutFileName = ReadString();
+			itsEnvironment.SetFont(ReadString());
+
+			ReadNext();
+			break;
+		  }
+	  case dDescTextSize:
+		  {
+		if (!ReadEqualChar())
+		  break;
+		
+		if(ReadOne(r1))
+		  itsEnvironment.SetTextSize(r1);
+		
+		ReadNext();
+		break;
+		  }
+	  case dDescTextAlignment:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			
+			*itsDescriptionFile >> itsObject;
+			itsString = itsObject;
+
+			FmiDirection dir = String2FmiDirection(itsString);
+
+			if(dir != kNoDirection)
+				itsEnvironment.SetTextAlignment(dir);
+				//itsAlignment = dir;
+			else
+				*itsLogFile << "*** ERROR: Tuntematon kohdistus: "
+							<< static_cast<char *>(itsObject)
+							<< endl;  
+			ReadNext();
+			break;
+		  }
 	  }
 	}
   return true;
@@ -212,6 +284,16 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("väri") ||
 		  lowChar==NFmiString("cmykväri"))
 	return dColor;
+  else if(lowChar==NFmiString("font") ||
+		  lowChar==NFmiString("fontti") ||
+		  lowChar==NFmiString("kirjasin"))
+	return dDescFont;
+  else if(lowChar==NFmiString("textsize") ||
+		  lowChar==NFmiString("tekstikoko"))
+	return dDescTextSize;
+  else if(lowChar==NFmiString("textalignment") ||
+		  lowChar==NFmiString("tekstikohdistus"))
+	return dDescTextAlignment;
   else
 	return NFmiDescription :: ConvertDefText(object);
 }

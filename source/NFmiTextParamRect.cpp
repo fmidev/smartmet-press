@@ -40,9 +40,8 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect & theTextParamRect)
   , itsAddInFront(theTextParamRect.itsAddInFront)
   , itsAddAfter(theTextParamRect.itsAddAfter)
   , fUseSelectLatinFont(theTextParamRect.fUseSelectLatinFont)
-  , itsFont(theTextParamRect.itsFont)
-  , itsAlignment(theTextParamRect.itsAlignment)
-  , itsStyle(theTextParamRect.itsStyle)
+//  , itsFont(theTextParamRect.itsFont)
+//  , itsAlignment(theTextParamRect.itsAlignment)
   , fParenthesis(theTextParamRect.fParenthesis)
   , itsMapping(theTextParamRect.itsMapping ? new NFmiParamMapping(*theTextParamRect.itsMapping) : 0)
   , itsCurrentNumOfColMaps(theTextParamRect.itsCurrentNumOfColMaps)
@@ -71,6 +70,51 @@ bool NFmiTextParamRect::ReadRemaining(void)
   
   switch(itsIntObject)
 	{
+		case dParamSize:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			if(ReadDouble(r1))
+			  {
+				SetTextSize(r1);
+			  }
+
+			ReadNext();
+			break;
+		  }
+		case dAlignment:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			*itsDescriptionFile >> itsObject;
+			itsString = itsObject;
+
+			FmiDirection dir = String2FmiDirection(itsString);
+
+			if(dir != kNoDirection)
+			{
+				//itsAlignment = dir;
+				SetTextAlignment(dir);
+			}
+			else
+			  *itsLogFile << "*** ERROR: Tuntematon kohdistus: "
+						  << static_cast<char *>(itsObject)
+						  << endl;
+			ReadNext();
+			break;
+		  }
+		case dFont:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			*itsDescriptionFile >> itsObject;
+
+			SetFont(itsObject);
+
+			ReadNext();
+			break;
+		  }
 	case dTextMapping:
 		{
 		  NFmiMappingInterval interval;
@@ -218,10 +262,6 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("koko"))
 	return dParamSize;
 
-  else if(lowChar==NFmiString("style") ||
-		  lowChar==NFmiString("tyyli"))
-	return dStyle;
-
   else if(lowChar==NFmiString("parenthesis") ||
 		  lowChar==NFmiString("sulkuihin"))
 	return dParenthesis;
@@ -286,11 +326,11 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
   NFmiPoint bottomRight = numberRect.BottomRight();
   double centerX = (bottomRight.X()-topLeft.X())/2. + topLeft.X();
   // tarvitaan jotta vanha OsaAlue-menetelmä toimisi
-  if(!fNewScaling && itsAlignment == kRight )
+  if(!fNewScaling && GetTextAlignment() == kRight )
 	{
 	  centerX = bottomRight.X();
 	}
-  else if (!fNewScaling && itsAlignment == kLeft)
+  else if (!fNewScaling && GetTextAlignment() == kLeft)
 	{
 	  centerX = topLeft.X();
 	}
@@ -317,10 +357,10 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	{
 	  theDestinationFile << endl
 						 << "Font "
-						 << static_cast<char *>(itsFont)
+						 << static_cast<char *>(GetFont())
 						 << endl;
 	  theDestinationFile << "TextAlign "
-						 << static_cast<char *>(itsPsWriting.AlignmentToMeta(itsAlignment))
+						 << static_cast<char *>(itsPsWriting.AlignmentToMeta(GetTextAlignment()))
 						 << endl;
 	  theDestinationFile << "FontSize "
 						 << numberRect.Height()
@@ -362,8 +402,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  if (fUseSelectLatinFont)
 		{
 		  theDestinationFile << "/"
-							 << static_cast<char *>(itsFont)
-							 << " /" << static_cast<char *>(itsFont)
+							 << static_cast<char *>(GetFont())
+							 << " /" << static_cast<char *>(GetFont())
 							 << "_"
 							 << endl;
 		  theDestinationFile << numberRect.Height()
@@ -373,7 +413,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  else
 		{
 		  theDestinationFile << "/"
-							 << static_cast<char *>(itsFont)
+							 << static_cast<char *>(GetFont())
 							 << " "
 							 << numberRect.Height()
 							 << " selectfont"
@@ -384,10 +424,10 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		&& NFmiString(theText.GetCharsPtr(1,4)).IsEqual(longMinus);
 
 	  bool boldFont = false;
-	  unsigned long lenFont = itsFont.GetLen();
-	  if(itsFont == NFmiString("FranklinGothic-Roman") ||
-         itsFont.GetChars(lenFont-3, 4) == NFmiString("Bold") ||
-         itsFont.GetChars(lenFont-4, 5) == NFmiString("Black"))
+	  unsigned long lenFont = GetFont().GetLen();
+	  if(GetFont() == NFmiString("FranklinGothic-Roman") ||
+         GetFont().GetChars(lenFont-3, 4) == NFmiString("Bold") ||
+         GetFont().GetChars(lenFont-4, 5) == NFmiString("Black"))
 		 boldFont = true;
 
 	  bool secondIs226 = theText.GetLen() > 4
@@ -506,13 +546,13 @@ bool NFmiTextParamRect::WriteShowString(double x,
 										ofstream & os) const
 {
   os << x << " " << y << " moveto" << endl;
-  if(itsAlignment == kRight )
+  if(GetTextAlignment() == kRight )
 	{
 	  os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
 	  os << "neg exch neg exch" << endl;
 	  os  << " rmoveto" << endl;
 	}
-  else if (itsAlignment == kCenter)
+  else if (GetTextAlignment() == kCenter)
 	{
 	  os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
 	  os << "-2. div exch -2. div exch" << endl; //puolikas matka

@@ -73,8 +73,6 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
   double r1,r2,r3,r4;
   itsRelRect.Set(NFmiPoint(0.,0.), NFmiPoint(1.,1.));
 
-  itsFont = NFmiString("Helvetica");
-  itsAlignment = kCenter;
   itsFormat = NFmiString("%.f");
 
   SetPreReadingTimes();
@@ -84,7 +82,6 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
   ReadNext();
 
   itsRelRect -= NFmiPoint(1., 1.);
-  bool sizeSet = false;
   while(itsIntObject != 9999 || itsCommentLevel)
 	{
 	  if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
@@ -117,58 +114,12 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-		case dAlignment:
-		  {
-			if (!ReadEqualChar())
-			  break;
-
-			*itsDescriptionFile >> itsObject;
-			itsString = itsObject;
-			if (itsString == NFmiString ("Center") ||
-				itsString == NFmiString ("KeskiPiste") ||
-				itsString == NFmiString ("Keski"))
-			  itsAlignment = kCenter;
-			else if (itsString == NFmiString ("Right") ||
-					 itsString == NFmiString ("OikeaLaita") ||
-					 itsString == NFmiString ("Oikea"))
-			  itsAlignment = kRight;
-			else if (itsString == NFmiString ("Left") ||
-					 itsString == NFmiString ("VasenLaita") ||
-					 itsString == NFmiString ("Vasen"))
-			  itsAlignment = kLeft;
-			else
-			  *itsLogFile << "*** ERROR: Tuntematon kohdistus #Numerossa: "
-						  << static_cast<char *>(itsObject)
-						  << endl;
-			ReadNext();
-			break;
-		  }
-		case dFont:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsFont = itsObject;
-
-			ReadNext();
-			break;
-		  }
 		case dFormat:
 		  {
 			if (!ReadEqualChar())
 			  break;
 			*itsDescriptionFile >> itsObject;
 			itsFormat = itsObject;
-
-			ReadNext();
-			break;
-		  }
-		case dStyle:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsStyle = itsObject;
 
 			ReadNext();
 			break;
@@ -193,22 +144,8 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 			if(Read4Double(r1,r2,r3,r4))
 			  {
 				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
-				sizeSet = true; //tarvitaanko tänne
 			  }
 			fNewScaling = false;
-			ReadNext();
-			break;
-		  }
-		case dParamSize:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadDouble(r1))
-			  {
-				itsRelRect.Inflate(-(c40-r1)/(c40*2));
-				sizeSet = true;
-			  }
-
 			ReadNext();
 			break;
 		  }
@@ -291,9 +228,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 
   SetPostReadingTimes();
 
-  //oletuskooksi 12, oli 40
-  if (!sizeSet)
-	itsRelRect.Inflate(-(c40-12.)/(c40*2));
+  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
 
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);

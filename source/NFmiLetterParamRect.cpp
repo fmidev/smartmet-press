@@ -73,14 +73,10 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 
   SetPreReadingTimes();
 
-  itsFont = NFmiString("Helvetica");
-  itsAlignment = kCenter;
-
   itsMultiMapping = 0;
   itsModifier = kNoneModifier;
 
   itsRelRect -= NFmiPoint(1., 1.);
-  bool sizeSet = false;
   ReadNext();
 	
   while(itsIntObject != 9999 || itsCommentLevel) 
@@ -117,62 +113,6 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-		case dAlignment:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			
-			*itsDescriptionFile >> itsObject;
-			itsString = itsObject;
-
-			if (itsString == NFmiString ("Center") ||
-				itsString == NFmiString ("KeskiPiste") ||
-				itsString == NFmiString ("Keski"))
-			  {
-				itsAlignment = kCenter;
-			  }
-			else if (itsString == NFmiString ("Right") ||
-					 itsString == NFmiString ("OikeaLaita") ||
-					 itsString == NFmiString ("Oikea"))
-			  {
-				itsAlignment = kRight;
-			  }
-			else if (itsString == NFmiString ("Left") ||
-					 itsString == NFmiString ("VasenLaita") ||
-					 itsString == NFmiString ("Vasen"))
-			  {
-				itsAlignment = kLeft;
-			  }
-			else
-				*itsLogFile << "*** ERROR: Tuntematon kohdistus #Tekstissä: "
-							<< static_cast<char *>(itsObject)
-							<< endl;  
-
-			ReadNext();
-			break;
-		  }
-		case dFont:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsFont = itsObject;
-			if (itsFont == NFmiString("ZapfDingbats"))
-			  fUseSelectLatinFont = false;
-
-			ReadNext();
-			break;
-		  }
-		case dStyle:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsStyle = itsObject;
-			
-			ReadNext();
-			break;
-		  }
 		case dPlaceMove:
 		  {
 			if (!ReadEqualChar())
@@ -193,21 +133,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 			if(Read4Double(r1,r2,r3,r4))
 			  {
 				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
-				sizeSet = true; //tarvitaanko tänne
 			  }
-			ReadNext();
-			break;
-		  }
-		case dParamSize:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadDouble(r1))
-			  {           
-				itsRelRect.Inflate(-(c40-r1)/(c40*2));
-				sizeSet = true;
-			  }
-			
 			ReadNext();
 			break;
 		  }
@@ -261,9 +187,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
   //flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
-  //oletuskooksi 12, oli 40
-  if (!sizeSet)
-	itsRelRect.Inflate(-(c40-12.)/(c40*2));
+  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
   
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);

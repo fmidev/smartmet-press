@@ -38,12 +38,14 @@ void NFmiPressTimeText:: SetLanguage(FmiLanguage newLanguage)
 	 (itsOrigFormat == kShortWeekDay || itsOrigFormat == kI))
 	{
 	  itsFormat = kI;
-	  itsFont = NFmiString("Cviikko");
+	  SetFont("Cviikko");
+	  //itsFont = NFmiString("Cviikko");
 	}
   else if(itsLanguage == kChinese) //mutta uusi ei
 	{
 	  itsFormat = itsOrigFormat;
-	  itsFont = itsOrigFont;
+	  SetFont(itsOrigFont);
+	  //itsFont = itsOrigFont;
 	}
   itsLanguage = newLanguage;
 }
@@ -63,14 +65,13 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
   NFmiString helpString;
   double r1,r2;
   
-  itsFont = NFmiString("Times-Roman");
+  //itsFont = NFmiString("Times-Roman");
   
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;                     
   itsIntObject = ConvertDefText(itsString);
 
-  //oletuskooksi 12, oli 40
-  itsRectSize.Y(12.);
+  itsRectSize.Y(GetTextSize());
   
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
@@ -143,60 +144,6 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		}
-		case dTextAlignment:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			
-			*itsDescriptionFile >> itsObject;
-			itsString = itsObject;
-			
-			NFmiString lowChar = itsString;
-			lowChar.LowerCase(); 
-			
-			if (lowChar == NFmiString ("center") ||
-				lowChar == NFmiString ("keskipiste") ||
-				lowChar == NFmiString ("keski"))
-			  itsAlignment = kCenter;
-
-			else if (lowChar == NFmiString ("right") ||
-					 lowChar == NFmiString ("oikealaita") ||
-					 lowChar == NFmiString ("oikea"))
-			  itsAlignment = kRight;
-
-			else if (lowChar == NFmiString ("left") ||
-					 lowChar == NFmiString ("vasenlaita") ||
-					 lowChar == NFmiString ("vasen"))
-			  itsAlignment = kLeft;
-
-			else
-			  *itsLogFile << "*** ERROR: Tuntematon kohdistus ajalla: "
-						  << static_cast<char *>(itsObject)
-						  << endl;  
-
-			ReadNext();
-			break;
-		  }
-		case dTextFont:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsFont = itsObject;
-			
-			ReadNext();
-			break;
-		  }
-		case dTextStyle:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsStyle = itsObject;
-			
-			ReadNext();
-			break;
-		  }
 		case dTimeTextFormat:
 		  {
 			if (!ReadEqualChar())
@@ -213,30 +160,11 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
 			  break;
 			
 			if(ReadDouble(r1))       
-			  {				
-				*itsDescriptionFile >> itsObject;
-				valueString = itsObject;
-				if(valueString.IsNumeric())  
-				  {
-					r2 = static_cast<double>(valueString);
-					itsRectSize.Set(r1,r2);
-					
-					*itsDescriptionFile >> itsObject;
-					itsString = itsObject;
-				  }
-				else
-				  {
-					itsRectSize.Y(r1);
-					itsString = valueString;
-				  }
-			  }
-			else
-			  {
-				*itsDescriptionFile >> itsObject;
-				itsString = itsObject;
+			  {	
+				itsRectSize.Y(r1);
 			  }
 			
-			itsIntObject = ConvertDefText(itsString);
+			ReadNext();
 			break;
 		  }
 		case dUpperCase:
@@ -281,12 +209,12 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
 	} //while
   
   itsOrigFormat = itsFormat;
-  itsOrigFont = itsFont;
+  itsOrigFont = GetFont();
   if(itsLanguage == kChinese &&
 	 (itsFormat == kShortWeekDay || itsFormat == kI))
 	{
 	  itsFormat = kI;
-	  itsFont = NFmiString("Cviikko");
+	  SetFont(NFmiString("Cviikko"));
 	}
   
   retString = itsString;

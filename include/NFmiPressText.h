@@ -89,9 +89,6 @@ public:
 
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
 
-  NFmiString GetFont(void) const;
-  FmiDirection GetAlignment(void) const;
-  NFmiString GetStyle(void) const;
   NFmiString * GetText(void) const;
   void SetLanguage(FmiLanguage theLanguage);
   FmiLanguage GetLanguage(void);
@@ -120,9 +117,6 @@ protected:
   bool fAddLocalTime;  
   NFmiString * itsText;       
   NFmiPressText * itsSubText;
-  NFmiString itsFont;
-  FmiDirection itsAlignment;
-  NFmiString itsStyle;
   double itsCharSpace;      
   unsigned long itsMaxLen;
 }; // class NFmiPressText
@@ -147,8 +141,6 @@ NFmiPressText::NFmiPressText(void)
   , fLowerCase(0)
   , fAddLocalTime(false)  
   , itsText(0)
-  , itsFont(NFmiString("Courier"))
-  , itsAlignment(kCenter) 
   , itsCharSpace(0.)
   , itsMaxLen(kLongMissing)
 {
@@ -229,25 +221,6 @@ void NFmiPressText::SetPostText(const NFmiString& theText)
 	itsAddAfter=theText;
 }
 
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theFont Undocumented
- * \param theAlignment Undocumented
- * \param theStyle Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-void NFmiPressText::SetTextAttributes(NFmiString theFont,
-									  FmiDirection theAlignment,
-									  NFmiString theStyle)
-{
-  itsFont = theFont;
-  itsAlignment = theAlignment;
-  itsStyle = theStyle;
-}
 
 // ----------------------------------------------------------------------
 /*!
@@ -262,48 +235,6 @@ inline
 bool NFmiPressText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 {
   return WritePS(theOutput);
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-NFmiString NFmiPressText::GetFont(void) const
-{
-  return itsFont;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-FmiDirection NFmiPressText::GetAlignment(void) const
-{
-  return itsAlignment;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-NFmiString NFmiPressText::GetStyle(void) const
-{
-  return itsStyle;
 }
 
 // ----------------------------------------------------------------------

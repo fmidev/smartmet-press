@@ -28,16 +28,16 @@ enum NFmiTextParamRectObjects
 {
   dAlignment = 80,
   dFont,
-  dStyle,
   dColorValueDependent,
   dParenthesis,
   dParamSize,
   dAddTextAfter,
   dAddTextInFront,
   dTextMapping,
-  dRGBMapping,
-  dCMYKMapping = 1080,
+  dRGBMapping, 
+  dCMYKMapping,
   dRelCharWidth
+  //= 1080,
 };
 
 
@@ -74,16 +74,18 @@ public:
 					   FmiPressOutputMode theOutput) = 0;
 
   void SetValueDepending(float theValue);
-
+/*
   void SetTextAttributes(NFmiString theFont,
 						 FmiDirection theAlignment,
 						 NFmiString theStyle,
 						 FmiCMYK theColor);
-       
+ */      
   NFmiString Construct(NFmiString * theString) const;
+/*
   NFmiString GetFont(void) const;
   FmiDirection GetAlignment(void) const;
   NFmiString GetStyle(void) const;
+*/
   virtual bool WriteCode(const NFmiString & theText,
 						 const NFmiRect & AbsoluteRectOfSymbolGroup,
 						 std::ofstream & theDestinationFile ,
@@ -108,9 +110,8 @@ protected:
   NFmiString itsAddInFront;
   NFmiString itsAddAfter;
   bool fUseSelectLatinFont;
-  NFmiString itsFont;
-  FmiDirection itsAlignment;
-  NFmiString itsStyle;
+  //NFmiString itsFont;
+  //FmiDirection itsAlignment;
   bool fParenthesis;
   NFmiParamMapping * itsMapping;
   FmiPressColorMapping itsColorMapping[maxNumOfColMaps];
@@ -130,77 +131,13 @@ inline
 NFmiTextParamRect::NFmiTextParamRect(void)
   : NFmiParamRect()
   , fUseSelectLatinFont(false)
-  , itsFont(NFmiString("Courier"))
-  , itsAlignment(kCenter)
+  //, itsFont(NFmiString("Courier"))
+  //, itsAlignment(kCenter)
   , fParenthesis(isFalse)
   , itsMapping(0)
   , itsCurrentNumOfColMaps(0)
   , itsRelCharWidth(0.)
 {
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theFont Undocumented
- * \param theAlignment Undocumented
- * \param theStyle Undocumented
- * \param theColor Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-void NFmiTextParamRect::SetTextAttributes(NFmiString theFont,
-										  FmiDirection theAlignment,
-										  NFmiString theStyle,
-										  FmiCMYK theColor)
-{
-  itsFont = theFont;
-  itsAlignment = theAlignment;
-  itsStyle = theStyle;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-NFmiString NFmiTextParamRect::GetFont(void) const
-{
-  return itsFont;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-FmiDirection NFmiTextParamRect::GetAlignment(void) const
-{
-  return itsAlignment;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline
-NFmiString NFmiTextParamRect::GetStyle(void) const
-{
-  return itsStyle;
 }
 
 #endif // NFMITEXTPARAMRECT_H

@@ -73,12 +73,12 @@ void NFmiTimeParamRect:: SetLanguage(FmiLanguage newLanguage)
   if(newLanguage == kChinese && (itsOrigFormat == kShortWeekDay || itsOrigFormat == kI))
 	{
 	  itsFormat = kI;
-	  itsFont = NFmiString("Cviikko");
+	  SetFont("Cviikko");
 	}
   else if(itsLanguage == kChinese) //mutta uusi ei
 	{
 	  itsFormat = itsOrigFormat;
-	  itsFont = itsOrigFont;
+	  SetFont(itsOrigFont);
 	}
   itsLanguage = newLanguage;
 
@@ -101,16 +101,12 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
   double r1,r2,r3,r4;
   itsRelRect.Set(NFmiPoint(0.,0.), NFmiPoint(1.,1.));
 
-  itsFont = NFmiString("Helvetica");
-  itsAlignment = kCenter;
-
   SetPreReadingTimes();
 
   ReadNext();
 
   // kopsattu vain numerosta,jotta oletussuht.paikka = (0,0) toimii
   itsRelRect -= NFmiPoint(1., 1.);
-  bool sizeSet = false;
 
   while(itsIntObject != 9999 || itsCommentLevel)
 	{
@@ -152,39 +148,6 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 		  ReadNext();
 		  break;
 		}
-		case dAlignment:
-		  {
-			if (!ReadEqualChar())
-			  break;
-
-			*itsDescriptionFile >> itsObject;
-			itsString = itsObject;
-			if (itsString == NFmiString ("Center") ||
-				itsString == NFmiString ("KeskiPiste") ||
-				itsString == NFmiString ("Keski"))
-			  itsAlignment = kCenter;
-			else if (itsString == NFmiString ("Right") ||
-					 itsString == NFmiString ("OikeaLaita") ||
-					 itsString == NFmiString ("Oikea"))
-			  itsAlignment = kRight;
-			else if (itsString == NFmiString ("Left") ||
-					 itsString == NFmiString ("VasenLaita") ||
-					 itsString == NFmiString ("Vasen"))
-			  itsAlignment = kLeft;
-
-			ReadNext();
-			break;
-		  }
-		case dFont:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsFont = itsObject;
-
-			ReadNext();
-			break;
-		  }
 
 		case dTimeFormat:
 		  {
@@ -197,16 +160,6 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 			break;
 		  }
 
-		case dStyle:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsStyle = itsObject;
-
-			ReadNext();
-			break;
-		  }
 		case dPlaceMove:
 		  {
 			if (!ReadEqualChar())
@@ -227,21 +180,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 			if(Read4Double(r1,r2,r3,r4))
 			  {
 				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
-				sizeSet = true; //tarvitaanko tänne
 			  }
-			ReadNext();
-			break;
-		  }
-		case dParamSize:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadDouble(r1))
-			  {
-				itsRelRect.Inflate(-(c40-r1)/(c40*2));
-				sizeSet = true; 
-			  }
-
 			ReadNext();
 			break;
 		  }
@@ -300,18 +239,16 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
   //flush viimeinen takaisin sreamiin! Miten?
 
   itsOrigFormat = itsFormat;
-  itsOrigFont = itsFont;
+  itsOrigFont = GetFont();
   if(itsLanguage == kChinese && (itsFormat == kShortWeekDay || itsFormat == kI))
 	{
 	  itsFormat = kI;
-	  itsFont = NFmiString("Cviikko");
+	  SetFont("Cviikko");
 	}
 
   SetPostReadingTimes();
 
-  //oletuskooksi 12, oli 40
-  if (!sizeSet)
-	itsRelRect.Inflate(-(c40-12.)/(c40*2));
+  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
 
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);

@@ -56,9 +56,8 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , fUpperCase (thePressText.fUpperCase)
   , fLowerCase (thePressText.fLowerCase)
   , fAddLocalTime(thePressText.fAddLocalTime)
-  , itsFont(thePressText.itsFont)
-  , itsAlignment(thePressText.itsAlignment)
-  , itsStyle(thePressText.itsStyle)
+//  , itsFont(thePressText.itsFont)
+//  , itsAlignment(thePressText.itsAlignment)
   , itsCharSpace(thePressText.itsCharSpace)
   , itsMaxLen(thePressText.itsMaxLen)
 {
@@ -81,7 +80,8 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
   NFmiString  textFile, textPath, textDir;
   double r1,r2,r3;
 
-  itsFont = NFmiString("Times-Roman");
+  //itsFont = NFmiString("Times-Roman");
+  itsRectSize.Y(GetTextSize());
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
@@ -160,50 +160,6 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-		case dTextAlignment:
-		  {
-			if (!ReadEqualChar())
-			  break;
-
-			*itsDescriptionFile >> itsObject;
-			itsString = itsObject;
-
-			NFmiString lowChar = itsString;
-			lowChar.LowerCase();
-
-			if (lowChar == NFmiString ("center") ||
-				lowChar == NFmiString ("keskipiste") ||
-				lowChar == NFmiString ("keski"))
-			  itsAlignment = kCenter;
-
-			else if (lowChar == NFmiString ("right") ||
-					 lowChar == NFmiString ("oikealaita") ||
-					 lowChar == NFmiString ("oikea"))
-			  itsAlignment = kRight;
-
-			else if (lowChar == NFmiString ("left") ||
-					 lowChar == NFmiString ("vasenlaita") ||
-					 lowChar == NFmiString ("vasen"))
-			  itsAlignment = kLeft;
-
-			else
-			  *itsLogFile << "*** ERROR: Tuntematon kohdistus tekstissä: "
-						  << static_cast<char *>(itsObject)
-						  << endl;
-
-			ReadNext();
-			break;
-		  }
-		case dTextFont:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsFont = itsObject;
-
-			ReadNext();
-			break;
-		  }
 		case dTextString:
 		  {
 			if (!ReadEqualChar())
@@ -213,46 +169,17 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-		case dTextStyle:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			*itsDescriptionFile >> itsObject;
-			itsStyle = itsObject;
-
-			ReadNext();
-			break;
-		  }
 		case dSymbolSize:
 		  {
 			if (!ReadEqualChar())
 			  break;
-
-			if(ReadDouble(r1))
-			  {
-				*itsDescriptionFile >> itsObject;
-				valueString = itsObject;
-				if(valueString.IsNumeric())
-				  {
-					r2 = static_cast<double>(valueString);
-					itsRectSize.Set(r1,r2);
-
-					*itsDescriptionFile >> itsObject;
-					itsString = itsObject;
-				  }
-				else
-				  {
-					itsRectSize.Y(r1);
-					itsString = valueString;
-				  }
+			
+			if(ReadDouble(r1))       
+			  {	
+				itsRectSize.Y(r1);
 			  }
-			else
-			  {
-				*itsDescriptionFile >> itsObject;
-				itsString = itsObject;
-			  }
-
-			itsIntObject = ConvertDefText(itsString);
+			
+			ReadNext();
 			break;
 		  }
 		case dUpperCase:
@@ -694,20 +621,11 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("alignment") ||
 		  lowChar==NFmiString("kohdistus") ||
 		  lowChar==NFmiString("tasaus"))
-	return dTextAlignment;
+	return dDescTextAlignment;
 
   else if(lowChar==NFmiString("text") ||
 		  lowChar==NFmiString("teksti"))
 	return dTextString;
-
-  else if(lowChar==NFmiString("font") ||
-		  lowChar==NFmiString("kirjasin") ||
-		  lowChar==NFmiString("fontti"))
-	return dTextFont;
-
-  else if(lowChar==NFmiString("style") ||
-		  lowChar==NFmiString("tyyli"))
-	return dTextStyle;
 
   else if(lowChar==NFmiString("charspacejustification") ||
 		  lowChar==NFmiString("merkkivälinsäätö"))
@@ -838,9 +756,9 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
   if(theOutput == kMetaLanguage)
 	{
 	  *itsOutFile << endl << "# TEKSTI" << endl;
-	  *itsOutFile << "font " << static_cast<char *>(itsFont)  << endl;
+	  *itsOutFile << "font " << static_cast<char *>(GetFont())  << endl;
 	  *itsOutFile << "fontsize " << rect.Height()  << endl;
-	  *itsOutFile << "textalign " << static_cast<char *>(AlignmentToMeta(itsAlignment))  << endl;
+	  *itsOutFile << "textalign " << static_cast<char *>(AlignmentToMeta(GetTextAlignment()))  << endl;
 
 	  WriteColor(GetColor(), theOutput, *itsOutFile);
 
@@ -887,14 +805,14 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	  if(fInParagraph || !isHyphen)
 		{
 		  *itsOutFile << "/"
-					  << static_cast<char *>(itsFont)
-					  << " /" << static_cast<char *>(itsFont)
+					  << static_cast<char *>(GetFont())
+					  << " /" << static_cast<char *>(GetFont())
 					  << "_" << endl;
 		  *itsOutFile << rect.Height() << " selectlatinfont" << endl;
 		}
 	  else
 		*itsOutFile << "/"
-					<< static_cast<char *>(itsFont)
+					<< static_cast<char *>(GetFont())
 					<< " " << rect.Height()
 					<< " selectfont"
 					<< endl;
@@ -921,7 +839,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		{
 		  *itsOutFile << x << " " << y << " moveto" << endl;
 
-		  if(itsAlignment == kRight )
+		  if(GetTextAlignment() == kRight )
 			{
 			  if(itsRotatingAngle == 90.)
 				{
@@ -936,7 +854,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 				  *itsOutFile  << " rmoveto" << endl;
 				}
 			}
-		  else if (itsAlignment == kCenter)
+		  else if (GetTextAlignment() == kCenter)
 			{
 			  if(itsRotatingAngle == 90.)
 				{

@@ -32,6 +32,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOther
   , fLongNumberMinus(theOtherEnvironment.fLongNumberMinus)
   , itsGenericColor(theOtherEnvironment.itsGenericColor)
   , itsAdditionalDayAdvance(theOtherEnvironment.itsAdditionalDayAdvance)
+  , itsTextAttributes(theOtherEnvironment.itsTextAttributes)
 {
 }
 
