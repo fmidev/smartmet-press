@@ -1,13 +1,13 @@
-/*---------------------------------------------------------------------------*/ 
-//© Ilmatieteenlaitos/Lasse.               
-// 
-//Originaali 1.9.99 
-// 
-// 
-//
-//Muutettu xxxxxx/LW
-//
-/*---------------------------------------------------------------------------NFmiHyphenationString.cpp*/
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiTimeParamInterpolation
+ * \todo The file contains no code, and should be deleted
+ */
+// ======================================================================
 
- #include  "NFmiTimeParamInterpolation.h"
+#include  "NFmiTimeParamInterpolation.h"
+
+// ======================================================================
+
  

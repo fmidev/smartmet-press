@@ -1,131 +1,165 @@
-//© Ilmatieteenlaitos/Lasse.
-//  Original 25.1.2000 
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiPressNameDay
+ */
+// ======================================================================
 
-//Muutettu xxxxxx/LW 
-
-//---------------------------------------------------------------------------
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
 #include "NFmiPressNameDay.h"
 
-#include <iostream>  //STL 27.8.01
-using namespace std; //27.8.01
+#include <iostream>
+using namespace std;
 
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-NFmiPressNameDay::~NFmiPressNameDay() 
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
+
+NFmiPressNameDay::~NFmiPressNameDay(void)
 {
-};
-//---------------------------------------------------------------------------
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 bool NFmiPressNameDay::ReadRemaining(void)  
 {
-	unsigned long long1;
-	FmiCounter counter;
-	switch(itsIntObject)
+  unsigned long long1;
+  FmiCounter counter;
+  switch(itsIntObject)
 	{	
-		case dMaxLength:   
-		{
-			if (!ReadEqualChar())
-				break;
+	case dMaxLength:   
+	  {
+		if (!ReadEqualChar())
+		  break;
+		
+		if (ReadOne(counter))
+		  {
+			itsMaxLength = counter;
+		  }
+		
+		ReadNext();
+		break;
+	  }
+	case dMaxNumber:    
+	  {
+		if (!ReadEqualChar())
+		  break;
+		
+		if (ReadOne(counter))
+		  {
+			itsMaxNumber = counter;
+		  }
+		
+		ReadNext();
+		break;
+	  }
+	case dRelDay:     
+	  {
+		if (!ReadEqualChar())
+		  break;
+		
+		if(ReadOne(long1))
+		  {			
+			itsFirstPlotTime = NFmiMetTime();
+			itsFirstPlotTime.ChangeByDays(long1+ itsEnvironment.GetDayAdvance());
+		  }
+		
+		ReadNext();
+		break;
+	  }
 
-			if (ReadOne(counter))
-			{
-				itsMaxLength = counter;
-			}
-
-			ReadNext();
-			break;
-		}
-		case dMaxNumber:    
-		{
-			if (!ReadEqualChar())
-				break;
-
-			if (ReadOne(counter))
-			{
-				itsMaxNumber = counter;
-			}
-
-			ReadNext();
-			break;
-		}
-		case dRelDay:     
-		{
-			if (!ReadEqualChar())
-				break;
-
-			if(ReadOne(long1))
-			{			
-			   itsFirstPlotTime = NFmiMetTime();
-			   itsFirstPlotTime.ChangeByDays(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); );
-			}
-
-			ReadNext();
-			break;
-		}
-	//**
-		default:
-		{
-			NFmiPressText:: ReadRemaining();
-			break;
-		}
+	default:
+	  {
+		NFmiPressText::ReadRemaining();
+		break;
+	  }
 	}
-	return true;
-}
-//---------------------------------------------------------------------------
-int NFmiPressNameDay::ConvertDefText(NFmiString & object) 
-{
-	if(object==NFmiString("MaxNumber") || object==NFmiString("MaksimiMäärä"))
-		return dMaxNumber;
-	else if(object==NFmiString("MaxLength") || object==NFmiString("MaksimiPituus"))
-		return dMaxLength;
-	else
-		return NFmiPressText::ConvertDefText(object);
-	
+  return true;
 }
 
-//---------------------------------------------------------------------------
-bool	NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)									
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param object Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+int NFmiPressNameDay::ConvertDefText(NFmiString & object)
 {
-	if(!itsNameDay)
+  if(object==NFmiString("MaxNumber") || object==NFmiString("MaksimiMäärä"))
+	return dMaxNumber;
+  else if(object==NFmiString("MaxLength") || object==NFmiString("MaksimiPituus"))
+	return dMaxLength;
+  else
+	return NFmiPressText::ConvertDefText(object);
+  
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
+{
+  if(!itsNameDay)
 	{
-		*itsLogFile << "*** ERROR: NimiPäiväOlio puuttuu, ohjelmointivirhe" << endl;
-		return false;
+	  *itsLogFile << "*** ERROR: NimiPäiväOlio puuttuu, ohjelmointivirhe"
+				  << endl;
+	  return false;
 	}
-    ScalePlotting();
-
-	NFmiString str;
-
-	if(!itsNameDay->IsRead())
+  ScalePlotting();
+  
+  NFmiString str;
+  
+  if(!itsNameDay->IsRead())
 	{
-		NFmiString fileName = GetHome();
-		fileName += kFmiDirectorySeparator;
-		fileName += NFmiString("Muut");
-		fileName += kFmiDirectorySeparator;
-		if(itsLanguage == kFinnish)
-		  {
-			fileName += NFmiString("nimipäivät.txt"); 
-		  }
-		else
-		  {
-			fileName += NFmiString("nimipäivätRuotsi.txt"); 
-		  }
-
-		if(!itsNameDay->ReadFile(fileName))
+	  NFmiString fileName = GetHome();
+	  fileName += kFmiDirectorySeparator;
+	  fileName += NFmiString("Muut");
+	  fileName += kFmiDirectorySeparator;
+	  if(itsLanguage == kFinnish)
 		{
-			*itsLogFile << "*** ERROR: Nimipäivien lukeminen epäonnistui" << endl;
-			return false; 
+		  fileName += NFmiString("nimipäivät.txt"); 
+		}
+	  else
+		{
+		  fileName += NFmiString("nimipäivätRuotsi.txt"); 
+		}
+	  
+	  if(!itsNameDay->ReadFile(fileName))
+		{
+		  *itsLogFile << "*** ERROR: Nimipäivien lukeminen epäonnistui" << endl;
+		  return false; 
 		}
 	}
-
-	if(itsNameDay->IsValue())
+  
+  if(itsNameDay->IsValue())
 	{
-		str = itsNameDay->GetName(itsFirstPlotTime, itsMaxNumber, itsMaxLength);
-		SetText(str);
-		return WriteString(NFmiString("NIMIPÄIVÄ"), theOutput);
+	  str = itsNameDay->GetName(itsFirstPlotTime, itsMaxNumber, itsMaxLength);
+	  SetText(str);
+	  return WriteString(NFmiString("NIMIPÄIVÄ"), theOutput);
 	}
-	else
-		return false;
-};
+  else
+	return false;
+}
+
+// ======================================================================
+

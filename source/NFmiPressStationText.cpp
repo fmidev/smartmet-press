@@ -1,11 +1,10 @@
-//© Ilmatieteenlaitos/Lasse.
-//  Original 16.3.1998 
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiPressStationText
+ */
+// ======================================================================
 
-//Muutettu 231098/LW +LocalTime
-//Muutettu 051198/LW printNamen käyttö eikä oikean asemannimen
-//Muutettu 240899/LW station eritavalla QI:sta kuin ajemmin QD:stä
-
-//---------------------------------------------------------------------------
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
@@ -13,106 +12,141 @@
 #include "NFmiPressStationText.h"
 #include "NFmiStationPoint.h"
 #include "NFmiPressParam.h"
+#include <iostream>
 
-#include <iostream>  //STL 27.8.01
-using namespace std; //27.8.01
+using namespace std;
 
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-NFmiPressStationText::~NFmiPressStationText() 
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
+
+NFmiPressStationText::~NFmiPressStationText(void)
 {
-};
-//7.6.00---------------------------------------------------------------------------
-bool NFmiPressStationText::SetNewName(const NFmiRenaming& theRename)//7.6.00
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theRename Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 // originalName avaimena:
 // - vaihdetaan newName jos löytyy
-// - tai tehdään uusi original/new -pari 
+// - tai tehdään uusi original/new -pari
+
+bool NFmiPressStationText::SetNewName(const NFmiRenaming & theRename)
 {
-	if(itsNewNames)
+  if(itsNewNames)
 	{
-		NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames); 
-		iter.Reset();
-		NFmiRenaming* renaming = static_cast<NFmiRenaming *>(iter.Next());
-		while (renaming)
+	  NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames);
+	  iter.Reset();
+	  NFmiRenaming * renaming = static_cast<NFmiRenaming *>(iter.Next());
+	  while (renaming)
 		{
-			if(renaming->originalName == theRename.originalName)
+		  if(renaming->originalName == theRename.originalName)
 			{
-				renaming->newName = theRename.newName;
-				return true;
+			  renaming->newName = theRename.newName;
+			  return true;
 			}
-			renaming = static_cast<NFmiRenaming *>(iter.Next());
+		  renaming = static_cast<NFmiRenaming *>(iter.Next());
 		}
-	    NFmiRenaming* newRenaming = new NFmiRenaming;
-	    newRenaming->originalName = theRename.originalName;
-	    newRenaming->newName = theRename.newName;
-	    itsNewNames->Add(newRenaming);
+	  NFmiRenaming * newRenaming = new NFmiRenaming;
+	  newRenaming->originalName = theRename.originalName;
+	  newRenaming->newName = theRename.newName;
+	  itsNewNames->Add(newRenaming);
 	}
-	return false;
+  return false;
 }
-//---------------------------------------------------------------------------
-bool	NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)									
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 {
-	if(!itsData)    //4.9
-		return isFalse;
+  if(!itsData)
+	return isFalse;
 
-    ScalePlotting();
+  ScalePlotting();
 
-	NFmiString str;
-//	str = itsData->Station().GetName(); 
-	str = StationName(); //051198 
+  NFmiString str;
+  str = StationName();
 
-	if(fAddLocalTime)   //23.10
-	{                   // vähän mutkan kautta
-		if(itsData->IsGrid())
-		{
-			if(!fLoopErrorReported)
-			{
-				*itsLogFile << "  *** ERROR: gridistä ei saa paikallisia aikoja" << endl;
-				fLoopErrorReported = true;
-			}
-		}
-		else
-		{
-			NFmiStationPoint stationP;
-			const NFmiLocation loc(*itsData->Location()); //23.8.99 
-			stationP.SetIdent(loc.GetIdent());
-			NFmiString tString = stationP.LocalWmoTime(12);
-	//		if(str.GetLen() < 10) //121198 HS haluaa kaikkiin
-				str += (" ");
-			str += ("(");
-			str += tString;
-			if(tString == NFmiString("-"))
-			  *itsLogFile << "  *** ERROR: asemalta " << static_cast<char *>(stationP.GetName())
-							<< " puuttuu paik.aika" << endl;
-			str += (")");
-		}
-	}
- 
-	SetText(str);
-
-	return WriteString(NFmiString("ASEMATEKSTI"),theOutput);
-};
-//051198---------------------------------------------------------------------------
-NFmiString NFmiPressStationText::StationName()									
-{
-	NFmiString name;
-	if(itsData->IsGrid())
-		name = itsPressParam->GetCurrentStation().GetName(); //25.8.99
-	else
-		name = itsData->Location()->GetName();    //24.8.99
-
-	if(itsNewNames)
+  if(fAddLocalTime)
 	{
-		NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames); 
-		iter.Reset();
-		NFmiRenaming* renaming = static_cast<NFmiRenaming *>(iter.Next());
-		while (renaming)
+	  // vähän mutkan kautta
+	  if(itsData->IsGrid())
 		{
-			if(renaming->originalName == name)
-				return renaming->newName;
-
-			renaming = static_cast<NFmiRenaming *>(iter.Next());
+		  if(!fLoopErrorReported)
+			{
+			  *itsLogFile << "  *** ERROR: gridistä ei saa paikallisia aikoja"
+						  << endl;
+			  fLoopErrorReported = true;
+			}
+		}
+	  else
+		{
+		  NFmiStationPoint stationP;
+		  const NFmiLocation loc(*itsData->Location());
+		  stationP.SetIdent(loc.GetIdent());
+		  NFmiString tString = stationP.LocalWmoTime(12);
+		  str += (" ");
+		  str += ("(");
+		  str += tString;
+		  if(tString == NFmiString("-"))
+			*itsLogFile << "  *** ERROR: asemalta "
+						<< static_cast<char *>(stationP.GetName())
+						<< " puuttuu paik.aika"
+						<< endl;
+		  str += (")");
 		}
 	}
-	return name;
+
+  SetText(str);
+
+  return WriteString(NFmiString("ASEMATEKSTI"),theOutput);
 }
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+NFmiString NFmiPressStationText::StationName(void)
+{
+  NFmiString name;
+  if(itsData->IsGrid())
+	name = itsPressParam->GetCurrentStation().GetName();
+  else
+	name = itsData->Location()->GetName();
+
+  if(itsNewNames)
+	{
+	  NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames);
+	  iter.Reset();
+	  NFmiRenaming* renaming = static_cast<NFmiRenaming *>(iter.Next());
+	  while (renaming)
+		{
+		  if(renaming->originalName == name)
+			return renaming->newName;
+
+		  renaming = static_cast<NFmiRenaming *>(iter.Next());
+		}
+	}
+  return name;
+}
+
+// ======================================================================

@@ -1,9 +1,10 @@
-//© Ilmatieteenlaitos/Lasse.
-//  Original 19.3.1998 
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiPressParamText
+ */
+// ======================================================================
 
-//Muutettu xxxxxx/LW
-
-//---------------------------------------------------------------------------
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
@@ -11,12 +12,23 @@
 #include "NFmiPressParamText.h"
 #include "NFmiFastQueryInfo.h"
 
-//---------------------------------------------------------------------------
-bool	NFmiPressParamText::WritePS(FmiPressOutputMode theOutput)									
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressParamText::WritePS(FmiPressOutputMode theOutput)
 {
-    ScalePlotting();
+  ScalePlotting();
+  
+  SetText(itsData->Param().GetParamName());
+  
+  return WriteString(NFmiString("PARAMETRITEKSTI"), theOutput);
+}
 
-    SetText(itsData->Param().GetParamName());
+// ======================================================================
 
-	return WriteString(NFmiString("PARAMETRITEKSTI"), theOutput);
-};

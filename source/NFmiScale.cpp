@@ -1,59 +1,70 @@
-/*-------------------------------------------------------------------------------------*/
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiScale
+ */
+// ======================================================================
 
-//© Ilmatieteenlaitos/Lasse
-
-//Originaali 5. 12.1994
-
-//Muutettu   08.12.1994/LW  TEMPLATE
-//Muutettu   xx.02.1995/LW  << >>
-//Muutettu   19.10.1995/LW  Location(float)
-//Muutettu   10.11.1995/LW  Expand(float)
-//Muutettu   13.11.1995/LW  stdlib
-//Muutettu    7.12.1995/LW  Operator +=
-//Muutettu   20.12.1995/LW  Lisätty Check()-kutsuja
-//Muutettu   21.12.1995/LW  Expandeja ym ei tehdä jollei Ok
-//Muutettu   22.12.1995/LW  itsEpsilon
-//Muutettu   17.1.1996/LW  Operator -= korjattu
-// 041196/LW +IsMissing() ja tämän käyttö itsDataOk:n sijaan muutamassa paikassa
-// 120397/LW hyväksytään akseli jossa alkuarvo=loppuarvo->saadaan meteogramiin yksi sarake
-///*-------------------------------------------------------------------------------------*/
-
-#ifndef __NSCALE_H__
 #include "NFmiScale.h"
-#endif//__NSCALE_H__
 
-#include <stdlib.h>
-#include <math.h>
-#include <iostream>  //STL 27.8.01
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
 
-using namespace std; //27.8.01
+using namespace std;
 
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
 
-//______________________________________________________________________________
-//inline
-NFmiScale :: NFmiScale (void)
-			  : itsStartValue (kFloatMissing)
-			  , itsEndValue (kFloatMissing)
-			  , itsEpsilon(0.f)
-			  , itsDataOk(false)
-			  , itsLimitCheck(false)
+NFmiScale::~NFmiScale(void)
 {
 }
-//______________________________________________________________________________
-//inline
-NFmiScale :: NFmiScale (float theStartValue, float theEndValue)
-			  : itsStartValue (theStartValue),itsEndValue (theEndValue)
-			  , itsEpsilon(0.f)
-			  , itsLimitCheck(false)
-{
 
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+NFmiScale::NFmiScale(void)
+  : itsStartValue (kFloatMissing)
+  , itsEndValue (kFloatMissing)
+  , itsEpsilon(0.f)
+  , itsDataOk(false)
+  , itsLimitCheck(false)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Constructor
+ *
+ * \param theStartValue Undocumented
+ * \param theEndValue Undocumented
+ */
+// ----------------------------------------------------------------------
+
+NFmiScale::NFmiScale(float theStartValue, float theEndValue)
+  : itsStartValue (theStartValue),itsEndValue (theEndValue)
+  , itsEpsilon(0.f)
+  , itsLimitCheck(false)
+{
   Check();
 }
 
-//______________________________________________________________________________
-//inline
-NFmiScale :: NFmiScale (const NFmiScale& anOtherScale)
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param anOtherScale The object being copied
+ */
+// ----------------------------------------------------------------------
+
+NFmiScale::NFmiScale(const NFmiScale & anOtherScale)
   : NFmiSaveBase()
   , itsStartValue (anOtherScale.itsStartValue)
   , itsEndValue (anOtherScale.itsEndValue)
@@ -62,211 +73,294 @@ NFmiScale :: NFmiScale (const NFmiScale& anOtherScale)
   , itsLimitCheck(anOtherScale.itsLimitCheck)
 {
 }
-//______________________________________________________________________________
-//inline
-NFmiScale :: ~NFmiScale(void)
-{
-}
-//______________________________________________________________________________
-//inline
-NFmiScale& NFmiScale :: operator= (const NFmiScale& anOtherScale)
-{
-	itsStartValue = anOtherScale.itsStartValue;
-	itsEndValue = anOtherScale.itsEndValue;
-	itsDataOk = anOtherScale.itsDataOk;
-	itsLimitCheck = anOtherScale.itsLimitCheck;
-	itsEpsilon = anOtherScale.itsEpsilon;
 
-	return *this;
+// ----------------------------------------------------------------------
+/*!
+ * Assignment operator
+ *
+ * \param anOtherScale The object being copied
+ * \return The object assigned to
+ */
+// ----------------------------------------------------------------------
+
+NFmiScale & NFmiScale::operator=(const NFmiScale & anOtherScale)
+{
+  itsStartValue = anOtherScale.itsStartValue;
+  itsEndValue = anOtherScale.itsEndValue;
+  itsDataOk = anOtherScale.itsDataOk;
+  itsLimitCheck = anOtherScale.itsLimitCheck;
+  itsEpsilon = anOtherScale.itsEpsilon;
+  
+  return *this;
 }
-//______________________________________________________________________________
-//inline
-NFmiScale& NFmiScale :: operator+= (const NFmiScale& anOtherScale)
-{	   // oletetaan että start < end
-	if(itsStartValue == kFloatMissing)
-	{
-	   itsStartValue = anOtherScale.itsStartValue;
-	}
-	else if (anOtherScale.itsStartValue != kFloatMissing)
-	{
-	   itsStartValue = std::min(anOtherScale.itsStartValue, itsStartValue);
-	}
-	if (itsEndValue == kFloatMissing)
-	{
-	   	itsEndValue = anOtherScale.itsEndValue;
-	}
-	else if (anOtherScale.itsEndValue != kFloatMissing)
-	{
-	    itsEndValue = std::max(anOtherScale.itsEndValue, itsEndValue);
-	}
-	Check();
-	return *this;
-}
-//______________________________________________________________________________
-//inline
-NFmiScale& NFmiScale :: operator-= (const NFmiScale& anOtherScale)
-{	   // oletetaan että start < end
-    if(Ok() && anOtherScale.Ok())
-	{
-	   if(Inside(anOtherScale.itsEndValue))
-	   {
-	      itsStartValue = anOtherScale.itsEndValue;
-	   }
-	   else if (Inside(anOtherScale.itsStartValue))
-	   {
-	      itsEndValue = anOtherScale.itsStartValue;
-	   }
-	   else if (anOtherScale.Inside(itsStartValue) && anOtherScale.Inside(itsEndValue))
-	   {
-	      itsStartValue = kFloatMissing;	   // vanha sisältyy täysin vähennettävään
-	      itsEndValue = kFloatMissing;     
-	   }
-	}
-	Check();
-	return *this;
-}
+
+// ----------------------------------------------------------------------
 /*
-//______________________________________________________________________________
-ostream& NFmiScale :: Write(ostream &file)
+ * Addition in-place operator
+ *
+ * \param anOtherScale The scale to add
+ * \return The scale added to
+ */
+// ----------------------------------------------------------------------
+
+NFmiScale & NFmiScale::operator+=(const NFmiScale & anOtherScale)
 {
-	file << itsStartValue << " ";
-	file << itsEndValue   << " ";
-	return file;
-}
-//______________________________________________________________________________
-istream& NFmiScale :: Read(istream &file)
-{
-	file >> itsStartValue;
-	file >> itsEndValue;
-	Check();
-	return file;
-}
-*/
-//______________________________________________________________________________
-void NFmiScale :: ExcludePositive (void)
-{    //2.5.01
-    if(!IsMissing())  
+  // oletetaan että start < end
+  if(itsStartValue == kFloatMissing)
 	{
-	   {
-		   if(itsStartValue > 0.)
-			   itsStartValue = 0.f;
-		   if(itsEndValue > 0.)
-			   itsStartValue = 0.f;
-	   }
-	   Check();
+	  itsStartValue = anOtherScale.itsStartValue;
+	}
+  else if (anOtherScale.itsStartValue != kFloatMissing)
+	{
+	  itsStartValue = std::min(anOtherScale.itsStartValue, itsStartValue);
+	}
+  if (itsEndValue == kFloatMissing)
+	{
+	  itsEndValue = anOtherScale.itsEndValue;
+	}
+  else if (anOtherScale.itsEndValue != kFloatMissing)
+	{
+	  itsEndValue = std::max(anOtherScale.itsEndValue, itsEndValue);
+	}
+  Check();
+  return *this;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Substraction in-place operator
+ *
+ * \param anOtherScale The scale to substract
+ * \return The scale substracted from
+ */
+// ----------------------------------------------------------------------
+
+NFmiScale & NFmiScale :: operator-= (const NFmiScale & anOtherScale)
+{
+  // oletetaan että start < end
+  if(Ok() && anOtherScale.Ok())
+	{
+	  if(Inside(anOtherScale.itsEndValue))
+		{
+	      itsStartValue = anOtherScale.itsEndValue;
+		}
+	  else if (Inside(anOtherScale.itsStartValue))
+		{
+	      itsEndValue = anOtherScale.itsStartValue;
+		}
+	  else if (anOtherScale.Inside(itsStartValue) && anOtherScale.Inside(itsEndValue))
+		{
+		  // vanha sisältyy täysin vähennettävään
+	      itsStartValue = kFloatMissing;
+	      itsEndValue = kFloatMissing;     
+		}
+	}
+  Check();
+  return *this;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiScale::ExcludePositive (void)
+{
+  if(!IsMissing())  
+	{
+	  {
+		if(itsStartValue > 0.)
+		  itsStartValue = 0.f;
+		if(itsEndValue > 0.)
+		  itsStartValue = 0.f;
+	  }
+	  Check();
 	} 
 }
-//______________________________________________________________________________
-void NFmiScale :: ExcludeNegative (void)
-{    //2.5.01
-    if(!IsMissing())  
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiScale::ExcludeNegative (void)
+{
+  if(!IsMissing())  
 	{
-	   {
-		   if(itsStartValue < 0.)
-			   itsStartValue = 0.f;
-		   if(itsEndValue < 0.)
-			   itsStartValue = 0.f;
-	   }
-	   Check();
+	  {
+		if(itsStartValue < 0.)
+		  itsStartValue = 0.f;
+		if(itsEndValue < 0.)
+		  itsStartValue = 0.f;
+	  }
+	  Check();
 	} 
 }
-//______________________________________________________________________________
-//inline
-void NFmiScale :: StartFromZeroOptionally (float theFactor)
-{    // ei toimi laskevalle skaalalle
-    if(!IsMissing()) // 041196/LW oli itsDataOk 
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theFactor Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiScale::StartFromZeroOptionally(float theFactor)
+{
+  // ei toimi laskevalle skaalalle
+  if(!IsMissing())
 	{
-	   if ((itsEndValue-itsStartValue)*theFactor > std::min(fabs(itsEndValue), fabs(itsStartValue))
-		   && !Inside(0.f))
-	   {
-		   if(itsStartValue > 0.)
-			   itsStartValue = 0.f;
-	       else
-			   itsEndValue = 0.f;
-	   }
-//	   Check();
+	  if ((itsEndValue-itsStartValue)*theFactor > std::min(fabs(itsEndValue), fabs(itsStartValue))
+		  && !Inside(0.f))
+		{
+		  if(itsStartValue > 0.)
+			itsStartValue = 0.f;
+		  else
+			itsEndValue = 0.f;
+		}
 	} 
 }
-//______________________________________________________________________________
-//inline  //+041196/LW
-bool NFmiScale :: IsMissing(void) const
+
+// ----------------------------------------------------------------------
+/*!
+ * Test whether the scale is valid (does not contain missing values)
+ *
+ * \return True, if the scale has missing values
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiScale::IsMissing(void) const
 {
-  return itsStartValue == kFloatMissing ||
-		 itsEndValue   == kFloatMissing; 
+  return (itsStartValue == kFloatMissing ||
+		  itsEndValue   == kFloatMissing);
 }
-//______________________________________________________________________________
-//inline
-void NFmiScale :: Check (void)
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiScale::Check(void)
 {
-  itsDataOk = itsStartValue != kFloatMissing &&
-				  itsEndValue   != kFloatMissing; 
-//			   && itsStartValue != itsEndValue;	  //120397 ******
-  if (itsDataOk)            //041196/LW
-      itsEpsilon = (itsEndValue - itsStartValue) * .001f;
+  itsDataOk = (itsStartValue != kFloatMissing &&
+			   itsEndValue   != kFloatMissing); 
+  if(itsDataOk)
+	itsEpsilon = (itsEndValue - itsStartValue) * .001f;
   else 
-	  itsEpsilon = .000001f; //041196/LW
+	itsEpsilon = .000001f;
 }
-//______________________________________________________________________________
-//inline
-void NFmiScale :: ExpandIfNotZero (float theFactor)
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theFactor Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiScale::ExpandIfNotZero(float theFactor)
 {
-    if(itsDataOk)
+  if(itsDataOk)
 	{
-       float expansion = (itsEndValue - itsStartValue) * theFactor;
-       if (itsStartValue != 0.)
-           itsStartValue += -expansion; 
-       if (itsEndValue != 0.)
-          itsEndValue += expansion;
-//       Check();
+	  float expansion = (itsEndValue - itsStartValue) * theFactor;
+	  if (itsStartValue != 0.)
+		itsStartValue += -expansion; 
+	  if (itsEndValue != 0.)
+		itsEndValue += expansion;
     } 
 }
-//______________________________________________________________________________
-//inline
-void NFmiScale :: ExpandIfEqual (float theInterval)
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theInterval Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiScale::ExpandIfEqual(float theInterval)
 {
-  if (itsStartValue == itsEndValue)	//041196/LW pois itsDataOk &&
-  	  Expand (theInterval);
-}
-//______________________________________________________________________________
-//inline
-void NFmiScale :: Expand (float theInterval)
-{
-    if (!IsMissing()) //041196/LW oli itsDataOk
-	{
-	   itsStartValue -= theInterval;
-	   itsEndValue += theInterval;
-	   itsDataOk = true;                                  //041196/LW
-       itsEpsilon = (itsEndValue - itsStartValue) * .001f; //041196/LW
-	} 
-}
-//______________________________________________________________________________
-//inline
-bool NFmiScale :: Inside (float theValue) const
-{	// epsilon näyttää tuovan yhden merkitsevän numeron lisää
-	return itsDataOk && theValue+itsEpsilon >= itsStartValue && theValue-itsEpsilon <= itsEndValue
-			  ? true : false;
+  if (itsStartValue == itsEndValue)
+	Expand (theInterval);
 }
 
-//______________________________________________________________________________
-//inline
-float NFmiScale :: RelLocation (float theValue) const
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theInterval Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiScale::Expand(float theInterval)
+{
+  if(!IsMissing())
+	{
+	  itsStartValue -= theInterval;
+	  itsEndValue += theInterval;
+	  itsDataOk = true;
+	  itsEpsilon = (itsEndValue - itsStartValue) * .001f;
+	} 
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theValue Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiScale::Inside(float theValue) const
+{
+  // epsilon näyttää tuovan yhden merkitsevän numeron lisää
+
+  return (itsDataOk &&
+		  theValue+itsEpsilon >= itsStartValue &&
+		  theValue-itsEpsilon <= itsEndValue);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theValue Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+float NFmiScale::RelLocation(float theValue) const
 {
   float value = kFloatMissing;
   if (itsDataOk && theValue != kFloatMissing)
-	  if(Difference() > 0.f)   // 120397
-		  value = (theValue-itsStartValue)/Difference();
-      else
-		  value = 0.f;
+	if(Difference() > 0.f)
+	  value = (theValue-itsStartValue)/Difference();
+	else
+	  value = 0.f;
+  
+  return (value == kFloatMissing || !Inside(theValue) && itsLimitCheck) ? kFloatMissing : value;
+}
 
-  return  value == kFloatMissing || !Inside(theValue) && itsLimitCheck
-			? kFloatMissing : value;
-}
-//______________________________________________________________________________
-//inline
-float NFmiScale :: Location (float theRelValue) const
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theRelValue Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+float NFmiScale::Location(float theRelValue) const
 {
-  return  itsDataOk ? Difference()*theRelValue + itsStartValue : kFloatMissing;
+  return itsDataOk ? Difference()*theRelValue + itsStartValue : kFloatMissing;
 }
+
+// ======================================================================
+
 
 
 

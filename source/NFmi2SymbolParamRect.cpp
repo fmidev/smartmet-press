@@ -1,124 +1,141 @@
-//© Ilmatieteenlaitos/Lasse.
-//  Original 6.11.2000
-//
-// Muutettu xxxxxx/LW  
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmi2SymbolParamRect
+ */
+// ======================================================================
 
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
 #include "NFmi2SymbolParamRect.h"
-//#include "NFmiPressParam.h"
 
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
 
-//---------------------------------------------------------------------------
-NFmi2SymbolParamRect::NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbolRect)
-: NFmiSymbolParamRect(theSymbolRect)
+NFmi2SymbolParamRect::~NFmi2SymbolParamRect(void)
 {
-	itsSecondDataIdent = theSymbolRect.itsSecondDataIdent;    
-};
- 
-//---------------------------------------------------------------------------
-NFmi2SymbolParamRect::~NFmi2SymbolParamRect() 
-{
-};
+}
 
-//---------------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param theSymbolRect The object beging copied
+ */
+// ----------------------------------------------------------------------
 
-NFmiParamRect* NFmi2SymbolParamRect::Clone() const
+NFmi2SymbolParamRect::NFmi2SymbolParamRect(const NFmi2SymbolParamRect & theSymbolRect)
+  : NFmiSymbolParamRect(theSymbolRect)
 {
-	return static_cast<NFmiParamRect *>(new NFmi2SymbolParamRect(*this));
-};
-//----------------------------------------------------------------------------
+  itsSecondDataIdent = theSymbolRect.itsSecondDataIdent;    
+}
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Clone the object
+ *
+ * \return The clone of the object
+ * \todo Should return an auto_ptr to indicate transfer of ownership
+ */
+// ----------------------------------------------------------------------
+
+NFmiParamRect * NFmi2SymbolParamRect::Clone(void) const
+{
+  return new NFmi2SymbolParamRect(*this);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ * \todo Why is there a break after a return in the default switch?
+ */
+// ----------------------------------------------------------------------
+
 bool NFmi2SymbolParamRect::ReadRemaining(void)  
 {
-	long long1;
-//	double double1,double2;
+  long long1;
 
-	switch(itsIntObject)
+  switch(itsIntObject)
 	{
-		case dSecondPar:	  
-		{
-			if (!ReadEqualChar())
-				break;
+	case dSecondPar:	  
+	  {
+		if (!ReadEqualChar())
+		  break;
+		
+		if(ReadLong(long1))
+		  itsSecondDataIdent.SetParam(NFmiParam(long1));
+		
+		ReadNext();
+		break;
+	  }
 
-			if(ReadLong(long1))
-//               itsSecondDataIdent.SetParam(long1);
-               itsSecondDataIdent.SetParam(NFmiParam(long1)); //10.9.02
-			
-			ReadNext();
-
-			break;
-		}
-		default: 
-		{
-			return NFmiSymbolParamRect::ReadRemaining();  
-			break;
-		}
+	default: 
+	  {
+		return NFmiSymbolParamRect::ReadRemaining();  
+		break;
+	  }
 	}
-	return true;
+
+  return true;
 }
-//----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param object Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 int NFmi2SymbolParamRect::ConvertDefText(NFmiString & object)  
 {
-	NFmiString lowChar = object;
-	lowChar.LowerCase(); //11.4.00 kaikille pit‰isi sallia vapaa isot/pienet kirj.
+  NFmiString lowChar = object;
 
-	if(lowChar==NFmiString("secondparameter") || lowChar==NFmiString("toinenparametri"))
-		return dSecondPar;
-	else
-		return NFmiSymbolParamRect::ConvertDefText(object);
-}
-/*
-//----------------------------------------------------------------------------
-void NFmi2SymbolParamRect::DoPostReading(void) 
-{
-	if(fNewScaling)  
-	   itsRelRect += NFmiPoint(-itsSizeFactor.X()/2, -itsSizeFactor.Y()/2);
+  // kaikille pit‰isi sallia vapaa isot/pienet kirj.
+  lowChar.LowerCase();
 
-	if(!itsSecondDataIdent.IsDataParam())
-		itsSecondDataIdent.SetParam(*GetDataIdent().GetParam());
-//	if(!itsRotatingDataIdent.IsDataProducer())
-		itsSecondDataIdent.SetProducer(*GetDataIdent().GetProducer());
+  if(lowChar==NFmiString("secondparameter") ||
+	 lowChar==NFmiString("toinenparametri"))
+	return dSecondPar;
+  else
+	return NFmiSymbolParamRect::ConvertDefText(object);
 }
-*/
-/*
-//----------------------------------------------------------------------------
-bool NFmi2SymbolParamRect::CopyShortSymbol2Dest(NFmiString* symbolFile, ofstream theDestinationFile)
-{//11.2
-	NFmiString fileName = *itsSubDir;
-	fileName += itsSymbolSetName;    
-	fileName += NFmiString("_");
-	fileName += *symbolFile;
-	fileName += NFmiString(".ps");
-	ifstream inFile = ifstream(fileName, ios::in|ios::nocreate); 
-    if(inFile.good() && !inFile.eof())  
-    {
-	   bool tempBool;
-	   float direction = itsSecondParamValue;
-	   float adjustedDirection = AdjustToMap(direction);
-	   if(!Rotate()) adjustedDirection = 270.;
-	   tempBool = NFmiWritePSConcatRotating(itsDefToProductScale, adjustedDirection, theDestinationFile);
-	   tempBool = NFmiCopyFile(inFile,theDestinationFile);
-	   tempBool = NFmiWritePSEnd(theDestinationFile);
-	   return isTrue;
-	}
-	else
-		return isFalse;
-}
-*/
-//----------------------------------------------------------------------------
-bool NFmi2SymbolParamRect::ReadValues( NFmiFastQueryInfo* theQI, bool hearDummy)
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theQI Undocumented
+ * \param hearDummy Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmi2SymbolParamRect::ReadValues(NFmiFastQueryInfo * theQI, bool hearDummy)
 {
-   if(!PointOnParam(theQI, GetSecondDataIdent().GetParam()) || !PointOnLevel(theQI)) //5.5.00
-	   return false;
+  if(!PointOnParam(theQI, GetSecondDataIdent().GetParam()) ||
+	 !PointOnLevel(theQI))
+	return false;
    
-//   Vain tunnit voi muuttaa t‰ll‰ tasolla, segmentin aikaluuppi menee muuten sekaisin
-	if(!SetRelativeHour(theQI,NFmiString("K‰‰ntyv‰Symboli"))) //17.6.2000
-		return isFalse;
+  // Vain tunnit voi muuttaa t‰ll‰ tasolla, segmentin aikaluuppi
+  // menee muuten sekaisin
 
-	FloatValue(theQI, itsSecondParamValue); 
+  if(!SetRelativeHour(theQI,NFmiString("K‰‰ntyv‰Symboli")))
+	return isFalse;
 
-    return NFmiSymbolParamRect::ReadValues(theQI, false); //3.5.02: ei SetRelativeHour toistamiseen
+  FloatValue(theQI, itsSecondParamValue); 
+
+  // ei SetRelativeHour toistamiseen
+  return NFmiSymbolParamRect::ReadValues(theQI, false);
 }
+
+// ======================================================================

@@ -1,103 +1,152 @@
-//© Ilmatieteenlaitos/Lasse.
-//  Original 19.2.2000 
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiSunTimeParamRect
+ */
+// ======================================================================
 
-//Muutettu 020600/LW puuttuva lasku/nousu hoidettu
-
-//---------------------------------------------------------------------------
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
 #include "NFmiSunTimeParamRect.h"
+#include <iostream>
 
-#include <iostream>  //STL 27.8.01
-using namespace std; //27.8.01
+using namespace std;
 
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
 
-NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theSunTimeParamRect)
-//:NFmiTimeParamRect(*(NFmiTimeParamRect*)&theSunTimeParamRect)
-:NFmiTimeParamRect(theSunTimeParamRect)
-,fIsSunRise(theSunTimeParamRect.fIsSunRise)
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
 
+NFmiSunTimeParamRect::~NFmiSunTimeParamRect(void)
 {
 }
-//---------------------------------------------------------------------------
-NFmiSunTimeParamRect::~NFmiSunTimeParamRect() 
+
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param theSunTimeParamRect The object being copied
+ */
+// ----------------------------------------------------------------------
+
+NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect & theSunTimeParamRect)
+  : NFmiTimeParamRect(theSunTimeParamRect)
+  , fIsSunRise(theSunTimeParamRect.fIsSunRise)
 {
-};
-//---------------------------------------------------------------------------
-NFmiParamRect* NFmiSunTimeParamRect::Clone() const
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Create a copy of this
+ *
+ * \return The clone
+ * \todo Should return an auto_ptr
+ */
+// ----------------------------------------------------------------------
+
+NFmiParamRect * NFmiSunTimeParamRect::Clone(void) const
 {
-	return static_cast<NFmiParamRect *>(new NFmiSunTimeParamRect(*this));
-};
-//----------------------------------------------------------------------------
-//----------------------------------------------------------------------------
+  return new NFmiSunTimeParamRect(*this);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 bool NFmiSunTimeParamRect::ReadRemaining(void) 
 {			 
-//	long long1;
-//	double double1,double2; 
-
-	switch(itsIntObject)
+  switch(itsIntObject)
 	{
-		case dSunRise:	  
-		{
-			fIsSunRise = true;
-			ReadNext();
-
-			break;
-		}
-		case dSunSet:	  
-		{
-			fIsSunRise = false;
-			ReadNext();
-
-			break;
-		}
-		default: 
-		{
-			return NFmiTimeParamRect::ReadRemaining();  
-			break;
-		}
+	case dSunRise:	  
+	  {
+		fIsSunRise = true;
+		ReadNext();
+		
+		break;
+	  }
+	case dSunSet:	  
+	  {
+		fIsSunRise = false;
+		ReadNext();
+		
+		break;
+	  }
+	default: 
+	  {
+		return NFmiTimeParamRect::ReadRemaining();  
+		break;
+	  }
 	}
-	return true;
+  return true;
 }
-//---------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param object Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 int NFmiSunTimeParamRect::ConvertDefText(NFmiString & object) 
 {
-	if(object==NFmiString("SunRise") || object==NFmiString("AuringonNousu")
-		                 || object==NFmiString("Auringonnousu")
-						 || object==NFmiString("Nousu"))
-		return dSunRise;
-	else if(object==NFmiString("SunSet") || object==NFmiString("AuringonLasku")
-		                 || object==NFmiString("Auringonlasku")
-						 || object==NFmiString("Lasku")) 
-		return dSunSet;
-	else
-		return NFmiTimeParamRect::ConvertDefText(object);
+  if(object==NFmiString("SunRise") ||
+	 object==NFmiString("AuringonNousu") ||
+	 object==NFmiString("Auringonnousu") ||
+	 object==NFmiString("Nousu"))
+	return dSunRise;
+
+  else if(object==NFmiString("SunSet") ||
+		  object==NFmiString("AuringonLasku") ||
+		  object==NFmiString("Auringonlasku") ||
+		  object==NFmiString("Lasku")) 
+	return dSunSet;
+
+  else
+	return NFmiTimeParamRect::ConvertDefText(object);
 	
 }
-//---------------------------------------------------------------------------
-NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI) 
-	//aina local time piirtoalkioissa (vrt segmentti ja tuote miss‰ ei)
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theQI Undocumented
+ * \return Undocumented
+ */
+//----------------------------------------------------------------------
+
+//aina local time piirtoalkioissa (vrt segmentti ja tuote miss‰ ei)
+NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI) 
 {
-	NFmiMetTime tim = itsCurrentSegmentTime; 
+  NFmiMetTime tim = itsCurrentSegmentTime; 
 		
-		double latitude = itsStationPoint.GetLatitude();//Testiin
-		double longitude = itsStationPoint.GetLongitude();//Testiin
-		if(fabs(longitude) <= .001 && fabs(latitude) <= .001) //ei pit‰isi voida tapahtua
-		  *itsLogFile << "*** ERROR: aurinkoajan longitudi puuttuu " << static_cast<char *>(itsStationPoint.GetName())
-			            << ":lta paikalliseen aikaan"<< endl;
+  double latitude = itsStationPoint.GetLatitude();
+  double longitude = itsStationPoint.GetLongitude();
+  if(fabs(longitude) <= .001 && fabs(latitude) <= .001) //ei pit‰isi voida tapahtua
+	*itsLogFile << "*** ERROR: aurinkoajan longitudi puuttuu "
+				<< static_cast<char *>(itsStationPoint.GetName())
+				<< ":lta paikalliseen aikaan"
+				<< endl;
 		
-//	bool currentDay; 
-	if(fIsSunRise)
-	{    //2.6.00 +fIsValidTime; false jos ei laske/nouse
-		return itsStationPoint.TimeOfSunrise(tim, static_cast<bool &>(fIsValidTime));
-	}
-	else
+  if(fIsSunRise)
 	{
-		return itsStationPoint.TimeOfSunset(tim, static_cast<bool &>(fIsValidTime));
+	  // fIsValidTime; false jos ei laske/nouse
+	  return itsStationPoint.TimeOfSunrise(tim, static_cast<bool &>(fIsValidTime));
+	}
+  else
+	{
+	  return itsStationPoint.TimeOfSunset(tim, static_cast<bool &>(fIsValidTime));
 	}
 }
 
+// ======================================================================

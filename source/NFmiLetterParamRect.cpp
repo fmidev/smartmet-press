@@ -1,16 +1,9 @@
-//© Ilmatieteenlaitos/Lasse.
-//  Original 10.2.1998 kopioitu NFmiTextParamRect:stä
-
-//Muutettu 030498/LW muunnoksen paluuarvo testataan
-//Muutettu 070598/LW Mikan makro käyttöön jotta saataisiin sakndit ok 
-//Muutettu 220299/LW puuttuvallekin koodausmahdollisuus, - haluttaessa pitkäksi 
-//Muutettu 010799/LW tekstiä eteen ja taakse 
-// Muutettu 130999/LW Muunnosarvot luetaan nyt double-tyyppisinä eikä integereinä
-// Muutettu 230999/LW moniParamMuunnos mahdolliseksi
-// Muutettu 181199/LW Muunnos (ei moniMuunnos) siirretty emolla jotta Numeronkin käytössä
-// Muutettu 290200/LW copykonstr. siivottu
-//
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiLetterParamRect
+ */
+// ======================================================================
 
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
@@ -18,395 +11,393 @@
 
 #include "NFmiLetterParamRect.h"
 #include "NFmiPressParam.h"
+#include <iostream>
 
-#include <iostream>  //STL 27.8.01
-using namespace std; //27.8.01
+using namespace std;
 
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
 
-NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect& theLetterParamRect)
-: NFmiTextParamRect(theLetterParamRect) //20.3.02 miksi noin konstikkaasti
-//: NFmiTextParamRect(*(NFmiLetterParamRect*)&theLetterParamRect)
+NFmiLetterParamRect::~NFmiLetterParamRect(void)
 {
 }
-//---------------------------------------------------------------------------
-NFmiLetterParamRect::~NFmiLetterParamRect() 
+
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param theLetterParamRect Undocumented
+ */
+// ----------------------------------------------------------------------
+
+NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect & theLetterParamRect)
+  : NFmiTextParamRect(theLetterParamRect)
 {
-//	if(itsMapping)
-//		delete (NFmiParamMapping*)itsMapping;
-};
-//---------------------------------------------------------------------------
-NFmiParamRect* NFmiLetterParamRect::Clone() const
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Clone the object
+ *
+ * \result A new copy of this
+ * \todo Should return an auto_ptr
+ */
+// ----------------------------------------------------------------------
+
+NFmiParamRect * NFmiLetterParamRect::Clone(void) const
 {
-	return static_cast<NFmiParamRect *>(new NFmiLetterParamRect(*this));
-};
-//----------------------------------------------------------------------------
-//----------------------------------------------------------------------------
-bool NFmiLetterParamRect::ReadDescription(NFmiString& retString) 
+  return new NFmiLetterParamRect(*this);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retString Undocumented
+ * \result Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 {			 
-	NFmiString helpString;
-    NFmiValueString helpValueString;
-	long long1;
-	double r1,r2,r3,r4;
-//	double intervalEps = 0.00001; //13.9.99
-	itsRelRect.Set(NFmiPoint(0.,0.), NFmiPoint(1.,1.));
-	itsMapping = new NFmiParamMapping;
+  NFmiString helpString;
+  NFmiValueString helpValueString;
+  long long1;
+  double r1,r2,r3,r4;
 
-	SetPreReadingTimes();  //29.6
+  itsRelRect.Set(NFmiPoint(0.,0.), NFmiPoint(1.,1.));
+  itsMapping = new NFmiParamMapping;
 
-	itsFont = NFmiString("Helvetica");  //30.9 
-	itsAlignment = kCenter; //5.10
+  SetPreReadingTimes();
 
-	itsMultiMapping = 0; //27.9.99
-	itsModifier = kNoneModifier; //15.2.00
+  itsFont = NFmiString("Helvetica");
+  itsAlignment = kCenter;
 
-	//1.10.01 kopsattu vain numerosta,jotta oletussuht.paikka = (0,0) toimii 
-	itsRelRect -= NFmiPoint(1., 1.);
-	ReadNext();
+  itsMultiMapping = 0;
+  itsModifier = kNoneModifier;
+
+  // kopsattu vain numerosta,jotta oletussuht.paikka = (0,0) toimii 
+  itsRelRect -= NFmiPoint(1., 1.);
+  ReadNext();
 	
-	while(itsIntObject != 9999 || itsCommentLevel) 
+  while(itsIntObject != 9999 || itsCommentLevel) 
 	{
-	if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment; 
- 	if(itsLoopNum > itsMaxLoopNum)  
-	{
-		if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Tekstisssä" << endl;
-	    retString = itsString;
-		return isFalse;
-	}
-    itsLoopNum++;
-	switch(itsIntObject)
-	{
-			case dOther:	  
-			{    
-				if(itsLogFile)
-					*itsLogFile << "*** ERROR: Tuntematon sana #Tekstisssä: " << static_cast<char *>(itsObject) << endl;  
-				ReadNext();
-				break;
-			}
-			case dComment:	  
-			{
-				ReadNext();
-				break;
-			}
-			case dEndComment:	  
-			{
-				ReadNext();
-				break;
-			}
-/*
-		case dLetterMapping:
+	  if (itsIntObject != dEndComment && itsCommentLevel)
+		itsIntObject = dComment; 
+
+	  if(itsLoopNum > itsMaxLoopNum)  
 		{
-			NFmiMappingInterval interval;
-			if (!ReadEqualChar())
-				break;
-			if(ReadDouble(r1))  
-			{
-            	*itsDescriptionFile >> itsObject;
-				helpValueString = NFmiValueString(itsObject);
-	            if(helpValueString.IsNumeric())
-				{
-					r2 = (double)helpValueString;      
-                 	*itsDescriptionFile >> itsObject;
-					helpString = itsObject;
-				}
-				else
-				{
-					r2 = r1;
-				}
-
-
-               interval.itsBottomValue = r1 - intervalEps;
-               interval.itsTopValue = r2 + intervalEps;
-
-			   NFmiString* mappingName = new NFmiString(itsObject);
-			   interval.itsSymbol = *mappingName;
-			   itsMapping->AddMappingInterval(interval);
-			}
-
+		  if(itsLogFile)
+			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Tekstisssä" << endl;
+		  retString = itsString;
+		  return isFalse;
+		}
+	  itsLoopNum++;
+	  switch(itsIntObject)
+		{
+		case dOther:	  
+		  {    
+			if(itsLogFile)
+			  *itsLogFile << "*** ERROR: Tuntematon sana #Tekstisssä: "
+						  << static_cast<char *>(itsObject)
+						  << endl;  
 			ReadNext();
 			break;
-		}
-*/
+		  }
+		case dComment:	  
+		  {
+			ReadNext();
+			break;
+		  }
+		case dEndComment:	  
+		  {
+			ReadNext();
+			break;
+		  }
 		case dAlignment:
-		{
+		  {
 			if (!ReadEqualChar())
-				break;
-
+			  break;
+			
 			*itsDescriptionFile >> itsObject;
 			itsString = itsObject;
-			if (itsString == NFmiString ("Center") || itsString == NFmiString ("KeskiPiste")
-				|| itsString == NFmiString ("Keski"))
-               itsAlignment = kCenter;
-			else if (itsString == NFmiString ("Right") || itsString == NFmiString ("OikeaLaita")
-				|| itsString == NFmiString ("Oikea"))
-               itsAlignment = kRight;
-			else if (itsString == NFmiString ("Left") || itsString == NFmiString ("VasenLaita")
-				|| itsString == NFmiString ("Vasen"))
-               itsAlignment = kLeft;      //7.9
+
+			if (itsString == NFmiString ("Center") ||
+				itsString == NFmiString ("KeskiPiste") ||
+				itsString == NFmiString ("Keski"))
+			  {
+				itsAlignment = kCenter;
+			  }
+			else if (itsString == NFmiString ("Right") ||
+					 itsString == NFmiString ("OikeaLaita") ||
+					 itsString == NFmiString ("Oikea"))
+			  {
+				itsAlignment = kRight;
+			  }
+			else if (itsString == NFmiString ("Left") ||
+					 itsString == NFmiString ("VasenLaita") ||
+					 itsString == NFmiString ("Vasen"))
+			  {
+				itsAlignment = kLeft;
+			  }
 			else
-				*itsLogFile << "*** ERROR: Tuntematon kohdistus #Tekstissä: " << static_cast<char *>(itsObject) << endl;  
+				*itsLogFile << "*** ERROR: Tuntematon kohdistus #Tekstissä: "
+							<< static_cast<char *>(itsObject)
+							<< endl;  
 
 			ReadNext();
 			break;
-		}
+		  }
 		case dFont:
-		{
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 			*itsDescriptionFile >> itsObject;
 			itsFont = itsObject;
-			if (itsFont == NFmiString("ZapfDingbats"))  //121198
-				fUseSelectLatinFont = false;
+			if (itsFont == NFmiString("ZapfDingbats"))
+			  fUseSelectLatinFont = false;
 
 			ReadNext();
 			break;
-		}
+		  }
 		case dStyle:
-		{
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 			*itsDescriptionFile >> itsObject;
 			itsStyle = itsObject;
-
+			
 			ReadNext();
 			break;
-		}
-		case dPlaceMove:  //2.10
-		{
+		  }
+		case dPlaceMove:
+		  {
 			if (!ReadEqualChar())
-				break;
-
+			  break;
+			
 			if(Read2Double(r1,r2))
 			{ 
-			//pois 30.10.01 miksi taas muuttuu tulos ???????????
-//			   r1 -= 40.; //251198 miksi ?????????????
-//			   r2 -= 40.;
-			   itsRelRect += NFmiPoint(r1/c40, r2/c40);
+			  itsRelRect += NFmiPoint(r1/c40, r2/c40);
 			}
-
+			
 			ReadNext();
 			break;
-		}
+		  }
 		case dRelPlace:
-		{
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 			if(Read4Double(r1,r2,r3,r4))
-			{
-			   itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
-			}
+			  {
+				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
+			  }
 			ReadNext();
 			break;
-		}
-		case dParamSize:  //1.10
-		{
+		  }
+		case dParamSize:
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 			if(ReadDouble(r1))
-			{           
-			   itsRelRect.Inflate(-(c40-r1)/(c40*2));
-			}
-
+			  {           
+				itsRelRect.Inflate(-(c40-r1)/(c40*2));
+			  }
+			
 			ReadNext();
 			break;
-		}
+		  }
 		case dProducer: 
-		{
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 			if(ReadLong(long1))
-				long1 = 0; //dummy
-//               itsProducer = long1;
+			  long1 = 0; //dummy
 			
 			ReadNext();
 			break;
 		}
-/*		case dParam: 
-		{
-			if (!ReadEqualChar())
-				break;
-			if(ReadLong(long1))
-               itsIdentPar = long1;
-			
-			ReadNext();
-			break;
-		}
-		*/
 		case dColorValueDependent: 
-		{	
-//			fColorValueDependent = isTrue;
-
+		  {	
 			ReadNext();
 			break;
-		}
-
-		case dRelDay:     //7.1
-		{
+		  }
+		  
+		case dRelDay:
+		  {
 			if (!ReadEqualChar())
-				break;
-			if(ReadLong(long1))    //15.1
-               itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance()); //23.5.02 +GetDayAdvance); ;
+			  break;
+			if(ReadLong(long1))
+			  itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance());
 
 			ReadNext();
 			if(itsLogFile)
-					*itsLogFile << "*** ERROR: Päiviä ei voi asettaa #Tekstissä"  << endl;  
+			  *itsLogFile << "*** ERROR: Päiviä ei voi asettaa #Tekstissä"
+						  << endl;  
 			break;
-		}
-/*		case dRelYear:     //7.1
-		{
+		  }
+		case dHour:
+		  {
 			if (!ReadEqualChar())
-				break;
-//			if(ReadLong(long1))    //15.1
-//               itsFirstDeltaYears = (unsigned short)long1;
-
-			ReadNext();
-			if(itsLogFile)
-					*itsLogFile << "ERROR: Vuosia ei voi asettaa #Tekstissä"  << endl;  
-			break;
-		}
-		*/
-		case dHour:       //7.1
-		{
-			if (!ReadEqualChar())
-				break;
-			if(ReadLong(long1))    //15.1
-               itsFirstPlotHours = static_cast<unsigned short>(long1);
-
+			  break;
+			if(ReadLong(long1))
+			  itsFirstPlotHours = static_cast<unsigned short>(long1);
+			
 			ReadNext();
 			break;
-		}
-		default:  //090299
-		{
+		  }
+		default:
+		  {
 			ReadRemaining();  
 			break;
+		  }
 		}
-	}
 	} //while
 	
-	//flush viimeinen takaisin sreamiin! Miten?
-	SetPostReadingTimes();
+  //flush viimeinen takaisin streamiin! Miten?
+  SetPostReadingTimes();
 
-//171198
-	if(fNewScaling)
-	   itsRelRect += NFmiPoint(1.,1.);
-	Set(NFmiDataIdent(NFmiParam(itsIdentPar),240/*=dummy NFmiProducer(itsProducer)*/)
-	   ,NFmiRect(itsRelRect));
+  if(fNewScaling)
+	itsRelRect += NFmiPoint(1.,1.);
+  Set(NFmiDataIdent(NFmiParam(itsIdentPar),240), NFmiRect(itsRelRect));
 
-	retString = itsString;
-	return true;
+  retString = itsString;
+  return true;
 }
-//---------------------------------------------------------------------------
-int NFmiLetterParamRect::ConvertDefText(NFmiString & object) //LW 20.11
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param object Undocumented
+ * \result Undocumented
+ */
+// ----------------------------------------------------------------------
+
+int NFmiLetterParamRect::ConvertDefText(NFmiString & object)
 {
-/*	if(object==NFmiString("Mapping") 
-		|| object==NFmiString("ArvoistaKirjain")|| object==NFmiString("Muunnos")) //1.4
-		return dLetterMapping;
-	else */
-		return NFmiTextParamRect::ConvertDefText(object);
+  return NFmiTextParamRect::ConvertDefText(object);
 	
 }
-//---------------------------------------------------------------------------
-bool	NFmiLetterParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
-										,NFmiFastQueryInfo* theQI
-										,ofstream& theDestinationFile									
-										,FmiPressOutputMode theOutput) //15.3.00									
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param AbsoluteRectOfSymbolGroup Undocumented
+ * \param theQI Undocumented
+ * \param theDestinationFile Undocumented
+ * \param theOutput Undocumented
+ * \result Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiLetterParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
+								  NFmiFastQueryInfo * theQI,
+								  ofstream & theDestinationFile,
+								  FmiPressOutputMode theOutput)
 {
-   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time(); //4.9.01 
-   itsCurrentTime = itsCurrentSegmentTime;//16.2.2000
+  itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
+  itsCurrentTime = itsCurrentSegmentTime;
 
-	NFmiString hString;
-	float value = 0;
-
-	if(!SetRelativeHour(theQI,NFmiString("#Teksti"))) 
-		return isFalse;
-
-	if(itsMultiMapping) 
+  NFmiString hString;
+  float value = 0;
+  
+  if(!SetRelativeHour(theQI,NFmiString("#Teksti"))) 
+	return isFalse;
+  
+  if(itsMultiMapping) 
 	{
-        if(!ReadCurrentValueArray (theQI))  //25.5.01
-		   return false;
+	  if(!ReadCurrentValueArray (theQI))
+		return false;
 	}
-	else
+  else
 	{
-	    if(!PointOnParam(theQI, GetDataIdent().GetParam())) 
+	  if(!PointOnParam(theQI, GetDataIdent().GetParam())) 
 		{
-		   return false;
+		  return false;
 		}
-		if(!ReadCurrentValue(theQI, itsCurrentParamValue))
+	  if(!ReadCurrentValue(theQI, itsCurrentParamValue))
 		{
-			return false;        
+		  return false;        
 		}
-		value = itsCurrentParamValue;
+	  value = itsCurrentParamValue;
 	}
-
-   if(!ActiveTimeIndex(itsPressParam->GetCurrentStep())) //26.9.01
+  
+  if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
    {
-	   if(itsLoopActivity.bypassWithValue)  //2.10.01
-		   value = itsLoopActivity.bypassValue;
-	   else
-		   return true;
+	 if(itsLoopActivity.bypassWithValue)
+	   value = itsLoopActivity.bypassValue;
+	 else
+	   return true;
    }
 
-//	if(value != kFloatMissing) //220299 pitäähän puuttuvaakin voida koodata
-//	{											 
-//		SetValueDepending(value);
-		MapColor(); //3.11.00 korvaa ed.
-		NFmiString* mapString;
+  MapColor();
+  NFmiString * mapString;
 
-		if (itsMultiMapping)  //270999
-		{
-			bool missingFound;
-			mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-			if(missingFound)
-			{
-				itsNumOfMissing++;
-				return false;
-			}
-//			isScaled = false;         //onko tässä ollut niinkuin symbolissa
-		}
-		else 
-			 mapString = itsMapping->Map(value); 
-
-//		NFmiString objectMapString(*mapString); //edellisestä vain olio
-
-		if(mapString && !(*mapString == NFmiString("None"))) 
-		{
-			NFmiString str;  
-//			if(fParenthesis)     EI TOIMI        
-//				str = NFmiString("(");
-
-			hString = NFmiString (*mapString);   //220299 pitäisi olla yleisempi
-			if(itsEnvironment.GetLongNumberMinus() && hString == NFmiString("-"))
-				hString = NFmiString("\\226");
-			str += hString;
-
-	//300699 +Construct (lisäykset eteen ja perään)
-			return WriteCode(Construct(&str), AbsoluteRectOfSymbolGroup, 
-			             theDestinationFile, NFmiString("TEKSTI datasta"),theOutput); 
-		}
-		else if(!mapString)  //2.9
-		{
-			 *itsLogFile << "WARNING: arvolle " << value 
-				        << " ei muunnosta (#Teksti datasta)" << endl;
-			return isFalse;
-		}
-		else       //2.9
-		{
-			 return isFalse;
-		}
-};
-// 061100----------------------------------------------------------------------------
-FmiGenericColor NFmiLetterParamRect::MapColor(void) const 
-{
-	for(unsigned long ind=0; ind < itsCurrentNumOfColMaps; ind++)
+  if (itsMultiMapping)
 	{
-		if(itsCurrentParamValue >= itsColorMapping[ind].minValue
-		&& itsCurrentParamValue <= itsColorMapping[ind].maxValue)
+	  bool missingFound;
+	  mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
+	  if(missingFound)
 		{
-			return itsColorMapping[ind].color;
+		  itsNumOfMissing++;
+		  return false;
 		}
 	}
-	return GetColor();
+  else 
+	mapString = itsMapping->Map(value); 
+
+  if(mapString && !(*mapString == NFmiString("None"))) 
+	{
+	  NFmiString str;  
+
+	  hString = NFmiString (*mapString);	// pitäisi olla yleisempi
+	  if(itsEnvironment.GetLongNumberMinus() && hString == NFmiString("-"))
+		hString = NFmiString("\\226");
+	  str += hString;
+
+	  return WriteCode(Construct(&str),
+					   AbsoluteRectOfSymbolGroup, 
+					   theDestinationFile,
+					   NFmiString("TEKSTI datasta"),
+					   theOutput); 
+	}
+  else if(!mapString)
+	{
+	  *itsLogFile << "WARNING: arvolle "
+				  << value 
+				  << " ei muunnosta (#Teksti datasta)"
+				  << endl;
+	  return isFalse;
+	}
+  else
+	{
+	  return isFalse;
+	}
 }
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \result Undocumented
+ */
+// ----------------------------------------------------------------------
+
+FmiGenericColor NFmiLetterParamRect::MapColor(void) const 
+{
+  for(unsigned long ind=0; ind < itsCurrentNumOfColMaps; ind++)
+	{
+	  if(itsCurrentParamValue >= itsColorMapping[ind].minValue &&
+		 itsCurrentParamValue <= itsColorMapping[ind].maxValue)
+		{
+		  return itsColorMapping[ind].color;
+		}
+	}
+  return GetColor();
+}
+
+// ======================================================================

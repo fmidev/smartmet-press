@@ -1,38 +1,66 @@
-//© Ilmatieteenlaitos/Lasse.
-//  Original 3.1.2001 
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiExtremeTimeParamRect
+ */
+// ======================================================================
 
-//Muutettu xxxxxx/LW puuttuva lasku/nousu hoidettu
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
+#include "NFmiExtremeTimeParamRect.h"
 #include "NFmiPressParam.h"
 
-//---------------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
 
-#include "NFmiExtremeTimeParamRect.h"
-
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-
-NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect& theExtremeTimeParamRect)
-:NFmiTimeParamRect(theExtremeTimeParamRect)
-//:NFmiTimeParamRect(*(NFmiTimeParamRect*)&theExtremeTimeParamRect)
+NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void)
 {
 }
-//---------------------------------------------------------------------------
-NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect() 
+
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param theExtremeTimeParamRect Undocumented
+ * \todo Remove the implementation, let the compiled do it
+ */
+// ----------------------------------------------------------------------
+
+NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect & theExtremeTimeParamRect)
+  : NFmiTimeParamRect(theExtremeTimeParamRect)
 {
-};
-//---------------------------------------------------------------------------
-NFmiParamRect* NFmiExtremeTimeParamRect::Clone() const
-{
-	return static_cast<NFmiParamRect *>(new NFmiExtremeTimeParamRect(*this));
-};
-//----------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-NFmiTime NFmiExtremeTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI) 
-{
-	return itsPressParam->GetOptionTime();
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Clone the object
+ *
+ * \return Clone of this
+ */
+// ----------------------------------------------------------------------
+
+NFmiParamRect * NFmiExtremeTimeParamRect::Clone(void) const
+{
+  return new NFmiExtremeTimeParamRect(*this);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theQI Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+NFmiTime NFmiExtremeTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI) 
+{
+  return itsPressParam->GetOptionTime();
+}
+
+// ======================================================================
