@@ -54,7 +54,7 @@ NFmiScalingParamRect::NFmiScalingParamRect(const NFmiScalingParamRect & theSymbo
 NFmiParamRect * NFmiScalingParamRect::Clone(void) const
 {
   return new NFmiScalingParamRect(*this);
-};
+}
 
 // ----------------------------------------------------------------------
 /*!

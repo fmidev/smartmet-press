@@ -33,7 +33,7 @@ NFmiSymbolParamRect::~NFmiSymbolParamRect(void)
   if(itsOrigDir)
 	delete static_cast<NFmiString *>(itsOrigDir);
 
-};
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -68,7 +68,7 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect & theSymbolRe
 NFmiParamRect * NFmiSymbolParamRect::Clone(void) const
 {
   return static_cast<NFmiParamRect *>(new NFmiSymbolParamRect(*this));
-};
+}
 
 // ----------------------------------------------------------------------
 /*!

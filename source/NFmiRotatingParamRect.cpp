@@ -54,7 +54,7 @@ NFmiRotatingParamRect::NFmiRotatingParamRect(const NFmiRotatingParamRect & theSy
 NFmiParamRect * NFmiRotatingParamRect::Clone(void) const
 {
   return new NFmiRotatingParamRect(*this);
-};
+}
 
 // ----------------------------------------------------------------------
 /*!
