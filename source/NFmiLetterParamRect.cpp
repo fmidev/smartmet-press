@@ -271,7 +271,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  if(missingFound)
 		{
 		  itsNumOfMissing++;
-		  return false;
+		  if(!mapString)
+			  return false;
 		}
 	}
   else 

@@ -646,6 +646,17 @@ bool NFmiParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dMissingValueString:
+		{ //**************
+		if (!ReadEqualChar())
+		  break;
+		ReadNext();
+
+		itsMultiMapping->SetMissing(NFmiString(itsObject));
+
+		ReadNext();
+		break;
+	  }
 	case dStationTableActive:
 	  {
 		if (!ReadEqualChar())
@@ -906,6 +917,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("supplementformissing") ||
 		  lowChar==NFmiString("täydennäpuuttuvat"))
   return dSupplementForMissing;
+  
+  else if(lowChar==NFmiString("missingvalue") ||
+		  lowChar==NFmiString("puuttuvaarvo"))
+  return dMissingValueString;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);

@@ -78,7 +78,8 @@ enum NFmiParamRectObjects
   dStationTableActive,
   dFromMeanWindToMax,
   dRounding,
-  dSupplementForMissing
+  dSupplementForMissing,
+  dMissingValueString
 };
 
 //! Undocumented

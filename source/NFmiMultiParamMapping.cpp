@@ -21,6 +21,8 @@ using namespace std;
 NFmiMultiParamMapping::~NFmiMultiParamMapping(void)
 {
   delete [] static_cast<FmiMultiMapping *>(itsMappingIntervals);
+  if (itsMissingString) 
+	  delete static_cast<NFmiString *>(itsMissingString);
 }
 
 // ----------------------------------------------------------------------
@@ -41,6 +43,12 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(const NFmiMultiParamMapping & thePa
 	  itsMappingIntervals[i] = theParamMapping.itsMappingIntervals[i];
 	}
   itsNumOfParams = theParamMapping.itsNumOfParams;
+
+  if (theParamMapping.itsMissingString == 0)
+	  itsMissingString = 0;
+  else
+	  itsMissingString = new NFmiString(*theParamMapping.itsMissingString);
+
 }
 
 // ----------------------------------------------------------------------
@@ -153,8 +161,11 @@ NFmiString *	NFmiMultiParamMapping::Map(float values[FmiMaxNumOfMappingParams], 
 	{
 	  int i;
 	  for(i=0; i<static_cast<int>(itsNumOfParams); i++)
-		{
-		  if(!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing ||
+	  {  //näin saadaan puuttuvallekin määrättyä arvo (ekaksi määrittelyssä)
+//		  if(!(values[i] == kFloatMissing 
+//			  && itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing))
+		  {
+		   if(!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing ||
 			   itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing &&
 			   values[i] == itsMappingIntervals[j].mappingInterval[i].lowBorder ||
 			   (values[i] >= itsMappingIntervals[j].mappingInterval[i].lowBorder &&
@@ -162,6 +173,7 @@ NFmiString *	NFmiMultiParamMapping::Map(float values[FmiMaxNumOfMappingParams], 
 				values[i]  != kFloatMissing &&
 				itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing)))
 			break;
+		  }
 		}
 	  if(i >= static_cast<int>(itsNumOfParams)) 
 		return &itsMappingIntervals[j].symbol;
@@ -172,10 +184,34 @@ NFmiString *	NFmiMultiParamMapping::Map(float values[FmiMaxNumOfMappingParams], 
 		 i==static_cast<int>(itsNumOfParams) && values[i-1] == kFloatMissing)
 		{											
 		  missingFound = true;
-		  return 0;
+		  return itsMissingString;
+		  //return 0;
+          //return &itsMappingIntervals[0].symbol;
 		}
 	}
   return 0;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ */
+// ----------------------------------------------------------------------
+void NFmiMultiParamMapping::SetMissing (const NFmiString &theString)
+{
+  if (itsMissingString) 
+	  delete static_cast<NFmiString *>(itsMissingString);
+  itsMissingString = new NFmiString(theString);
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ */
+// ----------------------------------------------------------------------
+NFmiString* NFmiMultiParamMapping::GetMissing (void) const
+{
+  return itsMissingString;
 }
 
 // ======================================================================

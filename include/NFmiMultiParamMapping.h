@@ -54,15 +54,19 @@ public:
   void AddMappingInterval(const FmiMultiMapping & theInterval);
   
   NFmiString * Map(float values[FmiMaxNumOfMappingParams], bool & missingFound);
+  void SetMissing (const NFmiString &theString);
+  NFmiString * GetMissing (void)const;
 
   void NumOfParams(short num);
-  short NumOfParams(void);
+  short NumOfParams(void); 
 
 private:
 
   FmiMultiMapping * itsMappingIntervals;
 
   short itsNumOfParams;
+  NFmiString *itsMissingString;
+
 
 }; // class NFmiMultiParamMapping
 
@@ -77,6 +81,7 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(void)
   : NFmiSize(0)
   , itsMappingIntervals(0)
   , itsNumOfParams(0)
+  , itsMissingString(0)
 {
 }
 
