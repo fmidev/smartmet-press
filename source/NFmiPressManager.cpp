@@ -324,10 +324,10 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 			if (!ReadEqualChar())
 				break;
 			     
-			NFmiString string = ReadString();
-			string.LowerCase();  //21.3.01 kaikkialla k‰sitell‰‰n pienin‰
+			NFmiString str = ReadString();
+			str.LowerCase();  //21.3.01 kaikkialla k‰sitell‰‰n pienin‰
 
-			thePressProduct.SetSegmentData(string);
+			thePressProduct.SetSegmentData(str);
 			changed = true;
 
 			ReadNext();
