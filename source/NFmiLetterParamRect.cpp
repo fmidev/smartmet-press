@@ -286,7 +286,7 @@ int NFmiLetterParamRect::ConvertDefText(NFmiString & object)
 /*!
  * Undocumented
  *
- * \param AbsoluteRectOfSymbolGroup Undocumented
+ * \param theAbsoluteRectOfSymbolGroup Undocumented
  * \param theQI Undocumented
  * \param theDestinationFile Undocumented
  * \param theOutput Undocumented
@@ -294,7 +294,7 @@ int NFmiLetterParamRect::ConvertDefText(NFmiString & object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiLetterParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
+bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  NFmiFastQueryInfo * theQI,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
@@ -355,11 +355,11 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 
   if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
 	{
-	  float value = itsCurrentParamValue;
+	  float keyValue = itsCurrentParamValue;
 	  if(itsMultiMapping)
-		  value = itsCurrentParamArray[0];
+		  keyValue = itsCurrentParamArray[0];
 
-		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(value)), AbsoluteRectOfSymbolGroup.Place()))
+		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(keyValue)), theAbsoluteRectOfSymbolGroup.Place()))
 			return false;
 	}
 
@@ -373,7 +373,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	  str += hString;
 
 	  return WriteCode(Construct(&str),
-					   AbsoluteRectOfSymbolGroup, 
+					   theAbsoluteRectOfSymbolGroup, 
 					   theDestinationFile,
 					   NFmiString("TEKSTI datasta"),
 					   theOutput); 

@@ -340,7 +340,7 @@ int NFmiNumberParamRect::ConvertDefText(NFmiString & object)
 /*!
  * Undocumented
  *
- * \param AbsoluteRectOfSymbolGroup Undocumented
+ * \param theAbsoluteRectOfSymbolGroup Undocumented
  * \param theQI Undocumented
  * \param theDestinationFile Undocumented
  * \param theOutput Undocumented
@@ -348,12 +348,13 @@ int NFmiNumberParamRect::ConvertDefText(NFmiString & object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
+bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  NFmiFastQueryInfo * theQI,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
   float value;
+
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 
@@ -433,11 +434,11 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 
   if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
 	{
-	  float value = itsCurrentParamValue;
+	  float keyValue = itsCurrentParamValue;
 	  if(itsMultiMapping)
-		  value = itsCurrentParamArray[0];
+		  keyValue = itsCurrentParamArray[0];
 
-		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(value)), AbsoluteRectOfSymbolGroup.Place()))
+		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(keyValue)), theAbsoluteRectOfSymbolGroup.Place()))
 			return false;
 	}
 
@@ -449,7 +450,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	  NFmiString helpS(*mapString);  // mappauksessa olevat miinukset pitkinä haluttaessa
 	  if(helpS == NFmiString("-") && itsEnvironment.GetLongNumberMinus())
 		helpS = NFmiString("\\226");
-	  return WriteCode(Construct(&helpS), AbsoluteRectOfSymbolGroup,
+	  return WriteCode(Construct(&helpS), theAbsoluteRectOfSymbolGroup,
 					   theDestinationFile, NFmiString("NUMERO"), theOutput);
 	}
   else
@@ -529,7 +530,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	|| value == kFloatMissing       // pitkät miinukset näkyviin
 	&& itsEnvironment.GetLongNumberMinus();
 
-  return WriteCode(Construct(&str), AbsoluteRectOfSymbolGroup,
+  return WriteCode(Construct(&str), theAbsoluteRectOfSymbolGroup,
 				   theDestinationFile, NFmiString("NUMERO"), theOutput);
 }
 
