@@ -24,7 +24,8 @@ höpö höpö
 
 \section sec_ongelmat Ongelmat
 
-Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä. Jos on kyseessä automaattituote (tarkista <A href="docs/Lehtimuistio.xls">lehtimuistiosta</A>) suorita \ref sec_yksiautotuote , jollei joudut hankaluuksiin. 
+Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä.
+Jos on kyseessä automaattituote (tarkista <A href="http=://weather.weatherproof.fi/data/local/src/c++/lib/press/docs/Lehtimuistio.xls">lehtimuistiosta</A>) suorita \ref sec_yksiautotuote . Jollei ole automaattituote mutta apumetkut tehneet tuotteen aikaisemmin sen voi lähettää uudelleen, varmimmin mailitse (ks /ref manuaalituotteenlähetys ), koska ftp-häiriö on saattanut sotkea normaalilähetyksen. Manuaalituotteiden teko aikataulun ulkopuolella on normaalisti hankalaa, koska ne sisältävär tekstejä ja tuoreita havaintoja ja vaativat ehkä lämpövyöhykkeitä. Muutamat yksinkertaiset kuitenkin tehdään manuualisesti vain siksi ettei niille kelpaa pdf-formaatti ja ne voi tehdä koska tahansa: /ref sec_ manuaalituotteenteko 
 
 \section sec_ratkaisut Ratkaisut
 
@@ -41,5 +42,10 @@ Tässä ratkaisut
 \subsection sec_kaikkiautotuotteet Kaikkien automaattituotteiden teko
 
 bla 
+\subsection sec_ manuaalituotteenteko Manuaalituotteen teko
+
+\subsection sec_manuaalituotteenlähetys Manuaalituotteen lähetys
+
+\subsection sec_manuaaliteko Manuaalituotteen teko
 
 */
