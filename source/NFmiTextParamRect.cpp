@@ -383,6 +383,13 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  bool firstIs226 = theText.GetLen() > 3
 		&& NFmiString(theText.GetCharsPtr(1,4)).IsEqual(longMinus);
 
+	  bool boldFont = false;
+	  unsigned long lenFont = itsFont.GetLen();
+	  if(itsFont == NFmiString("FranklinGothic-Roman") ||
+         itsFont.GetChars(lenFont-3, 4) == NFmiString("Bold") ||
+         itsFont.GetChars(lenFont-4, 5) == NFmiString("Black"))
+		 boldFont = true;
+
 	  bool secondIs226 = theText.GetLen() > 4
 		&& NFmiString(theText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitkä miinus
 
@@ -393,7 +400,11 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		}
 	  else if(firstIs226)
 		{
-		  widthString = NFmiString("n"); //HUOM sama leveys kuin pitkällä miinuksella kun kerran se itse ei käy
+		  if(boldFont)
+			widthString = NFmiString("W"); //boldit vähän enemmän irti, levein kirjain
+		  else
+			widthString = NFmiString("n"); //sama leveys kuin pitkällä miinuksella kun kerran se itse ei käy stringwidth:iin
+		  
 		  if(theText.GetLen()>4)
 			widthString += theText.GetCharsPtr(5,theText.GetLen()-4);
 		  WriteShowString(x, y, widthString, longMinus, theDestinationFile);
@@ -403,20 +414,32 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 			  WriteShowString(x, y, restString, restString, theDestinationFile);
 			}		  
 		}
-	  else //suluissa AL 
-		{
-		  widthString += NFmiString("(");
-		  widthString += NFmiString("n"); //HUOM sama leveys kuin pitkällä miinuksella kun kerran se itse ei käy
+	  else //secondIs226 eli suluissa (AL) 
+	  {  // PS:ssä pitää olla parilliset sulut, muuten kenon kanssa
+		 // miten kääntäjästä saisi läpi NFmiString("\("); 
+		/*
+		  NFmiString widthStringAll = NFmiString("\(");
+		  if(boldFont)
+			widthString = NFmiString("W");
+		  else
+			widthString = NFmiString("n"); 
+
 		  if(theText.GetLen()>4)
-			widthString += theText.GetCharsPtr(6,theText.GetLen()-4);
-		  NFmiString first = theText.GetCharsPtr(1,1);
-		  WriteShowString(x, y, widthString, first, theDestinationFile);
+			widthString += theText.GetCharsPtr(6,theText.GetLen()-6);
+		  widthString += NFmiString("\)");
+
+		  widthStringAll += widthString;
+		  //NFmiString first = theText.GetCharsPtr(1,1);
+		  WriteShowString(x, y, widthStringAll, NFmiString("\("), theDestinationFile);
 		  WriteShowString(x, y, widthString, longMinus, theDestinationFile);
-		  if(theText.GetLen()>4)
+			
+		  if(theText.GetLen()>5)
 			{
-			  restString = theText.GetCharsPtr(5,theText.GetLen()-4);
+			  restString = theText.GetCharsPtr(6,theText.GetLen()-6);
+		      restString += NFmiString("\)");
 			  WriteShowString(x, y, restString, restString, theDestinationFile);
-			}		  
+			}
+*/		
 		}
 	  
 	  theDestinationFile << "false setoverprint" << endl;
