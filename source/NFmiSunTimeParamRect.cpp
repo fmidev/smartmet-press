@@ -82,7 +82,6 @@ bool NFmiSunTimeParamRect::ReadRemaining(void)
 	default: 
 	  {
 		return NFmiTimeParamRect::ReadRemaining();  
-		break;
 	  }
 	}
   return true;

@@ -186,7 +186,6 @@ bool NFmiTextParamRect::ReadRemaining(void)
 	default:
 	  {
 		return NFmiParamRect::ReadRemaining();
-		break;
 	  }
 	}
   return true;

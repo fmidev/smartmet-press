@@ -81,7 +81,6 @@ bool NFmiScalingParamRect::ReadRemaining(void)
 	default:
 	  {
 		return NFmi2SymbolParamRect::ReadRemaining();
-		break;
 	  }
 	}
   return true;
