@@ -310,7 +310,7 @@ NFmiString NFmiPressTime :: InterpretToStr(const NFmiString theTimeCode
 
 //__________________________________________________________________ 
 static 
-char 
+const char 
     *reldays [] = 
 	{"alivuoto","Toissap‰iv‰n‰", "Eilen", "T‰n‰‰n", "Huomenna", "Ylihuomenna", "ylivuoto", 
 
