@@ -79,7 +79,7 @@ public:
   void Location(NFmiLocation theLocation);
   void Point(NFmiPoint thePoint);
 
-  virtual std::ostream & Write(std::ostream & file); 
+  virtual std::ostream & Write(std::ostream & file) const;
   virtual std::istream & Read(std::istream & file); 
   
 protected:

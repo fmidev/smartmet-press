@@ -55,7 +55,7 @@ NFmiLocation * NFmiStationPoint::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-ostream & NFmiStationPoint::Write(ostream & file) 
+ostream & NFmiStationPoint::Write(ostream & file) const
 {
   NFmiStation::Write(file);
   file << itsPoint;
