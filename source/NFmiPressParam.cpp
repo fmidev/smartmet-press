@@ -1854,7 +1854,6 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   NFmiPressScaling * saveObject;
   saveObject = 0;
 
-  NFmiPressScaling * testObject;
   NFmiVoidPtrIterator stationObjectIter (itsStationDepObjects);
 
   itsSymbols.Set(theScale, itsDataIter, theFile);
@@ -1988,8 +1987,6 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 					 stationObjectIter.Reset();
 					 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
-					 if(fIsFirstStation)
-					   testObject = object;
 
 					 NFmiPoint unScaledPoint = itsScale.UnScale(stationPoint);
 					 if(object && itsStations.CurrentIndex() == 0)
