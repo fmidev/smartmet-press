@@ -261,8 +261,11 @@ NFmiFileString NFmiPressScaling::CreatePath(NFmiString defDir,
   NFmiFileString fileStr;
   if (!givenPath.IsValue())
 	{
-	  fileStr = GetHome();
-	  fileStr += kFmiDirectorySeparator;
+	  if(!defDir.IsValue() || defDir[1ul] != kFmiDirectorySeparator)
+		{
+		  fileStr = GetHome();
+		  fileStr += kFmiDirectorySeparator;
+		}
 	  fileStr += defDir;
 	  fileStr += kFmiDirectorySeparator;
 	  fileStr += givenFile;
