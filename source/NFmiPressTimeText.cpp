@@ -62,9 +62,6 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
   NFmiValueString valueString;
   NFmiString helpString;
   double r1,r2;
-  double xmin,xmax,ymin,ymax;	  
-  xmin = ymin = 0;				 
-  xmax = ymax = 1;
   
   itsFont = NFmiString("Times-Roman");
   
@@ -288,8 +285,6 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
 	  itsFormat = kI;
 	  itsFont = NFmiString("Cviikko");
 	}
-  NFmiRect * rect;
-  rect = new NFmiRect(xmin,ymax,xmax,ymin);
   
   retString = itsString;
   return true;
