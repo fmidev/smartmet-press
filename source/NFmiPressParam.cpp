@@ -2262,7 +2262,11 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint& theStation)
 
 bool NFmiPressParam::SetLonLat(NFmiStationPoint & theStation)
 {
-  // ensin tarkistetaan jos on pistedata niin otetaan sielta aseman Lon/lat
+	if(!itsDataIter)
+	{
+		return false;
+	}
+	// ensin tarkistetaan jos on pistedata niin otetaan sielta aseman Lon/lat
   if(!itsDataIter->IsGrid())
 	{
 
