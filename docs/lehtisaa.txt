@@ -1,0 +1,45 @@
+// ======================================================================
+/*!
+
+\page lehtisaa Sanomalehtituotteiden teko
+
+\section sec_sisallys Sisällysluettelo
+
+-# \ref sec_yleista
+-# \ref sec_automaatti
+-# \ref sec_ongelmat
+-# \ref sec_ratkaisut
+  -# \ref sec_yksiautotuote
+  -# \ref sec_kaikkiautotuotteet
+
+\section sec_yleista Yleistä
+ 
+Lehtituotanto pyörii apulaismetkujen kolmella Windows-koneella: apmet2000, apmet2002, apmet2003. Myös metkujen parilla koneella voi ainakin rajoitetusti ajaa lehtituotteita. Esim data päivittyy identtisesti kaikille koneille ja itse tehdyt osat (rintamat, vyöhykkeet) ovat myös naapurikoneiden käytössä. Automaattilehdet voi (automaattisesti) ajaa vain 2003:lla ja 2002:lla (pdf-konversioon tarvittavaa Distillerohjelmaa ei ole muilla). Automaattirutiini pyörii normaalisti 2003:lla, jota ei juuri käytetä manuaalitoimintaan, mutta voidaan siis ongelmatilanteissa käynnistää 2002:lla. 2003:lla ja 2002:lla pyörii myös muutama muu ajastettu ajo.
+
+Lehtisääohjelman kriittiset tiedostot sijaitsevat LehtiAuto-hakemistossa (C:/Program Files/LehtiAuto) jonka ikoni on työpöydällä. Joitakin apuvälineitä on kuitenkin historiallisista syistä muuallakin (työpohjia, valmiit tuotteet) ja pdf-konversio sijaitsee omassa hakemistossa: C:/Pdf_pres.  
+
+\section sec_automaatti Automaattituotteet
+ 
+höpö höpö  
+
+\section sec_ongelmat Ongelmat
+
+Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä. Jos on kyseessä automaattituote (tarkista Lehtimuistio.xls) suorita \ref sec_yksiautotuote , jollei joudut hankaluuksiin. 
+
+\section sec_ratkaisut Ratkaisut
+
+Tässä ratkaisut
+
+\subsection sec_yksiautotuote Yhden automaattituotteen teko ja lähettäminen
+
+ - Mene apmet2003-koneelle (ei toimi apmet2002:lla), vältä kuitenkin aikaa 20 yli tasatunnin koska voi mennä ristiin varsinaisen automaattiajon kanssa.
+ - Valitse LehtiAuto/Tuotteet/Auto -kansiosta (LehtiAuto-ikoni työpöydällä) kyseinen pre-tiedosto ja raahaa se työpöydän TeeYksiAutoRaahaamalla-ikonin (oikella  kolmas ylhäältä) päälle (jos ei automaattituote ei löydi täältä)
+ - käynnistyy DOS-ikkuna. Seuraa tuleeko virheilmoituksia (****-riveillä erotettu). Ajo seisoo välillä minuutin ja lopussa vilisee paljon rivejä.
+ - DOS-ikkuna sulkeutuu kun tuote mennyt mailinä ja/tai ftp-palvelimelle, voit vielä tarkistaa C:/Pdf_pres/out -hakemistosta että kyseinen pdf on syntynyt ja ok (sen voi vaikka lähettää käsin uudestaan)
+ - Seuraavan kerran 20 yli automaattiajon yhteydessä kaikki pdf:t siirretään Pdf_pres/Vanhat-haaraan, josta käytettävissä 1 kuukauden ajan   
+
+\subsection sec_kaikkiautotuotteet Kaikkien automaattituotteiden teko
+
+bla 
+
+*/
