@@ -23,6 +23,13 @@
 
 class NFmiPressArea;
 
+/*
+struct FmiPressTextAttributes
+{
+	long value;
+	NFmiPoint point;
+};
+*/
 //! Undocumented 
 class _FMI_DLL NFmiPressEnvironment  
 { 

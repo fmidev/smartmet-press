@@ -344,7 +344,19 @@ bool NFmiPressParam::SetAllLanguages(FmiLanguage theLanguage)
 
   return true;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retString Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+unsigned long NFmiPressParam::GetCurrentStationStep(void) const
+{
+	return itsCurrentStationIndex;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -1961,6 +1973,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
   itsCurrentStep = 1;
   stationPointMovement.Set(0., 0.);
+  itsCurrentStationIndex = 0;
   FmiCounter statAll = 0;
   bool done, supplementLater;
 
@@ -2033,9 +2046,11 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		 fIsFirstStation = true;
 
 		 // ********** ASEMAluuppi *****************
+		 itsCurrentStationIndex = 0;
 	     while(itsStations.Next())
 		   {
 			 statAll++;
+			 itsCurrentStationIndex++;
 			 stationPoint = NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location())).Point();
 			 NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
 			 NFmiPoint lonLat = statPoint.GetLocation();
@@ -2104,7 +2119,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 				 statPoint.Point(statPoint.Point() + stationPointMovement);
 
-				 // ****** tässä itse symbolit/numerot jne
+				 // ***************************************
+				 // ****** itse symbolit/numerot jne ******
+				 // ***************************************
+
 				 fInterruptSymbolGroup = false; //läheisyystesti-optiota varten
 				 if(!(itsSymbols.WritePS(statPoint,theOutput)))
 				   {
@@ -2214,8 +2232,6 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 }
 // ----------------------------------------------------------------------
 /*!
- * Undocumented
- *
  * Aika-askeltaminen. Vain nimipäivät, joilla ei dataa.
  */
 // ----------------------------------------------------------------------

@@ -131,6 +131,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   fGivenHoursAreRelative = theRect.fGivenHoursAreRelative;
   itsStringNameTimeFormat = theRect.itsStringNameTimeFormat;
   itsLoopActivity = theRect.itsLoopActivity;
+  itsStationLoopActivity = theRect.itsStationLoopActivity;
 }
 
 // ----------------------------------------------------------------------
@@ -184,6 +185,26 @@ bool NFmiParamRect::SetRect(NFmiRect theRect)
 /*!
  * Undocumented
  *
+ * \param currentInd Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiParamRect::ActiveStationIndex(int currentInd) const
+{
+//vain TimeParamRectin käytössä toistaiseksi
+
+  if(itsStationLoopActivity.startIndex < 1 || (currentInd-itsStationLoopActivity.startIndex)
+	 % itsStationLoopActivity.step == 0
+	 && currentInd >= static_cast<int>(itsStationLoopActivity.startIndex)
+	 && currentInd <= static_cast<int>(itsStationLoopActivity.stopIndex)
+	 ) return true;
+  return false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
@@ -213,7 +234,7 @@ int NFmiParamRect::NumOfMappingParams(void)
 bool NFmiParamRect::ReadRemaining(void)
 {
   
-  long long1, long2;
+  long long1, long2, long3;
   NFmiValueString valueString;
   switch(itsIntObject)
 	{
@@ -603,6 +624,46 @@ bool NFmiParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dStationTableActive:
+	  {
+		if (!ReadEqualChar())
+		  break;
+		
+		long3 = 1000;
+		if(ReadTwo(long1, long2))
+		  {
+			*itsDescriptionFile >> itsObject;
+			valueString = itsObject;
+			if(valueString.IsNumeric())  
+			  {
+				long3 = static_cast<long>(valueString);
+				
+				*itsDescriptionFile >> itsObject;
+				itsString = itsObject;
+			  }
+			else
+			  {
+				itsString = valueString;
+			  }
+			
+			if(long1 > 0 && long2 > 0  && long3 > 0  && long1 <= long3)
+			  {
+				itsStationLoopActivity.startIndex = long1;
+				itsStationLoopActivity.step = long2;
+				itsStationLoopActivity.stopIndex = long3;
+			  }
+			else
+			  *itsLogFile << "*** ERROR: Not valid station looping (start,step,stop): "
+						  << long1
+						  << long2
+						  << long3
+						  << endl;
+		  }
+				
+		itsIntObject = ConvertDefText(itsString);
+		
+		break;
+	  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -807,6 +868,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("equidistancemarking") ||
 		  lowChar==NFmiString("tasavälirajoitus"))
 	return dEquiDistanceMarking;
+
+  else if(lowChar==NFmiString("stationtableactive") ||
+		  lowChar==NFmiString("asemataulukonaktiiviset"))
+	return dStationTableActive;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);

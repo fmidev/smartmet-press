@@ -353,7 +353,8 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								ofstream & theDestinationFile,
 								FmiPressOutputMode theOutput)
 {
-  if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
+  if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()) ||
+	 !ActiveStationIndex(itsPressParam->GetCurrentStationStep()))
     {
 	  return true;
     }

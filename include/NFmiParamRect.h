@@ -74,7 +74,8 @@ enum NFmiParamRectObjects
   dInterval2Number,
   dRandomInterval,
   dRandomModifying = 6060,
-  dEquiDistanceMarking
+  dEquiDistanceMarking,
+  dStationTableActive
 };
 
 //! Undocumented
@@ -172,6 +173,7 @@ protected:
   float GetRandomInterval(void)const{return itsRandomInterval;};
   bool IsRandom(void)const {return GetRandomInterval() > .00001f;};
   bool IsEquiDistanceMode(void) const;
+  bool ActiveStationIndex(int currentInd) const; //vain TimeParamRect toistaiseksi
 
 private:
 
@@ -235,6 +237,7 @@ protected:
   float itsEquiDistanceHalfInterval;
   bool fMarkingValue;
   unsigned long itsSymbolGroupOrder;
+  FmiLoopActivity itsStationLoopActivity;
 
 private:
 
@@ -285,6 +288,7 @@ NFmiParamRect::NFmiParamRect(void)
   itsEquiDistanceHalfInterval = 0.;
   fMarkingValue = true;
   itsSymbolGroupOrder=0;
+  itsStationLoopActivity.startIndex=0;
 }
 
 // ----------------------------------------------------------------------

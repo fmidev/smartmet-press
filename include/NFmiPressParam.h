@@ -147,7 +147,8 @@ public:
   void SetActivity(bool theActivity);
   bool IsDistanceCheck(void) const;
   bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
-  bool InterruptSymbolGroup(void)const;	
+  bool InterruptSymbolGroup(void)const;
+  unsigned long GetCurrentStationStep(void) const;
 protected:
 
   void UnsetAllErrorReported(void);
@@ -185,6 +186,7 @@ protected:
   NFmiInfoAreaMask * itsAreaMask;
   FmiCounter itsCurrentStep;
   FmiCounter itsNumberOfSteps;
+  unsigned long itsCurrentStationIndex;
   unsigned long itsLevels[kMaxNumOfTableElements];  
   NFmiPoint itsSteps[kMaxNumOfTableElements];  
   NFmiPoint itsUnscaledSteps[kMaxNumOfTableElements]; 
