@@ -1756,10 +1756,15 @@ bool NFmiPressParam::CreateAreaMask(void)
 	{
 		itsMaskIter->First();
 		unsigned long maskNr = itsEnvironment.GetMaskNumber();
-		NFmiCalculationCondition maskOperation(kFmiMaskEqual, maskNr);  
-		NFmiAreaMask::Type maskType = NFmiAreaMask::kInfo; // maski on siis info-tyyppinen (ei esim. bitmap tai lennossa laskettava kuten auringon-kulma-maski)
-		NFmiAreaMask::DataType dataType = NFmiAreaMask::kStationary;
-		bool ownsInfo = false;
+
+		// Käyttämättömiä muuttujia:
+#if 0
+		   NFmiCalculationCondition maskOperation(kFmiMaskEqual, maskNr);  
+		   NFmiAreaMask::Type maskType = NFmiAreaMask::kInfo; // maski on siis info-tyyppinen (ei esim. bitmap tai lennossa laskettava kuten auringon-kulma-maski)
+		   NFmiAreaMask::DataType dataType = NFmiAreaMask::kStationary;
+		   bool ownsInfo = false;
+#endif
+
 /* MUKAAN ********************
 		NFmiAreaMask::BinaryOperation postBinaryOperation = NFmiAreaMask::kAnd;
 		itsAreaMask = new NFmiInfoAreaMask(maskOperation, maskType, dataType, itsMaskIter, ownsInfo, postBinaryOperation);
