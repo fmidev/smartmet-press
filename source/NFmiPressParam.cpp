@@ -561,6 +561,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  {
 						*itsLogFile << "*** WARNING: taulukkoon varattu aika-askelmäärä ylitetty: "
 									<< numberOfTimeSteps
+									<< "; hidastuu"
 									<< endl;
 					  }
 					if(ReadLong(long1))
@@ -605,6 +606,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  {
 						*itsLogFile << "*** WARNING: taulukkoon varattu aika-askelmäärä ylitetty: "
 									<< numberOfTimeSteps
+									<< "; hidastuu"
 									<< endl;
 					  }
 					if(ReadLong(long1))

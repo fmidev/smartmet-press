@@ -267,8 +267,15 @@ bool NFmiStationPoint:: LocalTime(NFmiTime & utc, int & errorCode)
 	}
   else
 	{
-	  utc = metTime.LocalTime(static_cast<float>(GetLongitude()));
-	  errorCode += 2; //aproksimaatio pituuspiiristä
+	  bool isFinland = GetLongitude() > 19.1 && GetLongitude() < 31.6
+		          && GetLatitude() > 59.5 && GetLatitude() < 70.15;
+	  if(isFinland)
+		utc = metTime.CorrectLocalTime();
+	  else  
+	  {   //ei hanskaa ulkomaiden talvi/kesäaikoja kun poikkeavat tästä päivästä
+		utc = metTime.LocalTime(static_cast<float>(GetLongitude()));
+		errorCode += 2; //aproksimaatio pituuspiiristä
+	  }
 	  return true; 
 	}
 }
