@@ -1708,7 +1708,6 @@ bool NFmiParamRect:: SetStationLocalTime(NFmiFastQueryInfo* theQI)
 bool NFmiParamRect::SetRelativeHour(NFmiFastQueryInfo* data, const NFmiString& calledFrom) //23.8.99 oli QD
 // 16.2.2000 tällä hoidetaan se että alle vuorokaudenkin aikaluupit onnistuvat alkioiden omilla tunneilla
 {
-   long test = RelativeHour(); //HUOM
    if(RelativeHour() != 0)
    {
 	   itsCurrentTime.ChangeByHours(RelativeHour());
