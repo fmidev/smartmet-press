@@ -609,7 +609,7 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 				lonLat.Set(26., 66.5);
 			else
 			{
-				*itsLogFile << "*** ERROR: #OsaKuvassa tuntematon maanosa: " 
+				*itsLogFile << "*** ERROR: #OsaKuvassa (selite?) tuntematon maankolkka: " 
 					<< static_cast<char *>(theCountryPart) 
 					<< endl;
 			}
@@ -1117,7 +1117,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 19.8.2004" << endl;       
+   *itsLogFile << "program version = 16.9.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

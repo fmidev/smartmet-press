@@ -29,6 +29,7 @@
 #include "NFmiRelativeDataIterator.h"
 #include "NFmiRelativeTimeIntegrationIterator.h"
 #include "NFmiWeatherAndCloudiness.h"
+#include "NFmiEnumConverter.h"
 
 #include <iostream>
 using namespace std;
@@ -1105,6 +1106,9 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 	{
 	  if(!itsMultiMapping && fMarkingValue)
 		itsNumOfMissing++;
+
+//	  if(itsMultiMapping && itsIdentPar == kFmiFogIntensity)
+//		value = 100.;
 	  
 	  return true;
 	}
@@ -1893,8 +1897,19 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 		// jos signifikantti puuttuu multiMapping ilmoittaa
 		
 		ReadCurrentValue(theQI, value, true); // =local time jo asetettu
-		
-		//RandomModify(value, theQI->Param().GetParamIdent()); tulee jo muualla
+
+		// luotettavuuden maksimointia: jos v‰hemm‰n t‰rke‰t sumu tai ukkonen
+		// puuttuu, k‰ytet‰‰n arvoa 0; lokiin ERROR-ilmoitus (sumu puuttui 15.9.04)
+        if((  static_cast<unsigned long>(itsMultiParams[i]) == kFmiFogIntensity
+			||static_cast<unsigned long>(itsMultiParams[i]) == kFmiProbabilityThunderstorm)
+		 && value == kFloatMissing)
+		{
+			NFmiEnumConverter enumConv;
+			*itsLogFile << "  *** ERROR: " << enumConv.ToString(itsMultiParams[i]) 
+				<< " puuttuu ajalta " << static_cast<char *>(theQI->Time().ToStr("DD.MM.YYYY HH"))
+				<< "utc; k‰ytet‰‰n 0" << endl;
+			value = 0.;
+		}
 
 		itsCurrentParamArray[i] = value;
 

@@ -1700,8 +1700,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
 int NFmiPressParam::ConvertDefText(NFmiString & object)
 {
-  NFmiString lowChar = object;
-  lowChar.LowerCase(); // kaikille pitäisi sallia vapaa isot/pienet kirj.
+  NFmiString lowChar(object);
+  lowChar.LowerCase(); 
 
   if(lowChar==NFmiString("#symbolgroup") ||
 	 lowChar==NFmiString("#symboliryhmä") ||
