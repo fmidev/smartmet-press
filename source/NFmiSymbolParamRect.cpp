@@ -688,7 +688,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	}
   else if(*symbolFile != NFmiString("None")  && theOutput == kPostScript)
 	{
-	  if (itsPressParam->IsDistanceCheck())
+	  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
 		{
 		  float value = itsCurrentParamValue;
 		  if(itsMultiMapping)

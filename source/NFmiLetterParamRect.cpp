@@ -353,6 +353,16 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
   else 
 	mapString = itsMapping->Map(value); 
 
+  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
+	{
+	  float value = itsCurrentParamValue;
+	  if(itsMultiMapping)
+		  value = itsCurrentParamArray[0];
+
+		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(value)), AbsoluteRectOfSymbolGroup.Place()))
+			return false;
+	}
+
   if(mapString && !(*mapString == NFmiString("None"))) 
 	{
 	  NFmiString str;  

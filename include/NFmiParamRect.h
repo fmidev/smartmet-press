@@ -144,6 +144,8 @@ public:
   void SetNewScaling(bool newScaling);
   virtual void SetLanguage(FmiLanguage language);
   bool UpdateModifierTimes(void);
+  unsigned long GetOrder(void)const; 
+  void SetOrder(unsigned long theOrder); 
   
 protected:
 
@@ -232,6 +234,8 @@ protected:
   float itsEquiDistance;
   float itsEquiDistanceHalfInterval;
   bool fMarkingValue;
+  unsigned long itsSymbolGroupOrder;
+
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -280,6 +284,7 @@ NFmiParamRect::NFmiParamRect(void)
   itsEquiDistance = 0.;
   itsEquiDistanceHalfInterval = 0.;
   fMarkingValue = true;
+  itsSymbolGroupOrder=0;
 }
 
 // ----------------------------------------------------------------------
@@ -327,6 +332,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsEquiDistance(0.)
   , itsEquiDistanceHalfInterval(0.)
   , fMarkingValue(true)
+  , itsSymbolGroupOrder(0)
   , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;
@@ -335,6 +341,32 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   itsIntegrationPeriod.startWeight = kFloatMissing;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Set processing order in SymbolGroup
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiParamRect::SetOrder(unsigned long theOrder) 
+{
+	itsSymbolGroupOrder = theOrder;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Get processing order in SymbolGroup
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+unsigned long NFmiParamRect::GetOrder(void)const 
+{
+	return itsSymbolGroupOrder;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

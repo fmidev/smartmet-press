@@ -103,6 +103,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsEquiDistance(theRect.itsEquiDistance)
   , itsEquiDistanceHalfInterval(theRect.itsEquiDistanceHalfInterval)
   , fMarkingValue(theRect.fMarkingValue)
+  , itsSymbolGroupOrder(theRect.itsSymbolGroupOrder)
   , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());

@@ -617,6 +617,7 @@ bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
   for(int i=0; i < static_cast<int>(GetSize()) && !(itsPressParam->InterruptSymbolGroup()); i++)
 	{
 	  itsQueryDataIter->Time(currentSegmentTime); // piirtoalkiot saattavat muuttaa (ainakin tuntia)
+	  itsParamRects[i]->SetOrder(i+1);
 	  itsParamRects[i]->WritePS(absRectOfGroup,
 								itsQueryDataIter,
 								*itsOutFile,
