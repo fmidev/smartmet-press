@@ -1118,7 +1118,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 9.11.2004" << endl;       
+   *itsLogFile << "program version = 23.11.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2464,7 +2464,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   NFmiString lowChar = object;
   lowChar.LowerCase(); // kaikille pitäisi sallia vapaa isot/pienet kirj.
 
-  if(lowChar==NFmiString("product") || lowChar==NFmiString("tuote"))
+  if(lowChar==NFmiString("product") || lowChar==NFmiString("productname")
+	|| lowChar==NFmiString("tuote") || lowChar==NFmiString("tuotenimi"))
 
 	return dProduct;
   else if(lowChar==NFmiString("tuoteniminumerointi"))
