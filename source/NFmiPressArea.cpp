@@ -13,6 +13,7 @@ using namespace std;
 
 //---------------------------------------------------------------------------
 NFmiPressArea::NFmiPressArea(const NFmiPressArea& theOtherArea)
+  : NFmiPressDescription()
 {
 	itsArea = theOtherArea.GetArea()->Clone();
 	fIsXyRequest = theOtherArea.fIsXyRequest; //25.3.02
