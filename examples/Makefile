@@ -14,7 +14,7 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 DIFFICULTFLAGS = -Weffc++ -Wredundant-decls -Wshadow -Woverloaded-virtual
 
 CC = g++
-CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
+CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) -Werror
 INCLUDES = -I ../../newbase/include -I ../include
 LIBS =  -L .. -lpress -L ../../newbase -lnewbase
 
