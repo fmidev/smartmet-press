@@ -206,6 +206,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString & retString)
             itsPsSymbol.SetLogFile(itsLogFile);
 			itsPsSymbol.SetHome(GetHome());
 			itsPsSymbol.SetDescriptionFile(itsDescriptionFile);
+			itsPsSymbol.SetWriteLast(itsPressProduct->GetElementsAfterSegments());
 			
 			itsPsSymbol.ReadDescription(str);
 			

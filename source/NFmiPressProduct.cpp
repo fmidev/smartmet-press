@@ -1094,7 +1094,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 11.12.2002" << endl;       
+   *itsLogFile << "program version = 31.12.2002" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1984,6 +1984,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			itsCurrentMap = 1;
 			Scale();
 			NFmiPressSameSymbols * newSameSymbols = new NFmiPressSameSymbols(itsScale);
+			newSameSymbols->SetPressProduct(this);
             newSameSymbols->SetHome(GetHome());
 			newSameSymbols->SetLogFile(itsLogFile);
 			newSameSymbols->SetDescriptionFile(itsDescriptionFile);

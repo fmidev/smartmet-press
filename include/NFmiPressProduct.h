@@ -146,7 +146,7 @@ public:
   bool SetFirstObjectActivity(bool theActivity);
   void PutInStorage(const float value, int queueNum=1);
   float UseFromStorage(int queueNum=1, bool errorReport = true);
-
+  bool GetElementsAfterSegments(void) const;
  protected:
 
   void StepMap(void);
@@ -223,6 +223,19 @@ private:
 
 }; // class NFmiPressProduct
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressProduct::GetElementsAfterSegments(void) const
+{
+  return fMakeElementsAfterSegments;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

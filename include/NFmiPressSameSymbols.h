@@ -20,9 +20,8 @@
 #define NFMIPRESSSAMESYMBOLS_H
 
 // press
+#include "NFmiPressProduct.h"
 #include "NFmiPsSymbol.h"
-#include "NFmiRectScale.h"
-#include "NFmiPressDescription.h"
 // newbase
 #include "NFmiVoidPtrList.h"
 
@@ -57,7 +56,7 @@ public:
   int ConvertDefText(NFmiString & object);
   void SetOutFile(std::ofstream & outFile);
   NFmiPsSymbol * GetPsSymbol(void);
-
+  void SetPressProduct(NFmiPressProduct* thePressP);
 protected:
   
   void NextPoint(void);
@@ -70,6 +69,7 @@ private:
   NFmiRectScale itsScale;
   NFmiVoidPtrList itsPlaces;
   NFmiPsSymbol itsPsSymbol;
+  NFmiPressProduct* itsPressProduct; //no owner
 
 }; // class NFmiPressSameSymbols
 
@@ -123,6 +123,19 @@ inline
 void NFmiPressSameSymbols::SetOutFile(std::ofstream & outFile)
 {
   itsPsSymbol.SetFile(outFile);
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param outFile Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressSameSymbols::SetPressProduct(NFmiPressProduct* thePressP)
+{
+  itsPressProduct = thePressP;
 }
 
 // ----------------------------------------------------------------------
