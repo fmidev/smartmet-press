@@ -71,7 +71,6 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
 
 bool NFmiPressImage::ReadDescription(NFmiString & retString)
 {
-  //NFmiString  imageFile, imagePath, imageDir;
   NFmiString tempString;
   NFmiValueString valueString;
   double r1,r2,r3;
@@ -138,18 +137,56 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-	/*
+		case dNewImageName:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			
+			tempString = ReadString();			
+			tempString += NFmiString(".eps");
+			
+			NFmiPressImage* image = new NFmiPressImage;//owner pressProduct
+			*image = *this;
+			image->SetTempImageFile(tempString);
+			if(image->ReadDescription(itsString))
+			{
+			  if(itsPressProduct)
+			     itsPressProduct->itsObjects.Add(image);
+			  else
+				  *itsLogFile << "*** ERROR: OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE" << endl;
+			}
+			else
+			  delete image;
+
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
+	
 		case dNewImageRel:
 		  {
 			if (!ReadEqualChar())
 			  break;
-			tempString = ReadString();
+
+			tempString = ReadString();			
+			tempString += NFmiString(".eps");
+
 			if(Read2Double (r1, r2))
 			{
+// *************
+				NFmiRectScale tempScale(itsImageScale);
+				tempScale.MoveEndScales(NFmiPoint(r1,r2));
 				NFmiPressImage* image = new NFmiPressImage;//owner pressProduct
 				*image = *this;
-				image->SetImageFile(tempString);
-				image->Scale
+				image->SetTempImageFile(tempString);
+				image->SetImageScale(tempScale);
+				if (!itsClippingRect.IsEmpty())
+				{
+					NFmiRect tempRect(itsClippingRect);
+					tempRect+=NFmiPoint(r1,r2);
+					image->SetClippingRect(tempRect);
+				}
+
+				//itsClippingRect.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
 				if(image->ReadDescription(itsString))
 				{
 				  if(itsPressProduct)
@@ -164,7 +201,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-		  */
+		  
 		case dSymbolPlace:
 		  {
 			if (!ReadEqualChar())
@@ -335,12 +372,23 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
   if(lowChar==NFmiString("file") ||
 	 lowChar==NFmiString("tiedosto") ||
-	 lowChar==NFmiString("nimi"))
+	 lowChar==NFmiString("nimi") )
 	return dImageFile;
 
   else if(lowChar==NFmiString("newimage") ||
 		  lowChar==NFmiString("uusikuva"))
 	return dNewImage;
+
+  else if(lowChar==NFmiString("newname") ||
+		  lowChar==NFmiString("uusitiedosto") ||
+		  lowChar==NFmiString("uusinimi"))
+	return dNewImageName;
+
+  else if(lowChar==NFmiString("newrelatively") ||
+		  lowChar==NFmiString("uusisuhteellisena") ||
+	      lowChar==NFmiString("uusisuht")
+		  )
+	return dNewImageRel;
 
   else if(lowChar==NFmiString("directory") ||
 		  lowChar==NFmiString("hakemisto"))
@@ -400,6 +448,14 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
 bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 {
+	//testeissä kätevä merkata None:ksi
+  if(itsPath.Header() == NFmiString("None"))
+  {
+	  *itsLogFile << "WARNING: image marked None"
+				  << endl;
+	  return true;
+  }
+
   ScalePlotting();
   
   if (itsInFile)

@@ -32,7 +32,9 @@ enum NFmiPressImageObjects
   dImageClippingRectangle,
   dImageSizeFactor,
   dImagePlaceMove,
-  dNewImage
+  dNewImage,
+  dNewImageName,
+  dNewImageRel = 1260
 };
 
 
@@ -63,7 +65,10 @@ protected:
   NFmiRectScale itsImageScale;
   NFmiRect itsClippingRect;
   //to be able to add recursively objects to the pressProducts object list: 
-  NFmiPressProduct* itsPressProduct; //not owner; 
+  NFmiPressProduct* itsPressProduct; //not owner;
+  void SetTempImageFile (const NFmiString& theFile);
+  void SetImageScale(const NFmiRectScale& theScale);
+  void SetClippingRect(const NFmiRect& theRect);
       
 private:
 	//tempit tarvitaan nyt rekursion takia
@@ -89,6 +94,45 @@ void NFmiPressImage::SetPressProduct(NFmiPressProduct* thePressProductOwner)
   itsPressProduct=thePressProductOwner;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void  NFmiPressImage::SetTempImageFile (const NFmiString& theFile)
+{
+  itsTempImageFile = theFile;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void  NFmiPressImage::SetImageScale (const NFmiRectScale& theScale)
+{
+  itsImageScale = theScale;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void  NFmiPressImage::SetClippingRect (const NFmiRect& theRect)
+{
+  itsClippingRect = theRect;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

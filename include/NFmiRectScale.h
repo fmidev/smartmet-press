@@ -33,6 +33,7 @@ public:
   void SetYStartScale(const NFmiScale & scale);
   void SetXEndScale(const NFmiScale & scale);
   void SetYEndScale(const NFmiScale & scale);
+  void MoveEndScales (const NFmiPoint & theDiff);
   void MoveXEndScale (double theDelta);
   void SetEndScales(const NFmiRect & endRect);
   void SetScales(const NFmiRect & startRect, const NFmiRect & endRect);

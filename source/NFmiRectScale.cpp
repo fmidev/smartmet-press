@@ -150,6 +150,22 @@ void NFmiRectScale::SetEndScales(const NFmiRect & theStartRect)
  */
 // ----------------------------------------------------------------------
 
+void NFmiRectScale::MoveEndScales(const NFmiPoint& theDiff)
+{
+  SetEndScales
+	  (NFmiRect(NFmiPoint(itsXEndScale.StartValue()+ theDiff.X(),
+						 itsYEndScale.StartValue()+ theDiff.Y()),
+	            NFmiPoint(itsXEndScale.EndValue()+ theDiff.X(),
+						 itsYEndScale.EndValue()+ theDiff.Y())));
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theDelta Undocumented
+ */
+// ----------------------------------------------------------------------
+
 void NFmiRectScale::MoveXEndScale(double theDelta)
 {
   SetXEndScale(NFmiScale(itsXEndScale.StartValue()+ theDelta,
