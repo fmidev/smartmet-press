@@ -1117,7 +1117,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 8.6.2004" << endl;       
+   *itsLogFile << "program version = 11.6.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1264,7 +1264,7 @@ bool NFmiPressProduct::ReadData(void)
 				std::string odinDir = "O:\\data\\in\\";
 				std::string path;
 				path = odinDir;
-				path += "PAL_Scand*";
+				path += "PAL_Scand*DB*";
 				std::string theFoundFileName;
 				NFmiFileSystem::FindFile(path, true, &theFoundFileName);
 				//cout << theFoundFileName << endl;
