@@ -444,27 +444,60 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  bool secondIs226 = theText.GetLen() > 4
 		&& NFmiString(theText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitk‰ miinus
 
-	  NFmiString widthString, restString;
+
+	  NFmiString  restString, emptyString, widthString, minusWidth;
+/*
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia
 		{
-		  WriteShowString(x, y, theText, theText, theDestinationFile);
+		 // WriteShowString(x, y, theText, theText, theDestinationFile);
+		  WriteShowString(x, y, emptyString, theText, theDestinationFile);
 		}
 	  else if(firstIs226)
 		{
 		  if(boldFont)
-			widthString = NFmiString("W"); //boldit v‰h‰n enemm‰n irti, levein kirjain
+			//widthString = NFmiString("W"); //boldit v‰h‰n enemm‰n irti, levein kirjain
+			widthString = NFmiString("B"); //boldit v‰h‰n enemm‰n irti, levein kirjain
 		  else
 			widthString = NFmiString("n"); //sama leveys kuin pitk‰ll‰ miinuksella kun kerran se itse ei k‰y stringwidth:iin
+		  NFmiString onlyMinus(widthString);
 		  
 		  if(theText.GetLen()>4)
 			widthString += theText.GetCharsPtr(5,theText.GetLen()-4);
-		  WriteShowString(x, y, widthString, longMinus, theDestinationFile);
+
+		  if(GetTextAlignment() == kLeft)
+			 WriteShowString(x, y, emptyString, longMinus, theDestinationFile);
+		  else
+			 WriteShowString(x, y, widthString, longMinus, theDestinationFile);
+
 		  if(theText.GetLen()>4)
-			{
 			  restString = theText.GetCharsPtr(5,theText.GetLen()-4);
-			  WriteShowString(x, y, restString, restString, theDestinationFile);
-			}		  
+			  if(GetTextAlignment() == kLeft)
+			  {
+				WriteShowString(x, y, onlyMinus, restString, theDestinationFile);
+			  }
+			  else
+			  {
+				WriteShowString(x, y, restString, restString, theDestinationFile);
+			  }		  
 		}
+*/
+	  if(!(firstIs226 || secondIs226)) //ei ongelmia
+		{
+		 // WriteShowString(x, y, theText, theText, theDestinationFile);
+		  WriteShowString(x, y, theText, theDestinationFile);
+		}
+	  else if(firstIs226)
+		{
+		  minusWidth = NFmiString("B"); 
+
+		  if(theText.GetLen()>4)
+			  restString = theText.GetCharsPtr(5,theText.GetLen()-4);
+		  WriteShowStringLongMinus(x, y, longMinus, minusWidth
+			                          ,restString, theDestinationFile);		  
+		  WriteShowStringText     (x, y, longMinus, minusWidth
+			                          ,restString, theDestinationFile);		  
+		}
+
 	  else //secondIs226 eli suluissa (AL) 
 	  {  // PS:ss‰ pit‰‰ olla parilliset sulut, muuten kenon kanssa
 		 // miten k‰‰nt‰j‰st‰ saisi l‰pi NFmiString("\("); 
@@ -554,21 +587,117 @@ NFmiString NFmiTextParamRect::Construct(NFmiString * theString) const
 
 bool NFmiTextParamRect::WriteShowString(double x,
 										double y,
-										const NFmiString & theWidthString,
 										const NFmiString & theShowString,
 										ofstream & os) const
 {
   os << x << " " << y << " moveto" << endl;
   if(GetTextAlignment() == kRight )
 	{
-	  os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
+	  os << "(" << static_cast<char *>(theShowString) << ") " << "stringwidth" << endl;
 	  os << "neg exch neg exch" << endl;
 	  os  << " rmoveto" << endl;
 	}
   else if (GetTextAlignment() == kCenter)
+  {
+	  if(theShowString.GetLen()>0)
+		{
+		  os << "(" << static_cast<char *>(theShowString) << ") " << "stringwidth" << endl;
+		  os << "-2. div exch -2. div exch" << endl; //puolikas matka
+		  os  << " rmoveto" << endl;
+		}
+  }
+  else if (GetTextAlignment() == kLeft && theShowString.GetLen()>0)
 	{
-	  os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
-	  os << "-2. div exch -2. div exch" << endl; //puolikas matka
+	 // os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
+	 // os  << " rmoveto" << endl;
+	}
+  if(itsRelCharWidth == 0.) // merkkien levennys/kavennus
+	os << "(" << static_cast<char *>(theShowString) << ") show" << endl;
+  else
+	os << itsRelCharWidth << " 0. (" << static_cast<char *>(theShowString) << ") ashow" << endl;
+  
+  return true;
+}
+// ----------------------------------------------------------------------
+
+bool NFmiTextParamRect::WriteShowStringLongMinus(double x,
+										double y,
+										const NFmiString & theMinusString,
+										const NFmiString & theWidthMinus,
+										const NFmiString & theShowString,
+										ofstream & os) const
+{
+  os << x << " " << y << " moveto" << endl;
+  if(GetTextAlignment() == kRight )
+	{
+	  NFmiString totalWidth(theWidthMinus);
+	  totalWidth += theShowString; 
+	  os << "(" << static_cast<char *>(totalWidth) << ") " << "stringwidth" << endl;
+	  os << "neg exch neg exch" << endl;
+	  os  << " rmoveto" << endl;
+	}
+  else if (GetTextAlignment() == kCenter)
+  {
+	  if(theShowString.GetLen()>0)
+		{
+		  os << "(" << static_cast<char *>(theShowString) << ") " << "stringwidth" << endl;
+		  os << "-2. div exch -2. div exch" << endl; //puolikas matka
+		  os  << " rmoveto" << endl;
+		}
+	  if(theWidthMinus.GetLen()>0)
+		{
+		  os << "(" << static_cast<char *>(theWidthMinus) << ") " << "stringwidth" << endl;
+		  os << "-2. div exch -2. div exch" << endl; //puolikas matka
+		  os  << " rmoveto" << endl;
+		}
+  }
+/*
+  else if (GetTextAlignment() == kLeft && theWidthMinus.GetLen()>0)
+	{
+	  os << "(" << static_cast<char *>(theWidthMinus) << ") " << "stringwidth" << endl;
+	  os  << " rmoveto" << endl;
+	}
+*/
+  if(itsRelCharWidth == 0.) // merkkien levennys/kavennus
+	os << "(" << static_cast<char *>(theMinusString) << ") show" << endl;
+  else
+	os << itsRelCharWidth << " 0. (" << static_cast<char *>(theMinusString) << ") ashow" << endl;
+  
+  return true;
+}
+
+// ----------------------------------------------------------------------
+
+bool NFmiTextParamRect::WriteShowStringText(double x,
+										double y,
+										const NFmiString & theMinusString,
+										const NFmiString & theWidthMinus,
+										const NFmiString & theShowString,
+										ofstream & os) const
+{
+  os << x << " " << y << " moveto" << endl;
+  if(GetTextAlignment() == kRight )
+	{
+	  os << "(" << static_cast<char *>(theShowString) << ") " << "stringwidth" << endl;
+	  os << "neg exch neg exch" << endl;
+	  os  << " rmoveto" << endl;
+	}
+  else if (GetTextAlignment() == kCenter)
+  {
+	  if(theShowString.GetLen()>0)
+		{
+		  NFmiString totalWidth(theWidthMinus);
+		  totalWidth += theShowString; 
+		  os << "(" << static_cast<char *>(totalWidth) << ") " << "stringwidth" << endl;
+		  os << "-2. div exch -2. div exch" << endl; //puolikas matka
+		  os  << " rmoveto" << endl;
+		  os << "(" << static_cast<char *>(theWidthMinus) << ") " << "stringwidth" << endl;
+		  os  << " rmoveto" << endl;
+		}
+  }
+  else if (GetTextAlignment() == kLeft && theWidthMinus.GetLen()>0)
+	{
+	  os << "(" << static_cast<char *>(theWidthMinus) << ") " << "stringwidth" << endl;
 	  os  << " rmoveto" << endl;
 	}
   if(itsRelCharWidth == 0.) // merkkien levennys/kavennus

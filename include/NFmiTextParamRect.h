@@ -90,7 +90,18 @@ private:
 
   bool WriteShowString(double x,
 					   double y,
-					   const NFmiString & theWidthString,
+					   const NFmiString & theShowString,
+					   std::ofstream & os) const;
+  bool WriteShowStringLongMinus(double x,
+					   double y,
+					   const NFmiString & theMinusString,
+					   const NFmiString & theWidthMinus,
+					   const NFmiString & theShowString,
+					   std::ofstream & os) const;
+  bool WriteShowStringText(double x,
+					   double y,
+					   const NFmiString & theMinusString,
+					   const NFmiString & theWidthMinus,
 					   const NFmiString & theShowString,
 					   std::ofstream & os) const;
 

@@ -493,8 +493,8 @@ NFmiString NFmiNumberParamRect::DetachSign(const NFmiString & theString, float t
 
 // myös HS lehti saa luvan hyväksyä välilyönti kaksinumeroisiin pakkasiin
 // nyt laitoin mukaan koska webbiautomatiikka edellyttää
-//  if(fDetachSign && theValue < 9.5 && theValue > -9.5)
-  if(fDetachSign && theValue < 9.5 && theValue)
+  if(fDetachSign && theValue < 9.5 && theValue > -9.5)
+//  if(fDetachSign && theValue < 9.5 && theValue)
 	{
 	  NFmiString firstChar(theString.GetChars(1,1));
 	  NFmiString numString = theString.GetChars(2, theString.GetLen()-1);
@@ -510,7 +510,8 @@ NFmiString NFmiNumberParamRect::DetachSign(const NFmiString & theString, float t
 		}
 	  else if(theString.GetChars(1, 4) == NFmiString("\\226"))
 		{
-		  newString = NFmiString("\\226  ");
+		  //newString = NFmiString("\\226  ");
+		  newString = NFmiString("\\226 ");
 		  newString += theString.GetChars(5, theString.GetLen()-4);
 		}
 	  else
