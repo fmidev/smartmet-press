@@ -383,12 +383,15 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  bool firstIs226 = theText.GetLen() > 3
 		&& NFmiString(theText.GetCharsPtr(1,4)).IsEqual(longMinus);
 
+	  bool secondIs226 = theText.GetLen() > 4
+		&& NFmiString(theText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitkä miinus
+
 	  NFmiString widthString, restString;
-	  if(!firstIs226) //ei ongelmia
+	  if(!(firstIs226 || secondIs226)) //ei ongelmia
 		{
 		  WriteShowString(x, y, theText, theText, theDestinationFile);
 		}
-	  else
+	  else if(firstIs226)
 		{
 		  widthString = NFmiString("n"); //HUOM sama leveys kuin pitkällä miinuksella kun kerran se itse ei käy
 		  if(theText.GetLen()>4)
@@ -398,8 +401,22 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 			{
 			  restString = theText.GetCharsPtr(5,theText.GetLen()-4);
 			  WriteShowString(x, y, restString, restString, theDestinationFile);
-			}
-		  
+			}		  
+		}
+	  else //suluissa AL 
+		{
+		  widthString += NFmiString("(");
+		  widthString += NFmiString("n"); //HUOM sama leveys kuin pitkällä miinuksella kun kerran se itse ei käy
+		  if(theText.GetLen()>4)
+			widthString += theText.GetCharsPtr(6,theText.GetLen()-4);
+		  NFmiString first = theText.GetCharsPtr(1,1);
+		  WriteShowString(x, y, widthString, first, theDestinationFile);
+		  WriteShowString(x, y, widthString, longMinus, theDestinationFile);
+		  if(theText.GetLen()>4)
+			{
+			  restString = theText.GetCharsPtr(5,theText.GetLen()-4);
+			  WriteShowString(x, y, restString, restString, theDestinationFile);
+			}		  
 		}
 	  
 	  theDestinationFile << "false setoverprint" << endl;

@@ -645,8 +645,13 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 					<< " ei ole symbolivastaavuutta"
 					<< endl;
 	}
-  else if(*symbolFile != NFmiString("None") && theOutput == kPostScript)
+  else if(*symbolFile != NFmiString("None")  && theOutput == kPostScript)
 	{
+		if (itsPressParam->IsDistanceCheck())
+		{
+			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(itsCurrentParamValue)), AbsoluteRectOfSymbolGroup.Place()))
+				return false;
+		}
 	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile))
 		{
 		}

@@ -30,6 +30,8 @@
 #include "NFmiQueryData.h"
 #include "NFmiRectScale.h"
 
+//#include <vector>
+
 class NFmiPressProduct;  
 class NFmiArea;
 
@@ -67,7 +69,14 @@ enum NFmiPressParamObjects
   dSegmentMapArea,
   dStationsFromData,
   dDataNotNeeded,
-  dAreaOperation
+  dAreaOperation,
+  dDistanceCheck = 3040
+};
+
+struct FmiValuePoint
+{
+	long value;
+	NFmiPoint point;
 };
 
 
@@ -134,12 +143,15 @@ public:
   FmiCounter GetCurrentStep(void);
   bool IsActive(void) const;
   void SetActivity(bool theActivity);
+  bool IsDistanceCheck(void) const;
+  bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
 	
 protected:
 
   void UnsetAllErrorReported(void);
   void NextStation(void);
   bool SetLonLat(NFmiStationPoint & theStation);
+  void SetDistanceCheck(const NFmiPoint& theDistances);
 
  private:
 
@@ -183,6 +195,8 @@ protected:
   NFmiPressArea itsArea;
   bool fIsAreaOperation;
   NFmiTime itsOptionTime;
+  NFmiPoint itsCheckDistance;
+  vector<FmiValuePoint> itsCheckLocations;
   
 }; // class NFmiPressParam
 
@@ -226,6 +240,7 @@ NFmiPressParam::NFmiPressParam(void)
   , itsNumberOfSteps(1)
   , fIsPureRegTimeLoop(true)
   , fIsAreaOperation(false)
+  , itsCheckDistance (NFmiPoint())
 {
   itsLanguage=kFinnish;
 }
@@ -266,8 +281,36 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fIsPureRegTimeLoop(true)
   , itsScale(scale)
   , fIsAreaOperation(false)
+  , itsCheckDistance (NFmiPoint())
 {
   itsLanguage=kFinnish;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::SetDistanceCheck(const NFmiPoint& theDistances) 
+{
+	itsCheckDistance = theDistances;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParam::IsDistanceCheck(void) const
+{
+  return itsCheckDistance.X() > 0. || itsCheckDistance.Y() > 0.;
 }
 
 // ----------------------------------------------------------------------

@@ -202,7 +202,32 @@ NFmiPoint NFmiPressParam::GetFirstPoint(void)
   else
 	return NFmiPoint();
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param dataName Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+bool NFmiPressParam::CheckAndSetDistance(long theValue, const NFmiPoint& point)
+{	
+	std::vector<FmiValuePoint>::iterator pos;
+
+	for(pos=itsCheckLocations.begin(); pos != itsCheckLocations.end(); ++pos)
+	{
+		if((*pos).value == theValue && 
+			 abs((*pos).point.X() - point.X()) < itsCheckDistance.X() &&
+			 abs((*pos).point.Y() - point.Y()) < itsCheckDistance.Y())
+		return false;
+	}
+	FmiValuePoint valuePoint;
+	valuePoint.value = theValue;
+	valuePoint.point = point;
+	itsCheckLocations.push_back(valuePoint);
+	return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -1059,6 +1084,16 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case  dDistanceCheck:
+		{
+			if(SetTwo(x, y))
+			{
+			    point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
+  			    point2 = itsScale.Scale(point1);
+				SetDistanceCheck(point2);
+			}
+			break;
+		}
 		case dStationNameReplace: // stationiin verrattuna lisäykset: *** PrintName
 		{
 		  lon = 0.;
@@ -1748,6 +1783,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("areaoperaion") ||
 		  lowChar==NFmiString("alueoperaatio"))
 	return dAreaOperation;
+  
+  else if(lowChar==NFmiString("distancecheck") ||
+		  lowChar==NFmiString("läheisyysesto"))
+	return dDistanceCheck;
 
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
