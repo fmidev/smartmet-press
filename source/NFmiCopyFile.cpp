@@ -47,15 +47,15 @@ bool NFmiCopyFileWithoutShowpage(ifstream& inFile, ofstream& outFile)
    char inBuf[lineSize];  //27.8.01
   unsigned short n, m, num;
   NFmiString notShowpage("gsave annotatepage grestore");
-  NFmiString string;
+  NFmiString str;
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
 	   num = inFile.gcount();
-	   string.Set((unsigned char*)inBuf, num);
-	   n = (short)string.Search( NFmiString("showp"));
+	   str.Set((unsigned char*)inBuf, num);
+	   n = (short)str.Search( NFmiString("showp"));
 	   if (n > 0 )
 	   {
-		   m = (short)string.Search( NFmiString("grestore showpage"));
+		   m = (short)str.Search( NFmiString("grestore showpage"));
 		   if(m > 0)
 		                // Mika: GetCharPtr() takaisin; Lasse otti Get:n pois
 				outFile.write(notShowpage./*Get*/CharPtr(), notShowpage.GetLen());
@@ -83,7 +83,7 @@ bool NFmiCopyFileColoring(ifstream& inFile, ofstream& outFile, NFmiCmykColorBag*
   NFmiString proc2("%%");
   NFmiString zeroX("0 x");
   NFmiString pc("Pc");
-  NFmiString string;
+  NFmiString str;
   short nProc2=0;
   short nZeroX=0;
   short nPc=0;
@@ -91,18 +91,18 @@ bool NFmiCopyFileColoring(ifstream& inFile, ofstream& outFile, NFmiCmykColorBag*
   {
 	short num = inFile.gcount();
 //    string.Set(inBuf, num-1);
-	nColor = (short)string.Search(ownColor);
+	nColor = (short)str.Search(ownColor);
 	if (nColor > 0)
 	{
-	   if (string.Search(proc2))
+	   if (str.Search(proc2))
 	   {
 		   nProc2++;
 	   }
-	   if (string.Search(zeroX))
+	   if (str.Search(zeroX))
 	   {
 		   nZeroX++;
 	   }
-	   if (string.Search(pc))
+	   if (str.Search(pc))
 	   {
 		   nPc++;
 	   }
@@ -138,21 +138,21 @@ bool NFmiCopyFileCroppingAndColoring(ifstream& inFile, ofstream& outFile
   NFmiString zeroX("0 x");
   NFmiString pc("Pc");
   NFmiString f("f ");
-  NFmiString string, string2, hString, colorName;
+  NFmiString str, str2, hString, colorName;
   short nProc2=0;
   short nZeroX=0;
   short nPc=0;
  
   inFile.getline(inBuf, lineSize, '\n');
   num = inFile.gcount();
-  string.Set((unsigned char*)inBuf, num-1);
+  str.Set((unsigned char*)inBuf, num-1);
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
 	   num = inFile.gcount();
-	   string2.Set((unsigned char*)inBuf, num-1);
+	   str2.Set((unsigned char*)inBuf, num-1);
 	   if(!BBFound)   //vain kerran startTiedostoon, epseihin pitää erikseen
 	   {
-		   nSlash = (short)string2.Search(bounding); //NFmiString("%%BoundingBox:"));  //15.6
+		   nSlash = (short)str2.Search(bounding); //NFmiString("%%BoundingBox:"));  //15.6
 		   if (nSlash > 0)
 		   {
 			   BBFound = true;
@@ -163,22 +163,22 @@ bool NFmiCopyFileCroppingAndColoring(ifstream& inFile, ofstream& outFile
 			   newBounding += NFmiValueString(long(theRect.Right()));
 			   newBounding += NFmiString(" ");
 			   newBounding += NFmiValueString(long(theRect.Bottom()));
-			   string2 = NFmiString(newBounding); 
+			   str2 = NFmiString(newBounding); 
 		   }
 	   }
 	   else  //riittää kun aloitetaan vasta BoundBoxin jälkeen 
 	   {
-		    nColor = (short)string2.Search(ownColor);
+		    nColor = (short)str2.Search(ownColor);
 		    if (nColor > 0)
 		    {
-			   hString = NFmiString(string2);
-			   colorName = string2.GetChars(nColor, 13);
-			   if (string2.Search(proc2))
+			   hString = NFmiString(str2);
+			   colorName = str2.GetChars(nColor, 13);
+			   if (str2.Search(proc2))
 			   { 
-				   if(!string2.Search(proc2par) && !string2.Search(customColors))
+				   if(!str2.Search(proc2par) && !str2.Search(customColors))
 				   {
 					   nProc2++;
-					   if(string2.Search(customColors))
+					   if(str2.Search(customColors))
 							hString = NFmiString("%%CMYKCustomColor: ");
 					   else
 							hString = NFmiString("%%+ "); 
@@ -189,10 +189,10 @@ bool NFmiCopyFileCroppingAndColoring(ifstream& inFile, ofstream& outFile
 				   }
 				   
 			   }
-			   if (string2.Search(zeroX))
+			   if (str2.Search(zeroX))
 			   {
 				   nZeroX++;
-				   if(string2.Search(f))
+				   if(str2.Search(f))
 				      hString = NFmiString("f "); // ON PELKÄÄLLÄ CR:LLÄ EROTETTU !!
 				   else
                       hString = NFmiString("");
@@ -202,23 +202,23 @@ bool NFmiCopyFileCroppingAndColoring(ifstream& inFile, ofstream& outFile
 				   hString += NFmiString(") 0 x");
 				   
 			   }
-			   if (string2.Search(pc))
+			   if (str2.Search(pc))
 			   {
 				   nPc++;         // \12 oli alkupaletissa
 				                  // ja iltiksessä vähän erilainen
-				   string = colorBag->GetColorString(colorName); //HUOM ed. rivi
-				   string += NFmiString("k");
+				   str = colorBag->GetColorString(colorName); //HUOM ed. rivi
+				   str += NFmiString("k");
 			   }
-			   string2 = NFmiString(hString);
+			   str2 = NFmiString(hString);
 		   }
 	   }
 	   // Mika: GetCharPtr takaisin; Lasse otti Get:n pois mutta castaus on kyllä Stringillä
-	  outFile.write(string./*Get*/CharPtr(), string.GetLen());
-	  string = NFmiString(string2);
+	  outFile.write(str./*Get*/CharPtr(), str.GetLen());
+	  str = NFmiString(str2);
 	  outFile.put('\x0A');		  
   }
   // Mika: GetCharPtr8) päälle; Lasse otti Get:n pois
-  outFile.write(string./*Get*/CharPtr(), newBounding.GetLen()); //vielä viimeinen
+  outFile.write(str./*Get*/CharPtr(), newBounding.GetLen()); //vielä viimeinen
   outFile.put('\x0A');		  
   return isTrue;
 }
@@ -251,14 +251,14 @@ bool NFmiCopyFileCropping(ifstream& inFile, ofstream& outFile
   unsigned short nSlash, num;
   bool BBFound = false;
   NFmiString newBounding("%%BoundingBox: ");
-  NFmiString string;
+  NFmiString str;
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
 	   num = inFile.gcount();
 	   if(!BBFound)   //vain kerran startTiedostoon, epseihin pitää erikseen
 	   {
-		   string.Set((unsigned char*)inBuf, num);
-		   nSlash = (short)string.Search( NFmiString("%%BoundingBox:"));
+		   str.Set((unsigned char*)inBuf, num);
+		   nSlash = (short)str.Search( NFmiString("%%BoundingBox:"));
 		   if (nSlash > 0)
 		   {
 			   BBFound = true;
