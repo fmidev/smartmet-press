@@ -34,6 +34,7 @@ public:
   virtual void SetText(NFmiString theText);
   int ConvertDefText(NFmiString & object);
 
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
        
 protected:

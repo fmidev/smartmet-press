@@ -40,6 +40,7 @@ public:
   virtual bool ReadDescription(NFmiString & retString); 
   virtual int ConvertDefText(NFmiString & object);
 
+  using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
 
   void SetLanguage(FmiLanguage newLanguage);
