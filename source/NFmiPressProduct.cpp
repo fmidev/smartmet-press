@@ -298,7 +298,7 @@ bool NFmiPressProduct::SetFirstSegmentActivity(bool theActivity)
 
   return true;
 }
-
+	
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -1037,7 +1037,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 18.1.2004" << endl;       
+   *itsLogFile << "program version = 2.2.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2158,6 +2158,36 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
+		case dOrigTimeObject:
+		  {
+
+			if(!ReadData())
+				return false;
+
+			NFmiPressGivenTimeText * text = new NFmiPressGivenTimeText;
+			if(FirstData())
+				text->SetTime(FirstData()->OriginTime());
+			else
+			{
+				delete text;
+				*itsLogFile << "*** ERROR: Analyysiajalle ei dataa"  << endl;
+				break;
+			}
+			text->SetWriteLast(fMakeElementsAfterSegments);
+            text->SetEnvironment(itsEnvironment);
+            text->SetHome(GetHome());
+		    text->SetLogFile(itsLogFile);
+			text->SetDescriptionFile(itsDescriptionFile);
+			text->SetPostText(NFmiString("+18"));
+			text->SetLanguage(itsLanguage);
+			if(text->ReadDescription(itsString))
+			  itsObjects.Add(text);
+			else
+			  delete text;
+
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
 		case dComputerTimeTextObject:
 		  {
 
@@ -2332,6 +2362,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#aikateksti") ||
 		  lowChar==NFmiString("#aika"))
 	return dTimeTextObject;
+  else if(lowChar==NFmiString("#analysingtime") ||
+		  lowChar==NFmiString("#analyysiaika"))
+	return dOrigTimeObject;
   else if(lowChar==NFmiString("#computertime") ||
 		  lowChar==NFmiString("#koneenaika") ||
 		  lowChar==NFmiString("#tekoaika"))

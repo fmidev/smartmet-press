@@ -174,7 +174,9 @@ int NFmiPressScaling::ConvertDefText(NFmiString & object)
 	return dSymbolSize;
 
   else if(lowChar==NFmiString("makeaftersegments") ||
-		  lowChar==NFmiString("teesegmenttienjälkeen"))
+		  lowChar==NFmiString("makeatend") ||
+		  lowChar==NFmiString("teesegmenttienjälkeen")||
+		  lowChar==NFmiString("teelopussa"))
 	return dMakeAsLast;
 
   else if(lowChar==NFmiString("relplace") ||

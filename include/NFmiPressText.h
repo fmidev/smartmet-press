@@ -76,6 +76,9 @@ public:
 
   virtual bool SetText(void);
   virtual void SetText(NFmiString theText);
+  virtual void AddText(const NFmiString& theText);
+  virtual void SetPreText(const NFmiString& theText);
+  virtual void SetPostText(const NFmiString& theText);
 
   void SetTextAttributes(NFmiString theFont,
 						 FmiDirection theAlignment,
@@ -180,6 +183,49 @@ void NFmiPressText::SetText(NFmiString theText)
   if (itsText)
 	delete itsText;
   itsText = new NFmiString(theText);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theText Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressText::AddText(const NFmiString& theText)
+{
+  if (itsText)
+	itsText->Add(theText);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theText Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressText::SetPreText(const NFmiString& theText)
+{
+	itsAddInFront=theText;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theText Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressText::SetPostText(const NFmiString& theText)
+{
+	itsAddAfter=theText;
 }
 
 // ----------------------------------------------------------------------

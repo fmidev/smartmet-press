@@ -1909,7 +1909,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   /********* AIKA/PAINEpintaluuppi ********/
   while(itsCurrentStep <= itsNumberOfSteps) 
 	{
-	  FmiCounter itsCurrentStepInd = std::min(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
+	  FmiCounter currentStepInd = std::min(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
 	  if(!itsDataIter)
 		{
 		  if(itsLogFile)
@@ -1918,15 +1918,11 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	  else
 		{
 		  if(fIsLevelLoop)
-			itsDataIter->Level(NFmiLevel(kFmiPressureLevel,itsLevels[itsCurrentStepInd]));
+			itsDataIter->Level(NFmiLevel(kFmiPressureLevel,itsLevels[currentStepInd]));
 
 		  // HUOM segmentin aika pit‰‰ olla datassa vaikka piirtoalkiossa muutettaisiin tuntia
 		  if(itsDataIter->Time(time) || fDataNotNeeded)
  	   {
-		 // ************** AikaSidotutObjektit ensin ******************
-		 // eli ***VakioSymboli
-		 //     ***VakioTeksti
-		 //     ***AikaTeksti
 		 if(itsCurrentStep == 1 || fIsTimeLoop)
 		   {
 			 bool writeLog = true;
@@ -1953,40 +1949,19 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			   *itsLogFile << " utc"<< endl;
 		   }
 		 if(fIsLevelLoop)
-		   *itsLogFile << "  Segmentin painepinta: " << itsLevels[itsCurrentStepInd] << endl;
+		   *itsLogFile << "  Segmentin painepinta: " << itsLevels[currentStepInd] << endl;
 
-		 objectIter.Reset();
-		 object = static_cast<NFmiPressScaling *>(objectIter.Next());
-		 while (object)
-		   {
-			 if(object->ActiveTimeIndex(GetCurrentStep()))
-			   {
-				 object->Set(itsScale, theFile);
-				 if(itsCurrentStep == 1 || !object->GetPrintOnce())
-				   {
-					 object->SetRotatingPoint(object->Place());
-					 if(theOutput != kPlainText)
-					   {
-						 if (!(object->WritePSUpdatingSubText(theOutput)))
-						   {
-							 if(itsLogFile)
-							   *itsLogFile << "*** ERROR: (timeDep)object->WritePS() in NFmiPressParam" << endl;
-							 return false;
-						   }
-					   }
-					 else
-					   saveObject = object;
+		 // ************** AikaSidotutObjektit ensin (paitsi ne jotka pyydetty lopussa) ***********
+		 // eli ***VakioSymboli
+		 //     ***VakioTeksti
+		 //     ***AikaTeksti
 
-				   }
-			   }
-			 if(theOutput == kPostScript)
-			   object->WriteGRestore();
-
-			 object->Move(itsUnscaledSteps[itsCurrentStepInd]);
-			 object = static_cast<NFmiPressScaling *>(objectIter.Next());
-		   }
-		 // ********** AikaSidotutObjektit loppu **************
-
+			DoTimeDependent(false,
+					  currentStepInd,
+					  theFile,
+					  theOutput,
+					  saveObject);
+		 // ********** alun AikaSidotutObjektit loppu **************
 
 	     itsStations.Reset();
 		 fIsFirstStation = true;
@@ -2055,18 +2030,12 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 					   }
-/*
-					 //Testi
-					 stationObjectIter.Reset();
-					 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
-					 unScaledPoint = itsScale.UnScale(stationPoint);
-					 //testi loppu
-*/
 				   }
 				 // ************ AsemaSidotutObjektit loppu ************
 
 				 if(theOutput == kPlainText && saveObject)
-				   saveObject->WritePSUpdatingSubText(theOutput);
+					  saveObject->WritePSUpdatingSubText(theOutput);
+
 				 statPoint.Point(statPoint.Point() + stationPointMovement);
 
 				 // ****** t‰ss‰ itse symbolit/numerot jne
@@ -2092,7 +2061,20 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			   }
 			 fIsFirstStation = false;
 		   } //while(itsStations.Next())
-	   } //if(itsData.Time())
+
+  // ************** Lopun AikaSidotutObjektit, jotka m‰‰ritelty loppuun ******************
+		 // eli ***VakioSymboli
+		 //     ***VakioTeksti
+		 //     ***AikaTeksti
+			DoTimeDependent(true,
+					  currentStepInd,
+					  theFile,
+					  theOutput,
+					  saveObject);
+
+  // ********** Lopun AikaSidotutObjektit loppu **************
+
+  } //if(itsData.Time())
 		  else
 			{   //HUOM QD:ss‰ pit‰‰ olla segmentin aika vaikka data-alkioissa k‰ytett‰issin eri tuntia
 			  if(itsLogFile)
@@ -2106,7 +2088,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			  object = static_cast<NFmiPressScaling *>(objectIter.Next());
 			  while (object)
 				{
-				  object->Move(itsSteps[itsCurrentStepInd]);
+				  object->Move(itsSteps[currentStepInd]);
 				  object = static_cast<NFmiPressScaling *>(objectIter.Next());
 				}
 
@@ -2114,7 +2096,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 		} //if(itsDataIter)
 
-	  stationPointMovement += itsSteps[itsCurrentStepInd];
+	  stationPointMovement += itsSteps[currentStepInd];
 	  if(fIsLevelLoop)
 		{
 
@@ -2123,7 +2105,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		if(fIsPureRegTimeLoop)
 		  time.ChangeByHours(itsHourStep);
 		else
-		  time.ChangeByHours(itsTimeSteps[itsCurrentStepInd]);
+		  time.ChangeByHours(itsTimeSteps[currentStepInd]);
 
 	  itsCurrentStep++;
 
@@ -2150,7 +2132,57 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   return true;
 
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+bool NFmiPressParam::DoTimeDependent(bool isLastLoop,
+							 FmiCounter theCurrentStepInd,
+							 ofstream & theFile,
+							 FmiPressOutputMode theOutput,
+							 NFmiPressScaling *& theSaveObject)
+{ 
+  NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
+  NFmiPressScaling * object;
 
+    objectIter.Reset();
+	object = static_cast<NFmiPressScaling *>(objectIter.Next());
+	while (object)
+	{
+		if(object->IsToWriteLast() == isLastLoop)
+		{
+			if(object->ActiveTimeIndex(GetCurrentStep()))
+			{
+				object->Set(itsScale, theFile);
+				if(itsCurrentStep == 1 || !object->GetPrintOnce())
+				{
+					object->SetRotatingPoint(object->Place());
+					if(theOutput != kPlainText)
+					{
+						if (!(object->WritePSUpdatingSubText(theOutput)))
+						{
+							if(itsLogFile)
+							*itsLogFile << "*** ERROR: (timeDep)object->WritePS() in NFmiPressParam" << endl;
+							return false;
+						}
+					//	if(theOutput == kPostScript)
+							object->WriteGRestore();
+					}
+				else
+					//ei kyll‰ k‰ytet‰ en‰‰ jos isLastLoop
+					theSaveObject = object;
+				}
+			}
+
+			object->Move(itsUnscaledSteps[theCurrentStepInd]);
+		}
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
+	}
+	return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -155,6 +155,11 @@ protected:
 
  private:
 
+  bool DoTimeDependent(bool isLastLoop,
+							 FmiCounter theCurrentStepInd,
+							 ofstream & theFile,
+							 FmiPressOutputMode theOutput,
+							 NFmiPressScaling *& theSaveObject);
   bool FindQDStationName(const NFmiStationPoint & theStation); 
   bool CreateAreaMask(void);
   bool CreateStationFromAreaMask(void);

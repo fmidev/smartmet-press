@@ -529,6 +529,19 @@ bool NFmiPsSymbol::MakeAndWritePS(NFmiPoint place)
 	}
 
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+bool NFmiPsSymbol::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
+{
+	//onnistuuko Segmenttijäseniä varten näin 
+	return WritePS(theOutput);
+}
 
 // ----------------------------------------------------------------------
 /*!

@@ -358,7 +358,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		 mutta tarvitaan:
 		 + skandeihin (muuten kuin sanan viimeisinä)
 	  */
-	  
+
 	  if (fUseSelectLatinFont)
 		{
 		  theDestinationFile << "/"

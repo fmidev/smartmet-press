@@ -47,6 +47,7 @@ public:
   using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   NFmiString GetSymbol(void) const;
+  virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
 
 protected:           
 
