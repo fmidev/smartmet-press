@@ -57,9 +57,9 @@ bool	NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 
     ScalePlotting();
 
-	NFmiString string;
-//	string = itsData->Station().GetName(); 
-	string = StationName(); //051198 
+	NFmiString str;
+//	str = itsData->Station().GetName(); 
+	str = StationName(); //051198 
 
 	if(fAddLocalTime)   //23.10
 	{                   // vähän mutkan kautta
@@ -77,18 +77,18 @@ bool	NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 			const NFmiLocation loc(*itsData->Location()); //23.8.99 
 			stationP.SetIdent(loc.GetIdent());
 			NFmiString tString = stationP.LocalWmoTime(12);
-	//		if(string.GetLen() < 10) //121198 HS haluaa kaikkiin
-				string += (" ");
-			string += ("(");
-			string += tString;
+	//		if(str.GetLen() < 10) //121198 HS haluaa kaikkiin
+				str += (" ");
+			str += ("(");
+			str += tString;
 			if(tString == NFmiString("-"))
 			   *itsLogFile << "  *** ERROR: asemalta " << (char*)stationP.GetName() 
 							<< " puuttuu paik.aika" << endl;
-			string += (")");
+			str += (")");
 		}
 	}
  
-	SetText(string);
+	SetText(str);
 
 	return WriteString(NFmiString("ASEMATEKSTI"),theOutput);
 };
