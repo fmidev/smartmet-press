@@ -690,7 +690,11 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	{
 	  if (itsPressParam->IsDistanceCheck())
 		{
-			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(itsCurrentParamValue)), AbsoluteRectOfSymbolGroup.Place()))
+		  float value = itsCurrentParamValue;
+		  if(itsMultiMapping)
+			  value = itsCurrentParamArray[0];
+
+			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(value)), AbsoluteRectOfSymbolGroup.Place()))
 				return false;
 		}
 

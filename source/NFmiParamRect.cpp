@@ -1757,10 +1757,13 @@ NFmiMetTime NFmiParamRect::CalculatePeriodTime(long theHour)
 
 bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 {
+	bool tempMarkingValue = true;
+	
 	if(!SetStationLocalTime(theQI)) // v‰liaikaisesti jos optio p‰‰ll‰
 	  {
 		return false;
 	  }
+
 	for (int i = 0; static_cast<int>(itsMultiParams[i]) != static_cast<int>(kFmiLastParameter); i++)
 	  {
 		itsCurrentMultiParNum = i+1;
@@ -1781,6 +1784,8 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 
 		itsCurrentParamArray[i] = value;
 
+		if(i == 0 && !fMarkingValue)
+			tempMarkingValue = false;
 		
 		if(i>FmiMaxNumOfMappingParams) //varmuuden vuoksi
 		  {
@@ -1788,7 +1793,8 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 			return false;
 		  }
 	  }
-	
+
+	fMarkingValue = tempMarkingValue;	
 	return true;
 }
 
