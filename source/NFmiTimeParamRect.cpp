@@ -333,7 +333,7 @@ int NFmiTimeParamRect::ConvertDefText(NFmiString & object)
 /*!
  * Undocumented
  *
- * \param AbsoluteRectOfSymbolGroup Undocumented
+ * \param theAbsoluteRectOfSymbolGroup Undocumented
  * \param theQI Undocumented
  * \param theDestinationFile Undocumented
  * \param theOutput Undocumented
@@ -341,7 +341,7 @@ int NFmiTimeParamRect::ConvertDefText(NFmiString & object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiTimeParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
+bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								NFmiFastQueryInfo * theQI ,
 								ofstream & theDestinationFile,
 								FmiPressOutputMode theOutput)
@@ -409,7 +409,7 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	}
 
   return WriteCode(Construct(&str),
-				   AbsoluteRectOfSymbolGroup,
+				   theAbsoluteRectOfSymbolGroup,
 				   theDestinationFile,
 				   NFmiString("AIKATEKSTI"),
 				   theOutput);

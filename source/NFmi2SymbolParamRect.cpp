@@ -131,7 +131,12 @@ bool NFmi2SymbolParamRect::ReadValues(NFmiFastQueryInfo * theQI, bool hearDummy)
   if(!SetRelativeHour(theQI,NFmiString("KääntyväSymboli")))
 	return isFalse;
 
+  //vain itsCurrentTime muuttuu edellisessä, theQI kuitenkin käytetään
+  //FloatValue():ssä, ilmeisesti pitää kuitenkin säilyttää seg.aikaa
+  NFmiMetTime segTime = theQI->Time();
+  theQI->Time(itsCurrentTime);
   FloatValue(theQI, itsSecondParamValue); 
+  theQI->Time(segTime);
 
   // ei SetRelativeHour toistamiseen
   return NFmiSymbolParamRect::ReadValues(theQI, false);

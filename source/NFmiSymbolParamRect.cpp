@@ -602,7 +602,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
 /*!
  * Undocumented
  *
- * \param AbsoluteRectOfSymbolGroup Undocumented
+ * \param theAbsoluteRectOfSymbolGroup Undocumented
  * \param theQI Undocumented
  * \param theDestinationFile Undocumented
  * \param theOutput Undocumented
@@ -610,7 +610,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
+bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  NFmiFastQueryInfo * theQI,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
@@ -623,7 +623,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 
-  itsDefToProductScale.SetEndScales(AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight())));
+  itsDefToProductScale.SetEndScales(theAbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight())));
 
   if(!fIsConstSymbol)
 	{
@@ -694,7 +694,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 		  if(itsMultiMapping)
 			  value = itsCurrentParamArray[0];
 
-			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(value)), AbsoluteRectOfSymbolGroup.Place()))
+			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(value)), theAbsoluteRectOfSymbolGroup.Place()))
 				return false;
 		}
 
@@ -735,7 +735,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 	}
   else if(*symbolFile != NFmiString("None") && theOutput == kMetaLanguage)
 	{
-	  NFmiPoint realPos(AbsoluteRectOfSymbolGroup.BottomLeft());
+	  NFmiPoint realPos(theAbsoluteRectOfSymbolGroup.BottomLeft());
 
 	  //HUOM ??? otetaan takaisin tämä alunperin selittämätön siirto
 	  realPos += NFmiPoint(20, -20);
