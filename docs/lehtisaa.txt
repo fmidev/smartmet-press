@@ -37,7 +37,7 @@ Jos on kyse automaattituotteesta tehdään \ref sec_muutosautomaattiaikatauluun . 
 
 \subsection sec_lehtikaipaa Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä
 
-Jos on kyseessä automaattituote (tarkista <a href="docs/Lehtimuistio.xls"> lehtimuistiosta </a>) suorita \ref sec_yksiautotuote . Jollei ole automaattituote mutta apumetkut tehneet tuotteen aikaisemmin sen voi lähettää uudelleen, varmimmin mailitse (ks \ref sec_manuaalituotteenlahetys ), koska ftp-häiriö on saattanut sotkea normaalilähetyksen. Manuaalituotteiden teko aikataulun ulkopuolella on normaalisti hankalaa, koska ne sisältävär tekstejä ja tuoreita havaintoja ja vaativat ehkä lämpövyöhykkeitä. Muutamat yksinkertaiset kuitenkin tehdään manuualisesti vain siksi ettei niille kelpaa pdf-formaatti ja ne voi tehdä koska tahansa: \ref sec_manuaalituotteenteko 
+Jos on kyseessä automaattituote (tarkista <a href="docs/Lehtimuistio.xls"> lehtimuistiosta </a>) suorita \ref sec_yksiautotuote . Jollei ole automaattituote mutta apumetkut tehneet tuotteen aikaisemmin sen voi lähettää uudelleen, varmimmin mailitse (ks \ref sec_manuaalituotteenlahetys ), koska ftp-häiriö on saattanut sotkea normaalilähetyksen. Manuaalituotteiden teko aikataulun ulkopuolella on normaalisti hankalaa, koska ne sisältävär tekstejä ja tuoreita havaintoja ja vaativat ehkä lämpövyöhykkeitä. Muutamat yksinkertaiset kuitenkin tehdään manuualisesti vain siksi ettei lehdelle kelpaa pdf-formaatti ja ne voi tehdä koska tahansa: \ref sec_manuaalituotteenteko 
 
 \subsection sec_poikkeavaennakko Tuotteen tekopäivän ja ilmestymispäivän ero poikkeava
 
