@@ -35,6 +35,18 @@ using namespace std;
 /*!
  * Undocumented
  *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressParam::SetSegmentCurrentTimeStatus (bool theStatus) 
+{
+	return itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, theStatus);
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
  * \param value Undocumented
  * \param storageQueue Undocumented
  */
@@ -1981,6 +1993,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   while(itsCurrentStep <= itsNumberOfSteps) 
 	{
 	  FmiCounter currentStepInd = std::min(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
+
+      if(!fSupplementary)  
+		 itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, false);
+
 	  if(!itsDataIter)
 		{
 		  if(itsLogFile)

@@ -1024,7 +1024,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   origHome = NFmiString("(fmi.conf)");
 #endif
 
-  SetHome(fmiString);
+   SetHome(fmiString);
 
   // Tarkistus että hakemisto olemassa, vaikka nyt endA4.eps:n olemassaolo
   NFmiString endFileName = GetHome();
@@ -1114,7 +1114,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 6.5.2004" << endl;       
+   *itsLogFile << "program version = 21.5.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

@@ -11,6 +11,7 @@
 
 #include "NFmiParamRect.h"
 #include "NFmiPressParam.h"
+#include "NFmiPressProduct.h"
 
 #include "NFmiBitMask.h"
 #include "NFmiCalculator.h"
@@ -107,6 +108,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fMeanWindToMax(theRect.fMeanWindToMax)
   , itsRoundingNumber(theRect.itsRoundingNumber)
   , itsDataIdent(theRect.itsDataIdent)
+  , fSupplementForMissing(theRect.fSupplementForMissing)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -637,6 +639,12 @@ bool NFmiParamRect::ReadRemaining(void)
 		SetOne(itsRoundingNumber);
 		break;
 	  }
+	case dSupplementForMissing:
+	  {
+		fSupplementForMissing = true;
+		ReadNext();
+		break;
+	  }
 	case dStationTableActive:
 	  {
 		if (!ReadEqualChar())
@@ -893,6 +901,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("rounding") ||
 		  lowChar==NFmiString("pyöristys"))
   return dRounding;
+
+  else if(lowChar==NFmiString("supplementformissing") ||
+		  lowChar==NFmiString("täydennäpuuttuvat"))
+  return dSupplementForMissing;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1691,7 +1703,11 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  *itsLogFile << "   * INFO: "<< "stored value used instead of actual"  << endl;
         }
 	}
-  
+
+  if(value == kFloatMissing && fSupplementForMissing 
+	  && itsPressParam->GetPressProduct()->GetSupplementMode() && !(itsPressParam->IsSupplementary()))
+		itsPressParam->SetSegmentCurrentTimeStatus(false);	
+
   if (itsInterval2NumberMin != kFloatMissing)
 	value = itsInterval2NumberMin <= value && value <= itsInterval2NumberMax ?
 						itsInterval2NumberValue : value;

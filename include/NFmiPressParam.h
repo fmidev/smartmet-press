@@ -18,6 +18,7 @@
 #define NFMIPRESSPARAM_H
 
 // press
+//#include "NFmiPressProduct.h"
 #include "NFmiPressArea.h"
 #include "NFmiPressStationText.h"
 #include "NFmiPressTimeDescription.h"
@@ -32,7 +33,7 @@
 
 //#include <vector>
 
-class NFmiPressProduct;  
+class NFmiPressProduct;
 class NFmiArea;
 
 
@@ -149,6 +150,10 @@ public:
   bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
   bool InterruptSymbolGroup(void)const;
   unsigned long GetCurrentStationStep(void) const;
+  NFmiPressProduct* GetPressProduct (void)const;
+  bool IsSupplementary(void)const;
+  bool SetSegmentCurrentTimeStatus(bool theStatus);
+
 protected:
 
   void UnsetAllErrorReported(void);
@@ -301,6 +306,32 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   itsLanguage=kFinnish;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParam::IsSupplementary (void)const 
+{
+	return fSupplementary;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressProduct* NFmiPressParam::GetPressProduct (void)const 
+{
+	return itsPressProduct;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
