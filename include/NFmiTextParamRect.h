@@ -36,8 +36,8 @@ enum NFmiTextParamRectObjects
   dTextMapping,
   dRGBMapping, 
   dCMYKMapping,
-  dRelCharWidth
-  //= 1080,
+  dRelCharWidth,
+  dAddStationName = 1080
 };
 
 
@@ -51,8 +51,6 @@ struct FmiPressColorMapping
 
 //! Undocumented
 const unsigned long maxNumOfColMaps = 20;
-
-//#include "NFmiPressEnvironment.h"
 
 class _FMI_DLL NFmiTextParamRect : public NFmiParamRect
 {
@@ -74,18 +72,9 @@ public:
 					   FmiPressOutputMode theOutput) = 0;
 
   void SetValueDepending(float theValue);
-/*
-  void SetTextAttributes(NFmiString theFont,
-						 FmiDirection theAlignment,
-						 NFmiString theStyle,
-						 FmiCMYK theColor);
- */      
+
   NFmiString Construct(NFmiString * theString) const;
-/*
-  NFmiString GetFont(void) const;
-  FmiDirection GetAlignment(void) const;
-  NFmiString GetStyle(void) const;
-*/
+
   virtual bool WriteCode(const NFmiString & theText,
 						 const NFmiRect & AbsoluteRectOfSymbolGroup,
 						 std::ofstream & theDestinationFile ,
@@ -110,14 +99,12 @@ protected:
   NFmiString itsAddInFront;
   NFmiString itsAddAfter;
   bool fUseSelectLatinFont;
-  //NFmiString itsFont;
-  //FmiDirection itsAlignment;
   bool fParenthesis;
   NFmiParamMapping * itsMapping;
   FmiPressColorMapping itsColorMapping[maxNumOfColMaps];
   unsigned long itsCurrentNumOfColMaps;
   double itsRelCharWidth;
-
+  bool fAddStationName;
 }; // class NFmiTextParamRect
 
 
@@ -131,12 +118,11 @@ inline
 NFmiTextParamRect::NFmiTextParamRect(void)
   : NFmiParamRect()
   , fUseSelectLatinFont(false)
-  //, itsFont(NFmiString("Courier"))
-  //, itsAlignment(kCenter)
-  , fParenthesis(isFalse)
+  , fParenthesis(false)
   , itsMapping(0)
   , itsCurrentNumOfColMaps(0)
   , itsRelCharWidth(0.)
+  , fAddStationName(false)
 {
 }
 

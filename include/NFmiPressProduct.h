@@ -70,6 +70,7 @@ enum NFmiPressProductObjects
   dPageSize = 1020,
   dDate,
   dProductWithTimeStamp,
+  dProductWithPressTimeStamp,
 
   dProductWithDataTimeStamp,
   dTimeStampFormat ,
@@ -77,8 +78,8 @@ enum NFmiPressProductObjects
   dProductPlaceMove,
   dRelativeHours,
   dChangeScandinavian,
-  dNameDay,
-  dProductNameFormat = 2020,
+  dNameDay = 2020,
+  dProductNameFormat,
   dProductNameTimeFormat,
   dSecondProductNameTimeFormat,
 
@@ -88,8 +89,8 @@ enum NFmiPressProductObjects
   dMapArea,
   dMakeElementsAfterSegments,
   dMaskFile,
-  dWeekdayDir,
-  dAllDataFilesCritical = 3020,
+  dWeekdayDir= 3020,
+  dAllDataFilesCritical,
   dDataFilesNotCritical
 };
 

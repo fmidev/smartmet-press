@@ -1117,7 +1117,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 11.6.2004" << endl;       
+   *itsLogFile << "program version = 13.8.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1233,7 +1233,7 @@ bool NFmiPressProduct::ReadData(void)
 			twoOptinalTypes = false;
 	  }
 	  else
-	  {
+	  {   
 		  dataFile = dataPath;
 		  dataFile2 = dataPath2;
 		  if(dataFile.IsValue()) dataFile += kFmiDirectorySeparator;
@@ -1628,6 +1628,18 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			itsOutFileName = ReadString();
 
 			fTimeStamp = true;
+
+			ReadNext();
+			break;
+		  }
+		case dProductWithPressTimeStamp:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			itsProductNameFormat = NFmiString("DatanAikaleima/");
+			itsProductNameFormat += ReadString();
+			itsStringNameTimeFormat = NFmiString("DDMM");
 
 			ReadNext();
 			break;
@@ -2467,6 +2479,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("timestamp") ||
 		  lowChar==NFmiString("tuoteaikaleimalla"))
 	return dProductWithTimeStamp;
+  else if(lowChar==NFmiString("presstimestamp") ||
+		  lowChar==NFmiString("tuotelehtiaikaleimalla"))
+	return dProductWithPressTimeStamp;
   else if(lowChar==NFmiString("datatimestamp") ||
 		  lowChar==NFmiString("tuotedatanaikaleimalla"))
 	return dProductWithDataTimeStamp;

@@ -10,6 +10,7 @@
 #endif
 
 #include "NFmiTextParamRect.h"
+#include "NFmiPressParam.h"  
 #include <iostream>
 
 using namespace std;
@@ -40,12 +41,11 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect & theTextParamRect)
   , itsAddInFront(theTextParamRect.itsAddInFront)
   , itsAddAfter(theTextParamRect.itsAddAfter)
   , fUseSelectLatinFont(theTextParamRect.fUseSelectLatinFont)
-//  , itsFont(theTextParamRect.itsFont)
-//  , itsAlignment(theTextParamRect.itsAlignment)
   , fParenthesis(theTextParamRect.fParenthesis)
   , itsMapping(theTextParamRect.itsMapping ? new NFmiParamMapping(*theTextParamRect.itsMapping) : 0)
   , itsCurrentNumOfColMaps(theTextParamRect.itsCurrentNumOfColMaps)
   , itsRelCharWidth(theTextParamRect.itsRelCharWidth)
+  , fAddStationName(theTextParamRect.fAddStationName)
 {
   for(unsigned int ind =0; ind < maxNumOfColMaps; ind++)
 	{
@@ -178,6 +178,13 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dAddStationName:
+	  {
+		fAddStationName = true;
+		
+		ReadNext();
+		break;
+	  }
 	case dRGBMapping:
 	  {
 		itsCurrentNumOfColMaps ++;
@@ -291,6 +298,10 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("charspacejustification") ||
 		  lowChar==NFmiString("merkkivälinsäätö"))
 	return dRelCharWidth;
+
+  else if(lowChar==NFmiString("addstationname") ||
+		  lowChar==NFmiString("lisääasemannimi"))
+	return dAddStationName;
 
   else
 	return NFmiParamRect::ConvertDefText(object);
@@ -518,6 +529,8 @@ NFmiString NFmiTextParamRect::Construct(NFmiString * theString) const
   if(itsAddInFront.IsValue())
 	retString += itsAddInFront;
   retString += str;
+  if(fAddStationName)
+	  retString += itsPressParam->GetCurrentStation().GetName();
   if(itsAddAfter.IsValue())
 	retString += itsAddAfter;
   
