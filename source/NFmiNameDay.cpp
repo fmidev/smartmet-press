@@ -102,7 +102,9 @@ NFmiString NFmiNameDay::GetName(NFmiMetTime theTime,
 								FmiCounter maxLength)
 {
   int indYear = theTime.GetJulianDay();
-  NFmiString names(itsNames[indYear]);
+  //karkausvuotena kaatui
+  //NFmiString names(itsNames[indYear]);
+  NFmiString names;
   
   //karkausvuonna indeksi yhden eteenpäin
   // HUOM oletetaan että nimipäivä on kuluvaa vuotta 
@@ -116,6 +118,9 @@ NFmiString NFmiNameDay::GetName(NFmiMetTime theTime,
 	  else if(indYear > 60)
 		names = itsNames[indYear-1];
 	}
+  else
+	  names = itsNames[indYear];
+
   NFmiString separator(",");
   NFmiString helpString;
   if(maxNumber != kShortMissing && maxNumber > 0)
