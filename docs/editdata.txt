@@ -40,7 +40,7 @@ paikka eri tuotteissa aina tarkoittaa samaa pistettä
 datassa. Varsinkin rannikolla voi olla hankala valita sellaista
 pistettä paikkakunnalle, joka erilaisissa säätilanteissa olisi
 edustava. Nyt esim Helsingin lämpötila Hesarissa on sijoitettu
-koordinaatteihin 25.05E 60.19N (myös Hbl ja muutama muu), Espoo 24.63E
+koordinaatteihin 24.95E 60.19N (myös Hbl ja muutama muu), Espoo 24.63E
 60.25N:een (myös Hbl) ja Vantaa 25.01E 60.30N:een (pisteen jälkeen
 asteen desimaaleja eikä minuutteja). Editorissahan koordinaatit näkyy
 alalaidassa kun hiirellä liikutaan kartalla. Sää taas tulee Hesariin
