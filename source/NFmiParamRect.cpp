@@ -1706,7 +1706,11 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 
   if(value == kFloatMissing && fSupplementForMissing 
 	  && itsPressParam->GetPressProduct()->GetSupplementMode() && !(itsPressParam->IsSupplementary()))
-		itsPressParam->SetSegmentCurrentTimeStatus(false);	
+  {
+	      itsPressParam->SetSegmentCurrentTimeStatus(false);
+		  if (itsPressParam->IsFirstStation())
+ 				*itsLogFile << "   * INFO: "<< "missing value to be supplemented"  << endl;
+  }
 
   if (itsInterval2NumberMin != kFloatMissing)
 	value = itsInterval2NumberMin <= value && value <= itsInterval2NumberMax ?

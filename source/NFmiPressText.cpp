@@ -86,6 +86,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
+  bool oneMarginSet = false;
 
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
@@ -234,8 +235,10 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 			if(ReadDouble(r1))
 			  {
+				if (oneMarginSet)
+					fInParagraph = true;
+				oneMarginSet = true;
 				itsLeftMargin = r1;
-				fInParagraph = true;
 			  }
 		    ReadNext();
 			break;
@@ -246,8 +249,10 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 			if(ReadDouble(r1))
 			  {
+				if (oneMarginSet)
+					fInParagraph = true;
+				oneMarginSet = true;
 				itsRightMargin = r1;
-				fInParagraph = true;
 			  }
 		    ReadNext();
 			break;
@@ -894,7 +899,9 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 			*itsOutFile << itsCharSpace << " 0. (" << static_cast<char *>(text) << ") ashow" << endl;
 		}
 
-	  *itsOutFile << "false setoverprint" << endl; //9.10
+	  *itsOutFile << "false setoverprint" << endl;
+	  //HUOM useimpiin ylimääräinen
+	  //*itsOutFile << "grestore" << endl; 
 	} //loppu eps-moodi
   return true;
 }
