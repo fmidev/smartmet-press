@@ -588,7 +588,7 @@ bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
 							theStationPoint.X() + scaledXSize/2,	// right
 							theStationPoint.Y() - scaledYSize/2);	// bottom
 
-  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsPressScalingObjects);
+  NFmiVoidPtrIterator objectIter(itsPressScalingObjects);
   NFmiPressScaling * object;
 
   objectIter.Reset();

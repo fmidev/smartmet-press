@@ -150,7 +150,8 @@ bool NFmiPressParam::SetStationRename(const NFmiRenaming & theRenaming)
 	return false;
 
   //ainoastaan asemanNimiä
-  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsStationDepObjects);
+//  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsStationDepObjects);
+  NFmiVoidPtrIterator objectIter(itsStationDepObjects);
   objectIter.Reset();
   NFmiPressStationText * object = static_cast<NFmiPressStationText *>(objectIter.Next());
   while(object)
@@ -232,7 +233,7 @@ bool NFmiPressParam::SetData(const NFmiString & dataName)
 	itsDataIter = 0;
 
   // vain PressDataTimeText näistä datariippuvainen
-  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsTimeDepObjects);
+  NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
   NFmiPressScaling * scaleObject;
   objectIter.Reset();
   scaleObject = static_cast<NFmiPressScaling *>(objectIter.Next());
@@ -255,13 +256,13 @@ bool NFmiPressParam::SetData(const NFmiString & dataName)
 
   //ainoastaan asemanNimiä
   NFmiPressStationText * object;
-  objectIter = NFmiVoidPtrIterator(itsStationDepObjects);
-  objectIter.Reset();
-  object = static_cast<NFmiPressStationText *>(objectIter.Next());
+  NFmiVoidPtrIterator objectIter2(itsStationDepObjects);
+  objectIter2.Reset();
+  object = static_cast<NFmiPressStationText *>(objectIter2.Next());
   while(object)
 	{
 	  object->SetData(itsDataIter);
-	  object = static_cast<NFmiPressStationText *>(objectIter.Next());
+	  object = static_cast<NFmiPressStationText *>(objectIter2.Next());
 	}
   return true;
 }
@@ -298,7 +299,7 @@ bool NFmiPressParam::SetAllLanguages(FmiLanguage theLanguage)
 {
   SetLanguage(theLanguage); //ensin oma
 
-  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsTimeDepObjects);
+  NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
   NFmiPressScaling * object;
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
@@ -1749,7 +1750,7 @@ bool NFmiPressParam::CreateAreaMask(void)
 	  // laskettava kuten auringon-kulma-maski)
 	  NFmiAreaMask::Type maskType = NFmiAreaMask::kInfo;
 
-	  NFmiAreaMask::DataType dataType = NFmiAreaMask::kStationary;
+	  NFmiInfoData::Type dataType = NFmiInfoData::kStationary;
 	  bool ownsInfo = false;
 	  NFmiAreaMask::BinaryOperator postBinaryOperator = NFmiAreaMask::kAnd;
 	  itsAreaMask = new NFmiInfoAreaMask(maskOperation, maskType, dataType, itsMaskIter, ownsInfo, postBinaryOperator);
@@ -1820,7 +1821,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	else
 	  *itsLogFile << "  data: tuotteessa ekana oleva" << endl;
 
-  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsTimeDepObjects);
+  NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
   NFmiPressScaling * object;
 
   // jotta voidaan tehdä aika vasta asemannimen jälkeen (tiedostomuoto)
@@ -1828,7 +1829,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   saveObject = 0;
 
   NFmiPressScaling * testObject;
-  NFmiVoidPtrIterator stationObjectIter = NFmiVoidPtrIterator(itsStationDepObjects);
+  NFmiVoidPtrIterator stationObjectIter (itsStationDepObjects);
 
   itsSymbols.Set(theScale, itsDataIter, theFile);
 

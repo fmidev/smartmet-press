@@ -66,6 +66,7 @@ NFmiParamRect * NFmiRotatingParamRect::Clone(void) const
 
 bool NFmiRotatingParamRect::ReadRemaining(void)
 {
+//	whar_t wideh L'\0';
 	double double1,double2;
 
 	switch(itsIntObject)

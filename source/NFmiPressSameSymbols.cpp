@@ -280,7 +280,7 @@ int NFmiPressSameSymbols:: ConvertDefText(NFmiString & object)
 bool NFmiPressSameSymbols::WritePS(ofstream & theOutFile)
 {
   itsPsSymbol.Set( itsScale, theOutFile);
-  NFmiVoidPtrIterator placeIter = NFmiVoidPtrIterator(itsPlaces);
+  NFmiVoidPtrIterator placeIter(itsPlaces);
   void * item;
   NFmiPoint place;
   NFmiPoint placeMovement;

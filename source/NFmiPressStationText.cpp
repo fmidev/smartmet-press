@@ -43,7 +43,7 @@ bool NFmiPressStationText::SetNewName(const NFmiRenaming & theRename)
 {
   if(itsNewNames)
 	{
-	  NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames);
+	  NFmiVoidPtrIterator iter(itsNewNames);
 	  iter.Reset();
 	  NFmiRenaming * renaming = static_cast<NFmiRenaming *>(iter.Next());
 	  while (renaming)
@@ -135,7 +135,7 @@ NFmiString NFmiPressStationText::StationName(void)
 
   if(itsNewNames)
 	{
-	  NFmiVoidPtrIterator iter = NFmiVoidPtrIterator(itsNewNames);
+	  NFmiVoidPtrIterator iter(itsNewNames);
 	  iter.Reset();
 	  NFmiRenaming* renaming = static_cast<NFmiRenaming *>(iter.Next());
 	  while (renaming)

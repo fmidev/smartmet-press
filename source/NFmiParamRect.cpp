@@ -582,7 +582,7 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   NFmiString lowChar = object;
   lowChar.LowerCase(); // kaikille sallitaan vapaasti isot/pienet kirjaimet
 
-  if(lowChar==NFmiString("´relplace") ||
+  if(lowChar==NFmiString("relplace") ||
 	 lowChar==NFmiString("osaalue"))
 	return dRelPlace;
 
