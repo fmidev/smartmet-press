@@ -1041,18 +1041,22 @@ bool NFmiPressProduct::ReadData(void)
 	  data = & dataPtr;
 	  dataFile = dataPath;
 	  dataFile2 = dataPath2;
-	  dataFile += kFmiDirectorySeparator;
-	  dataFile2 += kFmiDirectorySeparator;
+	  if(!dataFile.IsValue()) dataFile += kFmiDirectorySeparator;
+	  if(!dataFile2.IsValue()) dataFile2 += kFmiDirectorySeparator;
 	  dataFile += nData->GetName();
 	  dataFile2 += nData->GetName();
 	  dataFileSqd = dataFile;
 	  dataFileSqd2 = dataFile2;
 	  if(!dataFile.HasExtension())
 		{
-		  dataFile += NFmiString(".fqd");
-		  dataFile2 += NFmiString(".fqd");
-		  dataFileSqd += NFmiString(".sqd");
-		  dataFileSqd2 += NFmiString(".sqd");
+		  if(!NFmiFileSystem::DirectoryExists(dataFile.CharPtr()))
+			dataFile += NFmiString(".fqd");
+		  if(!NFmiFileSystem::DirectoryExists(dataFile2.CharPtr()))
+			dataFile2 += NFmiString(".fqd");
+		  if(!NFmiFileSystem::DirectoryExists(dataFileSqd.CharPtr()))
+			dataFileSqd += NFmiString(".sqd");
+		  if(!NFmiFileSystem::DirectoryExists(dataFileSqd2.CharPtr()))
+			dataFileSqd2 += NFmiString(".sqd");
 		}
 	  else
 		twoOptinalTypes = false;
