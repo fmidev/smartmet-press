@@ -1167,6 +1167,12 @@ bool NFmiPressProduct::ReadQueryData(NFmiQueryData * theQD,char * fileName)
   if(NFmiFileSystem::DirectoryExists(filename))
 	{
 	  const string file = NFmiFileSystem::NewestFile(filename);
+	  *itsLogFile << "  Hakemiston '"
+				  << filename
+				  << "' uusin tiedosto on '"
+				  << file
+				  << "'"
+				  << endl;
 	  filename += kFmiDirectorySeparator;
 	  filename += file;
 	}
