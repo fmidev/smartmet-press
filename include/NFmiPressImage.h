@@ -1,65 +1,121 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 3.7.1998
-// 
-//********************************************************
-// 
-// Valmiiden EPS-kuvien littäminen ps-tiedostoon. Peritty
-// NFmiScaling:stä mutta jouduttu lisäämään skaala-käsittelyä
-// ja alueen leikkausta (clip).
-//
-//********************************************************
-//
-//Muutettu 080998/LW +dImageDir
-//Muutettu 180299/LW +dImageSizeFactor, +dImagePlaceMove
-//Muutettu 021000/LW +GetPath() 
-//********************************************************
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressImage
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressImage
+ *
+ * Valmiiden EPS-kuvien littäminen ps-tiedostoon. Peritty
+ * NFmiScaling:stä mutta jouduttu lisäämään skaala-käsittelyä
+ * ja alueen leikkausta (clip).
+ *
+ */
+// ======================================================================
 
-#ifndef __NPRIMAGE_H__
-#define __NPRIMAGE_H__
+#ifndef NFMIPRESSIMAGE_H
+#define NFMIPRESSIMAGE_H
 
-typedef enum
-{
-	 dImageFile	= 260
-	,dImagePath
-	,dImageDir
-	,dImageDefSize
-	,dImagePlottingView
-    ,dImageClippingRectangle
-	,dImageSizeFactor        //180299
-	,dImagePlaceMove         //180299
-}NFmiPressImageObjects;
-
-//---------------------------------------------------------------------------
-
-#include "NFmiPressScaling.h"
 #include "NFmiFileString.h"
+#include "NFmiPressScaling.h"
 
-class _FMI_DLL NFmiPressImage : public NFmiPressScaling
+
+//! Undocumented
+enum NFmiPressImageObjects
 {
-	public:
-		NFmiPressImage(void) :  NFmiPressScaling() {};
-		NFmiPressImage(const NFmiPressImage& theOtherImage); 
-
-		virtual ~NFmiPressImage();
-
-		virtual bool		ReadDescription(NFmiString& retString); 
-//		virtual NFmiParamRect*	Clone(void) const; 
-        int ConvertDefText(NFmiString & object);
-
-		virtual bool	WritePS(FmiPressOutputMode theOutput); //15.3.00 
-        void ScalePlotting(void);
-		void SetPath (const NFmiString& thePath) {itsPath=thePath;};
-		NFmiFileString GetPath (void) const {return itsPath;}; //2.10.00
-	    virtual unsigned long ClassId(void){return kNFmiPressImage;}; //2.10.00 
-		
-		
-    protected:
-
-	protected:               
-			 		
-		NFmiFileString itsPath;  //1.9 ->files.
-		NFmiRectScale itsImageScale;
-		NFmiRect itsClippingRect;
+  dImageFile = 260,
+  dImagePath,
+  dImageDir,
+  dImageDefSize,
+  dImagePlottingView,
+  dImageClippingRectangle,
+  dImageSizeFactor,
+  dImagePlaceMove
 };
 
-#endif //__NPRIMAGE_H__
+
+//! Undocumented
+class _FMI_DLL NFmiPressImage : public NFmiPressScaling
+{
+public:
+
+  virtual ~NFmiPressImage(void);
+  NFmiPressImage(void);
+  NFmiPressImage(const NFmiPressImage & theOtherImage); 
+  
+  virtual bool ReadDescription(NFmiString & retString); 
+  int ConvertDefText(NFmiString & object);
+
+  virtual bool WritePS(FmiPressOutputMode theOutput);
+  void ScalePlotting(void);
+  void SetPath(const NFmiString & thePath);
+  NFmiFileString GetPath(void) const;
+  virtual unsigned long ClassId(void);
+		
+protected:               
+			 		
+  NFmiFileString itsPath;
+  NFmiRectScale itsImageScale;
+  NFmiRect itsClippingRect;
+
+}; // class NFmiPressImage
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressImage::NFmiPressImage(void)
+  : NFmiPressScaling()
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressImage::SetPath(const NFmiString & thePath)
+{
+  itsPath=thePath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiFileString NFmiPressImage::GetPath(void) const
+{
+  return itsPath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+unsigned long NFmiPressImage::ClassId(void)
+{
+  return kNFmiPressImage;
+}
+
+#endif // NFMIPRESSIMAGE_H
+
+// ======================================================================

@@ -1,50 +1,115 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 17.9.1999
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiMultiParamMapping.h
+ */
+// ======================================================================
+/*!
+ * \class NFmiMultiParamMapping
+ *
+ * Undocumented
+ *
+ */
+// ======================================================================
 
-#ifndef __NFMIMULTIMAPPING_H__
-#define __NFMIMULTIMAPPING_H__
+#ifndef NFMIMULTIPARAMMAPPING_H
+#define NFMIMULTIPARAMMAPPING_H
 
-#include "NFmiString.h"
-#include "NFmiSize.h"
 #include "NFmiParameterName.h"
+#include "NFmiSize.h"
+#include "NFmiString.h"
 
-typedef struct
+//! Undocumented
+struct FmiMappingInterval
 {
-	float		lowBorder;
-	float		highBorder;
-}FmiMappingInterval;
-
-const int FmiMaxNumOfMappingParams=8; //saisko dynaamiseksi
-
-typedef struct
-{
-    FmiMappingInterval mappingInterval[FmiMaxNumOfMappingParams];
-	NFmiString	symbol;
-
-}FmiMultiMapping;
-
-
-class _FMI_DLL NFmiMultiParamMapping : public NFmiSize
-{
-	public:
-		NFmiMultiParamMapping() : NFmiSize(0), itsMappingIntervals(0),itsNumOfParams(0) {};
-		NFmiMultiParamMapping(const NFmiMultiParamMapping& theParamMapping);
-		virtual ~NFmiMultiParamMapping();
-		FmiMultiMapping ReadOneMapping (std::ifstream* inFile); // par. 1.9.01
-
-		void AddMappingInterval(const FmiMultiMapping & theInterval);
-
-		NFmiString*	Map(float values[FmiMaxNumOfMappingParams], bool& missingFound);
-		void NumOfParams (short num) {itsNumOfParams=num;};
-		short NumOfParams(void){return itsNumOfParams;};
-	protected:
-
-	private:
-		FmiMultiMapping*	itsMappingIntervals;
-//		FmiParameterName    itsParams[FmiMaxNumOfMappingParams];
-		short               itsNumOfParams;
+  float lowBorder;
+  float highBorder;
 };
 
-#endif // __NPARAMAP_H__
+
+//! Undocumented
+const int FmiMaxNumOfMappingParams = 8;		// saisko dynaamiseksi
+
+
+//! Undocumented
+struct FmiMultiMapping
+{
+  FmiMappingInterval mappingInterval[FmiMaxNumOfMappingParams];
+  NFmiString symbol;
+};
+
+
+//! Undocumented
+class _FMI_DLL NFmiMultiParamMapping : public NFmiSize
+{
+public:
+
+  virtual ~NFmiMultiParamMapping(void);
+
+  NFmiMultiParamMapping(void);
+  NFmiMultiParamMapping(const NFmiMultiParamMapping & theParamMapping);
+
+  FmiMultiMapping ReadOneMapping(std::ifstream * inFile);
+  
+  void AddMappingInterval(const FmiMultiMapping & theInterval);
+  
+  NFmiString * Map(float values[FmiMaxNumOfMappingParams], bool & missingFound);
+
+  void NumOfParams(short num);
+  short NumOfParams(void);
+
+private:
+
+  FmiMultiMapping * itsMappingIntervals;
+
+  short itsNumOfParams;
+
+}; // class NFmiMultiParamMapping
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiMultiParamMapping::NFmiMultiParamMapping(void)
+  : NFmiSize(0)
+  , itsMappingIntervals(0)
+  , itsNumOfParams(0)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param num Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiMultiParamMapping::NumOfParams(short num)
+{
+  itsNumOfParams=num;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+short NFmiMultiParamMapping::NumOfParams(void)
+{
+  return itsNumOfParams;
+}
+
+#endif // NFMIMULTIPARAMMAPPING_H
+
+// ======================================================================
+
 

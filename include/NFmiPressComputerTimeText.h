@@ -1,47 +1,75 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 9.4.1998
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressComputerTimeText
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressComputerTimeText
+ *
+ * Luokka tuottaa koneen ajan ps-oliona output-
+ * tiedostoon. Toistaiseksi k‰ytet‰‰n Suomen aikaa. 
+ * Emo on abstrakti NFmiPressTimeText ja sisaruksia ovat
+ * NFmiPressDataTimeText ja NFmiPressComputerTimeText.
+ *
+ */
+// ======================================================================
 
-//********************************************************
-// 
-// Luokka tuottaa koneen ajan ps-oliona output-
-// tiedostoon. Toistaiseksi k‰ytet‰‰n Suomen aikaa. 
-// Emo on abstrakti NFmiPressTimeText ja sisaruksia ovat
-// NFmiPressDataTimeText ja NFmiPressComputerTimeText.  . 
-//
-//********************************************************
-//
-// T‰m‰ tulostaa koneen aktueelin ajan (Suomen aikaa)
-// 
-//Muutettu xxxxxx/LW 
-//Muutettu 180699/LW +itsDeltaDays, ReadReamaining(),ConvertDefText()  
-//Muutettu 131099/LW SetText()
-
-//---------------------------------------------------------------------------
-
-#ifndef __NPTICTEX_H__
-#define __NPTICTEX_H__
-
+#ifndef NFMIPRESSCOMPUTERTIMETEXT_H
+#define NFMIPRESSCOMPUTERTIMETEXT_H
 
 #include "NFmiPressTimeText.h"
 
+//! Undocumented
 class _FMI_DLL NFmiPressComputerTimeText : public NFmiPressTimeText
 {
-	public:
-		NFmiPressComputerTimeText(void) : NFmiPressTimeText()
-			                             ,itsDeltaDays(+0)  //18.6.99
-		                          {};
+public:
 
-		virtual ~NFmiPressComputerTimeText();
-		virtual bool ReadRemaining(void); //18.6.99  
-		virtual bool SetText(void);           //131099									
-		virtual void SetText(NFmiString theText)   //131099
-							{NFmiPressTimeText::SetText(theText);};
-		int ConvertDefText(NFmiString & object); //18.6.99
+  virtual ~NFmiPressComputerTimeText(void);
+  NFmiPressComputerTimeText(void);
 
-		virtual bool	WritePS(FmiPressOutputMode theOutput); //15.3.00
+  virtual bool ReadRemaining(void);
+  virtual bool SetText(void);
+
+  virtual void SetText(NFmiString theText);
+  int ConvertDefText(NFmiString & object);
+
+  virtual bool WritePS(FmiPressOutputMode theOutput);
        
-	protected:
-		short itsDeltaDays; //18.6.99
-};
+protected:
 
-#endif //__NPTICTEX_H__
+  short itsDeltaDays;
+
+}; // class NFmiPressComputerTimeText
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressComputerTimeText::NFmiPressComputerTimeText(void)
+  : NFmiPressTimeText()
+  , itsDeltaDays(0)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ *†\param theText Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressComputerTimeText::SetText(NFmiString theText)
+{
+  NFmiPressTimeText::SetText(theText);
+}
+
+#endif // NFMIPRESSCOMPUTERTIMETEXT_H
+
+// ======================================================================

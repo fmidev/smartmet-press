@@ -1,46 +1,70 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 29.2.2000
-//
-// Auringon nousu- ja laskuaika
-// 
-// Muutettu xxxxxx/LW 
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiSunTimeParamRect
+ */
+// ======================================================================
+/*!
+ * \class NFmiSunTimeParamRect
+ *
+ * Undocumented
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
-
-#ifndef __NFMISUNTIMEPARAMRECT_H__
-#define __NFMISUNTIMEPARAMRECT_H__
-
-typedef enum
-{
-	 dSunRise = 535
-	,dSunSet //29.2.2000
-
-}NFmiSunTimeParamRectObjects;
-
+#ifndef NFMISUNTIMEPARAMRECT_H
+#define NFMISUNTIMEPARAMRECT_H
 
 #include "NFmiTimeParamRect.h"
-//#include "NFmiPressTime.h"
 
-class _FMI_DLL NFmiSunTimeParamRect : public NFmiTimeParamRect
+
+//! Undocumented
+enum NFmiSunTimeParamRectObjects
 {
-	public:
-		NFmiSunTimeParamRect(void) :  NFmiTimeParamRect()
-						,fIsSunRise(true)
-						{itsFormat=kHHdMM;};
+  dSunRise = 535,
+  dSunSet
 
-		NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theTimeParamRect); 
-
-		virtual ~NFmiSunTimeParamRect();
-
-		virtual bool		ReadRemaining(void); 
-		virtual NFmiParamRect*	Clone(void) const; 
-        int ConvertDefText(NFmiString & object);
-
-	protected:
-		NFmiTime	TimeToWrite(NFmiFastQueryInfo* theQI);
-
-	private:
-		bool fIsSunRise;
 };
 
-#endif //__NLETPARR_H__
+
+//! Undocumented
+class _FMI_DLL NFmiSunTimeParamRect : public NFmiTimeParamRect
+{
+
+public:
+  virtual ~NFmiSunTimeParamRect(void);
+  NFmiSunTimeParamRect(void);
+  NFmiSunTimeParamRect(const NFmiSunTimeParamRect & theTimeParamRect); 
+
+  virtual bool ReadRemaining(void); 
+  virtual NFmiParamRect * Clone(void) const; 
+  int ConvertDefText(NFmiString & object);
+
+protected:
+
+  NFmiTime TimeToWrite(NFmiFastQueryInfo * theQI);
+
+private:
+
+  bool fIsSunRise;
+
+}; // class NFmiSunTimeParamRect
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiSunTimeParamRect::NFmiSunTimeParamRect(void)
+  :  NFmiTimeParamRect()
+  , fIsSunRise(true)
+{
+  itsFormat=kHHdMM;
+}
+
+#endif // NFMISUNTIMEPARAMRECT_H
+
+// ======================================================================
+

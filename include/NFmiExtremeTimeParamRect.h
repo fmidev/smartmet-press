@@ -1,39 +1,58 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 3.1.2001
-//
-// Datan ‰‰riarvojen sattumisajan luokka.
-// Vaatii aina parikseen dataolion, joka suoritetaan ensin ja jossa ‰‰riarvo (max/min)
-// m‰‰ritet‰‰n ja jossa samalla talletetaan aika t‰t‰ oliota varten.
-// Aika on viety NFmiPressParam:lle, joka on yhteinen Container molemmille.
-//  
-// 
-// Muutettu xxxxxx/LW 
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiExtremeTimeParamRect.h
+ */
+// ======================================================================
+/*!
+ * \class NFmiExtremeTimeParamRect
+ *
+ * Datan ‰‰riarvojen sattumisajan luokka.
+ * Vaatii aina parikseen dataolion, joka suoritetaan ensin ja jossa
+ * ‰‰riarvo (max/min) m‰‰ritet‰‰n ja jossa samalla talletetaan aika
+ * t‰t‰ oliota varten. Aika on viety NFmiPressParam:lle, joka on yhteinen
+ * Container molemmille.
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
-
-#ifndef __NFMIEXTREMETIMEPARAMRECT_H__
-#define __NFMIEXTREMETIMEPARAMRECT_H__
+#ifndef NFMIEXTREMETIMEPARAMRECT_H
+#define NFMIEXTREMETIMEPARAMRECT_H
 
 #include "NFmiTimeParamRect.h"
 
+//! Undocumented
 class _FMI_DLL NFmiExtremeTimeParamRect : public NFmiTimeParamRect
 {
-	public:
-		NFmiExtremeTimeParamRect(void) :  NFmiTimeParamRect()						
-						{};
+public:
 
-		NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect& theTimeParamRect); 
+  virtual ~NFmiExtremeTimeParamRect();
+  NFmiExtremeTimeParamRect(void);
+  NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect & theTimeParamRect); 
 
-		virtual ~NFmiExtremeTimeParamRect();
+  virtual NFmiParamRect * Clone(void) const; 
 
-//		virtual bool		ReadRemaining(void); 
-		virtual NFmiParamRect*	Clone(void) const; 
-//        int ConvertDefText(NFmiString & object);
+protected:
 
-	protected:
-		NFmiTime	TimeToWrite(NFmiFastQueryInfo* theQI);
+  NFmiTime TimeToWrite(NFmiFastQueryInfo * theQI);
 
-	private:
-};
+private:
 
-#endif //__NFMIEXTREMETIMEPARAMRECT_H__
+}; // class NFmiExtremeTimeParamRect
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(void)
+  : NFmiTimeParamRect()						
+{
+}
+
+
+#endif // NFMIEXTREMETIMEPARAMRECT_H
+
+// ======================================================================

@@ -1,56 +1,63 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 8.9.1998
-//
-//********************************************************
+// ======================================================================
+/*!
+ * \file
+ * \brief Definition of various essentian enumerations
+ */
+// ======================================================================
 
-//********************************************************
-// 
-//Muutettu 271098/LW  +FmiPageSize
-//Muutettu 181000/LW  +FmiRGBColor   
-//Muutettu 021100/LW  +FmiGenericColor
-//---------------------------------------------------------------------------
+#ifndef NFMIPRESSTYPES_H
+#define NFMIPRESSTYPES_H
 
-#ifndef __NPRETYPE_H__
-#define __NPRETYPE_H__
-/*
-#ifndef __NBASESTR_H__
-#include "NFmiString.h"
-#endif//__NBASESTR_H__
+// RGB kopiotu t‰nne fcoltyp.h:sta koska ei haluta
+// sekoittaa nViewt‰ pressiin mitenk‰‰n
 
-static NFmiString kLehtiTuoteDir;  //25.9
-*/
-/*  RGB kopiotu t‰nne fcoltyp.h:sta koska ei haluta sekoittaa nViewt‰
-pressiin mitenk‰‰n */
-	typedef double FmiColorValue;
-	typedef struct {FmiColorValue  red, green, blue, alpha;} FmiRGBColor;
+typedef double FmiColorValue;
 
-
-typedef struct
+//! Undocumented
+struct FmiRGBColor
 {
-	double cyan;
-	double magenta;
-	double yellow;
-	double black;
-
-}FmiCMYK;
-
-typedef enum		                                             
-	{kLetter       =1                                                  
-	,kA4     
-	,kA4Maisema     
-	,kA3     
-	,kA3Maisema     
-} FmiPageSize;
-
-union FmiUnionColor     //3.11.2000 //vain toinen v‰rij‰rjestelm‰ kulloinkin valittu
-{
-	FmiRGBColor rgb;
-	FmiCMYK cmyk;  
+  FmiColorValue red;
+  FmiColorValue green;
+  FmiColorValue blue;
+  FmiColorValue alpha;
 };
-typedef struct      //3.11.2000
+
+
+//! Undocumented
+struct FmiCMYK
 {
-	bool isRgb;   
-	FmiUnionColor color;
-}FmiGenericColor;
+  double cyan;
+  double magenta;
+  double yellow;
+  double black;
+};
+
+
+//! Undocumented
+enum FmiPageSize
+  {
+	kLetter = 1,
+	kA4,
+	kA4Maisema,
+	kA3,
+	kA3Maisema
+};
+
+//! Undocumented
+union FmiUnionColor
+{
+  FmiRGBColor rgb;
+  FmiCMYK cmyk;  
+};
+
+
+//! Undocumented
+struct FmiGenericColor
+{
+  bool isRgb;   
+  FmiUnionColor color;
+};
  
-#endif //__NPRETYPE_H__
+#endif // NFMIPRESSTYPES_H
+
+// ======================================================================

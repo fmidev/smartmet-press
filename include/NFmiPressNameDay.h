@@ -1,51 +1,116 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 21.1.2000
-// 
-//********************************************************
-//
-// Nimip‰iv‰(t) lehtituotteeseen
-// k‰ytt‰‰ yleist‰ nimip‰iv‰luokkaa 
-//
-//********************************************************
-//
-//Muutettu xxxxxx/LW 
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressNameDay
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressNameDay
+ *
+ * Nimip‰iv‰(t) lehtituotteeseen
+ * k‰ytt‰‰ yleist‰ nimip‰iv‰luokkaa 
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
-
-#ifndef __NFMIPRESSNAMEDAY_H__
-#define __NFMIPRESSNAMEDAY_H__
+#ifndef NFMIPRESSNAMEDAY_H
+#define NFMIPRESSNAMEDAY_H
 
 #include "NFmiPressText.h"
 #include "NFmiNameDay.h"
 #include "NFmiMetTime.h"
 
-typedef enum
+
+//! Undocumented
+enum NFmiPressNameDayObjects
 {
-	 dMaxLength	= 2800
-	,dMaxNumber
-}NFmiPressNameDayObjects;
-
-class _FMI_DLL NFmiPressNameDay : public NFmiPressText 
-{
-	public:
-		NFmiPressNameDay(void) : NFmiPressText()
-							,itsNameDay(0)
-							,itsMaxNumber(kShortMissing)
-							,itsMaxLength(kShortMissing){};
-
-		virtual ~NFmiPressNameDay();
-
-		virtual bool ReadRemaining(void);  
-		virtual int ConvertDefText(NFmiString & object); 
-		virtual bool	WritePS(FmiPressOutputMode theOutput);
-		void SetMaxNumber(FmiCounter maxNumber) {itsMaxNumber=maxNumber;};
- 		void SetMaxLength(FmiCounter maxLength) {itsMaxLength=maxLength;};
-  		void SetNameDay(NFmiNameDay* theNameDay) {itsNameDay=theNameDay;};
-     
-	protected:
-		NFmiNameDay* itsNameDay;
-		FmiCounter itsMaxNumber;
-		FmiCounter itsMaxLength;  //voisi olla textill‰
+  dMaxLength = 2800,
+  dMaxNumber
 };
 
-#endif //__NFMIPRESSNAMEDAY_H__
+
+//! Undocumented
+class _FMI_DLL NFmiPressNameDay : public NFmiPressText 
+{
+public:
+
+  virtual ~NFmiPressNameDay(void);
+  NFmiPressNameDay(void);
+
+  virtual bool ReadRemaining(void);  
+  virtual int ConvertDefText(NFmiString & object); 
+  virtual bool WritePS(FmiPressOutputMode theOutput);
+  void SetMaxNumber(FmiCounter maxNumber);
+  void SetMaxLength(FmiCounter maxLength);
+  void SetNameDay(NFmiNameDay * theNameDay);
+     
+protected:
+
+  NFmiNameDay * itsNameDay;
+  FmiCounter itsMaxNumber;
+  FmiCounter itsMaxLength;  //voisi olla textill‰
+
+}; // class NFmiPressNameDay
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressNameDay::NFmiPressNameDay(void)
+  : NFmiPressText()
+  , itsNameDay(0)
+  , itsMaxNumber(kShortMissing)
+  , itsMaxLength(kShortMissing)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param maxNumber Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressNameDay::SetMaxNumber(FmiCounter maxNumber)
+{
+  itsMaxNumber=maxNumber;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param maxLength Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressNameDay::SetMaxLength(FmiCounter maxLength)
+{
+  itsMaxLength=maxLength;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theNameDay Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressNameDay::SetNameDay(NFmiNameDay * theNameDay)
+{
+itsNameDay=theNameDay;
+}
+
+#endif // NFMIPRESSNAMEDAY_H
+
+// ======================================================================
+

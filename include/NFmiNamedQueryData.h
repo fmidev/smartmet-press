@@ -1,50 +1,131 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 26.8.1998
-// 
-//********************************************************
-// 
-// Tässä on vain QueryData yhdistetty stringiin jolla saadaan 
-// useammat QD:t yksilöityä tarvittaessa. Tarvitaan kun 
-// lehtituotteisiin halutaan useampi QD samaan tuotteeseen    
-//
-//********************************************************
-//
-//Muutettu xxxxxx/    
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiNamedQueryData.h
+ */
+// ======================================================================
+/*!
+ * \class NFmiNamedQueryData
+ *
+ * Tässä on vain QueryData yhdistetty stringiin jolla saadaan 
+ * useammat QD:t yksilöityä tarvittaessa. Tarvitaan kun 
+ * lehtituotteisiin halutaan useampi QD samaan tuotteeseen.
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------NFmiHyphenationString.h
-
-#ifndef __NNAMEDQD_H__
-#define __NNAMEDQD_H__
-
+#ifndef NFMINAMEDQUERYDATA_H
+#define NFMINAMEDQUERYDATA_H
 
 #include "NFmiQueryData.h"
 
+//! Undocumented
 class _FMI_DLL NFmiNamedQueryData 
 {
-	public:
-		NFmiNamedQueryData  (void):
-		  itsData(0){};
-				NFmiNamedQueryData  (NFmiQueryData *data, NFmiString name):
-						itsData(data)
-						,itsName(name){};
+public:
 
-	  NFmiNamedQueryData  (const NFmiNamedQueryData &theNQD)
-						{itsData = theNQD.itsData;
-						 itsName = theNQD.itsName;};
-		
+  ~NFmiNamedQueryData(void);
+  NFmiNamedQueryData(void);
+  NFmiNamedQueryData(NFmiQueryData * data, NFmiString name);
+  NFmiNamedQueryData(const NFmiNamedQueryData & theNQD);
 
-     ~NFmiNamedQueryData (void);
+  void SetData(NFmiQueryData * theData);
+  NFmiQueryData * GetData(void);
+  NFmiString GetName(void);
 
-	 void           SetData(NFmiQueryData *theData) {itsData = theData;}; //4.9
-	 NFmiQueryData* GetData(void)  {return itsData;};
-	 NFmiString GetName (void){return itsName;};
+private:
 
-	private:
-		NFmiQueryData *itsData ;
-		NFmiString itsName;
+  NFmiQueryData * itsData ;
+  NFmiString itsName;
+  
+}; // class NFmiNamedQueryData
 
-};
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
 
-#endif //__NQDLIST_H__
+inline
+NFmiNamedQueryData::NFmiNamedQueryData(void)
+  : itsData(0)
+{
+}
 
+// ----------------------------------------------------------------------
+/*!
+ * Constructor
+ *
+ * \param data Undocumented
+ * \param name Undocumented
+ */
+// ----------------------------------------------------------------------
 
+inline
+NFmiNamedQueryData::NFmiNamedQueryData(NFmiQueryData * data,
+									   NFmiString name)
+  :	itsData(data)
+  , itsName(name)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param theNQD The object being copied
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiNamedQueryData::NFmiNamedQueryData(const NFmiNamedQueryData & theNQD)
+{
+  itsData = theNQD.itsData;
+  itsName = theNQD.itsName;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theData Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiNamedQueryData::SetData(NFmiQueryData * theData)
+{
+  itsData = theData;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiQueryData * NFmiNamedQueryData::GetData(void)
+{
+  return itsData;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiNamedQueryData::GetName(void)
+{
+  return itsName;
+}
+
+#endif // NFMINAMEDQUERYDATA_H
+
+// ======================================================================

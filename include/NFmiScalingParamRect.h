@@ -1,70 +1,83 @@
-//© Ilmatieteenlaitos/Lasse.
-//Original 7.11.2000
-//
-//****************************************************************
-// T‰m‰ luokka hallitsee dataohjattujen skaalattavien symbolien tuottamisen
-//****************************************************************
-//  
-// Muutettu xxxxxx/LW 
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiScalingParamRect
+ */
+// ======================================================================
+/*!
+ * \class NFmiScalingParamRect
+ *
+ * T‰m‰ luokka hallitsee dataohjattujen skaalattavien symbolien
+ * tuottamisen.
+ *
+ */
+// ======================================================================
 
-#ifndef __NFMISCALINGPARAMRECT_H__
-#define __NFMISCALINGPARAMRECT_H__
+#ifndef NFMISCALINGPARAMRECT_H
+#define NFMISCALINGPARAMRECT_H
 
 #include "NFmi2SymbolParamRect.h"
 
-typedef struct       //17.10.00
+
+//! Undocumented
+struct FmiValueScaling
 {
-	double		noneValue;  //t‰ll‰ j‰‰ pois, normaalisti nolla
-	double		symbolValue;//talletettua symbolia vastaava arvo
-	double	    maxValue;   //max-arvo, jonka mukaan skaalataan
-}FmiValueScaling;
-
-typedef enum
-{
-	 dHeightScale            
-	,dWidthScale            
-}NFmiScalingParamRectObjects;
-
-class _FMI_DLL NFmiScalingParamRect : public NFmi2SymbolParamRect  
-{
-	public:
-		NFmiScalingParamRect(void): NFmi2SymbolParamRect(){
-								 {itsXValueScaling.symbolValue=kFloatMissing;
-								  itsYValueScaling.symbolValue=kFloatMissing;}; 
-
-		};
-/*
-		NFmiRotatingParamRect ( NFmiDataIdent theParam
-							, NFmiRect theRelativeSize	)
-							:  NFmiSymbolParamRect(theParam
-							                      ,theRelativeSize)
-														  {}; 
-*/		
-		NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect);
-
-		virtual bool      ReadRemaining(void);
-		
-		virtual ~NFmiScalingParamRect();
-        virtual int ConvertDefText(NFmiString & object);
-		virtual NFmiParamRect*	Clone(void) const;
-
-	protected:
-		virtual void    DoPostReading(void); 
-		bool ReadSymbolScale(FmiValueScaling& theScale); //201000
-		void       ScaleByValue();             //7.11.00
-		FmiValueScaling     itsXValueScaling;  //17.10.00
-		FmiValueScaling     itsYValueScaling;  //17.10.00
-//		double				itsHeightScale;     //16.10.00
-//		double				itsHeightScaleBase;  //16.10.00
-
-
-	private:
-//		bool CopyShortSymbol2Dest(NFmiString* symbolFile, ofstream theDestinationFile); //11.2
-
-	private:
-
+  double noneValue;		//!< t‰ll‰ j‰‰ pois, normaalisti nolla
+  double symbolValue;	//!< talletettua symbolia vastaava arvo
+  double maxValue;		//!< max-arvo, jonka mukaan skaalataan
 };
 
 
-#endif //__NROTPARR_H__
+//! Undocumented
+enum NFmiScalingParamRectObjects
+{
+  dHeightScale,
+  dWidthScale          
+};
+
+
+//! Undocumented
+class _FMI_DLL NFmiScalingParamRect : public NFmi2SymbolParamRect  
+{
+public:
+
+  virtual ~NFmiScalingParamRect(void);
+  NFmiScalingParamRect(void);
+  NFmiScalingParamRect(const NFmiScalingParamRect & theSymbolRect);
+
+  virtual bool ReadRemaining(void);
+		
+  virtual int ConvertDefText(NFmiString & object);
+  virtual NFmiParamRect * Clone(void) const;
+
+protected:
+
+  virtual void DoPostReading(void); 
+  bool ReadSymbolScale(FmiValueScaling & theScale);
+  void ScaleByValue();
+
+  FmiValueScaling itsXValueScaling;
+  FmiValueScaling itsYValueScaling;
+
+private:
+
+}; // class NFmiScalingParamRect
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiScalingParamRect::NFmiScalingParamRect(void)
+  : NFmi2SymbolParamRect()
+{
+  itsXValueScaling.symbolValue=kFloatMissing;
+  itsYValueScaling.symbolValue=kFloatMissing;
+}
+
+#endif // NFMISCALINGPARAMRECT_H
+
+// ======================================================================

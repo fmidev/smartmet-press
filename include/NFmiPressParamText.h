@@ -1,45 +1,79 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 19.3.1998
-// 
-//********************************************************
-// 
-// Kirjoittaa (current) parametrinimen ps-oliona output-
-// tiedostoon. Ainoastaan ylitetty PressText:n WritePs-
-// metodi. Toinen emo on NFmiPressDataObject, jossa parametri. 
-//
-//********************************************************
-//
-//Muutettu 150300/LW    
-//Muutettu 040900/LW +IsDataObject()
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressParamText
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressParamText
+ *
+ * Kirjoittaa (current) parametrinimen ps-oliona output-tiedostoon.
+ * Ainoastaan ylitetty PressText:n WritePs-metodi. Toinen emo on
+ * NFmiPressDataObject, jossa parametri. 
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
+#ifndef NFMIPRESSPARAMTEXT_H
+#define NFMIPRESSPARAMTEXT_H
 
-#ifndef __NPPARTEX_H__
-#define __NPPARTEX_H__
-
-#include "NFmiPressText.h"
 #include "NFmiPressDataObject.h"
+#include "NFmiPressText.h"
 
-class _FMI_DLL NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
+//! Undocumented
+class _FMI_DLL NFmiPressParamText : public NFmiPressText,
+									public NFmiPressDataObject
 {
-	public:
-		NFmiPressParamText(void) :  NFmiPressText()
-		                          ,NFmiPressDataObject()
-		                          {};
+public:
 
-		NFmiPressParamText(const NFmiPressText& theTextParamRect); 
+  virtual ~NFmiPressParamText(void);
 
-		virtual ~NFmiPressParamText(){};
+  NFmiPressParamText(void);
+  NFmiPressParamText(const NFmiPressText & theTextParamRect); 
 
-//		virtual bool		ReadDescription(NFmiString& retString); 
-//		virtual NFmiParamRect*	Clone(void) const; 
-//      int ConvertDefText(NFmiString & object);
-
-		virtual bool	WritePS(FmiPressOutputMode theOutput);  
- 	    virtual bool IsDataObject(void) {return true;};  //4.9.00 
+  virtual bool WritePS(FmiPressOutputMode theOutput);  
+  virtual bool IsDataObject(void);
       
-	protected:               
-		
-};
+}; // class NFmiPressParamText
 
-#endif //__NPRETEXT_H__
+// ----------------------------------------------------------------------
+/*!
+ * Destructor does nothing special
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressParamText::~NFmiPressParamText(void)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressParamText::NFmiPressParamText(void)
+  :  NFmiPressText()
+  , NFmiPressDataObject()
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParamText::IsDataObject(void)
+{
+  return true;
+}
+
+#endif // NFMIPRESSPARAMTEXT_H
+
+// ======================================================================

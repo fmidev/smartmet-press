@@ -1,128 +1,294 @@
-//© Ilmatieteenlaitos/Lasse.
-//Original 6.3.1998
-//****************************************************************
-// PS-tuotteiden skaalaukset hallitaan tästä luokasta
-// Koska tämä on peritty luokista NFmiDescription ja NFmiPsWriting
-// on tämä perusluokka kaikille ps-olioille ja hallitsee 
-// - ps-koodin kirjoittamisen
-// - määrittelytiedoston lukemisen
-// - skaalaukset
-// Käytössä on kuitenkin rinnakkainen vanhempi luokkahierarkia, jossa
-// ovat esim datariippuvien sääsymbolien ja numeroiden teko  
-//****************************************************************
-//
-// Erotettu omaksi olioksi NFmiPsSymbolista
-// 
-//Muutettu 180398/LW +Place(void)
-//Muutettu 060498/LW +fOnePrint
-//Muutettu 260898/LW +SetSize(point) tarvitaan DataAlkiot:n sisäisille olioille 
-//Muutettu 090998/LW +fPrintOnce
-//Muutettu 250998/LW perintä NFmiDescription -> NFmiPressDescription
-//Muutettu 111298/LW +SetScale()
-//Muutettu 111298/LW +fInParagraph
-//Muutettu 181298/LW +GetLineStep()
-//Muutettu 121099/LW perintä NFmiPressTimeDescriptionista eika NFmiPressDescriptionista
-//Muutettu 150300/LW metakieli ja xml output eps:n lisäksi
-//Muutettu 160800/LW + tyhjä WritePSUpdatingSubText()
-//Muutettu 240101/LW +dMakeAsLast
-//Muutettu 250101/LW +CreatePath()
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressScaling
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressScaling
+ *
+ * PS-tuotteiden skaalaukset hallitaan tästä luokasta
+ * Koska tämä on peritty luokista NFmiDescription ja NFmiPsWriting
+ * on tämä perusluokka kaikille ps-olioille ja hallitsee 
+ *
+ *  - ps-koodin kirjoittamisen
+ *  - määrittelytiedoston lukemisen
+ *  - skaalaukset
+ *
+ * Käytössä on kuitenkin rinnakkainen vanhempi luokkahierarkia, jossa
+ * ovat esim datariippuvien sääsymbolien ja numeroiden teko.
+ *
+ */
+// ======================================================================
 
-#ifndef __NPRSCALE_H__
-#define __NPRSCALE_H__
+#ifndef NFMIPRESSSCALING_H
+#define NFMIPRESSSCALING_H
 
-#ifndef __NPRDESCR_H__
+// press
 #include "NFmiPressTimeDescription.h"
-#endif//__NPRDESCR_H__
-
-#ifndef __NPSWRITE_H__
 #include "NFmiPsWriting.h"
-#endif//__NPSWRITE_H__
-
-#ifndef __NRECTSCA_H__
 #include "NFmiRectScale.h"
-#endif//__NRECTSCA_H__
-
+// newbase
 #include "NFmiFileString.h"
 
 class NFmiQueryData;
 
-typedef enum
+//! Undocumented
+enum NFmiPressScalingObjects
 {
-	 dSymbolSize
-	,dRelSymbolSize
-	,dPsPlaceMove   //6.10
-	,dSymbolPlace
-	,dPrintOnce     //6.4
-	,dRotate        //261198
-	,dRotateFirst   //150399
-	,dMakeAsLast    //240101
-	,dFileTimestamp   //190802
-}NFmiPressScalingObjects;
-                                      //121099
-class _FMI_DLL NFmiPressScaling : public NFmiPressTimeDescription ,public NFmiPsWriting
+  dSymbolSize,
+  dRelSymbolSize,
+  dPsPlaceMove,
+  dSymbolPlace,
+  dPrintOnce,
+  dRotate,
+  dRotateFirst,
+  dMakeAsLast,
+  dFileTimestamp
+};
+
+//! Undocumented
+class _FMI_DLL NFmiPressScaling : public NFmiPressTimeDescription,
+								  public NFmiPsWriting
 {
-	public:
-		NFmiPressScaling(void): NFmiPressTimeDescription()       //121099
-							,itsRelArea(NFmiPoint(0.,0.)
-							           ,NFmiPoint(1.,1.))
-			                ,itsRectSize(40.,40.)
-							,itsPlace(NFmiPoint(0.,0.))
-							,fPrintOnce(false)
-							,fScaleNotPlace(false)
-							,itsTimestampDayGap(kShortMissing)
-//							,fInParagraph(false) 
-								 {}; 
-		
-		NFmiPressScaling(const NFmiPressScaling& thePsSymbol);
-		
-		virtual ~NFmiPressScaling();
-        virtual int             ConvertDefText(NFmiString& object);
-		virtual bool		ReadDescription(NFmiString& retString)=0;
-        virtual bool      ReadRemaining(void);        
-		virtual bool      WritePS(const NFmiPoint& thePoint, FmiPressOutputMode theOutput);//15.3.00
-		virtual bool      WritePS(FmiPressOutputMode theOutput)=0;  //15.3.00
-	    virtual bool		WritePSUpdatingSubText(FmiPressOutputMode theOutput){return true;}; //16.8.00
-				bool      SetSize (const NFmiPoint &theSize) 
-								{itsRectSize = theSize; return isTrue;}; 
-                bool      Set( NFmiRectScale &theRectScale
-							        ,std::ofstream& theDestinationFile);
-                bool      SetScale(const NFmiRectScale &theRectScale);
-		        void            Place(const NFmiPoint& thePlace){itsPlace = thePlace;};
-		        void            Move(const NFmiPoint& addPlace)
-				                          {itsPlace += addPlace;};
-		        NFmiPoint       Place(void){return itsPlace;};     
-				void            SetPrintOnceOn(void){fPrintOnce=true;};
-				void            ScaleNotPlace(void){fScaleNotPlace=true;};
-				bool      GetPrintOnce(void){return fPrintOnce;};
-	   virtual	bool      IsInParagraph(void){return false;};
-//				void            SetInParagraph(void){fInParagraph = kTru
-	   virtual double GetLineStep(void) const {return 0.;}; 
-	   virtual  void SetLastLineStep(double step) {;}; 
-	   virtual void SetLanguage(FmiLanguage theLanguage) {;}; //24.3.00
-//	   virtual bool IsDataObject(void) {return false;};  //4.9.00 
-				
+public:
 
-    protected:           
-        virtual void 	ScalePlotting(void);
-		NFmiFileString  CreatePath(NFmiString defaultDir, NFmiString givenPath
-			                   , NFmiString givenDir, NFmiString givenFile
-							   , NFmiString extension = NFmiString()); //26.1.01
-		int GetTimestampDayGap(void)const {return itsTimestampDayGap;}; 
-		bool AddTimeStamp(NFmiString& theGivenFile, const NFmiString& theTimeFormat=NFmiString("DDMM")) const; //16.8.02 
-	private:
+  virtual ~NFmiPressScaling(void);
+  NFmiPressScaling(void);
+  NFmiPressScaling(const NFmiPressScaling & thePsSymbol);
+  
+  virtual int ConvertDefText(NFmiString & object);
+  virtual bool ReadDescription(NFmiString & retString) = 0;
+  virtual bool ReadRemaining(void);        
+  virtual bool WritePS(const NFmiPoint & thePoint, FmiPressOutputMode theOutput);
+  virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
+  virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
+  bool SetSize(const NFmiPoint & theSize);
+  bool Set( NFmiRectScale & theRectScale, std::ofstream & theDestinationFile);
+  bool SetScale(const NFmiRectScale & theRectScale);
+  void Place(const NFmiPoint & thePlace);
+  void Move(const NFmiPoint& addPlace);
+  NFmiPoint Place(void);
+  void SetPrintOnceOn(void);
+  void ScaleNotPlace(void);
+  bool GetPrintOnce(void);
+  virtual bool IsInParagraph(void);
+  virtual double GetLineStep(void) const;
+  virtual void SetLastLineStep(double step);
+  virtual void SetLanguage(FmiLanguage newLanguage);
 
-	protected:
-//		bool          fInParagraph; //141298 palstaan edellisen jälkeen 
-        NFmiRectScale       itsRectScale; //koko kartta, tulee vasta writePs;ssä
-		NFmiRect            itsRelArea;   
-	    NFmiPoint           itsRectSize;  
-	    NFmiPoint           itsPlace;  
-		bool          fPrintOnce;   //6.4 pakotettu kerran-vain-tulostus
-		bool          fScaleNotPlace;   //9.9 DataAlkoi-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
-		int					itsTimestampDayGap; //19.8.02
-		};
+protected:           
+
+  virtual void ScalePlotting(void);
+  NFmiFileString CreatePath(NFmiString defaultDir,
+							NFmiString givenPath,
+							NFmiString givenDir,
+							NFmiString givenFile,
+							NFmiString extension = NFmiString());
+
+  int GetTimestampDayGap(void) const {return itsTimestampDayGap;}; 
+  bool AddTimeStamp(NFmiString & theGivenFile,
+					const NFmiString & theTimeFormat=NFmiString("DDMM")) const;
+private:
+  
+protected:
+
+  NFmiRectScale itsRectScale; //koko kartta, tulee vasta writePs;ssä
+  NFmiRect itsRelArea;   
+  NFmiPoint itsRectSize;  
+  NFmiPoint itsPlace;  
+  bool fPrintOnce;		// pakotettu kerran-vain-tulostus
+  bool fScaleNotPlace;	// DataAlkoi-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
+  int itsTimestampDayGap;
+
+}; // class NFmiPressScaling
 
 
-#endif //__NPRSCALE_H__
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressScaling::NFmiPressScaling(void)
+  : NFmiPressTimeDescription()
+  , itsRelArea(NFmiPoint(0.,0.), NFmiPoint(1.,1.))
+  , itsRectSize(40.,40.)
+  , itsPlace(NFmiPoint(0.,0.))
+  , fPrintOnce(false)
+  , fScaleNotPlace(false)
+  , itsTimestampDayGap(kShortMissing)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
+{
+  return true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theSize Undocumented
+ * \return Undocumented
+ */
+// ---------------------------------------------------------------------
+
+inline
+bool NFmiPressScaling::SetSize(const NFmiPoint & theSize) 
+{
+  itsRectSize = theSize;
+  return isTrue;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePlace Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressScaling::Place(const NFmiPoint & thePlace)
+{
+  itsPlace = thePlace;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param addPlace Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressScaling::Move(const NFmiPoint & addPlace)
+{
+  itsPlace += addPlace;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPoint NFmiPressScaling::Place(void)
+{
+  return itsPlace;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressScaling::SetPrintOnceOn(void)
+{
+  fPrintOnce=true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressScaling::ScaleNotPlace(void)
+{
+  fScaleNotPlace=true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressScaling::GetPrintOnce(void)
+{
+return fPrintOnce;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressScaling::IsInParagraph(void)
+{
+return false;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+double NFmiPressScaling::GetLineStep(void) const
+{
+  return 0.;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param lineStep Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressScaling::SetLastLineStep(double lineStep)
+{
+}
+ 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theLanguage Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressScaling::SetLanguage(FmiLanguage theLanguage)
+{
+}
+
+#endif // NFMIPRESSSCALING_H
+
+// ======================================================================
+
 

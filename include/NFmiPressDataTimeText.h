@@ -1,59 +1,83 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 2.4.1998
-// 
-//*************************************************************
-// 
-// Luokka tuottaa datan aktuellin ajan ps-oliona output-
-// tiedostoon. Emo on abstrakti NFmiPressTimeText ja sisaruksia
-// NFmiPressDataTimeText ja NFmiPressComputerTimeText.  . 
-//
-//*************************************************************
-//
-//Muutettu 280100/LW +itsStation, +fLocalTime; PressParam:n StationList:n eka asema, ei
-//                   siis datan jossa myös ei-piirrettäviä. Tarvitaan jos
-//                   aika piirretään localina
-//                   +ReadRemaining(),+ConvertDefText()
-//    EI TULLUTKAAN TÄNNE VAAN HOIDETAAN NFmiParamRectissä 
-//Muutettu 160800/LW +WritePSUpdatingSubText() tarvitaan kun segmentissä aikataulukossa
-//                   on jatkoaikateksti
-//Muutettu 040900/LW +ClassId()
-//Muutettu 260201/LW +fUseAnalyzingTime
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressDataTimeText
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressDataTimeText
+ *
+ * Luokka tuottaa datan aktuellin ajan ps-oliona output-
+ * tiedostoon. Emo on abstrakti NFmiPressTimeText ja sisaruksia
+ * NFmiPressDataTimeText ja NFmiPressComputerTimeText.
+ *
+ */
+// ======================================================================
 
-#ifndef __NPTIDTEX_H__
-#define __NPTIDTEX_H__
+#ifndef NFMIPRESSDATATIMETEXT_H
+#define NFMIPRESSDATATIMETEXT_H
 
-
-#include "NFmiPressTimeText.h"
 #include "NFmiPressDataObject.h"
+#include "NFmiPressTimeText.h"
 #include "NFmiStationPoint.h"
 
-typedef enum
+
+//! Undocumented
+enum NFmiPressDataTimeTextObjects
 {
-	 dUseOriginTime         =600   //25.2.01
-}NFmiPressDataTimeTextObjects;
-
-class _FMI_DLL NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObject
-{
-	public:
-		NFmiPressDataTimeText(void) :  NFmiPressTimeText()
-		                          ,NFmiPressDataObject()
-								  ,fUseOriginTime(false)
-		                          {};
-
-//		NFmiPressDataTimeText(const NFmiPressText& theTextParamRect); 
-
-		virtual ~NFmiPressDataTimeText();
-		bool ReadRemaining(void);         //25.2.01
-		int ConvertDefText(NFmiString & object); //25.2.01
-		
-		virtual bool	WritePS(FmiPressOutputMode theOutput); //15.3.00
-		virtual bool	WritePSUpdatingSubText(FmiPressOutputMode theOutput); //16.8.00									
-	    virtual unsigned long ClassId(void){return kNFmiPressDataTimeText;}; //4.9.00 
-
-	protected:
-		bool fUseOriginTime; //26.2.01
-		
+  dUseOriginTime = 600
 };
 
-#endif //__NPTIDTEX_H__
+//! Undocumented
+class _FMI_DLL NFmiPressDataTimeText : public NFmiPressTimeText,
+									   public NFmiPressDataObject
+{
+public:
+
+  virtual ~NFmiPressDataTimeText(void);
+  NFmiPressDataTimeText(void);
+
+  bool ReadRemaining(void);
+  int ConvertDefText(NFmiString & object);
+		
+  virtual bool WritePS(FmiPressOutputMode theOutput);
+  virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
+  virtual unsigned long ClassId(void);
+
+protected:
+
+  bool fUseOriginTime;
+		
+}; // class NFmiPressDataTimeText
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressDataTimeText::NFmiPressDataTimeText(void)
+  :  NFmiPressTimeText()
+  , NFmiPressDataObject()
+  , fUseOriginTime(false)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+unsigned long NFmiPressDataTimeText::ClassId(void)
+{
+  return kNFmiPressDataTimeText;
+}
+
+#endif // NFMIPRESSDATATIMETEXT_H
+
+// ======================================================================

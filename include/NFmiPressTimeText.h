@@ -1,60 +1,71 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 10.3.1998
-// 
-//********************************************************
-// Ps-aikatekstien (tekstien erikoistapauksena (NFmiPressText)) 
-// abstrakti luokka. Aikaformaatti j‰senen‰. T‰st‰ perit‰‰n edelleen 
-// datanAika, koneenAika ja annettuAika.
-//********************************************************
-//
-// Muutettu 020498/LW perint‰ PressDataObjectista katkaistu, t‰m‰n lapsella
-//                   NFmiPressDataTimeText:lla on vasta data
-//                   t‰m‰ on abstrakti josta periytyy NFmiDataTimeText ja
-//                                                    NFmiGivenTimeText
-//Muutettu 150300/LW erilaisia output-formaatteja mahdollistettu
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressTimeText
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressTimeText
+ *
+ * Ps-aikatekstien (tekstien erikoistapauksena (NFmiPressText)) 
+ * abstrakti luokka. Aikaformaatti j‰senen‰. T‰st‰ perit‰‰n edelleen 
+ * datanAika, koneenAika ja annettuAika.
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
-
-#ifndef __NPTIMTEX_H__
-#define __NPTIMTEX_H__
-
-typedef enum
-{
-	 dTimeTextFormat	= 160
-	,dTimeTextDays
-}NFmiTimeTextObjects;
+#ifndef NFMIPRESSTIMETEXT_H
+#define NFMIPRESSTIMETEXT_H
 
 #include "NFmiPressText.h"
-//#include "NFmiPressDataObject.h"
 #include "NFmiPressTime.h" 
 
-class _FMI_DLL NFmiPressTimeText : public NFmiPressText//2.4 , public NFmiPressDataObject
+//! Undocumented
+enum NFmiTimeTextObjects
 {
-	public:
-		NFmiPressTimeText(void) :  NFmiPressText()
-		            //              ,NFmiPressDataObject()  //2.4
-		                          ,itsFormat(kWwsHH)
-		                          {};
-
-		NFmiPressTimeText(const NFmiPressText& theTextParamRect); 
-
-		virtual ~NFmiPressTimeText();
-
-		virtual bool		ReadDescription(NFmiString& retString); 
-//		virtual NFmiParamRect*	Clone(void) const; 
-        virtual int ConvertDefText(NFmiString & object);
-
-		virtual bool	WritePS(FmiPressOutputMode theOutput) =0; //15.3.00  
-//		void SetValueDepending(float theValue); ei viel‰ t‰‰ss‰, jossain lapsessa jossa on Value()
-//		void SetColor(float theC, float theM, float theY, float theK);
-		void SetLanguage(FmiLanguage newLanguage); //24.3.00		
-       
-	protected:               
-		
-		unsigned long itsFormat;
-		unsigned long itsOrigFormat;  //24.3.00
-		NFmiString itsOrigFont;
-
+  dTimeTextFormat = 160,
+  dTimeTextDays
 };
 
-#endif //__NPRETEXT_H__
+
+//! Undocumented
+class _FMI_DLL NFmiPressTimeText : public NFmiPressText
+{
+public:
+
+  virtual ~NFmiPressTimeText(void);
+  NFmiPressTimeText(void);
+  NFmiPressTimeText(const NFmiPressText & theTextParamRect); 
+
+  virtual bool ReadDescription(NFmiString & retString); 
+  virtual int ConvertDefText(NFmiString & object);
+
+  virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
+
+  void SetLanguage(FmiLanguage newLanguage);
+       
+protected:               
+		
+  unsigned long itsFormat;
+  unsigned long itsOrigFormat;
+  NFmiString itsOrigFont;
+
+}; // class NFmiPressTimeText
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressTimeText::NFmiPressTimeText(void)
+  :  NFmiPressText()
+  , itsFormat(kWwsHH)
+{
+}
+
+#endif // NFMIPRESSTIMETEXT_H
+
+// ======================================================================
+

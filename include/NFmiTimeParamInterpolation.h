@@ -1,37 +1,58 @@
-// NFmiTimeParamInterpolation.h: interface for the NFmiTimeParamInterpolation class.
-//
-// Lasse 9.99
-// 
-//////////////////////////////////////////////////////////////////////
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiTimeParamInterpolation
+ */
+// ======================================================================
+/*!
+ * \class NFmiTimeParamInterpolation
+ *
+ * Undocumented
+ *
+ */
+// ======================================================================
+
 #ifndef NFMITIMEPARAMINTERPOLATION_H
 #define NFMITIMEPARAMINTERPOLATION_H
 
-#if _MSC_VER >= 1000
-#pragma once
-#endif // _MSC_VER >= 1000
-
-//class NFmiSuperSmartInfo;
 class NFmiFastQueryInfo;
 class NFmiWeightTimeScale;
 
+//! Undocumented
 class NFmiTimeParamInterpolation 
 {
 public:
-	NFmiTimeParamInterpolation(void);
-	NFmiTimeParamInterpolation(NFmiFastQueryInfo* theInfo
-		                      ,NFmiWeightTimeScale *theWeights):
-							itsInfo(theInfo)
-						   ,itsWeightScale(theWeights)					
-						{};
 
-	virtual ~NFmiTimeParamInterpolation(void);
-
-/*	virtual bool SubValue(double theValue, FmiParameterName theParam)=0;
-	virtual double SubValue(FmiParameterName theParam)=0;
-*/
+  virtual ~NFmiTimeParamInterpolation(void);
+  NFmiTimeParamInterpolation(void);
+  NFmiTimeParamInterpolation(NFmiFastQueryInfo* theInfo
+							 ,NFmiWeightTimeScale *theWeights);
 protected:
-	NFmiFastQueryInfo *itsInfo; //4.9.01
-	NFmiWeightTimeScale *itsWeightScale;
-};
 
-#endif
+  NFmiFastQueryInfo * itsInfo;
+  NFmiWeightTimeScale * itsWeightScale;
+
+}; // class NFmiTimeParamInterpolation
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Constructor
+ *
+ * \param theInfo Undocumented
+ * \param theWeights Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiTimeParamInterpolation::NFmiTimeParamInterpolation(NFmiFastQueryInfo * theInfo,
+													   NFmiWeightTimeScale * theWeights)
+  :	itsInfo(theInfo)
+  , itsWeightScale(theWeights)					
+{
+}
+
+#endif // NFMITIMEPARAMINTERPOLATION_H
+
+// ======================================================================
+

@@ -1,51 +1,76 @@
-// © Ilmatieteenlaitos/Salla.
-// Original 20.10.1997
-// 
-// Muutettu 19.11.97	Copy constr.
-// Muutettu 6.4.98	+fIsScaled ja uusi ja Map
-// Muutettu 241198/LW	+IsInFirst()
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiParamMapping
+ */
+// ======================================================================
+/*!
+ * \class NFmiParamMapping
+ *
+ * Information of single mapping interval and associated symbol.
+ *
+ * Oorganized series of mapping intervals; knows how to add
+ * new mapping interval; when given a value, finds the right
+ * interval and returns associated symbol.
+ */
+// ======================================================================
 
-#ifndef __NPARAMAP_H__
-#define __NPARAMAP_H__
+#ifndef NFMIPARAMMAPPING_H
+#define NFMIPARAMMAPPING_H
 
-#include "NFmiString.h"
 #include "NFmiSize.h"
+#include "NFmiString.h"
 
 
-// NFmiMappingInterval: information of single mapping interval and associated symbol
-typedef struct
+//! Undocumented
+struct NFmiMappingInterval
 {
-	double		itsBottomValue;
-	double		itsTopValue;
-	NFmiString	itsSymbol;
-	bool fIsScaled;    //6.4
-
-}NFmiMappingInterval;
-
-
-// NFmiParamMapping: organized series of mapping intervals; knows how to add
-// new mapping interval; when given a value, finds the right interval and returns
-// associated symbol.
-
-class _FMI_DLL NFmiParamMapping : public NFmiSize
-{
-	public:
-		NFmiParamMapping() : NFmiSize(0), itsMappingIntervals(0) {};
-		NFmiParamMapping(const NFmiParamMapping& theParamMapping);
-		virtual ~NFmiParamMapping();
-
-		void		AddMappingInterval(const NFmiMappingInterval & theInterval);
-		void		AddMappingInterval(double theBottomValue, double theTopValue
-									  , const NFmiString & theSymbol);
-		bool IsInFirst(const double theValue); //241198
-
-		NFmiString*	Map(const double theValue);	
-		NFmiString*	Map(const double theValue, bool& outIsScaled);	
-
-	private:
-		NFmiMappingInterval*	itsMappingIntervals;
+  double itsBottomValue;
+  double itsTopValue;
+  NFmiString itsSymbol;
+  bool fIsScaled;
 };
 
-#endif // __NPARAMAP_H__
+//! Undocumented
+class _FMI_DLL NFmiParamMapping : public NFmiSize
+{
+public:
+
+  virtual ~NFmiParamMapping(void);
+  NFmiParamMapping(void);
+  NFmiParamMapping(const NFmiParamMapping & theParamMapping);
+  
+  void AddMappingInterval(const NFmiMappingInterval & theInterval);
+  void AddMappingInterval(double theBottomValue,
+						  double theTopValue,
+						  const NFmiString & theSymbol);
+
+  bool IsInFirst(const double theValue);
+  
+  NFmiString * Map(const double theValue);	
+  NFmiString * Map(const double theValue, bool & outIsScaled);
+  
+private:
+
+  NFmiMappingInterval * itsMappingIntervals;
+
+}; // class NFmiParamMapping
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiParamMapping::NFmiParamMapping(void)
+  : NFmiSize(0)
+  , itsMappingIntervals(0)
+{
+}
+
+#endif // NFMIPARAMMAPPING_H
+
+// ======================================================================
+
 

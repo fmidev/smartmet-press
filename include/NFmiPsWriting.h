@@ -1,97 +1,206 @@
-//© Ilmatieteen laitos 12.2.1997/Lasse
-//
-//****************************************************************
-// Luokka hoitaa PS-koodin kirjoittamisen tulostiedostoon
-// ja siinä yhteydessä koodaa skaalauksen myös (scale+transform) 
-// Tästä peritään luokat jotka tuottavat ps-koodia
-//****************************************************************
-//  
-//Muutettu 091098/LW +fOverPrint
-//Muutettu 261198/LW +itsRotatingAngle, itsRotatingPoint, Rotate()
-//Muutettu 261198/LW +WriteGRestore()
-//Muutettu 050199/LW +SetRotatingPoint()
-//Muutettu 150399/LW +fRotBeforeScale
-//Muutettu 291099/LW +CopyFileWithoutShowpage
-//Muutettu 130300/LW +WriteOutString
-//Muutettu 150300/LW +FmiPressOutputMode
-//Muutettu 200600/LW +kPlainText
-//Muutettu 031100/LW +WriteColor
-//Muutettu 301100/LW +fActivity (voidaan managerista aktivoida/deaktivoida)
-//Muutettu 011200/LW +copy-konstr.
-//Muutettu 011200/LW +fWriteAsLast
-//---------------------------------------------------------------------------
-#ifndef __NPSWRITE_H__
-#define __NPSWRITE_H__
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPsWriting
+ */
+// ======================================================================
+/*!
+ * \class NFmiPsWriting
+ *
+ * Luokka hoitaa PS-koodin kirjoittamisen tulostiedostoon
+ * ja siinä yhteydessä koodaa skaalauksen myös (scale+transform) 
+ * Tästä peritään luokat jotka tuottavat ps-koodia
+ */
+// ======================================================================
 
+#ifndef NFMIPSWRITING_H
+#define NFMIPSWRITING_H
+
+// press
 #include "NFmiRectScale.h"
-#include "NFmiString.h"
 #include "NFmiPressTypes.h"
-
-typedef enum         //15.3.99                                     
-{kPostScript       = 1                                                  
-,kMetaLanguage     
-,kXml
-,kPlainText               //20.6.00
-} FmiPressOutputMode;
+// newbase
+#include "NFmiString.h"
 
 
-class _FMI_DLL NFmiPsWriting 
+// Undocumented
+enum FmiPressOutputMode
 {
-	public:
-		NFmiPsWriting(void)
-		  :fActivity(true)
-		  ,fWriteAsLast(false)
-		  ,fRotBeforeScale(false)
-		  ,itsRotatingAngle(0.)
-		  ,fOverPrint(false)
-		  ,itsInFile(0)    //25.3.02
-		  ,itsOutFile(0)
-		  ,itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.))
-					       ,NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.))))
-		{};
-		NFmiPsWriting(const NFmiPsWriting& thePsWriting); //1.12.00
-		
-		~NFmiPsWriting(void);
-
-		bool WriteOutString(const NFmiString& outString); //13.3.00
-        bool CopyFile(void);
-		bool CopyFileWithoutShowpage(void); //291099
-		bool WriteGRestore(void); //141298
-		void       Rotate(void); //261198
-        bool WritePSConcat(void);
-        bool WritePSConcatRotating(float); 
-        bool WritePSEnd(void);
-        bool WriteEPSConcatClipping(NFmiRect theClippingRect); //toimiiko
-        bool WriteEPSConcat(void);       //tarvitaanko
-        bool WriteEPSEnd(void);
-		void SetRotatingPoint(const NFmiPoint& thePoint) {itsRotatingPoint = thePoint;}; //050199
-		void SetRotBeforeScale(const bool rBeforeS) {fRotBeforeScale = rBeforeS;};  //150399
-		NFmiString AlignmentToMeta (const FmiDirection& pressAlignment)const;  //24.10.00
-
-		// Mika: operator= change 
-		// void	SetFile(const std::ofstream& theDestinationFile){itsOutFile=theDestinationFile;}
-		// void	SetFile(std::ofstream& theDestinationFile){itsOutFile=&theDestinationFile;}
-		void	SetFile(std::ofstream& theDestinationFile){itsOutFile=&theDestinationFile;}
-		void    WriteColor (const FmiGenericColor& theColor, FmiPressOutputMode mode, std::ofstream & os)const;  //3.11.00
-		//void    WriteColor (const FmiGenericColor& theColor, FmiPressOutputMode mode)const; 
-		bool    IsActive (void)const {return fActivity;}; //30.11.00
-		void    SetActivity (bool theActivity) {fActivity=theActivity;}; //30.11.00
-		bool    IsToWriteLast (void)const {return fWriteAsLast;}; //24.1.01
-		void    SetWriteLast (bool theWriteLat) {fWriteAsLast=theWriteLat;}; //30.11.00
-
-	protected:
-		bool      fActivity;         //301100
-		bool      fWriteAsLast;      //240101
-		bool      fRotBeforeScale;   //150399
- 	    NFmiPoint       itsRotatingPoint;  //261198
-		double          itsRotatingAngle;  //261198
-		bool      fOverPrint;        //9.10
-		// Mika: operator= change 
-		// std::ifstream itsInFile;
-		// std::ofstream itsOutFile;	  
-        std::ifstream * itsInFile; // does not own, does not destroy
-		std::ofstream * itsOutFile; // does not own, does not destroy
-        NFmiRectScale   itsWriteScale;
+  kPostScript = 1                                                  ,
+  kMetaLanguage,
+  kXml,
+  kPlainText
 };
 
-#endif //__NPSWRITE_H__
+
+//! Undocumented
+class _FMI_DLL NFmiPsWriting 
+{
+public:
+
+  ~NFmiPsWriting(void);
+  NFmiPsWriting(void);
+  NFmiPsWriting(const NFmiPsWriting & thePsWriting);
+		
+  bool WriteOutString(const NFmiString & outString);
+  bool CopyFile(void);
+  bool CopyFileWithoutShowpage(void);
+  bool WriteGRestore(void);
+  void Rotate(void);
+  bool WritePSConcat(void);
+  bool WritePSConcatRotating(float); 
+  bool WritePSEnd(void);
+  bool WriteEPSConcatClipping(NFmiRect theClippingRect);
+  bool WriteEPSConcat(void);
+  bool WriteEPSEnd(void);
+  void SetRotatingPoint(const NFmiPoint & thePoint);
+  void SetRotBeforeScale(const bool rBeforeS);
+  NFmiString AlignmentToMeta(const FmiDirection & pressAlignment) const;
+  void SetFile(std::ofstream & theDestinationFile);
+
+  void WriteColor(const FmiGenericColor & theColor,
+				  FmiPressOutputMode mode,
+				  std::ofstream & os) const;
+
+  bool IsActive(void) const;
+  void SetActivity(bool theActivity);
+  bool IsToWriteLast(void) const;
+  void SetWriteLast(bool theWriteLat);
+  
+
+protected:
+
+  bool fActivity;
+  bool fWriteAsLast;
+  bool fRotBeforeScale;
+  NFmiPoint itsRotatingPoint;
+  double itsRotatingAngle;
+  bool fOverPrint;
+  std::ifstream * itsInFile; // does not own, does not destroy
+  std::ofstream * itsOutFile; // does not own, does not destroy
+  NFmiRectScale itsWriteScale;
+
+}; // class NFmiPsWriting
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPsWriting::NFmiPsWriting(void)
+  : fActivity(true)
+  , fWriteAsLast(false)
+  , fRotBeforeScale(false)
+  , itsRotatingAngle(0.)
+  , fOverPrint(false)
+  , itsInFile(0)
+  , itsOutFile(0)
+	, itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.)),
+								  NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.))))
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePoint Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPsWriting::SetRotatingPoint(const NFmiPoint & thePoint)
+{
+  itsRotatingPoint = thePoint;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param rBeforeS Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPsWriting::SetRotBeforeScale(const bool rBeforeS)
+{
+  fRotBeforeScale = rBeforeS;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theDestinationFile Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPsWriting::SetFile(std::ofstream & theDestinationFile)
+{
+  itsOutFile = &theDestinationFile;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPsWriting::IsActive(void) const
+{
+  return fActivity;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theActivity Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPsWriting::SetActivity(bool theActivity)
+{
+  fActivity= theActivity;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPsWriting::IsToWriteLast(void) const
+{
+  return fWriteAsLast;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theWriteLat Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPsWriting::SetWriteLast(bool theWriteLat)
+{
+  fWriteAsLast=theWriteLat;
+}
+
+#endif // NFMIPSWRITING_H
+
+// ======================================================================
+

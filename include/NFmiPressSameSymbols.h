@@ -1,89 +1,144 @@
-/*-------------------------------------------------------------------------------------*/
-//© Ilmatieteenlaitos/Lasse.               
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressSameSymbols
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressSameSymbols
+ *
+ * Luokalla on tarkoitus tuottaa samaa vakio-"lyhytsymbolia" 
+ * useampiin paikkoihin ilman datariippuvuutta. Paikat 
+ * talletetaan voidPtrListaan. 
+ * Toimivuutta viimeisessä versiossa ei ole testattu.
+ * Käyttötarve aika pientä, joten kannattaako viedä käyttöoppaaseen?  
+ *
+ */
+// ======================================================================
 
-//Originaali 12.2.1998
-//********************************************************
-// 
-// Luokalla on tarkoitus tuottaa samaa vakio-"lyhytsymbolia" 
-// useampiin paikkoihin ilman datariippuvuutta. Paikat 
-// talletetaan voidPtrListaan. 
-// Toimivuutta viimeisessä versiossa ei ole testattu.
-// Käyttötarve aika pientä, joten kannattaako viedä käyttö-
-// oppaaseen?  
-//
-//********************************************************
-//
-//Muutettu 250998/LW perintä   
+#ifndef NFMIPRESSSAMESYMBOLS_H
+#define NFMIPRESSSAMESYMBOLS_H
 
-/*-------------------------------------------------------------------------------------*/
-
-
-#ifndef  __NPRESAME_H__
-#define  __NPRESAME_H__
-
-#ifndef  __NVPLIST__
-#include "NFmiVoidPtrList.h"
-#endif// __NVPLIST__
-
-#ifndef __NPSYMBOL_H__
+// press
 #include "NFmiPsSymbol.h"
-#endif//__NPSYMBOL_H__
-
-#ifndef __NRECTSCA_H__
 #include "NFmiRectScale.h"
-#endif//__NRECTSCA_H__
-
-#ifndef __NPRDESCR_H__
 #include "NFmiPressDescription.h"
-#endif//__NPRDESCR_H__
+// newbase
+#include "NFmiVoidPtrList.h"
 
 
-typedef enum
+//! Undocumented
+enum NFmiPressSameSymbolsObjects
 {
-	 dPlace         =200
-	,dPlaceSymbol
-	,dPlaceDefArea              
-	,dPlacePlotArea               
-    ,dPlaceSubViews
-    ,dPlaceStepSize                
-    ,dPlaceTable
-
-}NFmiPressSameSymbolsObjects;
-
-class _FMI_DLL NFmiPressSameSymbols : public NFmiPressDescription //25.9 
-{
- public:
-
-	NFmiPressSameSymbols(void)   //loki puuttuu
-		       :itsNumberOfSteps(1)
-               {};
-	NFmiPressSameSymbols(const NFmiRectScale& scale)    
-		          : itsNumberOfSteps(1)
-		           , itsScale(scale)
-                {};
-	
-	virtual ~NFmiPressSameSymbols (void) {/*itsStations.Destroy()*/};
-
-	bool WritePS(std::ofstream& theOutFile);
-
- //   void    SetStationScale(const NFmiRectScale& scale); 
-    void    SetScale(const NFmiRectScale& scale);        
-	virtual bool ReadDescription(NFmiString& retString); 
-    int     ConvertDefText(NFmiString & object);
- 	void	SetOutFile(std::ofstream& outFile){itsPsSymbol.SetFile(outFile);};//19.3.02
-	NFmiPsSymbol* GetPsSymbol(void) {return &itsPsSymbol;};     //20.11.01
- protected:
-
-	 void NextPoint(void);
-//	 void Place(void);
- private:
-	 FmiCounter itsNumberOfSteps;
-	 NFmiPoint itsStepSize;   
-	 NFmiRectScale itsCurrentScale; 
-	 NFmiRectScale itsScale;
-	 NFmiVoidPtrList itsPlaces;
-	 NFmiPsSymbol itsPsSymbol;
+  dPlace = 200,
+  dPlaceSymbol,
+  dPlaceDefArea,              
+  dPlacePlotArea,              
+  dPlaceSubViews,
+  dPlaceStepSize,               
+  dPlaceTable
 };
 
 
-#endif// __NPRESSPR_H__
+//! Undocumented
+class _FMI_DLL NFmiPressSameSymbols : public NFmiPressDescription
+{
+public:
+
+  virtual ~NFmiPressSameSymbols(void);
+
+  NFmiPressSameSymbols(void);
+  NFmiPressSameSymbols(const NFmiRectScale & scale);
+
+  bool WritePS(std::ofstream & theOutFile);
+  
+  void SetScale(const NFmiRectScale & scale);        
+  virtual bool ReadDescription(NFmiString & retString); 
+  int ConvertDefText(NFmiString & object);
+  void SetOutFile(std::ofstream & outFile);
+  NFmiPsSymbol * GetPsSymbol(void);
+
+protected:
+  
+  void NextPoint(void);
+
+private:
+
+  FmiCounter itsNumberOfSteps;
+  NFmiPoint itsStepSize;   
+  NFmiRectScale itsCurrentScale; 
+  NFmiRectScale itsScale;
+  NFmiVoidPtrList itsPlaces;
+  NFmiPsSymbol itsPsSymbol;
+
+}; // class NFmiPressSameSymbols
+
+// ----------------------------------------------------------------------
+/*!
+ * Destructor does nothing special
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressSameSymbols::~NFmiPressSameSymbols (void)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressSameSymbols::NFmiPressSameSymbols(void)
+  : itsNumberOfSteps(1)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Constructor
+ *
+ * \param scale Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressSameSymbols::NFmiPressSameSymbols(const NFmiRectScale & scale)    
+  : itsNumberOfSteps(1)
+  , itsScale(scale)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param outFile Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressSameSymbols::SetOutFile(std::ofstream & outFile)
+{
+  itsPsSymbol.SetFile(outFile);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPsSymbol * NFmiPressSameSymbols::GetPsSymbol(void)
+{
+  return &itsPsSymbol;
+}
+
+#endif // NFMIPRESSSAMESYMBOLS_H
+
+// ======================================================================

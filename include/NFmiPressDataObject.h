@@ -1,43 +1,110 @@
-//© Ilmatieteenlaitos/Lasse.
-//Original 10.3.1998
-// 
-// Muutettu xxxxxx/LW 
-// Muutettu 230899/LW ítsData muutettu qDatasta qInfoon 
-// Muutettu 150800/LW +GetData() 
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressDataObject
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressDataObject
+ *
+ * Undocumented
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
-
-#ifndef __NPREDATA_H__
-#define __NPREDATA_H__
+#ifndef NFMIPRESSDATAOBJECT_H
+#define NFMIPRESSDATAOBJECT_H
 
 #include "NFmiDataIdent.h"
 #include "NFmiQueryData.h"
 
-//class NFmiSuperSmartInfo;
 class NFmiFastQueryInfo;
 
+//! Undocumented
 class _FMI_DLL NFmiPressDataObject 
 {
-	public:
-		NFmiPressDataObject(void):itsData(0){};
+public:
 
-		NFmiPressDataObject(NFmiFastQueryInfo* theData)   
-				:itsData(theData)
-		{
-		};
+  virtual ~NFmiPressDataObject(void);
+  NFmiPressDataObject(void);
+  
+  NFmiPressDataObject(NFmiFastQueryInfo * theData);
+  NFmiPressDataObject(const NFmiPressDataObject & theRect);
+  
+  void SetData(NFmiFastQueryInfo * theData);
+  NFmiFastQueryInfo * GetData(void) const;
 
-		NFmiPressDataObject(const NFmiPressDataObject& theRect);  //5.4
-		
-		virtual ~NFmiPressDataObject(void){};
+protected: 
 
+  NFmiFastQueryInfo * itsData;
 
-		void		        SetData(NFmiFastQueryInfo* theData){itsData = theData;};
-		NFmiFastQueryInfo*		GetData(void) const{return itsData;}; //15.8.00
+}; // class NFmiPressDataObject
 
-	protected:
-	
-	protected: 
-		NFmiFastQueryInfo* itsData;
-};
+// ----------------------------------------------------------------------
+/*!
+ * Destructor does nothing special
+ */
+// ----------------------------------------------------------------------
 
-#endif // __NPARRECT_H__
+inline
+NFmiPressDataObject::~NFmiPressDataObject(void)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressDataObject::NFmiPressDataObject(void)
+  : itsData(0)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Constructor based on query info
+ *
+ * \param theData Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressDataObject::NFmiPressDataObject(NFmiFastQueryInfo * theData)
+  : itsData(theData)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theData Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDataObject::SetData(NFmiFastQueryInfo * theData)
+{
+  itsData = theData;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiFastQueryInfo * NFmiPressDataObject::GetData(void) const
+{
+  return itsData;
+}
+
+#endif // NFMIPRESSDATAOBJECT_H
+
+// ======================================================================

@@ -1,63 +1,118 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 16.3.1998
-// 
-//********************************************************
-// 
-// Kirjoittaa QD:n (current)asemannimen ps-oliona output-
-// tiedostoon. Nimi voidaan haluttaessa muuttaa, esim
-// Kˆˆpenhamina->K:hamina. Nimenmuutoslista tuodaan 
-// segmentista, joka lukee nimenvaihdot m‰‰rityksest‰.
-//
-//********************************************************
-//
-//Muutettu 051198/LW +NFmiRenaming, itsNewNames: nimen vaihdot tarvittaessa  
-//Muutettu 250898/LW +itsPressParam, tarvitaan grideiss‰
-//Muutettu 070600/LW +ChangeNewName()  
-//Muutettu 040900/LW +ClassId()
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressStationText
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressStationText
+ *
+ * Kirjoittaa QD:n (current)asemannimen ps-oliona output-tiedostoon.
+ * Nimi voidaan haluttaessa muuttaa, esim Kˆˆpenhamina->K:hamina.
+ * Nimenmuutoslista tuodaan segmentista, joka lukee nimenvaihdot
+ * m‰‰rityksest‰.
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
+#ifndef NFMIPRESSSTATIONTEXT_H
+#define NFMIPRESSSTATIONTEXT_H
 
-#ifndef __NPSTATEX_H__
-#define __NPSTATEX_H__
-
-//#include "NFmiPressStationText.h" 
 #include "NFmiPressText.h"
 #include "NFmiPressDataObject.h"
 
-typedef struct  //051198
-{
-	NFmiString		originalName;
-	NFmiString		newName;
 
-}NFmiRenaming;
+//! Undocumented
+struct NFmiRenaming
+{
+  NFmiString originalName;
+  NFmiString newName;
+};
 
 class NFmiPressParam;
 
-class _FMI_DLL NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
+
+//! Undocumented
+class _FMI_DLL NFmiPressStationText : public NFmiPressText,
+									  public NFmiPressDataObject
 {
-	public:
-		NFmiPressStationText(void) :  NFmiPressText()
-		                          ,NFmiPressDataObject()
-								  ,itsNewNames(0)
-		                          {};
+public:
 
-//		NFmiPressStationText(const NFmiPressText& theTextParamRect); 
+  virtual ~NFmiPressStationText(void);
+  NFmiPressStationText(void);
 
-		virtual ~NFmiPressStationText();
-
-		void SetNewNames(NFmiVoidPtrList* theNames){itsNewNames=theNames;};
-		bool SetNewName(const NFmiRenaming& theNames); //7.6.00
-		void SetPressParam(NFmiPressParam* pressParam){itsPressParam=pressParam;};//25.8.99
-		virtual bool	WritePS(FmiPressOutputMode theOutput); //15.3.00
-		NFmiString StationName(void);  //12.6.00 muutettu public		
-	    virtual unsigned long ClassId(void){return kNFmiPressStationText;}; //4.9.00 
+  void SetNewNames(NFmiVoidPtrList * theNames);
+  bool SetNewName(const NFmiRenaming & theNames);
+  void SetPressParam(NFmiPressParam * pressParam);
+  virtual bool WritePS(FmiPressOutputMode theOutput);
+  NFmiString StationName(void);
+  virtual unsigned long ClassId(void);
 		
-		
-       
-	protected:
-		NFmiVoidPtrList* itsNewNames; //051198
-		NFmiPressParam*  itsPressParam; //25.8.99 tarvitaan grideissa aseman nimen hakuun
-		                                // -> luokka ei en‰‰ yleinen
-};
+protected:
 
-#endif //__NPRETEXT_H__
+  NFmiVoidPtrList * itsNewNames;
+  NFmiPressParam * itsPressParam;
+
+}; // class NFmiPressStationText
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressStationText::NFmiPressStationText(void)
+  : NFmiPressText()
+  , NFmiPressDataObject()
+  , itsNewNames(0)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theNames Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressStationText::SetNewNames(NFmiVoidPtrList * theNames)
+{
+  itsNewNames=theNames;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param pressParam Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressStationText::SetPressParam(NFmiPressParam * pressParam)
+{
+  itsPressParam=pressParam;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+unsigned long NFmiPressStationText::ClassId(void)
+{
+  return kNFmiPressStationText;
+}
+
+#endif // NFMIPRESSSTATIONTEXT_H
+
+// ======================================================================
+

@@ -1,39 +1,80 @@
-// © Ilmatieteenlaitos/Lasse.
-// Original 2.4.1998
-// 
-//********************************************************
-// 
-// Luokalle annetaan aika jonka voi kirjoittaa ps-oliona output-
-// tiedostoon. Emo on abstrakti NFmiPressTimeText ja sisaruksia
-// NFmiPressDataTimeText ja NFmiPressComputerTimeText.  . 
-//
-//********************************************************
-//
-//Muutettu 121099/LW +ReadRemaining() jossa Päivä ja Tunti
+// ======================================================================
+/*!
+ * \file
+ * \brief Interface of class NFmiPressGivenTimeText
+ */
+// ======================================================================
+/*!
+ * \class NFmiPressGivenTimeText
+ *
+ * Luokalle annetaan aika jonka voi kirjoittaa ps-oliona
+ * output-tiedostoon. Emo on abstrakti NFmiPressTimeText ja
+ * sisaruksia NFmiPressDataTimeText ja NFmiPressComputerTimeText.
+ *
+ */
+// ======================================================================
 
-//---------------------------------------------------------------------------
-
-#ifndef __NPTIGTEX_H__
-#define __NPTIGTEX_H__
+#ifndef NFMIPRESSGIVENTIMETEXT_H
+#define NFMIPRESSGIVENTIMETEXT_H
 
 #include "NFmiPressTimeText.h"
 
+//! Undocumented
 class _FMI_DLL NFmiPressGivenTimeText : public NFmiPressTimeText
 {
-	public:
-		NFmiPressGivenTimeText(void) :  NFmiPressTimeText()
-											{;};
+public:
 
-		virtual ~NFmiPressGivenTimeText();
+  virtual ~NFmiPressGivenTimeText(void);
+  NFmiPressGivenTimeText(void);
 
-		virtual bool ReadRemaining(void);  
-		virtual bool	WritePS(FmiPressOutputMode theOutput); 
-		virtual bool SetText();	   								
-		virtual void SetText(NFmiString theText)   
-							{NFmiPressTimeText::SetText(theText);};
-		void SetTime (const NFmiMetTime& theTime) {itsFirstPlotTime=theTime;};//11.4.02 +const koska Mika emossakin
-       
-	protected:
-};
+  virtual bool ReadRemaining(void);  
+  virtual bool WritePS(FmiPressOutputMode theOutput); 
+  virtual bool SetText(void);
+  virtual void SetText(NFmiString theText);
+  void SetTime(const NFmiMetTime & theTime);
 
-#endif //__NPTIGTEX_H__
+}; // class NFmiPressGivenTimeText
+
+// ----------------------------------------------------------------------
+/*!
+ * Void constructor
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPressGivenTimeText::NFmiPressGivenTimeText(void)
+  : NFmiPressTimeText()
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theText Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressGivenTimeText::SetText(NFmiString theText)   
+{
+  NFmiPressTimeText::SetText(theText);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theTime Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressGivenTimeText::SetTime(const NFmiMetTime & theTime)
+{
+  itsFirstPlotTime=theTime;
+}
+
+#endif // NFMIPRESSGIVENTIMETEXT_H
+
+// ======================================================================
