@@ -55,6 +55,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsNumOfWritePS = 0;
   fMakeElementsAfterSegments = false;
   itsMaskIter = 0;
+  fNewestDataMode = false;
 }
 
 // ----------------------------------------------------------------------
@@ -1037,7 +1038,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 10.2.2004" << endl;       
+   *itsLogFile << "program version = 13.2.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1387,8 +1388,10 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName)
   while(nData)
   {
 	name = nData->GetName();
-	if(givenName.IsValue() && name.Search(givenName) > 0)
-	//if (name == givenName)
+	//monessa määrittelyssä Search toisi väärän tiedoston riippuen määrittely-
+	// järjestyksestä (SuomiHav->SuomiHavSade), siksi oletus koko nimi
+	if(fNewestDataMode && givenName.IsValue() && name.Search(givenName) > 0
+	|| !fNewestDataMode && name == givenName)
 		return nData->GetData();
 	nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   }
@@ -1624,7 +1627,10 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		case dNewestDataFile: //sekä Mandatory että newest ei voi antaa
 		{
 			if(!thisDataFileCritical)
+			{
 				thisFileNewest = true; //must be set to false before next
+				fNewestDataMode = true; 
+			}
 		}
 		case dDataFile:
 		  {
@@ -2271,6 +2277,12 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dDataFilesNotCritical:
+		  {
+			allDataFilesCritical = false;
+			ReadNext();
+			break;
+		  }
 		default:
 		  {
 			ReadRemaining();
@@ -2459,6 +2471,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("alldatafilescritical") ||
 		  lowChar==NFmiString("pakollisetdatatiedostot"))
 	return dAllDataFilesCritical;
+  else if(lowChar==NFmiString("datafilesnotcritical") ||
+		  lowChar==NFmiString("eipakollisetdatatiedostot"))
+	return dDataFilesNotCritical;
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }

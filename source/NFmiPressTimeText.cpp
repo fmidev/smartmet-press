@@ -68,6 +68,9 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;                     
   itsIntObject = ConvertDefText(itsString);
+
+  //oletuskooksi 12, oli 40
+  itsRectSize.Y(12.);
   
   while(itsIntObject != dEnd || itsCommentLevel)
 	{

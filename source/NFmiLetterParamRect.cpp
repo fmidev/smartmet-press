@@ -79,8 +79,8 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
   itsMultiMapping = 0;
   itsModifier = kNoneModifier;
 
-  // kopsattu vain numerosta,jotta oletussuht.paikka = (0,0) toimii 
   itsRelRect -= NFmiPoint(1., 1.);
+  bool sizeSet = false;
   ReadNext();
 	
   while(itsIntObject != 9999 || itsCommentLevel) 
@@ -193,6 +193,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 			if(Read4Double(r1,r2,r3,r4))
 			  {
 				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
+				sizeSet = true; //tarvitaanko tänne
 			  }
 			ReadNext();
 			break;
@@ -204,6 +205,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 			if(ReadDouble(r1))
 			  {           
 				itsRelRect.Inflate(-(c40-r1)/(c40*2));
+				sizeSet = true;
 			  }
 			
 			ReadNext();
@@ -259,6 +261,10 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
   //flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
+  //oletuskooksi 12, oli 40
+  if (!sizeSet)
+	itsRelRect.Inflate(-(c40-12.)/(c40*2));
+  
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);
   Set(NFmiDataIdent(NFmiParam(itsIdentPar),240), NFmiRect(itsRelRect));

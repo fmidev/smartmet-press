@@ -88,7 +88,8 @@ enum NFmiPressProductObjects
   dMakeElementsAfterSegments,
   dMaskFile,
   dWeekdayDir,
-  dAllDataFilesCritical
+  dAllDataFilesCritical,
+  dDataFilesNotCritical = 3020
 };
 
 
@@ -203,6 +204,7 @@ private:
   long itsCurrentNumberToName;
   unsigned long itsNumOfWritePS;
   NFmiPressArea itsArea;
+  bool fNewestDataMode;
 
 }; // class NFmiPressProduct
 
