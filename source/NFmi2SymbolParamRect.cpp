@@ -14,7 +14,7 @@
 
 //---------------------------------------------------------------------------
 NFmi2SymbolParamRect::NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbolRect)
-: NFmiSymbolParamRect(*(NFmiSymbolParamRect*)&theSymbolRect)
+: NFmiSymbolParamRect(theSymbolRect)
 {
 	itsSecondDataIdent = theSymbolRect.itsSecondDataIdent;    
 };
