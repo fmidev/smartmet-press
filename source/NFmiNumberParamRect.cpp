@@ -517,7 +517,11 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 NFmiString NFmiNumberParamRect::DetachSign(const NFmiString & theString, float theValue) const
 {
   NFmiString newString;
-  if(fDetachSign && theValue < 9.5 && theValue > -9.5)
+
+// myös HS lehti saa luvan hyväksyä välilyönti kaksinumeroisiin pakkasiin
+// nyt laitoin mukaan koska webbiautomatiikka edellyttää
+//  if(fDetachSign && theValue < 9.5 && theValue > -9.5)
+  if(fDetachSign && theValue < 9.5 && theValue)
 	{
 	  NFmiString firstChar(theString.GetChars(1,1));
 	  NFmiString numString = theString.GetChars(2, theString.GetLen()-1);
