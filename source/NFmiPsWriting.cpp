@@ -19,6 +19,8 @@ using namespace std;
 
 NFmiPsWriting::~NFmiPsWriting(void)
 {
+	if(itsInFile)
+		delete itsInFile;
 }
 
 // ----------------------------------------------------------------------

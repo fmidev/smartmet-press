@@ -73,7 +73,12 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
   fileName += itsSymbol;
   fileName += NFmiString(".ps");
 
-  itsInFile->open(fileName, ios::in|ios::in);
+  if (itsInFile)
+	delete itsInFile;
+  itsInFile = new ifstream;
+  itsInFile->open(fileName, ios::in|ios::binary);
+//  itsInFile->open(fileName, ios::in|ios::in);
+
   if(itsInFile->good() && !itsInFile->eof())
 	{
 	  bool tempBool = WritePSConcat();

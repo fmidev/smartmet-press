@@ -76,7 +76,7 @@ protected:
   NFmiPoint itsRotatingPoint;
   double itsRotatingAngle;
   bool fOverPrint;
-  std::ifstream * itsInFile; // does not own, does not destroy
+  std::ifstream * itsInFile; 
   std::ofstream * itsOutFile; // does not own, does not destroy
   NFmiRectScale itsWriteScale;
 

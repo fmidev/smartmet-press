@@ -1406,6 +1406,11 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  {
 			if(itsArea.GetArea())
 			  {
+				if(!itsDataIter)
+				{
+					*itsLogFile << "*** ERROR: "<< "asemina datan pisteet, mutta data puuttuu "  << endl;
+					return false;
+				}
 				itsDataIter->ResetLocation();
 				double bottom = (itsArea.GetArea())->Bottom();
 				double top = (itsArea.GetArea())->Top();
