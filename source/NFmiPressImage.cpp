@@ -11,6 +11,8 @@
 
 #include "NFmiPressImage.h"
 #include "NFmiPressProduct.h"
+#include "NFmiSettings.h"
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
@@ -370,7 +372,28 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 	  return false;
 	}
   else
-	itsPath = CreatePath(NFmiString("PuoliValmiit"),itsTempImagePath,itsTempImageDir,itsTempImageFile);
+	{
+#ifndef UNIX
+	  char * env;
+	  env = getenv("lehtiPuoliValmiitDir");
+	  if(env == 0)
+		itsPath = CreatePath(NFmiString("PuoliValmiit"),
+							 itsTempImagePath,
+							 itsTempImageDir,
+							 itsTempImageFile);
+	  else
+		itsPath = CreatePath(NFmiString(env),
+							 itsTempImagePath,
+							 itsTempImageDir,
+							 itsTempImageFile);
+#else
+	  string dir = NFmiSettings::Optional<string>("press::inputpath","PuoliValmiit");
+	  itsPath = CreatePath(NFmiString(dir),
+						   itsTempImagePath,
+						   itsTempImageDir,
+						   itsTempImageFile);
+#endif
+	}
   retString = itsString;
   return true;
 }
