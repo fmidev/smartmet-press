@@ -82,7 +82,7 @@ int NFmiSunTimeParamRect::ConvertDefText(NFmiString & object)
 NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI) 
 	//aina local time piirtoalkioissa (vrt segmentti ja tuote missä ei)
 {
-	NFmiMetTime time = itsCurrentSegmentTime; 
+	NFmiMetTime tim = itsCurrentSegmentTime; 
 		
 		double latitude = itsStationPoint.GetLatitude();//Testiin
 		double longitude = itsStationPoint.GetLongitude();//Testiin
@@ -93,11 +93,11 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI)
 //	bool currentDay; 
 	if(fIsSunRise)
 	{    //2.6.00 +fIsValidTime; false jos ei laske/nouse
-		return itsStationPoint.TimeOfSunrise(time, (bool&)fIsValidTime);
+		return itsStationPoint.TimeOfSunrise(tim, (bool&)fIsValidTime);
 	}
 	else
 	{
-		return itsStationPoint.TimeOfSunset(time, (bool&)fIsValidTime);
+		return itsStationPoint.TimeOfSunset(tim, (bool&)fIsValidTime);
 	}
 }
 
