@@ -89,8 +89,8 @@ class _FMI_DLL NFmiPsWriting
 		// Mika: operator= change 
 		// std::ifstream itsInFile;
 		// std::ofstream itsOutFile;	  
-		std::ifstream * itsInFile; 
-		std::ofstream * itsOutFile;	  
+        std::ifstream * itsInFile; // does not own, does not destroy
+		std::ofstream * itsOutFile; // does not own, does not destroy
         NFmiRectScale   itsWriteScale;
 };
 
