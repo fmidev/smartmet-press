@@ -99,7 +99,7 @@ NFmiPressProduct::~NFmiPressProduct(void)
 
 bool NFmiPressProduct::SetSegmentTimeStatus(int theSegmentNum, bool theStatus)
 {
-  if(itsSegmentDoneTimes.size() < theSegmentNum)
+  if(static_cast<int>(itsSegmentDoneTimes.size()) < theSegmentNum)
   {
      itsSegmentDoneTimes.resize(itsSegmentDoneTimes.size()+5, false);
   }
@@ -119,7 +119,7 @@ bool NFmiPressProduct::SetSegmentTimeStatus(int theSegmentNum, bool theStatus)
 
 bool NFmiPressProduct::GetSegmentTimeStatus(int theSegmentNum) const
 {
-  if(itsSegmentDoneTimes.size() < theSegmentNum)
+  if(static_cast<int>(itsSegmentDoneTimes.size()) < theSegmentNum)
   {
 	 return false;
   }
