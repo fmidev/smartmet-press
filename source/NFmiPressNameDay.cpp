@@ -96,7 +96,7 @@ bool	NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 	}
     ScalePlotting();
 
-	NFmiString string;
+	NFmiString str;
 
 	if(!itsNameDay->IsRead())
 	{
@@ -122,8 +122,8 @@ bool	NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 
 	if(itsNameDay->IsValue())
 	{
-		string = itsNameDay->GetName(itsFirstPlotTime, itsMaxNumber, itsMaxLength);
-		SetText(string);
+		str = itsNameDay->GetName(itsFirstPlotTime, itsMaxNumber, itsMaxLength);
+		SetText(str);
 		return WriteString(NFmiString("NIMIPÄIVÄ"), theOutput);
 	}
 	else
