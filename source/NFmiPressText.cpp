@@ -1017,13 +1017,13 @@ bool	NFmiPressText::WriteString(const NFmiString& commentString, FmiPressOutputM
 // 8.12.98----------------------------------------------------------------------------
 NFmiString NFmiPressText::Construct(NFmiString *theString) const 
 {
-	NFmiString string = NFmiString(*theString);
-	if(fUpperCase) string.UpperCase();
-	if(fLowerCase) string.LowerCase();
+	NFmiString str = NFmiString(*theString);
+	if(fUpperCase) str.UpperCase();
+	if(fLowerCase) str.LowerCase();
 	NFmiString retString;
 	if(itsAddInFront.IsValue())
 		retString += itsAddInFront;
-    retString += string;
+    retString += str;
 	if(itsAddAfter.IsValue())
 		retString += itsAddAfter;
 
