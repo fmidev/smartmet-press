@@ -68,10 +68,12 @@ enum NFmiPressParamObjects
   dStationNameOnMap,
   dStationPlaceOnMap,
   dSegmentMapArea,
+  dMainArea,
+  dCoordinatesFromMainMap,
   dStationsFromData,
-  dDataNotNeeded,
+  dDataNotNeeded= 3040,
   dAreaOperation,
-  dDistanceCheck = 3040,
+  dDistanceCheck ,
   dSupplement,
   dSegmentNameDay
 };
@@ -214,6 +216,7 @@ protected:
   vector<FmiValuePoint> itsCheckLocations;
   bool fInterruptSymbolGroup;  
   bool fSupplementary;
+  bool fCoordinatesFromMainMap;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -259,6 +262,7 @@ NFmiPressParam::NFmiPressParam(void)
   , itsCheckDistance (NFmiPoint())
   , fInterruptSymbolGroup(false)
   , fSupplementary(false)
+  , fCoordinatesFromMainMap(false)
 {
   itsLanguage=kFinnish;
 }
@@ -302,6 +306,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , itsCheckDistance (NFmiPoint())
   , fInterruptSymbolGroup(false)
   , fSupplementary(false)
+  , fCoordinatesFromMainMap(false)
 {
   itsLanguage=kFinnish;
 }

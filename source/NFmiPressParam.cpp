@@ -425,7 +425,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   NFmiPoint unscaledStepSize = NFmiPoint(20.,0.);
   NFmiStationPoint newStation;
   bool dataTimeGiven = false;
-
+  bool takeToMainArea = false;
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
 	  if(itsLoopNum > itsMaxLoopNum)
@@ -1402,6 +1402,22 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  {
 				if(itsArea.GetArea())
 				  {
+					if(fCoordinatesFromMainMap)
+					{
+						NFmiArea *mainArea = itsPressProduct->itsMainArea;
+						NFmiArea *ownArea = itsArea.GetArea();
+						if(!mainArea || !ownArea)
+						{			
+							*itsLogFile << "*** ERROR: "<< "p‰‰- tai oma karttaa puuttuu"  << endl;
+						}
+						else
+						{
+							double xZoom = ownArea->Width()/mainArea->Width();
+							x = (x - mainArea->Left()) * xZoom + ownArea->Left();
+							double yZoom = ownArea->Height()/mainArea->Height();
+							y = (y - mainArea->Bottom()) * yZoom + ownArea->Bottom();
+						}
+					}
 					currentStationNumOnMap++;
 					point0 = NFmiPoint(x,y);
 					double bottom = (itsArea.GetArea())->Bottom();
@@ -1533,7 +1549,21 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			itsArea.SetXyRequest(!fIsAreaOperation); // mittoja ei tarvita jos k‰ytet‰‰n alueoperaatioihin
 			itsArea.SetProduct(itsPressProduct);
 			itsArea.ReadDescription(itsString);
+
 			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
+		case dMainArea:
+		  {
+			takeToMainArea = true; //toteutetaan lopussa jotta j‰rjestyksell‰ ei v‰li‰
+
+			ReadNext();
+			break;
+		  }
+		case dCoordinatesFromMainMap:
+		  {
+			fCoordinatesFromMainMap = true;
+			ReadNext();
 			break;
 		  }
 		case dStationsFromData:
@@ -1683,6 +1713,14 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			}
 		}
 	}
+
+  if(takeToMainArea)
+  {
+		if(itsArea.GetArea() == 0)
+			*itsLogFile << "*** ERROR: "<< "puuttuvaa karttaa ei saa p‰‰kartaksi"  << endl;
+		else
+			itsPressProduct->itsMainArea = itsArea.GetArea(); 
+  }
 
   retString = itsString;
 
@@ -1866,6 +1904,14 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("#map") ||
 		  lowChar==NFmiString("#kartta"))
 	return dSegmentMapArea;
+
+  else if(lowChar==NFmiString("mainmap") ||
+		  lowChar==NFmiString("t‰ss‰p‰‰kartta"))
+	return dMainArea;
+
+  else if(lowChar==NFmiString("coordinatesfrommainmap") ||
+		  lowChar==NFmiString("paikkakoordinaatitp‰‰kartasta"))
+	return dCoordinatesFromMainMap;
 
   else if(lowChar==NFmiString("stationsfromdata") ||
 		  lowChar==NFmiString("aseminadatanpisteet"))

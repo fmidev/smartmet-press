@@ -58,6 +58,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsMaskIter = 0;
   fNewestDataMode = false;
   fSupplementMode = false;
+  itsMainArea = 0;
 }
 
 // ----------------------------------------------------------------------
@@ -1117,7 +1118,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 1.10.2004" << endl;       
+   *itsLogFile << "program version = 6.10.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2393,6 +2394,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			itsArea.SetDescriptionFile(itsDescriptionFile);
 			itsArea.SetProduct(this);
 			itsArea.ReadDescription(itsString);
+
+			itsMainArea = itsArea.GetArea();
+
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }

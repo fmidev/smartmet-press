@@ -89,7 +89,7 @@ enum NFmiPressProductObjects
   dMapArea,
   dMakeElementsAfterSegments,
   dMaskFile,
-  dWeekdayDir= 3020,
+  dWeekdayDir=3020,
   dAllDataFilesCritical,
   dDataFilesNotCritical
 };
@@ -168,6 +168,7 @@ public:
   std::vector<bool> itsSegmentDoneTimes;
   void SetNameDay(NFmiNameDay* nameDay, FmiLanguage=kFinnish);
   NFmiNameDay* GetNameDay(FmiLanguage=kFinnish)const;
+  NFmiArea * itsMainArea; //jonkun PressArean pressProduktissa tai Paramissa, joka omistaa
 
 private:
 
