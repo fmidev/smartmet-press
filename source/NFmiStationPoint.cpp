@@ -282,7 +282,7 @@ NFmiString NFmiStationPoint:: LocalWmoTime(int utc) const
 	NFmiValueString retString;
     if(diffHour < -80.) 
 		retString = NFmiString("-");
-	else if(fmod(diffHour,1.) == 0.)
+	else if(fmod(diffHour,1.0f) == 0.)
 		retString.SetValue((int)(diffHour),NFmiString("%02d"));
 	else
 		retString.SetValue((float)(diffHour),NFmiString("%05.2f"));
