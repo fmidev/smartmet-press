@@ -49,6 +49,8 @@ public:
   void SetMaxNumber(FmiCounter maxNumber);
   void SetMaxLength(FmiCounter maxLength);
   void SetNameDay(NFmiNameDay * theNameDay);
+  void SetTime(const NFmiMetTime & theTime);
+  void ChangeByHours(long hours);
      
 protected:
 
@@ -74,6 +76,32 @@ NFmiPressNameDay::NFmiPressNameDay(void)
 {
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theTime Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressNameDay::SetTime(const NFmiMetTime & theTime)
+{
+	itsFirstPlotTime = theTime;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param maxNumber Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressNameDay::ChangeByHours(long hours)
+{
+	itsFirstPlotTime.ChangeByHours(hours);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

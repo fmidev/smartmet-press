@@ -71,7 +71,8 @@ enum NFmiPressParamObjects
   dDataNotNeeded,
   dAreaOperation,
   dDistanceCheck = 3040,
-  dSupplement
+  dSupplement,
+  dSegmentNameDay
 };
 
 struct FmiValuePoint
@@ -156,6 +157,7 @@ protected:
 
  private:
 
+  void StepTimeDependent(long theHourStep);
   bool DoTimeDependent(bool isLastLoop,
 							 FmiCounter theCurrentStepInd,
 							 ofstream & theFile,

@@ -76,6 +76,7 @@ public:
   virtual double GetLineStep(void) const;
   virtual void SetLastLineStep(double step);
   virtual void SetLanguage(FmiLanguage newLanguage);
+  virtual void ChangeByHours(long hours);
 
 protected:           
 
@@ -137,6 +138,18 @@ bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
   return true;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param maxNumber Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressScaling::ChangeByHours(long hours)
+{
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

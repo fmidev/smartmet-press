@@ -164,6 +164,8 @@ public:
   NFmiVoidPtrList itsObjects; //osakuvat voivat tuoda rekursiivisesti lisäkuvia
   bool IsSummerWeather(const NFmiString& theCountryPart);
   std::vector<bool> itsSegmentDoneTimes;
+  void SetNameDay(NFmiNameDay* nameDay);
+  NFmiNameDay* GetNameDay(void)const;
 
 private:
 
@@ -263,11 +265,37 @@ bool NFmiPressProduct::GetElementsAfterSegments(void) const
 // ----------------------------------------------------------------------
 
 inline
+NFmiNameDay* NFmiPressProduct::GetNameDay(void) const
+{
+  return itsNameDay;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressProduct::SetNameDay(NFmiNameDay* nameDay) 
+{
+   itsNameDay = nameDay;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
 NFmiString NFmiPressProduct::GetInFileName(void) const
 {
   return itsInFileName;
 }
-
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

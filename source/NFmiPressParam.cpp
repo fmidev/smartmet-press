@@ -17,6 +17,7 @@
 #include "NFmiPressProduct.h"
 #include "NFmiPressStationText.h"
 #include "NFmiPsSymbol.h"
+#include "NFmiPressNameDay.h"
 // newbase
 #include "NFmiEnumConverter.h"
 #include "NFmiEquidistArea.h"
@@ -943,6 +944,42 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
+		case dSegmentNameDay:
+		  {
+	//		if(!itsDataIter) // ilman data voi kai saada nimipäiviä
+	//		  {
+	//			*itsLogFile << "*** ERROR: Nimipäivää yritetty ilman dataa segmentissä" << endl;
+//
+//			  }
+
+			NFmiPressNameDay * text = new NFmiPressNameDay;
+			if(!itsPressProduct->GetNameDay())
+			{
+			  NFmiNameDay *nameDay = new NFmiNameDay;
+			  itsPressProduct->SetNameDay(nameDay); //omistaja
+			  text->SetNameDay(nameDay);
+			}
+			else
+			  text->SetNameDay(itsPressProduct->GetNameDay());
+
+            text->SetEnvironment(itsEnvironment);
+            text->SetHome(GetHome());
+		    text->SetLogFile(itsLogFile);
+			text->SetDescriptionFile(itsDescriptionFile);
+			text->SetLanguage(itsLanguage);
+			text->SetTime(itsFirstPlotTime);
+			text->Place(firstUnscaledPoint);
+			if(text->ReadDescription(itsString))
+			  {
+				text->ScalePlotting();
+				itsTimeDepObjects.Add(text);
+			  }
+			else
+			  delete text;
+
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
 		case dSymbolGroup:
 		  {
 			if(symbolGroupCalled)
@@ -1804,6 +1841,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("vaintäydennys"))
 	return dSupplement;
 
+  else if(lowChar==NFmiString("#nameday") ||
+		  lowChar==NFmiString("#nimipäivä"))
+	return dSegmentNameDay;
+
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }
@@ -1923,7 +1964,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   FmiCounter statAll = 0;
   bool done, supplementLater;
 
-  /********* AIKA/PAINEpintaluuppi ********/
+  /********* AIKA/PAINEPINTA-luuppi ********/
   while(itsCurrentStep <= itsNumberOfSteps) 
 	{
 	  FmiCounter currentStepInd = std::min(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
@@ -1979,6 +2020,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		 // eli ***VakioSymboli
 		 //     ***VakioTeksti
 		 //     ***AikaTeksti
+		 //     ***Nimipäivät
 
 			DoTimeDependent(false,
 					  currentStepInd,
@@ -2090,6 +2132,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		 // eli ***VakioSymboli
 		 //     ***VakioTeksti
 		 //     ***AikaTeksti
+		 //     ***Nimipäivät
 			DoTimeDependent(true,
 					  currentStepInd,
 					  theFile,
@@ -2131,10 +2174,18 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 		}
 	  else
+	  {
+		long hourStep;
 		if(fIsPureRegTimeLoop)
-		  time.ChangeByHours(itsHourStep);
+		  hourStep = itsHourStep;
+//		  time.ChangeByHours(itsHourStep);
 		else
-		  time.ChangeByHours(itsTimeSteps[currentStepInd]);
+		  hourStep = itsTimeSteps[currentStepInd];
+		  //time.ChangeByHours(itsTimeSteps[currentStepInd]);
+
+		 time.ChangeByHours(hourStep);
+	     StepTimeDependent(hourStep);
+	  }
 
 	  itsCurrentStep++;
 
@@ -2160,6 +2211,26 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	}
   return true;
 
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * Aika-askeltaminen. Vain nimipäivät, joilla ei dataa.
+ */
+// ----------------------------------------------------------------------
+void NFmiPressParam::StepTimeDependent(long theHourStep)
+{ 
+	NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
+	NFmiPressScaling * object;
+
+	objectIter.Reset();
+	object = static_cast<NFmiPressScaling *>(objectIter.Next());
+	while (object)
+	{
+		object->ChangeByHours(theHourStep);
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
+	}
 }
 // ----------------------------------------------------------------------
 /*!
