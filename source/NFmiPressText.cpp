@@ -771,7 +771,10 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	}
   else if(theOutput == kPlainText)
 	{
-	  *itsOutFile << endl << static_cast<char *>(text);
+	  if(IsLineFeed())
+		  *itsOutFile << endl << static_cast<char *>(text);
+	  else
+		  *itsOutFile << static_cast<char *>(text);
 	}
   else if(theOutput == kXml)
 	{

@@ -44,7 +44,8 @@ enum NFmiPressScalingObjects
   dRotate,
   dRotateFirst,
   dMakeAsLast,
-  dFileTimestamp
+  dFileTimestamp,
+  dNoLineFeed
 };
 
 //! Undocumented

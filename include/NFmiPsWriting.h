@@ -66,8 +66,9 @@ public:
   void SetActivity(bool theActivity);
   bool IsToWriteLast(void) const;
   void SetWriteLast(bool theWriteLat);
+  void SetLineFeed(bool theValue);
+  bool IsLineFeed(void);
   
-
 protected:
 
   bool fActivity;
@@ -79,6 +80,7 @@ protected:
   std::ifstream * itsInFile; 
   std::ofstream * itsOutFile; // does not own, does not destroy
   NFmiRectScale itsWriteScale;
+  bool fLineFeed;
 
 }; // class NFmiPsWriting
 
@@ -99,7 +101,36 @@ NFmiPsWriting::NFmiPsWriting(void)
   , itsOutFile(0)
 	, itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.)),
 								  NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.))))
+	,fLineFeed(true)
 {
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePoint Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPsWriting::IsLineFeed(void)
+{
+  return fLineFeed;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePoint Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPsWriting::SetLineFeed(bool theValue)
+{
+  fLineFeed = theValue;
 }
 
 // ----------------------------------------------------------------------

@@ -146,6 +146,12 @@ bool NFmiPressScaling::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dNoLineFeed:
+	  {
+		SetLineFeed(false);
+		ReadNext();
+		break;
+	  }
 	default:
 	  {
 		NFmiPressTimeDescription:: ReadRemaining();
@@ -211,6 +217,11 @@ int NFmiPressScaling::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("timestamp") ||
 		  lowChar==NFmiString ("aikaleima"))
 	return dFileTimestamp;
+
+  else if(lowChar==NFmiString("nolinefeed") ||
+		  lowChar==NFmiString ("eirivinvaihto")||
+		  lowChar==NFmiString ("eirivinsiirto"))
+	return dNoLineFeed;
 
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);

@@ -40,6 +40,7 @@ NFmiPsWriting::NFmiPsWriting(const NFmiPsWriting & thePsWriting)
   , itsInFile(thePsWriting.itsInFile)
   , itsOutFile(thePsWriting.itsOutFile)
   , itsWriteScale(thePsWriting.itsWriteScale)
+  , fLineFeed(thePsWriting.fLineFeed)
 {
 }
 
