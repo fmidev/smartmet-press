@@ -1118,7 +1118,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 6.10.2004" << endl;       
+   *itsLogFile << "program version = 7.10.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2731,26 +2731,27 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   if(output==kPostScript || itsNumOfWritePS < 2)
 	{
+	  bool notExt = !itsOutFile.Search(NFmiString("."));
 	  if(output==kPostScript)
 		{
-		  itsOutFile += NFmiString(".eps");
+		  if(notExt) itsOutFile += NFmiString(".eps");
 		  outFile.open(itsOutFile, ios::out | ios::binary);
 		}
 	  else if(output==kMetaLanguage)
 		{
-		  itsOutFile += NFmiString(".magic");
+		  if(notExt) itsOutFile += NFmiString(".magic");
 		  outFile.open(itsOutFile, ios::out | ios::binary);
 		}
 	  else if(output==kPlainText)
 		{
-		  itsOutFile += NFmiString(".txt");
+		  if(notExt) itsOutFile += NFmiString(".txt");
 		  outFile.open(itsOutFile, ios::out);
 		}
 	  else
 		{
-		  itsOutFile += NFmiString(".xml");
+		  if(notExt) itsOutFile += NFmiString(".xml");
 		  outFile.open(itsOutFile, ios::out | ios::binary);
-		}
+	  }
 
 	  if(itsLogFile)
 		*itsLogFile << "Output: " << static_cast<char *>(itsOutFile) << endl;
