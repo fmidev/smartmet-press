@@ -216,8 +216,9 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
   double c20 = c40/2.;
   sizePoint1NotSize.Set(-c20,-c20);
   sizePoint2NotSize.Set(c20,c20); //ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
-  NFmiString inDir;
+  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize,sizePoint2NotSize));
 
+  NFmiString inDir;
   inDir = GetHome();
   inDir += kFmiDirectorySeparator;
   inDir += "LyhytSymbolit";
@@ -317,7 +318,8 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-		case dSymbolPlace:
+		  
+		case dSymbolPlace: 
 		  {
 			if (!ReadEqualChar())
 			  break;
@@ -328,6 +330,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		  
 		case dSymbolDir:
 		  {
 			if (!ReadEqualChar())
@@ -346,7 +349,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-		case dSymbolSize:
+		case dSymbolSize: //vanhentunut
 		  {
 			if (!ReadEqualChar())
 			  break;
@@ -377,7 +380,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-		case dRelSymbolSize:
+		case dRelSymbolSize: //vanhentunut
 		  {
 			if (!ReadEqualChar())
 			  break;
@@ -439,7 +442,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 	}
   else
 	{
-	  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize,sizePoint2NotSize));
+//	  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize,sizePoint2NotSize));
 	}
 
   input.close();

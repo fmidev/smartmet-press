@@ -52,8 +52,8 @@ enum NFmiPressTextObjects
   dTextLanguage,
   dTextDir,
   dTextPath,
-  dMaxTextLength};
-
+  dMaxTextLength,
+  dWidthFactor};
 
 //! Undocumented
 class _FMI_DLL NFmiPressText : public NFmiPressScaling
@@ -97,6 +97,7 @@ public:
   double GetLineStep(void) const;
   void SetLastLineStep(double lineStep);
   virtual void SetTime(const NFmiMetTime& theTime);
+  double GetWidthFactor(void) const;
 
 protected:               
 
@@ -119,6 +120,7 @@ protected:
   NFmiPressText * itsSubText;
   double itsCharSpace;      
   unsigned long itsMaxLen;
+  double itsWidthFactor;
 }; // class NFmiPressText
 
 // ----------------------------------------------------------------------
@@ -143,6 +145,7 @@ NFmiPressText::NFmiPressText(void)
   , itsText(0)
   , itsCharSpace(0.)
   , itsMaxLen(kUnsignedLongMissing)
+  , itsWidthFactor(1.)
 {
   itsSubText = 0;
   itsLanguage = kFinnish;
@@ -251,6 +254,19 @@ NFmiString * NFmiPressText::GetText(void) const
   return itsText;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theLanguage Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+  double NFmiPressText::GetWidthFactor(void) const
+{
+  return itsWidthFactor;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

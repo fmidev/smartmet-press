@@ -60,6 +60,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
 //  , itsAlignment(thePressText.itsAlignment)
   , itsCharSpace(thePressText.itsCharSpace)
   , itsMaxLen(thePressText.itsMaxLen)
+  , itsWidthFactor(thePressText.itsWidthFactor)
 {
   itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : 0;
   itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : 0;
@@ -354,6 +355,8 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+
+
 		default:
 		  {
 			ReadRemaining();
@@ -538,6 +541,13 @@ bool NFmiPressText::ReadRemaining(void)
 		SetOne(itsMaxLen);
 		break;
 	  }
+
+	case dWidthFactor:
+	{
+		SetOne(itsWidthFactor);
+		break;
+	  }
+
 	default:
 	  {
 		NFmiPressScaling:: ReadRemaining();
@@ -673,6 +683,10 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString ("maxpituus"))
 	return dMaxTextLength;
 
+  else if(lowChar==NFmiString ("widthfactor") ||
+		  lowChar==NFmiString ("leveyskerroin"))
+	return dWidthFactor;
+
   else
 	return NFmiPressScaling::ConvertDefText(object);
 }
@@ -710,6 +724,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
   NFmiHyphenationString hypString, helpString;
   bool firstParagraph = fInParagraph && itsTopMargin > -100.;
   bool nParagraph = fInParagraph && !firstParagraph;
+  bool widthScaling = itsWidthFactor != 1.;
 
   text.ReplaceChars(NFmiString("_"), NFmiString(" "));
 
@@ -789,9 +804,11 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	  // ה,ו,צ,ײ onnistuvat vain sanan lopussa, ִ,ֵ ei silloinkaan
 	  // ON 5.98 RATKAISTU MIKAN KANSSA
 
+	 // WritePSConcatText(!nParagraph, IsPureBlack());
 	  if(!nParagraph)
 		*itsOutFile << "gsave" << endl;
-
+	  if(widthScaling)
+		*itsOutFile << itsWidthFactor << " 1 scale" << endl;
 	  if(IsPureBlack())
 		*itsOutFile << "true setoverprint" << endl;
 	  else
@@ -829,13 +846,20 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		{
 		  *itsOutFile << "{" << endl;
 
+		  double leftScaled = itsLeftMargin;
+		  double rightScaled = itsRightMargin;
+		  if (widthScaling)
+		  {
+			  leftScaled = itsLeftMargin/itsWidthFactor;
+			  rightScaled = itsRightMargin/itsWidthFactor;
+		  }
 		  // alaraja tarpeeksi alas, jos ei koko teksti mahdu alueeseen jהה PS ilmeisesti
 		  // luuppiin
 
-		  *itsOutFile << itsLeftMargin << " " << 0 << " moveto" << endl;
-		  *itsOutFile << itsLeftMargin << " " << itsTopMargin << " lineto" << endl;
-		  *itsOutFile << itsRightMargin << " " << itsTopMargin << " lineto" << endl;
-		  *itsOutFile << itsRightMargin << " " << 0 << " lineto" << endl;
+		  *itsOutFile << leftScaled << " " << 0 << " moveto" << endl;
+		  *itsOutFile << leftScaled << " " << itsTopMargin << " lineto" << endl;
+		  *itsOutFile << rightScaled << " " << itsTopMargin << " lineto" << endl;
+		  *itsOutFile << rightScaled << " " << 0 << " lineto" << endl;
 		  *itsOutFile << "closepath" << endl;
 		  *itsOutFile << "}" << endl;
 		  *itsOutFile << "/TextPath exch def" << endl;
@@ -845,7 +869,11 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		}
 	  if(!fInParagraph)
 		{
-		  *itsOutFile << x << " " << y << " moveto" << endl;
+		  double xScaled = x;
+		  if (widthScaling)
+			  xScaled = x/itsWidthFactor;
+
+		  *itsOutFile << xScaled << " " << y << " moveto" << endl;
 
 		  if(GetTextAlignment() == kRight )
 			{

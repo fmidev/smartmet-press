@@ -163,6 +163,7 @@ bool NFmiPsWriting::WritePSConcat(void)
   return isTrue;
 }
 
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
