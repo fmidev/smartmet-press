@@ -104,8 +104,8 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsEquiDistanceHalfInterval(theRect.itsEquiDistanceHalfInterval)
   , fMarkingValue(theRect.fMarkingValue)
   , itsSymbolGroupOrder(theRect.itsSymbolGroupOrder)
-  , itsDataIdent(theRect.itsDataIdent)
   , fMeanWindToMax(theRect.fMeanWindToMax)
+  , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)

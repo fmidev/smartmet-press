@@ -339,8 +339,8 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsEquiDistanceHalfInterval(0.)
   , fMarkingValue(true)
   , itsSymbolGroupOrder(0)
-  , itsDataIdent(theParam)
   , fMeanWindToMax(false)
+  , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
