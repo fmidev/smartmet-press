@@ -597,7 +597,6 @@ bool NFmiParamRect::ReadRemaining(void)
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
-		break;
 	  }
 	}
   return true;
@@ -826,20 +825,16 @@ bool NFmiParamRect:: PointOnParam(NFmiFastQueryInfo * theQI, NFmiParam * thePara
   
   if (!theQI->Param(*theParam))
 	{
-	  
-	  {
-		if(itsLogFile && !fParamErrorReported)
-		  {
-			
-			long paramIdent = theParam->GetIdent();
-			*itsLogFile << "  *** ERROR: Parametria ei löydy: "
-						<< paramIdent
-						<< endl;
-			fParamErrorReported = true;
-		  }
-		return false;
-	  }
-	  return true;
+	  if(itsLogFile && !fParamErrorReported)
+		{
+		  
+		  long paramIdent = theParam->GetIdent();
+		  *itsLogFile << "  *** ERROR: Parametria ei löydy: "
+					  << paramIdent
+					  << endl;
+		  fParamErrorReported = true;
+		}
+	  return false;
 	}
   return true;
 }
@@ -868,18 +863,15 @@ bool NFmiParamRect::PointOnMultiParam(NFmiFastQueryInfo * theQI, short theNum)
   itsCombinedIdent = kFmiLastParameter;  // onko tarkoitettu tähän?
   if (!theQI->Param(NFmiParam(static_cast<unsigned long>(itsMultiParams[theNum]))))
 	{
-	  {
-		if(itsLogFile && !fParamErrorReported)
-		  {
-			long paramIdent = static_cast<unsigned long>(itsMultiParams[theNum]);
-			*itsLogFile << "  *** ERROR: multiParametria ei löydy: "
-						<< paramIdent
-						<< endl;
-			fParamErrorReported = true;
-		  }
-		return false;
-	  }
-	  return true;
+	  if(itsLogFile && !fParamErrorReported)
+		{
+		  long paramIdent = static_cast<unsigned long>(itsMultiParams[theNum]);
+		  *itsLogFile << "  *** ERROR: multiParametria ei löydy: "
+					  << paramIdent
+					  << endl;
+		  fParamErrorReported = true;
+		}
+	  return false;
 	}
   return true;
 }
