@@ -478,7 +478,6 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 		case dEnd:
 		  {
 			return true;
-			break;
 		  }
 		}
 	}
