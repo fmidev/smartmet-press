@@ -21,17 +21,29 @@
  
 Lehtituotanto pyörii apulaismetkujen kolmella Windows-koneella: apmet2000, apmet2002, apmet2003. Myös metkujen parilla koneella voi ainakin rajoitetusti ajaa lehtituotteita. Esim data päivittyy identtisesti kaikille koneille ja itse tehdyt osat (rintamat, vyöhykkeet) ovat myös naapurikoneiden käytössä. Automaattilehdet voi (automaattisesti) ajaa vain 2003:lla ja 2002:lla (pdf-konversioon tarvittavaa Distillerohjelmaa ei ole muilla). Automaattirutiini pyörii normaalisti 2003:lla, jota ei juuri käytetä manuaalitoimintaan, mutta voidaan siis ongelmatilanteissa käynnistää 2002:lla. 2003:lla ja 2002:lla pyörii myös muutama muu ajastettu ajo.
 
-Lehtisääohjelman kriittiset tiedostot sijaitsevat LehtiAuto-hakemistossa (C:/Program Files/LehtiAuto) jonka ikoni on työpöydällä. Joitakin apuvälineitä on kuitenkin historiallisista syistä muuallakin (työpohjia, valmiit tuotteet) ja pdf-konversio sijaitsee omassa hakemistossa: C:/Pdf_pres.  
+Lehtisääohjelman kriittiset tiedostot sijaitsevat LehtiAuto-hakemistossa (C:/Program Files/LehtiAuto) jonka ikoni on työpöydällä. Joitakin apuvälineitä on kuitenkin historiallisista syistä muuallakin (työpohjia, valmiit tuotteet) ja pdf-konversio sijaitsee omassa hakemistossa: C:/Pdf_pres. Määrittelytiedostot ovat Tuotteet-hakemiston alihakemistoissa Rutiinit, Skriptien ja Auto (joitakin vielä rinnakkaishakemistoissa Rutiinit2000 ja Skriptien2000). Rutiinit-hakemistossa ovat ne lehdet, jotka suoraan voidaan käynnistää klikkaamalla määrittelyä kun taas Skriptien-hakemistossa ne lehdet, jotka myös tarvitsevat valmiita osioita (rintamia, lämpövyöhykkeitä ym). Näin ollen lehdet ajetaan käynnistämällä exe-haaran skripti, joka hoitaa tiedostojen kopioinnin ja joka vuorostaan käynnistää lehtiohjelman Skriptien-hakemiston märittelyllä. Jos suoraan klikkaa Skriptien-määrittelyä voi tuote jäädä vaillinaiseksi. Auto-hakemiston määrittelyt ovat automaattituotteiden. 
 
 \section sec_automaatti Automaattituotteet
  
-höpö höpö  
+Automaattisesti tuotettavat lehdet ajetaan normaalisti apmet2003-koneella. Siellä on skripti LehtiAuto/Bat/Automaatti.bat, joka ohjaa koko tuotannon. Skripti käynnistyy kerran tunnissa 20 min yli täyden tunnin ja tekee ne lehdet, jotka on merkitty ajettavaksi sinä viikonpäivänä ja kellonaikana (tunti). Automaatti-tiedosto ohjaa lehden teon alusta loppuun eli hakee mahdollisesti ensin valmiit osat (lämpövyöhykkeet), ajaa lehtiohjelman ao. lehden määrittelytiedostolla, muuntaa eps-tiedoston pdf-muotoon ja huolehtii jakelusta (ftp-palvelimelle ja/tai maililähetys). Skriptin suoritus kestää muutaman minuutin, koska se odottaa että Distiller-ohjelma (käynnistyy runsaan puolen minuutin välein) varmasti ehtii konvertoida tuotteet pdf-muotoon.  
+
+Automaatiikassa on vain sellaisia lehtiä, jotka voidaan toimittaa pdf-muodossa ja yleensä ne on aika yksinkertaisia ilman tekstejä tai lämpövyöhykkeitä. Poikkeuksen tekee Perniö, jossa suomineito-teksti sekä Warkaus jossa on lämpövyöhykkeitä. Tästä <a href="docs/Lehtimuistio.xls"> lehtimuistiosta </a> näkee mitkä lehdet tehdään automaattisesti (10. sarake).
+
+Automaattilehtien määrittelytiedostot pitää olla hakemistossa LehtiAuto/Tuotteet/Auto, jotta automatiikka osaisi ne käyttää. Sieltä määrittelyt voi ajaa myös käsin normaalilla tavalla kaksoisklikkaamalla mutta pdf-muunnoksesta ja jakelusta on silloin huolehdittava itse. On myös skripti joka xxx
 
 \section sec_data Data
 
+Ennusteissä käytetään editorin dataa siellä missä mahdollista (tosin määrittelyissä ei ole vielä laajennettu aluetta Suomen ulkopuolelle). Lehtiohjelma lukee nyt tuoreimman editorista talletetun datapaketin suoraan Odin-koneesta verkon yli. Datan jaksot vaihtelevat ollen ensin tunnin välein, sitten kolmen ja lopuksi kuuden tunnin välein. Väli on huomisesta lähtien jo 3h, joten vaikka lehtiohjelma integroi lyhyen jakson yli, käytännössä yksi ajanhetki (yleensä 12utc) määrää sääsymbolin ja lämpötilan. 
+
+Muut datat (synoptiset havainnot, meriveden korkeudet ja lämpötilat sekä myös Suomen ulkopuoliset ennusteet) tulevat laitoksen Windows-palvelimilta (Vespa/Kosla/Hopla) kiinteän aikataulun mukaan ja talletetaan LehtiAuto/Data-hakemistoon. Windows-palvelimilta saadaan myös lumikartat yms sekä graafiset käyrät (HS, Hbl), jotka sijoitetaan puolivalmiit-kansioon. Uusintalähetyksiä tulee datojen saantiaikoina 15-30 minuutin välein. Ajot pyörivät SMS-rutiinienhallintaohjelman alaisuudessa ja valvomo (p. 2580) auttaa häiriötilanteissa.
+
+Siitepölydataa varten on aivan oma rutiininsa: Bat/Siitepoly.bat, joka ajetaan apmet2003:lla joka päivä 12.05 ja varmistetaan vielä muutaman kerran tunnin välein. Skripti hakee ensin aerobiologien webbilomakkeesta tehdyn tiedoston Odin-koneesta ja muokkaa sen lehtiohjelman vaatimaan muotoon. Sen jälkeen se jaetaan piirtokoneille ja myös takaisin Odiniin.  
+
+Ennustetekstejä (vain suomineito.txt) käytetään lehtiohjelman kautta vain kahdessa lehdessä, automaattisessa Perniössä ja manuaalisessa Karjalaisessa. Apmet2003:ssa on skripti KopioiEnnusteet.bat joka ajetaan alkaen 12.12 puolen tunnin välein. Ajo hakee Apmet2000-koneelta, missä se tällä hetkellä editoidaan, tekstin kaikkiin koneisiin LehtiAuto/Tekstit/Suomineito-hakemistoon ja myös Odiniin. Sen voi myös siirtää käsin ja vaikka muuttaa vielä omalla koneella (toki paikalliset muutokset häviävät puolen tunnin sisällä kun seuraava automaattikopionti tehdään).    
+
 \section sec_ongelmat Ongelmatilanteet ja muut poikkeavuudet
 
-\subsection sec_lehtikaipaa Lehti ilmoittaa hyvissä ajoin poikkeusaikataulusta
+\subsection sec_poikkeusaika Lehti ilmoittaa hyvissä ajoin poikkeusaikataulusta
 
 Jos on kyse automaattituotteesta tehdään \ref sec_muutosautomaattiaikatauluun . Muuten...
 
