@@ -3,6 +3,19 @@
 
 \page editdata Editoridatan käytön nykytilanne lehtiohjelmassa
 
+\section sec_sisallys Sisällysluettelo
+
+-# \ref sec_paikka
+-# \ref sec_lampotilat
+-# \ref sec_saasymbolit
+  -# \ref sec_pilvisyys
+  -# \ref sec_olomuoto
+  -# \ref sec_voimakkuus
+  -# \ref sec_ukkonen
+  -# \ref sec_sumu
+  -# \ref sec_tuuli
+-# \ref sec_lopuksi
+
 \section sec_paikka Paikka
 
 Paikat määritellään tarkkojen lat/long -arvojen perusteella ja
