@@ -1,251 +1,255 @@
-//© Ilmatieteenlaitos/Salla.
-//  Original 20.11.1997
-//
-// Muutettu xx1198/LW +ReadRemaining(),+DoPostReading() 
-// Muutettu 080199/LW itsRelRect siirretty  
-// Muutettu 250899/LW tuottaja poistettu  
-// Muutettu 300899/LW ReadValues():ssa
-// Muutettu 110400/LW +itsVerticalLong
-// Muutettu 071100/LW perintä uudesta NFmi2SymbolParamRect:stä
-// Muutettu 081100/LW +AddSymbolMetaOptions()  
-//---------------------------------------------------------------------------
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiRotatingParamRect
+ */
+// ======================================================================
+
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
 #include "NFmiRotatingParamRect.h"
 #include "NFmiPressParam.h"
+#include <iostream>
 
-#include <iostream>  //STL 27.8.01
-using namespace std; //27.8.01
+using namespace std;
 
-//---------------------------------------------------------------------------
-NFmiRotatingParamRect::NFmiRotatingParamRect(const NFmiRotatingParamRect& theSymbolRect)
-//: NFmi2SymbolParamRect(*(NFmi2SymbolParamRect*)&theSymbolRect)
-: NFmi2SymbolParamRect(theSymbolRect)
+
+// ----------------------------------------------------------------------
+/*!
+ * The destructor does nothing special
+ */
+// ----------------------------------------------------------------------
+
+NFmiRotatingParamRect::~NFmiRotatingParamRect(void)
 {
-//	itsRotatingDataIdent = theSymbolRect.itsRotatingDataIdent;    
-	itsNotRotatingMinValue = theSymbolRect.itsNotRotatingMinValue; 
-	itsNotRotatingMaxValue = theSymbolRect.itsNotRotatingMaxValue; 
-	itsVerticalLong = theSymbolRect.itsVerticalLong;               //110400
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param theSymbolRect The object to copy
+ */
+// ----------------------------------------------------------------------
+
+NFmiRotatingParamRect::NFmiRotatingParamRect(const NFmiRotatingParamRect & theSymbolRect)
+  : NFmi2SymbolParamRect(theSymbolRect)
+{
+  itsNotRotatingMinValue = theSymbolRect.itsNotRotatingMinValue;
+  itsNotRotatingMaxValue = theSymbolRect.itsNotRotatingMaxValue;
+  itsVerticalLong = theSymbolRect.itsVerticalLong;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Make a copy of this
+ *
+ * \return The clone
+ * \todo Should return an auto_ptr
+ */
+// ----------------------------------------------------------------------
+
+NFmiParamRect * NFmiRotatingParamRect::Clone(void) const
+{
+  return new NFmiRotatingParamRect(*this);
 };
- 
-//---------------------------------------------------------------------------
-NFmiRotatingParamRect::~NFmiRotatingParamRect() 
-{
-//	 NFmi2SymbolParamRect::~NFmi2SymbolParamRect();
-};
 
-//---------------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
-NFmiParamRect* NFmiRotatingParamRect::Clone() const
+bool NFmiRotatingParamRect::ReadRemaining(void)
 {
-	return static_cast<NFmiParamRect *>(new NFmiRotatingParamRect(*this));
-};
-/*
-//---------------------------------------------------------------------------
-bool NFmiRotatingParamRect::Set(NFmiDataIdent theParam, NFmiRect theRect)
-{
-	itsRotatingDataIdent = theParam; //080199 lisä tälle luokalle 
-	return NFmi2SymbolParamRect :: Set(theParam, theRect);
-	*/
-//----------------------------------------------------------------------------
-bool NFmiRotatingParamRect::ReadRemaining(void)  //171198
-{
-//	long long1;
 	double double1,double2;
 
-/* EI TÄNNE MITÄÄN TÄLLAISTA KOSKA TÄNNE TULLAAN USEAMMAN KERRAN, vaan DoPostReading:iin*/
-//	if(fNewScaling)  //041298 oli pielessä 20 yksikköä ????
-////	   itsRelRect += NFmiPoint(-.5, -.5);
-//	   itsRelRect += NFmiPoint(-itsSizeFactor.X()/2, -itsSizeFactor.Y()/2);//080199 ???
-
 	switch(itsIntObject)
-	{
-		case dVerticalLong:	 //11.4.00 
+	  {
+	  case dVerticalLong:
 		{
-			SetOne(itsVerticalLong);
-			break;
+		  SetOne(itsVerticalLong);
+		  break;
 		}
-/*		case dRotatingPar:	  
+	  case dNotRotInterval:
 		{
-			if (!ReadEqualChar())
-				break;
-
-			if(ReadLong(long1))
-               itsRotatingDataIdent.SetParam(long1);
-			
-			ReadNext();
-
+		  if (!ReadEqualChar())
 			break;
-		}
-		*/
-		case dNotRotInterval:	  
-		{
-			if (!ReadEqualChar())
-				break;
-
-			if(Read2Double(double1,double2))
+		  
+		  if(Read2Double(double1,double2))
 			{
-			   itsNotRotatingMinValue=double1;
-			   itsNotRotatingMaxValue=double2;
+			  itsNotRotatingMinValue=double1;
+			  itsNotRotatingMaxValue=double2;
 			}
-
-			ReadNext();
-
-			break;
+		  
+		  ReadNext();
+		  
+		  break;
 		}
-		default: 
+	  default:
 		{
-//			return NFmiPressDescription::ReadRemaining();  
-			return NFmi2SymbolParamRect::ReadRemaining();  //220199
-			break;
+		  return NFmi2SymbolParamRect::ReadRemaining();
+		  break;
 		}
-	}
+	  }
 	return true;
 }
-//----------------------------------------------------------------------------
-int NFmiRotatingParamRect::ConvertDefText(NFmiString & object)  //041198
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param object Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+int NFmiRotatingParamRect::ConvertDefText(NFmiString & object)
 {
-	NFmiString lowChar = object;
-	lowChar.LowerCase(); //11.4.00 kaikille pitäisi sallia vapaa isot/pienet kirj.
-							//emossa nimellä ToinenParametri
-	if(lowChar==NFmiString("rotatingparameter") || lowChar==NFmiString("kääntäväparametri"))
-		return dSecondPar;
-	else if(lowChar==NFmiString("notrotinterval")||lowChar==NFmiString("eikääntyvätarvot"))
-		return dNotRotInterval;
-	else if(lowChar==NFmiString("verticallongitude")||lowChar==NFmiString("pystylongitudi")
-		     ||  lowChar==NFmiString("pystypituuspiiri"))
-		return dVerticalLong;
-	else
-		return NFmi2SymbolParamRect::ConvertDefText(object);
+  NFmiString lowChar = object;
+  lowChar.LowerCase(); // kaikille pitäisi sallia vapaa isot/pienet kirj.
+  //emossa nimellä ToinenParametri
+
+  if(lowChar==NFmiString("rotatingparameter") ||
+	 lowChar==NFmiString("kääntäväparametri"))
+	return dSecondPar;
+
+  else if(lowChar==NFmiString("notrotinterval") ||
+		  lowChar==NFmiString("eikääntyvätarvot"))
+	return dNotRotInterval;
+
+  else if(lowChar==NFmiString("verticallongitude") ||
+		  lowChar==NFmiString("pystylongitudi") ||
+		  lowChar==NFmiString("pystypituuspiiri"))
+	return dVerticalLong;
+
+  else
+	return NFmi2SymbolParamRect::ConvertDefText(object);
 }
 
-//----------------------------------------------------------------------------
-void NFmiRotatingParamRect::DoPostReading(void) 
-{
-	if(fNewScaling)  
-	   itsRelRect += NFmiPoint(-itsSizeFactor.X()/2, -itsSizeFactor.Y()/2);
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
 
-	if(!itsSecondDataIdent.IsDataParam())
-		itsSecondDataIdent.SetParam(*GetDataIdent().GetParam());
-//	if(!itsRotatingDataIdent.IsDataProducer())
-		itsSecondDataIdent.SetProducer(*GetDataIdent().GetProducer());
+void NFmiRotatingParamRect::DoPostReading(void)
+{
+  if(fNewScaling)
+	itsRelRect += NFmiPoint(-itsSizeFactor.X()/2, -itsSizeFactor.Y()/2);
+  
+  if(!itsSecondDataIdent.IsDataParam())
+	itsSecondDataIdent.SetParam(*GetDataIdent().GetParam());
+
+  itsSecondDataIdent.SetProducer(*GetDataIdent().GetProducer());
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param symbolFile Undocumented
+ * \param theDestinationFile Undocumented
+ * \return Undocumented
+ * \todo symbolFile should be const
+ */
+// ----------------------------------------------------------------------
 
-//----------------------------------------------------------------------------
-bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString* symbolFile, ofstream& theDestinationFile)
-{//11.2
-	NFmiString fileName = *itsSubDir;
-	fileName += itsSymbolSetName;    
-	fileName += NFmiString("_");
-	fileName += *symbolFile;
-	fileName += NFmiString(".ps");
-	// Mika: Oli 2 kertaa ios::in
-	ifstream inFile(fileName, ios::in|ios::binary); 
-    if(inFile.good() && !inFile.eof())  
+bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
+												 ofstream& theDestinationFile)
+{
+  NFmiString fileName = *itsSubDir;
+  fileName += itsSymbolSetName;
+  fileName += NFmiString("_");
+  fileName += *symbolFile;
+  fileName += NFmiString(".ps");
+  ifstream inFile(fileName, ios::in|ios::binary);
+  if(inFile.good() && !inFile.eof())
     {
-	   bool tempBool;
-	   float direction = itsSecondParamValue;
-	   float adjustedDirection = AdjustToMap(direction);
-	   if(!Rotate()) adjustedDirection = 270.;
-	   tempBool = NFmiWritePSConcatRotating(itsDefToProductScale, adjustedDirection, theDestinationFile);
-	   tempBool = NFmiCopyFile(inFile,theDestinationFile);
-	   tempBool = NFmiWritePSEnd(theDestinationFile);
-	   return isTrue;
+	  bool tempBool;
+	  float direction = itsSecondParamValue;
+	  float adjustedDirection = AdjustToMap(direction);
+	  if(!Rotate())
+		adjustedDirection = 270.;
+	  tempBool = NFmiWritePSConcatRotating(itsDefToProductScale,
+										   adjustedDirection,
+										   theDestinationFile);
+	  tempBool = NFmiCopyFile(inFile,theDestinationFile);
+	  tempBool = NFmiWritePSEnd(theDestinationFile);
+	  return isTrue;
 	}
-	else
-		return isFalse;
+  else
+	return isFalse;
 }
-//----------------------------------------------------------------------------
-void NFmiRotatingParamRect::WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, ofstream & os)
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param symbolFile Undocumented
+ * \param realPos Undocumented
+ * \param os Undocumented
+ * \todo symbolFile should be const
+ * \todo realPos should be const reference
+ */
+// ----------------------------------------------------------------------
+
+void NFmiRotatingParamRect::WriteMetaCode(NFmiString * symbolFile,
+										  NFmiPoint realPos,
+										  ofstream & os)
 {
-	NFmiString hStr(*symbolFile);
-	hStr.FirstCharToUpper();
-//	os << endl << "SymbolPath Symbolit/" << (char*)itsSymbolSetName << endl;
-	os << endl << static_cast<char *>(hStr)
-		<< " -x " << realPos.X() 
-		<< " -y " << realPos.Y() 
-//			<< " -scalex " << int(itsDefToProductScale.GetXScaling()*100.) << "%"     
-//			<< " -scaley " << int(itsDefToProductScale.GetYScaling()*100.) << "%";
-		<< " -angle " << static_cast<int>(itsSecondParamValue);
-	os << endl;
-}	
-/*
-//----------------------------------------------------------------------------
-void NFmiRotatingParamRect::AddSymbolMetaOptions(void) 
-{
-	cout << " -rotate " << (int)itsSecondParamValue; 
+  NFmiString hStr(*symbolFile);
+  hStr.FirstCharToUpper();
+  os << endl << static_cast<char *>(hStr)
+	 << " -x " << realPos.X()
+	 << " -y " << realPos.Y()
+	 << " -angle " << static_cast<int>(itsSecondParamValue);
+  os << endl;
 }
-*/
-//----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theDirection Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 float NFmiRotatingParamRect::AdjustToMap(float theDirection) const
-{//110400
-	if(itsVerticalLong != kFloatMissing)
+{
+  if(itsVerticalLong != kFloatMissing)
 	{
-		double lon = itsPressParam->GetCurrentStation().GetLongitude();
-		if(lon != kFloatMissing)
-			return theDirection - static_cast<float>(lon) + static_cast<float>(itsVerticalLong);
-		else
+	  double lon = itsPressParam->GetCurrentStation().GetLongitude();
+	  if(lon != kFloatMissing)
+		return theDirection - static_cast<float>(lon) + static_cast<float>(itsVerticalLong);
+	  else
 		{
-//			NFmiString name = itsPressParam->GetCurrentStation().GetName();
-		   *itsLogFile << "*** ERROR: longitudi puuttuu tuulensuuntaa varten asemalta "
-			           << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
-		   return theDirection;
+		  *itsLogFile << "*** ERROR: longitudi puuttuu tuulensuuntaa varten asemalta "
+					  << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
+		  return theDirection;
 		}
 	}
-
-	return theDirection;
+  
+  return theDirection;
 }
-/*	return itsVerticalLong < kFloatMissing ?
-		   (float)theDirection - (float)itsPressParam->GetCurrentStation().GetLongitude()
-		                       + (float)itsVerticalLong
-		 : (float)theDirection;
-		 */
-//----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 bool NFmiRotatingParamRect::Rotate(void) const
-{//241198
-	return itsCurrentParamValue < itsNotRotatingMinValue
-		|| itsCurrentParamValue > itsNotRotatingMaxValue;
-}
-//080199---------------------------------------------------------------------------
-/* 1.5.00 yhdistetty PointOnParam:iin
-bool NFmiRotatingParamRect:: PointOnSecondParam(NFmiQueryInfo* theQI)
 {
-	if(!PointOnLevel(theQI)) //12.4.00 varsinaisen paramin leveli
-		return false;
-
-    fParamErrorReported = false;  
-	if (!theQI->Param(*GetSecondDataIdent().GetParam()))
-	{
-		if(itsLogFile && !fParamErrorReported)
-		{
-		   long paramIdent = GetSecondDataIdent().GetParam()->GetIdent();  //1.1.99 +Second
-		   *itsLogFile << "*** ERROR: Parametri ei löydy(KääntäväParametri): " << paramIdent 
-			         << endl;
-		   fParamErrorReported = isTrue;
-		}
-		return false;
-	}
-	return isTrue;
+  return (itsCurrentParamValue < itsNotRotatingMinValue ||
+		  itsCurrentParamValue > itsNotRotatingMaxValue);
 }
-*/
-/*
-//----------------------------------------------------------------------------
-bool NFmiRotatingParamRect::ReadValues( NFmiQueryInfo* theQI)
-{
-//   if(!PointOnSecondParam(theQI)) 
-   if(!PointOnParam(theQI, GetSecondDataIdent().GetParam()) || !PointOnLevel(theQI)) //5.5.00
-	   return false;
-   
-//   Vain tunnit voi muuttaa tällä tasolla, segmentin aikaluuppi menee muuten sekaisin
-	if(!SetRelativeHour(theQI,NFmiString("KääntyväSymboli"))) //17.6.2000
-//	if(!SetDataHour(theQI, NFmiString("KääntyväSymboli")))
-		return isFalse;
 
-	FloatValue(theQI, itsSecondParamValue); //1.11.99 oli ReadCurrentData joka skaalasa tuulensuunnan!!!
-
-    return NFmi2SymbolParamRect::ReadValues(theQI);
-}
-*/
+// ======================================================================
