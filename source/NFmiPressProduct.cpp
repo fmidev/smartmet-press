@@ -1093,7 +1093,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 6.11.2002" << endl;       
+   *itsLogFile << "program version = 8.11.2002" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2211,6 +2211,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		 NFmiString(itsString.GetCharsPtr(1,2)) != NFmiString("#E") &&
 		 NFmiString(itsString.GetCharsPtr(1,2)) != NFmiString("#L"))
 		*itsLogFile << "*** ERROR: MÄÄRITTELYTIEDOSTON LUKEMINEN KESKEYTETTY ?" << endl;
+
 	  *itsLogFile << "TUOTETIEDOSTO LUETTU" << endl;
 	}
   return true;
@@ -2570,7 +2571,9 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	  epsFileName = static_cast<NFmiString *>(epsIter.Next());
 	  short numOfEps = 0;
 
-	  /************* pohjat ****************/
+	  // *************************************
+	  //             POHJAT
+	  // *************************************
 	  while (epsFileName)
 		{
 		  numOfEps++;
@@ -2670,17 +2673,23 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 		  outFile << endl << "Store pohja" << endl << endl;
 		}
 
+	  // **************************************
 	  // norm. objektit (myös osakuvat) jotka ennen segmenttejä
+	  // **************************************
 	  if(!WriteScalingObjects(true, output))
 		return false;
 
+	  // **************************************
 	  // vakiopaikat, jotka ennen segmenttejä
+	  // **************************************
 	  if(!WriteSameSymbols(true, output))
 		return false;
 
 	  if(itsCurrentDataIter) // kaatuu ilman dataa
 		{
-		  // ****************SEGMENTIT***************
+		  // ****************************************
+		  //               SEGMENTIT
+		  // ****************************************
 		  NFmiVoidPtrIterator paramIter = NFmiVoidPtrIterator(itsParams);
 		  NFmiPressParam * param;
 		  paramIter.Reset();
@@ -2710,12 +2719,17 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 		{     // jokatapauksessa kunnon varoitus
 		  *itsLogFile << "WARNING: Dataa ei löydy segmenteille" << endl;
 		}
+
+	  // **********************************************
 	  // vakiopaikat jotka segmenttien jälkeen
+	  // **********************************************
 
 	  if(!WriteSameSymbols(false, output))
 		return false;
 
-	  //. objektit,(myös osakuvat) jotka jälkeen segmenttejä
+	  // *******************************************************
+	  // norm.objektit(myös osakuvat), jotka jälkeen segmenttejä
+	  // *******************************************************
 	  if(!WriteScalingObjects(false, output)) //toiseen kertaan tänne segmenttien jälkeen
 		return false;
 

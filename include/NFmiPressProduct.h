@@ -9,10 +9,13 @@
  *
  * Tämä on lehtisääohjelman pääluokka. Segmentit (NFmiPressParam)
  * ja monet muut oliot ovat tämän jäseniä. Määrittelytiedoston 
- * lukeminen ja ps-tiedoston kirjoitus aloitetaan täältä 
- * kontrollin siirtyessä jäsenille useammankin tason kautta.
+ * lukeminen ja eps-tiedoston kirjoitus aloitetaan täältä 
+ * kontrollin siirtyessä jäsenille mahd. useammankin tason kautta.
  * Yleiset asiat kuten pohjat, tiedostonimet, data hoidetaan 
- * täällä (Windowsin ympäristömuuttujat luetaan).   
+ * täällä (Windowsin ympäristömuuttujat luetaan). Määrittelytiedosto
+ * preprosessoidaan ennen käsittelyä (kommentit pois, includet mukaan,
+ * direktiivikäsittely). Managerikäytössä löytyy metodit erilaisiin 
+ * (pikku) muutoksiin.  
  *
  */
 // ======================================================================

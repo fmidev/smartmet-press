@@ -7,7 +7,7 @@
 /*!
  * \class NFmiPressScaling
  *
- * PS-tuotteiden skaalaukset hallitaan tästä luokasta
+ * PS-tuotteiden skaalaukset hallitaan tästä luokasta.
  * Koska tämä on peritty luokista NFmiDescription ja NFmiPsWriting
  * on tämä perusluokka kaikille ps-olioille ja hallitsee 
  *
@@ -98,7 +98,7 @@ protected:
   NFmiPoint itsRectSize;  
   NFmiPoint itsPlace;  
   bool fPrintOnce;		// pakotettu kerran-vain-tulostus
-  bool fScaleNotPlace;	// DataAlkoi-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
+  bool fScaleNotPlace;	// DataAlkio-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
   int itsTimestampDayGap;
 
 }; // class NFmiPressScaling

@@ -7,8 +7,9 @@
 /*!
  * \class NFmiPressNameDay
  *
- * Nimip‰iv‰(t) lehtituotteeseen
- * k‰ytt‰‰ yleist‰ nimip‰iv‰luokkaa 
+ * Nimip‰iv‰(t) lehtituotteeseen. K‰ytt‰‰ yleist‰ nimip‰iv‰luokkaa
+ * (NFmiNameDay) mutta osaa press-luokkana lukea m‰‰rittelyns‰ ja 
+ * kirjoittaa eps-koodinsa.
  *
  */
 // ======================================================================

@@ -7,9 +7,10 @@
 /*!
  * \class NFmiPressStationText
  *
- * Kirjoittaa QD:n (current)asemannimen ps-oliona output-tiedostoon.
+ * Kirjoittaa QD:n (current)asemannimen ps:na tai muuna koodina
+ * output-tiedostoon ja lukee alussa m‰‰rittelyst‰ omat asetuksensa.
  * Nimi voidaan haluttaessa muuttaa, esim Kˆˆpenhamina->K:hamina.
- * Nimenmuutoslista tuodaan segmentista, joka lukee nimenvaihdot
+ * Nimenmuutoslista tuodaan segmentista, joka saa nimenvaihdot
  * m‰‰rityksest‰.
  *
  */

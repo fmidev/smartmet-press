@@ -1837,7 +1837,9 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   itsCurrentStep = 1;
   stationPointMovement.Set(0., 0.);
   FmiCounter statAll = 0;
-  while(itsCurrentStep <= itsNumberOfSteps) /********* AIKA/PAINEpintaluuppi ********/
+
+  /********* AIKA/PAINEpintaluuppi ********/
+  while(itsCurrentStep <= itsNumberOfSteps) 
 	{
 	  FmiCounter itsCurrentStepInd = std::min(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
 	  if(!itsDataIter)
@@ -1853,7 +1855,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  // HUOM segmentin aika pitää olla datassa vaikka piirtoalkiossa muutettaisiin tuntia
 		  if(itsDataIter->Time(time) || fDataNotNeeded)
  	   {
-		 // AikaSidotutObjektit ensin
+		 // ************** AikaSidotutObjektit ensin ******************
 		 // eli ***VakioSymboli
 		 //     ***VakioTeksti
 		 //     ***AikaTeksti
@@ -1915,11 +1917,14 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 object->Move(itsUnscaledSteps[itsCurrentStepInd]);
 			 object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		   }
+		 // ********** AikaSidotutObjektit loppu **************
 
 
 	     itsStations.Reset();
 		 fIsFirstStation = true;
-	     while(itsStations.Next()) /********** ASEMAluuppi ********/
+
+		 // ********** ASEMAluuppi *****************
+	     while(itsStations.Next())
 		   {
 			 statAll++;
 			 stationPoint = NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location())).Point();
@@ -1951,6 +1956,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 				 if(itsCurrentStep == 1)
 				   {
+					// ********* AsemaSidotutObjektit ************* 
+					// *** eli AsemanNimi (vainko?)
 
 					 stationObjectIter.Reset();
 					 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
@@ -1982,15 +1989,16 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 					   }
-
+/*
 					 //Testi
 					 stationObjectIter.Reset();
 					 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 					 unScaledPoint = itsScale.UnScale(stationPoint);
 					 //testi loppu
-
-					 //AsemaSidotutObjektit loppu
+*/
 				   }
+				 // ************ AsemaSidotutObjektit loppu ************
+
 				 if(theOutput == kPlainText && saveObject)
 				   saveObject->WritePSUpdatingSubText(theOutput);
 				 statPoint.Point(statPoint.Point() + stationPointMovement);

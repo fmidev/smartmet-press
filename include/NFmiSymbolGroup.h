@@ -7,10 +7,9 @@
 /*!
  * \class NFmiSymbolGroup
  *
- * Tämä luokka toimii datariippuvien olioiden (symbolit, numerot) 
- * listana yhden segmentin (NFmiPresParam) puitteissa. Luokalla on
- * suorakaide piirroksia varten, jonka sisällä eri olioille annetaan
- * suhteellinen ala käytettäväksi.  
+ * Luokka toimii datariippuvien olioiden (symbolit, numerot) 
+ * listana yhden segmentin (NFmiPresParam) puitteissa. Skaalauksen 
+ * hoitaminen tätä kautta on vanhentunut.
  *
  */
 // ======================================================================

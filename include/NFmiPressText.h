@@ -8,9 +8,10 @@
  * \class NFmiPressText
  *
  * Hoitaa kaikenlaisten tekstien (aikamerkinnät, asemannimet
- * vakiotekstit, palstat) ps-tuottamisen. Kaikki tekstiin
+ * vakiotekstit, palstat) ps-tuottamisen samoinkuin määrittelyn
+ * lukemisen. Kaikki tekstiin
  * liittyvä (fontti,väri,kohdistus, tyyli) samoin kuin itse 
- * teksti on täällä. Myös sovelluksen kieli, joka vaikuttaa
+ * teksti on täällä. Myös elementin kieli, joka vaikuttaa
  * aikamerkintöihin, hoidetaan täältä.
  *
  */

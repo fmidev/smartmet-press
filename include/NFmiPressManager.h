@@ -7,10 +7,11 @@
 /*!
  * \class NFmiPressManager
  *
- * Manageroi lehtis‰‰tuotantoa ylemm‰lt‰ tasolta eli 
- * k‰skee NFmiPressProductia (xxx.pre-tiedostoja).
- * Mahdollistaa yksinkertaisten muutosten teon (esim aseman vaihto)
- * ja taas uuden eps-(tai muun) tiedoston kirjoittamisen
+ * Manageroi lehtis‰‰tuotantoa ylemm‰lt‰ tasolta eli suorittaa 
+ * NFmiPressProduct-luokan WritePs-metodia toistuvasti muuttamalla aina 
+ * m‰‰rittelyss‰ annettua esim. aikaa tai paikkaa. Manageria k‰ytet‰‰n
+ * kun Managerit-hakemistosta lˆytyy samanniminen .prem-tiedosto 
+ * (=Manageri) kuin itse .pre-tiedosto.
  *
  */
 // ======================================================================

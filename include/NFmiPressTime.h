@@ -7,12 +7,11 @@
 /*!
  * \class NFmiPressTime
  * 
- * T‰ss‰ on lis‰tty emon formaatteihin aika monta uutta 
- * aikaformaattia, mitk‰ lehtituotteissa ovat k‰yttˆkelpoisia.
- * ToStr-muunnoksessa voidaan parametrein ohjata
- * k‰ytett‰v‰‰ kielt‰. Tarvittaessa voidaan uusia  formaatteja
- * lis‰t‰. 
- * On j‰senen‰ NFmiPressTimeText-luokassa. eik‰ ole?
+ * Tuottaa aikatekstej‰ annettuun formaattiin, esim
+ * "S‰‰ wwwwna D.M.YY kello HH:mm" -> S‰‰ tiistaina 13.2.99 kello 14:32
+ * ks tarkemmin InterpretToStr-metodia cpp:ss‰. Hallitsee
+ * lehtis‰‰n kielet.
+ * Press-luokkana lukee m‰‰rittelyns‰ ja tuottaa eps-koodinsa.
  *
  */
 // ======================================================================
@@ -22,6 +21,7 @@
  
 #include  "NFmiMetTime.h" 
 
+//n‰it‰ on ihan turha k‰ytt‰‰ en‰‰
 const unsigned long kUndefined  = 0;
 const unsigned long kShortWeekDay  = 128;	// pienikirjain=teksti
 const unsigned long kLongWeekDay   = 256;
