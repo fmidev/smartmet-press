@@ -361,6 +361,11 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 {
   float value;
 
+  if(!ActiveStationIndex(itsPressParam->GetCurrentStationStep()))
+    {
+	  return true;
+    }
+
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 
