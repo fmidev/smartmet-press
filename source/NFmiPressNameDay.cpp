@@ -22,7 +22,7 @@ NFmiPressNameDay::~NFmiPressNameDay()
 bool NFmiPressNameDay::ReadRemaining(void)  
 {
 	unsigned long long1;
-	FmiCounter count;
+	FmiCounter counter;
 	switch(itsIntObject)
 	{	
 		case dMaxLength:   
@@ -30,9 +30,9 @@ bool NFmiPressNameDay::ReadRemaining(void)
 			if (!ReadEqualChar())
 				break;
 
-			if (ReadOne(count))
+			if (ReadOne(counter))
 			{
-				itsMaxLength = count;
+				itsMaxLength = counter;
 			}
 
 			ReadNext();
@@ -43,9 +43,9 @@ bool NFmiPressNameDay::ReadRemaining(void)
 			if (!ReadEqualChar())
 				break;
 
-			if (ReadOne(count))
+			if (ReadOne(counter))
 			{
-				itsMaxNumber = count;
+				itsMaxNumber = counter;
 			}
 
 			ReadNext();
