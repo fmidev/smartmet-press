@@ -1041,8 +1041,8 @@ bool NFmiPressProduct::ReadData(void)
 	  data = & dataPtr;
 	  dataFile = dataPath;
 	  dataFile2 = dataPath2;
-	  if(!dataFile.IsValue()) dataFile += kFmiDirectorySeparator;
-	  if(!dataFile2.IsValue()) dataFile2 += kFmiDirectorySeparator;
+	  if(dataFile.IsValue()) dataFile += kFmiDirectorySeparator;
+	  if(dataFile2.IsValue()) dataFile2 += kFmiDirectorySeparator;
 	  dataFile += nData->GetName();
 	  dataFile2 += nData->GetName();
 	  dataFileSqd = dataFile;
