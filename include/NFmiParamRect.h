@@ -261,45 +261,45 @@ private:
 inline
 NFmiParamRect::NFmiParamRect(void)
   : NFmiRect()  
+  , fModifierUsed(false)
+  , itsInterval2NumberMin(kFloatMissing)
+  , itsValueIntervalMin(kFloatMissing)
+  , fAllowMissing(false)
+  , fUseFromStorage(false)
+  , fUseFromStorageInFrontOf(false)
+  , fUseFromStorageConditionally(false)
+  , fPutInStorage(false)
+  , itsStorageQueue(1)
+  , fIsProbability(false)
+  , itsRealPar(0)
+  , itsValueFactor(1.)
+  , fParamErrorReported(false)
+  , fLevelErrorReported(false)
+  , fTimeErrorReported(false)
+  , itsNumOfMissing(0)
+  , itsMultiMapping(0)
+  , itsCurrentParamArray(0)
+  , itsMultiParams(0)
+  , itsFirstExtremRelHour(kLongMissing)
+  , itsFirstExtremYear(kLongMissing)
+  , itsModifier(kNoneModifier)
+  , itsAreaModifier(kNoneModifier)
+  , itsValueOption(kNoneValueOption)
+  , itsIdentPar(kFmiTemperature)
+  , itsRandomInterval(0.)
+  , fRandomModifying(false)
+  , itsEquiDistance(0.)
+  , itsEquiDistanceHalfInterval(0.)
+  , fMarkingValue(true)
+  , itsSymbolGroupOrder(0)
+  , fMeanWindToMax(false)
+  , itsRoundingNumber(kLongMissing)
+  , fSupplementForMissing(false)
+  , itsMissingString(0)
 {
-  fModifierUsed = false;
-  fParamErrorReported = false;
-  fLevelErrorReported = false;
-  fTimeErrorReported = false;
-  itsNumOfMissing = 0;
-  itsValueFactor = 1.;
+  itsStationLoopActivity.startIndex=0;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
   itsIntegrationPeriod.startWeight = kFloatMissing;
-  itsMultiMapping = 0;
-  itsCurrentParamArray = 0;
-  itsMultiParams = 0;
-  itsModifier = kNoneModifier;
-  itsAreaModifier = kNoneModifier;
-  itsValueOption = kNoneValueOption;
-  itsFirstExtremYear = kLongMissing;
-  itsIdentPar = kFmiTemperature;
-  itsRealPar = 0;
-  fUseFromStorage = false;
-  fUseFromStorageInFrontOf = false;
-  fUseFromStorageConditionally = false;
-  fPutInStorage = false;
-  itsStorageQueue = 1;
-  fIsProbability = false;
-  fAllowMissing = false;
-  itsFirstExtremRelHour = kLongMissing;
-  itsValueIntervalMin = kFloatMissing;
-  itsInterval2NumberMin = kFloatMissing;
-  itsRandomInterval=0.;
-  fRandomModifying = false;
-  itsEquiDistance = 0.;
-  itsEquiDistanceHalfInterval = 0.;
-  fMarkingValue = true;
-  itsSymbolGroupOrder=0;
-  itsStationLoopActivity.startIndex=0;
-  fMeanWindToMax = false;
-  itsRoundingNumber = kLongMissing;
-  fSupplementForMissing =  false;
-  itsMissingString = 0;
 }
 
 // ----------------------------------------------------------------------
