@@ -390,21 +390,21 @@ bool	NFmiTimeParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 	else
 		timeString = NFmiString(" -   "); //2.6.00 puuttuva auringon nousu/lasku 
 
-	NFmiString string;
+	NFmiString str;
 
 		if(fParenthesis)             
 		{
-            string = NFmiString("(");
-			string += NFmiString (timeString);	 
-            string += NFmiString(")");
+            str = NFmiString("(");
+			str += NFmiString (timeString);	 
+            str += NFmiString(")");
 		}
 		else
 		{
-			string = NFmiString (timeString);	 
+			str = NFmiString (timeString);	 
 		}
 
 	//300699 +Construct (lis‰ykset eteen ja per‰‰n)
-		return WriteCode(Construct(&string), AbsoluteRectOfSymbolGroup, 
+		return WriteCode(Construct(&str), AbsoluteRectOfSymbolGroup, 
 			             theDestinationFile, NFmiString("AIKATEKSTI"), theOutput); 
 }
 /*

@@ -81,15 +81,15 @@ istream& NFmiStationPoint::Read(istream &file)
 //----------------------------------------------------------------------------
 bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 {
-	NFmiString string;
+	NFmiString str;
 	NFmiString name;
 	char object[255], ch;
 	int iobject;
 	double value;
 
 	*itsDescriptionFile >> object;
-	string = object;
-	iobject = ConvertDefText(string);
+	str = object;
+	iobject = ConvertDefText(str);
 	
 	while((iobject != 9999 || itsCommentLevel) && itsLoopNum < itsMaxLoopNum) //2.2
 	{
@@ -101,16 +101,16 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 		case dOther:	  //ylimääräistä roinaa, END lopettaa
 		{
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dComment:	  
 		{
 //			isComment = isTrue;
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dEndComment:	  
@@ -118,8 +118,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 //			isComment = isFalse;
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dIdent:
@@ -130,8 +130,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 			SetIdent((unsigned long)value);
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dLonLat:		  
@@ -140,8 +140,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 			*itsDescriptionFile >> itsLongitude >> itsLatitude;
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dLatitude:
@@ -150,8 +150,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 			*itsDescriptionFile >> itsLatitude;
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		case dLongitude:
@@ -160,8 +160,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 			*itsDescriptionFile >> itsLongitude;
 			
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		
@@ -169,15 +169,15 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 		{
 			*itsDescriptionFile >> ch;
 			*itsDescriptionFile >> object;
-			string = object;   //27.1
-			SetName(string);
+			str = object;   //27.1
+			SetName(str);
 //			itsObject = new NFmiString(object);
 //			name = *itsObject;
 //			SetName(name);
   
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 
@@ -187,15 +187,15 @@ bool NFmiStationPoint::ReadDescription(NFmiString& retString) //16.1
 			*itsDescriptionFile >> itsPoint;
 
 			*itsDescriptionFile >> object;
-			string = object;
-			iobject = ConvertDefText(string);
+			str = object;
+			iobject = ConvertDefText(str);
 			break;
 		}
 		
   	}
 	} //while
     
-    retString = string;
+    retString = str;
  	return isTrue;	
 }
 //---------------------------------------------------------------------------------------
