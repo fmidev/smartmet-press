@@ -725,9 +725,14 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   summerStart.SetDate(today.GetYear(), 5, 31);
   NFmiTime summerStop(today);
   summerStop.SetDate(today.GetYear(), 8, 31);
+  NFmiTime pollenStart(today);
+  pollenStart.SetDate(today.GetYear(), 3, 31);
+  NFmiTime pollenStop(today);
+  pollenStop.SetDate(today.GetYear(), 8, 31);
   itsSeasonsStatus->wintertime = today.GetZoneDifferenceHour() == -2;
   itsSeasonsStatus->summer = today >= summerStart && today < summerStop;
-  itsSeasonsStatus->pollen = !itsSeasonsStatus->wintertime;
+  itsSeasonsStatus->pollen = today >= pollenStart && today < pollenStop;
+  //itsSeasonsStatus->pollen = !itsSeasonsStatus->wintertime;
   itsSeasonsStatus->snow = !itsSeasonsStatus->pollen;
   itsSeasonsStatus->pollenOrSnow = itsSeasonsStatus->pollen || itsSeasonsStatus->snow;
   itsSeasonsStatus->weekday = today.GetWeekday();
@@ -1124,7 +1129,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 30.3.2005" << endl;       
+   *itsLogFile << "program version = 30.3.2005b" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
