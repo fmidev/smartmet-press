@@ -21,3 +21,14 @@ LIBS = -L ../../../../lib -lnewbase
 # Common library compiling template
 
 include ../../makefiles/makefile.lib
+
+EXTRAS = $(wildcard docs/*.doc docs/*.html docs/*.gif docs/*xls)
+HTML = ../../../../html/lib/$(LIB)
+
+html::
+	mkdir -p $(HTML)/docs
+	@list='$(EXTRAS)'; \
+	for name in $$list; do \
+	  echo $(INSTALL_DATA) $$name $(HTML)/$$name; \
+	  $(INSTALL_DATA) $$name $(HTML)/$$name; \
+	done
