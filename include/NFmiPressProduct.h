@@ -85,7 +85,8 @@ enum NFmiPressProductObjects
   dMapArea,
   dMakeElementsAfterSegments,
   dMaskFile,
-  dWeekdayDir
+  dWeekdayDir,
+  dAllDataFilesCritical
 };
 
 
@@ -176,6 +177,7 @@ public:
 
 private:
 
+  bool fAllDataFilesCritical;
   bool fMakeElementsAfterSegments;
   NFmiNameDay * itsNameDay;
   bool fChangeScandinavian;

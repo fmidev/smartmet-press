@@ -37,6 +37,7 @@ using namespace std;
 
 NFmiPressProduct::NFmiPressProduct(void)
 {
+  fAllDataFilesCritical = false;
   itsNameTimeFormat = kUndefined;
   itsSecondNameTimeFormat = kUndefined;
   itsNameDay = 0;
@@ -45,7 +46,8 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsNameToLonLat = new NFmiLocationFinder();
   itsLanguage = kFinnish;
   itsPalette = 0;
-  itsPageSize = kLetter;
+  itsPageSize = kLetter;  //*****HUOM m‰‰rittelyihin A4- jne arkki, 
+                //t‰m‰n muuttaminen tn. vaikuttaisi joihinkin vanhoihin
   fChangeScandinavian = false;
   itsCurrentNumberToName = kLongMissing;
   itsNumOfWritePS = 0;
@@ -1095,7 +1097,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 15.1.2003" << endl;       
+   *itsLogFile << "program version = 31.1.2003" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1120,8 +1122,8 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    itsDescriptionFile->close();
    itsDescriptionFile->clear();
 
-   if (!fDataRead)
-	 ReadData();
+   if(!ReadData() && fAllDataFilesCritical)
+		return false;
 
    if(itsLogFile)
 	 *itsLogFile << "KOOSTETAAN TUOTE" << endl;
@@ -1145,6 +1147,7 @@ bool NFmiPressProduct::ReadData(void)
   if(itsLogFile)
 	*itsLogFile << "LUETAAN ANNETUT DATATIEDOSTOT" << endl;
 
+  bool notFound = false;
 
   char * hChar;
   NFmiHyphenationString str;
@@ -1216,7 +1219,9 @@ bool NFmiPressProduct::ReadData(void)
 					  if(!twoOptinalTypes || !ReadQueryData(*data,dataFileSqd2))
 						{
 						  nData->SetData(0);
-						  *itsLogFile << "  *** ERROR: datan luku ep‰onnistui: " << static_cast<char *>(nData->GetName()) << endl;
+						  *itsLogFile << "  *** ERROR: datan luku ep‰onnistui: " << static_cast<char *>(nData->GetName()) << endl
+							         <<  "      jos kriittinen keskeytet‰‰n" << endl;
+						  notFound = true;
 						}
 					  else
 						{
@@ -1231,7 +1236,9 @@ bool NFmiPressProduct::ReadData(void)
 			  else
 				{
 				  nData->SetData(0);
-				  *itsLogFile << "  *** ERROR: datan luku ep‰onnistui: " << static_cast<char *>(nData->GetName()) << endl;
+				  *itsLogFile << "  *** ERROR: datan luku ep‰onnistui: " << static_cast<char *>(nData->GetName()) << endl
+							 <<  "      jos kriittinen keskeytet‰‰n" << endl;
+				  notFound = true;
 				}
 			}
 		  else
@@ -1264,7 +1271,8 @@ bool NFmiPressProduct::ReadData(void)
 		*itsLogFile << "EI ANNETTUJA DATATIEDOSTOJA" << endl;
 	}
 
-  return true;
+  return !notFound;
+;
 }
 
 // ----------------------------------------------------------------------
@@ -1749,7 +1757,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dDataTime:
 		  {
-			ReadData();
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
 
 			NFmiQueryData * firstData = FirstData();
 			if(firstData)
@@ -1800,7 +1809,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  {
 			SetOne (long1);
 
-			ReadData();
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
 
 			NFmiQueryData * firstData = FirstData();
 			if(firstData)
@@ -1946,7 +1956,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dPressParam:
 		  {
-			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
             itsCurrentMap = 1;
 			Scale();
 			NFmiPressParam * newParam = new NFmiPressParam(itsScale,
@@ -1980,7 +1992,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dSymbolPlaces:
 		  {
- 			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
 
 			itsCurrentMap = 1;
 			Scale();
@@ -2002,7 +2015,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dImageObject:
 		  {
-			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
 			NFmiPsSymbol * image = new NFmiPsSymbol;
 			image->SetWriteLast(fMakeElementsAfterSegments);
             image->SetHome(GetHome());
@@ -2018,7 +2033,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dSubImage:
 		  {
-			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
 			NFmiPressImage * image = new NFmiPressImage;
 			image->SetScale(itsScale);
 		    image->SetHome(GetHome());
@@ -2034,7 +2051,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dNameDay:
 		  {
-			ReadData();
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
 			if(!itsNameDay)
 			  itsNameDay = new NFmiNameDay;
 
@@ -2057,7 +2076,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dTextObject:
 		  {
-			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
 			NFmiPressText * text = new NFmiPressText;
 			text->SetWriteLast(fMakeElementsAfterSegments);
             text->SetEnvironment(itsEnvironment);
@@ -2075,7 +2096,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  }
 		case dColumnTextObject: //vanhentunut
 		  {
-			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
 			NFmiPressText * text = new NFmiPressText;
 			text->SetWriteLast(fMakeElementsAfterSegments);
             text->SetEnvironment(itsEnvironment);
@@ -2097,7 +2120,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  // jotta riippumaton QD:sta ja sen ajoista
 		  {
 
-			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
 			NFmiPressGivenTimeText * text = new NFmiPressGivenTimeText;
 			text->SetWriteLast(fMakeElementsAfterSegments);
             text->SetEnvironment(itsEnvironment);
@@ -2117,7 +2142,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		case dComputerTimeTextObject:
 		  {
 
-			ReadData(); // ennen j‰senoilioita
+			if(!ReadData() && fAllDataFilesCritical)
+				return false;
+
 			NFmiPressComputerTimeText * text = new NFmiPressComputerTimeText;
 			text->SetWriteLast(fMakeElementsAfterSegments);
             text->SetEnvironment(itsEnvironment);
@@ -2151,6 +2178,12 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  {
 			helpString = ReadString();
 			helpString = ReadString();
+			ReadNext();
+			break;
+		  }
+		case dAllDataFilesCritical:
+		  {
+			fAllDataFilesCritical = true;
 			ReadNext();
 			break;
 		  }
@@ -2325,6 +2358,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("#weekday") ||
 		  lowChar==NFmiString("#viikonp‰iv‰"))
 	return dWeekdayDir;
+  else if(lowChar==NFmiString("alldatafilescritical") ||
+		  lowChar==NFmiString("pakollisetdatatiedostot"))
+	return dAllDataFilesCritical;
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }
