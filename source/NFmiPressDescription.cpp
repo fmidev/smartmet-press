@@ -50,7 +50,7 @@ bool NFmiPressDescription::ReadRemaining(void)
 		  *itsLogFile << "*** ERROR: Not valid PressMask: "
 					  << static_cast<char *>(maskName)
 					  << " in space "
-					  << helpEnumSpace 
+					  << static_cast<int>(helpEnumSpace)
 					  << endl;
 		}
 
