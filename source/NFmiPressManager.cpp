@@ -1,209 +1,208 @@
-//© Ilmatieteenlaitos  Lasse
-//  Original 21.3.2000
-// Muutettu 070600/LW +asemanvaihto nimenmuutoksella
-// Muutettu 270600/LW .prem tiedosto siirretty Muut-haaraan kutsuvan pre-tiedoston haarasta  
-//                    piti tehd‰ kun Vespassa prem:it meniv‰t prosessointiin pre-tiedostoina
-// Muutettu 060900/LW .prem tiedosto siirretty omaan Managerit-haaraan  
-// Muutettu 301100/LW +dMan(De)activateFirst
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiPressManager
+ */
+// ======================================================================
+
 #ifdef WIN32
  #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
+// press
 #include "NFmiPressManager.h"
-#include "NFmiTiesaaAlueet.h"
-
-#ifdef WIN32
-#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
-#endif
-
+// newbase
 #include "NFmiEnumConverter.h"
+#include "NFmiTiesaaAlueet.h"
+// system
+#include <iostream>
 
+using namespace std;
 
-#include <iostream>  //STL 27.8.01
-using namespace std; //27.8.01
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePressProduct Undocumented
+ * \param theOutMode Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
-//----------------------------------------------------------------------------
-bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
-											,FmiPressOutputMode theOutMode) 
+bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduct,
+											   FmiPressOutputMode theOutMode)
 {
-	long long1,long2,statNum;
-	unsigned long uLong;
-	double lon, lat;
-	NFmiString helpString;
-	itsLogFile = thePressProduct.GetLogFile();
-	FmiPressOutputMode outMode = theOutMode; 
+  long long1,long2,statNum;
+  unsigned long uLong;
+  double lon, lat;
+  NFmiString helpString;
+  itsLogFile = thePressProduct.GetLogFile();
+  FmiPressOutputMode outMode = theOutMode;
 
-	NFmiMetTime firstPlotTime(thePressProduct.GetFirstPlotTime()); 
+  NFmiMetTime firstPlotTime(thePressProduct.GetFirstPlotTime());
 
-//6.9.00 prem nyt omassa managerit-haarassa, aikaisemmin muut-haarassa
-	NFmiFileString inputFileName = thePressProduct.GetHome();
-    inputFileName += kFmiDirectorySeparator;
-    inputFileName += NFmiString("Managerit");
-    inputFileName += kFmiDirectorySeparator;
-    inputFileName += NFmiString("nimi.prem");
-	inputFileName.Header(static_cast<char *>(NFmiFileString(thePressProduct.GetInFileName()).Header()));
+  // prem nyt omassa managerit-haarassa, aikaisemmin muut-haarassa
+  NFmiFileString inputFileName = thePressProduct.GetHome();
+  inputFileName += kFmiDirectorySeparator;
+  inputFileName += NFmiString("Managerit");
+  inputFileName += kFmiDirectorySeparator;
+  inputFileName += NFmiString("nimi.prem");
+  inputFileName.Header(static_cast<char *>(NFmiFileString(thePressProduct.GetInFileName()).Header()));
 
-	*itsLogFile << "manageri olisi: " << static_cast<char *>(inputFileName) << endl;  //29.9.00
+  *itsLogFile << "manageri olisi: " << static_cast<char *>(inputFileName) << endl;
 
-//    ifstream input(inputFileName, ios::in);
-    itsDescriptionFile = new ifstream(inputFileName, ios::in);
-	if(!itsDescriptionFile->good() || itsDescriptionFile->eof())
+  itsDescriptionFile = new ifstream(inputFileName, ios::in);
+  if(!itsDescriptionFile->good() || itsDescriptionFile->eof())
 	{
-		if(itsLogFile)
-				*itsLogFile << "ei manageria" << endl;  
-		return false;
+	  if(itsLogFile)
+		*itsLogFile << "ei manageria" << endl;
+	  return false;
 	}
-	else
-		if(itsLogFile)
-				*itsLogFile << "Manageri-tiedosto avattu: "<< static_cast<char *>(inputFileName) << endl;  
+  else
+	if(itsLogFile)
+	  *itsLogFile << "Manageri-tiedosto avattu: "<< static_cast<char *>(inputFileName) << endl;
 
-//    istream saveCin = cin;
-//    cin = input;
+  *itsDescriptionFile >> itsObject;
+  itsString = itsObject;
+  itsIntObject = ConvertDefText(itsString);
 
-	*itsDescriptionFile >> itsObject;
-	itsString = itsObject;
-	itsIntObject = ConvertDefText(itsString);
+  bool changed = true; //sallitaan aloitus suoraan TeeTuotteesta
 
-	bool changed = true; //sallitaan aloitus suoraan TeeTuotteesta
-	
-	while(itsIntObject != dEnd || itsCommentLevel) 
+  while(itsIntObject != dEnd || itsCommentLevel)
 	{
-	
-	  if(itsLoopNum > itsMaxLoopNum)  
-	  {
-		if(itsLogFile)
+
+	  if(itsLoopNum > itsMaxLoopNum)
+		{
+		  if(itsLogFile)
 			*itsLogFile << "*** ERROR: max length exceeded in the Manager" << endl;
-//		retString = itsString;
-		return false;
-	  }
+		  return false;
+		}
 	  itsLoopNum++;
 	  if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
 	  switch(itsIntObject)
-	  {
-	   case dOther:	  //ylim‰‰r‰ist‰ roinaa,
-	   {
-			if(itsLogFile)
-				*itsLogFile << "*** ERROR: Tuntematon sana #Managerissa: " << static_cast<char *>(itsObject) << endl;  
-
-			ReadNext(); 
-			break;
-		}
-		case dComment:
-		case dEndComment:	  
 		{
+		case dOther: // ylim‰‰r‰ist‰ roinaa
+		  {
+			if(itsLogFile)
+			  *itsLogFile << "*** ERROR: Tuntematon sana #Managerissa: "
+						  << static_cast<char *>(itsObject)
+						  << endl;
+
 			ReadNext();
 			break;
-		}
-		case dManWritePs:	  
-		{
+		  }
+		case dComment:
+		case dEndComment:
+		  {
+			ReadNext();
+			break;
+		  }
+		case dManWritePs:
+		  {
 			if(changed)
-			{
+			  {
 				if(!thePressProduct.WritePS(outMode))
-				{
+				  {
 					if(itsLogFile)
-					    *itsLogFile << "*** ERROR: problems with the manager" << endl;  
+					  *itsLogFile << "*** ERROR: problems with the manager" << endl;
 					return false;
-				}
-			}
+				  }
+			  }
 			else
-				if(itsLogFile)
-				    *itsLogFile << "*** ERROR: Identical product from manager, not processed" << endl;  
+			  if(itsLogFile)
+				*itsLogFile << "*** ERROR: Identical product from manager, not processed" << endl;
 
 			changed = false;
 			ReadNext();
 			break;
-		}
-		case dManStation:	  
-		case dManStationAndImages:  //29.9.00 myˆs osakuvien nimet muutetaan	  
+		  }
+		case dManStation:
+		case dManStationAndImages:
 		{
-			bool isAlsoImages = itsIntObject == dManStationAndImages; //2.10.00 koska itsIntObject muuttuu 
-			NFmiString string1;
-			lon = 0.;
-			lat = 0.;
-			statNum = 0;
-            
-			if (!ReadEqualChar())
-				break;
-			     
-			NFmiValueString valueString = ReadString();
-		    if(valueString.IsNumeric())
-			{
-				statNum = static_cast<int>(valueString);
-				string1 = ReadString();
-	//			cin >> itsObject;
-	//		    string1 = itsObject;
-			}
-			else
-			{
-				statNum = itsLoopNum; 
-				string1 = valueString;
-			}
-			valueString = ReadString();
-                                          
-			if(valueString.IsNumeric())   
-			{
-			    lon = static_cast<double>(valueString);
-				ReadOne(lat);
-				ReadNext();
-			}
-			else
-			{
-				itsString = valueString;
-				itsIntObject = ConvertDefText(itsString);
-			}
+		  bool isAlsoImages = itsIntObject == dManStationAndImages;
+		  NFmiString string1;
+		  lon = 0.;
+		  lat = 0.;
+		  statNum = 0;
 
-			NFmiLocation location(lon, lat);
-			location.SetName(string1);
-			location.SetIdent(statNum);
-
-			thePressProduct.SetFirstStation(location);
-
-			if(isAlsoImages)     //2.10.00, ero n‰iden kahden v‰lill‰
-				thePressProduct.SetImagePreNames(location);
-
-			changed = true;
-
+		  if (!ReadEqualChar())
 			break;
+
+		  NFmiValueString valueString = ReadString();
+		  if(valueString.IsNumeric())
+			{
+			  statNum = static_cast<int>(valueString);
+			  string1 = ReadString();
+			}
+		  else
+			{
+			  statNum = itsLoopNum;
+			  string1 = valueString;
+			}
+		  valueString = ReadString();
+
+		  if(valueString.IsNumeric())
+			{
+			  lon = static_cast<double>(valueString);
+			  ReadOne(lat);
+			  ReadNext();
+			}
+		  else
+			{
+			  itsString = valueString;
+			  itsIntObject = ConvertDefText(itsString);
+			}
+
+		  NFmiLocation location(lon, lat);
+		  location.SetName(string1);
+		  location.SetIdent(statNum);
+
+		  thePressProduct.SetFirstStation(location);
+
+		  if(isAlsoImages)
+			thePressProduct.SetImagePreNames(location);
+
+		  changed = true;
+
+		  break;
 		}
-		case dManStationNewName:        //7.6.00
-		{
+		case dManStationNewName:
+		  {
 			NFmiString string1,string2;
 			lon = 0.;
 			lat = 0.;
 			statNum = 0;
-            
+
 			if (!ReadEqualChar())
-				break;
-			     
+			  break;
+
 			NFmiValueString valueString = ReadString();
 		    if(valueString.IsNumeric())
-			{
+			  {
 				statNum = static_cast<int>(valueString);
 				string1 = ReadString();
-	//			cin >> itsObject;
-	//		    string1 = itsObject;
-			}
+			  }
 			else
-			{
-				statNum = itsLoopNum; 
+			  {
+				statNum = itsLoopNum;
 				string1 = valueString;
-			}
+			  }
 
 			string2 = ReadString(); //t‰m‰ extraa edelliseen verrattuna
 
 			valueString = ReadString();
-                                          
-			if(valueString.IsNumeric())   
-			{
+
+			if(valueString.IsNumeric())
+			  {
 			    lon = static_cast<double>(valueString);
 				ReadOne(lat);
 				ReadNext();
-			}
+			  }
 			else
-			{
+			  {
 				itsString = valueString;
 				itsIntObject = ConvertDefText(itsString);
-			}
+			  }
 
 			NFmiLocation location(lon, lat);
 			location.SetName(string1);
@@ -217,70 +216,68 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 
 			changed = true;
 
-//			ReadNext();
 			break;
 		}
-		case dManMaskNumber:	  //7.9.01
-		{
+		case dManMaskNumber:
+		  {
 			if (!ReadEqualChar())
 				break;
 
 			NFmiString maskName = ReadString();
-			// Mika: Menee paremmin l‰pi n‰in
 			string stdString(maskName);
 			NFmiEnumConverter converter(kRoadRegions);
 			uLong = converter.ToEnum(stdString);
 
 			if(uLong != kTieAlueNone)
-			{
+			  {
 				thePressProduct.SetMaskNumber(uLong);
 				changed = true;
-			}
+			  }
 			else
-				*itsLogFile << "*** ERROR: Not valid Mask: " << static_cast<char *>(maskName) << endl;  
+			  *itsLogFile << "*** ERROR: Not valid Mask: "
+						  << static_cast<char *>(maskName)
+						  << endl;
 
 			ReadNext();
 			break;
-		}
-		case dManActivateFirst:	  
-		{
+		  }
+		case dManActivateFirst:
+		  {
 			thePressProduct.SetFirstObjectActivity(true);
 			changed = true;
 
 			ReadNext();
 			break;
-		}
-		case dManDeactivateFirst:	  
-		{
+		  }
+		case dManDeactivateFirst:
+		  {
 			thePressProduct.SetFirstObjectActivity(false);
 			changed = true;
 
 			ReadNext();
 			break;
-		}
-		case dManNumberAddingToName:	  
-		{
+		  }
+		case dManNumberAddingToName:
+		  {
 			if(SetOne(long1))
-				thePressProduct.ActivateNumberToName(long1);
+			  thePressProduct.ActivateNumberToName(long1);
 
 			changed = true;
 
-	//		ReadNext();
 			break;
-		}
-		case dManDeleteNumberAddingToName:	  
-		{
+		  }
+		case dManDeleteNumberAddingToName:
+		  {
 			thePressProduct.DeActivateNumberToName();
 
 			changed = true;
 
-	//		ReadNext();
 			break;
-		}
-		case dManProduct:	  
-		{
+		  }
+		case dManProduct:
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 
 			ReadNext();
 			thePressProduct.SetProductName(itsString);
@@ -289,11 +286,11 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 
 			ReadNext();
 			break;
-		}
-		case dManProductFormat: //15.1.01	  
-		{
+		  }
+		case dManProductFormat:
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 
 			ReadNext();
 			thePressProduct.SetProductNameFormat(itsString);
@@ -302,39 +299,39 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 
 			ReadNext();
 			break;
-		}
-		case dManCloseLog:	  
-			{                 //8.9.00 j‰rj. muutettu
-			*itsLogFile << "** Loki suljetaan managerista" << endl;  
-			thePressProduct.SetLogFile(false);
+		  }
+		case dManCloseLog:
+			{
+			  *itsLogFile << "** Loki suljetaan managerista" << endl;
+			  thePressProduct.SetLogFile(false);
 
-			ReadNext();
-			break;
-		}
-		case dManOpenLog:	  
-		{
+			  ReadNext();
+			  break;
+			}
+		case dManOpenLog:
+		  {
 			// ei toimi
 			thePressProduct.SetLogFile(true);
 
 			ReadNext();
 			break;
-		}
-		case dManData:	  
-		{
+		  }
+		case dManData:
+		  {
 			if (!ReadEqualChar())
-				break;
-			     
+			  break;
+
 			NFmiString str = ReadString();
-			str.LowerCase();  //21.3.01 kaikkialla k‰sitell‰‰n pienin‰
+			str.LowerCase();  // kaikkialla k‰sitell‰‰n pienin‰
 
 			thePressProduct.SetSegmentData(str);
 			changed = true;
 
 			ReadNext();
 			break;
-		}
-		case dManRelativeHours:     
-		{
+		  }
+		case dManRelativeHours:
+		  {
 			SetTwo(long1, long2);
 			firstPlotTime = NFmiMetTime();
 			firstPlotTime.ChangeByHours(long1);
@@ -344,9 +341,9 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 			changed = true;
 
 			break;
-		}
-		case dManAddHours:     
-		{
+		  }
+		case dManAddHours:
+		  {
 			SetOne(long1);
 			firstPlotTime = thePressProduct.GetFirstPlotTime();
 			firstPlotTime.ChangeByHours(long1);
@@ -355,11 +352,11 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 			changed = true;
 
 			break;
-		}
-		case dManLanguage:     
-		{
+		  }
+		case dManLanguage:
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 
 			thePressProduct.SetAllLanguages(ReadLanguage());
 
@@ -368,87 +365,100 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct& thePressProduct
 			ReadNext();
 
 			break;
-		}
+		  }
 		case dManOutputMode:
-		{
+		  {
 			if (!ReadEqualChar())
-				break;
+			  break;
 
-			*itsDescriptionFile >> itsObject;          
+			*itsDescriptionFile >> itsObject;
 			helpString = itsObject;
 			helpString.LowerCase();
-			if (helpString == NFmiString ("postscript") || helpString == NFmiString ("ps")|| helpString == NFmiString ("eps"))
+			if (helpString == NFmiString ("postscript") ||
+				helpString == NFmiString ("ps")||
+				helpString == NFmiString ("eps"))
                outMode = kPostScript;
-			else if (helpString == NFmiString ("meta") || helpString == NFmiString ("metakieli")
-				        || helpString.GetChars(1,5) == NFmiString ("magic"))
-               outMode = kMetaLanguage;
+			else if (helpString == NFmiString ("meta") ||
+					 helpString == NFmiString ("metakieli") ||
+					 helpString.GetChars(1,5) == NFmiString ("magic"))
+			  outMode = kMetaLanguage;
 			else if (helpString == NFmiString ("teksti"))
-               outMode = kPlainText;
+			  outMode = kPlainText;
 			else if (helpString == NFmiString ("xml"))
-               outMode = kXml;
+			  outMode = kXml;
 			else
-			{
+			  {
 				if (itsLogFile)
-				   *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto managerissa: " << static_cast<char *>(helpString) << endl; 
+				  *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto managerissa: "
+							  << static_cast<char *>(helpString)
+							  << endl;
 			}
-//			changed = true; //ei kuitenkaan kesken kaiken voi muuttaa
 
 			ReadNext();
 			break;
-		}
-		case dEnd:	  
-		{
+		  }
+		case dEnd:
+		  {
 			return true;
 			break;
+		  }
 		}
-	  }
 	}
-	return true;
+  return true;
 }
-//---------------------------------------------------------------------------------------
-int NFmiPressManager:: ConvertDefText(NFmiString & object)
-{														
-	NFmiString lowChar = object;
-	lowChar.LowerCase(); 
 
-	if(lowChar==NFmiString("teetuote"))
-		return dManWritePs;
-	else if(lowChar==NFmiString("maski"))       //7.9.01
-		return dManMaskNumber;           
-	else if(lowChar==NFmiString("aktivoiekaelementti"))   //30.11.00
-		return dManActivateFirst;           
-	else if(lowChar==NFmiString("deaktivoiekaelementti"))  //30.11.00
-		return dManDeactivateFirst;           
-	else if(lowChar==NFmiString("tuotenimi"))
-		return dManProduct;           
-	else if(lowChar==NFmiString("tuotenimiformaatti"))      //15.1.01
-		return dManProductFormat;           
-	else if(lowChar==NFmiString("asema"))
-		return dManStation;           
-	else if(lowChar==NFmiString("asemajaosakuvat"))    //29.9.00
-		return dManStationAndImages;           
-	else if(lowChar==NFmiString("asemanime‰vaihtaen")) //7.6.00
-		return dManStationNewName;           
-	else if(lowChar==NFmiString("tuoteniminumerointi"))  //1.9.00
-		return dManNumberAddingToName;           
-	else if(lowChar==NFmiString("tuoteniminumerointipois"))  //1.9.00
-		return dManDeleteNumberAddingToName;           
-	else if(lowChar==NFmiString("suljeloki"))
-		return dManCloseLog;           
-	else if(lowChar==NFmiString("avaaloki"))   //ei kai toimi
-		return dManOpenLog;           
-/*	else if(lowChar==NFmiString("muutaaika"))
-		return dManChangeTime; */
-	else if(lowChar==NFmiString("data"))
-		return dManData;
-	else if(lowChar==NFmiString("tulostusmuoto"))
-		return dManOutputMode;
-	else if(lowChar==NFmiString("suhteellinentunti"))
-		return dManRelativeHours;
-	else if(lowChar==NFmiString("tuntimuutos"))
-		return dManAddHours;
-	else if(lowChar==NFmiString("kieli"))
-		return dManLanguage;
-	else
-		return NFmiPressDescription::ConvertDefText(object);
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param object Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+int NFmiPressManager:: ConvertDefText(NFmiString & object)
+{
+  NFmiString lowChar = object;
+  lowChar.LowerCase();
+
+  if(lowChar==NFmiString("teetuote"))
+	return dManWritePs;
+  else if(lowChar==NFmiString("maski"))
+	return dManMaskNumber;
+  else if(lowChar==NFmiString("aktivoiekaelementti"))
+	return dManActivateFirst;
+  else if(lowChar==NFmiString("deaktivoiekaelementti"))
+	return dManDeactivateFirst;
+  else if(lowChar==NFmiString("tuotenimi"))
+	return dManProduct;
+  else if(lowChar==NFmiString("tuotenimiformaatti"))
+	return dManProductFormat;
+  else if(lowChar==NFmiString("asema"))
+	return dManStation;
+  else if(lowChar==NFmiString("asemajaosakuvat"))
+	return dManStationAndImages;
+  else if(lowChar==NFmiString("asemanime‰vaihtaen"))
+	return dManStationNewName;
+  else if(lowChar==NFmiString("tuoteniminumerointi"))
+	return dManNumberAddingToName;
+  else if(lowChar==NFmiString("tuoteniminumerointipois"))
+	return dManDeleteNumberAddingToName;
+  else if(lowChar==NFmiString("suljeloki"))
+	return dManCloseLog;
+  else if(lowChar==NFmiString("avaaloki"))   //ei kai toimi
+	return dManOpenLog;
+  else if(lowChar==NFmiString("data"))
+	return dManData;
+  else if(lowChar==NFmiString("tulostusmuoto"))
+	return dManOutputMode;
+  else if(lowChar==NFmiString("suhteellinentunti"))
+	return dManRelativeHours;
+  else if(lowChar==NFmiString("tuntimuutos"))
+	return dManAddHours;
+  else if(lowChar==NFmiString("kieli"))
+	return dManLanguage;
+  else
+	return NFmiPressDescription::ConvertDefText(object);
 }
+
+// ======================================================================

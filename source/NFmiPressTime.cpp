@@ -1,167 +1,180 @@
-/*---------------------------------------------------------------------------*/ 
-//© Ilmatieteenlaitos/Lasse.               
-// 
-//Originaali 6.3.1998 
-// 
-// Joitakin lisäyksiä tekstiksi-koodaukseen
-//
-//Muutettu xx0800/LW Ruotsin kielestä pois kuukauden jälkeinen piste
-//Muutettu xx1000/LW +InterpretToStr()
-//Muutettu 291100/LW bugi korj.
-//Muutettu 050101/LW RelativeDay() =eilen,tänään.....
-//Muutettu 080801/LW strx bugit korjattu
-//Muutettu 140502/LW + www -formaatit
-/*---------------------------------------------------------------------------*/
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class NFmiPressTime
+ */
+// ======================================================================
 
+// press
 #include "NFmiPressTime.h"
-#include "NFmiHyphenationString.h" //13.10.00
-#include "NFmiValueString.h" //27.08.01
-#include <algorithm> 
+#include "NFmiHyphenationString.h"
+// newbase
+#include "NFmiValueString.h"
+// system
+#include <algorithm>
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theTimeMask Undocumented
+ * \param theLanguage Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
-//__________________________________________________________________ 
-NFmiString NFmiPressTime :: ToStr(const unsigned long theTimeMask  
-								, const FmiLanguage theLanguage) const   //19.3
-{                   
+NFmiString NFmiPressTime::ToStr(const unsigned long theTimeMask,
+								const FmiLanguage theLanguage) const
+{
   NFmiValueString theString;
-  
-  if(kI & theTimeMask) // 15.3.00
-  {
-	   theString += NFmiValueString(GetWeekday() ,"%01d");
-	   return theString;
-  }
 
-  if(kLongYear & theTimeMask && kDot & theTimeMask) // 190299
-  {
+  if(kI & theTimeMask)
+	{
+	  theString += NFmiValueString(GetWeekday() ,"%01d");
+	  return theString;
+	}
+
+  if(kLongYear & theTimeMask && kDot & theTimeMask)
+	{
 	  if(kDay & theTimeMask)
-		  theString += NFmiValueString(GetDay() ,"%02d");
+		theString += NFmiValueString(GetDay() ,"%02d");
 	  else if (kShortDay & theTimeMask)
-		  theString += NFmiValueString(GetDay() ,"%d");
+		theString += NFmiValueString(GetDay() ,"%d");
 
-      theString += NFmiValueString(GetDay() ,"."); 
+      theString += NFmiValueString(GetDay() ,".");
 
 	  if(kMonth & theTimeMask)
-		  theString += NFmiValueString(GetMonth() ,"%02d");
+		theString += NFmiValueString(GetMonth() ,"%02d");
 	  else if (kShortMonth & theTimeMask)
-		  theString += NFmiValueString(GetMonth() ,"%d");
- 
-	  if(theLanguage != kSwedish) //24.8.00
-		theString += NFmiValueString(GetDay() ,"."); 
+		theString += NFmiValueString(GetMonth() ,"%d");
 
+	  if(theLanguage != kSwedish)
+		theString += NFmiValueString(GetDay() ,".");
 
       theString += NFmiValueString(GetYear() ,"%04d");
 
 	  return theString;
-  }
+	}
 
 
   if(kLongMonthName & theTimeMask)
-    theString += MonthName(theLanguage);   //19.3
+    theString += MonthName(theLanguage);
   else if(kShortMonthName & theTimeMask)
-    theString += MonthName(theLanguage).GetChars(1,3);   //1.4
+    theString += MonthName(theLanguage).GetChars(1,3);
 
   if(kShortWeekDay & theTimeMask)
-    theString += Weekday(theLanguage).GetChars(1,2);   //19.3
+    theString += Weekday(theLanguage).GetChars(1,2);
   else if(kLongWeekDay & theTimeMask)
     theString += Weekday(theLanguage);
- 
+
   if(kSpace & theTimeMask)
     theString += NFmiString(" ");
 
-//  theString += NFmiStaticTime::ToStr(theTimeMask);
-// HUOM päivämäärämuuttujien järjestys vaihdettu äitiin verrattuna
-  
+  //  theString += NFmiStaticTime::ToStr(theTimeMask);
+  // HUOM päivämäärämuuttujien järjestys vaihdettu äitiin verrattuna
+
   if(kDay & theTimeMask)
-  {
-     theString += NFmiValueString(GetDay() ,"%02d");
-     if(kDot & theTimeMask)                         //7.4 tänne
-        theString += NFmiValueString(GetDay() ,"."); 
-  }
+	{
+	  theString += NFmiValueString(GetDay() ,"%02d");
+	  if(kDot & theTimeMask)
+        theString += NFmiValueString(GetDay() ,".");
+	}
   if(kShortDay & theTimeMask)
-  {
-     theString += NFmiValueString(GetDay() ,"%d");
-     if(kDot & theTimeMask)                        //7.4 tänne
-        theString += NFmiValueString(GetDay() ,"."); 
-  }
- 
+	{
+	  theString += NFmiValueString(GetDay() ,"%d");
+	  if(kDot & theTimeMask)
+        theString += NFmiValueString(GetDay() ,".");
+	}
+
   if(kMonth & theTimeMask)
-  {
-     theString += NFmiValueString(GetMonth() ,"%02d");
-     if(kDot & theTimeMask 	&& theLanguage != kSwedish) //29.8.00
-       theString += NFmiValueString(GetDay() ,".");
-  }
+	{
+	  theString += NFmiValueString(GetMonth() ,"%02d");
+	  if(kDot & theTimeMask 	&& theLanguage != kSwedish)
+		theString += NFmiValueString(GetDay() ,".");
+	}
   if(kShortMonth & theTimeMask)
-  {
-     theString += NFmiValueString(GetMonth() ,"%d");
-     if(kDot & theTimeMask && theLanguage != kSwedish) //29.8.00)                          
-       theString += NFmiValueString(GetDay() ,".");
-   
-  }
+	{
+	  theString += NFmiValueString(GetMonth() ,"%d");
+	  if(kDot & theTimeMask && theLanguage != kSwedish)
+		theString += NFmiValueString(GetDay() ,".");
+
+	}
   if(kShortYear & theTimeMask)
     theString += NFmiValueString(GetYear() ,"%02d").GetChars(3,2);
   else
     if(kLongYear & theTimeMask)
       theString += NFmiValueString(GetYear() ,"%04d");
 
- 
+
   if(kHour & theTimeMask)
-  {
-     theString += NFmiValueString(GetHour() ,"%02d");
-     if(kDot & theTimeMask)
-       theString += NFmiValueString(GetDay() ,".");     //7.4
-  }
+	{
+	  theString += NFmiValueString(GetHour() ,"%02d");
+	  if(kDot & theTimeMask)
+		theString += NFmiValueString(GetDay() ,".");
+	}
   if(kMinute & theTimeMask)
     theString += NFmiValueString(GetMin() ,"%02d");
 
   if(kSecond & theTimeMask)
     theString += NFmiValueString(GetSec() ,"%02d");
 
-  if(kShortHour & theTimeMask)                     //1.3.2000
-  {
-	theString += NFmiValueString(GetHour() ,"%d");      // kH
+  if(kShortHour & theTimeMask)
+	{
+	  theString += NFmiValueString(GetHour() ,"%d");
 
-	if (kDot & theTimeMask)
-       theString += NFmiValueString(GetDay() ,".");     
+	  if (kDot & theTimeMask)
+		theString += NFmiValueString(GetDay() ,".");
 
-	if(kMinute & theTimeMask)
-       theString += NFmiValueString(GetMin() ,"%02d");   //kHdMM
- }
+	  if(kMinute & theTimeMask)
+		theString += NFmiValueString(GetMin() ,"%02d");
+	}
 
   return theString;
-} 
+}
 
-//13.10.00__________________________________________________________________ 
-NFmiString NFmiPressTime :: InterpretToStr(const NFmiString theTimeCode  
-								, const FmiLanguage theLanguage) const
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ * \code
+ * sallittuja osasia:
+ *		YYYY ->	        1999
+ *		YY		        99
+ *		MM		        08
+ *		M		        8
+ *		DD		        05
+ *		D		        5
+ *		HH		        15
+ *		mm		        30  (huom pienet, isot =kuukausi)
+ *		Wwww wwww WWWW	Perjantai perjantai PERJANTAI
+ *		Ww ww WW		Pe pe PE
+ *		Nnnn nnnn NNNN	Maaliskuu maaliskuu MAALISKUU
+ *		Nnn nnn NNN		Maa maa MAA
+ *		Tttt tttt TTTT  Eilen tänään HUOMENNA jne (möys Tttt+1, tttt-2 jne)
+ *		I		        2 (tiistai) (kiinan viikonpäivät)
+ *		ja melkein mitä tahansa merkkejä sellaisinaan
+ *			esim välil : . + - ja ne jotka eivät edellä varattuja
+ *			mutta ne varatutkin saadaan sijoittamalla ne kenoviivojen väliin
+ *		esim:
+ *		H.mm ->	9.32
+ *		"D.M.YY HH:mm" -> 13.2.99 14:32
+ *		"DD\HH\"       ->  13HH
+ *		(enää eivät d ja s kelpaa vanhassa merkityksessään)
+ *		YYMMDD -> 001013
+ *		osaset vapaassa järjestyksessä
+ *		jatkoaikatekstien tarve vähenee
+ *		tiedostonimiin ei sovi laittaa mitä tahansa merkkejä (aikaleima)
+ * \endcode
+ *
+ * \param theTimeCode Undocumented
+ * \param theLanguage Undocumented
+ * \return Undocumented
+ * \todo Muuta Doxygen kommentit kunnollisiksi
+ */
+// ----------------------------------------------------------------------
+
+NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
+										 const FmiLanguage theLanguage) const
 {
- /* sallittuja osasia:
-		YYYY ->	        1999
-		YY		        99
-		MM		        08
-		M		        8
-		DD		        05
-		D		        5
-		HH		        15
-		mm		        30  (huom pienet, isot =kuukausi)
-		Wwww wwww WWWW	Perjantai perjantai PERJANTAI
-		Ww ww WW		Pe pe PE
-		Nnnn nnnn NNNN	Maaliskuu maaliskuu MAALISKUU
-		Nnn nnn NNN		Maa maa MAA
-		Tttt tttt TTTT  Eilen tänään HUOMENNA jne (möys Tttt+1, tttt-2 jne)
-		I		        2 (tiistai) (kiinan viikonpäivät)
-		ja melkein mitä tahansa merkkejä sellaisinaan
-			esim välil : . + - ja ne jotka eivät edellä varattuja
-			mutta ne varatutkin saadaan sijoittamalla ne kenoviivojen väliin
-		esim: 
-		H.mm ->	9.32
-		"D.M.YY HH:mm" -> 13.2.99 14:32
-		"DD\HH\"       ->  13HH
-		(enää eivät d ja s kelpaa vanhassa merkityksessään)
-		YYMMDD -> 001013
-		osaset vapaassa järjestyksessä
-		jatkoaikatekstien tarve vähenee
-		tiedostonimiin ei sovi laittaa mitä tahansa merkkejä (aikaleima)
-		*/
   bool noConversion = false;
   int ind = 1;
   int len = theTimeCode.GetLen();
@@ -170,184 +183,198 @@ NFmiString NFmiPressTime :: InterpretToStr(const NFmiString theTimeCode
   int plusInd, subPlusInd;
 
   while(ind <= len)
-  {
+	{
 	  str1 = theTimeCode.GetChars(ind,1);
-//	  if(str1 == NFmiString(kFmiDirectorySeparator))  //myös formaatille varatut merkit saadaan kun laitetaan ne kenojen väliin
-// Mikan korjaus ei käy koska ei kyse polusta
-	  if(str1 == NFmiString("\\"))  //myös formaatille varatut merkit saadaan kun laitetaan ne kenojen väliin
-	  {
-		noConversion = !noConversion;
-		ind++;
-		continue;
-	  }
+	  //myös formaatille varatut merkit saadaan kun laitetaan ne kenojen väliin
+	  if(str1 == NFmiString("\\"))
+		{
+		  noConversion = !noConversion;
+		  ind++;
+		  continue;
+		}
 	  else if (noConversion)
-	  {
-		theString += str1;
-		ind++;
-		continue;
-	  }
+		{
+		  theString += str1;
+		  ind++;
+		  continue;
+		}
 
 	  str4 = theTimeCode.GetChars(ind,4);
 	  plusInd = 4;
 	  if(str4 == NFmiString("YYYY")|| str4 == NFmiString("yyyy"))
-			theString += NFmiValueString(GetYear() ,"%04d");
+		theString += NFmiValueString(GetYear() ,"%04d");
 	  else if(str4 == NFmiString("Wwww"))
-			theString += Weekday(theLanguage);
+		theString += Weekday(theLanguage);
 	  else if(str4 == NFmiString("wwww"))
-	  {
-		    strh = Weekday(theLanguage);
-			strh.LowerCase();
-			theString += strh;
-	  }
+		{
+		  strh = Weekday(theLanguage);
+		  strh.LowerCase();
+		  theString += strh;
+		}
 	  else if(str4 == NFmiString("WWWW"))
-	  {
-		    strh = Weekday(theLanguage);
-			strh.UpperCase();
-			theString += strh;
-	  }
+		{
+		  strh = Weekday(theLanguage);
+		  strh.UpperCase();
+		  theString += strh;
+		}
 	  else if(str4 == NFmiString("Nnnn"))
-			theString += MonthName(theLanguage);   
+		theString += MonthName(theLanguage);
 	  else if(str4 == NFmiString("nnnn"))
-	  {
-		    strh = MonthName(theLanguage);
-			strh.LowerCase();
-			theString += strh;
-	  }
+		{
+		  strh = MonthName(theLanguage);
+		  strh.LowerCase();
+		  theString += strh;
+		}
 	  else if(str4 == NFmiString("NNNN"))
-	  {
-		    strh = MonthName(theLanguage);
-			strh.UpperCase();
-			theString += strh;
-	  }
+		{
+		  strh = MonthName(theLanguage);
+		  strh.UpperCase();
+		  theString += strh;
+		}
 	  else if(str4 == NFmiString("Tttt") || str4 == NFmiString("tttt") || str4 == NFmiString("TTTT"))
-	  {
-		  	str6 = theTimeCode.GetChars(ind,6);
-			theString += RelativeDay(theLanguage, str6, subPlusInd);
-			plusInd += subPlusInd;
-	  }
+		{
+		  str6 = theTimeCode.GetChars(ind,6);
+		  theString += RelativeDay(theLanguage, str6, subPlusInd);
+		  plusInd += subPlusInd;
+		}
 	  else
-	  {
-		str3 = theTimeCode.GetChars(ind,3);
-		plusInd += -1;
-		if(str3 == NFmiString("Nnn"))
-			theString += MonthName(theLanguage).GetChars(1,3);   
-		else if(str3 == NFmiString("nnn"))
 		{
-				strh = MonthName(theLanguage).GetChars(1,3);
-				strh.LowerCase();
-				theString += strh;
-		}
-		else if(str3 == NFmiString("NNN"))
-		{
-				strh = MonthName(theLanguage).GetChars(1,3);
-				strh.UpperCase();
-				theString += strh;
-		}
-		else if(str3 == NFmiString("Www"))   //nämä kolme 14.5.02
-			theString += Weekday(theLanguage).GetChars(1,3);   
-		else if(str3 == NFmiString("www"))
-		{
-				strh = Weekday(theLanguage).GetChars(1,3);
-				strh.LowerCase();
-				theString += strh;
-		}
-		else if(str3 == NFmiString("WWW"))
-		{
-				strh = Weekday(theLanguage).GetChars(1,3);
-				strh.UpperCase();
-				theString += strh;
-		}
-		else
-		{
-			str2 = theTimeCode.GetChars(ind,2);
-			plusInd += -1;
-			if(str2 == NFmiString("YY") || str2 == NFmiString("yy"))
+		  str3 = theTimeCode.GetChars(ind,3);
+		  plusInd += -1;
+		  if(str3 == NFmiString("Nnn"))
+			theString += MonthName(theLanguage).GetChars(1,3);
+		  else if(str3 == NFmiString("nnn"))
+			{
+			  strh = MonthName(theLanguage).GetChars(1,3);
+			  strh.LowerCase();
+			  theString += strh;
+			}
+		  else if(str3 == NFmiString("NNN"))
+			{
+			  strh = MonthName(theLanguage).GetChars(1,3);
+			  strh.UpperCase();
+			  theString += strh;
+			}
+		  else if(str3 == NFmiString("Www"))
+			theString += Weekday(theLanguage).GetChars(1,3);
+		  else if(str3 == NFmiString("www"))
+			{
+			  strh = Weekday(theLanguage).GetChars(1,3);
+			  strh.LowerCase();
+			  theString += strh;
+			}
+		  else if(str3 == NFmiString("WWW"))
+			{
+			  strh = Weekday(theLanguage).GetChars(1,3);
+			  strh.UpperCase();
+			  theString += strh;
+			}
+		  else
+			{
+			  str2 = theTimeCode.GetChars(ind,2);
+			  plusInd += -1;
+			  if(str2 == NFmiString("YY") || str2 == NFmiString("yy"))
 				theString += NFmiValueString(GetYear() ,"%02d").GetChars(3,2);
-			else if(str2 == NFmiString("MM"))
+			  else if(str2 == NFmiString("MM"))
 				theString += NFmiValueString(GetMonth() ,"%02d");
-			else if(str2 == NFmiString("DD")||str2 == NFmiString("dd"))
+			  else if(str2 == NFmiString("DD")||str2 == NFmiString("dd"))
 				theString += NFmiValueString(GetDay() ,"%02d");
-			else if(str2 == NFmiString("HH") || str2 == NFmiString("hh"))
+			  else if(str2 == NFmiString("HH") || str2 == NFmiString("hh"))
 				theString += NFmiValueString(GetHour() ,"%02d");
-			else if(str2 == NFmiString("mm"))
+			  else if(str2 == NFmiString("mm"))
 				theString += NFmiValueString(GetMin() ,"%02d");
-			else if(str2 == NFmiString("Ww"))
+			  else if(str2 == NFmiString("Ww"))
 				theString += Weekday(theLanguage).GetChars(1,2);
-			else if(str2 == NFmiString("ww"))
-			{
-					strh = Weekday(theLanguage).GetChars(1,2);
-					strh.LowerCase();
-					theString += strh;
-			}
-			else if(str2 == NFmiString("WW"))
-			{
-					strh = Weekday(theLanguage).GetChars(1,2);
-					strh.UpperCase();
-					theString += strh;
-			}
-			else
-			{
-//				str1 = theTimeCode.GetChars(ind,1);
-				plusInd += -1;
-				if(str1 == NFmiString("M"))
+			  else if(str2 == NFmiString("ww"))
+				{
+				  strh = Weekday(theLanguage).GetChars(1,2);
+				  strh.LowerCase();
+				  theString += strh;
+				}
+			  else if(str2 == NFmiString("WW"))
+				{
+				  strh = Weekday(theLanguage).GetChars(1,2);
+				  strh.UpperCase();
+				  theString += strh;
+				}
+			  else
+				{
+				  plusInd += -1;
+				  if(str1 == NFmiString("M"))
 					theString += NFmiValueString(GetMonth() ,"%d");
-				else if(str1 == NFmiString("D"))
-					theString += NFmiValueString(GetDay() ,"%d"); //18.10.00
-				else if(str1 == NFmiString("H"))
-					theString += NFmiValueString(GetHour() ,"%d"); //29.11.00 bugi korjattu
-				else if(str1 == NFmiString("I"))
+				  else if(str1 == NFmiString("D"))
+					theString += NFmiValueString(GetDay() ,"%d");
+				  else if(str1 == NFmiString("H"))
+					theString += NFmiValueString(GetHour() ,"%d");
+				  else if(str1 == NFmiString("I"))
 					theString += NFmiValueString(GetWeekday() ,"%01d");
-				else
+				  else
 					theString += str1;
-				//pitäisi ottaa ruotsista päivän jälkeinen piste pois
+				  //pitäisi ottaa ruotsista päivän jälkeinen piste pois
+				}
 			}
 		}
-	  }
 	  ind += plusInd;
-  }
-  return theString;
-} 
-
-//__________________________________________________________________ 
-static 
-const char 
-    *reldays [] = 
-	{"alivuoto","Toissapäivänä", "Eilen", "Tänään", "Huomenna", "Ylihuomenna", "ylivuoto", 
-
-	  "alivuoto","I förrgår", "I går", "I dag", "I morgon", "I övermorgon","ylivuoto", 
-
-	  "alivuoto","The day before yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow","ylivuoto", 
-
-	  "alivuoto","Yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow", "ylivuoto"}; 
-
-//__________________________________________________________________ 
-NFmiString NFmiPressTime :: RelativeDay(FmiLanguage theLanguage, NFmiString theStr6, int& thePlusInd) const 
-{
-	NFmiTime currentTime;
-	NFmiString retString;
-	thePlusInd = 0;
-
-	//	short diff = DifferenceInDays(currentTime); // =minuutit/24h
-	short diff = GetJulianDay() - currentTime.GetJulianDay(); //16.1.01
-	if (diff < -100)     //vuodenvaihde ja karkausvuosi hoidettu, voisi viedä NFmiTime:een; ei tastattu
-		diff += DaysInYear(currentTime.GetYear());
-	if (diff > 100) 
-		diff -= DaysInYear(GetYear());
-
-	if(theStr6.GetChars(5,1) == NFmiString("+") || theStr6.GetChars(5,1) == NFmiString("-"))
-	{
-		int addDiff;
-		NFmiValueString vString = NFmiValueString(theStr6);
-		vString.ConvertToInt(addDiff, 5, 2);
-		diff += -addDiff;
-		thePlusInd = 2;
 	}
-	diff =  std::min(std::max(diff,static_cast<short>(-3)),static_cast<short>(3)); //pysäytetään ali/ylivuotoon
-	retString = NFmiString(reldays[(theLanguage-1)*7+diff +3]);
-	if (theStr6.GetChars(1,4) == NFmiString("tttt"))  //oletus Tttt
-		retString.LowerCase();
-	if (theStr6.GetChars(1,4) == NFmiString("TTTT"))
-		retString.UpperCase();
-	return retString;
-} 
+  return theString;
+}
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+static const char
+*reldays [] =
+  {"alivuoto","Toissapäivänä", "Eilen", "Tänään", "Huomenna", "Ylihuomenna", "ylivuoto",
+
+   "alivuoto","I förrgår", "I går", "I dag", "I morgon", "I övermorgon","ylivuoto",
+
+   "alivuoto","The day before yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow","ylivuoto",
+
+   "alivuoto","Yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow", "ylivuoto"};
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theLanguage Undocumented
+ * \param theStr6 Undocumented
+ * \param thePlusInd Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+NFmiString NFmiPressTime::RelativeDay(FmiLanguage theLanguage,
+									  NFmiString theStr6,
+									  int & thePlusInd) const
+{
+  NFmiTime currentTime;
+  NFmiString retString;
+  thePlusInd = 0;
+
+  short diff = GetJulianDay() - currentTime.GetJulianDay();
+  if (diff < -100)     //vuodenvaihde ja karkausvuosi hoidettu, voisi viedä NFmiTime:een; ei tastattu
+	diff += DaysInYear(currentTime.GetYear());
+  if (diff > 100)
+	diff -= DaysInYear(GetYear());
+
+  if(theStr6.GetChars(5,1) == NFmiString("+") || theStr6.GetChars(5,1) == NFmiString("-"))
+	{
+	  int addDiff;
+	  NFmiValueString vString = NFmiValueString(theStr6);
+	  vString.ConvertToInt(addDiff, 5, 2);
+	  diff += -addDiff;
+	  thePlusInd = 2;
+	}
+  diff =  std::min(std::max(diff,static_cast<short>(-3)),static_cast<short>(3)); //pysäytetään ali/ylivuotoon
+  retString = NFmiString(reldays[(theLanguage-1)*7+diff +3]);
+  if (theStr6.GetChars(1,4) == NFmiString("tttt"))  //oletus Tttt
+	retString.LowerCase();
+  if (theStr6.GetChars(1,4) == NFmiString("TTTT"))
+	retString.UpperCase();
+  return retString;
+}
+
+// ======================================================================
