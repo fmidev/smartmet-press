@@ -51,6 +51,7 @@ enum NFmiPressProductObjects
   dOutDir,
   dMapFile,
   dDataFile,
+  dYearDataFile,
   dNewestDataFile,
   dDataFileTimeStamp,
   dMandatoryDataFile,
@@ -66,8 +67,8 @@ enum NFmiPressProductObjects
   dPressParam,
   dSymbolPlaces,
   dPalette,
-  dSubImage,
-  dPageSize = 1020,
+  dSubImage = 1020,
+  dPageSize,
   dDate,
   dProductWithTimeStamp,
   dProductWithPressTimeStamp,
@@ -77,8 +78,8 @@ enum NFmiPressProductObjects
   dProductSizeFactor,
   dProductPlaceMove,
   dRelativeHours,
-  dChangeScandinavian,
-  dNameDay = 2020,
+  dChangeScandinavian = 2020,
+  dNameDay ,
   dProductNameFormat,
   dProductNameTimeFormat,
   dSecondProductNameTimeFormat,
@@ -88,8 +89,8 @@ enum NFmiPressProductObjects
   dMagicSavePath,
   dMapArea,
   dMakeElementsAfterSegments,
-  dMaskFile,
-  dWeekdayDir=3020,
+  dMaskFile = 3020,
+  dWeekdayDir,
   dAllDataFilesCritical,
   dDataFilesNotCritical
 };
@@ -114,8 +115,9 @@ public:
   bool PreProcessProduct(std::ifstream & origInput, std::ofstream & output);
   bool SetAllLanguages(FmiLanguage theLanguage);
   NFmiStationPoint FirstParamLocation();
-  NFmiQueryData * DataByName(NFmiString givenName);
+  NFmiQueryData * DataByName(NFmiString givenName, bool &isYearData);
   NFmiQueryData * FirstData(void);
+  NFmiNamedQueryData * FirstNamedData(void);
   NFmiString FirstDataName(void);
   NFmiString FirstSegmentName(void);
   bool SetMaskNumber(unsigned long theNumber, FmiEnumSpace theEnumSpace); 

@@ -259,7 +259,10 @@ bool NFmiPressParam::SetData(const NFmiString & dataName)
   if(itsDataIter)
 	delete itsDataIter;
 
-  NFmiQueryData * data = itsPressProduct->DataByName(dataName);
+  bool yearData;
+  fYearData = false;
+  NFmiQueryData * data = itsPressProduct->DataByName(dataName, yearData);
+
   if(data)
 	{
 	  // hidastaa noin 10% jos tehdään SuperSmartInfoja (muuten pitäisi
@@ -268,6 +271,7 @@ bool NFmiPressParam::SetData(const NFmiString & dataName)
 	  // kuitenkin noin 60% nopeutus kun SuperSmartit korvattu FastInfoilla
 	  // parametreissa ja muualla
 	  itsDataIter = new NFmiSuperSmartInfo(data);
+      fYearData = yearData;
 
 	  itsDataIter->First();
 	  itsDataName = dataName;
@@ -2089,8 +2093,12 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  supplementLater = itsPressProduct->GetSupplementMode() && !fSupplementary;
 
 		  // HUOM segmentin aika pitää olla datassa vaikka piirtoalkiossa muutettaisiin tuntia
-          // ei prosessoida jos täydennyssegmentti ja on jo tehty		 
- 		  if((itsDataIter->Time(time) || fDataNotNeeded) && !done)
+          // ei prosessoida jos täydennyssegmentti ja on jo tehty
+		  NFmiMetTime actTime(time);
+		  if(fYearData)
+			 actTime.SetYear(itsDataIter->Time().GetYear());
+ 		  if((itsDataIter->Time(actTime) || fDataNotNeeded) && !done)
+ 		  //if((itsDataIter->Time(time) || fDataNotNeeded) && !done)
  		 {
 		  if(itsCurrentStep == 1 || fIsTimeLoop)
 		  {

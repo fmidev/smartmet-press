@@ -155,6 +155,7 @@ public:
   NFmiPressProduct* GetPressProduct (void)const;
   bool IsSupplementary(void)const;
   bool SetSegmentCurrentTimeStatus(bool theStatus);
+  void SetYearData(bool theStatus);
 
 protected:
 
@@ -217,6 +218,7 @@ protected:
   bool fInterruptSymbolGroup;  
   bool fSupplementary;
   bool fCoordinatesFromMainMap;
+  bool fYearData;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -263,6 +265,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fInterruptSymbolGroup(false)
   , fSupplementary(false)
   , fCoordinatesFromMainMap(false)
+  , fYearData(false)
 {
   itsLanguage=kFinnish;
 }
@@ -307,6 +310,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fInterruptSymbolGroup(false)
   , fSupplementary(false)
   , fCoordinatesFromMainMap(false)
+  , fYearData(false)
 {
   itsLanguage=kFinnish;
 }
@@ -545,6 +549,19 @@ bool NFmiPressParam::IsStationLocalTimeMode(void) const
   return fStationsAreLocalTime;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::SetYearData(bool theStatus)
+{
+   fYearData = theStatus;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

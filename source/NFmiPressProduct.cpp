@@ -1118,7 +1118,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 21.1.2005" << endl;       
+   *itsLogFile << "program version = 24.1.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1330,8 +1330,11 @@ bool NFmiPressProduct::ReadData(void)
 
   if(itsMaskIter)
 	delete itsMaskIter;
-  if(DataByName(itsMaskFileName))
-	itsMaskIter = new NFmiSuperSmartInfo(DataByName(itsMaskFileName));
+  bool dummy;
+  if(DataByName(itsMaskFileName, dummy))
+  {
+	itsMaskIter = new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy));
+  }
   else
 	itsMaskIter = 0;
 
@@ -1428,6 +1431,24 @@ NFmiQueryData * NFmiPressProduct::FirstData(void)
   else
 	return 0;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+NFmiNamedQueryData * NFmiPressProduct::FirstNamedData(void)
+{
+  NFmiNamedQueryData * nData;
+  NFmiVoidPtrIterator iter(itsDatas);
+  iter.Reset();
+  nData = static_cast<NFmiNamedQueryData *>(iter.Next());
+  if(nData)
+	return nData;
+  else
+	return 0;
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -1458,13 +1479,14 @@ NFmiString NFmiPressProduct::FirstDataName(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName)
+NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName, bool &isYearData)
 {
   NFmiNamedQueryData * nData;
   NFmiVoidPtrIterator iter(itsDatas);
   NFmiString name;
   iter.Reset();
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
+  isYearData = false;
   while(nData)
   {
 	name = nData->GetName();
@@ -1472,7 +1494,10 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName)
 	// järjestyksestä (SuomiHav->SuomiHavSade), siksi oletus koko nimi
 	if(fNewestDataMode && givenName.IsValue() && name.Search(givenName) > 0
 	|| !fNewestDataMode && name == givenName)
+	{
+		isYearData = nData->IsYearData();
 		return nData->GetData();
+	}
 	nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   }
   return 0;
@@ -1502,6 +1527,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
   bool allDataFilesCritical = false;
   bool thisDataFileCritical = false;
   bool thisFileNewest = false;
+  bool yearData = false;
   itsLanguage = kFinnish;
   double xmin,xmax,ymin,ymax;
   long long1, long2, long3;
@@ -1727,6 +1753,14 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 				fNewestDataMode = true; 
 			}
 		}
+		case dYearDataFile: //yksi vain näistä: Mandatory,Newest,YearData
+			                //ilmastokeskiarvokamaa, vuosi ei relevantti
+		{
+			if(!thisDataFileCritical && !fNewestDataMode)
+			{
+			   yearData = true; //must be set to false before next
+			}
+		}
 		case dDataFile:
 		  {
 			if (!ReadEqualChar())
@@ -1749,7 +1783,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			NFmiQueryData * newData = new NFmiQueryData();
 			NFmiNamedQueryData * newNData = new NFmiNamedQueryData(newData,itsDataFileName
 															,allDataFilesCritical || thisDataFileCritical
-															,thisFileNewest);
+															,thisFileNewest
+															,yearData);
 			itsDatas.Add(newNData);
 
 			thisDataFileCritical = false;
@@ -2156,7 +2191,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			newParam->SetDataName(FirstDataName());
             newParam->SetEnvironment(itsEnvironment);
 			newParam->SetHome(GetHome());
-			newParam->SetData(FirstData());
+
+			NFmiNamedQueryData* nQD = FirstNamedData();
+			newParam->SetData(nQD->GetData());
+			newParam->SetYearData(nQD->IsYearData());
+
 			newParam->SetMaskIter(itsMaskIter);
 			newParam->SetLogFile(itsLogFile);
 			newParam->SetDescriptionFile(itsDescriptionFile);
@@ -2526,6 +2565,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datafile") ||
 		  lowChar==NFmiString("data"))
 	return dDataFile;
+  else if(lowChar==NFmiString("yeardatafile") ||
+		  lowChar==NFmiString("vuosidata"))
+	return dYearDataFile;
   else if(lowChar==NFmiString("newestdatafile") ||
 		  lowChar==NFmiString("uusindata"))
 	return dNewestDataFile;

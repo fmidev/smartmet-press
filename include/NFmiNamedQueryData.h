@@ -27,7 +27,8 @@ public:
   ~NFmiNamedQueryData(void);
   NFmiNamedQueryData(void);
   NFmiNamedQueryData(NFmiQueryData * data, NFmiString name, bool mandatory=false
-											     ,bool newest = false);
+											     ,bool newest = false
+												 ,bool yearData = false);
   NFmiNamedQueryData(const NFmiNamedQueryData & theNQD);
 
   void SetData(NFmiQueryData * theData);
@@ -35,6 +36,7 @@ public:
   NFmiString GetName(void);
   bool IsMandatory(void);
   bool IsNewest(void);
+  bool IsYearData(void);
 
 private:
 
@@ -42,6 +44,7 @@ private:
   NFmiString itsName;
   bool fMandatory;
   bool fNewest;
+  bool fYearData;
   
 }; // class NFmiNamedQueryData
 
@@ -56,6 +59,7 @@ NFmiNamedQueryData::NFmiNamedQueryData(void)
   : itsData(0)
    ,fMandatory(false)
    ,fNewest(false)
+   ,fYearData(false)
 {
 }
 
@@ -72,11 +76,13 @@ inline
 NFmiNamedQueryData::NFmiNamedQueryData(NFmiQueryData * data,
 									   NFmiString name,
 									   bool mandatory,
-									   bool newest)
+									   bool newest,
+									   bool yearData)
   :	itsData(data)
   , itsName(name)
   , fMandatory(mandatory)
   , fNewest(newest)
+  , fYearData(yearData)
 {
 }
 
@@ -95,6 +101,7 @@ NFmiNamedQueryData::NFmiNamedQueryData(const NFmiNamedQueryData & theNQD)
   itsName = theNQD.itsName;
   fMandatory = theNQD.fMandatory;
   fNewest = theNQD.fNewest;
+  fYearData = theNQD.fYearData;
 }
 
 // ----------------------------------------------------------------------
@@ -165,6 +172,20 @@ inline
 bool NFmiNamedQueryData::IsNewest(void)
 {
   return fNewest;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiNamedQueryData::IsYearData(void)
+{
+  return fYearData;
 }
 
 #endif // NFMINAMEDQUERYDATA_H
