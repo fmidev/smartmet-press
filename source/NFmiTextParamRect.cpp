@@ -29,7 +29,7 @@ using namespace std; //27.8.01
 //---------------------------------------------------------------------------
 
 NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect)
-  : NFmiParamRect(*(NFmiParamRect*)&theTextParamRect)
+  : NFmiParamRect(theTextParamRect)
   , itsAddInFront(theTextParamRect.itsAddInFront) 
   , itsAddAfter(theTextParamRect.itsAddAfter)  
   , fUseSelectLatinFont(theTextParamRect.fUseSelectLatinFont)  		
