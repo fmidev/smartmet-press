@@ -1062,7 +1062,7 @@ bool NFmiPressProduct::ReadData(void)
 			path += "PAL_Scand*";
 			//path += "PALLLL_Scand*";
 			std::string theFoundFileName;
-			FindFile(path, true, &theFoundFileName);
+			NFmiFileSystem::FindFile(path, true, &theFoundFileName);
 			//cout << theFoundFileName << endl;
 			odinDir += theFoundFileName;
 			dataFile = NFmiString(odinDir);
