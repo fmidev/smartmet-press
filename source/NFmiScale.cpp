@@ -53,11 +53,12 @@ NFmiScale :: NFmiScale (float theStartValue, float theEndValue)
 //______________________________________________________________________________
 //inline
 NFmiScale :: NFmiScale (const NFmiScale& anOtherScale)
-			: itsStartValue (anOtherScale.itsStartValue)
-		   , itsEndValue (anOtherScale.itsEndValue)
-			  , itsEpsilon (anOtherScale.itsEpsilon)
-			  , itsDataOk(anOtherScale.itsDataOk)
-			  , itsLimitCheck(anOtherScale.itsLimitCheck)
+  : NFmiSaveBase()
+  , itsStartValue (anOtherScale.itsStartValue)
+  , itsEndValue (anOtherScale.itsEndValue)
+  , itsEpsilon (anOtherScale.itsEpsilon)
+  , itsDataOk(anOtherScale.itsDataOk)
+  , itsLimitCheck(anOtherScale.itsLimitCheck)
 {
 }
 //______________________________________________________________________________
