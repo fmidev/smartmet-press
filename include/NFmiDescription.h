@@ -277,7 +277,7 @@ class _FMI_DLL NFmiDescription
 //		virtual NFmiParamRect*	Clone(void) const = 0; 
 	    virtual unsigned long ClassId(void){return kNFmiNone;}; //4.9.00 
 
-        int virtual ConvertDefText(NFmiString & object);
+        virtual int ConvertDefText(NFmiString & object);
 	protected:
         std::ofstream* itsLogFile;       
         std::ifstream* itsDescriptionFile;  //31.8.01       
