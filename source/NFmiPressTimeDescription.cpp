@@ -391,7 +391,6 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
 	default:
 	  {
 		return NFmiPressDescription::ReadRemaining();  
-		break;
 	  }
 	}
   return true;
