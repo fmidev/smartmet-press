@@ -73,7 +73,6 @@ bool NFmiPressComputerTimeText::ReadRemaining(void)
 	default: 
 	  {
 		return NFmiPressTimeText::ReadRemaining();
-		break;
 	  }
 	}
   return true;
