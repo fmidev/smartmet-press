@@ -217,10 +217,10 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		  {
 			if (!ReadEqualChar())
 			  break;
-			NFmiString summerFile, winterFile, countryPart;
-			summerFile = ReadString();
-			winterFile = ReadString();
-			countryPart = ReadString();
+
+			NFmiString summerFile(ReadString());
+			NFmiString winterFile(ReadString());
+			NFmiString countryPart(ReadString());
 
 			if(itsPressProduct->IsSummerWeather(countryPart))
 				itsTempImageFile = summerFile;

@@ -514,7 +514,7 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 		if (info.Time(today))
 		{
 			NFmiPoint lonLat(99.,99.); //not valid on earth 
-			NFmiString lowChar = theCountryPart;
+			NFmiString lowChar(theCountryPart);
 			lowChar.LowerCase();
 			if(lowChar == NFmiString("lounas") || lowChar == NFmiString("southwest"))
 				lonLat.Set(22.5, 60.5);
@@ -542,13 +542,12 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 			{                                             //jotka muuten aina menevät lähimpään
 				if(info.Param(kFmiTemperature))
 				{
-					float temp = info.FloatValue();
-					return temp > 2.;
+					return info.FloatValue() > 2.;
 				}
 			}
 		}
 	}
-	//jos dataa ei ole, hyvä aproksimaatio on kesä/talviaika
+	//jos sopivaa dataa ei ole, hyvä aproksimaatio on kesä/talviaika
     return today.GetZoneDifferenceHour() == -3;
 }
 // ----------------------------------------------------------------------
