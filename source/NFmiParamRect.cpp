@@ -1582,35 +1582,35 @@ float NFmiParamRect:: SunElevation(NFmiFastQueryInfo* theQueryInfo)
 //-090200---------------------------------------------------------------------------
 NFmiMetTime NFmiParamRect:: CalculatePeriodTime(long theHour)
 {
-	NFmiMetTime time(itsPressParam->GetFirstPlotTime()); //8.1.01 NFmiTime->MetTime (LocalTime(long) ei toiminut)
-//	NFmiMetTime time(itsPressParam->GetFirstPlotTime()); 
+	NFmiMetTime tim(itsPressParam->GetFirstPlotTime()); //8.1.01 NFmiTime->MetTime (LocalTime(long) ei toiminut)
+//	NFmiMetTime tim(itsPressParam->GetFirstPlotTime()); 
 							           
 	long hour = theHour;
 
 	if(theHour > 23)
 	{
-//		time.ChangeByDays(1);
+//		tim.ChangeByDays(1);
 //		hour -= 24;
 		long days = theHour/24; //9.5.00 aikasarjat ulotettu yli yhden vuorokauden siirtymistä
-		time.ChangeByDays(days);
+		tim.ChangeByDays(days);
 		hour -= days*24;
 	}
 	else if(theHour < 0)
 	{
-//		time.ChangeByDays(-1);
+//		tim.ChangeByDays(-1);
 //		hour += 24;
 /*		long days = theHour/24; 
-		time.ChangeByDays(-days);
+		tim.ChangeByDays(-days);
 		hour += days*24;
 */
 		long days = (-23+theHour)/24; 
-		time.ChangeByDays(days);
+		tim.ChangeByDays(days);
 		hour = 24 + hour; //hour on neg.
 
 	}
-	time.SetHour((short)hour);
+	tim.SetHour((short)hour);
 	long diff = itsCurrentSegmentTime.DifferenceInHours(itsPressParam->GetFirstPlotTime());
-	time.ChangeByHours(diff); //16.2.2000
+	tim.ChangeByHours(diff); //16.2.2000
 
 	if(itsPressParam->IsStationLocalTimeMode())
 	{
@@ -1620,10 +1620,10 @@ NFmiMetTime NFmiParamRect:: CalculatePeriodTime(long theHour)
 			*itsLogFile << "*** ERROR: longitudi puuttuu " << (char*)itsPressParam->GetCurrentStation().GetName()
 					<< ":lta paikallista aikaa varten"<< endl; 
 
-		time = time.LocalTime(-(float)longitude);
+		tim = tim.LocalTime(-(float)longitude);
 
 	}
-	return time;
+	return tim;
 }
 //-230999---------------------------------------------------------------------------
 bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo* theQI)
