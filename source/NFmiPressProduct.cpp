@@ -937,7 +937,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 20.8.2003" << endl;       
+   *itsLogFile << "program version = 20.8.2003C" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2316,6 +2316,9 @@ void NFmiPressProduct::ReadPalette(void)
 
 bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 {
+  //kutsutaan aina vaikka harvoin tarvitaan
+  srand(static_cast<unsigned int>(time(NULL)));
+  
   itsNumOfWritePS++;
   FmiPressOutputMode output = theGivenOutput;
   if(itsOutputMode != kPostScript)

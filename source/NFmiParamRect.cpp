@@ -67,6 +67,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsValueIntervalMax(theRect.itsValueIntervalMax)
   , fAllowMissing(theRect.fAllowMissing)
   , fUseFromStorage(theRect.fUseFromStorage)
+  , fUseFromStorageInFrontOf(theRect.fUseFromStorageInFrontOf)
   , fUseFromStorageConditionally(theRect.fUseFromStorageConditionally)
   , fPutInStorage(theRect.fPutInStorage)
   , itsStorageQueue(theRect.itsStorageQueue)
@@ -462,6 +463,13 @@ bool NFmiParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dUseFromStorageInFrontOf:
+	  {
+		fUseFromStorageInFrontOf = true;
+		
+		ReadNext();
+		break;
+	  }
 	case dStorageQueue:
 	  {
 		SetOne(itsStorageQueue);
@@ -745,6 +753,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("usefromstorage") ||
 		  lowChar==NFmiString("otavarastosta"))
 	return dUseFromStorage;
+
+  else if(lowChar==NFmiString("usefromstorageinfrontof") ||
+		  lowChar==NFmiString("otavarastostaeteen"))
+	return dUseFromStorageInFrontOf;
 
   else if(lowChar==NFmiString("storagequeue") ||
 		  lowChar==NFmiString("varastostojono"))
@@ -1621,9 +1633,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		}
 	  
 	}
-  //srand();
   if(IsRandom())
   {
+      //srand(static_cast<unsigned int>(value)); PressProduktiin
 	  value += GetRandomInterval() * (static_cast<float>(rand())/RAND_MAX -0.5);
   }
 

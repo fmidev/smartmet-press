@@ -65,6 +65,7 @@ enum NFmiParamRectObjects
 
   dPutInStorage = 5060,
   dUseFromStorage,
+  dUseFromStorageInFrontOf,
   dProbability,
   dAllowMissing,
   dUseFromStorageCond,
@@ -182,6 +183,7 @@ protected:
   float itsValueIntervalMax;
   bool fAllowMissing;
   bool fUseFromStorage;
+  bool fUseFromStorageInFrontOf;
   bool fUseFromStorageConditionally;
   bool fPutInStorage;
   int itsStorageQueue;
@@ -256,6 +258,7 @@ NFmiParamRect::NFmiParamRect(void)
   itsIdentPar = kFmiTemperature;
   itsRealPar = 0;
   fUseFromStorage = false;
+  fUseFromStorageInFrontOf = false;
   fUseFromStorageConditionally = false;
   fPutInStorage = false;
   itsStorageQueue = 1;
@@ -288,6 +291,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsValueIntervalMin(kFloatMissing)
   , fAllowMissing(false)
   , fUseFromStorage(false)
+  , fUseFromStorageInFrontOf(false)
   , fUseFromStorageConditionally(false)
   , fPutInStorage(false)
   , fIsProbability(false)

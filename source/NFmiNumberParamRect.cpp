@@ -446,6 +446,10 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
 		{
 		  str = NFmiString("(");
 		}
+	  if(fUseFromStorageInFrontOf)
+		{
+		  str += NFmiValueString(itsPressParam->UseFromStorage(itsStorageQueue),format);
+		}
 	  if(value == 0 && fZeroMinus)   //NOLLA PUUTTUVANA
 		{
 		  if(!itsEnvironment.GetLongNumberMinus())
