@@ -864,7 +864,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 					  *itsLogFile << "***ERROR: invalid weekday in seasonstatus"<< str2 << endl;
 					  continue;
 					}
-				  *itsLogFile << "  Viikonpäivä pakotettu: "<< fmiShortStr2 << endl;
+				  *itsLogFile << "  Viikonpäivä pakotettu: "<< fmiShortStr2; // << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "adva" || fmiShortStr1 == "enna")
@@ -1117,7 +1117,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 16.9.2004" << endl;       
+   *itsLogFile << "program version = 1.10.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1193,7 +1193,7 @@ bool NFmiPressProduct::ReadData(void)
   str = tmp.c_str();
 #endif
 
-  *itsLogFile << "  datahakemistot: " << static_cast<char *>(str) << endl;
+  *itsLogFile << "  datapolut: " << static_cast<char *>(str) << endl;
 
   // kaksi datahakemistoa, luupituksella voisi ottaa useampiakin
   NFmiString dataPath, dataPath2;
