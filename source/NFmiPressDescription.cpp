@@ -146,6 +146,8 @@ FmiLanguage NFmiPressDescription::ReadLanguage(void)
   else if (helpString == NFmiString ("kiina") ||
 		   helpString == NFmiString ("chinese"))
 	language = kChinese;
+  else if (helpString == NFmiString ("saame")) 
+	language = kSaame;
   else
 	*itsLogFile << "*** ERROR: Tuntematon kieli: "
 				<< static_cast<char *>(helpString)

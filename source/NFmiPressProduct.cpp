@@ -1093,7 +1093,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 22.11.2002" << endl;       
+   *itsLogFile << "program version = 26.11.2002" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -3119,6 +3119,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 				addString = NFmiString("ran");
 			  else if(itsLanguage == kChinese)
 				addString = NFmiString("kii");
+			  else if(itsLanguage == kSaame)
+				addString = NFmiString("saa");
 
 			  if(subString.FirstCharIsUpper())
 				addString.FirstCharToUpper();
@@ -3142,6 +3144,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 				addString = NFmiString("ranska");
 			  else if(itsLanguage == kChinese)
 				addString = NFmiString("kiina");
+			  else if(itsLanguage == kSaame)
+				addString = NFmiString("saame");
 
 			  if(subString.FirstCharIsUpper())
 				addString.FirstCharToUpper();
