@@ -44,7 +44,8 @@ enum NFmiPressManagerObjects
   dManDeleteNumberAddingToName,
   dManActivateFirst,
   dManDeactivateFirst,
-  dManMaskNumber
+  dManMaskNumber,
+  dManPressMaskNumber
 };
 
 

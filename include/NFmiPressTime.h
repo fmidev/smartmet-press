@@ -7,11 +7,15 @@
 /*!
  * \class NFmiPressTime
  * 
+ * InterpretToString-metodi siirretty NFmiTimeluokaan pienin lisäyksin
+ * ja muutoksin nimellä ToStr. Kannattaisi sieltä alkaa käyttämään
+ * aikatekstien generointia. (3.12.02)
+ *
  * Tuottaa aikatekstejä annettuun formaattiin, esim
  * "Sää wwwwna D.M.YY kello HH:mm" -> Sää tiistaina 13.2.99 kello 14:32
  * ks tarkemmin InterpretToStr-metodia cpp:ssä. Hallitsee
  * lehtisään kielet.
- * Press-luokkana lukee määrittelynsä ja tuottaa eps-koodinsa.
+ * Press-luokkana lukee tuotemäärittelynsä ja tuottaa eps-koodinsa.
  *
  */
 // ======================================================================
@@ -21,9 +25,9 @@
  
 #include  "NFmiMetTime.h" 
 
-//näitä on ihan turha käyttää enää
+//! ÄLÄ KÄYTÄ NÄITÄ ENÄÄ
 const unsigned long kUndefined  = 0;
-const unsigned long kShortWeekDay  = 128;	// pienikirjain=teksti
+const unsigned long kShortWeekDay  = 128;	
 const unsigned long kLongWeekDay   = 256;
 const unsigned long kShortMonthName = 512;
 const unsigned long kLongMonthName = 1024;
@@ -58,6 +62,7 @@ public:
   NFmiString ToStr(const unsigned long theTimeMask,
 				   const FmiLanguage theLanguage=kFinnish) const;
 
+  //koodattu myös emoon ToStr-nimellä vähän kehitettynä
   NFmiString InterpretToStr(const NFmiString theTimeCode,
 							const FmiLanguage theLanguage=kFinnish) const;
 

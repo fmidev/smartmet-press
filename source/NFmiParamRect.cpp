@@ -1472,7 +1472,23 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 			}
 		} //vanhat tavat loppu
 	} //vanhat+uudet loppu
-  
+
+/* näin pitäisi olla mutta vaatisi muutoksia tiehallintoon
+  if(fUseFromStorageConditionally)  
+  {
+	  //luetaan joka tapauksessa pois ettei turhia varoituksia käyttämättömästä talletuksesta
+	float storedValue = itsPressParam->UseFromStorage(itsStorageQueue);
+	if(value == kFloatMissing)  //4.10.01 olkoon ainoa ehto nyt aluksi että arvo puuttuu
+	{
+	  if(storedValue != kFloatMissing && storedValue < 105) //HUOM niinkauan kun pohjoisin suomi puuttuu tutkasateista
+		{
+		  value = storedValue;
+		  *itsLogFile << "   * INFO: "<< "stored value used instead of actual"  << endl;
+        }
+	}
+  }
+ */
+ //tämä taas toimii ok tiehallinnon kanssa mutta tuottaa turhia varoituksi käyttämättömistä varastoarvoista
   if(fUseFromStorageConditionally && value == kFloatMissing)  //4.10.01 olkoon ainoa ehto nyt aluksi että arvo puuttuu
 	{
 	  float storedValue = itsPressParam->UseFromStorage(itsStorageQueue);

@@ -39,7 +39,8 @@ enum NFmiPressDescriptionObjects
   dLanguage,
   dRGBColor = 1050,
   dColor,
-  dMaskNumber
+  dMaskNumber,
+  dPressMaskNumber
 };
 
 //! Undocumented

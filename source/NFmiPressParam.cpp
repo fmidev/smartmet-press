@@ -96,7 +96,7 @@ bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask)
 
   itsEnvironment.ChangeMaskNumber(theMask);
 
-  NFmiEnumConverter converter(kRoadRegions);
+  NFmiEnumConverter converter(itsEnvironment.GetEnumSpace());
   string name = converter.ToString(itsEnvironment.GetMaskNumber());
   itsName = NFmiString(name);
 
@@ -1772,7 +1772,7 @@ bool NFmiPressParam::CreateStationFromAreaMask(void)
   //tarvitaan nimi vaikka tekstioutputiin
   if(itsMaskIter)
 	{
-	  NFmiEnumConverter converter(kRoadRegions);
+	  NFmiEnumConverter converter(itsEnvironment.GetEnumSpace());
 	  string name = converter.ToString(itsEnvironment.GetMaskNumber());
 	  itsName = NFmiString(name);
 	  NFmiStationPoint station

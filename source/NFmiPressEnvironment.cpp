@@ -28,6 +28,7 @@ NFmiPressEnvironment::~NFmiPressEnvironment(void)
 
 NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOtherEnvironment)
   : itsMaskNumber(theOtherEnvironment.itsMaskNumber)
+  , itsEnumSpace(theOtherEnvironment.itsEnumSpace)
   , fLongNumberMinus(theOtherEnvironment.fLongNumberMinus)
   , itsGenericColor(theOtherEnvironment.itsGenericColor)
   , itsAdditionalDayAdvance(theOtherEnvironment.itsAdditionalDayAdvance)

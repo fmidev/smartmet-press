@@ -218,7 +218,30 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 
 			break;
 		}
-		case dManMaskNumber:
+		case dManPressMaskNumber: //muut kuin tiemaskit
+		  {
+			if (!ReadEqualChar())
+				break;
+
+			NFmiString maskName = ReadString();
+			string stdString(maskName);
+			NFmiEnumConverter converter(kPressRegions);
+			uLong = converter.ToEnum(stdString);
+
+			if(uLong != kTieAlueNone)
+			  {
+				thePressProduct.SetMaskNumber(uLong);
+				changed = true;
+			  }
+			else
+			  *itsLogFile << "*** ERROR: Not valid PressMask: "
+						  << static_cast<char *>(maskName)
+						  << endl;
+
+			ReadNext();
+			break;
+		  }
+		case dManMaskNumber:  //vain tiemaskit
 		  {
 			if (!ReadEqualChar())
 				break;
@@ -425,6 +448,8 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
 	return dManWritePs;
   else if(lowChar==NFmiString("maski"))
 	return dManMaskNumber;
+  else if(lowChar==NFmiString("aluemaski"))
+	return dManPressMaskNumber;
   else if(lowChar==NFmiString("aktivoiekaelementti"))
 	return dManActivateFirst;
   else if(lowChar==NFmiString("deaktivoiekaelementti"))

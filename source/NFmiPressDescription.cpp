@@ -31,9 +31,33 @@ bool NFmiPressDescription::ReadRemaining(void)
   unsigned long helpLong;
   switch(itsIntObject)
 	{
-
 	  // tänne vaikka vain Produktissa ja segmentissä käytössä
-	case dMaskNumber:
+	case dPressMaskNumber: //muut kuin tiealueet
+	  {
+		if (!ReadEqualChar())
+		  break;
+
+		NFmiString maskName = ReadString();
+		string stdString(maskName);
+		NFmiEnumConverter converter(kPressRegions);
+		helpLong = converter.ToEnum(stdString);
+
+		if(helpLong == 0)
+		  *itsLogFile << "*** ERROR: Not valid PressMask: "
+					  << static_cast<char *>(maskName)
+					  << endl;
+
+		else
+		{
+		  itsEnvironment.SetMaskNumber(helpLong);
+		  itsEnvironment.SetEnumSpace(kPressRegions);
+		}
+
+		ReadNext();
+
+		break;
+	  }
+	case dMaskNumber: //vain tiealueet
 	  {
 		if (!ReadEqualChar())
 		  break;
@@ -44,12 +68,15 @@ bool NFmiPressDescription::ReadRemaining(void)
 		helpLong = converter.ToEnum(stdString);
 
 		if(helpLong == 0)
-		  *itsLogFile << "*** ERROR: Not valid Mask: "
+		  *itsLogFile << "*** ERROR: Not valid RoadMask: "
 					  << static_cast<char *>(maskName)
 					  << endl;
 
 		else
+		{
 		  itsEnvironment.SetMaskNumber(helpLong);
+		  itsEnvironment.SetEnumSpace(kRoadRegions);
+		}
 
 		ReadNext();
 
@@ -180,7 +207,10 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 	}
   else if(lowChar==NFmiString("mask") ||
 		  lowChar==NFmiString("maski"))
-	return dMaskNumber;
+	return dMaskNumber; //roadregion
+  else if(lowChar==NFmiString("areamask") ||
+		  lowChar==NFmiString("aluemaski"))
+	return dPressMaskNumber; //other region
   else if(lowChar==NFmiString("producer") ||
 		  lowChar==NFmiString("tuottaja"))
 	return dProducer;

@@ -39,9 +39,11 @@ public:
   void SetCMYK(FmiCMYK theColor);
   void SetColor(const FmiGenericColor & theColor);
   void SetMaskNumber(unsigned long theMaskNumber);
+  void SetEnumSpace(FmiEnumSpace theEnumSpace);
   bool ChangeMaskNumber(unsigned long theMaskNumber);
 
-  unsigned long GetMaskNumber(void);
+  unsigned long GetMaskNumber(void)const;
+  FmiEnumSpace GetEnumSpace(void)const;
   bool IsRGB(void) const;
   bool IsCMYK(void) const;
   FmiGenericColor GetColor(void) const;
@@ -52,6 +54,7 @@ public:
 private:
 
   unsigned long itsMaskNumber;
+  FmiEnumSpace  itsEnumSpace;
   bool fLongNumberMinus;
   FmiGenericColor itsGenericColor; 
   long itsAdditionalDayAdvance;
@@ -67,6 +70,7 @@ private:
 inline
 NFmiPressEnvironment::NFmiPressEnvironment(void)
   : itsMaskNumber(0)
+  , itsEnumSpace(kNoneEnumSpace)
   , fLongNumberMinus(false)
   , itsAdditionalDayAdvance(0)
 {
@@ -159,6 +163,19 @@ void NFmiPressEnvironment::SetMaskNumber(unsigned long theMaskNumber)
 {
   itsMaskNumber = theMaskNumber;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theEnumSpace the new EnumSpace
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetEnumSpace(FmiEnumSpace theEnumSpace)
+{
+  itsEnumSpace = theEnumSpace;
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -190,9 +207,23 @@ bool NFmiPressEnvironment::ChangeMaskNumber(unsigned long theMaskNumber)
 // ----------------------------------------------------------------------
 
 inline
-unsigned long NFmiPressEnvironment::GetMaskNumber(void)
+unsigned long NFmiPressEnvironment::GetMaskNumber(void) const
 {
   return itsMaskNumber;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+FmiEnumSpace NFmiPressEnvironment::GetEnumSpace(void) const
+{
+  return itsEnumSpace;
 }
 
 // ----------------------------------------------------------------------
