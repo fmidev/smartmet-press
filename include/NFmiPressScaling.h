@@ -78,6 +78,7 @@ public:
   virtual void SetLastLineStep(double step);
   virtual void SetLanguage(FmiLanguage newLanguage);
   virtual void ChangeByHours(long hours);
+  virtual bool HasSubText(void)const;
 
 protected:           
 
@@ -124,6 +125,20 @@ NFmiPressScaling::NFmiPressScaling(void)
 {
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressScaling::HasSubText(void)const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

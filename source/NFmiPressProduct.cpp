@@ -528,6 +528,12 @@ bool NFmiPressProduct::SetAllTimes(const NFmiMetTime& theTime)
   while(object)
 	{
 	  object->SetTime(theTime);
+/* kannattaa ehkä ottaa mukaan
+	  if(object->HasSubText())
+	  {                //only NFmiPressText can have
+		 static_cast<NFmiPressText*>(object)->GetSubText()->SetTime(theTime);
+	  }
+	  */
 	  object = static_cast<NFmiPressScaling *>(objectIter.Next());
 	}
 
@@ -1118,7 +1124,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 21.2.2005" << endl;       
+   *itsLogFile << "program version = 22.3.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1276,7 +1282,12 @@ bool NFmiPressProduct::ReadData(void)
 
 	  //  käyetään nyt Vilin poikkeusmenettelyä
 	  // Yritetään sekä fqd-tiedostoa että sqd:tä ja kahdesta hakemistosta
-	 
+
+   if(loop < 3)
+   {
+	   NFmiTime time;
+	   *itsLogFile << "** ENNEN READ " << time << " **" << endl;
+   }
 	  if(!ReadQueryData(*data,dataFile))
 		{
 		  if(!twoOptinalTypes || !ReadQueryData(*data,dataFileSqd))
@@ -1327,6 +1338,9 @@ bool NFmiPressProduct::ReadData(void)
 	  nData = static_cast<NFmiNamedQueryData *>(iter.Next());
 	}
   fDataRead = true;
+
+  NFmiTime time;
+	   *itsLogFile << "** JÄLKEEN READ " << time << " **" << endl;
 
   if(itsMaskIter)
 	delete itsMaskIter;
@@ -2475,14 +2489,16 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 
   if(itsLogFile)
 	{
-	  *itsLogFile << "Lopetusrivi (pitää olla #LOPPU): "
+	  *itsLogFile << "Lopetusrivivarmistus (pitää olla #LOPPU): "
 				  << static_cast<char *>(itsString)
 				  << endl;
 	  if(itsString.GetLen() >= 2 &&
 		 NFmiString(itsString.GetCharsPtr(1,2)) != NFmiString("#E") &&
 		 NFmiString(itsString.GetCharsPtr(1,2)) != NFmiString("#L"))
+	  {
+		*itsLogFile << "*********" << endl;
 		*itsLogFile << "*** ERROR: MÄÄRITTELYTIEDOSTON LUKEMINEN KESKEYTETTY ?" << endl;
-
+	  }
 	  *itsLogFile << "TUOTETIEDOSTO LUETTU" << endl;
 	}
   return true;

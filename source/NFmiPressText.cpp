@@ -487,6 +487,7 @@ bool NFmiPressText::ReadRemaining(void)
 		  delete itsSubText;
 		itsSubText = new NFmiPressText;
 		itsSubText->SetHome(GetHome());
+        itsSubText->SetEnvironment(itsEnvironment);
 		itsSubText->SetLogFile(itsLogFile);
 		itsSubText->SetLanguage(itsLanguage);
 		itsSubText->SetDescriptionFile(itsDescriptionFile);	// miten on voinut toimia ilman
@@ -504,6 +505,7 @@ bool NFmiPressText::ReadRemaining(void)
 		  delete itsSubText;
 		itsSubText = new NFmiPressGivenTimeText;
 		itsSubText->SetHome(GetHome());
+        itsSubText->SetEnvironment(itsEnvironment);
 		itsSubText->SetLogFile(itsLogFile);
 		itsSubText->SetTime(itsFirstPlotTime);
 		itsSubText->SetLanguage(itsLanguage);
@@ -524,6 +526,7 @@ bool NFmiPressText::ReadRemaining(void)
 		  delete itsSubText;
 		itsSubText = new NFmiPressComputerTimeText;
 		itsSubText->SetHome(GetHome());
+        itsSubText->SetEnvironment(itsEnvironment);
 		itsSubText->SetLogFile(itsLogFile);
 		itsSubText->SetLanguage(itsLanguage);
 		itsSubText->SetDescriptionFile(itsDescriptionFile);	// miten on voinut toimia ilman
@@ -576,12 +579,10 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 	return dTextLanguage;
 
   else if(lowChar==NFmiString("#subconsttext") ||
-		  lowChar==NFmiString("#jatkovakioteksti") ||
 		  lowChar==NFmiString("#jatkovakioteksti"))
 	return dSubTextObject;
 
   else if(lowChar==NFmiString("#subtimetext") ||
-		  lowChar==NFmiString("#jatkoaikateksti") ||
 		  lowChar==NFmiString("#jatkoaikateksti"))
 	return dSubTimeTextObject;
 
@@ -815,6 +816,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		*itsOutFile << "false setoverprint" << endl;
 
 	  WriteColor(GetColor(), theOutput, *itsOutFile);
+	
 	  if(fInParagraph)
 		{
 		  text += NFmiString(" ");
@@ -827,6 +829,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	  // joten ei käytetä jos on tavuviivaa (silloin taas ei skandit tule!, mitä tehdä)
 
 	  bool isHyphen = text.Search(NFmiString("-"));
+
 	  if(fInParagraph || !isHyphen)
 		{
 		  *itsOutFile << "/"
@@ -836,6 +839,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  *itsOutFile << rect.Height() << " selectlatinfont" << endl;
 		}
 	  else
+
 		*itsOutFile << "/"
 					<< static_cast<char *>(GetFont())
 					<< " " << rect.Height()

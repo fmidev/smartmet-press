@@ -99,6 +99,8 @@ public:
   virtual void SetTime(const NFmiMetTime& theTime);
   double GetWidthFactor(void) const;
   void Move(const NFmiPoint & addPlace);
+  virtual bool HasSubText(void)const;
+  NFmiPressText* GetSubText(void)const;
 
 protected:               
 
@@ -225,7 +227,35 @@ void NFmiPressText::SetPostText(const NFmiString& theText)
 	itsAddAfter=theText;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+inline
+NFmiPressText* NFmiPressText::GetSubText(void)const
+{
+	return itsSubText;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressText::HasSubText(void)const
+{
+	return itsSubText? true : false;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
