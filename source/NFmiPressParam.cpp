@@ -741,13 +741,23 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						timeOrLevelTableSet = true;
 						fIsPureRegTimeLoop = false;
 
-						point1 = itsCurrentStationScale.Scale(firstUnscaledPoint);
-						point2 = itsScale.Scale(point1);
+						//point1 = itsCurrentStationScale.Scale(firstUnscaledPoint);
+						//point2 = itsScale.Scale(point1);
 
+						point1 = firstUnscaledPoint;
+						point1 = itsCurrentStationScale.Scale(point1);
+						point1 = itsScale.Scale(point1);
+						point2 = NFmiPoint(x,y);
+						point1 += point2;
+						tableDirectPoints[currentTimeInd].Set(point1.X(),point1.Y());
+						//point11 = itsCurrentStationScale.Scale(point11);
+						//point11 = itsScale.Scale(point11);
+						//tableDirectPoints[currentTimeInd].Set(point11.X(),point11.Y());
+/*
 						point3 = itsCurrentStationScale.UnScale(NFmiPoint(x,y));
 						point5 = firstUnscaledPoint + NFmiPoint(x,y);
 						tableDirectPoints[currentTimeInd].Set(point5.X(),point5.Y());
-
+*/
 					  }
 				  }
 			  }
@@ -1693,16 +1703,20 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  else
 			{
 			  if(ind >= numberOfRegularSteps)
-				{
-				  NFmiPoint nextScaledP = itsScale.Scale(tableDirectPoints[ind+1]);
-				  nextScaledP = itsCurrentStationScale.Scale(nextScaledP);
+			  {                                   //tableDirectPoints on skaalattu
+				  NFmiPoint nextScaledP = itsScale.Scale(tableDirectPoints[ind+1]); 
+				  //nextScaledP = itsCurrentStationScale.Scale(nextScaledP);
 				  itsSteps[ind] = nextScaledP - previousNextScaled;
-
-				  itsUnscaledSteps[ind] = tableDirectPoints[ind+1] - previousNextUnscaled;
-
-
+				  //HUOM ei-skaalattu on tämä unscaled:kin nyt vastoin nimeään!!
+				  itsUnscaledSteps[ind] = itsSteps[ind];
+/*
+				  //unscale vain yleisskaala muttei asemaskaala
+				  NFmiPoint unscaledP = itsScale.UnScale(tableDirectPoints[ind+1]);
+				  itsUnscaledSteps[ind] = unscaledP - previousNextUnscaled;
+*/
 				  previousNextScaled = nextScaledP;
-				  previousNextUnscaled = tableDirectPoints[ind+1];
+				  //previousNextUnscaled = tableDirectPoints[ind+1];
+				  //previousNextUnscaled = unscaledP;
 				}
 			  else //säännöllinen taulukko (alussa, muttei vain lopussa)
 				{
