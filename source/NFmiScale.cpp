@@ -212,7 +212,11 @@ void NFmiScale::StartFromZeroOptionally(float theFactor)
   // ei toimi laskevalle skaalalle
   if(!IsMissing())
 	{
-	  if ((itsEndValue-itsStartValue)*theFactor > std::min(fabs(itsEndValue), fabs(itsStartValue))
+	  //Lassen kääntäjä ei selviä  std::min:n sisäisistä funktioista
+	  float fabsEnd = fabs(itsEndValue);
+	  float fabsStart = fabs(itsStartValue);
+//	  if ((itsEndValue-itsStartValue)*theFactor > std::min(fabs(itsEndValue), fabs(itsStartValue))
+	  if ((itsEndValue-itsStartValue)*theFactor > std::min(fabsEnd, fabsStart)
 		  && !Inside(0.f))
 		{
 		  if(itsStartValue > 0.)
