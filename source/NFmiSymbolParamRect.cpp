@@ -13,6 +13,7 @@
 #include "NFmiRectScale.h"
 #include "NFmiPsWriting.h"
 #include "NFmiPressParam.h"
+#include "NFmiSettings.h"
 #include <iostream>
 
 using namespace std;
@@ -90,6 +91,10 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   inDir = GetHome();
   inDir += kFmiDirectorySeparator;
   inDir += "LyhytSymbolit";
+#ifdef UNIX
+  if(NFmiSettings::IsSet("press::tmpsymbolpath"))
+	inDir = NFmiSettings::Require<string>("press::tmpsymbolpath");
+#endif
   inDir += kFmiDirectorySeparator;
   origDir = GetHome();
   origDir += kFmiDirectorySeparator;

@@ -12,6 +12,8 @@
 // press
 #include "NFmiPsSymbol.h"
 #include "NFmiFileString.h"
+// newbase
+#include "NFmiSettings.h"
 // system
 #include <iostream>
 
@@ -215,7 +217,12 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
   inDir = GetHome();
   inDir += kFmiDirectorySeparator;
   inDir += "LyhytSymbolit";
+#ifdef UNIX
+  if(NFmiSettings::IsSet("press::tmpsymbolpath"))
+	inDir = NFmiSettings::Require<string>("press::tmpsymbolpath");
+#endif
   inDir += kFmiDirectorySeparator;
+
   itsOrigDir = GetHome();
   itsOrigDir += kFmiDirectorySeparator;
   itsOrigDir += "Symbolit";
