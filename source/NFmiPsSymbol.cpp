@@ -124,6 +124,10 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
       outputName += NFmiString(".ps");
       ofstream output(outputName, ios::out);
 
+	  if(!output && itsLogFile)
+		*itsLogFile << "*** ERROR: Tiedoston '" << outputName << "' avaaminen epäonnistui" << endl;
+
+
       const short lineSize = 250;	// HUOM max rivipituus
       char inBuf[lineSize];
       bool copyOn = isFalse;
