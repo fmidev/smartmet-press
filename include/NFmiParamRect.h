@@ -169,6 +169,7 @@ private:
   int PreWeaWithPrecForm(int value, NFmiFastQueryInfo * theData);
   
 protected:
+  bool fModifierUsed;
   float itsInterval2NumberMin;
   float itsInterval2NumberMax;
   float itsInterval2NumberValue;
@@ -231,6 +232,7 @@ inline
 NFmiParamRect::NFmiParamRect(void)
   : NFmiRect()  
 {
+  fModifierUsed = false;
   fParamErrorReported = false;
   fLevelErrorReported = false;
   fTimeErrorReported = false;
@@ -275,6 +277,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
 							 std::ofstream * theLogFile,
 							 unsigned short theMaxLoopNum)
   : NFmiRect(theRect)
+  , fModifierUsed(false)
   , itsValueIntervalMin(kFloatMissing)
   , fAllowMissing(false)
   , fUseFromStorage(false)

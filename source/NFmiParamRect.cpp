@@ -60,6 +60,7 @@ NFmiParamRect::~NFmiParamRect(void)
 NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   : NFmiRect(NFmiRect(theRect.TopLeft(), theRect.BottomRight()))
   , NFmiPressTimeDescription()
+  , fModifierUsed(theRect.fModifierUsed)
   , itsInterval2NumberMin(theRect.itsInterval2NumberMin)
   , itsInterval2NumberMax(theRect.itsInterval2NumberMax)
   , itsInterval2NumberValue(theRect.itsInterval2NumberValue)
@@ -285,61 +286,111 @@ bool NFmiParamRect::ReadRemaining(void)
 	  }
 	case dSum:
 	  {
-		if(!SetTwo(long1, long2)  ||  long1 > long2)
-		  *itsLogFile << "*** ERROR: Summa-ajat väärin " << endl;
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+				          << endl;
+			SetTwo(long1, long2); //luetaan vain pois
+		}
 		else
-		  {
-			SetRelModifierTimes(long1, long2);
-			itsModifier = kSum;
-		  }
+		{
+			if(!SetTwo(long1, long2)  ||  long1 > long2)
+			  *itsLogFile << "*** ERROR: Summa-ajat väärin " << endl;
+			else
+			  {
+				SetRelModifierTimes(long1, long2);
+				fModifierUsed = true;
+				itsModifier = kSum;
+			  }
+		}
 		break;
 	  }
 	case dMinimum:
 	  {
-		if(!SetTwo(long1, long2)  ||  long1 > long2)
-		  *itsLogFile << "*** ERROR: Minimiajat väärin " << endl;
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+				          << endl;
+			SetTwo(long1, long2); //luetaan vain pois
+		}
 		else
-		  {
-			SetRelModifierTimes(long1, long2);
-			itsModifier = kMinimum;
-		  }
+		{
+			if(!SetTwo(long1, long2)  ||  long1 > long2)
+			  *itsLogFile << "*** ERROR: Minimiajat väärin " << endl;
+			else
+			  {
+				SetRelModifierTimes(long1, long2);
+				fModifierUsed = true;
+				itsModifier = kMinimum;
+			  }
+		}
 		break;
 	  }
 	case dMaximum:
 	  {
-		if(!SetTwo(long1, long2)  ||  long1 > long2)
-		  *itsLogFile << "*** ERROR: Maksimiajat väärin " << endl;
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+				          << endl;
+			SetTwo(long1, long2); //luetaan vain pois
+		}
 		else
-		  {
-			SetRelModifierTimes(long1, long2);
-			itsModifier = kMaximum;
-		  }
+		{
+			if(!SetTwo(long1, long2)  ||  long1 > long2)
+			  *itsLogFile << "*** ERROR: Maksimiajat väärin " << endl;
+			else
+			  {
+				SetRelModifierTimes(long1, long2);
+				fModifierUsed = true;
+				itsModifier = kMaximum;
+			  }
+		}
 		break;
 	  }
 	case dMean:
 	  {
-		if(!SetTwo(long1, long2)  ||  long1 > long2)
-		  {
-			*itsLogFile << "*** ERROR: Keskiarvoajat väärin " << endl;
-		  }
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+				          << endl;
+			SetTwo(long1, long2); //luetaan vain pois
+		}
 		else
-		  {
-			SetRelModifierTimes(long1, long2);
-			itsModifier = kMean;
-		  }
+		{
+			if(!SetTwo(long1, long2)  ||  long1 > long2)
+			  {
+				*itsLogFile << "*** ERROR: Keskiarvoajat väärin " << endl;
+			  }
+			else
+			  {
+				SetRelModifierTimes(long1, long2);
+				fModifierUsed = true;
+				itsModifier = kMean;
+			  }
+		}
 		
 		break;
 	  }
 	case dWeightedMean:
 	  {
-		if(!SetFive(long1, long2, itsIntegrationPeriod.startWeight,itsIntegrationPeriod.centreWeight,itsIntegrationPeriod.endWeight)
-		   || long1 > long2)
-		  *itsLogFile << "*** ERROR: Painotettu keskiarvo annettu väärin " << endl;
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+				          << endl;
+			SetTwo(long1, long2); //luetaan vain pois
+		}
 		else
-		  {
-			SetRelModifierTimes(long1, long2);
-			itsModifier = kWeightedMean;
-		  }
+		{
+			if(!SetFive(long1, long2, itsIntegrationPeriod.startWeight,itsIntegrationPeriod.centreWeight,itsIntegrationPeriod.endWeight)
+			   || long1 > long2)
+			  *itsLogFile << "*** ERROR: Painotettu keskiarvo annettu väärin " << endl;
+			else
+			  {
+				SetRelModifierTimes(long1, long2);
+				fModifierUsed = true;
+				itsModifier = kWeightedMean;
+			  }
+		}
 		
 		break;
 	  }
