@@ -47,7 +47,7 @@ NFmiHyphenationString :: ~NFmiHyphenationString  (void)
 }
 
 //---------------------------------------------------------------
-NFmiString NFmiHyphenationString::CreateHyphens(char *theHyphenationMark)
+NFmiString NFmiHyphenationString::CreateHyphens(const char *theHyphenationMark)
 {
 	NFmiString newString;
 	ResetPosition();

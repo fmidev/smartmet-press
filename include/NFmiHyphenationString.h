@@ -36,7 +36,7 @@ class _FMI_DLL NFmiHyphenationString : public NFmiString
 
      ~NFmiHyphenationString (void);
 
-	NFmiString CreateHyphens(char *theHyphenationMark);
+	NFmiString CreateHyphens(const char *theHyphenationMark);
 	bool NextChar(const NFmiString &theChar);
 	bool NextIsNumeric(void);
 	NFmiString ReplaceChar(const NFmiString &theChar, const NFmiString& withString);
