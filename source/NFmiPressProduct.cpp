@@ -21,6 +21,7 @@
 #include "NFmiPsSymbol.h"
 // newbase
 #include "NFmiLocationFinder.h"
+#include "NFmiSettings.h"
 #include "NFmiSuperSmartInfo.h"
 #include "NFmiFileSystem.h"   
 // system
@@ -843,30 +844,26 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 
   itsOutputMode = kPostScript;
 
-  char * hChar;
-
   NFmiString fmiString, origHome;
 
+#ifndef UNIX
+  char * hChar;
   hChar = getenv("lehtiTuoteDir");
-
   if(hChar == 0)
 	{
-
-#ifndef UNIX
 	  fmiString = NFmiString("C:\\Program Files\\LehtiAuto");
-#else
-	  char * home = getenv("HOME");
-	  fmiString = NFmiString(home) + NFmiString("/LehtiAuto");
-#endif
-
 	  origHome = NFmiString("(Oletus)");
 	}
   else
 	{
 	  fmiString = hChar;
 	  origHome = NFmiString("(Ympäristömuuttuja)");
-
 	}
+#else
+  fmiString = NFmiSettings::Require<string>("press::path");
+  origHome = NFmiString("(fmi.conf)");
+#endif
+
   SetHome(fmiString);
 
   // Tarkistus että hakemisto olemassa, vaikka nyt endA4.eps:n olemassaolo
@@ -893,6 +890,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 	  return false;
 	}
 
+#ifndef UNIX
   hChar = getenv("lehtiLokiDir");
   if(hChar == 0)
 	{
@@ -902,6 +900,9 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 	}
   else
 	   fmiString = hChar;
+#else
+  fmiString = NFmiSettings::Require<string>("press::logpath");
+#endif
 
 /* Mika siirsi tämän alas lohkon sisään */
 //  <<<<<<< NFmiPressProduct.cpp
@@ -996,8 +997,9 @@ bool NFmiPressProduct::ReadData(void)
 
   bool mandatoryNotFound = false;
 
-  char * hChar;
   NFmiHyphenationString str;
+#ifndef UNIX
+  char * hChar;
   hChar = getenv("lehtiDataDir");
   if(hChar == 0)
 	{
@@ -1007,6 +1009,10 @@ bool NFmiPressProduct::ReadData(void)
 	}
   else
 	str = hChar;
+#else
+  const string tmp = NFmiSettings::Require<string>("press::datapath");
+  str = tmp.c_str();
+#endif
 
   *itsLogFile << "  datahakemistot: " << static_cast<char *>(str) << endl;
 
@@ -2859,9 +2865,10 @@ bool NFmiPressProduct::Close(void)
 
 bool NFmiPressProduct::ConstructOutFileName(void)
 {
-  char * hChar;
   NFmiString str;
 
+#ifndef UNIX
+  char * hChar;
   hChar = getenv("lehtiOutDir");
   if(hChar == 0)
 	{
@@ -2872,6 +2879,9 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 	}
   else
 	str = hChar;
+#else
+  str = NFmiSettings::Require<string>("press::outpath");
+#endif
 
   itsOutFile = str;
   itsOutFile += NFmiString("/");
