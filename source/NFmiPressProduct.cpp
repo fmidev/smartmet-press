@@ -310,11 +310,8 @@ bool NFmiPressProduct::SetFirstSegmentActivity(bool theActivity)
 
 bool NFmiPressProduct::SetFirstObjectActivity(bool theActivity)
 {
-  //voisi kehitt‰‰ niin ett‰ muutetaan eka sellainen joka
-  //on eri kuin theActivity, niin alusta voisi (de)aktivoida n kpl
-
   NFmiVoidPtrIterator objectIter(itsObjects);
-  NFmiPressScaling* object;  //PsWriting kaataa, ent‰ NFmiPressScaling
+  NFmiPressScaling* object;  
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
   if(object)
@@ -326,6 +323,38 @@ bool NFmiPressProduct::SetFirstObjectActivity(bool theActivity)
   }
 
   return true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theActivity Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressProduct::ChangeFirstPossibleObject(bool toNewActivity)
+{
+  //alusta voi vuoronper‰‰n (de)aktivoida n kpl
+
+  NFmiVoidPtrIterator objectIter(itsObjects);
+  NFmiPressScaling* object;  
+  objectIter.Reset();
+  object = static_cast<NFmiPressScaling *>(objectIter.Next());
+  while(object)
+	if(object->IsActive() == toNewActivity)
+	{
+		object = static_cast<NFmiPressScaling *>(objectIter.Next());
+	}
+	else
+	{
+		object->SetActivity(toNewActivity);
+		return true;
+	}
+
+  *itsLogFile << "*** ERROR: ei ole elementtej‰ (de)aktivoitavaksi managerista" << endl;
+  return false;
 }
 
 // ----------------------------------------------------------------------
@@ -517,7 +546,7 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 			NFmiPoint lonLat(99.,99.); //not valid on earth 
 			NFmiString lowChar(theCountryPart);
 			lowChar.LowerCase();
-			if(lowChar == NFmiString("lounas") || lowChar == NFmiString("southwest"))
+			if(lowChar == NFmiString("lounas")|| lowChar == NFmiString("southwest"))
 				lonLat.Set(22.5, 60.5);
 			else if(lowChar == NFmiString("etel‰") || lowChar == NFmiString("south"))
 				lonLat.Set(25., 60.3);
@@ -1008,7 +1037,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 27.11.2003" << endl;       
+   *itsLogFile << "program version = 18.1.2004" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1140,7 +1169,6 @@ bool NFmiPressProduct::ReadData(void)
 			std::string path;
 			path = odinDir;
 			path += "PAL_Scand*";
-			//path += "PALLLL_Scand*";
 			std::string theFoundFileName;
 			NFmiFileSystem::FindFile(path, true, &theFoundFileName);
 			//cout << theFoundFileName << endl;

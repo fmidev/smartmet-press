@@ -348,6 +348,22 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 			ReadNext();
 			break;
 		  }
+		case dManActivateFirstPassive:
+		  {
+			thePressProduct.ChangeFirstPossibleObject(true);
+			changed = true;
+
+			ReadNext();
+			break;
+		  }
+		case dManDeactivateFirstActive:
+		  {
+			thePressProduct.ChangeFirstPossibleObject(false);
+			changed = true;
+
+			ReadNext();
+			break;
+		  }
 		case dManNumberAddingToName:
 		  {
 			if(SetOne(long1))
@@ -521,6 +537,10 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
 	return dManActivateFirst;
   else if(lowChar==NFmiString("deaktivoiekaelementti"))
 	return dManDeactivateFirst;
+  else if(lowChar==NFmiString("aktivoiekapassiivinenelementti"))
+	return dManActivateFirstPassive;
+  else if(lowChar==NFmiString("deaktivoiekaaktiivinenelementti"))
+	return dManDeactivateFirstActive;
   else if(lowChar==NFmiString("aktivoiekasegmentti"))
 	return dManActivateFirstSegment;
   else if(lowChar==NFmiString("deaktivoiekasegmentti"))

@@ -131,6 +131,7 @@ public:
   void ActivateNumberToName(long theStartNumber);
   void DeActivateNumberToName(void);
   bool SetFirstObjectActivity(bool theActivity);
+  bool ChangeFirstPossibleObject(bool toNewActivity);
   bool SetFirstSegmentActivity(bool theActivity);
   void PutInStorage(const float value, int queueNum=1);
   float UseFromStorage(int queueNum=1, bool errorReport = true);
