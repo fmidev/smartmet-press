@@ -73,8 +73,8 @@ class _FMI_DLL NFmiPressTime : public NFmiTime //2.3.2000 uusi perintä, oli metT
  
  public: 
     NFmiPressTime (void){};
-    NFmiPressTime (const NFmiTime& time)
-		:NFmiTime(time){};
+    NFmiPressTime (const NFmiTime& theTime)
+		:NFmiTime(theTime){};
 /*    NFmiPressTime (const NFmiTime& time)    //1.3.2000
 	{   
 	   SetYear(time.GetYear()); 
