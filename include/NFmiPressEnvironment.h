@@ -27,8 +27,8 @@ class _FMI_DLL NFmiPressEnvironment
  public: 
 	 NFmiPressEnvironment (void) :
 	   itsMaskNumber(0) //12.11.01
-	   ,itsAdditionalDayAdvance(0) //23.5.02
 	   ,fLongNumberMinus(false)
+	   ,itsAdditionalDayAdvance(0) //23.5.02
 	   {                         //HUOM vain jompikumpi värijärjestelmä
 		   itsGenericColor.color.cmyk.cyan = 0.;
 		   itsGenericColor.color.cmyk.magenta = 0.;
