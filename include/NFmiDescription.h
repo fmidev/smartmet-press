@@ -29,6 +29,8 @@
 #include "NFmiValueString.h"
 #include <cstdlib>
 
+using namespace std;
+
 const unsigned int kNFmiNone				= 10;
 const unsigned int kNFmiPressStationText	= 11;
 const unsigned int kNFmiPressParamName		= 12;
