@@ -1498,6 +1498,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  *itsLogFile << "   * INFO: "<< "stored value used instead of actual"  << endl;
         }
 	}
+
+  if (itsValueIntervalMin != kFloatMissing)
+	  value = itsValueIntervalMin <= value && value <= itsValueIntervalMax ? value : kFloatMissing;
   
   if(itsValueOption == kFahrenheit)
 	value = FmiCelsius2Fahrenheit(value);
@@ -1529,12 +1532,12 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 			value += - 2.75;
 		  else if(value <= 29.5)
 			value += - 3;
-		  else
+		  else 
 			value += - 3.25;
 		}
 	  
 	}
-  
+ 
   if(modif)
 	delete modif;
   if(areaModif)
