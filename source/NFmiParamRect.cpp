@@ -106,6 +106,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsSymbolGroupOrder(theRect.itsSymbolGroupOrder)
   , fMeanWindToMax(theRect.fMeanWindToMax)
   , itsDataIdent(theRect.itsDataIdent)
+  , itsRoundingNumber(theRect.itsRoundingNumber)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -631,6 +632,11 @@ bool NFmiParamRect::ReadRemaining(void)
 		SetTrue(fMeanWindToMax);
 		break;
 	  }
+	case dRounding:
+	  {
+		SetOne(itsRoundingNumber);
+		break;
+	  }
 	case dStationTableActive:
 	  {
 		if (!ReadEqualChar())
@@ -883,6 +889,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("frommeanwindtomax") ||
 		  lowChar==NFmiString("keskituulestamaksimi"))
   return dFromMeanWindToMax;
+
+  else if(lowChar==NFmiString("rounding") ||
+		  lowChar==NFmiString("pyöristys"))
+  return dRounding;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1725,7 +1735,10 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  
 	}
 
-  if(fMeanWindToMax)
+  if(itsRoundingNumber != kLongMissing)
+	  value = (static_cast<long>((value+.5*itsRoundingNumber)/itsRoundingNumber) * itsRoundingNumber);
+
+  if(fMeanWindToMax && value != kFloatMissing)
 		value += max(value*.25, 2.);
 
   //ekassa käsittely poltettu koodiin, jälkimmäsessä ohjattavissa määrittelystä

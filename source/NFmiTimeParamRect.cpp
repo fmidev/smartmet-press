@@ -107,6 +107,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 
   // kopsattu vain numerosta,jotta oletussuht.paikka = (0,0) toimii
   itsRelRect -= NFmiPoint(1., 1.);
+  bool relPlace = false;
 
   while(itsIntObject != 9999 || itsCommentLevel)
 	{
@@ -181,18 +182,11 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 			  {
 				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
 			  }
+			relPlace = true;
 			ReadNext();
 			break;
 		  }
-		case dProducer:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadLong(long1))
-			  long1 = 0; //dummy
-			ReadNext();
-			break;
-		  }
+
 		case dColorValueDependent:
 		{
 		  ReadNext();
@@ -248,7 +242,8 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 
   SetPostReadingTimes();
 
-  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
+  if(!relPlace)
+	  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
 
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);

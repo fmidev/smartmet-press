@@ -78,6 +78,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
   SetPreReadingTimes();
   itsMapping = new NFmiParamMapping;
   itsModifier = kNoneModifier;
+  bool relPlace = false;
 
   ReadNext();
 
@@ -146,20 +147,11 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
 			  }
 			fNewScaling = false;
+			relPlace = true;
 			ReadNext();
 			break;
 		  }
 
-		case dProducer:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadLong(long1))
-			  long1=1;  //dummy koska tuottaja hylätty
-
-			ReadNext();
-			break;
-		  }
 		case dColorValueDependent: //poistettu
 		  {
 			ReadNext();
@@ -228,7 +220,8 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 
   SetPostReadingTimes();
 
-  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
+  if(!relPlace)
+	  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
 
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);

@@ -76,7 +76,8 @@ enum NFmiParamRectObjects
   dRandomModifying = 6060,
   dEquiDistanceMarking,
   dStationTableActive,
-  dFromMeanWindToMax
+  dFromMeanWindToMax,
+  dRounding
 };
 
 //! Undocumented
@@ -240,6 +241,7 @@ protected:
   unsigned long itsSymbolGroupOrder;
   FmiLoopActivity itsStationLoopActivity;
   bool fMeanWindToMax;
+  long itsRoundingNumber;
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -291,6 +293,7 @@ NFmiParamRect::NFmiParamRect(void)
   itsSymbolGroupOrder=0;
   itsStationLoopActivity.startIndex=0;
   fMeanWindToMax = false;
+  itsRoundingNumber = kLongMissing;
 }
 
 // ----------------------------------------------------------------------
@@ -340,6 +343,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fMarkingValue(true)
   , itsSymbolGroupOrder(0)
   , fMeanWindToMax(false)
+  , itsRoundingNumber(kLongMissing)
   , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;

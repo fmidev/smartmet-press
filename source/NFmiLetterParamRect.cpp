@@ -75,6 +75,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 
   itsMultiMapping = 0;
   itsModifier = kNoneModifier;
+  bool relPlace = false;
 
   itsRelRect -= NFmiPoint(1., 1.);
   ReadNext();
@@ -134,19 +135,11 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 			  {
 				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
 			  }
+			relPlace = true;
 			ReadNext();
 			break;
 		  }
-		case dProducer: 
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadLong(long1))
-			  long1 = 0; //dummy
-			
-			ReadNext();
-			break;
-		}
+
 		case dColorValueDependent: 
 		  {	
 			ReadNext();
@@ -187,7 +180,8 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
   //flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
-  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
+  if(!relPlace)
+	  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
   
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);

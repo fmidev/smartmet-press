@@ -94,6 +94,12 @@ bool NFmiPressDescription::ReadRemaining(void)
 
 		break;
 	  }
+	case dProducer:
+	  {
+		SetOne(helpLong); //luetaan vain pois koska tuottaja hylätty
+		break;
+	  }
+
 	case dLanguage:
 	  {
 		if (!ReadEqualChar())
