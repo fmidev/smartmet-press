@@ -92,8 +92,8 @@ public:
 				 const unsigned long producer,
 				 NFmiPressProduct * pressProduct);
 	
-  bool WritePS(NFmiRectScale scale,
-			   std::ofstream & file,
+  bool WritePS(NFmiRectScale theScale,
+			   std::ofstream & theFile,
 			   FmiPressOutputMode theOutput); 
 
   bool SetData(const NFmiString & dataName);    

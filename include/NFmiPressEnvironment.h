@@ -157,6 +157,7 @@ void NFmiPressEnvironment::SetColor(const FmiGenericColor & theColor)
  * Undocumented
  *
  * \param theMaskNumber Undocumented
+ * \param theEnumSpace Undocumented
  */
 // ----------------------------------------------------------------------
 
@@ -199,6 +200,7 @@ void NFmiPressEnvironment::SetEnumSpace(FmiEnumSpace theEnumSpace)
  * Only performed if already set (as opposite to SetMask)
  *
  * \param theMaskNumber Undocumented
+ * \param theEnumSpace Undocumented
  * \return Undocumented
  */
 // ----------------------------------------------------------------------

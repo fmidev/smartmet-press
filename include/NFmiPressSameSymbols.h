@@ -128,7 +128,7 @@ void NFmiPressSameSymbols::SetOutFile(std::ofstream & outFile)
 /*!
  * Undocumented
  *
- * \param outFile Undocumented
+ * \param thePressP Undocumented
  */
 // ----------------------------------------------------------------------
 

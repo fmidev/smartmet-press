@@ -289,7 +289,7 @@ bool NFmiDescription::ReadUnsignedLong(unsigned long & retValue)
  * \param errorReport Undocumented
  * \return Undocumented
  *
- * \todoRemove The strange cast sequence
+ * \todo Remove The strange cast sequence
  */
 // ----------------------------------------------------------------------
 

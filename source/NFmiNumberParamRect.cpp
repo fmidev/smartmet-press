@@ -30,7 +30,7 @@ NFmiNumberParamRect::~NFmiNumberParamRect(void)
 /*!
  * Copy constructor
  *
- * \param theNumberParamrect The object to copy
+ * \param theNumberParamRect The object to copy
  */
 // ----------------------------------------------------------------------
 

@@ -218,6 +218,7 @@ bool NFmiPressProduct::SetProductNameFormat(const NFmiString & theName)
  * Undocumented
  *
  * \param theNumber Undocumented
+ * \param theEnumSpace Undocumented
  * \return Undocumented
  */
 // ----------------------------------------------------------------------

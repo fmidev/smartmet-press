@@ -85,6 +85,7 @@ void NFmiPressParam::SetNewGeoArea(const NFmiPressArea & theArea)
  * Undocumented
  *
  * \param theMask Undocumented
+ * \param theEnumSpace Undocumented
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
