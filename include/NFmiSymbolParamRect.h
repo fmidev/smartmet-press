@@ -106,7 +106,7 @@ class _FMI_DLL NFmiSymbolParamRect : public NFmiParamRect
         virtual bool ReadValues( NFmiFastQueryInfo* theQI, bool SetRelHour=true); //3.5.02 toka par  
 		virtual void       ScaleByValue(){;};                  //7.11.00
 //		bool ReadSymbolScale(FmiValueScaling& theScale); //201000
-		void virtual WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream & os); //14.11.00
+		virtual void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream & os); //14.11.00
 
 	protected:
 		NFmiString          itsConstSymbol;   //24.5.00 #VakioSymbolia varten
