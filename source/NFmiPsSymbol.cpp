@@ -125,7 +125,7 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
       ofstream output(outputName, ios::out);
 
 	  if(!output && itsLogFile)
-		*itsLogFile << "*** ERROR: Tiedoston '" << outputName << "' avaaminen epäonnistui" << endl;
+		*itsLogFile << "*** ERROR: Tiedoston '" << outputName << "' avaaminen kirjoitusta varten epäonnistui" << endl;
 
 
       const short lineSize = 250;	// HUOM max rivipituus
