@@ -549,7 +549,6 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   }
   itsSeasonsStatus = new FmiPressSeasons; 
 
-  NFmiString statusString;
   NFmiTime today;
   NFmiTime summerStart(today);
   summerStart.SetDate(today.GetYear(), 5, 31);
