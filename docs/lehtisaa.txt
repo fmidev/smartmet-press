@@ -27,9 +27,11 @@ Lehtisääohjelman kriittiset tiedostot sijaitsevat LehtiAuto-hakemistossa (C:/Pro
  
 Automaattisesti tuotettavat lehdet ajetaan normaalisti apmet2003-koneella. Siellä on skripti LehtiAuto/Bat/Automaatti.bat, joka ohjaa koko tuotannon. Skripti käynnistyy kerran tunnissa 20 min yli täyden tunnin ja tekee ne lehdet, jotka on merkitty ajettavaksi sinä viikonpäivänä ja kellonaikana (tunti). Automaatti-tiedosto ohjaa lehden teon alusta loppuun eli hakee mahdollisesti ensin valmiit osat (lämpövyöhykkeet), ajaa lehtiohjelman ao. lehden määrittelytiedostolla, muuntaa eps-tiedoston pdf-muotoon ja huolehtii jakelusta (ftp-palvelimelle ja/tai maililähetys). Skriptin suoritus kestää muutaman minuutin, koska se odottaa että Distiller-ohjelma (käynnistyy runsaan puolen minuutin välein) varmasti ehtii konvertoida tuotteet pdf-muotoon.  
 
-Automaatiikassa on vain sellaisia lehtiä, jotka voidaan toimittaa pdf-muodossa ja yleensä ne on aika yksinkertaisia ilman tekstejä tai lämpövyöhykkeitä. Poikkeuksen tekee Perniö, jossa suomineito-teksti sekä Warkaus jossa on lämpövyöhykkeitä. Tästä <a href="docs/Lehtimuistio.xls"> lehtimuistiosta </a> näkee mitkä lehdet tehdään automaattisesti (10. sarake).
+Automaatiikassa on lähinnä sellaisia lehtiä, jotka voidaan toimittaa pdf-muodossa ja yleensä ne on aika yksinkertaisia ilman tekstejä tai lämpövyöhykkeitä. Poikkeuksia on PaSaPi (myös GIF), Perniö(suomineito-teksti) ja Warkaus(lämpövyöhykkeitä). Tästä <a href="docs/Lehtimuistio.xls"> lehtimuistiosta </a> näkee mitkä lehdet tehdään automaattisesti (10. sarake).
 
-Automaattilehtien määrittelytiedostot pitää olla hakemistossa LehtiAuto/Tuotteet/Auto, jotta automatiikka osaisi ne käyttää. Sieltä määrittelyt voi ajaa myös käsin normaalilla tavalla kaksoisklikkaamalla mutta pdf-muunnoksesta ja jakelusta on silloin huolehdittava itse. On myös skripti joka xxx
+Automaattilehtien määrittelytiedostot pitää olla hakemistossa LehtiAuto/Tuotteet/Auto, jotta automatiikka osaisi ne käyttää. Sieltä määrittelyt voi ajaa myös käsin normaalilla tavalla kaksoisklikkaamalla mutta pdf-muunnoksesta ja jakelusta on silloin huolehdittava itse. On myös skripti (TeeYksiTuoteRaahaamalla) joka loppuun asti jakeluineen tekee halutun tuotteen sillä hetkellä kun sen käynnistää, ks \ref sec_yksiautotuote. Automatiikan saa myös pyörähtämään milloin tahansa, ks xxxx, jolloin kaikki tuotteet, joiden ajoaika on käsillä (päivä ja tunti oikein) tehdään.
+
+Automaatiajot voi siirtää apmet2002-koneelle (muttei 2000:lle), jos apmet2003-konetta jostain syystä ei voida käyttää. Tarvittavat määrittelyt, pohjat jne on myös 2002:lla ja pdf-muunnos tapahtuu samalla tavalla samoin kuin automaattiskriptit on sinne määritelty, ne pitää vain aktivoida, ks \ref sec_automatiikansiirto . 
 
 \section sec_data Data
 
@@ -39,17 +41,17 @@ Muut datat (synoptiset havainnot, meriveden korkeudet ja lämpötilat sekä myös Su
 
 Siitepölydataa varten on aivan oma rutiininsa: Bat/Siitepoly.bat, joka ajetaan apmet2003:lla joka päivä 12.05 ja varmistetaan vielä muutaman kerran tunnin välein. Skripti hakee ensin aerobiologien webbilomakkeesta tehdyn tiedoston Odin-koneesta ja muokkaa sen lehtiohjelman vaatimaan muotoon. Sen jälkeen se jaetaan piirtokoneille ja myös takaisin Odiniin.  
 
-Ennustetekstejä (vain suomineito.txt) käytetään lehtiohjelman kautta vain kahdessa lehdessä, automaattisessa Perniössä ja manuaalisessa Karjalaisessa. Apmet2003:ssa on skripti KopioiEnnusteet.bat joka ajetaan alkaen 12.12 puolen tunnin välein. Ajo hakee Apmet2000-koneelta, missä se tällä hetkellä editoidaan, tekstin kaikkiin koneisiin LehtiAuto/Tekstit/Suomineito-hakemistoon ja myös Odiniin. Sen voi myös siirtää käsin ja vaikka muuttaa vielä omalla koneella (toki paikalliset muutokset häviävät puolen tunnin sisällä kun seuraava automaattikopionti tehdään).    
+Ennustetekstejä (vain suomineito.txt) käytetään lehtiohjelman kautta vain kahdessa lehdessä, automaattisessa Perniössä ja manuaalisessa Karjalaisessa. Apmet2003:ssa on skripti KopioiEnnusteet.bat joka ajetaan alkaen 12.12 puolen tunnin välein. Ajo hakee Apmet2000-koneelta, missä se tällä hetkellä editoidaan, tekstin kaikkiin koneisiin LehtiAuto/Tekstit/Suomineito-hakemistoon ja myös Odiniin. Sen voi myös siirtää käsin ja vaikka muuttaa vielä omalla koneella (toki paikalliset muutokset häviävät puolen tunnin sisällä kun seuraava automaattikopionti tehdään). Lehtiohjelma tarkistaa että DDMMsuomineito.txt:n aikaleima on oikein.    
 
 \section sec_ongelmat Ongelmatilanteet ja muut poikkeavuudet
 
 \subsection sec_poikkeusaika Lehti ilmoittaa hyvissä ajoin poikkeusaikataulusta
 
-Jos on kyse automaattituotteesta tehdään \ref sec_muutosautomaattiaikatauluun . Muuten...
+Jos on kyse automaattituotteesta tehdään \ref sec_muutosautomaattiaikatauluun . Muuten pitää muutos
 
 \subsection sec_lehtikaipaa Lehti kaipaa säitään aikataulun ulkopuolella tai ei ole saanut normaalilähetystä
 
-Jos on kyseessä automaattituote (tarkista <a href="docs/Lehtimuistio.xls"> lehtimuistiosta </a>) suorita \ref sec_yksiautotuote . Jollei ole automaattituote mutta apumetkut tehneet tuotteen aikaisemmin sen voi lähettää uudelleen, varmimmin mailitse (ks \ref sec_manuaalituotteenlahetys ), koska ftp-häiriö on saattanut sotkea normaalilähetyksen. Manuaalituotteiden teko aikataulun ulkopuolella on normaalisti hankalaa, koska ne sisältävär tekstejä ja tuoreita havaintoja ja vaativat ehkä lämpövyöhykkeitä. Muutamat yksinkertaiset kuitenkin tehdään manuualisesti vain siksi ettei lehdelle kelpaa pdf-formaatti ja ne voi tehdä koska tahansa: \ref sec_manuaalituotteenteko 
+Jos on kyseessä automaattituote (tarkista <a href="docs/Lehtimuistio.xls"> lehtimuistiosta </a>) suorita \ref sec_yksiautotuote . Jollei ole automaattituote mutta apumetkut tehneet tuotteen aikaisemmin sen voi lähettää uudelleen, varmimmin mailitse (ks \ref sec_manuaalituotteenlahetys ), koska juuri ftp-häiriö on saattanut sotkea normaalilähetyksen. Manuaalituotteiden teko aikataulun ulkopuolella on normaalisti hankalaa, koska ne sisältävär tekstejä ja tuoreita havaintoja ja vaativat ehkä lämpövyöhykkeitä. Muutamat yksinkertaiset kuitenkin tehdään manuualisesti vain siksi ettei lehdelle kelpaa pdf-formaatti ja ne voi tehdä koska tahansa: \ref sec_manuaalituotteenteko 
 
 \subsection sec_poikkeavaennakko Tuotteen tekopäivän ja ilmestymispäivän ero poikkeava
 
@@ -61,7 +63,18 @@ Jos on kyseessä automaattituote (tarkista <a href="docs/Lehtimuistio.xls"> lehti
 
 Tässä ratkaisut
 
-\subsection sec_muutosautomaattiaikatauluun Muutos automaattiaikatauluun 
+\subsection sec_muutosautomaattiaikatauluun Muutos automaattiaikatauluun
+
+- Mene apmet2003-koneelle 
+- Avaa vaikka Notepadilla LehtiAuto/Bat/Automaatti.bat
+- Jos muutos tehdään viikonpäivään lisätään tai poistetaan X oikean päivän sarakkeesta ao lehden riviltä
+- Jos muutos tulee kellonaikaan laitetaan toivottu tunti (ajetaan 20 yli) toiseen aikasarakkeeseen (2.h); ensimmäiseen voi laittaa kaksi tuntia aikaisemmin, joka toimii varatuotteena jos jokin ei toimi ennen deadlinea
+- Jos muutos tulee mailiosoitteeseen kirjoita uusi vanhan tilalle 
+- Jos maili otetaan uudeksi lähetystavaksi kirjoita maili-osoite none-sanan tilalle ja mailisarakkeisiin X(varsinainen lähetys), E(ennakko lähetys) tai V((ftp:n) varalähetys); kirjain vaikuttaa mailitekstiin ja aiheeseen
+- Jos maili poistetaan lähetystapana laita molempiin mailisarakkeisiin -
+- Jos lehti poistetaan automatiikasta kirjoita rivin alkuun "rem " tai ota rastit joka päivän kohdalta pois tai jos lopullisesti poistetaan hävitä koko rivi
+- Talleta tiedosto 
+Poikkeusjärjestelyt, jotka koskevat useampia lehtiä(juhlapyhät), kannattaa tehdä niin että automatiikka-tiedostosta tehdään oma versio ja säilytetään normaali tilanne omannimisenä tiedostona joka pyhien jälkeen taas otetaan käyttöön nimiä vaihtamalla. Huomaa automaatti-tiedostosta että parametrit viimeiseen viikonpäivään saakka pitää olla erotettuina vähintään yhdellä välilyönnillä tai tabulaattorilla mutta sen jälkeen nämä merkit on ehdottomasti kielletty ja erottimena toimii kauttaviiva. 
 
 \subsection sec_yksiautotuote Yhden automaattituotteen teko ja lähettäminen
 
@@ -73,10 +86,23 @@ Tässä ratkaisut
 
 \subsection sec_kaikkiautotuotteet Kaikkien automaattituotteiden teko
 
-bla 
+- Mene apmet2003-koneelle, vältä kuitenkin aikaa 20 yli tasatunnin koska voi mennä ristiin varsinaisen automaattiajon kanssa.
+- Käynnistä Bat/TeeAutoTuotteet.bat joko klikkaamalla samannimistä ikonia työpöydällä (oikealla toinen ylhäältä) tai suoraan itse tiedostoa
 
-\subsection sec_manuaalituotteenteko Tuotteen teko manuaalisesti
+\subsection sec_manuaalituotteenteko Manuaalituotteen teko 
+
+- mene apmet2000ö-, apmet2002- tai apmet2003-koneelle
+- jos yksinkertainen tuote (ei muualta tulevaa lämpövyöhykettä) mene LehtiAuto/Tuotteet/Rutiinit (mahdollisesti Rutiinit2000) -kansioon ja etsi lehden niminen pre-tiedosto, jos ei löydy ks seuraava kohta
+- jos monimutkaisempi tuote mene LehtiAuto/exe-kansioon ja etsi lehden niminen bat-tiedosto, jos ei löydy ks edellinen kohta
+- kaksoisklikkaa pre tai bat-tiedostoa (2003:lla yksöisklikkaus)
+- ajon eteneminen näkyy DOS-ikkunassa
+- ajo valmis kun tulee teksti "lopeta painamalla jotain nappainta"
+- jos DOS-ikkunassa ei näy virheilmoituksia (selvästi erotettu) paina vaikka enter ja jatka, jos näkyy virheitä, paina enter ja yritä korjata vika
+- avaa tuote Valmiit-kansiosta Illustratoriin, tee mahdolliset korjaukset ja talleta lehden vaatimaan muotoon, ks lehtimuistio
+- \ref sec_manuaalituotteenlahetys 
 
 \subsection sec_manuaalituotteenlahetys Manuaalituotteen lähetys
+
+\subsection sec_automatiikansiirto Automatiikan siirto apmet2002:lle
 
 */
