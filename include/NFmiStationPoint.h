@@ -73,6 +73,7 @@ class _FMI_DLL NFmiStationPoint : public NFmiStation , public  NFmiDescription
  
 	NFmiStationPoint (const NFmiStationPoint &theStation) 
 				: NFmiStation(*theStation.Station())
+				, NFmiDescription()
 				, itsPoint(theStation.Point())				
 	           {};
 	
