@@ -24,27 +24,23 @@
 #include "NFmiSettings.h"
 
 #include <cstdlib>
+#include <stdexcept>
 
 using namespace std;
 
-int main(int argc, const char ** argv)
+int domain(int argc, const char ** argv)
 {
+  NFmiSettings::Init();
+
   NFmiString dataExt[4] = {"pre", "PRE", "prt", "PRT"};
 
   NFmiCmdLine cmdLine(argc,argv,"h!o!l!");
 
   if(cmdLine.Status().IsError())
-	{
-	  cerr << "Error on the command line:" << endl
-		   << " --> " << cmdLine.Status().ErrorLog() << endl;
-	  return 1;
-	}
+	throw runtime_error(cmdLine.Status().ErrorLog().CharPtr());
   
   if(cmdLine.NumberofParameters() != 1)
-	{
-      cerr << "Error: Filename argument missing" << endl;
-      return 1;
-    }
+	throw runtime_error("Filename argument missing");
 
   string homedir("lehtiTuoteDir=");
   if(cmdLine.isOption('h'))
@@ -94,32 +90,51 @@ int main(int argc, const char ** argv)
 	 descriptionFile.Extension() == dataExt[2] ||
 	 descriptionFile.Extension() == dataExt[3] 
 	 )
-   {
-     NFmiPressProduct pressProduct;
+	{
+	  NFmiPressProduct pressProduct;
       if(pressProduct.ReadDescriptionFile(NFmiString(descriptionFile))) 
-  {
-	  NFmiPressManager manager;
-	  if(manager.ReadDescriptionAndWrite(pressProduct, managerReadFailed))
-		  ok = true;
+		{
+		  NFmiPressManager manager;
+		  if(manager.ReadDescriptionAndWrite(pressProduct, managerReadFailed))
+			ok = true;
+		  else
+			{
+			  if(managerReadFailed)
+				ok = false;
+			  else
+				ok = pressProduct.WritePS(); //manager not used
+			}
+		}
 	  else
 	  {
-		 if(managerReadFailed)
-			ok = false;
-		 else
-			ok = pressProduct.WritePS(); //manager not used
-		  }
-	  }
-	  else
-	  {
-		  ok = false;
+		ok = false;
 	  }
 	  pressProduct.Close();
 	  
 	  return (ok ? EXIT_SUCCESS : EXIT_FAILURE);
 	}
-  cout << "ERROR: tuntematon tiedostotyyppi" << endl;
-  
-  return EXIT_FAILURE;
+
+  throw runtime_error("Tuntematon tiedostotyyppi");
+}
+
+int main(int argc, const char ** argv)
+{
+  try
+	{
+	  return domain(argc,argv);
+	}
+  catch(exception & e)
+	{
+	  cerr << "Error: Caught an exception" << endl
+		   << " --> " << e.what() << endl;
+	  return 1;
+	}
+  catch(...)
+	{
+	  cerr << "Error: Caught an unknown exception" << endl;
+	  return 1;
+	}
+
 }
 
 // ======================================================================
