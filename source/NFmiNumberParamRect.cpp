@@ -454,7 +454,7 @@ bool NFmiNumberParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 	if(value == 0.) format = NFmiString("%d");
 
 //*** 21.10.98 lis‰tty "-" -merkki puuttuviin 
-	NFmiValueString string;
+	NFmiValueString str;
 	NFmiString* mapString =0;
 
 	if(itsMapping)  //on aina luotu vaikkei mapattu, mapString==0 ilmaisee puuttuvaa mappausta
@@ -479,49 +479,49 @@ bool NFmiNumberParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 
 		if(fParenthesis)            
 		{
-			string = NFmiString("(");
+			str = NFmiString("(");
 		}
 		if(value == 0 && fZeroMinus)   //NOLLA PUUTTUVANA //110299
 		{	
 			if(!itsEnvironment.GetLongNumberMinus())
 			{
-				string += NFmiString ("-");
+				str += NFmiString ("-");
 			}
 			else
 			{
-				string += NFmiString("\\226"); 
+				str += NFmiString("\\226"); 
 
 			}
 		}        
 		else if(value != kFloatMissing)  // NORMAALI POS. TAI NEG. ARVO  
 			if(value >= 0. || !itsEnvironment.GetLongNumberMinus()) //171198
 			{
-				string += NFmiValueString (value,format);
+				str += NFmiValueString (value,format);
 			}
 			else
 			{
-				string += NFmiString("\\226");
+				str += NFmiString("\\226");
 				NFmiHyphenationString helpFormat = format;
 				NFmiString hFormat = helpFormat.DropChar("+");
-				string += NFmiValueString ((float)fabs(value),hFormat);
+				str += NFmiValueString ((float)fabs(value),hFormat);
 			}
 		else      // PUUTTUVA
 		{
      		if(!itsEnvironment.GetLongNumberMinus())     //171198
-				string += NFmiString("-");
+				str += NFmiString("-");
 			else
-				string += NFmiString("\\226");  
+				str += NFmiString("\\226");  
 
 	//		itsNumOfMissing++;   //090299 siirretty ParamRectille
 		}
-	//	string.ReplaceChars(NFmiString("-"),NFmiString("\\226"));//131198 vain yksi merkki
+	//	str.ReplaceChars(NFmiString("-"),NFmiString("\\226"));//131198 vain yksi merkki
  		if(fParenthesis)
 		{
-		   string += NFmiString(")");
+		   str += NFmiString(")");
 		}
 	} //ei-mappi luuppi
 
-	string = DetachSign(string, value);    //10.4.02 
+	str = DetachSign(str, value);    //10.4.02 
 
 	fUseSelectLatinFont = value >= 0.//; //15.5.2000 astemerkki edes positiivisille 
 	      && value != kFloatMissing     //13.11.00
@@ -529,7 +529,7 @@ bool NFmiNumberParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 		  && itsEnvironment.GetLongNumberMinus(); 
 
 	//300699 +Construct (lis‰ykset eteen ja per‰‰n)
-	return WriteCode(Construct(&string), AbsoluteRectOfSymbolGroup, 
+	return WriteCode(Construct(&str), AbsoluteRectOfSymbolGroup, 
 			         theDestinationFile, NFmiString("NUMERO"), theOutput);
 }
 // 031100----------------------------------------------------------------------------

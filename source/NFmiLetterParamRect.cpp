@@ -373,17 +373,17 @@ bool	NFmiLetterParamRect::WritePS( const NFmiRect & AbsoluteRectOfSymbolGroup
 
 		if(mapString && !(*mapString == NFmiString("None"))) 
 		{
-			NFmiString string;  
+			NFmiString str;  
 //			if(fParenthesis)     EI TOIMI        
-//				string = NFmiString("(");
+//				str = NFmiString("(");
 
 			hString = NFmiString (*mapString);   //220299 pit‰isi olla yleisempi
 			if(itsEnvironment.GetLongNumberMinus() && hString == NFmiString("-"))
 				hString = NFmiString("\\226");
-			string += hString;
+			str += hString;
 
 	//300699 +Construct (lis‰ykset eteen ja per‰‰n)
-			return WriteCode(Construct(&string), AbsoluteRectOfSymbolGroup, 
+			return WriteCode(Construct(&str), AbsoluteRectOfSymbolGroup, 
 			             theDestinationFile, NFmiString("TEKSTI datasta"),theOutput); 
 		}
 		else if(!mapString)  //2.9

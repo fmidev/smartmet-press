@@ -44,7 +44,7 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping (ifstream* inFile)
 	NFmiHyphenationString row(inBuf);
 	NFmiHyphenationString hyphOnePair;
 	NFmiString onePair;
-	NFmiValueString string;
+	NFmiValueString str;
 	NFmiHyphenationString hyphSubString;
 
 	for(int i=0; i<FmiMaxNumOfMappingParams; i++)
@@ -57,31 +57,31 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping (ifstream* inFile)
 	while (row.NextSubString(comma, onePair))
 	{
 		hyphOnePair = onePair.CharPtr();
-		hyphOnePair.NextSubString(string);
+		hyphOnePair.NextSubString(str);
 
-		if(string.IsNumeric())
+		if(str.IsNumeric())
 		{
-			mapping.mappingInterval[ind].lowBorder = (float)string;
+			mapping.mappingInterval[ind].lowBorder = (float)str;
 
-			hyphOnePair.NextSubString(string);
-			if(string.IsNumeric())
+			hyphOnePair.NextSubString(str);
+			if(str.IsNumeric())
 			{
-				mapping.mappingInterval[ind].highBorder = (float)string;
-				if(hyphOnePair.NextSubString(string)) //mahdollinen symboli
+				mapping.mappingInterval[ind].highBorder = (float)str;
+				if(hyphOnePair.NextSubString(str)) //mahdollinen symboli
 					break;     //jotta mahdollinen kommentii pilkkuineen ei sotkisi
 			}
-//			else    string mahd. symboli
+//			else    str mahd. symboli
 		}
 		else
 		{
 
-//			subString.NextSubString(space, string); //string mahd. symboli 
+//			subString.NextSubString(space, str); //str mahd. symboli 
 		}
 		ind++;
 	}
-	if(string == NFmiString("-"))   //loppuu: - symboli
-		hyphOnePair.NextSubString(string);
-	mapping.symbol = string;
+	if(str == NFmiString("-"))   //loppuu: - symboli
+		hyphOnePair.NextSubString(str);
+	mapping.symbol = str;
 	return mapping;
 }
 //---------------------------------------------------------------------------
