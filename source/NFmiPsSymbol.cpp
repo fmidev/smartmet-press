@@ -225,7 +225,6 @@ bool NFmiPsSymbol::ReadDescription(NFmiString& retString)
 	double x, y;
 	xmin = ymin = 0;				 
 	xmax = ymax = 1;
-	NFmiPoint point, point2;
 
 	while(itsIntObject != 9999 || itsCommentLevel) 
 	{
