@@ -1158,9 +1158,16 @@ bool NFmiPressProduct::ReadData(void)
 
 bool NFmiPressProduct::ReadQueryData(NFmiQueryData * theQD,char * fileName)
 {
-  std::fstream  dataFile;
+  // If directory, find newest file in the directory
+  string filename(fileName);
+  if(NFmiFileSystem::DirectoryExists(filename))
+	filename = NFmiFileSystem::NewestFile(filename);
 
-  dataFile.open(fileName,ios::in | ios::binary);
+  // This prevents crashes
+  if(filename.empty())
+	return false;
+
+  std::ifstream dataFile(filename.c_str(), ios::in | ios::binary);
 
   if(dataFile.good() && !dataFile.eof())
 	{
