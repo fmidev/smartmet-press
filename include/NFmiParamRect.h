@@ -70,7 +70,9 @@ enum NFmiParamRectObjects
   dUseFromStorageCond,
   dStorageQueue,
   dAcceptanceInterval,
-  dInterval2Number};
+  dInterval2Number,
+  dRandomInterval
+};
 
 //! Undocumented
 struct FmiIntegrationPeriod
@@ -161,7 +163,10 @@ protected:
 								 short theNum);
   virtual bool PointOnLevel(NFmiFastQueryInfo * theQI);  
   virtual bool ReadRemaining(void);  
-  float SunElevation(NFmiFastQueryInfo * theQueryInfo); 
+  float SunElevation(NFmiFastQueryInfo * theQueryInfo);
+  float GetRandomInterval(void)const{return itsRandomInterval;};
+  bool IsRandom(void)const {return GetRandomInterval() > .00001f;};
+
 
 private:
 
@@ -215,6 +220,7 @@ protected:
   FmiPressValueOption itsValueOption;
   NFmiPsWriting itsPsWriting;
   unsigned long itsIdentPar;
+  float itsRandomInterval;
 
 private:
 
@@ -258,6 +264,7 @@ NFmiParamRect::NFmiParamRect(void)
   itsFirstExtremRelHour = kLongMissing;
   itsValueIntervalMin = kFloatMissing;
   itsInterval2NumberMin = kFloatMissing;
+  itsRandomInterval=0.;
 }
 
 // ----------------------------------------------------------------------
@@ -300,6 +307,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsValueOption(kNoneValueOption)
   , itsIdentPar(kFmiTemperature)
   , itsDataIdent(theParam)
+  , itsRandomInterval(0.)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;

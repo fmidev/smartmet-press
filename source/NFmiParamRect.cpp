@@ -30,7 +30,6 @@
 #include "NFmiWeatherAndCloudiness.h"
 
 #include <iostream>
-
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -99,6 +98,8 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsValueOption(theRect.itsValueOption)
   , itsIdentPar(theRect.itsIdentPar)
   , itsDataIdent(theRect.itsDataIdent)
+  , itsRandomInterval(theRect.itsRandomInterval)
+
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -566,6 +567,11 @@ bool NFmiParamRect::ReadRemaining(void)
 		SetThree(itsInterval2NumberMin, itsInterval2NumberMax, itsInterval2NumberValue);
 		break;
 	  }
+	case dRandomInterval:
+	  {
+		SetOne(itsRandomInterval);
+		break;
+	  }
 	case dRelHour:
 	  {
 		*itsLogFile << "*** ERROR: Ei sallittu dataelementeille: "
@@ -763,6 +769,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("numbermapping") ||
 		  lowChar==NFmiString("numeromuunnos"))
 	return dInterval2Number;
+
+  else if(lowChar==NFmiString("randominterval") ||
+		  lowChar==NFmiString("satunnaisväli"))
+	return dRandomInterval;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1611,7 +1621,13 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		}
 	  
 	}
- 
+  //srand();
+  if(IsRandom())
+  {
+	  value += GetRandomInterval() * (static_cast<float>(rand())/RAND_MAX -0.5);
+  }
+
+
   if(modif)
 	delete modif;
   if(areaModif)
