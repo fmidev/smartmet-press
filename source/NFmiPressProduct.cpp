@@ -1165,7 +1165,11 @@ bool NFmiPressProduct::ReadQueryData(NFmiQueryData * theQD,char * fileName)
   // If directory, find newest file in the directory
   string filename(fileName);
   if(NFmiFileSystem::DirectoryExists(filename))
-	filename = NFmiFileSystem::NewestFile(filename);
+	{
+	  const string file = NFmiFileSystem::NewestFile(filename);
+	  filename += kFmiDirectorySeparator;
+	  filename += file;
+	}
 
   // This prevents crashes
   if(filename.empty())
