@@ -1153,7 +1153,7 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 		ssinfo.AreaUnCertaintyEnd(2);//Nämä ovat vain kokeellisia arvoja, pitäisi tulla oikeasti datan mukana meteorologilta
 	//	ssinfo.First();
 	//	ssinfo.Location(NFmiLocation(25,60.5));
-		NFmiDataModifierMin min;
+		NFmiDataModifierMin minvalue;
 		NFmiDataModifierMax areaMax;
 		NFmiDataModifierMax variationMax;
 		NFmiDataModifierAvg mean;
@@ -1172,11 +1172,11 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 			NFmiRelativeDataIterator variationArea(&ssinfo, 4, 4, 0); //EI  VAIKUTUSTA
 			NFmiMaskedDataIterator geographicalArea(&ssinfo); //comb/vai ei (ei tartte)  //tiealueet,vika aikajakso
 
-	//					NFmiCalculator areaMinCalc(&geographicalArea, &min);
+	//					NFmiCalculator areaMinCalc(&geographicalArea, &minvalue);
 	//					NFmiCalculator areaMeanCalc(&geographicalArea, &mean);
 			NFmiCalculator areaMaxCalc(&geographicalArea, &areaMax);
 	
-	//		NFmiCalculator minCalc(&variationArea, &min);
+	//		NFmiCalculator minCalc(&variationArea, &minvalue);
 	//		NFmiCalculator maxCalc(&variationArea, &max);
 	//		NFmiCalculator meanCalc(&variationArea, &mean);
 			
@@ -1220,12 +1220,12 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 			NFmiRelativeDataIterator variationArea(&ssinfo, 4, 4, 0);
 			NFmiMaskedDataIterator geographicalArea(&ssinfo); //comb/vai ei (ei tartte)  //tiealueet,vika aikajakso
 
-	//					NFmiCalculator areaMinCalc(&geographicalArea, &min);
+	//					NFmiCalculator areaMinCalc(&geographicalArea, &minvalue);
 	//					NFmiCalculator areaMeanCalc(&geographicalArea, &mean);
 			NFmiCalculator areaMaxCalc(&geographicalArea, &areaMax);
 			NFmiCalculator variationMaxCalc(&variationArea, &variationMax);
 	
-	//		NFmiCalculator minCalc(&variationArea, &min);
+	//		NFmiCalculator minCalc(&variationArea, &minvalue);
 	//		NFmiCalculator maxCalc(&variationArea, &max);
 	//		NFmiCalculator meanCalc(&variationArea, &mean);
 			
@@ -1275,12 +1275,12 @@ bool NFmiParamRect:: FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value)
 			NFmiRelativeDataIterator variationArea(&ssinfo, 4, 4, 0);
 			NFmiMaskedDataIterator geographicalArea(&ssinfo); //comb/vai ei (ei tartte)  //tiealueet,vika aikajakso
 
-	//					NFmiCalculator areaMinCalc(&geographicalArea, &min);
+	//					NFmiCalculator areaMinCalc(&geographicalArea, &minvalue);
 	//					NFmiCalculator areaMeanCalc(&geographicalArea, &mean);
 			NFmiCalculator areaMaxCalc(&geographicalArea, &areaMax);
 			NFmiCalculator variationMaxCalc(&variationArea, &variationMax);
 	
-	//		NFmiCalculator minCalc(&variationArea, &min);
+	//		NFmiCalculator minCalc(&variationArea, &minvalue);
 	//		NFmiCalculator maxCalc(&variationArea, &max);
 	//		NFmiCalculator meanCalc(&variationArea, &mean);
 			
