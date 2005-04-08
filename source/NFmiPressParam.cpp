@@ -391,6 +391,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   NFmiString logName;
 
   bool symbolGroupCalled = false;
+  bool fNextStationBackup = false;
   bool helpBool;
   bool firstStation = true;
   fIsTimeLoop = false;
@@ -1183,6 +1184,12 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			}
 			break;
 		}
+		case  dBackupStation:
+		{
+			fNextStationBackup = true;
+			ReadNext();
+			break;
+		}
 		case dStationNameReplace: // stationiin verrattuna lis‰ykset: *** PrintName
 		{
 		  lon = 0.;
@@ -1278,6 +1285,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   			  point2 = itsScale.Scale(point1);
               NFmiStationPoint station
 				= NFmiStationPoint(NFmiStation(statNum, string1, lon, lat), point2);
+			  if(fNextStationBackup)
+						station.SetBackup(true);
 
 			  itsStations.AddLocation(station, false);
 			  if(firstStation)
@@ -1296,7 +1305,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  newNames->Add(renaming);
 
 			}
-
+          fNextStationBackup = false;
 		  itsIntObject = ConvertDefText(itsString);
 		  break;
 		}
@@ -1394,6 +1403,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				// voidaan tallettaa point1:een kun kaikki periytyy NFmiPsSymbolista
 				// lat/loniahan ei tarvita mihink‰‰n
 
+				if(fNextStationBackup)
+						station.SetBackup(true);
 				itsStations.AddLocation(station, false);
 				if(firstStation)
 				  {
@@ -1402,7 +1413,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					firstStation = false;
 				  }
 			  }
-
+            fNextStationBackup = false;
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
@@ -1451,6 +1462,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					}
 					NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+					if(fNextStationBackup)
+						station.SetBackup(true);
 					itsStations.AddLocation(station, false);
 					if(firstStation)
 					  {
@@ -1464,7 +1477,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				  *itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu"  << endl;
 
 			  }
-
+            fNextStationBackup = false;
 			ReadNext();
 			break;
 		  }
@@ -1489,6 +1502,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  point2 = itsScale.Scale(point1);
 					  NFmiStationPoint station
 						(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+					  if(fNextStationBackup)
+						station.SetBackup(true);
 					  itsStations.AddLocation(station, false);
 					  if(firstStation)
 						{
@@ -1509,6 +1524,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
 			}
 
+            fNextStationBackup = false;
 			ReadNext();
 			break;
 		  }
@@ -1539,6 +1555,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					}
 					NFmiStationPoint station
 					  (NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+					if(fNextStationBackup)
+						station.SetBackup(true);
 					itsStations.AddLocation(station, false);
 					if(firstStation)
 					  {
@@ -1553,6 +1571,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
 			}
 
+            fNextStationBackup = false;
 			ReadNext();
 			break;
 		  }
@@ -1833,6 +1852,11 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 	{
 	  fLonLatMode = false;
 	  return dStation;
+	}
+  else if(lowChar==NFmiString("backupstation") ||
+		  lowChar==NFmiString("varaasema"))
+	{
+	  return dBackupStation;
 	}
   else if(lowChar==NFmiString("stationnewnaming") ||
 		  lowChar==NFmiString("asemanime‰vaihtaen"))
@@ -2156,96 +2180,107 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 itsCurrentStationIndex++;
 			 stationPoint = NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location())).Point();
 			 NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
-			 NFmiPoint lonLat = statPoint.GetLocation();
-			 if(fabs(lonLat.X()) < 0.0001 &&  // HUOM puuttuva testi, mikseiv‰t ole tasan nolla !!
-				fabs(lonLat.Y()) < 0.0001)
-			   {
-				 if(itsDataIter->IsGrid())
+
+			 if(!statPoint.IsBackup() ||       
+				 (fLastMissing || itsPressProduct->IsLastMissing())) //saman segmentin edellinen asema 
+				                                                // tai edellisen segmentin vika asema
+			 {
+				 if(statPoint.IsBackup())
+					*itsLogFile << "  vara-asema k‰yttˆˆn" << endl;
+
+				 fLastMissing = false;
+				 itsPressProduct->SetLastMissing(false);
+				 NFmiPoint lonLat = statPoint.GetLocation();
+				 if(fabs(lonLat.X()) < 0.0001 &&  // HUOM puuttuva testi, mikseiv‰t ole tasan nolla !!
+					fabs(lonLat.Y()) < 0.0001)
 				   {
-					 if (!SetLonLat(statPoint))
-					   continue; // ->seuraava asema jos ei taulukossa
+					 if(itsDataIter->IsGrid())
+					   {
+						 if (!SetLonLat(statPoint))
+						   continue; // ->seuraava asema jos ei taulukossa
+					   }
+					 else
+					   {
+						 if(itsDataIter->Location(NFmiStation(*statPoint.Station()).GetName()))
+						   {
+							 statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
+							 statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
+						   }
+					   }
+
 				   }
+				 lonLat = statPoint.GetLocation();
+
+				 itsCurrentStation = NFmiStation(*statPoint.Station());
+				 if (FindQDStationName(statPoint) || fDataNotNeeded)
+				   {
+
+					 if(itsCurrentStep == 1)
+					   {
+						// ********* AsemaSidotutObjektit ************* 
+						// *** eli AsemanNimi (vainko?)
+
+						 stationObjectIter.Reset();
+						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
+
+						 NFmiPoint unScaledPoint = itsScale.UnScale(stationPoint);
+						 if(object && itsStations.CurrentIndex() == 0)
+						   {
+							 // jokaisella objektilla pit‰‰ olla oma, j‰seneksi
+							 nameFromData = NFmiPoint(object->Place().X() - unScaledPoint.X(),
+													  object->Place().Y() - unScaledPoint.Y());
+						   }
+						 while (object)
+						   {
+							 NFmiPoint savePlace = object->Place();
+							 object->Place(unScaledPoint+nameFromData);
+							 object->Set(itsScale, theFile);
+							 object->SetRotatingPoint(object->Place());
+							 if (!(object->WritePS(theOutput)))
+							   {
+								 if(itsLogFile)
+								   *itsLogFile << "*** ERROR: (statDep)object->WritePS() in NFmiPressParam" << endl;
+								 return false;
+							   }
+							 if(theOutput == kPostScript)
+							   object->WriteGRestore();
+							 object->Place(savePlace); // jotta toimisi seuraavalle writePs-k‰skylle
+
+							 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
+						   }
+					   }
+					 // ************ AsemaSidotutObjektit loppu ************
+
+					 if(theOutput == kPlainText && saveObject)
+						  saveObject->WritePSUpdatingSubText(theOutput);
+
+					 statPoint.Point(statPoint.Point() + stationPointMovement);
+
+					 // ***************************************
+					 // ****** itse symbolit/numerot jne ******
+					 // ***************************************
+
+					 fInterruptSymbolGroup = false; //l‰heisyystesti-optiota varten
+					 if(!(itsSymbols.WritePS(statPoint,theOutput)))
+					   {
+						 if(itsLogFile)
+						   *itsLogFile << "*** ERROR: Aseman piirto ei onnistunut: " << endl;
+						 return false;
+					   }
+				   } //if(FindQStationName()
 				 else
 				   {
-					 if(itsDataIter->Location(NFmiStation(*statPoint.Station()).GetName()))
+					 NFmiString statName = statPoint.Station()->GetName();
+					 if(!(statName == NFmiString("Tyhj‰") || statName == NFmiString("None")))
 					   {
-						 statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
-						 statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
+						 if(itsLogFile)
+						   *itsLogFile << "  *** ERROR: Station missing from data: "
+									   << static_cast<char *>(statName)
+									   << endl;
 					   }
-				   }
 
 			   }
-			 lonLat = statPoint.GetLocation();
-
-			 itsCurrentStation = NFmiStation(*statPoint.Station());
-			 if (FindQDStationName(statPoint) || fDataNotNeeded)
-			   {
-
-				 if(itsCurrentStep == 1)
-				   {
-					// ********* AsemaSidotutObjektit ************* 
-					// *** eli AsemanNimi (vainko?)
-
-					 stationObjectIter.Reset();
-					 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
-
-					 NFmiPoint unScaledPoint = itsScale.UnScale(stationPoint);
-					 if(object && itsStations.CurrentIndex() == 0)
-					   {
-						 // jokaisella objektilla pit‰‰ olla oma, j‰seneksi
-						 nameFromData = NFmiPoint(object->Place().X() - unScaledPoint.X(),
-												  object->Place().Y() - unScaledPoint.Y());
-					   }
-					 while (object)
-					   {
-						 NFmiPoint savePlace = object->Place();
-						 object->Place(unScaledPoint+nameFromData);
-						 object->Set(itsScale, theFile);
-						 object->SetRotatingPoint(object->Place());
-						 if (!(object->WritePS(theOutput)))
-						   {
-							 if(itsLogFile)
-							   *itsLogFile << "*** ERROR: (statDep)object->WritePS() in NFmiPressParam" << endl;
-							 return false;
-						   }
-						 if(theOutput == kPostScript)
-						   object->WriteGRestore();
-						 object->Place(savePlace); // jotta toimisi seuraavalle writePs-k‰skylle
-
-						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
-					   }
-				   }
-				 // ************ AsemaSidotutObjektit loppu ************
-
-				 if(theOutput == kPlainText && saveObject)
-					  saveObject->WritePSUpdatingSubText(theOutput);
-
-				 statPoint.Point(statPoint.Point() + stationPointMovement);
-
-				 // ***************************************
-				 // ****** itse symbolit/numerot jne ******
-				 // ***************************************
-
-				 fInterruptSymbolGroup = false; //l‰heisyystesti-optiota varten
-				 if(!(itsSymbols.WritePS(statPoint,theOutput)))
-				   {
-					 if(itsLogFile)
-					   *itsLogFile << "*** ERROR: Aseman piirto ei onnistunut: " << endl;
-					 return false;
-				   }
-			   } //if(FindQStationName()
-			 else
-			   {
-				 NFmiString statName = statPoint.Station()->GetName();
-				 if(!(statName == NFmiString("Tyhj‰") || statName == NFmiString("None")))
-				   {
-				     if(itsLogFile)
-					   *itsLogFile << "  *** ERROR: Station missing from data: "
-								   << static_cast<char *>(statName)
-								   << endl;
-				   }
-
-			   }
+			 } //if IsBackup()....
 			 fIsFirstStation = false;
 		   } //while(itsStations.Next())
 

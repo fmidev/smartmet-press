@@ -59,6 +59,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   fNewestDataMode = false;
   fSupplementMode = false;
   itsMainArea = 0;
+  fLastMissing = false;
 }
 
 // ----------------------------------------------------------------------
@@ -1129,7 +1130,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 4.4.2005" << endl;       
+   *itsLogFile << "program version = 8.4.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1956,7 +1957,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 				if(ReadLong(long2))
 				  {
 					if(ReadLong(long3))
-					  {    //menis ehkä suoremmin mutta tämä on yhteensopivaa vanhan koodin kanssa
+					  {
+						if (long3 < 100) 
+							long3 += 2000; //statictime lähtee vuodesta 1900
 						NFmiTime tim = NFmiTime(static_cast<short>(long3),
 												static_cast<short>(long2),
 												static_cast<short>(long1));

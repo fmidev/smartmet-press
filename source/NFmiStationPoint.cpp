@@ -28,6 +28,7 @@ NFmiStationPoint & NFmiStationPoint::operator=(const NFmiStationPoint & theStati
 {
   Station(*theStationPoint.Station());
   Point(theStationPoint.Point());
+  fIsBackup = theStationPoint.IsBackup();
   return *this;
 }
 

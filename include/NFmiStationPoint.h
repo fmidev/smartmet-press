@@ -78,6 +78,8 @@ public:
   void Station(NFmiStation theStation);
   void Location(NFmiLocation theLocation);
   void Point(NFmiPoint thePoint);
+  bool IsBackup (void) const;
+  void SetBackup (bool theStatus);
 
   virtual std::ostream & Write(std::ostream & file) const;
   virtual std::istream & Read(std::istream & file); 
@@ -89,6 +91,7 @@ protected:
 private:
 
   NFmiPoint itsPoint;
+  bool fIsBackup;
 	 
 }; // class NFmiStationPoint
 
@@ -113,6 +116,7 @@ inline
 NFmiStationPoint::NFmiStationPoint(void)
   : NFmiStation(2111, "Helsinki")
   , itsPoint(0.,0.)
+  , fIsBackup(false)
 {
 }
 
@@ -130,6 +134,7 @@ NFmiStationPoint::NFmiStationPoint(const NFmiStation & theStation,
 								   const NFmiPoint & thePoint)
   : NFmiStation(theStation)
   , itsPoint(thePoint)
+  , fIsBackup(false)
 {
 }
   
@@ -163,6 +168,33 @@ NFmiPoint NFmiStationPoint::Point(void) const
 {
   return itsPoint;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiStationPoint::SetBackup(bool theStatus) 
+{
+  fIsBackup = theStatus;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiStationPoint::IsBackup(void) const 
+{
+  return fIsBackup;
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -176,7 +208,8 @@ inline
 NFmiStationPoint::NFmiStationPoint(const NFmiStationPoint & theStation) 
   : NFmiStation(*theStation.Station())
   , NFmiDescription()
-  , itsPoint(theStation.Point())				
+  , itsPoint(theStation.Point())
+  , fIsBackup(theStation.fIsBackup)
 {
 }
 

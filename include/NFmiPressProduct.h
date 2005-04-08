@@ -171,6 +171,8 @@ public:
   void SetNameDay(NFmiNameDay* nameDay, FmiLanguage=kFinnish);
   NFmiNameDay* GetNameDay(FmiLanguage=kFinnish)const;
   NFmiArea * itsMainArea; //jonkun PressArean pressProduktissa tai Paramissa, joka omistaa
+  bool IsLastMissing(void) const;
+  void SetLastMissing (bool theBool);
 
 private:
 
@@ -220,9 +222,36 @@ private:
   NFmiPressArea itsArea;
   bool fNewestDataMode;
   bool fSupplementMode;
+  bool fLastMissing;
 
 }; // class NFmiPressProduct
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressProduct::SetLastMissing(bool theBool)
+{
+  fLastMissing = theBool;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressProduct::IsLastMissing(void) const
+{
+  return fLastMissing;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

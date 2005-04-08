@@ -75,7 +75,8 @@ enum NFmiPressParamObjects
   dAreaOperation,
   dDistanceCheck ,
   dSupplement,
-  dSegmentNameDay
+  dSegmentNameDay,
+  dBackupStation
 };
 
 struct FmiValuePoint
@@ -156,6 +157,7 @@ public:
   bool IsSupplementary(void)const;
   bool SetSegmentCurrentTimeStatus(bool theStatus);
   void SetYearData(bool theStatus);
+  void SetLastMissing(bool theBool);
 
 protected:
 
@@ -219,6 +221,7 @@ protected:
   bool fSupplementary;
   bool fCoordinatesFromMainMap;
   bool fYearData;
+  bool fLastMissing;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -266,6 +269,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fSupplementary(false)
   , fCoordinatesFromMainMap(false)
   , fYearData(false)
+  , fLastMissing(false)
 {
   itsLanguage=kFinnish;
 }
@@ -311,6 +315,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fSupplementary(false)
   , fCoordinatesFromMainMap(false)
   , fYearData(false)
+  , fLastMissing(false)
 {
   itsLanguage=kFinnish;
 }
@@ -380,7 +385,19 @@ bool NFmiPressParam::IsDistanceCheck(void) const
 {
   return itsCheckDistance.X() > 0. || itsCheckDistance.Y() > 0.;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+inline
+void NFmiPressParam::SetLastMissing(bool theBool)
+{
+  fLastMissing = theBool;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -13,6 +13,7 @@
 #include "NFmiRectScale.h"
 #include "NFmiPsWriting.h"
 #include "NFmiPressParam.h"
+#include "NFmiPressProduct.h"
 #include "NFmiSettings.h"
 #include "NFmiFileSystem.h"
 #include <iostream>
@@ -653,6 +654,8 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			  itsNumOfMissing++;
 			  if(!symbolFile)
 			  {
+				itsPressParam->SetLastMissing(true);
+				itsPressParam->GetPressProduct()->SetLastMissing(true);
 				if(!itsMissingString)
 				  return false;
 				else
@@ -660,13 +663,15 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			  }	
 			}
 		  isScaled = false;         //skaalaus vielä poissa
-		}
+	  }
 	  else
 	  {
 		  symbolFile = itsMapping->Map(itsCurrentParamValue, isScaled);
 		  if(!symbolFile && itsCurrentParamValue==kFloatMissing 
 			  && itsMissingString)
 		  {
+			//mihin?? itsPressParam->SetLastMissing(true);
+
 			symbolFile = itsMissingString;
 		    isScaled = false;         
 		  }
