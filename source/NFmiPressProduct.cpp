@@ -59,7 +59,9 @@ NFmiPressProduct::NFmiPressProduct(void)
   fNewestDataMode = false;
   fSupplementMode = false;
   itsMainArea = 0;
-  fLastMissing = false;
+  itsLastElementStatus.symbol = true;
+  itsLastElementStatus.number = true;
+  itsLastElementStatus.text = true;
 }
 
 // ----------------------------------------------------------------------
@@ -1130,7 +1132,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 8.4.2005" << endl;       
+   *itsLogFile << "program version = 12.4.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

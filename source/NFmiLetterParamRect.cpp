@@ -11,6 +11,7 @@
 
 #include "NFmiLetterParamRect.h"
 #include "NFmiPressParam.h"
+#include "NFmiPressProduct.h"
 #include <iostream>
 
 using namespace std;
@@ -223,6 +224,19 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
+  bool lastElementStatus = GetPressProduct()->LastTextStatus();
+  GetPressProduct()->SetLastTextStatus(true);
+  if(itsPressParam->IsBackupStation())
+  {
+	  if(lastElementStatus)
+	  {
+			*itsLogFile << "  vara-asemaa ei tarvita tekstielementille" << endl;
+		    return true;
+	  }
+	  else
+			*itsLogFile << "  vara-asemaa käytetään tekstielementille" << endl;
+  }
+
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 
@@ -257,6 +271,10 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	 else
 	   return true;
    }
+	if(value == kFloatMissing)
+	  itsPressParam->GetPressProduct()->SetLastTextStatus(false);
+	else
+	  itsPressParam->GetPressProduct()->SetLastTextStatus(true);
 
   if(!fMarkingValue)
 	  return true;
@@ -274,7 +292,10 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  if(!mapString)
 		  {
 			if(!itsMissingString)
+			{
+              GetPressProduct()->SetLastTextStatus(false);
 			  return false;
+			}
 			else
 				mapString = itsMissingString;
 		  }
@@ -318,6 +339,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 				  << value 
 				  << " ei muunnosta (#Teksti datasta)"
 				  << endl;
+      GetPressProduct()->SetLastTextStatus(false);
 	  return isFalse;
 	}
   else

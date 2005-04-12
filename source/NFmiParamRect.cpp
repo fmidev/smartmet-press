@@ -147,6 +147,18 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
 
 // ----------------------------------------------------------------------
 /*!
+ * Set processing order in SymbolGroup
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+NFmiPressProduct* NFmiParamRect::GetPressProduct (void)const
+{
+	  return itsPressParam->GetPressProduct();
+}
+// ----------------------------------------------------------------------
+/*!
  * Undocumented
  *
  * \param theParam Undocumented

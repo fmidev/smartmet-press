@@ -616,6 +616,19 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
+  bool lastElementStatus = GetPressProduct()->LastSymbolStatus();
+  GetPressProduct()->SetLastSymbolStatus(true);
+  if(itsPressParam->IsBackupStation())
+  {
+	  if(lastElementStatus)
+	  {
+			*itsLogFile << "  vara-asemaa ei tarvita symbolille" << endl;
+		    return true;
+	  }
+	  else
+			*itsLogFile << "  vara-asemaa käytetään symbolissa" << endl;
+  }
+
   if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
     {
 	  return true;
@@ -654,10 +667,11 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			  itsNumOfMissing++;
 			  if(!symbolFile)
 			  {
-				itsPressParam->SetLastMissing(true);
-				itsPressParam->GetPressProduct()->SetLastMissing(true);
 				if(!itsMissingString)
+				{
+				  GetPressProduct()->SetLastSymbolStatus(false);
 				  return false;
+				}
 				else
 					symbolFile = itsMissingString;
 			  }	
@@ -670,7 +684,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  if(!symbolFile && itsCurrentParamValue==kFloatMissing 
 			  && itsMissingString)
 		  {
-			//mihin?? itsPressParam->SetLastMissing(true);
+			GetPressProduct()->SetLastSymbolStatus(false);
 
 			symbolFile = itsMissingString;
 		    isScaled = false;         
@@ -687,6 +701,11 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	}
  
   ScaleByValue();
+
+  if(!symbolFile)
+	  itsPressParam->GetPressProduct()->SetLastSymbolStatus(false);
+  else
+	  itsPressParam->GetPressProduct()->SetLastSymbolStatus(true);
 
   if(!symbolFile)
 	{

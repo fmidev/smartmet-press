@@ -157,8 +157,7 @@ public:
   bool IsSupplementary(void)const;
   bool SetSegmentCurrentTimeStatus(bool theStatus);
   void SetYearData(bool theStatus);
-  void SetLastMissing(bool theBool);
-
+  bool IsBackupStation(void) const;
 protected:
 
   void UnsetAllErrorReported(void);
@@ -221,7 +220,7 @@ protected:
   bool fSupplementary;
   bool fCoordinatesFromMainMap;
   bool fYearData;
-  bool fLastMissing;
+  bool fCurrentStationBackup;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -269,7 +268,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fSupplementary(false)
   , fCoordinatesFromMainMap(false)
   , fYearData(false)
-  , fLastMissing(false)
+  , fCurrentStationBackup(false)
 {
   itsLanguage=kFinnish;
 }
@@ -315,11 +314,24 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fSupplementary(false)
   , fCoordinatesFromMainMap(false)
   , fYearData(false)
-  , fLastMissing(false)
+  , fCurrentStationBackup(false)
 {
   itsLanguage=kFinnish;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParam::IsBackupStation (void)const 
+{
+	return fCurrentStationBackup;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -385,19 +397,7 @@ bool NFmiPressParam::IsDistanceCheck(void) const
 {
   return itsCheckDistance.X() > 0. || itsCheckDistance.Y() > 0.;
 }
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
 
-inline
-void NFmiPressParam::SetLastMissing(bool theBool)
-{
-  fLastMissing = theBool;
-}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

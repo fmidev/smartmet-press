@@ -12,6 +12,7 @@
 #include "NFmiNumberParamRect.h"
 #include "NFmiHyphenationString.h"
 #include "NFmiPressParam.h"
+#include "NFmiPressProduct.h"
 #include <iostream>
 
 using namespace std;
@@ -287,6 +288,19 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
+  bool lastElementStatus = GetPressProduct()->LastNumberStatus();
+  GetPressProduct()->SetLastNumberStatus(true);
+  if(itsPressParam->IsBackupStation())
+  {
+	  if(lastElementStatus)
+	  {
+			*itsLogFile << "  vara-asemaa ei tarvita numerolle" << endl;
+		    return true;
+	  }
+	  else
+			*itsLogFile << "  vara-asemaa käytetään numerolle" << endl;
+  }
+
   float value;
 
   if(!ActiveStationIndex(itsPressParam->GetCurrentStationStep()))
@@ -322,6 +336,9 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  else
 		return true;
 	}
+
+	if(value == kFloatMissing)
+	  itsPressParam->GetPressProduct()->SetLastNumberStatus(false);
 
   if(fPutInStorage)
 	{

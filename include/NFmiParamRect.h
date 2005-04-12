@@ -34,8 +34,8 @@
 #include "NFmiSaveBase.h"
 #include "NFmiSuperSmartInfo.h"
 
-
 class _FMI_DLL NFmiPressParam;
+class _FMI_DLL NFmiPressProduct;
 
 
 //! Undocumented
@@ -178,6 +178,7 @@ protected:
   bool IsRandom(void)const {return GetRandomInterval() > .00001f;};
   bool IsEquiDistanceMode(void) const;
   bool ActiveStationIndex(int currentInd) const; //vain TimeParamRect toistaiseksi
+  NFmiPressProduct* GetPressProduct (void)const;
 
 private:
 
@@ -359,7 +360,6 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   itsIntegrationPeriod.period = kUnsignedLongMissing;
   itsIntegrationPeriod.startWeight = kFloatMissing;
 }
-
 // ----------------------------------------------------------------------
 /*!
  * Set processing order in SymbolGroup

@@ -2181,18 +2181,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 stationPoint = NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location())).Point();
 			 NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
 
-			 if(!statPoint.IsBackup() ||       
-				 (fLastMissing || itsPressProduct->IsLastMissing())) //saman segmentin edellinen asema 
-				                                                // tai edellisen segmentin vika asema
-			 {
-				 if(statPoint.IsBackup())
-					*itsLogFile << "  vara-asema käyttöön" << endl;
-
-				 fLastMissing = false;
-				 itsPressProduct->SetLastMissing(false);
-				 NFmiPoint lonLat = statPoint.GetLocation();
-				 if(fabs(lonLat.X()) < 0.0001 &&  // HUOM puuttuva testi, mikseivät ole tasan nolla !!
-					fabs(lonLat.Y()) < 0.0001)
+			 fCurrentStationBackup = statPoint.IsBackup() ? true : false;
+			 NFmiPoint lonLat = statPoint.GetLocation();
+			 if(fabs(lonLat.X()) < 0.0001 &&  // HUOM puuttuva testi, mikseivät ole tasan nolla !!
+				fabs(lonLat.Y()) < 0.0001)
 				   {
 					 if(itsDataIter->IsGrid())
 					   {
@@ -2267,7 +2259,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 						   *itsLogFile << "*** ERROR: Aseman piirto ei onnistunut: " << endl;
 						 return false;
 					   }
-				   } //if(FindQStationName()
+					} //if(FindQStationName()
 				 else
 				   {
 					 NFmiString statName = statPoint.Station()->GetName();
@@ -2280,7 +2272,6 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 					   }
 
 			   }
-			 } //if IsBackup()....
 			 fIsFirstStation = false;
 		   } //while(itsStations.Next())
 

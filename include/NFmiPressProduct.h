@@ -95,6 +95,13 @@ enum NFmiPressProductObjects
   dDataFilesNotCritical
 };
 
+//! Undocumented
+struct FmiElementStatus
+{
+  bool symbol;
+  bool number;
+  bool text;
+};
 
 //! Undocumented
 class _FMI_DLL NFmiPressProduct : public NFmiPressTimeDescription
@@ -171,8 +178,13 @@ public:
   void SetNameDay(NFmiNameDay* nameDay, FmiLanguage=kFinnish);
   NFmiNameDay* GetNameDay(FmiLanguage=kFinnish)const;
   NFmiArea * itsMainArea; //jonkun PressArean pressProduktissa tai Paramissa, joka omistaa
-  bool IsLastMissing(void) const;
-  void SetLastMissing (bool theBool);
+
+  bool LastSymbolStatus(void) const;
+  bool LastNumberStatus(void) const;
+  bool LastTextStatus(void) const;
+  void SetLastSymbolStatus (bool theBool);
+  void SetLastNumberStatus (bool theBool);
+  void SetLastTextStatus (bool theBool);
 
 private:
 
@@ -222,7 +234,7 @@ private:
   NFmiPressArea itsArea;
   bool fNewestDataMode;
   bool fSupplementMode;
-  bool fLastMissing;
+  FmiElementStatus itsLastElementStatus;
 
 }; // class NFmiPressProduct
 
@@ -235,9 +247,9 @@ private:
 // ----------------------------------------------------------------------
 
 inline
-void NFmiPressProduct::SetLastMissing(bool theBool)
+void NFmiPressProduct::SetLastSymbolStatus(bool theBool)
 {
-  fLastMissing = theBool;
+  itsLastElementStatus.symbol = theBool;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -248,9 +260,61 @@ void NFmiPressProduct::SetLastMissing(bool theBool)
 // ----------------------------------------------------------------------
 
 inline
-bool NFmiPressProduct::IsLastMissing(void) const
+void NFmiPressProduct::SetLastNumberStatus(bool theBool)
 {
-  return fLastMissing;
+  itsLastElementStatus.number = theBool;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressProduct::SetLastTextStatus(bool theBool)
+{
+  itsLastElementStatus.text = theBool;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressProduct::LastSymbolStatus(void) const
+{
+  return itsLastElementStatus.symbol;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressProduct::LastNumberStatus(void) const
+{
+  return itsLastElementStatus.number;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressProduct::LastTextStatus(void) const
+{
+  return itsLastElementStatus.text;
 }
 // ----------------------------------------------------------------------
 /*!
