@@ -741,6 +741,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->weekday = today.GetWeekday();
   itsSeasonsStatus->dayAdvance = +0;
   itsSeasonsStatus->editdata = true;
+  itsSeasonsStatus->editdataOwn = false;
 
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
@@ -801,15 +802,23 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 		  NFmiString statusString("???");
 		  bool boolGiven = true;
 		  bool undef = false;
+		  bool ownComputer = false;
 		  if(fmiShortStr2 == "ye" || fmiShortStr2 == "on")
 			{
 			  status = true;
 			  statusString = "PÄÄLLE";
+			  ownComputer = false;
 			}
 		  else if(fmiShortStr2 == "no" || fmiShortStr2 == "ei")
 			{
 			  status = false;
 			  statusString = "POIS";
+			}
+		  else if(fmiShortStr2 == "om" || fmiShortStr2 == "ow") //oma/own
+			{
+			  status = true;
+			  statusString = "PÄÄLLE";
+			  ownComputer = true;
 			}
 		  else if(fmiShortStr2 == "de" || fmiShortStr2 == "ol")
 			undef = true;
@@ -854,7 +863,12 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				{
 				  itsSeasonsStatus->editdata = status;
 				  *itsLogFile << "  Editoridata pakotettu: editori "<< static_cast<char *>(statusString) << endl;
-				}
+				  if(ownComputer)
+				  {
+					  itsSeasonsStatus->editdataOwn = true;
+				      *itsLogFile << "  Editoridata pakotettu omasta koneesta" << endl;
+				  }
+			  }
 			}
 		  else if(fmiShortStr1 == "week" || fmiShortStr1 == "viik")
 			{
@@ -1132,7 +1146,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 12.4.2005" << endl;       
+   *itsLogFile << "program version = 13.4.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1276,15 +1290,25 @@ bool NFmiPressProduct::ReadData(void)
 		  // pitää laittaa myös LightBoy
 		  if(dataFile.Header() == NFmiString("kepa_suomi_168_1_uusin") && itsSeasonsStatus->editdata)
 		  {
-				std::string odinDir = "O:\\data\\in\\";
-				std::string path;
-				path = odinDir;
-				path += "PAL_Scand*DB*";
-				std::string theFoundFileName;
-				NFmiFileSystem::FindFile(path, true, &theFoundFileName);
-				//cout << theFoundFileName << endl;
-				odinDir += theFoundFileName;
-				dataFile = NFmiString(odinDir);
+			  std::string path;
+			  std::string dir;
+			  if(itsSeasonsStatus->editdataOwn)
+			  {
+					dir = dataPath;
+					dir += "\\";
+			  }
+			  else
+			  {
+					dir = "O:\\data\\in\\";
+			  }
+
+			path = dir;
+			path += "PAL_Scand*DB*";
+			std::string theFoundFileName;
+			NFmiFileSystem::FindFile(path, true, &theFoundFileName);
+			//cout << theFoundFileName << endl;
+			dir += theFoundFileName;
+			dataFile = NFmiString(dir);
 		  }
 	  }
 

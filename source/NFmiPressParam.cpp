@@ -1388,7 +1388,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
             if(helpBool)
 			  {
-				if (numOfTableStations > 1 && !hasOwnPoint)
+				if (numOfTableStations > 1 && !hasOwnPoint
+					&& !fNextStationBackup) //vara-asema edellisen paikalle
 				  {
 
 					currentStationNum++;
@@ -1729,18 +1730,10 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  if(ind >= numberOfRegularSteps)
 			  {                                   //tableDirectPoints on skaalattu
 				  NFmiPoint nextScaledP = itsScale.Scale(tableDirectPoints[ind+1]); 
-				  //nextScaledP = itsCurrentStationScale.Scale(nextScaledP);
 				  itsSteps[ind] = nextScaledP - previousNextScaled;
 				  //HUOM ei-skaalattu on tämä unscaled:kin nyt vastoin nimeään!!
 				  itsUnscaledSteps[ind] = itsSteps[ind];
-/*
-				  //unscale vain yleisskaala muttei asemaskaala
-				  NFmiPoint unscaledP = itsScale.UnScale(tableDirectPoints[ind+1]);
-				  itsUnscaledSteps[ind] = unscaledP - previousNextUnscaled;
-*/
 				  previousNextScaled = nextScaledP;
-				  //previousNextUnscaled = tableDirectPoints[ind+1];
-				  //previousNextUnscaled = unscaledP;
 				}
 			  else //säännöllinen taulukko (alussa, muttei vain lopussa)
 				{
@@ -2207,7 +2200,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 				 if (FindQDStationName(statPoint) || fDataNotNeeded)
 				   {
 
-					 if(itsCurrentStep == 1)
+					 if(itsCurrentStep == 1 && !fCurrentStationBackup)
 					   {
 						// ********* AsemaSidotutObjektit ************* 
 						// *** eli AsemanNimi (vainko?)
@@ -2245,7 +2238,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 					 if(theOutput == kPlainText && saveObject)
 						  saveObject->WritePSUpdatingSubText(theOutput);
-
+					 
 					 statPoint.Point(statPoint.Point() + stationPointMovement);
 
 					 // ***************************************

@@ -68,6 +68,7 @@ struct FmiPressSeasons
   int weekday;
   int dayAdvance;
   bool editdata;
+  bool editdataOwn;
 };
 
 
