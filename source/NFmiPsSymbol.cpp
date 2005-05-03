@@ -442,7 +442,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 	}
   else
 	{
-//	  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize,sizePoint2NotSize));
+	  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize,sizePoint2NotSize));
 	}
 
   input.close();
