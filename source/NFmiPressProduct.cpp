@@ -1146,7 +1146,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 14.5.2005" << endl;       
+   *itsLogFile << "program version = 1.7.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1290,25 +1290,74 @@ bool NFmiPressProduct::ReadData(void)
 		  // pitää laittaa myös LightBoy
 		  if(dataFile.Header() == NFmiString("kepa_suomi_168_1_uusin") && itsSeasonsStatus->editdata)
 		  {
-			  std::string path;
-			  std::string dir;
+			  time_t fileTime, fileTimeRemote;
+			  std::string theFoundFileName, theFoundFileNameRemote;
+			  std::string path, pathRemote;
+			  std::string dir, dirRemote;
 			  if(itsSeasonsStatus->editdataOwn)
 			  {
 					dir = dataPath;
 					dir += "\\";
+			        dataFile = NFmiString(dir); //yhdenmukaisuuden takia
+					                            // ei toimi järkevästi
 			  }
 			  else
-			  {
-					dir = "O:\\data\\in\\";
-			  }
+			  {     //kopioidaan paikalliseksi jos tuoreempi, voitetaan aikaa
+				    //jos ei tarvi tuoda odinista koska välillä todella hidasta
 
+					dir = dataPath;
+					dir += "\\";
+					//path = dir;
+					dir += "PAL_Scand_Local.sqd";
+					fileTime = NFmiFileSystem::FindFile(dir, true, &theFoundFileName);
+					//dir += theFoundFileName;
+
+				    dirRemote = "O:\\data\\in\\";
+					pathRemote = dirRemote;
+					pathRemote += "PAL_Scand*DB*";
+					fileTimeRemote = NFmiFileSystem::FindFile(pathRemote, true, &theFoundFileNameRemote);
+					dirRemote += theFoundFileNameRemote;
+					if(fileTime < fileTimeRemote)
+					{
+ 					   bool copyOk;
+                       copyOk = NFmiFileSystem::CopyFile(dirRemote, dir);
+						if(copyOk)
+						    *itsLogFile << "  tuoreempi PAL-data kopioitu paikalliseksi" << endl;
+						else
+						    *itsLogFile << "*** ERROR: PAL-datan kopiointi ei onnistunut Odinista" << endl;
+
+					}
+					dataFile = NFmiString(dir);
+
+/*
+					dir = dataPath;
+					dir += "\\";
+					path = dir;
+					path += "PAL_Scand*DB*";
+					fileTime = NFmiFileSystem::FindFile(path, true, &theFoundFileName);
+					if (fileTime == 0)
+					{
+						dir = "O:\\data\\in\\";
+						path = dir;
+						path += "PAL_Scand*DB*";
+						fileTime = NFmiFileSystem::FindFile(path, true, &theFoundFileName);
+						dir += theFoundFileName;
+						dataFile = NFmiString(dir);
+					}
+					else
+					{
+						dir += theFoundFileName;
+						dataFile = NFmiString(dir);
+					}
+*/
+			  }
+/*
 			path = dir;
 			path += "PAL_Scand*DB*";
-			std::string theFoundFileName;
-			NFmiFileSystem::FindFile(path, true, &theFoundFileName);
-			//cout << theFoundFileName << endl;
+			fileTime = NFmiFileSystem::FindFile(path, true, &theFoundFileName);
 			dir += theFoundFileName;
 			dataFile = NFmiString(dir);
+*/
 		  }
 	  }
 
