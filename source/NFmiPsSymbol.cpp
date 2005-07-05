@@ -11,6 +11,7 @@
 
 // press
 #include "NFmiPsSymbol.h"
+//#include "NFmiPsWriting.h"
 #include "NFmiFileString.h"
 // newbase
 #include "NFmiSettings.h"
@@ -84,7 +85,8 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
   if(itsInFile->good() && !itsInFile->eof())
 	{
 	  WritePSConcat();
-	  CopyFile();
+	  bool ok;
+	  ok = CopyPsFile();
 	  WritePSEnd();
 	  itsInFile->close();
 	  itsInFile->clear();

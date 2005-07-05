@@ -43,7 +43,7 @@ public:
   NFmiPsWriting(const NFmiPsWriting & thePsWriting);
 		
   bool WriteOutString(const NFmiString & outString);
-  bool CopyFile(void);
+  bool CopyPsFile(void);
   bool CopyFileWithoutShowpage(void);
   bool WriteGRestore(void);
   void Rotate(void);

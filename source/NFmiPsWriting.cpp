@@ -81,7 +81,7 @@ bool NFmiPsWriting::WriteGRestore(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::CopyFile(void)
+bool NFmiPsWriting::CopyPsFile(void)
 {
   const short lineSize = 520; //130; 1.6 Metview:n ps-driveri tuottaa 513 pitkiä riviä
   char inBuf[lineSize];       //     vaikka standardi puhuu 256:sta
