@@ -535,7 +535,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
 				if(ReadLong(long1))
 				  {
-					numberOfLevelSteps = std::min(kMaxNumOfTableElements,static_cast<unsigned short>(long1));
+					numberOfLevelSteps = FmiMin(kMaxNumOfTableElements,static_cast<unsigned short>(long1));
 				  }
 			  }
 			// itsStepSize joudutaan asettamaan luupin jälkeen alla
@@ -1670,7 +1670,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   CreateStationFromAreaMask();
   if(itsEnvironment.GetMaskNumber() > 0) // tänne, oli vikana
 	fIsAreaOperation = true;
-  short numberOfRegularSteps = static_cast<unsigned short>(std::max(numberOfTimeSteps,numberOfLevelSteps));
+  short numberOfRegularSteps = static_cast<unsigned short>(FmiMax(numberOfTimeSteps,numberOfLevelSteps));
   itsNumberOfSteps = numberOfRegularSteps;
   if(fIsLevelLoop)
 	itsNumberOfSteps = currentLevelInd;
@@ -1702,7 +1702,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		}
 	  else
 		{
-		  short factor = (std::max(numberOfRegularSteps-1,1)); //12.4.00 oli ..Time..; nollalla jaon esto
+		  short factor = (FmiMax(numberOfRegularSteps-1,1)); //12.4.00 oli ..Time..; nollalla jaon esto
 		  stepSize.Set((scaledTimeLast.X()-point.X())/factor,
 					   (scaledTimeLast.Y()-point.Y())/factor);
 		  unscaledStepSize.Set((unscaledTimeLast.X()-firstUnscaledPoint.X())/factor,
@@ -2092,7 +2092,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   /********* AIKA/PAINEPINTA-luuppi ********/
   while(itsCurrentStep <= itsNumberOfSteps) 
 	{
-	  FmiCounter currentStepInd = std::min(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
+	  FmiCounter currentStepInd = FmiMin(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
 
       if(!fSupplementary)  
 		 itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, false);

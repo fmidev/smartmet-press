@@ -164,7 +164,7 @@ void NFmiScalingParamRect::ScaleByValue()
   if(itsYValueScaling.symbolValue != kFloatMissing)
 	{
 	  NFmiScale endYScale = itsDefToProductScale.GetYEndScale();
-	  double valueScale = (std::min(static_cast<double>(itsSecondParamValue),itsYValueScaling.maxValue)-itsYValueScaling.noneValue)
+	  double valueScale = (FmiMin(static_cast<double>(itsSecondParamValue),itsYValueScaling.maxValue)-itsYValueScaling.noneValue)
 		/(itsYValueScaling.symbolValue-itsYValueScaling.noneValue);
 	  endYScale.SetEndValue((endYScale.EndValue()-endYScale.StartValue())*valueScale + endYScale.StartValue());
 	  itsDefToProductScale.SetYEndScale(endYScale);
@@ -172,7 +172,7 @@ void NFmiScalingParamRect::ScaleByValue()
   if(itsXValueScaling.symbolValue != kFloatMissing)
 	{
 	  NFmiScale endXScale = itsDefToProductScale.GetXEndScale();
-	  double valueScale = (std::min(static_cast<double>(itsSecondParamValue),itsXValueScaling.maxValue)-itsXValueScaling.noneValue)
+	  double valueScale = (FmiMin(static_cast<double>(itsSecondParamValue),itsXValueScaling.maxValue)-itsXValueScaling.noneValue)
 		/(itsXValueScaling.symbolValue-itsXValueScaling.noneValue);
 	  endXScale.SetEndValue((endXScale.EndValue()-endXScale.StartValue())*valueScale + endXScale.StartValue());
 	  itsDefToProductScale.SetXEndScale(endXScale);
