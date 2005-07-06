@@ -23,6 +23,7 @@
 #include "NFmiLocationFinder.h"
 #include "NFmiSettings.h"
 #include "NFmiSuperSmartInfo.h"
+//#undef CopyFile
 #include "NFmiFileSystem.h"   
 // system
 #include <cstdlib>
@@ -1320,6 +1321,7 @@ bool NFmiPressProduct::ReadData(void)
 					if(fileTime < fileTimeRemote)
 					{
  					   bool copyOk;
+					   
                        copyOk = NFmiFileSystem::CopyFile(dirRemote, dir);
 						if(copyOk)
 						    *itsLogFile << "  tuoreempi PAL-data kopioitu paikalliseksi" << endl;
