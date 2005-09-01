@@ -1147,7 +1147,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 1.7.2005" << endl;       
+   *itsLogFile << "program version = 1.9.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1315,7 +1315,7 @@ bool NFmiPressProduct::ReadData(void)
 
 				    dirRemote = "O:\\data\\in\\";
 					pathRemote = dirRemote;
-					pathRemote += "PAL_Scand*DB*";
+					pathRemote += "PAL_Scand*DB*.sqd";
 					fileTimeRemote = NFmiFileSystem::FindFile(pathRemote, true, &theFoundFileNameRemote);
 					dirRemote += theFoundFileNameRemote;
 					if(fileTime < fileTimeRemote)
@@ -1324,7 +1324,10 @@ bool NFmiPressProduct::ReadData(void)
 					   
                        copyOk = NFmiFileSystem::CopyFile(dirRemote, dir);
 						if(copyOk)
-						    *itsLogFile << "  tuoreempi PAL-data kopioitu paikalliseksi" << endl;
+						{
+							*itsLogFile << "  tuoreempi data kopioitu PAL_Scand_Local:ksi:" << endl;
+						    *itsLogFile << "    " << theFoundFileNameRemote << endl;
+						}
 						else
 						    *itsLogFile << "*** ERROR: PAL-datan kopiointi ei onnistunut Odinista" << endl;
 
