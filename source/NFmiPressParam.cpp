@@ -739,7 +739,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					currentTotalTimeDiff += itsTimeSteps[currentTimeInd-1];
 					if(ReadTwo(x, y))
 					  {
-						NFmiPoint point3, point5;
+						// NFmiPoint point3, point5;
 
 						fIsLevelLoop = false;
 						fIsTimeLoop = true;
