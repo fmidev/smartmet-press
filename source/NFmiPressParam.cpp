@@ -1482,6 +1482,81 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dStationPlaceMatrixOnMap:
+		  {
+		    float xStart, yStart, xStop, yStop, xIncr, yIncr;
+			if (SetSix(xStart, yStart, xStop, yStop, xIncr, yIncr))
+			{
+				NFmiString name;
+				if(itsArea.GetArea())
+				{
+					bool errReported = false;
+					for(x=xStart; x<=xStop; x+=xIncr)
+					{
+						for(y=yStart; y<=yStop; y+=yIncr)
+						{
+							if(fCoordinatesFromMainMap)
+							{
+								NFmiArea *mainArea = itsPressProduct->itsMainArea;
+								NFmiArea *ownArea = itsArea.GetArea();
+								if(!mainArea || !ownArea)
+								{
+									if(!errReported)
+										*itsLogFile << "*** ERROR: "<< "pää- tai oma karttaa puuttuu"  << endl;
+									errReported = true;
+								}
+								else
+								{
+									double xZoom = ownArea->Width()/mainArea->Width();
+									x = (x - mainArea->Left()) * xZoom + ownArea->Left();
+									double yZoom = ownArea->Height()/mainArea->Height();
+									y = (y - mainArea->Bottom()) * yZoom + ownArea->Bottom();
+								}
+							}
+							currentStationNumOnMap++;
+							point0 = NFmiPoint(x,y);
+							
+							double bottom = (itsArea.GetArea())->Bottom();
+							double top = (itsArea.GetArea())->Top();
+							double y0 = point0.Y();
+							point1.Set(point0.X(), bottom -(y0-top));
+
+							NFmiPoint lonlat(itsArea.GetArea()->ToLatLon(point1));
+							lon = lonlat.X();
+							lat = lonlat.Y();
+							point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
+							point2 = itsScale.Scale(point1);
+							if(!name.IsValue())
+							{
+								name = NFmiString("As");
+								name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
+							}
+							NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+							if(fNextStationBackup)
+								station.SetBackup(true);
+							itsStations.AddLocation(station, false);
+							if(firstStation)
+							{
+								itsName = station.GetName();
+								firstUnscaledPoint = NFmiPoint(x,y);
+								firstStation = false;
+							}
+							firstStation = false;
+							}
+						}
+				}
+				else
+					*itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu"  << endl;
+
+			}
+			else
+				 *itsLogFile << "*** ERROR: "<< "paikkamatriisi puutteellinen"  << endl;
+
+
+            fNextStationBackup = false;
+			//ReadNext();
+			break;
+		  }
 		case dStationNameOnMap:
 		  {
 			if (!ReadEqualChar())
@@ -1936,6 +2011,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("asemapaikallakartalle") ||
 		  lowChar==NFmiString("paikka"))
 	return dStationPlaceOnMap;
+
+  else if(lowChar==NFmiString("stationplacematrixonmap") ||
+		  lowChar==NFmiString("paikkamatriisi"))
+	return dStationPlaceMatrixOnMap;
 
   else if(lowChar==NFmiString("#map") ||
 		  lowChar==NFmiString("#kartta"))

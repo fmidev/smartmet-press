@@ -52,8 +52,8 @@ enum NFmiPressTextObjects
   dTextLanguage,
   dTextDir,
   dTextPath,
-  dMaxTextLength,
-  dWidthFactor};
+  dMaxTextLength
+};
 
 //! Undocumented
 class _FMI_DLL NFmiPressText : public NFmiPressScaling

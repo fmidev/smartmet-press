@@ -37,7 +37,7 @@ enum NFmiTextParamRectObjects
   dRGBMapping, 
   dCMYKMapping,
   dRelCharWidth,
-  dAddStationName = 1080
+  dAddStationName = 1080 
 };
 
 
@@ -115,6 +115,7 @@ protected:
   FmiPressColorMapping itsColorMapping[maxNumOfColMaps];
   unsigned long itsCurrentNumOfColMaps;
   double itsRelCharWidth;
+  double itsWidthFactor;
   bool fAddStationName;
 }; // class NFmiTextParamRect
 
@@ -133,6 +134,7 @@ NFmiTextParamRect::NFmiTextParamRect(void)
   , itsMapping(0)
   , itsCurrentNumOfColMaps(0)
   , itsRelCharWidth(0.)
+  , itsWidthFactor(1.)
   , fAddStationName(false)
 {
 }

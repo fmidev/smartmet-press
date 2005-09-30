@@ -45,6 +45,7 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect & theTextParamRect)
   , itsMapping(theTextParamRect.itsMapping ? new NFmiParamMapping(*theTextParamRect.itsMapping) : 0)
   , itsCurrentNumOfColMaps(theTextParamRect.itsCurrentNumOfColMaps)
   , itsRelCharWidth(theTextParamRect.itsRelCharWidth)
+  , itsWidthFactor(theTextParamRect.itsWidthFactor)
   , fAddStationName(theTextParamRect.fAddStationName)
 {
   for(unsigned int ind =0; ind < maxNumOfColMaps; ind++)
@@ -156,6 +157,11 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		  itsRelCharWidth = r1;
 		
 		ReadNext();
+		break;
+	  }
+	case dWidthFactor:
+	{
+		SetOne(itsWidthFactor);
 		break;
 	  }
 	case dAddTextInFront:
@@ -298,6 +304,10 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("charspacejustification") ||
 		  lowChar==NFmiString("merkkivälinsäätö"))
 	return dRelCharWidth;
+  
+  else if(lowChar==NFmiString ("widthfactor") ||
+		  lowChar==NFmiString ("leveyskerroin"))
+	return dWidthFactor;
 
   else if(lowChar==NFmiString("addstationname") ||
 		  lowChar==NFmiString("lisääasemannimi"))
@@ -590,7 +600,15 @@ bool NFmiTextParamRect::WriteShowString(double x,
 										const NFmiString & theShowString,
 										ofstream & os) const
 {
-  os << x << " " << y << " moveto" << endl;
+  bool widthScaling = itsWidthFactor != 1.;
+  float xScaled = x;
+  if(widthScaling)
+  {
+		os << itsWidthFactor << " 1 scale" << endl;
+		xScaled = x/itsWidthFactor;
+  }
+
+  os << xScaled << " " << y << " moveto" << endl;
   if(GetTextAlignment() == kRight )
 	{
 	  os << "(" << static_cast<char *>(theShowString) << ") " << "stringwidth" << endl;
@@ -611,7 +629,7 @@ bool NFmiTextParamRect::WriteShowString(double x,
 	 // os << "(" << static_cast<char *>(theWidthString) << ") " << "stringwidth" << endl;
 	 // os  << " rmoveto" << endl;
 	}
-  if(itsRelCharWidth == 0.) // merkkien levennys/kavennus
+  if(itsRelCharWidth == 0.) // merkkivälien levennys/kavennus
 	os << "(" << static_cast<char *>(theShowString) << ") show" << endl;
   else
 	os << itsRelCharWidth << " 0. (" << static_cast<char *>(theShowString) << ") ashow" << endl;

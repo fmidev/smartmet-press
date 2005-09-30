@@ -49,7 +49,8 @@ enum NFmiPressDescriptionObjects
   dPressMaskNumber,
   dDescFont,
   dDescTextSize,
-  dDescTextAlignment
+  dDescTextAlignment,
+  dWidthFactor
 };
 
 //! Undocumented
