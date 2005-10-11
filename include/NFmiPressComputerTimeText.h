@@ -44,6 +44,7 @@ public:
 protected:
 
   short itsDeltaDays;
+  short itsDeltaHours;
 
 }; // class NFmiPressComputerTimeText
 
@@ -58,6 +59,7 @@ inline
 NFmiPressComputerTimeText::NFmiPressComputerTimeText(void)
   : NFmiPressTimeText()
   , itsDeltaDays(0)
+  , itsDeltaHours(0)
 {
 }
 

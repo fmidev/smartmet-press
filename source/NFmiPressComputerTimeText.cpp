@@ -38,6 +38,7 @@ bool NFmiPressComputerTimeText::SetText(void)
   NFmiMetTime computerTime = NFmiMetTime(1);
   NFmiMetTime useTime = TimeToWrite(computerTime);
   useTime.ChangeByDays(itsDeltaDays);  
+  useTime.ChangeByHours(itsDeltaHours);  
   if(itsStringNameTimeFormat.IsValue())
 	SetText((static_cast<NFmiPressTime>(useTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
   else
@@ -70,6 +71,11 @@ bool NFmiPressComputerTimeText::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dTimeTextHours:	  
+	  {
+		SetOne(itsDeltaHours);
+		break;
+	  }
 	default: 
 	  {
 		return NFmiPressTimeText::ReadRemaining();
@@ -89,8 +95,15 @@ bool NFmiPressComputerTimeText::ReadRemaining(void)
 
 int NFmiPressComputerTimeText::ConvertDefText(NFmiString & object)
 {
-  if(object==NFmiString("Day") || object==NFmiString("Päivä"))
+  NFmiString lowChar = object;
+  lowChar.LowerCase();
+
+  if(lowChar==NFmiString("day") || lowChar==NFmiString("daydifference") ||
+	  lowChar==NFmiString("päivä") ||  lowChar==NFmiString("päiväerotus"))
 	return dTimeTextDays;
+  else if(lowChar==NFmiString("hourdifference") ||
+	  lowChar==NFmiString("tuntiero"))
+	return dTimeTextHours;
   else
 	return NFmiPressTimeText::ConvertDefText(object);
 	

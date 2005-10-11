@@ -24,7 +24,8 @@
 enum NFmiTimeTextObjects
 {
   dTimeTextFormat = 160,
-  dTimeTextDays
+  dTimeTextDays,
+  dTimeTextHours
 };
 
 
