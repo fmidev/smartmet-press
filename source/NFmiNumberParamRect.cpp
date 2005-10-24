@@ -398,7 +398,12 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			return false;
 	}
 
-  if(mapString) // mappingmahdollisuus myös numerolle
+   fUseSelectLatinFont = value >= 0.  // astemerkki edes positiivisille
+	&& value != kFloatMissing
+	/* || value == kFloatMissing       // pitkät miinukset näkyviin
+	&& itsEnvironment.GetLongNumberMinus()*/;
+
+   if(mapString) // mappingmahdollisuus myös numerolle
 	{
 	  if(*mapString == NFmiString("None"))
 		return false;
@@ -480,11 +485,6 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	} //ei-mappi luuppi
 
   str = DetachSign(str, value);
-
-  fUseSelectLatinFont = value >= 0.  // astemerkki edes positiivisille
-	&& value != kFloatMissing
-	|| value == kFloatMissing       // pitkät miinukset näkyviin
-	&& itsEnvironment.GetLongNumberMinus();
 
   return WriteCode(Construct(&str), theAbsoluteRectOfSymbolGroup,
 				   theDestinationFile, NFmiString("NUMERO"), theOutput);

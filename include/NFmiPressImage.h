@@ -35,7 +35,8 @@ enum NFmiPressImageObjects
   dImagePlaceMove,
   dNewImage,
   dNewImageName = 1260,
-  dNewImageRel 
+  dNewImageRel,
+  dImageShear
 };
 
 
@@ -76,6 +77,7 @@ private:
   NFmiString  itsTempImageFile;
   NFmiString  itsTempImagePath;
   NFmiString  itsTempImageDir;
+  float itsShear;
 
 }; // class NFmiPressImage
 

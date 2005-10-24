@@ -26,6 +26,7 @@ using namespace std;
 NFmiPressImage::NFmiPressImage(void)
   : NFmiPressScaling()
   ,itsPressProduct(0)
+  ,itsShear(0.)
 {
   NFmiPoint point1 = NFmiPoint(0.,0.);
   NFmiPoint point2 = NFmiPoint(600.,750.);
@@ -59,6 +60,7 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
   , itsTempImageFile(thePressImage.itsTempImageFile)
   , itsTempImagePath(thePressImage.itsTempImagePath)
   , itsTempImageDir(thePressImage.itsTempImageDir)
+  , itsShear(thePressImage.itsShear)
 {
 }
 
@@ -356,6 +358,12 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			
 			break;
 		  }
+		case dImageShear:
+		  {
+			SetOne(itsShear);
+						
+			break;
+		  }
 		default:
 		  {
 			ReadRemaining();
@@ -478,6 +486,10 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("clippingrectangle") ||
 		  lowChar==NFmiString("rajaus"))
 	return dImageClippingRectangle;
+ 
+  else if(lowChar==NFmiString("shear") ||
+		  lowChar==NFmiString("kallistus"))
+	return dImageShear;
 
   else
 	return NFmiPressScaling::ConvertDefText(object);
