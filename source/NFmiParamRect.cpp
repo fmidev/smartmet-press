@@ -302,12 +302,12 @@ bool NFmiParamRect::ReadRemaining(void)
 		itsCurrentParamArray = new float[FmiMaxNumOfMappingParams];
 		
 		int i;
-		for(i=0; i<FmiMaxNumOfMappingParams; i++)
+		for(i=0; i<=FmiMaxNumOfMappingParams; i++)
 		  {
 			itsMultiParams[i] = kFmiLastParameter;
 		  }
 		
-		for(i=0; i<FmiMaxNumOfMappingParams; i++)
+		for(i=0; i<=FmiMaxNumOfMappingParams; i++)
 		  {
 			if(ReadLong(long1, false))
 			  itsMultiParams[i] = FmiParameterName(long1);
@@ -1339,12 +1339,25 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
   float centreWeight;
   float endWeight;
   
-  
+  // tuulelle ei saa keskiarvoja; jos on moniparametri pitää modifieri kuitenkaan
+  // taas olla voimassa seuraaville parametreille 
+  FmiModifier actualModifier = itsModifier;
+  if(par == kFmiTotalWindMS)
+  {
+	  static bool warningGivenForWindModifierChange = false; 
+	  if(actualModifier != kNoneModifier && !warningGivenForWindModifierChange)
+	  {
+		*itsLogFile << "*** WARNING: Tuulesta hetkellinen arvo eikä keskiarvo " << endl;
+		warningGivenForWindModifierChange = true;
+	  }
+	actualModifier = kNoneModifier;
+  }
+
   bool isWeightedMean = period > 0 &&
 	period != kUnsignedLongMissing ||
-	itsModifier == kWeightedMean;
+	actualModifier == kWeightedMean;
 
-  if(itsModifier != kNoneModifier )
+  if(actualModifier != kNoneModifier )
 	{
 	  firstTime = CalculatePeriodTime(itsFirstExtremHour);
 	  lastTime = CalculatePeriodTime(itsLastExtremHour);
@@ -1367,7 +1380,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 					  << " utc"
 					  << endl;
 		}
-	  switch(itsModifier)
+	  switch(actualModifier)
 		{
 		case kMinimum:
 		  modif = new NFmiDataModifierMin;
@@ -1467,7 +1480,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  centreWeight = 1;   // aina 1, joka tapauksessa vanhentunut
 	}
   
-  if(period !=0 && itsModifier == kNoneModifier)
+  if(period !=0 && actualModifier == kNoneModifier)
 	{
 	  firstTime = itsCurrentSegmentTime;
 	  lastTime = itsCurrentSegmentTime;
@@ -1475,7 +1488,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  lastTime.ChangeByHours(period/2);
 	  
 	  
-	  if(itsModifier != kWeightedMean)
+	  if(actualModifier != kWeightedMean)
 		{
 		  startWeight = 1.;
 		  centreWeight = 1.;
@@ -1498,7 +1511,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
   
   bool varEtc = (fIsProbability ||
 				 itsAreaModifier != kNoneModifier &&
-				 itsModifier != kNoneModifier ||
+				 actualModifier != kNoneModifier ||
 				 itsCurrentPar == kFmiPrecipitation1h &&
 				 itsAreaModifier == kMaximum); //HUOM w&c
 
@@ -1539,7 +1552,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  value = areaRRProbMaxCalc;
 		}
 	  // **** tiehallinnon sateen int epävarmuusalueella laajennettuna *** /
-	  else if(itsCurrentPar == kFmiPrecipitation1h && itsAreaModifier == kMaximum && itsModifier == kNoneModifier)
+	  else if(itsCurrentPar == kFmiPrecipitation1h && itsAreaModifier == kMaximum && actualModifier == kNoneModifier)
         {
 		  NFmiRelativeDataIterator variationArea(&ssinfo, 4, 4, 0);
 		  NFmiMaskedDataIterator geographicalArea(&ssinfo); //comb/vai ei (ei tartte)  //tiealueet,vika aikajakso
@@ -1559,7 +1572,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		}
 	  
 		// **** tiehallinnon sadesummat **** /
-	  else if (itsAreaModifier != kNoneModifier && itsModifier != kNoneModifier )
+	  else if (itsAreaModifier != kNoneModifier && actualModifier != kNoneModifier )
 		{
 		  NFmiDataModifierProb prob(kValueGreaterThanLimit, 0.);
 		  NFmiRelativeDataIterator variationArea(&ssinfo, 4, 4, 0);
@@ -1570,7 +1583,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  bool useVariation = true;
 		  bool useCalculator = true;
 		  bool createVariance = true;
-		  bool useTimeIntegration = itsModifier != kNoneModifier; //oik. aikamodifieri
+		  bool useTimeIntegration = actualModifier != kNoneModifier; //oik. aikamodifieri
 		  
 		  NFmiRelativeTimeIntegrationIterator timeIterator(&ssinfo, itsLastExtremRelHour-itsFirstExtremRelHour+1, -itsLastExtremRelHour);
 		  NFmiCalculator sumCalc(&timeIterator, &sum);
@@ -1600,7 +1613,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 			   par == kFmiPrecipitationForm ||
 			   par == kFmiPrecipitation1h ||
 			   par == 375) &&
-			  (itsModifier == kNoneModifier || itsModifier == kMean))
+			  (actualModifier == kNoneModifier || actualModifier == kMean))
 			{
 			  value = static_cast<float>(theQueryInfo->InterpolatedTimePeriodFloatValue(itsPressParam->GetCurrentStation().GetLocation(),
 																						firstTime,lastTime,startWeight,centreWeight,endWeight));
@@ -1608,7 +1621,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 			}
 		  else //ei painotettu aikakeskiarvo
 			{
-			  if(itsModifier != kNoneModifier)
+			  if(actualModifier != kNoneModifier)
 				{
 				  //pitäis ehkä olla optio Interpoloi/älä interp.
 				  if(par == kFmiChillFactor)
@@ -1707,7 +1720,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 			}
 		  else
 			{
-			  if(itsModifier != kNoneModifier)
+			  if(actualModifier != kNoneModifier)
 				{
 				  theQueryInfo->CalcTimeData(modif, firstTime, lastTime);
 				  if(isExtremeModifier)

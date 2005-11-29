@@ -1145,9 +1145,9 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 
    inputFileName += NFmiString("pss");
  
-   NFmiString writeString = inputFileName.Header();
+   NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 21.10.2005" << endl;       
+   *itsLogFile << "program version = 25.11.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1315,7 +1315,7 @@ bool NFmiPressProduct::ReadData(void)
 
 				    dirRemote = "O:\\data\\in\\";
 					pathRemote = dirRemote;
-					pathRemote += "PAL_Scand*DB*.sqd";
+					pathRemote += "PAL_Scand_*DB*.sqd";
 					fileTimeRemote = NFmiFileSystem::FindFile(pathRemote, true, &theFoundFileNameRemote);
 					dirRemote += theFoundFileNameRemote;
 					if(fileTime < fileTimeRemote)
@@ -1325,7 +1325,7 @@ bool NFmiPressProduct::ReadData(void)
                        copyOk = NFmiFileSystem::CopyFile(dirRemote, dir);
 						if(copyOk)
 						{
-							*itsLogFile << "  tuoreempi data kopioitu PAL_Scand_Local:ksi:" << endl;
+							*itsLogFile << "  tuoreempi data kopioitu PAL_Scand_Localiksi:" << endl;
 						    *itsLogFile << "    " << theFoundFileNameRemote << endl;
 						}
 						else
@@ -1614,6 +1614,7 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName, bool &isYearD
 
 bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 {
+
   NFmiString helpString;
   NFmiValueString valueString;
   itsScale.SetStartScales(NFmiRect(NFmiPoint(0,0), NFmiPoint(614,794)));

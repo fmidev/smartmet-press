@@ -28,7 +28,7 @@ struct FmiMappingInterval
 
 
 //! Undocumented
-const int FmiMaxNumOfMappingParams = 8;		// saisko dynaamiseksi
+const int FmiMaxNumOfMappingParams = 9; //pitääkö olla yksi enemmän kuin tarve	
 
 
 //! Undocumented
