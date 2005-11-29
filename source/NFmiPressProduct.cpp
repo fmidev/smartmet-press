@@ -1147,7 +1147,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 25.11.2005" << endl;       
+   *itsLogFile << "program version = 29.11.2005" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -3317,6 +3317,8 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
 {
   //kutsutaan kahteen kertaan: ennen ja jälkeen segmenttien
 
+  extern bool precedingElementMissing;
+
   NFmiVoidPtrIterator objectIter(itsObjects);
   NFmiPressScaling * object;
 
@@ -3332,12 +3334,19 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
 
 	  // managerista hallittavissa
 	  if(object->IsActive() && object->IsToWriteLast() != theDoPreSegments)
-		{
-		  if (!(object->WritePS(theOutput)))
+	  {
+		
+            //ei tehdä jos tarkoitettu vain korvaamaan edellistä puuttuvaa elementtiä?
+			if(!object->GetOnlyForMissingPrecedingElementFlag()
+			|| precedingElementMissing)
 			{
-			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: (timeDep)object->WritePS() in NFmiPressProduct" << endl;
-			  return false;
+		  	  
+			    if (!(object->WritePS(theOutput)))
+				{
+					if(itsLogFile)
+						*itsLogFile << "*** ERROR: (timeDep)object->WritePS() in NFmiPressProduct" << endl;
+					return false;
+				}
 			}
 		}
 	  lineStep = object->GetLineStep();

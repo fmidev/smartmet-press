@@ -50,7 +50,8 @@ enum NFmiPressDescriptionObjects
   dDescFont,
   dDescTextSize,
   dDescTextAlignment,
-  dWidthFactor
+  dWidthFactor,
+  dMissingPrecedingImage
 };
 
 //! Undocumented
@@ -77,15 +78,17 @@ public:
   bool IsRGB(void) const;
   bool IsCMYK(void) const;
 
-  FmiGenericColor GetColor(void) const;
-  void SetColor(const FmiGenericColor & theColor);
-  bool IsPureBlack(void);
-  	NFmiString GetFont(void)const;
+	FmiGenericColor GetColor(void) const;
+	void SetColor(const FmiGenericColor & theColor);
+	bool IsPureBlack(void);
+	NFmiString GetFont(void)const;
 	void SetFont(const NFmiString& font);
 	double GetTextSize(void)const;
 	void SetTextSize(double size);
 	FmiDirection GetTextAlignment(void)const;
 	void SetTextAlignment(FmiDirection alignment);
+	bool GetOnlyForMissingPrecedingElementFlag(void) const;
+	void SetOnlyForMissingPrecedingElementFlag(bool theFlag);  
 
 protected:
 
@@ -95,6 +98,7 @@ protected:
   NFmiPressEnvironment itsEnvironment;  
   NFmiString itsHomePath; 
   FmiLanguage itsLanguage;
+  bool fOnlyForMissingPrecedingElement;
 
 private: 
 
@@ -120,6 +124,7 @@ NFmiPressDescription::~NFmiPressDescription(void)
 inline
 NFmiPressDescription::NFmiPressDescription(void)
 {
+	fOnlyForMissingPrecedingElement= false;
 }
 
 // ----------------------------------------------------------------------
@@ -134,6 +139,7 @@ inline
 NFmiPressDescription::NFmiPressDescription(const NFmiPressDescription & theD)
   : NFmiDescription(theD.GetLogFile(),theD.GetMaxLoopNum())
 {
+	fOnlyForMissingPrecedingElement= false;
 }
 
 // ----------------------------------------------------------------------
@@ -150,8 +156,31 @@ NFmiPressDescription::NFmiPressDescription(std::ofstream * theLogFile,
 										   unsigned short theMaxLoopNum)
   : NFmiDescription(theLogFile, theMaxLoopNum)
 {
+	fOnlyForMissingPrecedingElement= false;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::SetOnlyForMissingPrecedingElementFlag(bool theFlag)
+{
+  fOnlyForMissingPrecedingElement = theFlag;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressDescription::GetOnlyForMissingPrecedingElementFlag(void) const
+{
+  return fOnlyForMissingPrecedingElement;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -709,6 +709,7 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 
 bool NFmiPressText::WritePS(FmiPressOutputMode theOutput)
 {
+
   ScalePlotting();
   return WriteString(NFmiString("VAKIOTEKSTI"), theOutput);
 }

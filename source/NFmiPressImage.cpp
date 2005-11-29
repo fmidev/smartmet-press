@@ -507,6 +507,8 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
 bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 {
+  extern bool precedingElementMissing;
+
 	//testeissä kätevä merkata None:ksi
   if(itsPath.Header() == NFmiString("None"))
   {
@@ -523,12 +525,13 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
   itsInFile->open(itsPath, ios::in|ios::binary);
   if(!itsInFile->good() || itsInFile->eof())
 	{
-	  *itsLogFile << "WARNING: Missing EPS image: "
-				  << static_cast<char *>(itsPath)
-				  << endl;
+	  *itsLogFile << "*** WARNING: Missing EPS image: "
+				  << static_cast<char *>(itsPath) << endl;
+	   precedingElementMissing = true;
 	}
   else
 	{
+	  precedingElementMissing = false;
 	  if (itsClippingRect.IsEmpty())
 		WriteEPSConcat();
 	  else

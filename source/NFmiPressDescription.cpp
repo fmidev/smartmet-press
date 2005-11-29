@@ -188,8 +188,15 @@ bool NFmiPressDescription::ReadRemaining(void)
 			ReadNext();
 			break;
 		  }
+	case dMissingPrecedingImage:
+	  {
+		SetOnlyForMissingPrecedingElementFlag(true);
+
+		ReadNext();
+		break;
 	  }
 	}
+  }
   return true;
 }
 
@@ -300,7 +307,11 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("textalignment") ||
 		  lowChar==NFmiString("tekstikohdistus"))
 	return dDescTextAlignment;
-  else
+  
+  else if(lowChar==NFmiString("onlyformissingprecedingelimage") ||
+		  lowChar==NFmiString("vainedellisenkuvanpuuttuessa"))
+	return dMissingPrecedingImage;
+ else
 	return NFmiDescription :: ConvertDefText(object);
 }
 
