@@ -150,7 +150,7 @@ bool ReadOneStringAndTwoNumbers(NFmiString& theString, Type1 & retValue1, Type2 
   itsValueHelpString = itsObject;
   if(itsValueHelpString.IsNumeric())
 	{
-	  retValue1 = static_cast<int>(itsValueHelpString);
+	  retValue1 = static_cast<Type1>(static_cast<double>(itsValueHelpString));
 	  theString = NFmiString();
 	  return ReadOne(retValue2);
 	}

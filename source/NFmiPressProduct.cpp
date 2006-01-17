@@ -1147,7 +1147,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 29.11.2005" << endl;       
+   *itsLogFile << "program version = 16.1.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1309,13 +1309,15 @@ bool NFmiPressProduct::ReadData(void)
 					dir = dataPath;
 					dir += "\\";
 					//path = dir;
-					dir += "PAL_Scand_Local.sqd";
+					//dir += "PAL_Scand_Local.sqd";
+					dir += "PAL_Scand15km_Local.sqd";
 					fileTime = NFmiFileSystem::FindFile(dir, true, &theFoundFileName);
 					//dir += theFoundFileName;
 
 				    dirRemote = "O:\\data\\in\\";
 					pathRemote = dirRemote;
-					pathRemote += "PAL_Scand_*DB*.sqd";
+					//pathRemote += "PAL_Scand_*DB*.sqd";
+					pathRemote += "PAL_Scand15km_*DB*.sqd";
 					fileTimeRemote = NFmiFileSystem::FindFile(pathRemote, true, &theFoundFileNameRemote);
 					dirRemote += theFoundFileNameRemote;
 					if(fileTime < fileTimeRemote)
@@ -1325,7 +1327,8 @@ bool NFmiPressProduct::ReadData(void)
                        copyOk = NFmiFileSystem::CopyFile(dirRemote, dir);
 						if(copyOk)
 						{
-							*itsLogFile << "  tuoreempi data kopioitu PAL_Scand_Localiksi:" << endl;
+							//*itsLogFile << "  tuoreempi data kopioitu PAL_Scand_Localiksi:" << endl;
+							*itsLogFile << "  tuoreempi data kopioitu PAL_Scand15km_Localiksi:" << endl;
 						    *itsLogFile << "    " << theFoundFileNameRemote << endl;
 						}
 						else
