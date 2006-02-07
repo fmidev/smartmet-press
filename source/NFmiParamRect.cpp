@@ -1365,8 +1365,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  
 	  if(itsFirstExtremYear != kLongMissing)
 		{
-		  firstTime.SetYear(itsFirstExtremYear);
-		  lastTime.SetYear(itsLastExtremYear);
+		  firstTime.SetYear(static_cast<short>(itsFirstExtremYear));
+		  lastTime.SetYear(static_cast<short>(itsLastExtremYear));
 		  //periodilla ei pitäisi olla väliä ??
 		}
 	  
@@ -1816,15 +1816,16 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  value = static_cast<float>(FmiRound(value/itsRoundingNumber)) * itsRoundingNumber;
 
   if(fMeanWindToMax && value != kFloatMissing)
-		value += max(value*.25, 2.);
+		value += static_cast<float>(max(value*.25, 2.));
 
   //ekassa käsittely poltettu koodiin, jälkimmäsessä ohjattavissa määrittelystä
   RandomModify(value, theQueryInfo->Param().GetParamIdent());
   if(IsRandom())
   {
       //srand(static_cast<unsigned int>(value)); PressProduktiin
-	  value += GetRandomInterval() * (static_cast<float>(rand())/RAND_MAX -0.5);
-  }
+	  value += static_cast<float>(GetRandomInterval()) * static_cast<float>((static_cast<float>(rand())/RAND_MAX -0.5));
+  	  //value += static_cast<float>(GetRandomInterval() * (rand()/RAND_MAX -0.5)); //ei toimi?
+}
 
   fMarkingValue = true;
   if(IsEquiDistanceMode() && value != kFloatMissing)
@@ -2024,7 +2025,8 @@ bool NFmiParamRect::RandomModify(float& theValue, unsigned long theParIdent) con
 
 bool NFmiParamRect::Randomize(float& theValue, float theInterval, float theMin, float theMax) const
 {
-	theValue += theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+	//theValue += theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+  	theValue += static_cast<float>(theInterval * (static_cast<float>(rand())/RAND_MAX -0.5));
 	theValue = max(theMin, min(theMax, theValue));
 	return true;
 }
@@ -2039,7 +2041,8 @@ bool NFmiParamRect::Randomize(float& theValue, float theInterval, float theMin, 
 
 bool NFmiParamRect::RandomizeRelatively(float& theValue, float theInterval, float theMin, float theMax) const
 {
-	theValue *= 1. + theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+	//theValue *= 1. + theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+	theValue *= static_cast<float>(1. + theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5));
 	theValue = max(theMin, min(theMax, theValue));
 	return true;
 }

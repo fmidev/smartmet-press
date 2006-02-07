@@ -69,6 +69,7 @@ struct FmiPressSeasons
   int dayAdvance;
   bool editdata;
   bool editdataOwn;
+  bool afternoon;
 };
 
 

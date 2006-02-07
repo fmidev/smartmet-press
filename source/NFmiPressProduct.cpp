@@ -743,6 +743,9 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->dayAdvance = +0;
   itsSeasonsStatus->editdata = true;
   itsSeasonsStatus->editdataOwn = false;
+  itsSeasonsStatus->afternoon = false;
+  if (today.GetHour() >= 12)
+	  itsSeasonsStatus->afternoon = true;
 
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
@@ -904,6 +907,16 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  itsSeasonsStatus->dayAdvance = atoi(str2.c_str()); //tarvitaanko missään tässä
 				  itsEnvironment.SetDayAdvance(itsSeasonsStatus->dayAdvance);
 				  *itsLogFile << "  Ennakko pakotettu: "<< str2 << endl;
+				}
+			}
+		  else if(fmiShortStr1 == "afte" || fmiShortStr1 == "ilta")
+			{
+			  if(!undef)
+				{
+				  int givenHour = atoi(str2.c_str()); 
+				  bool afternoon = givenHour < today.GetHour();
+				  itsSeasonsStatus->afternoon = afternoon;
+				  *itsLogFile << "  Kausitilanne pakotettu: iltapäivä alkaa " << givenHour << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "muut" || fmiShortStr1 == "vari")
@@ -1147,7 +1160,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 16.1.2006" << endl;       
+   *itsLogFile << "program version = 7.2.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2087,7 +2100,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			ReadTwo(long1, long2);
 			itsFirstPlotTime = NFmiMetTime(60); //huom tunnin res.
 			itsFirstPlotTime.ChangeByHours(long1);
-			itsFirstPlotTime.NextMetTime(long2*60);
+			itsFirstPlotTime.NextMetTime(static_cast<int>(long2*60));
 
 			*itsDescriptionFile >> itsObject;
 			valueString = itsObject;

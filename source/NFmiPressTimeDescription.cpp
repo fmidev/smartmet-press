@@ -207,6 +207,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		  return false;
 		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->pollen, "#ifPollenPeriod", "#ifNotPollenPeriod", "#pollenPeriodEndif", "#pollenPeriodElse"))  //4.9.02
 		  return false;
+		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->afternoon, "#ifAfternoon", "#ifNotAfternoon", "#afternoonEndif", "#afternoonElse"))  
+		  return false;
 		if(!prePr.IncludeFiles("#Include", includePath, "inc"))
 		  {
 			*itsLogFile << "*** ERROR: Preprocessing failed to include file:" << endl;
