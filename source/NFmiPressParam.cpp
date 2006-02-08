@@ -1147,7 +1147,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			ReadTwo(long1, long2);
 			itsFirstPlotTime = NFmiMetTime(60); //huom tunnin res.
 			itsFirstPlotTime.ChangeByHours(long1);
-			itsFirstPlotTime.NextMetTime(long2*60);
+			itsFirstPlotTime.NextMetTime(static_cast<short>(long2*60));
 
 			*itsDescriptionFile >> itsObject;
 			valueString = itsObject;
@@ -1752,14 +1752,16 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   else if(fIsTimeLoop)
 	itsNumberOfSteps = currentTimeInd;
 
+  if(itsStations.GetSize() < 1 ) 
+  // jos segmenttiä käytetään aika ja/tai nimipäiväluuppina tarvitaan joku asema
+  {
+ 	 NFmiStationPoint station(NFmiStation(1, "Helsinki", 25., 60.), NFmiPoint(100.,100.));
+	 itsStations.AddLocation(station, false);
+	 *itsLogFile << "   *** WARNING: "<< "dummy station added to #Segment"  << endl;
+ }
+
   if(timeOrLevelTableSet) // ei voi asettaa yllä pääluupissa koska ekan aseman paikkaa ei välttämättä tiedä
 	{
-	  if(itsStations.GetSize() < 1 )
-		{
-		  *itsLogFile << "*** ERROR: "<< "station(s) required for segment with table"  << endl;
-		  return false;
-		}
-
 	  itsStations.Reset();
 	  itsStations.Next();
 	  NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());

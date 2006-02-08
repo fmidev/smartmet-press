@@ -442,7 +442,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 			SetTwo(long1, long2);
 			firstPlotTime = NFmiMetTime();
 			firstPlotTime.ChangeByHours(long1);
-			firstPlotTime.NextMetTime(long2*60);
+			firstPlotTime.NextMetTime(static_cast<short>(long2*60));
 
 			thePressProduct.SetAllTimes(firstPlotTime);
 			changed = true;

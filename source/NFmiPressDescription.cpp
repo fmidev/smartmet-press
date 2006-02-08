@@ -261,7 +261,7 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
   NFmiString lowChar = object;
   lowChar.LowerCase();	// kaikille pitäisi sallia vapaa isot/pienet kirj.
 
-  short len = lowChar.GetLen();
+  unsigned long len = lowChar.GetLen();
   if (!itsCommentLevel &&
 	  lowChar.GetChars(1,1) == NFmiString("#") &&
 	  ((len > 8 && lowChar.GetChars(len-4,5) == NFmiString("loppu")) ||

@@ -34,6 +34,7 @@ class NFmiFastQueryInfo;
 enum NFmiPressTimeDescriptionObjects
 {
   dRelDay = 10,
+  dDayAddition,
   dHour,
   dMinute,
   dRelHour,
@@ -42,8 +43,8 @@ enum NFmiPressTimeDescriptionObjects
   dRelativeDataTime,
   dGivenRelHours,
   dWriteTimeAsUtc,
-  dTimeTableActive,
-  dBypassValue = 1010
+  dTimeTableActive = 1010,
+  dBypassValue
 };
 
 

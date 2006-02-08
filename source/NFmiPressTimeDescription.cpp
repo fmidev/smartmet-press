@@ -320,6 +320,19 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
   NFmiValueString valueString;
   switch(itsIntObject)
 	{	
+	case dDayAddition: //toimii vain Segmentin päätasolla
+		{
+		if (!ReadEqualChar())
+			break;
+			
+		if(ReadOne(long1))
+		{
+			itsFirstDeltaDays = static_cast<short>(JustifyByLeaps(itsFirstDeltaDays + long1));
+		}
+
+		ReadNext();
+		break;
+		}
 	case dGivenRelHours:
 	  {
 		fGivenHoursAreRelative = true;
@@ -413,6 +426,9 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString & object)
   if(lowChar==NFmiString("day") ||
 	 lowChar==NFmiString("päivä"))
 	return dRelDay;
+  if(lowChar==NFmiString("dayaddition") ||
+	 lowChar==NFmiString("päivälisäys"))
+	return dDayAddition;
   else if(lowChar==NFmiString("minute") ||
 		  lowChar==NFmiString("minuutti"))
 	return dMinute;
@@ -487,7 +503,7 @@ NFmiMetTime NFmiPressTimeDescription::NextUseTime(long relHours, long hourRes, l
   curTime.ChangeByHours(relHours);
   NFmiMetTime compTime(60); 
   compTime.ChangeByDays(-2); //riittääkö
-  compTime.SetHour(hourDelta);
+  compTime.SetHour(static_cast<short>(hourDelta));
   if (compTime >= curTime)
 	*itsLogFile << "*** ERROR: suhteellinen aikaero liian suuri: "
 				<< relHours
