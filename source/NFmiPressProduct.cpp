@@ -743,9 +743,10 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->dayAdvance = +0;
   itsSeasonsStatus->editdata = true;
   itsSeasonsStatus->editdataOwn = false;
-  itsSeasonsStatus->afternoon = false;
-  if (today.GetHour() >= 12)
-	  itsSeasonsStatus->afternoon = true;
+  itsSeasonsStatus->hour = today.GetHour();
+  //itsSeasonsStatus->afternoon = false;
+  //if (today.GetHour() >= 12)
+	//  itsSeasonsStatus->afternoon = true;
 
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
@@ -861,6 +862,15 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  *itsLogFile << "  Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
 				}
 			}
+		  else if(fmiShortStr1 == "utct" || fmiShortStr1 == "utch")
+			{
+			  if(!undef)
+				{
+				  int hour = atoi(fmiShortStr2);
+				  itsSeasonsStatus->hour = hour;
+				  *itsLogFile << "  utcTunti pakotettu: "<< hour << endl;
+				}
+			}
 		  else if(fmiShortStr1 == "edit")
 			{
 			  if(boolGiven && !undef)
@@ -894,7 +904,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 					itsSeasonsStatus->weekday = 7;
 				  else
 					{
-					  *itsLogFile << "***ERROR: invalid weekday in seasonstatus"<< str2 << endl;
+						*itsLogFile << "***ERROR: invalid weekday in seasonstatus: "<< str2 << endl;
 					  continue;
 					}
 				  *itsLogFile << "  Viikonpäivä pakotettu: "<< fmiShortStr2; // << endl;
@@ -909,6 +919,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  *itsLogFile << "  Ennakko pakotettu: "<< str2 << endl;
 				}
 			}
+/*
 		  else if(fmiShortStr1 == "afte" || fmiShortStr1 == "ilta")
 			{
 			  if(!undef)
@@ -919,13 +930,14 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  *itsLogFile << "  Kausitilanne pakotettu: iltapäivä alkaa " << givenHour << endl;
 				}
 			}
+			*/
 		  else if(fmiShortStr1 == "muut" || fmiShortStr1 == "vari")
 			{
 			  itsReplaceMap.insert(pair<string, string>(str2, str3));
 			}
 		  else
 			{
-			  *itsLogFile << "***ERROR: invalid keyword in seasonstatus"<< str1 << endl;
+				*itsLogFile << "***ERROR: invalid keyword in seasonstatus: "<< str1 << endl;
 			  continue;
 			}
 		}
@@ -1160,7 +1172,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 8.2.2006" << endl;       
+   *itsLogFile << "program version = 24.2.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

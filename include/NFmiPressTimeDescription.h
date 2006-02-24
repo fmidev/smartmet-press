@@ -67,10 +67,11 @@ struct FmiPressSeasons
   bool snow;
   bool pollenOrSnow;
   int weekday;
+  int hour;
   int dayAdvance;
   bool editdata;
   bool editdataOwn;
-  bool afternoon;
+ // bool afternoon;
 };
 
 

@@ -1757,7 +1757,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   {
  	 NFmiStationPoint station(NFmiStation(1, "Helsinki", 25., 60.), NFmiPoint(100.,100.));
 	 itsStations.AddLocation(station, false);
-	 *itsLogFile << "   *** WARNING: "<< "dummy station added to #Segment"  << endl;
+	 *itsLogFile << "   *** WARNING: "<< "#Segmentti teki yhden dummy-aseman kun määrittelyssä ei yhtään"  << endl;
  }
 
   if(timeOrLevelTableSet) // ei voi asettaa yllä pääluupissa koska ekan aseman paikkaa ei välttämättä tiedä

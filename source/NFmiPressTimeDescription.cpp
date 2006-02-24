@@ -193,7 +193,9 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
 	includePath += "Include";
-	res = prePr.ReadFile(inFileName);
+	//res = prePr.ReadFile(inFileName);
+	set<string> optinalDirectives; 
+	res = prePr.ReadFileCheckingOptions(inFileName, "#ifCondition", optinalDirectives);
 
 	while (!prePr.NoFilesIncluded())
 	  {
@@ -207,8 +209,39 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		  return false;
 		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->pollen, "#ifPollenPeriod", "#ifNotPollenPeriod", "#pollenPeriodEndif", "#pollenPeriodElse"))  //4.9.02
 		  return false;
-		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->afternoon, "#ifAfternoon", "#ifNotAfternoon", "#afternoonEndif", "#afternoonElse"))  
-		  return false;
+//		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->afternoon, "#ifAfternoon", "#ifNotAfternoon", "#afternoonEndif", "#afternoonElse"))  
+//		  return false;
+
+		set<string>::const_iterator pos;
+		string condition, conditionBody, conditionBody2, conditionBodyLow, firstToLower;
+		string notDir, elseDir, endDir, numStr;
+		NFmiMetTime now;
+		int hour = now.GetHour();
+		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
+		{
+			condition = *pos;
+			conditionBody = condition.substr(3, condition.size()-3);
+			conditionBody2 = condition.substr(4, condition.size()-4);
+            firstToLower = condition.substr(3, 1);
+			transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(), tolower); 
+			notDir = "#ifNot" + conditionBody;
+			elseDir = "#" + firstToLower + conditionBody2 + "Else";
+			endDir = "#" + firstToLower + conditionBody2 + "Endif";
+			numStr = condition.substr(condition.size()-2, 2);
+			if(numStr.find_first_not_of("0123456789") != string::npos)
+			{
+				numStr = condition.substr(condition.size()-1, 1);
+				if(numStr.find_first_not_of("0123456789") != string::npos)
+				{
+					*itsLogFile << "*** ERROR: kielletty direktiivi: "  
+						        <<  condition << endl;
+					continue;
+				}
+			}
+			int dirHour = atoi(numStr.c_str());
+			if(!PreProcessConditionally(prePr, GetSeasonsStatus()->hour >= dirHour, condition, notDir, endDir, elseDir))  
+				return false;
+		}
 		if(!prePr.IncludeFiles("#Include", includePath, "inc"))
 		  {
 			*itsLogFile << "*** ERROR: Preprocessing failed to include file:" << endl;
