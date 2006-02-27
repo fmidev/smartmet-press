@@ -224,7 +224,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 			conditionBody2 = condition.substr(4, condition.size()-4);
             firstToLower = condition.substr(3, 1);
 			transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(), tolower); 
-			notDir = "#ifNot" + conditionBody;
+			notDir = "#ifNot" + conditionBody; //ei kuitenkaan voi k‰ytt‰‰ koska esittely ei onnistu
 			elseDir = "#" + firstToLower + conditionBody2 + "Else";
 			endDir = "#" + firstToLower + conditionBody2 + "Endif";
 			numStr = condition.substr(condition.size()-2, 2);

@@ -862,13 +862,13 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  *itsLogFile << "  Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
 				}
 			}
-		  else if(fmiShortStr1 == "utct" || fmiShortStr1 == "utch")
+		  else if(fmiShortStr1 == "time" || fmiShortStr1 == "tunt")
 			{
 			  if(!undef)
 				{
 				  int hour = atoi(fmiShortStr2);
 				  itsSeasonsStatus->hour = hour;
-				  *itsLogFile << "  utcTunti pakotettu: "<< hour << endl;
+				  *itsLogFile << "  Tunti pakotettu: "<< hour << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "edit")
@@ -1172,7 +1172,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = 24.2.2006" << endl;       
+   *itsLogFile << "program version = 27.2.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
