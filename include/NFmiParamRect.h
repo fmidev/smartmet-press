@@ -79,7 +79,8 @@ enum NFmiParamRectObjects
   dFromMeanWindToMax,
   dRounding,
   dSupplementForMissing,
-  dMissingValueString
+  dMissingValueString,
+  dPlaceMoveAlternating
 };
 
 //! Undocumented
@@ -247,6 +248,7 @@ protected:
   long itsRoundingNumber;
   bool fSupplementForMissing;
   NFmiString * itsMissingString;
+  NFmiPoint itsAlternating;
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -297,6 +299,7 @@ NFmiParamRect::NFmiParamRect(void)
   , itsRoundingNumber(kLongMissing)
   , fSupplementForMissing(false)
   , itsMissingString(0)
+  , itsAlternating(NFmiPoint(0.,0.))
 {
   itsStationLoopActivity.startIndex=0;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
@@ -354,6 +357,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fSupplementForMissing(false)
   , itsMissingString(0)
   , itsDataIdent(theParam)
+  , itsAlternating(NFmiPoint(0.,0.))
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;

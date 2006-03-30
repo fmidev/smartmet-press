@@ -55,6 +55,7 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect & theSymbolRe
   , itsOrigDir(new NFmiString(*theSymbolRect.itsOrigDir))
   , itsSymbolSetName(theSymbolRect.itsSymbolSetName)
   , itsDefToProductScale(theSymbolRect.itsDefToProductScale)
+
 {
 }
 
@@ -439,7 +440,7 @@ int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("scaledsymbol") ||
 		  lowChar==NFmiString("skaalamuunnos"))
 	return dScaleMapping;
-
+  
   else if(lowChar==NFmiString("name") ||
           lowChar==NFmiString("nimi"))
 	return dConstSymbolName;
@@ -638,6 +639,10 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   itsCurrentTime = itsCurrentSegmentTime;
 
   itsDefToProductScale.SetEndScales(theAbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight())));
+  if(itsPressParam->GetCurrentStationStep()%2 == 0)
+  {
+	    itsDefToProductScale.MoveEndScales(itsAlternating);
+  }
 
   if(!fIsConstSymbol)
 	{

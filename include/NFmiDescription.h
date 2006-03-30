@@ -142,6 +142,42 @@ bool ReadTwo(Type1 & retValue1, Type2 & retValue2)
  */
 // ----------------------------------------------------------------------
 
+template <class Type1, class Type2, class Type3>
+bool ReadThree(Type1 & retValue1, Type2 & retValue2, Type3 & retValue3)
+{
+  if((ReadTwo(retValue1, retValue2)) && ReadOne(retValue3))
+	{
+	  return true;
+	}
+  return false;
+}// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retValue1 Undocumented
+ * \param retValue2 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+template <class Type1, class Type2, class Type3, class Type4>
+bool ReadFour(Type1 & retValue1, Type2 & retValue2, Type3 & retValue3, Type4 & retValue4)
+{
+  if((ReadTwo(retValue1, retValue2)) && ReadTwo(retValue3, retValue4))
+	{
+	  return true;
+	}
+  return false;
+}// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param retValue1 Undocumented
+ * \param retValue2 Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 template <class Type1, class Type2>
 bool ReadOneStringAndTwoNumbers(NFmiString& theString, Type1 & retValue1, Type2 & retValue2)
 

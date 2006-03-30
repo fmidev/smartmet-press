@@ -197,6 +197,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 	set<string> optinalDirectives; 
 	res = prePr.ReadFileCheckingOptions(inFileName, "#ifCondition", optinalDirectives);
 
+	bool firstLoop = true;
 	while (!prePr.NoFilesIncluded())
 	  {
 		if(!PreProcessConditionally(prePr, GetSeasonsStatus()->pollenOrSnow, "#ifPollenOrSnowPeriod", "#ifNotPollenOrSnowPeriod", "#pollenOrSnowPeriodEndif", "#pollenOrSnowPeriodElse"))  //4.9.02
@@ -220,6 +221,9 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
 		{
 			condition = *pos;
+			if(firstLoop)
+				*itsLogFile << "  vapaavalintainen direktiivi: "  
+						        <<  condition << endl;
 			conditionBody = condition.substr(3, condition.size()-3);
 			conditionBody2 = condition.substr(4, condition.size()-4);
             firstToLower = condition.substr(3, 1);
@@ -250,6 +254,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 			  *itsLogFile << "    "  << message << endl;
 			return false;
 		  }
+		  firstLoop = false;
 	  }
 
 	//jokaisen viikonpäivän direktiivit tarkastetaan

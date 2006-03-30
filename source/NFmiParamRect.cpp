@@ -112,6 +112,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsRoundingNumber(theRect.itsRoundingNumber)
   , fSupplementForMissing(theRect.fSupplementForMissing)
   , itsDataIdent(theRect.itsDataIdent)
+  , itsAlternating(theRect.itsAlternating)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -258,6 +259,7 @@ bool NFmiParamRect::ReadRemaining(void)
 {
   
   long long1, long2, long3;
+  float r1, r2, r3, r4; 
   NFmiValueString valueString;
   switch(itsIntObject)
 	{
@@ -716,6 +718,20 @@ bool NFmiParamRect::ReadRemaining(void)
 		
 		break;
 	  }
+		case dPlaceMoveAlternating:
+		  {
+			if (!ReadEqualChar())
+			  break;
+		
+			if(ReadFour(r1,r2,r3,r4))
+			  {
+				itsRelRect += NFmiPoint(r1/c40, r2/c40);
+				itsAlternating = NFmiPoint(r3, r4);
+			  }
+		
+			ReadNext();
+			break;
+		  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -940,6 +956,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("missingvalue") ||
 		  lowChar==NFmiString("puuttuvaarvo"))
   return dMissingValueString;
+  
+  else if(lowChar==NFmiString("relativeplacealternating") ||
+          lowChar==NFmiString("suhtpaikkavuorotellen"))
+	return dPlaceMoveAlternating;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
