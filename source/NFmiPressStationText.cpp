@@ -99,7 +99,7 @@ bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 		  NFmiStationPoint stationP;
 		  const NFmiLocation loc(*itsData->Location());
 		  stationP.SetIdent(loc.GetIdent());
-		  NFmiString tString = stationP.LocalWmoTime(12);
+		  NFmiString tString = stationP.LocalWmoTime(itsPressParam->GetFirstPlotTime().GetHour()); 
 		  str += (" ");
 		  str += ("(");
 		  str += tString;
