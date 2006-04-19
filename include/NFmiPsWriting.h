@@ -21,6 +21,7 @@
 #include "NFmiPressTypes.h"
 // newbase
 #include "NFmiString.h"
+#include <vector>
 
 
 // Undocumented
@@ -51,6 +52,7 @@ public:
   bool WritePSConcatRotating(float); 
   bool WritePSEnd(void);
   bool WriteEPSConcatClipping(NFmiRect theClippingRect);
+  bool WriteEPSConcatClipping(std::vector<NFmiPoint> points);
   bool WriteEPSConcat(void);
   bool WriteEPSEnd(void);
   void SetRotatingPoint(const NFmiPoint & thePoint);

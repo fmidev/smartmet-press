@@ -36,7 +36,8 @@ enum NFmiPressImageObjects
   dNewImage,
   dNewImageName = 1260,
   dNewImageRel,
-  dImageShear
+  dImageShear,
+  dImageClippingPath
 };
 
 
@@ -66,12 +67,14 @@ protected:
   NFmiFileString itsPath;
   NFmiRectScale itsImageScale;
   NFmiRect itsClippingRect;
+  std::vector<NFmiPoint> itsClippingPoints;
   //to be able to add recursively objects to the pressProducts object list: 
   NFmiPressProduct* itsPressProduct; //not owner;
   void SetTempImageFile (const NFmiString& theFile);
   void SetImageScale(const NFmiRectScale& theScale);
   void SetClippingRect(const NFmiRect& theRect);
-      
+  void SetClippingPoints(const std::vector<NFmiPoint> thePoints);
+    
 private:
 	//tempit tarvitaan nyt rekursion takia
   NFmiString  itsTempImageFile;
@@ -137,6 +140,18 @@ void  NFmiPressImage::SetClippingRect (const NFmiRect& theRect)
   itsClippingRect = theRect;
 }
 // ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void  NFmiPressImage::SetClippingPoints (const std::vector<NFmiPoint> thePoints)
+{
+  itsClippingPoints = thePoints;
+}// ----------------------------------------------------------------------
 /*!
  * Undocumented
  *

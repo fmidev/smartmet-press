@@ -277,6 +277,52 @@ bool NFmiPsWriting::WriteEPSConcatClipping(NFmiRect theClippingRect)
 /*!
  * Undocumented
  *
+ * \param theClippingRect Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPsWriting::WriteEPSConcatClipping(std::vector<NFmiPoint> thePoints)
+{
+  double xScale = itsWriteScale.GetXScaling();
+  double yScale = itsWriteScale.GetYScaling();
+  double xTrans = itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
+  double yTrans = itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
+
+  *itsOutFile << "%********* WriteEPSConcatClippingPath alkaa ******" << endl;
+  *itsOutFile << "gsave" << endl;  //5.7
+
+	std::vector<NFmiPoint>::iterator pos;
+
+	NFmiString command("moveto");
+	for(pos= thePoints.begin(); pos != thePoints.end(); ++pos)
+	{
+		*itsOutFile << (*pos).X()
+			  << " " << (*pos).Y()
+			  << " " <<	static_cast<char *>(command)
+			  << endl;
+		command = "lineto";
+	}
+
+  *itsOutFile << "clip" << endl;
+  *itsOutFile << "newpath" << endl;
+
+  *itsOutFile << "BeginEPSF" << endl;
+
+  if(itsRotatingAngle != 0.)
+	Rotate();
+
+  *itsOutFile << xScale << " " << yScale << " scale" << endl;
+  *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
+  *itsOutFile << "%%BeginDocument: XXX.EPS" << endl;
+  *itsOutFile << "%********* WriteEPSConcatClippingPath tehty ******" << endl;
+
+  return isTrue;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
  * \param theDirection Undocumented
  * \return Undocumented
  */

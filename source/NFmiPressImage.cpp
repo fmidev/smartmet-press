@@ -56,6 +56,7 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
   , itsPath(thePressImage.itsPath)
   , itsImageScale(thePressImage.itsImageScale)
   , itsClippingRect(thePressImage.itsClippingRect)
+  , itsClippingPoints(thePressImage.itsClippingPoints)
   , itsPressProduct(thePressImage.itsPressProduct)
   , itsTempImageFile(thePressImage.itsTempImageFile)
   , itsTempImagePath(thePressImage.itsTempImagePath)
@@ -78,6 +79,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
   NFmiString tempString;
   NFmiValueString valueString;
   double r1,r2,r3;
+  double x1, x2, x3, y1, y2, y3;
   double xmin,xmax,ymin,ymax;
   xmin = ymin = 0;
   xmax = ymax = 1;
@@ -176,21 +178,30 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 
 			if(Read2Double (r1, r2))
 			{
-// *************
 				NFmiRectScale tempScale(itsImageScale);
 				tempScale.MoveEndScales(NFmiPoint(r1,r2));
 				NFmiPressImage* image = new NFmiPressImage;//owner pressProduct
 				*image = *this;
 				image->SetTempImageFile(tempString);
 				image->SetImageScale(tempScale);
+
 				if (!itsClippingRect.IsEmpty())
 				{
 					NFmiRect tempRect(itsClippingRect);
-					tempRect+=NFmiPoint(r1,r2);
+					tempRect += NFmiPoint(r1,r2);
 					image->SetClippingRect(tempRect);
 				}
+				if (itsClippingPoints.size() > 0)
+				{
+					std::vector<NFmiPoint> tempVector(itsClippingPoints);
 
-				//itsClippingRect.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
+					std::vector<NFmiPoint>::iterator pos;
+					for(pos= tempVector.begin(); pos != tempVector.end(); ++pos)
+					{
+						*pos += NFmiPoint(r1,r2);
+					}
+					image->SetClippingPoints(tempVector);
+				}
 				if(image->ReadDescription(itsString))
 				{
 				  if(itsPressProduct)
@@ -340,6 +351,50 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dImageClippingPath:
+		  {
+			NFmiValueString valueString;
+			if (!ReadEqualChar())
+			  break;
+			if(ReadFour(x1, y1, x2, y2) && ReadTwo(x3, y3)) //minimi 3 pistettä
+			  {
+			    NFmiPoint point;
+				point.X(x1);
+				point.Y(y1);
+                itsClippingPoints.push_back(point);			  
+				point.X(x2);
+				point.Y(y2);
+                itsClippingPoints.push_back(point);			  
+				point.X(x3);
+				point.Y(y3);
+                itsClippingPoints.push_back(point);
+
+			    valueString = ReadString();
+				while (valueString.IsNumeric())
+				{
+					x1 = static_cast<float>(valueString);
+			        valueString = ReadString();
+					if(valueString.IsNumeric())
+					{
+						point.X(x1);
+						point.Y(static_cast<float>(valueString));
+						itsClippingPoints.push_back(point);
+			            valueString = ReadString();
+					}
+					else
+						*itsLogFile << "*** ERROR: x:lle puuttuu y-pari kuvan leikkauksessa"  << endl;
+				}
+				itsString = valueString;
+				itsIntObject = ConvertDefText(valueString);
+			  }
+
+			else
+			{
+				 *itsLogFile << "*** ERROR: liian vähän pisteitä kuvan leikkauksessa"  << endl;
+			     ReadNext();
+			}
+			break;
+		  }
 		case dRotate:
 		  {
 			SetThree(itsRotatingAngle, r2, r3);
@@ -486,7 +541,11 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("clippingrectangle") ||
 		  lowChar==NFmiString("rajaus"))
 	return dImageClippingRectangle;
- 
+   
+  else if(lowChar==NFmiString("clippingpath") ||
+		  lowChar==NFmiString("rajauspisteet"))
+	return dImageClippingPath;
+
   else if(lowChar==NFmiString("shear") ||
 		  lowChar==NFmiString("kallistus"))
 	return dImageShear;
@@ -532,10 +591,16 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
   else
 	{
 	  precedingElementMissing = false;
-	  if (itsClippingRect.IsEmpty())
-		WriteEPSConcat();
-	  else
+
+	  int size = itsClippingPoints.size();
+
+	  if (!itsClippingRect.IsEmpty())
 		WriteEPSConcatClipping(itsClippingRect);
+	  else if (itsClippingPoints.size() > 0)
+		WriteEPSConcatClipping(itsClippingPoints);
+	  else
+		WriteEPSConcat();
+
 	  
 	  CopyFileWithoutShowpage();
 	  
