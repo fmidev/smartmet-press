@@ -346,7 +346,10 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				if(xmin == xmax || ymin == ymax)
 				  *itsLogFile << "*** ERROR: OsaKuvan rajauksen min == max"  << endl;
 				else
+				{
 				  itsClippingRect.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
+				  itsClippingPoints.clear();
+				}
 			  }
 			ReadNext();
 			break;
@@ -358,6 +361,8 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			  break;
 			if(ReadFour(x1, y1, x2, y2) && ReadTwo(x3, y3)) //minimi 3 pistettä
 			  {
+			    itsClippingRect.Set(NFmiPoint(0.,0.), NFmiPoint(0.,0.));
+
 			    NFmiPoint point;
 				point.X(x1);
 				point.Y(y1);
