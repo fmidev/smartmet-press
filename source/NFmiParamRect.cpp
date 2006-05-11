@@ -977,7 +977,7 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 
 bool NFmiParamRect:: PointOnParam(NFmiFastQueryInfo * theQI, NFmiParam * theParam)
 {
-  // jos kysytään auringon korkeutta se lasketaan eikä haeta datasta
+  // jos kysytään auringon korkeutta se lasketaan ohjelmassa eikä haeta datasta
 
   itsCurrentPar = theParam->GetIdent();
   if(itsCurrentPar == kFmiSolarElevation || itsCurrentPar == kFmiChillFactor)
