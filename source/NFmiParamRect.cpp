@@ -1665,7 +1665,6 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 						  (static_cast<NFmiSuperSmartInfo *>(theQueryInfo))->UseAreaMask(true);
 						  
 						}
-					  
 					  theQueryInfo->CalcInterpolatedTimeData(modif, firstTime, lastTime,itsPressParam->GetCurrentStation().GetLocation());
 					  if(isExtremeModifier)
 						itsPressParam->SetOptionTime((static_cast<NFmiDataModifierExtreme *>(modif))->GetTime());
@@ -1742,11 +1741,23 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 			{
 			  if(actualModifier != kNoneModifier)
 				{
-				  theQueryInfo->CalcTimeData(modif, firstTime, lastTime);
 				  if(isExtremeModifier)
+				  {
+					theQueryInfo->CalcTimeDataWithExtremeTime((NFmiDataModifierExtreme*)modif, firstTime, lastTime);
 					itsPressParam->SetOptionTime((static_cast<NFmiDataModifierExtreme *>(modif))->GetTime());
+				  }
+				  else
+				  {
+					theQueryInfo->CalcTimeData(modif, firstTime, lastTime);
+				  }
 				  
 				  value = modif->CalculationResult();
+				  if(value == kFloatMissing)
+				  {
+				     NFmiTime missingTime = NFmiTime(); 
+					 missingTime.SetMissing();
+					 itsPressParam->SetOptionTime(missingTime);
+				  }
 				}
 			  else
 				value = theQueryInfo->FloatValue();

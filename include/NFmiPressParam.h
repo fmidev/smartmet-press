@@ -272,6 +272,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fCurrentStationBackup(false)
 {
   itsLanguage=kFinnish;
+  itsOptionTime.SetMissing();
 }
 
 // ----------------------------------------------------------------------
@@ -318,6 +319,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fCurrentStationBackup(false)
 {
   itsLanguage=kFinnish;
+  itsOptionTime.SetMissing();
 }
 
 // ----------------------------------------------------------------------

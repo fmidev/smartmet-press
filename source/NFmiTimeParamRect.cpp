@@ -315,44 +315,49 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	return isFalse;
 
   NFmiPressTime pTime = TimeToWrite(theQI);
+  if(pTime.IsMissing())
+		return false;
+
+  NFmiString timeString; // = pTime.ToStr(itsFormat,itsLanguage);
+
 
   //aina local time piirtoalkioissa (vrt segmentti ja tuote miss‰ ei)
-  int errCode;
+	int errCode;
 
-  NFmiStationPoint tempStationPoint(itsStationPoint);
+	NFmiStationPoint tempStationPoint(itsStationPoint);
 
-  if(fFinnishTimezone)
-		tempStationPoint.SetLongitude(25.);
+	if(fFinnishTimezone)
+			tempStationPoint.SetLongitude(25.);
 
-  tempStationPoint.LocalTime(pTime, errCode);
+	tempStationPoint.LocalTime(pTime, errCode);
 
-  if(!fFinnishTimezone && errCode > 0  && !itsPressParam->GetErrorReported(errCode))
-	{
-	  *itsLogFile << "  WARNING: possible problems to calculate local time, first: "
-				  << static_cast<char *>(static_cast<const NFmiString &>(itsStationPoint.GetName()))
-				  << endl;
+	if(!fFinnishTimezone && errCode > 0  && !itsPressParam->GetErrorReported(errCode))
+		{
+		*itsLogFile << "  WARNING: possible problems to calculate local time, first: "
+					<< static_cast<char *>(static_cast<const NFmiString &>(itsStationPoint.GetName()))
+					<< endl;
 
-	  if(errCode == 1)
-		*itsLogFile << "  ->ei Wmo-numeroa eik‰ longitudia" << endl;
-	  else if(errCode == 2)
-		*itsLogFile << "  ->Wmo-nro puuttuu Asema-m‰‰rittelylt‰(longitudi k‰ytetty)" << endl;
-	  else if(errCode == 3)
-		*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta eik‰ longitudia ole"  << endl;
-	  else if(errCode == 4)
-		*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta (longitudi k‰ytetty)" << endl;
-	  itsPressParam->SetErrorReported(errCode);
-	}
-  NFmiString timeString; // = pTime.ToStr(itsFormat,itsLanguage);
-  if(fIsValidTime)
-	{
-	  if(itsStringNameTimeFormat.IsValue())
-		timeString = pTime.InterpretToStr(itsStringNameTimeFormat,itsLanguage);
-	  else
-		timeString = pTime.ToStr(itsFormat,itsLanguage);
-	}
-  else
-	timeString = NFmiString(" -   "); // puuttuva auringon nousu/lasku
+		if(errCode == 1)
+			*itsLogFile << "  ->ei Wmo-numeroa eik‰ longitudia" << endl;
+		else if(errCode == 2)
+			*itsLogFile << "  ->Wmo-nro puuttuu Asema-m‰‰rittelylt‰(longitudi k‰ytetty)" << endl;
+		else if(errCode == 3)
+			*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta eik‰ longitudia ole"  << endl;
+		else if(errCode == 4)
+			*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta (longitudi k‰ytetty)" << endl;
+		itsPressParam->SetErrorReported(errCode);
+		}
+	if(fIsValidTime)
+		{
+		if(itsStringNameTimeFormat.IsValue())
+			timeString = pTime.InterpretToStr(itsStringNameTimeFormat,itsLanguage);
+		else
+			timeString = pTime.ToStr(itsFormat,itsLanguage);
+		}
+	else
+		timeString = NFmiString(" -   "); // puuttuva auringon nousu/lasku
 
+  
   NFmiString str;
 
   if(fParenthesis)
