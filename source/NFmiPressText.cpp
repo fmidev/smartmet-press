@@ -836,8 +836,9 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	  // joten ei käytetä jos on tavuviivaa (silloin taas ei skandit tule!, mitä tehdä)
 
 	  bool isHyphen = text.Search(NFmiString("-"));
+	  bool isLongMinus = text.Search(NFmiString("\\226"));
 
-	  if(fInParagraph || !isHyphen)
+	  if(fInParagraph || (!isHyphen && !isLongMinus))
 		{
 		  *itsOutFile << "/"
 					  << static_cast<char *>(GetFont())
