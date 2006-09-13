@@ -23,7 +23,7 @@
 //! Undocumented
 enum NFmiLetterParamRectObjects
 {
-  dLetterMapping = 180
+  dLetterMapping = 180,
 };
 
 //! Undocumented
@@ -47,6 +47,8 @@ public:
 					   FmiPressOutputMode theOutput);
 
   FmiGenericColor MapColor(void) const;
+
+protected:
 
 private:
 

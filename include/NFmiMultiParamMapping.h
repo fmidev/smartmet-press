@@ -26,6 +26,7 @@ struct FmiMappingInterval
   float highBorder;
 };
 
+const float FmiStartOfIncompleteValues = 31690.;	
 
 //! Undocumented
 const int FmiMaxNumOfMappingParams = 9; //pitääkö olla yksi enemmän kuin tarve	
@@ -59,13 +60,15 @@ public:
 
   void NumOfParams(short num);
   short NumOfParams(void); 
+  bool IsIncomplete(void) const;
+  bool Complete(float theOldValue, float theNewValue);
+  void SetComplete(void);
 
 private:
 
   FmiMultiMapping * itsMappingIntervals;
-
   short itsNumOfParams;
-
+  bool fIncomplete;
 
 }; // class NFmiMultiParamMapping
 
@@ -80,9 +83,36 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(void)
   : NFmiSize(0)
   , itsMappingIntervals(0)
   , itsNumOfParams(0)
+  , fIncomplete(false)
 {
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param num Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiMultiParamMapping::IsIncomplete(void) const
+{
+  return fIncomplete;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param num Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiMultiParamMapping::SetComplete(void)
+{
+  fIncomplete = false;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

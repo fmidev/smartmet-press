@@ -452,9 +452,9 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		 boldFont = true;
 
 	  bool secondIs226 = theText.GetLen() > 4
-		&& NFmiString(theText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitkä miinus
-
-
+		&& NFmiString(theText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitkä miinus tai numeroväli 
+	                                                                //tyyppiä 6-10, kuitenkin vaikeuksia joten
+	                                                                //poistettu alla -> käytä lyhyttä miinusta
 	  NFmiString  restString, emptyString, widthString, minusWidth;
 /*
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia

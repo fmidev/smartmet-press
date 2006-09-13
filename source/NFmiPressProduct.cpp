@@ -105,6 +105,24 @@ NFmiPressProduct::~NFmiPressProduct(void)
  */
 // ----------------------------------------------------------------------
 
+bool NFmiPressProduct::AddSubstituteMappingValue(float theOldValue
+											  ,float theNewValue)
+{
+	FmiSubstituteMappingValue mappingValue;
+	mappingValue.oldValue = theOldValue;
+  	mappingValue.newValue = theNewValue;
+	itsSubstituteMappingValues.push_back(mappingValue);
+    return true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param value Undocumented
+ * \param queueNum Undocumented
+ */
+// ----------------------------------------------------------------------
+
 bool NFmiPressProduct::SetSegmentTimeStatus(int theSegmentNum, bool theStatus)
 {
   if(static_cast<int>(itsSegmentDoneTimes.size()) < theSegmentNum)
@@ -1172,7 +1190,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = DEB 19.5.2006" << endl;       
+   *itsLogFile << "program version = REL 13.9.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

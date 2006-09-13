@@ -39,6 +39,7 @@
 #include "NFmiVoidPtrList.h"
 // system
 #include <queue>
+#include <vector>
 
 class NFmiLocationFinder;
 class NFmiNameDay;
@@ -102,6 +103,11 @@ struct FmiElementStatus
   bool number;
   bool text;
 };
+struct FmiSubstituteMappingValue
+{
+  float oldValue;
+  float newValue;
+};
 
 //! Undocumented
 class _FMI_DLL NFmiPressProduct : public NFmiPressTimeDescription
@@ -155,6 +161,8 @@ public:
   bool GetSegmentTimeStatus(int theSegmentNum) const;
   void SetSupplementMode(bool theMode);
   bool GetSupplementMode(void);
+  bool AddSubstituteMappingValue(float theOldValue
+				             ,float theNewValue);
 protected:
 
   void StepMap(void);
@@ -185,6 +193,7 @@ public:
   void SetLastSymbolStatus (bool theBool);
   void SetLastNumberStatus (bool theBool);
   void SetLastTextStatus (bool theBool);
+  std::vector<FmiSubstituteMappingValue> itsSubstituteMappingValues;
 
 private:
 
@@ -235,7 +244,6 @@ private:
   bool fNewestDataMode;
   bool fSupplementMode;
   FmiElementStatus itsLastElementStatus;
-
 }; // class NFmiPressProduct
 
 // ----------------------------------------------------------------------

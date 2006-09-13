@@ -80,7 +80,8 @@ enum NFmiParamRectObjects
   dRounding,
   dSupplementForMissing,
   dMissingValueString,
-  dPlaceMoveAlternating
+  dPlaceMoveAlternating,
+  dMappingSubstituteValue
 };
 
 //! Undocumented
@@ -249,6 +250,10 @@ protected:
   bool fSupplementForMissing;
   NFmiString * itsMissingString;
   NFmiPoint itsAlternating;
+  //kaikki nämä liittyy tekstien erityismerkintöihin "kylmää" jne
+  float itsIncompleteMappingValue;
+  bool fIsIncompleteMapping;
+
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -300,6 +305,7 @@ NFmiParamRect::NFmiParamRect(void)
   , fSupplementForMissing(false)
   , itsMissingString(0)
   , itsAlternating(NFmiPoint(0.,0.))
+  , fIsIncompleteMapping(false)
 {
   itsStationLoopActivity.startIndex=0;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
@@ -358,6 +364,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsMissingString(0)
   , itsDataIdent(theParam)
   , itsAlternating(NFmiPoint(0.,0.))
+  , fIsIncompleteMapping(false)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;

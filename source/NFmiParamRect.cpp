@@ -113,6 +113,8 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fSupplementForMissing(theRect.fSupplementForMissing)
   , itsDataIdent(theRect.itsDataIdent)
   , itsAlternating(theRect.itsAlternating)
+  , itsIncompleteMappingValue(theRect.itsIncompleteMappingValue)
+  , fIsIncompleteMapping(theRect.fIsIncompleteMapping)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -732,6 +734,17 @@ bool NFmiParamRect::ReadRemaining(void)
 			ReadNext();
 			break;
 		  }
+		case dMappingSubstituteValue:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			if(ReadOne(r1))
+			   itsIncompleteMappingValue = r1;
+			fIsIncompleteMapping = true;
+
+			ReadNext();
+			break;
+		  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -960,6 +973,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("relativeplacealternating") ||
           lowChar==NFmiString("suhtpaikkavuorotellen"))
 	return dPlaceMoveAlternating;
+
+  else if(lowChar==NFmiString("mappingvaluetosubstitute") ||
+	 lowChar==NFmiString("korvattavamuunnosarvo"))
+	return dMappingSubstituteValue;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
