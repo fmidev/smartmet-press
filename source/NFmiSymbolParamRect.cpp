@@ -666,7 +666,9 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  if (itsMultiMapping)
 		{
 		  bool missingFound;
-		  symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
+		  CompleteMultiMapping();
+
+	      symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
 		  if(missingFound)
 			{
 			  itsNumOfMissing++;

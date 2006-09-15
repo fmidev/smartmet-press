@@ -265,12 +265,6 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		}
 	  value = itsCurrentParamValue;
 	}
-  
-  if(fIsIncompleteMapping)
-  {
-	  itsPressParam->GetPressProduct()->AddSubstituteMappingValue(itsIncompleteMappingValue, value);
-	  return true;
-  }
 
   if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
    {
@@ -293,17 +287,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   if (itsMultiMapping)
 	{
 	  bool missingFound;
-	  if(itsMultiMapping->IsIncomplete())
-	  {
-		std::vector<FmiSubstituteMappingValue> *mapping;
-		mapping = &(itsPressParam->GetPressProduct()->itsSubstituteMappingValues);
-	    std::vector<FmiSubstituteMappingValue>::iterator pos;
-		for(pos=mapping->begin(); pos != mapping->end(); ++pos)
-		{
-	      itsMultiMapping->Complete(pos->oldValue, pos->newValue);
-		}
-		itsMultiMapping->SetComplete();
-	  }
+	  CompleteMultiMapping();
+
 	  mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
 	  if(missingFound)
 		{

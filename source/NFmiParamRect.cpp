@@ -113,8 +113,6 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fSupplementForMissing(theRect.fSupplementForMissing)
   , itsDataIdent(theRect.itsDataIdent)
   , itsAlternating(theRect.itsAlternating)
-  , itsIncompleteMappingValue(theRect.itsIncompleteMappingValue)
-  , fIsIncompleteMapping(theRect.fIsIncompleteMapping)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -734,17 +732,6 @@ bool NFmiParamRect::ReadRemaining(void)
 			ReadNext();
 			break;
 		  }
-		case dMappingSubstituteValue:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadOne(r1))
-			   itsIncompleteMappingValue = r1;
-			fIsIncompleteMapping = true;
-
-			ReadNext();
-			break;
-		  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -973,10 +960,6 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("relativeplacealternating") ||
           lowChar==NFmiString("suhtpaikkavuorotellen"))
 	return dPlaceMoveAlternating;
-
-  else if(lowChar==NFmiString("mappingvaluetosubstitute") ||
-	 lowChar==NFmiString("korvattavamuunnosarvo"))
-	return dMappingSubstituteValue;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -2194,6 +2177,28 @@ bool NFmiParamRect::SetRelativeHour(NFmiFastQueryInfo * data,
 long NFmiParamRect::RelativeHour(void) const
 {
   return itsFirstPlotHours - itsPressParam->GetFirstPlotHours();
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+bool NFmiParamRect::CompleteMultiMapping(void) 
+{
+	  if(itsMultiMapping->IsIncomplete())
+	  {
+		std::vector<FmiSubstituteMappingValue> *mapping;
+		mapping = &(itsPressParam->GetPressProduct()->itsSubstituteMappingValues);
+	    std::vector<FmiSubstituteMappingValue>::iterator pos;
+		for(pos=mapping->begin(); pos != mapping->end(); ++pos)
+		{
+	      itsMultiMapping->Complete(pos->oldValue, pos->newValue);
+		}
+		itsMultiMapping->SetComplete();
+	  }
+	  return true;
 }
 
 // ======================================================================

@@ -16,6 +16,7 @@
 #include "NFmiRotatingParamRect.h"
 #include "NFmiLetterParamRect.h"
 #include "NFmiTimeParamRect.h"
+#include "NFmiSubstituteParamRect.h"
 #include "NFmiPressText.h"
 #include "NFmiPsSymbol.h"
 #include "NFmiSunTimeParamRect.h"
@@ -41,7 +42,8 @@ enum NFmiSymbolGroupObjects
   dTime,
   dExtremeTime,
   dSunTime,
-  dScaling = 1120
+  dScaling = 1120,
+  dSubstitute
 };
 
 
@@ -431,7 +433,24 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-		case dRotating:
+	case dSubstitute:
+		  {
+			NFmiSubstituteParamRect tempSPar;
+			tempSPar.SetPressParam(itsPressParam);
+			tempSPar.SetEnvironment(itsEnvironment);
+			tempSPar.SetHome(GetHome());
+			tempSPar.SetLogFile(itsLogFile);
+			tempSPar.SetDescriptionFile(itsDescriptionFile);
+			tempSPar.SetTime(itsFirstPlotTime);
+			tempSPar.SetHourLoop(IsHourLoop());
+			//tempSPar.SetNewScaling(!sizeGiven);
+			if(tempSPar.ReadDescription(itsString))
+			  Add(tempSPar);
+			
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
+	case dRotating:
 		  {
 			NFmiRotatingParamRect tempRPar;
 			tempRPar.SetPressParam(itsPressParam);
@@ -556,6 +575,10 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#k‰‰ntyv‰symboli") ||
 		  lowChar==NFmiString("#k‰‰ntyv‰kuva"))
 	return dRotating;
+  
+  else if(lowChar==NFmiString("#substitute") ||
+	      lowChar==NFmiString("#korvaus"))
+	return dSubstitute;
 
   else if(lowChar==NFmiString("#scaledsymbol") ||
 		  lowChar==NFmiString("#skaalautuvasymboli"))

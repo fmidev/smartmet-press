@@ -81,7 +81,6 @@ enum NFmiParamRectObjects
   dSupplementForMissing,
   dMissingValueString,
   dPlaceMoveAlternating,
-  dMappingSubstituteValue
 };
 
 //! Undocumented
@@ -181,6 +180,7 @@ protected:
   bool IsEquiDistanceMode(void) const;
   bool ActiveStationIndex(int currentInd) const; //vain TimeParamRect toistaiseksi
   NFmiPressProduct* GetPressProduct (void)const;
+  bool CompleteMultiMapping(void); 
 
 private:
 
@@ -189,7 +189,7 @@ private:
   bool Randomize(float& theValue, float theInterval, float theMin, float theMax) const;
   bool RandomizeRelatively(float& theValue, float theInterval, float theMin, float theMax) const;
   bool RandomModify(float& theValue, unsigned long theParIdent) const;
- 
+
 protected:
   bool fModifierUsed;
   float itsInterval2NumberMin;
@@ -250,9 +250,6 @@ protected:
   bool fSupplementForMissing;
   NFmiString * itsMissingString;
   NFmiPoint itsAlternating;
-  //kaikki nämä liittyy tekstien erityismerkintöihin "kylmää" jne
-  float itsIncompleteMappingValue;
-  bool fIsIncompleteMapping;
 
 private:
 
@@ -305,7 +302,6 @@ NFmiParamRect::NFmiParamRect(void)
   , fSupplementForMissing(false)
   , itsMissingString(0)
   , itsAlternating(NFmiPoint(0.,0.))
-  , fIsIncompleteMapping(false)
 {
   itsStationLoopActivity.startIndex=0;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
@@ -364,7 +360,6 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsMissingString(0)
   , itsDataIdent(theParam)
   , itsAlternating(NFmiPoint(0.,0.))
-  , fIsIncompleteMapping(false)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
