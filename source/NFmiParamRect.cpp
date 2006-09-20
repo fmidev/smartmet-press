@@ -113,6 +113,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fSupplementForMissing(theRect.fSupplementForMissing)
   , itsDataIdent(theRect.itsDataIdent)
   , itsAlternating(theRect.itsAlternating)
+  , fTempNotMean(theRect.fTempNotMean)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -732,6 +733,12 @@ bool NFmiParamRect::ReadRemaining(void)
 			ReadNext();
 			break;
 		  }
+	case dTempNotMean:
+	  {
+		fTempNotMean = true;
+		ReadNext();
+		break;
+	  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -960,6 +967,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("relativeplacealternating") ||
           lowChar==NFmiString("suhtpaikkavuorotellen"))
 	return dPlaceMoveAlternating;
+
+  else if(lowChar==NFmiString("tempnotmean") ||
+          lowChar==NFmiString("lämpötilahetkellinen"))
+	return dTempNotMean;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1372,10 +1383,14 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  }
 	actualModifier = kNoneModifier;
   }
-
+  
   bool isWeightedMean = period > 0 &&
 	period != kUnsignedLongMissing ||
 	actualModifier == kWeightedMean;
+
+//  bool fTempNotMean = true;
+  if(par == kFmiTemperature && fTempNotMean)
+	 actualModifier = kNoneModifier;
 
   if(actualModifier != kNoneModifier )
 	{
@@ -2189,12 +2204,14 @@ bool NFmiParamRect::CompleteMultiMapping(void)
 {
 	  if(itsMultiMapping->IsIncomplete())
 	  {
-		std::vector<FmiSubstituteMappingValue> *mapping;
+		std::map<float, float> *mapping;
 		mapping = &(itsPressParam->GetPressProduct()->itsSubstituteMappingValues);
-	    std::vector<FmiSubstituteMappingValue>::iterator pos;
+	    std::map<float, float>::iterator pos;
 		for(pos=mapping->begin(); pos != mapping->end(); ++pos)
 		{
-	      itsMultiMapping->Complete(pos->oldValue, pos->newValue);
+		  float test1 = pos->first;
+		  float test2 = pos->second;
+	      itsMultiMapping->Complete(pos->first, pos->second);
 		}
 		itsMultiMapping->SetComplete();
 	  }

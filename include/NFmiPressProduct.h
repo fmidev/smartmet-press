@@ -40,6 +40,7 @@
 // system
 #include <queue>
 #include <vector>
+#include <map>
 
 class NFmiLocationFinder;
 class NFmiNameDay;
@@ -103,11 +104,13 @@ struct FmiElementStatus
   bool number;
   bool text;
 };
+/*
 struct FmiSubstituteMappingValue
 {
   float oldValue;
   float newValue;
 };
+*/
 
 //! Undocumented
 class _FMI_DLL NFmiPressProduct : public NFmiPressTimeDescription
@@ -193,7 +196,7 @@ public:
   void SetLastSymbolStatus (bool theBool);
   void SetLastNumberStatus (bool theBool);
   void SetLastTextStatus (bool theBool);
-  std::vector<FmiSubstituteMappingValue> itsSubstituteMappingValues;
+  std::map<float, float> itsSubstituteMappingValues;
 
 private:
 

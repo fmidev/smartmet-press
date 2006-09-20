@@ -63,6 +63,8 @@ public:
   bool IsIncomplete(void) const;
   bool Complete(float theOldValue, float theNewValue);
   void SetComplete(void);
+  bool CheckIfUncomplete(void);
+static NFmiString ModifyTextBySeason(NFmiString theOrigString); //NFmiParamMapping tarvitsee
 
 private:
 

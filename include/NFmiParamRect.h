@@ -81,6 +81,7 @@ enum NFmiParamRectObjects
   dSupplementForMissing,
   dMissingValueString,
   dPlaceMoveAlternating,
+  dTempNotMean
 };
 
 //! Undocumented
@@ -250,6 +251,7 @@ protected:
   bool fSupplementForMissing;
   NFmiString * itsMissingString;
   NFmiPoint itsAlternating;
+  bool fTempNotMean;
 
 private:
 
@@ -302,6 +304,7 @@ NFmiParamRect::NFmiParamRect(void)
   , fSupplementForMissing(false)
   , itsMissingString(0)
   , itsAlternating(NFmiPoint(0.,0.))
+  , fTempNotMean(false)
 {
   itsStationLoopActivity.startIndex=0;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
@@ -360,6 +363,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsMissingString(0)
   , itsDataIdent(theParam)
   , itsAlternating(NFmiPoint(0.,0.))
+  , fTempNotMean(false)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
