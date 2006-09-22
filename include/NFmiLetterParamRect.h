@@ -51,6 +51,7 @@ public:
 protected:
 
 private:
+	bool ModifyTextBySeason(NFmiString & theString);
 
 }; // class NFmiLetterParamRect
 

@@ -99,46 +99,11 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream * inFile)
 	}
   if(str == NFmiString("-"))   //loppuu: - symboli
 	hyphOnePair.NextSubString(str);
-  NFmiString newStr = ModifyTextBySeason(str);
-  mapping.symbol = newStr;
+  mapping.symbol = str;
   return mapping;
 }
 
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param inFile Undocumented
- * \return Undocumented
- * \todo The inFile parameter should be a reference, not a pointer
- */
-// ----------------------------------------------------------------------
 
-NFmiString NFmiMultiParamMapping::ModifyTextBySeason(NFmiString theOrigString)
-{
-	NFmiStaticTime time;
-	short mon = time.GetMonth();
-	NFmiString retString = theOrigString;
-	if(mon > 10 || mon <4)
-	{
-		if(theOrigString == "hyvin_lämmintä")
-			retString = "hyvin_lauhaa";
-		else if(theOrigString == "lämmintä_ja_selkeää")
-			retString = "lauhaa_ja_selkeää";
-		else if(theOrigString == "lämmintä_ja_poutaa")
-			retString = "lauhaa_ja_poutaa";
-	}
-	if(mon > 4 || mon <9)
-	{
-		if(theOrigString == "hyvin_kylmää")
-			retString = "hyvin_koleaa";
-		else if(theOrigString == "kylmää_ja_selkeää")
-			retString = "koleaa_ja_selkeää";
-		else if(theOrigString == "kylmää_poutasäätä")
-			retString = "koleaa_poutasäätä";
-	}
-	return retString;
-}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -264,7 +229,7 @@ bool NFmiMultiParamMapping::Complete(float theOldValue, float theNewValue)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiMultiParamMapping::CheckIfUncomplete(void)
+short NFmiMultiParamMapping::CheckIfIncomplete(void)
 {
   for(int j=0; j<static_cast<int>(itsSize); j++)
   {
@@ -272,14 +237,14 @@ bool NFmiMultiParamMapping::CheckIfUncomplete(void)
 		for(i=0; i<static_cast<int>(itsNumOfParams); i++)
 		{  
 		   if(itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues 
-				&&itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing 
-			|| itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues
+				&&itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing)
+				return static_cast<short>(itsMappingIntervals[j].mappingInterval[i].lowBorder);
+		   if(itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues
 				&&itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing) 
-			return true;
+				return static_cast<short>(itsMappingIntervals[j].mappingInterval[i].highBorder);
 	    }
 	}
-
-	return false;
+	return 0;
 }
 // ======================================================================
 

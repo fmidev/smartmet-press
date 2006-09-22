@@ -54,7 +54,8 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval & theInterva
 {
   //Note: ei tarkista alkioiden j‰rjestyst‰ tai onko samoja alkioita jo ennest‰‰n.
   //(lis‰‰ vain tyhm‰sti listan loppuun).
-	NFmiString newStr = NFmiMultiParamMapping::ModifyTextBySeason(theInterval.itsSymbol);
+
+	//NFmiString newStr = NFmiMultiParamMapping::ModifyTextBySeason(theInterval.itsSymbol);
 
   NFmiMappingInterval * tempIntervals;
   tempIntervals = new NFmiMappingInterval[GetSize() + 1];
@@ -70,7 +71,7 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval & theInterva
 		
   tempIntervals[j].itsBottomValue = theInterval.itsBottomValue;
   tempIntervals[j].itsTopValue = theInterval.itsTopValue;
-  tempIntervals[j].itsSymbol = newStr;  //theInterval.itsSymbol;
+  tempIntervals[j].itsSymbol = theInterval.itsSymbol;//newStr;
   tempIntervals[j].fIsScaled = theInterval.fIsScaled;
   
   if(itsMappingIntervals)

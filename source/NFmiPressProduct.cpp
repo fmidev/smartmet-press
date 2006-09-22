@@ -110,12 +110,14 @@ bool NFmiPressProduct::AddSubstituteMappingValue(float theOldValue
 {
 	map<float,float>::iterator pos;
 	pos = itsSubstituteMappingValues.find(theOldValue);
-	//jos asema on muuttunut tuhotaan vanhan aseman vastaava arvo ensin;
 	if (pos != itsSubstituteMappingValues.end())
 	{
-		itsSubstituteMappingValues.erase(pos);
+		itsSubstituteMappingValues[theOldValue] = theNewValue;  
+//		itsSubstituteMappingValues.erase(pos); 
 	}
-	itsSubstituteMappingValues.insert(std::make_pair(theOldValue,theNewValue));
+	else
+		itsSubstituteMappingValues.insert(std::make_pair(theOldValue,theNewValue));
+
     return true;
 }
 // ----------------------------------------------------------------------
@@ -1194,7 +1196,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = DEB 20.9.2006" << endl;       
+   *itsLogFile << "program version = REL 21.9.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

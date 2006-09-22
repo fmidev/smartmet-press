@@ -290,6 +290,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  CompleteMultiMapping();
 
 	  mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
+	  ModifyTextBySeason(*mapString);
 	  if(missingFound)
 		{
 		  itsNumOfMissing++;
@@ -351,7 +352,93 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  return isFalse;
 	}
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ */
+// ----------------------------------------------------------------------
 
+bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
+{
+	NFmiStaticTime time;
+	short mon = time.GetMonth();
+	string stdString(theString);
+	string::size_type startInd;
+	string replaceString;
+
+	startInd = stdString.find("lämmintä");
+    if(startInd != string::npos)
+	{
+		if(mon > 10 || mon <4)
+		{
+			stdString.replace(startInd, 8, "lauhaa");
+		}
+
+	}
+	startInd = stdString.find("varmt");
+    if(startInd != string::npos)
+	{
+		if(mon > 10 || mon <4)
+		{
+			stdString.replace(startInd, 4, "milt");
+		}
+	}
+
+	startInd = stdString.find("kylmää");
+    if(startInd != string::npos)
+	{
+		if(mon > 4 || mon <9)
+		{
+			stdString.replace(startInd, 6, "koleaa");
+		}
+	}
+	startInd = stdString.find("kallt");
+    if(startInd != string::npos)
+	{
+		if(mon > 4 || mon <9)
+		{
+			stdString.replace(startInd, 5, "kyligt");
+		}
+	}
+	startInd = stdString.find("höstväder");
+    if(startInd != string::npos)
+	{
+		if(mon == 12 || mon <3)
+			replaceString = "vinter";
+		else if(mon == 4)
+			replaceString = "vår";
+		else if(mon >=6 && mon <9)
+			replaceString = "sommar";
+		else if(mon == 11 || mon == 3 || mon==5)
+			replaceString = "uppehålls";
+
+		stdString.replace(startInd, 4, replaceString);
+	}
+
+	theString = stdString;
+	return true;
+	/*
+	if(mon > 10 || mon <4)
+	{
+		if(theOrigString == "hyvin_lämmintä")
+			retString = "hyvin_lauhaa";
+		else if(theOrigString == "lämmintä_ja_selkeää")
+			retString = "lauhaa_ja_selkeää";
+		else if(theOrigString == "lämmintä_ja_poutaa")
+			retString = "lauhaa_ja_poutaa";
+	}
+	if(mon > 4 || mon <9)
+	{
+		if(theOrigString == "hyvin_kylmää")
+			retString = "hyvin_koleaa";
+		else if(theOrigString == "kylmää_ja_selkeää")
+			retString = "koleaa_ja_selkeää";
+		else if(theOrigString == "kylmää_poutasäätä")
+			retString = "koleaa_poutasäätä";
+	}
+	*/
+}
 
 // ----------------------------------------------------------------------
 /*!

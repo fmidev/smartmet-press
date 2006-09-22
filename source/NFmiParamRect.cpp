@@ -1006,7 +1006,7 @@ bool NFmiParamRect:: PointOnParam(NFmiFastQueryInfo * theQI, NFmiParam * thePara
 		{
 		  
 		  long paramIdent = theParam->GetIdent();
-		  *itsLogFile << "  *** ERROR: Parametria ei löydy: "
+		  *itsLogFile << "*** ERROR: Parametria ei löydy: "
 					  << paramIdent
 					  << endl;
 		  fParamErrorReported = true;
@@ -1043,7 +1043,7 @@ bool NFmiParamRect::PointOnMultiParam(NFmiFastQueryInfo * theQI, short theNum)
 	  if(itsLogFile && !fParamErrorReported)
 		{
 		  long paramIdent = static_cast<unsigned long>(itsMultiParams[theNum]);
-		  *itsLogFile << "  *** ERROR: multiParametria ei löydy: "
+		  *itsLogFile << "*** ERROR: multiParametria ei löydy: "
 					  << paramIdent
 					  << endl;
 		  fParamErrorReported = true;
@@ -2215,6 +2215,10 @@ bool NFmiParamRect::CompleteMultiMapping(void)
 		}
 		itsMultiMapping->SetComplete();
 	  }
+	  short value = itsMultiMapping->CheckIfIncomplete();
+	  if(value != 0)
+		  *itsLogFile << "***ERROR: ainakin yksi tuntematon muunnosarvo: " << value << endl;
+
 	  return true;
 }
 
