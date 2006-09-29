@@ -42,7 +42,8 @@ NFmiPressText::~NFmiPressText(void)
 // ----------------------------------------------------------------------
 
 NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
-  : NFmiPressScaling()
+  //: NFmiPressScaling()
+  : NFmiPressScaling(thePressText)
   , itsLastLineStep(thePressText.itsLastLineStep)
   , itsLineStep(thePressText.itsLineStep)
   , itsLineStepFactor(thePressText.itsLineStepFactor)

@@ -79,11 +79,11 @@ public:
   virtual void AddText(const NFmiString& theText);
   virtual void SetPreText(const NFmiString& theText);
   virtual void SetPostText(const NFmiString& theText);
-
+/*
   void SetTextAttributes(NFmiString theFont,
 						 FmiDirection theAlignment,
 						 NFmiString theStyle);
-
+*/
   bool WriteString(const NFmiString & commentString,
 				   FmiPressOutputMode theOutput);
 

@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "NFmiParamMapping.h"
-#include "NFmiMultiParamMapping.h"
+//#include "NFmiMultiParamMapping.h"
 
 // ----------------------------------------------------------------------
 /*!

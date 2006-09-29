@@ -137,7 +137,8 @@ NFmiPressDescription::NFmiPressDescription(void)
 
 inline
 NFmiPressDescription::NFmiPressDescription(const NFmiPressDescription & theD)
-  : NFmiDescription(theD.GetLogFile(),theD.GetMaxLoopNum())
+    : NFmiDescription(theD.GetLogFile(),theD.GetMaxLoopNum())
+	, itsEnvironment(theD.itsEnvironment)
 {
 	fOnlyForMissingPrecedingElement= false;
 }

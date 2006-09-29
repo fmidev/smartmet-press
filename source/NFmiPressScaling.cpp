@@ -34,7 +34,7 @@ NFmiPressScaling::~NFmiPressScaling(void)
 // ----------------------------------------------------------------------
 
 NFmiPressScaling::NFmiPressScaling(const NFmiPressScaling & thePsSymbol)
-  : NFmiPressTimeDescription()
+  : NFmiPressTimeDescription(thePsSymbol)
   , NFmiPsWriting(thePsSymbol)
   , itsRectScale(thePsSymbol.itsRectScale)
   , itsRelArea(thePsSymbol.itsRelArea)

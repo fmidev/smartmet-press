@@ -19,11 +19,13 @@
 #define NFMILETTERPARAMRECT_H
 
 #include "NFmiTextParamRect.h"
+#include "NFmiPressText.h"
 
 //! Undocumented
 enum NFmiLetterParamRectObjects
 {
   dLetterMapping = 180,
+  dColumnText
 };
 
 //! Undocumented
@@ -52,6 +54,7 @@ protected:
 
 private:
 	bool ModifyTextBySeason(NFmiString & theString);
+	NFmiPressText *itsColumnText;
 
 }; // class NFmiLetterParamRect
 
@@ -67,6 +70,7 @@ NFmiLetterParamRect::NFmiLetterParamRect(void)
 {
   itsMapping=0;
   fUseSelectLatinFont=true;
+  itsColumnText=0;
 }
 
 #endif // NFMILETTERPARAMRECT_H

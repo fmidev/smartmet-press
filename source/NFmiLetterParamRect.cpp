@@ -24,6 +24,8 @@ using namespace std;
 
 NFmiLetterParamRect::~NFmiLetterParamRect(void)
 {
+	if(itsColumnText)
+		delete itsColumnText;
 }
 
 // ----------------------------------------------------------------------
@@ -36,7 +38,9 @@ NFmiLetterParamRect::~NFmiLetterParamRect(void)
 
 NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect & theLetterParamRect)
   : NFmiTextParamRect(theLetterParamRect)
-{
+  , itsColumnText(theLetterParamRect.itsColumnText ? new NFmiPressText(*theLetterParamRect.itsColumnText) : 0)
+{  
+	
 }
 
 // ----------------------------------------------------------------------
@@ -91,7 +95,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 		  if(itsLogFile)
 			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Tekstisssä" << endl;
 		  retString = itsString;
-		  return isFalse;
+		  return false;
 		}
 	  itsLoopNum++;
 	  switch(itsIntObject)
@@ -170,6 +174,31 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dColumnText:
+		  {
+		  	//text->SetWriteLast(fMakeElementsAfterSegments);
+            //text->SetEnvironment(itsEnvironment);
+            //text->SetHome(GetHome());
+		    //text->SetLogFile(itsLogFile);
+			//text->SetDescriptionFile(itsDescriptionFile);
+			//text->SetLanguage(itsLanguage);
+
+			itsColumnText = new NFmiPressText;
+            itsColumnText->SetEnvironment(itsEnvironment);
+			itsColumnText->SetHome(GetHome());
+			itsColumnText->SetLogFile(itsLogFile);
+			itsColumnText->SetDescriptionFile(itsDescriptionFile);
+		    itsColumnText->SetFont(GetFont());
+			//itsColumnText->SetSize(itsRelRect);
+			if(!itsColumnText->ReadDescription(itsString))
+			{
+			  delete itsColumnText;
+			  itsColumnText = 0;
+			}
+			
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
 		default:
 		  {
 			ReadRemaining();  
@@ -203,10 +232,13 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 
 int NFmiLetterParamRect::ConvertDefText(NFmiString & object)
 {
-  //NFmiString lowChar = object;
-  //lowChar.LowerCase();
-
-  return NFmiTextParamRect::ConvertDefText(object);	
+  NFmiString lowChar = object;
+  lowChar.LowerCase();
+  if    (lowChar == "#columntext"
+	  || lowChar == "#palstateksti")
+	  	return dColumnText;
+  else
+		return NFmiTextParamRect::ConvertDefText(object);	
 }
 
 // ----------------------------------------------------------------------
@@ -246,7 +278,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   float value = 0;
   
   if(!SetRelativeHour(theQI,NFmiString("#Teksti"))) 
-	return isFalse;
+	return false;
   
   if(itsMultiMapping) 
 	{
@@ -290,7 +322,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  CompleteMultiMapping();
 
 	  mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-	  ModifyTextBySeason(*mapString);
+	  if(mapString)
+		  ModifyTextBySeason(*mapString);
 	  if(missingFound)
 		{
 		  itsNumOfMissing++;
@@ -309,6 +342,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   else
   {
 	mapString = itsMapping->Map(value);
+    if(mapString)
+		ModifyTextBySeason(*mapString);
 	if(mapString == 0 && itsMissingString != 0)
 		mapString = itsMissingString;
   }
@@ -332,7 +367,22 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		hString = NFmiString("\\226");
 	  str += hString;
 
-	  return WriteCode(Construct(&str),
+	  if(itsColumnText)
+	  {
+		    itsColumnText->SetText(str);
+//		    itsColumnText->SetFont(GetFont());
+			//itsColumnText->SetRect(theAbsoluteRectOfSymbolGroup);
+//            itsColumnText->SetSize(itsRelativeRectOfSymbolGroup.Size());
+  //bool SetScale(const NFmiRectScale & theRectScale);
+			itsColumnText->SetFile(theDestinationFile);
+			// return itsColumnText->WritePS(theAbsoluteRectOfSymbolGroup.Place(),theOutput);
+			//return itsColumnText->WritePS(theOutput);
+			// OK return itsColumnText->WritePS(NFmiPoint(100,50), theOutput);
+		      return itsColumnText->WritePS(theAbsoluteRectOfSymbolGroup.Place(), theOutput);
+
+	  }
+	  else
+			return WriteCode(Construct(&str),
 					   theAbsoluteRectOfSymbolGroup, 
 					   theDestinationFile,
 					   NFmiString("TEKSTI datasta"),
@@ -345,16 +395,19 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 				  << " ei muunnosta (#Teksti datasta)"
 				  << endl;
       GetPressProduct()->SetLastTextStatus(false);
-	  return isFalse;
+	  return false;
 	}
   else
 	{
-	  return isFalse;
+	  return false;
 	}
 }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
+ * Vuodenajasta riippuen vaihdetaan joitakin sanoja, esim lämmintä -> lauhaa
+ * Suomenkieli pitää pysyä 22 merkissä, käytetään Vartissa, Kellokkaassa, Seiskassa.
+ * Ruotsinkieli voi olla vähän pidempi, HBL:n takasivu = kaksi lyhyttä riviä
  *
  */
 // ----------------------------------------------------------------------
@@ -365,23 +418,23 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 	short mon = time.GetMonth();
 	string stdString(theString);
 	string::size_type startInd;
-	string replaceString;
 
 	startInd = stdString.find("lämmintä");
     if(startInd != string::npos)
 	{
 		if(mon > 10 || mon <4)
+//		if(mon > 4)
 		{
 			stdString.replace(startInd, 8, "lauhaa");
 		}
-
 	}
+
 	startInd = stdString.find("varmt");
     if(startInd != string::npos)
 	{
 		if(mon > 10 || mon <4)
 		{
-			stdString.replace(startInd, 4, "milt");
+			stdString.replace(startInd, 5, "milt");
 		}
 	}
 
@@ -393,6 +446,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 			stdString.replace(startInd, 6, "koleaa");
 		}
 	}
+
 	startInd = stdString.find("kallt");
     if(startInd != string::npos)
 	{
@@ -401,43 +455,36 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 			stdString.replace(startInd, 5, "kyligt");
 		}
 	}
+
+	startInd = stdString.find("syyssäätä");
+    if(startInd != string::npos)
+	{
+		if(mon == 12 || mon <3)
+	//	if(mon >3)
+			stdString.replace(startInd, 4, "talvi");
+		else if(mon == 4)
+			stdString.replace(startInd, 4, "kevät");
+		else if(mon >=6 && mon <9)
+			stdString.replace(startInd, 4, "kesä");
+		else if(mon == 11 || mon == 3 || mon==5)
+			stdString.replace(startInd, 4, "pouta");
+	}
+
 	startInd = stdString.find("höstväder");
     if(startInd != string::npos)
 	{
 		if(mon == 12 || mon <3)
-			replaceString = "vinter";
+			stdString.replace(startInd, 4, "vinter");
 		else if(mon == 4)
-			replaceString = "vår";
+			stdString.replace(startInd, 4, "vår");
 		else if(mon >=6 && mon <9)
-			replaceString = "sommar";
+			stdString.replace(startInd,4, "sommar");
 		else if(mon == 11 || mon == 3 || mon==5)
-			replaceString = "uppehålls";
-
-		stdString.replace(startInd, 4, replaceString);
+			stdString.replace(startInd, 4, "uppehålls");
 	}
 
 	theString = stdString;
 	return true;
-	/*
-	if(mon > 10 || mon <4)
-	{
-		if(theOrigString == "hyvin_lämmintä")
-			retString = "hyvin_lauhaa";
-		else if(theOrigString == "lämmintä_ja_selkeää")
-			retString = "lauhaa_ja_selkeää";
-		else if(theOrigString == "lämmintä_ja_poutaa")
-			retString = "lauhaa_ja_poutaa";
-	}
-	if(mon > 4 || mon <9)
-	{
-		if(theOrigString == "hyvin_kylmää")
-			retString = "hyvin_koleaa";
-		else if(theOrigString == "kylmää_ja_selkeää")
-			retString = "koleaa_ja_selkeää";
-		else if(theOrigString == "kylmää_poutasäätä")
-			retString = "koleaa_poutasäätä";
-	}
-	*/
 }
 
 // ----------------------------------------------------------------------

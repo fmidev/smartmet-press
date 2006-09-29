@@ -125,6 +125,7 @@ NFmiPressScaling::NFmiPressScaling(void)
 {
 }
 
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
