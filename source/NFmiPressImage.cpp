@@ -12,6 +12,7 @@
 #include "NFmiPressImage.h"
 #include "NFmiPressProduct.h"
 #include "NFmiSettings.h"
+#include "NFmiCopyFile.h"
 #include <cstdlib>
 #include <iostream>
 
@@ -606,8 +607,13 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 	  else
 		WriteEPSConcat();
 
-	  
-	  CopyFileWithoutShowpage();
+      if(GetPressProduct()->GetPageSize() == kUniversal)
+	  {
+		  NFmiCopyFileCroppingWithoutShowpage(itsInFile, itsOutFile
+			            ,NFmiRect(NFmiPoint(0.,0.), NFmiPoint(0.,0.)));
+	  }
+	  else
+		CopyFileWithoutShowpage();
 	  
 	  WriteEPSEnd();
 	  

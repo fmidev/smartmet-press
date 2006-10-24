@@ -114,6 +114,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsDataIdent(theRect.itsDataIdent)
   , itsAlternating(theRect.itsAlternating)
   , fTempNotMean(theRect.fTempNotMean)
+  , itsRotatingAngle(theRect.itsRotatingAngle)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -739,6 +740,11 @@ bool NFmiParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dRotatingAngle:
+	  {
+	    SetOne(itsRotatingAngle);
+		break;
+	  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -971,6 +977,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("tempnotmean") ||
           lowChar==NFmiString("lämpötilahetkellinen"))
 	return dTempNotMean;
+
+  else if(lowChar==NFmiString("rotate") ||
+          lowChar==NFmiString("käännä"))
+	return dRotatingAngle;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);

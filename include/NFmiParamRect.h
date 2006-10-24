@@ -81,7 +81,8 @@ enum NFmiParamRectObjects
   dSupplementForMissing,
   dMissingValueString,
   dPlaceMoveAlternating,
-  dTempNotMean
+  dTempNotMean,
+  dRotatingAngle
 };
 
 //! Undocumented
@@ -252,6 +253,7 @@ protected:
   NFmiString * itsMissingString;
   NFmiPoint itsAlternating;
   bool fTempNotMean;
+  float itsRotatingAngle;
 
 private:
 
@@ -305,6 +307,7 @@ NFmiParamRect::NFmiParamRect(void)
   , itsMissingString(0)
   , itsAlternating(NFmiPoint(0.,0.))
   , fTempNotMean(false)
+  , itsRotatingAngle(kFloatMissing)
 {
   itsStationLoopActivity.startIndex=0;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
@@ -364,6 +367,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsDataIdent(theParam)
   , itsAlternating(NFmiPoint(0.,0.))
   , fTempNotMean(false)
+  , itsRotatingAngle(kFloatMissing)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;

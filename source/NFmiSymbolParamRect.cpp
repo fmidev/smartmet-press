@@ -460,7 +460,8 @@ int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
 // ----------------------------------------------------------------------
 
 bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
-											   ofstream & theDestinationFile)
+											   ofstream & theDestinationFile,
+											   float theRotating)
 {
   NFmiString fileName = *itsSubDir;
   fileName += itsSymbolSetName;
@@ -469,12 +470,12 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
   fileName += NFmiString(".ps");
   ifstream inFile(fileName, ios::in|ios::binary);
   if(inFile.good() && !inFile.eof())
-	{
-	  NFmiWritePSConcat(itsDefToProductScale, theDestinationFile);
+  {
+	  NFmiWritePSConcat(itsDefToProductScale, theDestinationFile, theRotating);
 	  NFmiCopyFile(inFile,theDestinationFile);
 	  NFmiWritePSEnd(theDestinationFile);
 	  return isTrue;
-	}
+  }
   else
 	return false;
 }
@@ -761,7 +762,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 						  << ":" << static_cast<char *>(*symbolFile)
 						  << endl;
 	  }
-	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile))
+	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile, itsRotatingAngle))
 		{
 		}
 	  else

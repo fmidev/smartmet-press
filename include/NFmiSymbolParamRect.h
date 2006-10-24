@@ -63,7 +63,8 @@ protected:
 
   virtual void DoPostReading(void);
   virtual bool CopyShortSymbol2Dest(NFmiString * symbolFile,
-									std::ofstream & theDestinationFile); 
+									std::ofstream & theDestinationFile
+									,float theRotating=kFloatMissing); 
   virtual bool ConvertOrig2Short(NFmiString * symbolFile);
   virtual bool ReadValues(NFmiFastQueryInfo * theQI, bool SetRelHour=true);
   virtual void ScaleByValue(void);

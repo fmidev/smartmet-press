@@ -46,9 +46,63 @@ bool NFmiCopyFile(ifstream & inFile, ofstream & outFile)
 	outFile.put('\x0A');
   }
 
-  return isTrue;
+  return true;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * 10.06/Lasse: yhdistetty PsWritingin NFmiCopyFileCropping ja
+ *              NFmiCopyFileWithoutShowpage; tämä kutsutaan nyt
+ *              PsWritingista
+ *
+ * \param inFile Undocumented
+ * \param outFile Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, NFmiRect theRect)
+{
+  // lisätty showpagen poisto koska itse tuotteessa on se varsinainen showpage
+  // kaksi showpagea saa jotkut ohjelmat tekemään animaation
+
+  // 5.11.99 TARVITAANKO ENÄÄ KUN STARTEISSA AKTIVOITU SHOWPAGE{}
+
+  // 1.6 Metview:n ps-driveri tuottaa 513 pitkiä rivejä	
+  const short lineSize = 2800;
+
+  char inBuf[lineSize];
+  unsigned short n, m, num;
+  NFmiString notShowpage("gsave annotatepage grestore");
+  NFmiString bbZero("%%BoundingBox: 0 0 0 0");
+  NFmiString str;
+  while (inFile->getline(inBuf, lineSize, '\n'))
+	{
+	  num = inFile->gcount();
+	  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+	  n = static_cast<short>(str.Search( NFmiString("showp")));
+	  if (n > 0 )
+		{
+		  m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
+		  if(m > 0)
+			outFile->write(notShowpage.CharPtr(), notShowpage.GetLen());
+		  else
+			outFile->write(inBuf, num-1);
+	      outFile->put('\x0A');
+		  continue;
+		}
+	  n = static_cast<short>(str.Search( NFmiString("%BoundingBox:")));
+	  if (n > 0 )
+		{
+            NFmiWriteBoundingBox(*outFile, theRect);
+			continue;
+		}
+ 	  outFile->write(inBuf, num-1);
+	  outFile->put('\x0A');		  
+	}
+	
+  return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -93,7 +147,7 @@ bool NFmiCopyFileWithoutShowpage(ifstream & inFile, ofstream & outFile)
 		}
 	  outFile.put('\x0A');		  
 	}
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -153,7 +207,7 @@ bool NFmiCopyFileColoring(ifstream & inFile,
 		}
 	  outFile.put('\x0A');		  //jotta difference käytettävissä
 	}
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -273,7 +327,7 @@ bool NFmiCopyFileCroppingAndColoring(ifstream & inFile,
 
   outFile.write(str.CharPtr(), newBounding.GetLen()); //vielä viimeinen
   outFile.put('\x0A');		  
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -355,7 +409,7 @@ bool NFmiCopyFileCropping(ifstream & inFile,
 		}
 	  outFile.put('\x0A');		  
 	}
-  return isTrue;
+  return true;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -380,6 +434,7 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
   
   unsigned short nSlash, num;
   bool PsFound = false;
+  bool BbFound = false;
   NFmiString line("%!PS-Adobe-3.0 EPSF-3.0\n");
   outFile.write(line.CharPtr(), line.GetLen());
   line = NFmiString("%%Title: ");
@@ -420,17 +475,29 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
 			  line += NFmiValueString(long(theRect.Bottom()));
 			  line += NFmiString("] /ImagingBBox null>> setpagedevice");
 			  outFile.write(line.CharPtr(), line.GetLen());
+		      outFile.put('\x0A');		  
+			  continue;
 			}
-		  else
-			outFile.write(inBuf, num-1);
 		}
-	  else
+	/*
+	  if(!BbFound)
 		{
-		  outFile.write(inBuf, num-1);
+		  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+		  nSlash = static_cast<short>(str.Search( NFmiString("%BoundingBox:")));
+		  if (nSlash > 0)
+			{
+			  BbFound = true;
+			  line = NFmiString("%%BoundingBox: 0 0 0 0");
+			  outFile.write(line.CharPtr(), line.GetLen());
+		      outFile.put('\x0A');		  
+			  continue;
+			}
 		}
-	  outFile.put('\x0A');		  
+		*/
+		outFile.write(inBuf, num-1);
+		outFile.put('\x0A');		  
 	}
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -443,7 +510,7 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream & outFile)
+bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream & outFile, float theRotating)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
@@ -452,7 +519,9 @@ bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream & outFile)
   outFile << "gsave" << endl;
   outFile << xScale << " " << yScale << " scale" << endl;
   outFile << xTrans << " " << yTrans  << " translate" << endl;
-  return isTrue;
+  if(theRotating != kFloatMissing)
+		outFile << theRotating << " rotate" << endl;  
+return true;
 }
 
 // ----------------------------------------------------------------------
@@ -478,7 +547,7 @@ bool NFmiWriteEPSConcat(NFmiRectScale theScale, ofstream & outFile)
   outFile << xScale << " " << yScale << " scale" << endl;
   outFile << xTrans << " " << yTrans  << " translate" << endl;
   outFile << "%%BeginDocument: XXX.EPS" << endl;
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -548,7 +617,7 @@ bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale,
 		  << endl;
   outFile << "%%BeginDocument: XXX.EPS"
 		  << endl;
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -579,7 +648,7 @@ bool NFmiWritePSConcatRotating(NFmiRectScale theScale,
 
   outFile << (270.f - theDirection) << " rotate" << endl;
 
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -592,7 +661,7 @@ bool NFmiWritePSConcatRotating(NFmiRectScale theScale,
 bool NFmiWritePSEnd(ofstream & outFile)
 {	  
   outFile << "grestore" << endl;
-  return isTrue;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -606,7 +675,7 @@ bool NFmiWriteEPSEnd(ofstream & outFile)
 {	  
   outFile << "%%EndDocument" << endl;
   outFile << "EndEPSF" << endl;
-  return isTrue;
+  return true;
 }
 
 // ======================================================================

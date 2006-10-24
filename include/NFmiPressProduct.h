@@ -197,6 +197,7 @@ public:
   void SetLastNumberStatus (bool theBool);
   void SetLastTextStatus (bool theBool);
   std::map<float, float> itsSubstituteMappingValues;
+  FmiPageSize GetPageSize(void) const;
 
 private:
 
@@ -249,6 +250,19 @@ private:
   FmiElementStatus itsLastElementStatus;
 }; // class NFmiPressProduct
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+FmiPageSize NFmiPressProduct:: GetPageSize(void) const
+{
+  return itsPageSize;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

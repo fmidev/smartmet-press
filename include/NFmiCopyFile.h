@@ -19,6 +19,8 @@
 bool NFmiCopyFile(std::ifstream & inFile, std::ofstream & outFile);
 
 bool NFmiCopyFileWithoutShowpage(std::ifstream & inFile, std::ofstream & outFile);
+bool NFmiCopyFileCroppingWithoutShowpage(std::ifstream * inFile, std::ofstream * outFile
+     										 ,NFmiRect theRect);
 
 bool NFmiCopyFileColoring(std::ifstream & inFile,
 						  std::ofstream & outFile,
@@ -41,7 +43,7 @@ bool NFmiGenerateAndCopyUniversalSize(std::ifstream & inFile,
 						  const NFmiString& theName,
 						  const NFmiString& theDate);
 
-bool NFmiWritePSConcat(NFmiRectScale theScale, std::ofstream & outFile);
+bool NFmiWritePSConcat(NFmiRectScale theScale, std::ofstream & outFile, float theRotating=kFloatMissing);
 bool NFmiWriteEPSConcat(NFmiRectScale theScale, std::ofstream & outFile);
 
 bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale,
