@@ -248,6 +248,19 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dImageFileWithTimeStamp:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			
+			itsTempImageFile = ReadString();
+			
+			itsTempImageFile += NFmiString(".eps");
+			NFmiString timeFormat("DDMM");
+			AddTimeStamp(itsTempImageFile, timeFormat);
+			ReadNext();
+			break;
+		  }
 		case dImageFile:
 		  {
 			if (!ReadEqualChar())
@@ -260,7 +273,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-		case dImageDir:
+	case dImageDir:
 		  {
 			if (!ReadEqualChar())
 			  break;
@@ -485,6 +498,11 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("tiedosto") ||
 	 lowChar==NFmiString("nimi") )
 	return dImageFile;
+
+  else if(lowChar==NFmiString("filewithtimestamp") ||
+	 lowChar==NFmiString("tiedostoaikaleimalla") ||
+	 lowChar==NFmiString("nimiaikaleimalla") )
+	return dImageFileWithTimeStamp;
 
   else if(lowChar==NFmiString("summerwinterfile") ||
 	 lowChar==NFmiString("kesätalvitiedosto") ||

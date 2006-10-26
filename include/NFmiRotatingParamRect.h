@@ -52,7 +52,8 @@ protected:
 private:
 
   bool CopyShortSymbol2Dest(NFmiString * symbolFile,
-							std::ofstream & theDestinationFile);
+							std::ofstream & theDestinationFile,
+							float theRotating);
 
   float AdjustToMap(float theDirection) const;
 

@@ -37,7 +37,8 @@ enum NFmiPressImageObjects
   dNewImageName = 1260,
   dNewImageRel,
   dImageShear,
-  dImageClippingPath
+  dImageClippingPath,
+  dImageFileWithTimeStamp
 };
 
 

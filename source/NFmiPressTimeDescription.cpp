@@ -439,6 +439,28 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
 		
 		break;
 	  }
+// image osannee k‰ytt‰‰ t‰‰lt‰ P‰iv‰n ja Tunnin vaikka muilla oma
+	case dRelDay:
+		{
+		if (!ReadEqualChar())
+			break;
+		if(ReadLong(long1))
+			itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance());
+
+		ReadNext();
+		break;
+		}
+	case dHour:
+		{
+		if (!ReadEqualChar())
+			break;
+		if(ReadLong(long1))
+			itsFirstPlotHours = static_cast<unsigned short>(long1);
+		
+		ReadNext();
+		break;
+		}
+
 	default:
 	  {
 		return NFmiPressDescription::ReadRemaining();  

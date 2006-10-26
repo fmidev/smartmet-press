@@ -160,7 +160,9 @@ void NFmiRotatingParamRect::DoPostReading(void)
 // ----------------------------------------------------------------------
 
 bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
-												 ofstream& theDestinationFile)
+											   ofstream & theDestinationFile,
+											   float theRotating) //turha t‰ss‰ mutta pit‰‰ 
+											                      //olla samoin kuin emossa
 {
   NFmiString fileName = *itsSubDir;
   fileName += itsSymbolSetName;
@@ -170,16 +172,15 @@ bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
   ifstream inFile(fileName, ios::in|ios::binary);
   if(inFile.good() && !inFile.eof())
     {
-	  bool tempBool;
 	  float direction = itsSecondParamValue;
 	  float adjustedDirection = AdjustToMap(direction);
 	  if(!Rotate())
 		adjustedDirection = 270.;
-	  tempBool = NFmiWritePSConcatRotating(itsDefToProductScale,
-										   adjustedDirection,
-										   theDestinationFile);
-	  tempBool = NFmiCopyFile(inFile,theDestinationFile);
-	  tempBool = NFmiWritePSEnd(theDestinationFile);
+	  NFmiWritePSConcatRotating(itsDefToProductScale,
+								adjustedDirection,
+								theDestinationFile);
+	  NFmiCopyFile(inFile,theDestinationFile);
+	  NFmiWritePSEnd(theDestinationFile);
 	  return isTrue;
 	}
   else
