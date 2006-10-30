@@ -441,7 +441,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 	startInd = stdString.find("kylmää");
     if(startInd != string::npos)
 	{
-		if(mon > 4 || mon <9)
+		if(mon > 4 && mon <9)
 		{
 			stdString.replace(startInd, 6, "koleaa");
 		}
@@ -450,7 +450,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 	startInd = stdString.find("kallt");
     if(startInd != string::npos)
 	{
-		if(mon > 4 || mon <9)
+		if(mon > 4 && mon <9)
 		{
 			stdString.replace(startInd, 5, "kyligt");
 		}

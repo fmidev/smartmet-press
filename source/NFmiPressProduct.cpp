@@ -1196,7 +1196,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = REL 26.10.2006" << endl;       
+   *itsLogFile << "program version = REL 30.10.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2402,6 +2402,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
             image->SetHome(GetHome());
 		    image->SetLogFile(itsLogFile);
 			image->SetDescriptionFile(itsDescriptionFile);
+			image->SetTime(itsFirstPlotTime);
 			if(image->ReadDescription(itsString))
 			  itsObjects.Add(image);
 			else

@@ -84,12 +84,9 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
   double xmin,xmax,ymin,ymax;
   xmin = ymin = 0;
   xmax = ymax = 1;
- /* 
-  NFmiPoint point1 = NFmiPoint(0.,0.);
-  NFmiPoint point2 = NFmiPoint(600.,750.);
-  itsImageScale.SetStartScales(NFmiRect(point1,point2));
-  itsImageScale.SetEndScales(NFmiRect(point1,point2));
-  */
+  bool timeStamp = false;
+  SetPreReadingTimes();
+
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
@@ -168,14 +165,18 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-	
+		case dNewImageRelWithTimeStamp:
+			timeStamp = true;
 		case dNewImageRel:
 		  {
 			if (!ReadEqualChar())
 			  break;
 
-			tempString = ReadString();			
-			tempString += NFmiString(".eps");
+			if(!timeStamp)
+			{
+				tempString = ReadString();			
+				tempString += NFmiString(".eps");
+			}
 
 			if(Read2Double (r1, r2))
 			{
@@ -183,6 +184,30 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				tempScale.MoveEndScales(NFmiPoint(r1,r2));
 				NFmiPressImage* image = new NFmiPressImage;//owner pressProduct
 				*image = *this;
+				if(timeStamp)
+				{
+				   timeStamp = false;
+				   int relHour;
+				   if(ReadOne(relHour))
+				   {
+					    itsFirstPlotTime.ChangeByHours(relHour);
+                        //itsTempImageFile.GetName();
+						//itsTempImageFile += NFmiString(".eps");
+						NFmiString name(itsTempImageFile); 
+						SetPostReadingTimes();
+						NFmiString timeFormat("YYYYMMDDHH00_");
+						AddValidTimeTimeStamp(name, timeFormat);
+						//SetName
+			       }
+				   else
+				   {
+					  *itsLogFile << "*** ERROR: UusiSuhtAikaleimalla-rivi" << endl;
+						delete image;
+						itsIntObject = ConvertDefText(itsString);
+						break;
+				   }
+
+				}
 				image->SetTempImageFile(tempString);
 				image->SetImageScale(tempScale);
 
@@ -256,8 +281,9 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			itsTempImageFile = ReadString();
 			
 			itsTempImageFile += NFmiString(".eps");
-			NFmiString timeFormat("DDMM");
-			AddTimeStamp(itsTempImageFile, timeFormat);
+	        SetPostReadingTimes();
+			NFmiString timeFormat("YYYYMMDDHH00_");
+			AddValidTimeTimeStamp(itsTempImageFile, timeFormat);
 			ReadNext();
 			break;
 		  }
@@ -476,8 +502,10 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 						   itsTempImageFile);
 #endif
 	}
-  retString = itsString;
-  return true;
+
+//	SetPostReadingTimes();
+	retString = itsString;
+	return true;
 }
 
 // ----------------------------------------------------------------------
@@ -518,6 +546,12 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("uusinimi"))
 	return dNewImageName;
 
+  else if(lowChar==NFmiString("newrelativelywithtimestamp") ||
+		  lowChar==NFmiString("uusisuhteellisenaaikaleimalla") ||
+	      lowChar==NFmiString("uusisuhtaikaleimalla")
+		  )
+	return dNewImageRelWithTimeStamp;
+  
   else if(lowChar==NFmiString("newrelatively") ||
 		  lowChar==NFmiString("uusisuhteellisena") ||
 	      lowChar==NFmiString("uusisuht")

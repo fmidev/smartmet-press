@@ -227,6 +227,31 @@ int NFmiPressScaling::ConvertDefText(NFmiString & object)
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }
 
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theFile Undocumented
+ * \param theFormat Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressScaling:: AddValidTimeTimeStamp(NFmiString & theFile,
+									 const NFmiString & theFormat) const
+{
+  if(theFormat.IsValue())
+	{
+	  NFmiPressTime pressTime(itsFirstPlotTime);
+	  NFmiString string1(pressTime.InterpretToStr(theFormat));
+	  NFmiString string2(theFile);
+	  
+	  theFile = string1+string2;
+	} 
+  return true;
+}
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

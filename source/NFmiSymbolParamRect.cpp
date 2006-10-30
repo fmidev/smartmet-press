@@ -347,7 +347,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   sizeFile += NFmiString("/");
   sizeFile += NFmiString("symbolikoko.txt");
   ifstream input(sizeFile, ios::in);
-
+/*
   if(input.good() && !input.eof())
     {
 	  if(Read4Double(r1,r2,r3,r4))
@@ -373,8 +373,9 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 	}
   else
 	{
+	*/
 	  fNewScaling = true;
-	}
+	//}
  
   itsDefToProductScale.SetStartScales(NFmiRect(sizePoint1,sizePoint2));
  
