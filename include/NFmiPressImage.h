@@ -80,6 +80,7 @@ protected:
 private:
 	//tempit tarvitaan nyt rekursion takia
   NFmiString  itsTempImageFile;
+  NFmiString  itsFileWithoutTimeStamp;
   NFmiString  itsTempImagePath;
   NFmiString  itsTempImageDir;
   float itsShear;

@@ -63,6 +63,7 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
   , itsTempImagePath(thePressImage.itsTempImagePath)
   , itsTempImageDir(thePressImage.itsTempImageDir)
   , itsShear(thePressImage.itsShear)
+  , itsFileWithoutTimeStamp(thePressImage.itsFileWithoutTimeStamp)
 {
 }
 
@@ -86,6 +87,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
   xmax = ymax = 1;
   bool timeStamp = false;
   SetPreReadingTimes();
+  NFmiString imageFileWithoutTimeStamp;
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
@@ -177,6 +179,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				tempString = ReadString();			
 				tempString += NFmiString(".eps");
 			}
+			else
+			{
+				tempString = itsFileWithoutTimeStamp;			
+				//tempString += NFmiString(".eps");
+			}
 
 			if(Read2Double (r1, r2))
 			{
@@ -190,14 +197,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				   int relHour;
 				   if(ReadOne(relHour))
 				   {
-					    itsFirstPlotTime.ChangeByHours(relHour);
-                        //itsTempImageFile.GetName();
-						//itsTempImageFile += NFmiString(".eps");
-						NFmiString name(itsTempImageFile); 
-						SetPostReadingTimes();
-						NFmiString timeFormat("YYYYMMDDHH00_");
-						AddValidTimeTimeStamp(name, timeFormat);
-						//SetName
+					    NFmiPressTime thisTime(itsFirstPlotTime);
+					    thisTime.ChangeByHours(relHour);
+						NFmiString timeFormat("YYYYMMDDHH00");
+						AddValidTimeTimeStamp(tempString, timeFormat, thisTime);
+						//SetPostReadingTimes();
 			       }
 				   else
 				   {
@@ -273,13 +277,13 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+	  /*
 		case dImageFileWithTimeStamp:
 		  {
 			if (!ReadEqualChar())
 			  break;
 			
-			itsTempImageFile = ReadString();
-			
+			itsTempImageFile = ReadString();			
 			itsTempImageFile += NFmiString(".eps");
 	        SetPostReadingTimes();
 			NFmiString timeFormat("YYYYMMDDHH00_");
@@ -287,14 +291,24 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-		case dImageFile:
+		  */
+		case dImageFileWithTimeStamp:
+			timeStamp = true;
+		case dImageFile: 			
 		  {
 			if (!ReadEqualChar())
 			  break;
 			
-			itsTempImageFile = ReadString();
-			
+			itsTempImageFile = ReadString();			
 			itsTempImageFile += NFmiString(".eps");
+			itsFileWithoutTimeStamp = itsTempImageFile;
+			if(timeStamp)
+			{
+				SetPostReadingTimes();
+				NFmiString timeFormat("YYYYMMDDHH00");
+				AddValidTimeTimeStamp(itsTempImageFile, timeFormat, itsFirstPlotTime);
+				timeStamp = false;
+			}
 			
 			ReadNext();
 			break;

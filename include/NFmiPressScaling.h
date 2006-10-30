@@ -28,6 +28,7 @@
 #include "NFmiPressTimeDescription.h"
 #include "NFmiPsWriting.h"
 #include "NFmiRectScale.h"
+#include "NFmiPressTime.h"
 // newbase
 #include "NFmiFileString.h"
 
@@ -93,7 +94,8 @@ protected:
   bool AddTimeStamp(NFmiString & theGivenFile,
 					const NFmiString & theTimeFormat=NFmiString("DDMM")) const;
   bool AddValidTimeTimeStamp(NFmiString & theFile,
-									 const NFmiString & theFormat) const;
+									 const NFmiString & theFormat,
+									 const NFmiPressTime & theValidTime) const;
 
 private:
   

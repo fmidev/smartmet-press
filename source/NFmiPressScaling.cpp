@@ -239,11 +239,12 @@ int NFmiPressScaling::ConvertDefText(NFmiString & object)
 // ----------------------------------------------------------------------
 
 bool NFmiPressScaling:: AddValidTimeTimeStamp(NFmiString & theFile,
-									 const NFmiString & theFormat) const
+									 const NFmiString & theFormat,
+									 const NFmiPressTime & theValidTime) const
 {
   if(theFormat.IsValue())
 	{
-	  NFmiPressTime pressTime(itsFirstPlotTime);
+	  NFmiPressTime pressTime(theValidTime);
 	  NFmiString string1(pressTime.InterpretToStr(theFormat));
 	  NFmiString string2(theFile);
 	  
