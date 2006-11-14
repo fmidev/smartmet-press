@@ -836,8 +836,11 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	  // Jostain syystä Mikan makrot ei läpäise miinusta,
 	  // joten ei käytetä jos on tavuviivaa (silloin taas ei skandit tule!, mitä tehdä)
 
-	  bool isHyphen =  static_cast<bool>(text.Search(NFmiString("-")));
-	  bool isLongMinus = text.Search(NFmiString("\\226"));
+
+	  bool isHyphen =    text.Search(NFmiString("-"))     != 0;
+	  bool isLongMinus = text.Search(NFmiString("\\226")) != 0;
+	  //bool isHyphen =    text.Search(NFmiString("-"));
+	  //bool isLongMinus = text.Search(NFmiString("\\226"));
 
 	  if(fInParagraph || (!isHyphen && !isLongMinus))
 		{

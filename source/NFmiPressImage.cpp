@@ -28,6 +28,7 @@ NFmiPressImage::NFmiPressImage(void)
   : NFmiPressScaling()
   ,itsPressProduct(0)
   ,itsShear(0.)
+  ,itsRelHoursFromFirst(0)
 {
   NFmiPoint point1 = NFmiPoint(0.,0.);
   NFmiPoint point2 = NFmiPoint(600.,750.);
@@ -64,6 +65,7 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
   , itsTempImageDir(thePressImage.itsTempImageDir)
   , itsShear(thePressImage.itsShear)
   , itsFileWithoutTimeStamp(thePressImage.itsFileWithoutTimeStamp)
+  , itsRelHoursFromFirst(thePressImage.itsRelHoursFromFirst)
 {
 }
 
@@ -196,16 +198,17 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				   timeStamp = false;
 				   int relHour;
 				   if(ReadOne(relHour))
-				   {
-					    NFmiPressTime thisTime(itsFirstPlotTime);
-					    thisTime.ChangeByHours(relHour);
+				   {    //HUOM imagea käsitellään eikä this
+					    NFmiMetTime firstTime = image->GetFirstPlotTime();
+						int hourSum = image->GetRelHoursFromFirst() + relHour;
+					    firstTime.ChangeByHours(hourSum);
 						NFmiString timeFormat("YYYYMMDDHH00");
-						AddValidTimeTimeStamp(tempString, timeFormat, thisTime);
-						//SetPostReadingTimes();
+						AddValidTimeTimeStamp(tempString, timeFormat, firstTime);
+						image->SetRelHoursFromFirst(hourSum);
 			       }
 				   else
 				   {
-					  *itsLogFile << "*** ERROR: UusiSuhtAikaleimalla-rivi" << endl;
+					    //*itsLogFile << "*** ERROR: UusiSuhtAikaleimalla-rivi" << endl; tulee muutenkin
 						delete image;
 						itsIntObject = ConvertDefText(itsString);
 						break;

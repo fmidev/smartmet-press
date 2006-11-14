@@ -63,7 +63,9 @@ public:
   virtual unsigned long ClassId(void);
   void SetPressProduct(NFmiPressProduct*  thePressProductOwner);
   NFmiPressProduct* GetPressProduct(void)const;
-		
+  void SetRelHoursFromFirst(int theRelHoursFromFirst);
+  int GetRelHoursFromFirst(void);
+	
 protected:               
 			 		
   NFmiFileString itsPath;
@@ -83,12 +85,39 @@ private:
   NFmiString  itsFileWithoutTimeStamp;
   NFmiString  itsTempImagePath;
   NFmiString  itsTempImageDir;
+  int itsRelHoursFromFirst;
   float itsShear;
 
 }; // class NFmiPressImage
 
 
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressImage::SetRelHoursFromFirst(int theRelHoursFromFirst)
+{
+  itsRelHoursFromFirst = theRelHoursFromFirst;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param thePath Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+int NFmiPressImage::GetRelHoursFromFirst(void)
+{
+  return itsRelHoursFromFirst;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
