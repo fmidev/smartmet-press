@@ -328,7 +328,11 @@ NFmiString NFmiStationPoint::LocalWmoTime(int utc) const
   else if(fmod(diffHour,1.0f) == 0.)
 	retString.SetValue(static_cast<int>(diffHour),NFmiString("%02d"));
   else
-	retString.SetValue(static_cast<float>(diffHour),NFmiString("%05.2f"));
+  {
+    int hour = static_cast<int>(diffHour);
+	float corrDiffHour = static_cast<float>(hour) + (diffHour-hour) * 0.6;
+	retString.SetValue(static_cast<float>(corrDiffHour),NFmiString("%05.2f"));
+  }
   
   return retString;
 }
