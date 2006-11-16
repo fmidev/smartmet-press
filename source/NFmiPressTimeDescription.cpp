@@ -215,7 +215,10 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 
 		set<string>::const_iterator pos;
 		string condition, conditionBody, conditionBody2, conditionBodyLow, firstToLower;
+		string conditionMode;
 		string notDir, elseDir, endDir, numStr;
+		string numStr1, numStr2, numStr3, numStr4;
+		bool hourCondition;
 		NFmiMetTime now;
 		int hour = now.GetHour();
 		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
@@ -224,28 +227,88 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 			if(firstLoop)
 				*itsLogFile << "  vapaavalintainen direktiivi: "  
 						        <<  condition << endl;
-			conditionBody = condition.substr(3, condition.size()-3);
-			conditionBody2 = condition.substr(4, condition.size()-4);
-            firstToLower = condition.substr(3, 1);
-			transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(), tolower); 
-			notDir = "#ifNot" + conditionBody; //ei kuitenkaan voi käyttää koska esittely ei onnistu
-			elseDir = "#" + firstToLower + conditionBody2 + "Else";
-			endDir = "#" + firstToLower + conditionBody2 + "Endif";
-			numStr = condition.substr(condition.size()-2, 2);
-			if(numStr.find_first_not_of("0123456789") != string::npos)
+			conditionMode = condition.substr(12, 4);
+			hourCondition = conditionMode == "Hour";
+			if(hourCondition)
 			{
-				numStr = condition.substr(condition.size()-1, 1);
+				conditionBody = condition.substr(3, condition.size()-3);
+				conditionBody2 = condition.substr(4, condition.size()-4);
+				firstToLower = condition.substr(3, 1);
+				transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(), tolower); 
+				notDir = "#ifNot" + conditionBody; //ei kuitenkaan voi käyttää koska esittely ei onnistu
+				elseDir = "#" + firstToLower + conditionBody2 + "Else";
+				endDir = "#" + firstToLower + conditionBody2 + "Endif";
+				numStr = condition.substr(condition.size()-2, 2);
 				if(numStr.find_first_not_of("0123456789") != string::npos)
 				{
-					*itsLogFile << "*** ERROR: kielletty direktiivi: "  
-						        <<  condition << endl;
-					continue;
+					numStr = condition.substr(condition.size()-1, 1); //miksi toisen kerran
+					if(numStr.find_first_not_of("0123456789") != string::npos)
+					{
+						*itsLogFile << "*** ERROR: kielletty tuntidirektiivi: "  
+									<<  condition << endl;
+						continue;
+					}
 				}
+				int dirHour = atoi(numStr.c_str());
+				if(!PreProcessConditionally(prePr, GetSeasonsStatus()->hour >= dirHour, condition, notDir, endDir, elseDir))  
+					return false;
 			}
-			int dirHour = atoi(numStr.c_str());
-			if(!PreProcessConditionally(prePr, GetSeasonsStatus()->hour >= dirHour, condition, notDir, endDir, elseDir))  
-				return false;
-		}
+			else //DataConversion; else ja end-komentoihin kuitenkin ajan toisto mukaan, muuten  
+				 //eri aikaehdot käyttävät toistensa else/endejä  
+			{
+				conditionBody = condition.substr(3, condition.size()-3);
+				conditionBody2 = condition.substr(4, condition.size()-4);
+			//	firstToLower = condition.substr(3, 1); //EI TOIMI YHTÄKKIÄ VAIKKA YLLÄ OK??
+			//	transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(), tolower); 
+				notDir = "#ifNot" + conditionBody; //ei kuitenkaan voi käyttää koska esittely ei onnistu
+				firstToLower = "c";
+				elseDir = "#" + firstToLower + conditionBody2 + "Else";
+				endDir = "#" + firstToLower + conditionBody2 + "Endif";
+				numStr1 = condition.substr(condition.size()-9, 2);
+				numStr2 = condition.substr(condition.size()-7, 2);
+				numStr3 = condition.substr(condition.size()-4, 2);
+				numStr4 = condition.substr(condition.size()-2, 2);
+				if(   numStr1.find_first_not_of("0123456789") != string::npos
+					||numStr2.find_first_not_of("0123456789") != string::npos
+					||numStr3.find_first_not_of("0123456789") != string::npos
+					||numStr4.find_first_not_of("0123456789") != string::npos)
+				{
+						*itsLogFile << "*** ERROR: kielletty päivädirektiivi: "  
+									<<  condition << endl;
+						continue;
+				}
+
+				int day1 = atoi(numStr1.c_str());
+				int month1 = atoi(numStr2.c_str());
+				int day2 = atoi(numStr3.c_str());
+				int month2 = atoi(numStr4.c_str());
+				if(day1 < 1 || day1 >31 || day2 < 1 || day2 >31
+				   ||month1 < 1 || month1 >12 || month2 < 1 || month2 >12)
+				{
+						*itsLogFile << "*** ERROR: virheellinen aika: "  
+									<<  condition << endl;
+						continue;
+				}
+				NFmiMetTime dirTime1, dirTime2;
+				dirTime1.SetDay(day1);
+				dirTime1.SetMonth(month1);
+				dirTime2.SetDay(day2);
+				dirTime2.SetMonth(month2);
+
+				NFmiMetTime today;
+				int julToday = today.GetJulianDay();
+				int jul1 = dirTime1.GetJulianDay();
+				int jul2 = dirTime2.GetJulianDay();
+				bool julCond;
+				if(jul2 > jul1)
+					julCond = julToday >= jul1 && julToday <= jul2;
+				else
+					julCond = julToday >= jul1 || julToday <= jul2;
+
+				if(!PreProcessConditionally(prePr, julCond, condition, notDir, endDir, elseDir))  
+					return false;
+			}
+	}
 		if(!prePr.IncludeFiles("#Include", includePath, "inc"))
 		  {
 			*itsLogFile << "*** ERROR: Preprocessing failed to include file:" << endl;

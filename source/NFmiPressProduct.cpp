@@ -768,7 +768,9 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->editdata = true;
   itsSeasonsStatus->editdataOwn = false;
   itsSeasonsStatus->hour = today.GetHour();
-  //itsSeasonsStatus->afternoon = false;
+  itsSeasonsStatus->day = today.GetDay();
+  itsSeasonsStatus->month = today.GetMonth();
+ //itsSeasonsStatus->afternoon = false;
   //if (today.GetHour() >= 12)
 	//  itsSeasonsStatus->afternoon = true;
 
@@ -886,13 +888,31 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  *itsLogFile << "  Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
 				}
 			}
-		  else if(fmiShortStr1 == "time" || fmiShortStr1 == "tunt")
+		  else if(fmiShortStr1 == "hour" || fmiShortStr1 == "tunt")
 			{
 			  if(!undef)
 				{
 				  int hour = atoi(fmiShortStr2);
 				  itsSeasonsStatus->hour = hour;
 				  *itsLogFile << "  Tunti pakotettu: "<< hour << endl;
+				}
+			}
+		  else if(fmiShortStr1 == "date" || fmiShortStr1 == "päiv") //day vain 3 merkkiä!!
+			{
+			  if(!undef)
+				{
+				  int day = atoi(fmiShortStr2);
+				  itsSeasonsStatus->day = day;
+				  *itsLogFile << "  Päivä pakotettu: "<< day << endl;
+				}
+			}
+		  else if(fmiShortStr1 == "mont" || fmiShortStr1 == "kuuk")
+			{
+			  if(!undef)
+				{
+				  int month = atoi(fmiShortStr2);
+				  itsSeasonsStatus->month = month;
+				  *itsLogFile << "  Kuukausi pakotettu: "<< month << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "edit")
@@ -1196,7 +1216,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = REL 15.11.2006" << endl;       
+   *itsLogFile << "program version = REL 16.11.2006" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
