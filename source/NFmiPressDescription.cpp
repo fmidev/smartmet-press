@@ -59,6 +59,7 @@ bool NFmiPressDescription::ReadRemaining(void)
   //tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
   FmiRGBColor rgb;
   double r1,r2,r3,r4;
+  unsigned int i1;
   unsigned long helpLong;
   FmiEnumSpace helpEnumSpace = kPressRegions;
   switch(itsIntObject)
@@ -195,6 +196,14 @@ bool NFmiPressDescription::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	 case dVersion:
+	  {
+			SetOne(i1);
+			itsEnvironment.SetVersion(i1);
+	        *itsLogFile << "määrittelyversio: " << i1 << endl;
+ 
+			break;
+	  }
 	}
   }
   return true;
@@ -306,12 +315,14 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 	return dDescTextSize;
   else if(lowChar==NFmiString("textalignment") ||
 		  lowChar==NFmiString("tekstikohdistus"))
-	return dDescTextAlignment;
-  
+	return dDescTextAlignment;  
   else if(lowChar==NFmiString("onlyformissingprecedingelimage") ||
 		  lowChar==NFmiString("vainedellisenkuvanpuuttuessa"))
 	return dMissingPrecedingImage;
- else
+   else if(lowChar==NFmiString("version") ||
+		  lowChar==NFmiString("versio"))
+	return dVersion;
+else
 	return NFmiDescription :: ConvertDefText(object);
 }
 

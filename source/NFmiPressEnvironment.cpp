@@ -33,6 +33,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOther
   , itsGenericColor(theOtherEnvironment.itsGenericColor)
   , itsAdditionalDayAdvance(theOtherEnvironment.itsAdditionalDayAdvance)
   , itsTextAttributes(theOtherEnvironment.itsTextAttributes)
+  , itsVersion(theOtherEnvironment.itsVersion)
 {
 }
 

@@ -51,7 +51,8 @@ enum NFmiPressDescriptionObjects
   dDescTextSize,
   dDescTextAlignment,
   dWidthFactor,
-  dMissingPrecedingImage
+  dMissingPrecedingImage,
+  dVersion = 2050
 };
 
 //! Undocumented

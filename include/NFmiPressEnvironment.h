@@ -59,6 +59,7 @@ public:
   bool GetLongNumberMinus(void) const;
   void SetDayAdvance(long theDayAdvance);
   long GetDayAdvance(void);
+  int GetVersion(void)const;
 
   	NFmiString GetFont(void)const;
 	void SetFont(const NFmiString& font);
@@ -72,6 +73,7 @@ public:
   void SetRGB(FmiRGBColor theColor);
   void SetCMYK(FmiCMYK theColor);
   void SetColor(const FmiGenericColor & theColor);
+  void SetVersion(int theVersion);
 
 private:
 
@@ -81,6 +83,7 @@ private:
   FmiGenericColor itsGenericColor; 
   long itsAdditionalDayAdvance;
   FmiPressTextAttributes itsTextAttributes;
+  int itsVersion;
 
 }; // class NFmiPressEnvironment
 
@@ -109,8 +112,34 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
 	itsTextAttributes.alignment = kCenter;
     //itsTextAttributes.color;                    //käyttöön myöhemmin
     itsTextAttributes.fLongNumberMinus = false;  //käyttöön myöhemmin
+	itsVersion = 1;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * 
+ */
+// ----------------------------------------------------------------------
+
+inline
+int NFmiPressEnvironment::GetVersion(void)const
+{
+  return itsVersion;
+}
+// ----------------------------------------------------------------------
+/*!
+ * versio vaikuttaa:
+ * 20+:
+ * mitta/sijoitsualue + kartta: koordinaatit skaalataan niillä ennen lat/long
+ *   vanhemmissa skaalataan jälkeen lat/long
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetVersion(int theVersion)
+{
+  itsVersion = theVersion;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

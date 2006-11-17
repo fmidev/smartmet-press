@@ -1451,13 +1451,17 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					double top = (itsArea.GetArea())->Top();
 					double y0 = point0.Y();
 					point1.Set(point0.X(), bottom -(y0-top));
-
-					point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
+					
+					int version = itsEnvironment.GetVersion();
+					if(version >= 20)
+						point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
 				    NFmiPoint lonlat(itsArea.GetArea()->ToLatLon(point1));
 					lon = lonlat.X();
 					lat = lonlat.Y();
+					if(version < 20)
+						point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
 					point2 = itsScale.Scale(point1);
-
+			
 					if(!name.IsValue())
 					{
 						name = NFmiString("As");
