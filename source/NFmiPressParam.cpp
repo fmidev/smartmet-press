@@ -833,7 +833,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  }
 		case dDataNotNeeded:
 		  {
-			fDataNotNeeded = true;
+			fStationNotNeeded = true;
 
 			ReadNext();
 			break;
@@ -2201,8 +2201,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  NFmiMetTime actTime(time);
 		  if(fYearData)
 			 actTime.SetYear(itsDataIter->Time().GetYear());
- 		  if((itsDataIter->Time(actTime) || fDataNotNeeded) && !done)
- 		  //if((itsDataIter->Time(time) || fDataNotNeeded) && !done)
+ 		  if((itsDataIter->Time(actTime) || fStationNotNeeded) && !done)
+ 		  //if((itsDataIter->Time(time) || fStationNotNeeded) && !done)
  		 {
 		  if(itsCurrentStep == 1 || fIsTimeLoop)
 		  {
@@ -2283,7 +2283,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 				 lonLat = statPoint.GetLocation();
 
 				 itsCurrentStation = NFmiStation(*statPoint.Station());
-				 if (FindQDStationName(statPoint) || fDataNotNeeded)
+				 if (FindQDStationName(statPoint) || fStationNotNeeded)
 				   {
 
 					 if(itsCurrentStep == 1 && !fCurrentStationBackup)

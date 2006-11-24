@@ -140,8 +140,11 @@ public:
   bool GetErrorReported(unsigned short ind);
   NFmiString MakeLogComment(void) const; 
   void SetNewGeoArea(const NFmiPressArea & theArea);
-  NFmiTime GetOptionTime(void);
+  NFmiTime GetOptionTime(void)const;
   void SetOptionTime(NFmiTime theTime);
+  NFmiLocation* GetOptionLocation(void);
+  void SetOptionLocation(NFmiLocation theLocation);
+  void DeleteOptionLocation(void);
   bool IsAreaOperation(void);
   NFmiArea * GetGeoArea(void);
   bool ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnumSpace);
@@ -159,6 +162,7 @@ public:
   bool SetSegmentCurrentTimeStatus(bool theStatus);
   void SetYearData(bool theStatus);
   bool IsBackupStation(void) const;
+  bool SetStationNotNeeded (void); 
 protected:
 
   void UnsetAllErrorReported(void);
@@ -179,7 +183,7 @@ protected:
   bool CreateStationFromAreaMask(void);
 
   bool fActivity;
-  bool fDataNotNeeded;
+  bool fStationNotNeeded;
   bool fErrorReported[4];  
   bool fIsFirstStation; 
   bool fStationsAreLocalTime;  
@@ -214,7 +218,8 @@ protected:
   NFmiString itsLogComment;  
   NFmiPressArea itsArea;
   bool fIsAreaOperation;
-  NFmiTime itsOptionTime;
+  NFmiTime itsOptionTime;         //max/min-olio tuo tänne NFmiExtremeTimeParamRectille
+  NFmiLocation* itsOptionLocation; //max/min-olio tuo tänne NFmiExtremePlaceParamRectille
   NFmiPoint itsCheckDistance;
   vector<FmiValuePoint> itsCheckLocations;
   bool fInterruptSymbolGroup;  
@@ -242,6 +247,8 @@ NFmiPressParam::~NFmiPressParam (void)
 	delete itsDataIter;  
   if(itsAreaMask)
 	delete itsAreaMask;  
+  if(itsOptionLocation)
+	delete itsOptionLocation;  
 }
 
 // ----------------------------------------------------------------------
@@ -254,7 +261,7 @@ inline
 NFmiPressParam::NFmiPressParam(void)  
   : NFmiPressTimeDescription()
   , fActivity(true)
-  , fDataNotNeeded(false)
+  , fStationNotNeeded(false)
   , fStationsAreLocalTime(0)
   , fGridMode(false)
   , itsPressProduct(0)
@@ -264,6 +271,7 @@ NFmiPressParam::NFmiPressParam(void)
   , itsNumberOfSteps(1)
   , fIsPureRegTimeLoop(true)
   , fIsAreaOperation(false)
+  , itsOptionLocation(0)
   , itsCheckDistance (NFmiPoint())
   , fInterruptSymbolGroup(false)
   , fSupplementary(false)
@@ -299,7 +307,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
 							   NFmiPressProduct * pressProduct)  
   : NFmiPressTimeDescription(firstDeltaDays,firstPlotHours,firstPlotMinutes) 
   , fActivity(true)
-  , fDataNotNeeded(false)
+  , fStationNotNeeded(false)
   , fStationsAreLocalTime(0)
   , fGridMode(false)
   , itsPressProduct(pressProduct) 
@@ -311,6 +319,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fIsPureRegTimeLoop(true)
   , itsScale(scale)
   , fIsAreaOperation(false)
+  , itsOptionLocation(0)
   , itsCheckDistance (NFmiPoint())
   , fInterruptSymbolGroup(false)
   , fSupplementary(false)
@@ -322,6 +331,20 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   itsOptionTime.SetMissing();
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParam::SetStationNotNeeded (void) 
+{
+	fStationNotNeeded = true;
+	return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -634,7 +657,7 @@ bool NFmiPressParam::GetErrorReported(unsigned short ind)
 // ----------------------------------------------------------------------
 
 inline
-NFmiTime NFmiPressParam::GetOptionTime(void)
+NFmiTime NFmiPressParam::GetOptionTime(void) const
 {
   return itsOptionTime;
 }
@@ -652,7 +675,49 @@ void NFmiPressParam::SetOptionTime(NFmiTime theTime)
 {
   itsOptionTime = theTime;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+inline
+NFmiLocation* NFmiPressParam::GetOptionLocation(void) 
+{
+  return itsOptionLocation;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theLocation Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::SetOptionLocation(NFmiLocation theLocation)
+{
+  itsOptionLocation = new NFmiLocation(theLocation);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theLocation Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::DeleteOptionLocation(void)
+{
+  if(itsOptionLocation)
+	delete itsOptionLocation;
+  itsOptionLocation = 0;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

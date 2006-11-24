@@ -671,6 +671,10 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  CompleteMultiMapping();
 
 	      symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
+		  if(symbolFile->IsEqual(NFmiString("ristiriita")))
+		  {
+			  *itsLogFile << "ERROR: ristiriita symbolia määrättäessä" << endl;
+		  }
 		  if(missingFound)
 			{
 			  itsNumOfMissing++;

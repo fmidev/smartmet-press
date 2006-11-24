@@ -30,6 +30,8 @@
 #include "NFmiRelativeTimeIntegrationIterator.h"
 #include "NFmiWeatherAndCloudiness.h"
 #include "NFmiEnumConverter.h"
+#include "NFmiDataModifierMinPlace.h"
+#include "NFmiDataModifierMaxPlace.h"
 
 #include <iostream>
 using namespace std;
@@ -1374,6 +1376,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
   NFmiMetTime lastTime = firstTime;
   NFmiDataModifier * modif=0;
   NFmiDataModifier * areaModif=0;
+  NFmiDataModifierExtremePlace * placeModif=0; //pistedataan
   bool isExtremeModifier = false;
   unsigned long period = itsIntegrationPeriod.period;
   float startWeight;
@@ -1467,10 +1470,12 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	{
 	case kMinimum:
 	  areaModif = new NFmiDataModifierMin;
+	  placeModif = new NFmiDataModifierMinPlace;
 	  isExtremeModifier = true;
 	  break;
 	case kMaximum:
 	  areaModif = new NFmiDataModifierMax;
+	  placeModif = new NFmiDataModifierMaxPlace;
 	  isExtremeModifier = true;
 	  break;
 	case kSum:
@@ -1496,6 +1501,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 
   if(areaModif)
 	areaModif->SetMissingAllowed(fAllowMissing);
+  if(placeModif)
+	placeModif->SetMissingAllowed(true);
 
   if(areaModif && itsValueIntervalMin != kFloatMissing)
 	areaModif->SetLimits(itsValueIntervalMin, itsValueIntervalMax);
@@ -1784,6 +1791,14 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 					 itsPressParam->SetOptionTime(missingTime);
 				  }
 				}
+			  else if(isExtremeModifier != kNoneModifier) //pistedatasta ääriarvo
+				{
+				    theQueryInfo->CalcLocationDataWithExtremePlace((NFmiDataModifierExtremePlace*)placeModif);
+					value = placeModif->CalculationResult();
+					if(!((itsCurrentPar == kFmiPrecipitationAmount && value <= 0.) || 
+					value == kFloatMissing))
+						itsPressParam->SetOptionLocation(placeModif->GetLocation());			
+			}
 			  else
 				value = theQueryInfo->FloatValue();
 			}

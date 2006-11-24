@@ -194,7 +194,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
   includePath += kFmiDirectorySeparator;
 	includePath += "Include";
 	//res = prePr.ReadFile(inFileName);
-	set<string> optinalDirectives; 
+	set<string> optinalDirectives;
+	//HUOM kaikki optiot esitelt‰v‰ p‰‰tasolla, vaikka includeissa k‰yetett‰isiin
 	res = prePr.ReadFileCheckingOptions(inFileName, "#ifCondition", optinalDirectives);
 
 	bool firstLoop = true;

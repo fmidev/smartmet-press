@@ -10,8 +10,8 @@
  * Datan ‰‰riarvojen sattumisajan luokka.
  * Vaatii aina parikseen dataolion, joka suoritetaan ensin ja jossa
  * ‰‰riarvo (max/min) m‰‰ritet‰‰n ja jossa samalla talletetaan aika
- * t‰t‰ oliota varten. Aika on viety NFmiPressParam:lle, joka on yhteinen
- * Container molemmille.
+ * t‰t‰ oliota varten. Aika on viety NFmiPressParam:lle (miksei NFmiSymbolGroup?),
+ * joka on yhteinen Container molemmille.
  *
  */
 // ======================================================================

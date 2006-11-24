@@ -58,7 +58,7 @@ NFmiParamRect * NFmiExtremeTimeParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiTime NFmiExtremeTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI) 
+NFmiTime NFmiExtremeTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI)
 {
   return itsPressParam->GetOptionTime();
 }

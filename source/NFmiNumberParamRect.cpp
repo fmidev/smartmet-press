@@ -288,6 +288,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
+  itsPressParam->DeleteOptionLocation(); //voi olla edellisestä
   bool lastElementStatus = GetPressProduct()->LastNumberStatus();
   GetPressProduct()->SetLastNumberStatus(true);
   if(itsPressParam->IsBackupStation())

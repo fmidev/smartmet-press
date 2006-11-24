@@ -1,43 +1,40 @@
 // ======================================================================
 /*!
  * \file
- * \brief NFmiLetterParamRect.h
+ * \brief NFmiSubstituteParamRect.h
  */
 // ======================================================================
 /*!
- * \class NFmiLetterParamRect
+ * \class NFmiSubstituteParamRect
  *
- * Tämä luokka hallitsee dataohjattujen sanojen tuottamisen
- * määrittelytiedoston lukemisesta ps-tiedoston kirjoittamiseen.
- * Sanat voivat olla yhden merkin mittaisia ja valinta tapahtuu
- * "mappaustekniikan" avulla (Muunnos, NFmiParamMapping).
+ * Tämä luokka määrittelee korvattavan arvon muunnostaulukoissa,
+ * esim lämpötilan tietty fraktiili ja mikä arvo sillä koravtaan.
+ * Peritty NFmiParamRectistä jolloin kaikki datankäsittelyominaisuudet.
  *
  */
 // ======================================================================
 
-#ifndef NFMILETTERPARAMRECT_H
-#define NFMILETTERPARAMRECT_H
+#ifndef NFMISUBSTITUTEPARAMRECT_H
+#define NFMISUBSTITUTEPARAMRECT_H
 
 #include "NFmiTextParamRect.h"
-#include "NFmiPressText.h"
 
 //! Undocumented
-enum NFmiLetterParamRectObjects
+enum NFmiSubstituteParamRectObjects
 {
-  dLetterMapping = 180,
-  dColumnText
+    dMappingSubstituteValue = 185,
 };
 
 //! Undocumented
-class _FMI_DLL NFmiLetterParamRect : public NFmiTextParamRect
+class _FMI_DLL NFmiSubstituteParamRect : public NFmiTextParamRect
 {
 
 public:
 
-  virtual ~NFmiLetterParamRect(void);
+  virtual ~NFmiSubstituteParamRect(void);
 
-  NFmiLetterParamRect(void);
-  NFmiLetterParamRect(const NFmiLetterParamRect & theLetterParamRect); 
+  NFmiSubstituteParamRect(void);
+  NFmiSubstituteParamRect(const NFmiSubstituteParamRect & theSubstituteParamRect); 
 
   virtual bool ReadDescription(NFmiString & retString);
   virtual NFmiParamRect * Clone(void) const; 
@@ -48,32 +45,29 @@ public:
 					   std::ofstream & theDestinationFile,
 					   FmiPressOutputMode theOutput);
 
-  FmiGenericColor MapColor(void) const;
-
 protected:
 
 private:
-	bool ModifyTextBySeason(NFmiString & theString);
-	NFmiPressText *itsColumnText;
+  float itsSubstituteMappingValue;
 
-}; // class NFmiLetterParamRect
+}; // class NFmiSubstituteParamRect
 
 // ----------------------------------------------------------------------
 /*!
- * Void constructor 
+ * Void constructor
  */
 // ----------------------------------------------------------------------
 
 inline
-NFmiLetterParamRect::NFmiLetterParamRect(void)
+NFmiSubstituteParamRect::NFmiSubstituteParamRect(void)
   : NFmiTextParamRect()
 {
   itsMapping=0;
   fUseSelectLatinFont=true;
-  itsColumnText=0;
+  itsSubstituteMappingValue = 0.;
+  itsIdentPar = 0;
 }
 
-#endif // NFMILETTERPARAMRECT_H
+#endif // NFMISUBSTITUTEPARAMRECT_H
 
 // ======================================================================
-

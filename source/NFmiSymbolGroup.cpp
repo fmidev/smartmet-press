@@ -22,6 +22,8 @@
 #include "NFmiSunTimeParamRect.h"
 #include "NFmiScalingParamRect.h"
 #include "NFmiPressParam.h"
+#include "NFmiExtremeTimeParamRect.h"
+#include "NFmiExtremePlaceParamRect.h"
 // newbase
 #include "NFmiSuperSmartInfo.h"
 // system
@@ -43,7 +45,8 @@ enum NFmiSymbolGroupObjects
   dExtremeTime,
   dSunTime,
   dScaling = 1120,
-  dSubstitute
+  dSubstitute,
+  dExtremePlace
 };
 
 
@@ -433,7 +436,27 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-	case dSubstitute:
+		case dExtremePlace:
+		  {
+			NFmiExtremePlaceParamRect tempEPPar;
+			tempEPPar.SetPressParam(itsPressParam);
+			tempEPPar.SetEnvironment(itsEnvironment);
+			tempEPPar.SetHome(GetHome());
+			tempEPPar.SetLogFile(itsLogFile);
+			tempEPPar.SetDescriptionFile(itsDescriptionFile);
+			tempEPPar.SetTime(itsFirstPlotTime);
+			tempEPPar.SetHourLoop(IsHourLoop());
+			tempEPPar.SetNewScaling(!sizeGiven);
+			if(tempEPPar.ReadDescription(itsString))
+			{
+			  Add(tempEPPar);
+			  itsPressParam->SetStationNotNeeded();
+			}
+			
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		  }
+		case dSubstitute:
 		  {
 			NFmiSubstituteParamRect tempSPar;
 			tempSPar.SetPressParam(itsPressParam);
@@ -565,6 +588,10 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("#extremetime") ||
 		  lowChar==NFmiString("#‰‰riarvoaika"))
 	return dExtremeTime;
+
+  else if(lowChar==NFmiString("#extremeplace") ||
+		  lowChar==NFmiString("#‰‰riarvopaikka"))
+	return dExtremePlace;
 
   else if(lowChar==NFmiString("#suntime") ||
 		  lowChar==NFmiString("#aurinkoaika") ||
