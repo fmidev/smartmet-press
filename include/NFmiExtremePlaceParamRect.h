@@ -56,6 +56,7 @@ inline
 NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(void)
   : NFmiTextParamRect()						
 {
+	fUseSelectLatinFont = true;
 }
 
 

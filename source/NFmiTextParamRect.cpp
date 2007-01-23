@@ -47,6 +47,10 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect & theTextParamRect)
   , itsRelCharWidth(theTextParamRect.itsRelCharWidth)
   , itsWidthFactor(theTextParamRect.itsWidthFactor)
   , fAddStationName(theTextParamRect.fAddStationName)
+  , fUpperCase(theTextParamRect.fUpperCase)  
+  , fLowerCase(theTextParamRect.fLowerCase)   
+  , fFirstUpperCase(theTextParamRect.fFirstUpperCase)  
+
 {
   for(unsigned int ind =0; ind < maxNumOfColMaps; ind++)
 	{
@@ -184,6 +188,27 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	case dPRUpperCase:
+		{
+		fUpperCase = true;
+
+		ReadNext();
+		break;
+		}
+	case dPRLowerCase:
+		{
+		fLowerCase = true;
+
+		ReadNext();
+		break;
+		}
+	case dPRFirstUpperCase:
+		{
+		fFirstUpperCase = true;
+
+		ReadNext();
+		break;
+		}
 	case dAddStationName:
 	  {
 		fAddStationName = true;
@@ -312,6 +337,21 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("addstationname") ||
 		  lowChar==NFmiString("lisääasemannimi"))
 	return dAddStationName;
+  
+  else if(lowChar==NFmiString("lowercase") ||
+		  lowChar==NFmiString("pienilläkirjaimilla") ||
+		  lowChar==NFmiString("pienetkirjaimet"))
+	return dPRLowerCase;
+
+  else if(lowChar==NFmiString("uppercase") ||
+		  lowChar==NFmiString("isoillakirjaimilla") ||
+		  lowChar==NFmiString("isotkirjaimet"))
+	return dPRUpperCase;
+  
+  else if(lowChar==NFmiString("firstuppercase") ||
+		  lowChar==NFmiString("isollaalkukirjaimella") ||
+		  lowChar==NFmiString("isoalkukirjain"))
+	return dPRFirstUpperCase;
 
   else
 	return NFmiParamRect::ConvertDefText(object);
@@ -341,7 +381,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
   NFmiString longMinus ("\\226");
 
   NFmiRect numberRect = AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight()));
-
+  if(IsEquiDistanceAndCorrMode())
+		numberRect += itsCorrPoint;
 
   NFmiPoint topLeft = numberRect.TopLeft(); //TopLeft on alaVasen! johtuuko RectScale:sta
   NFmiPoint bottomRight = numberRect.BottomRight();
@@ -568,6 +609,13 @@ FmiGenericColor NFmiTextParamRect::MapColor(void) const
 NFmiString NFmiTextParamRect::Construct(NFmiString * theString) const
 {
   NFmiString str = NFmiString(*theString);
+  if(fUpperCase) str.UpperCase();
+  if(fLowerCase) str.LowerCase();
+  if(fFirstUpperCase)
+  {
+	  str.LowerCase();
+	  str.FirstCharToUpper();
+  }
   NFmiString retString;
   if(itsAddInFront.IsValue())
 	retString += itsAddInFront;

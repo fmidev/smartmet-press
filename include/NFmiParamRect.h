@@ -75,6 +75,7 @@ enum NFmiParamRectObjects
   dRandomInterval,
   dRandomModifying = 6060,
   dEquiDistanceMarking,
+  dEquiDistanceJust,
   dStationTableActive,
   dFromMeanWindToMax,
   dRounding,
@@ -82,7 +83,7 @@ enum NFmiParamRectObjects
   dMissingValueString,
   dPlaceMoveAlternating,
   dTempNotMean,
-  dRotatingAngle
+  dRotatingAngle = 7060
 };
 
 //! Undocumented
@@ -180,6 +181,7 @@ protected:
   float GetRandomInterval(void)const{return itsRandomInterval;};
   bool IsRandom(void)const {return GetRandomInterval() > .00001f;};
   bool IsEquiDistanceMode(void) const;
+  bool IsEquiDistanceAndCorrMode(void) const;
   bool ActiveStationIndex(int currentInd) const; //vain TimeParamRect toistaiseksi
   NFmiPressProduct* GetPressProduct (void)const;
   bool CompleteMultiMapping(void); 
@@ -191,6 +193,7 @@ private:
   bool Randomize(float& theValue, float theInterval, float theMin, float theMax) const;
   bool RandomizeRelatively(float& theValue, float theInterval, float theMin, float theMax) const;
   bool RandomModify(float& theValue, unsigned long theParIdent) const;
+  void JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float& value);
 
 protected:
   bool fModifierUsed;
@@ -244,6 +247,7 @@ protected:
   bool fRandomModifying;
   float itsEquiDistance;
   float itsEquiDistanceHalfInterval;
+  float itsEquiRadius;
   bool fMarkingValue;
   unsigned long itsSymbolGroupOrder;
   FmiLoopActivity itsStationLoopActivity;
@@ -254,6 +258,7 @@ protected:
   NFmiPoint itsAlternating;
   bool fTempNotMean;
   float itsRotatingAngle;
+  NFmiPoint itsCorrPoint;
 
 private:
 
@@ -299,6 +304,7 @@ NFmiParamRect::NFmiParamRect(void)
   , fRandomModifying(false)
   , itsEquiDistance(0.)
   , itsEquiDistanceHalfInterval(0.)
+  , itsEquiRadius(0.)
   , fMarkingValue(true)
   , itsSymbolGroupOrder(0)
   , fMeanWindToMax(false)
@@ -358,6 +364,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fRandomModifying(false)
   , itsEquiDistance(0.)
   , itsEquiDistanceHalfInterval(0.)
+  , itsEquiRadius(0.)
   , fMarkingValue(true)
   , itsSymbolGroupOrder(0)
   , fMeanWindToMax(false)
@@ -510,9 +517,22 @@ void NFmiParamRect::SetLanguage(FmiLanguage newLanguage)
 inline
 bool NFmiParamRect::IsEquiDistanceMode(void) const
 {
-	return itsEquiDistance > 0.;
+	return itsEquiDistanceHalfInterval > 0.;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param newLanguage Undocumented, unused
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiParamRect::IsEquiDistanceAndCorrMode(void) const
+{
+	return itsEquiRadius > 0.;
+}
 #endif // NFMIPARAMRECT_H
 
 // ======================================================================

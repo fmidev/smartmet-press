@@ -548,7 +548,9 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString & object)
   lowChar.LowerCase(); 
   
   if(lowChar==NFmiString("day") ||
-	 lowChar==NFmiString("päivä"))
+	 lowChar==NFmiString("staticday") ||
+	 lowChar==NFmiString("päivä") ||
+	 lowChar==NFmiString("jäädytettypäivä")) //ennakon käyttö ei muuta tätä
 	return dRelDay;
   if(lowChar==NFmiString("dayaddition") ||
 	 lowChar==NFmiString("päivälisäys"))

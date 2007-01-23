@@ -645,13 +645,16 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   {
 	    itsDefToProductScale.MoveEndScales(itsAlternating);
   }
-
+  
   if(!fIsConstSymbol)
 	{
 	  if(!ReadValues(theQI))
 		return false;
 	}
  
+  if(IsEquiDistanceAndCorrMode())
+		itsDefToProductScale.MoveEndScales(itsCorrPoint);
+
   if(!fMarkingValue)
 	  return true;
 
@@ -671,7 +674,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  CompleteMultiMapping();
 
 	      symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-		  if(symbolFile->IsEqual(NFmiString("ristiriita")))
+		  if(symbolFile && symbolFile->IsEqual(NFmiString("ristiriita")))
 		  {
 			  *itsLogFile << "ERROR: ristiriita symbolia määrättäessä" << endl;
 		  }

@@ -36,7 +36,8 @@ enum NFmiPressTextObjects
   dAddInFront,
   dLowerCase,
   dUpperCase,
-  dInParagraph = 1140,
+  dFirstUpperCase = 1140,
+  dInParagraph,
   dParagraphMove,
   dTopMargin,
   dLeftMargin,
@@ -45,8 +46,8 @@ enum NFmiPressTextObjects
   dLineStep,
   dIndent,
   dLF,
-  dLFFactor,
-  dSubTextObject = 2140,
+  dLFFactor = 2140,
+  dSubTextObject, 
   dSubTimeTextObject,
   dSubComputerTimeTextObject,
   dTextLanguage,
@@ -118,6 +119,7 @@ protected:
   NFmiString itsAddAfter;     
   bool fUpperCase;  
   bool fLowerCase;   
+  bool fFirstUpperCase;
   bool fAddLocalTime;  
   NFmiString * itsText;       
   NFmiPressText * itsSubText;
@@ -144,6 +146,7 @@ NFmiPressText::NFmiPressText(void)
   , fInParagraph(false)
   , fUpperCase(0)
   , fLowerCase(0)
+  , fFirstUpperCase(false)
   , fAddLocalTime(false)  
   , itsText(0)
   , itsCharSpace(0.)

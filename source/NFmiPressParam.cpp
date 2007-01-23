@@ -1445,17 +1445,27 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						}
 					}
 					currentStationNumOnMap++;
+					int version = itsEnvironment.GetVersion();
 					point0 = NFmiPoint(x,y);
-					
+				
 					double bottom = (itsArea.GetArea())->Bottom();
 					double top = (itsArea.GetArea())->Top();
 					double y0 = point0.Y();
-					point1.Set(point0.X(), bottom -(y0-top));
-					
-					int version = itsEnvironment.GetVersion();
+					point1.Set(point0.X(), bottom -(y0-top)); 
+				    NFmiPoint lonlat;
 					if(version >= 20)
+					{
 						point1 = itsCurrentStationScale.Scale(NFmiPoint(x,y));
-				    NFmiPoint lonlat(itsArea.GetArea()->ToLatLon(point1));
+						bottom = (itsArea.GetArea())->Bottom();
+						top = (itsArea.GetArea())->Top();
+						y0 = point1.Y();
+						NFmiPoint point3;
+						point3.Set(point1.X(), bottom -(y0-top)); 
+					    lonlat=(itsArea.GetArea()->ToLatLon(point3));
+					}
+					else
+						lonlat=(itsArea.GetArea()->ToLatLon(point1));
+
 					lon = lonlat.X();
 					lat = lonlat.Y();
 					if(version < 20)
@@ -2257,11 +2267,29 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		   {
 			 statAll++;
 			 itsCurrentStationIndex++;
+
+			 //itsCurrentStationPoint = static_cast<const NFmiStationPoint *>(itsStations.Location());
+
 			 stationPoint = NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location())).Point();
+			 itsCurrentUnscaledPoint = stationPoint;
 			 NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
 
 			 fCurrentStationBackup = statPoint.IsBackup() ? true : false;
 			 NFmiPoint lonLat = statPoint.GetLocation();
+/*
+			 bool fGradientCheck = true;
+			 if(fGradientCheck)
+			 {   
+				NFmiPoint itsLonGradientPoint, itsLatGradientPoint;
+				 NFmiPoint gradienPoint = stationPoint + NFmiPoint(10., 0.);                
+				 itsLonGradientPoint = itsArea.GetArea()->ToLatLon(gradienPoint);
+				 gradienPoint = stationPoint + NFmiPoint(0., 5.);
+				 if(!itsArea.GetArea())
+				     loki _=
+				 itsLatGradientPoint = itsArea.GetArea()->ToLatLon(gradienPoint);
+
+			 }
+			 */
 			 if(fabs(lonLat.X()) < 0.0001 &&  // HUOM puuttuva testi, mikseivät ole tasan nolla !!
 				fabs(lonLat.Y()) < 0.0001)
 				   {

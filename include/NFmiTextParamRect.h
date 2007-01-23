@@ -37,7 +37,10 @@ enum NFmiTextParamRectObjects
   dRGBMapping, 
   dCMYKMapping,
   dRelCharWidth,
-  dAddStationName = 1080 
+  dAddStationName = 1080,
+  dPRLowerCase,
+  dPRUpperCase,
+  dPRFirstUpperCase
 };
 
 
@@ -117,6 +120,9 @@ protected:
   double itsRelCharWidth;
   double itsWidthFactor;
   bool fAddStationName;
+  bool fUpperCase;  
+  bool fLowerCase;   
+  bool fFirstUpperCase;  
 }; // class NFmiTextParamRect
 
 
@@ -136,6 +142,9 @@ NFmiTextParamRect::NFmiTextParamRect(void)
   , itsRelCharWidth(0.)
   , itsWidthFactor(1.)
   , fAddStationName(false)
+  , fUpperCase(false)  
+  , fLowerCase(false)   
+  , fFirstUpperCase(false)  
 {
 }
 

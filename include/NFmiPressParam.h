@@ -162,7 +162,8 @@ public:
   bool SetSegmentCurrentTimeStatus(bool theStatus);
   void SetYearData(bool theStatus);
   bool IsBackupStation(void) const;
-  bool SetStationNotNeeded (void); 
+  bool SetStationNotNeeded (void);
+  NFmiPoint GetCurrentUnscaledPoint(void)const;
 protected:
 
   void UnsetAllErrorReported(void);
@@ -227,6 +228,8 @@ protected:
   bool fCoordinatesFromMainMap;
   bool fYearData;
   bool fCurrentStationBackup;
+  NFmiPoint itsCurrentUnscaledPoint;
+
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -331,6 +334,19 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   itsOptionTime.SetMissing();
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+  NFmiPoint NFmiPressParam::GetCurrentUnscaledPoint(void)const
+{
+	return itsCurrentUnscaledPoint;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

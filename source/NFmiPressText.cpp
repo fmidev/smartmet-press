@@ -56,6 +56,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , itsParagraphMove(thePressText.itsParagraphMove)
   , fUpperCase (thePressText.fUpperCase)
   , fLowerCase (thePressText.fLowerCase)
+  , fFirstUpperCase(thePressText.fFirstUpperCase)
   , fAddLocalTime(thePressText.fAddLocalTime)
 //  , itsFont(thePressText.itsFont)
 //  , itsAlignment(thePressText.itsAlignment)
@@ -195,6 +196,13 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 		case dLowerCase:
 		  {
 			fLowerCase = true;
+
+			ReadNext();
+			break;
+		  }
+		case dFirstUpperCase:
+		  {
+			fFirstUpperCase = true;
 
 			ReadNext();
 			break;
@@ -636,6 +644,11 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("isoillakirjaimilla") ||
 		  lowChar==NFmiString("isotkirjaimet"))
 	return dUpperCase;
+  
+  else if(lowChar==NFmiString("firstuppercase") ||
+		  lowChar==NFmiString("isollaalkukirjaimella") ||
+		  lowChar==NFmiString("isoalkukirjain"))
+	return dFirstUpperCase;
 
   else if(lowChar==NFmiString("addlocaltime") ||
 		  lowChar==NFmiString("lis‰‰paikallinenaika"))
@@ -839,8 +852,6 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 
 	  bool isHyphen =    text.Search(NFmiString("-"))     != 0;
 	  bool isLongMinus = text.Search(NFmiString("\\226")) != 0;
-	  //bool isHyphen =    text.Search(NFmiString("-"));
-	  //bool isLongMinus = text.Search(NFmiString("\\226"));
 
 	  if(fInParagraph || (!isHyphen && !isLongMinus))
 		{

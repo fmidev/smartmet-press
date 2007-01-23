@@ -108,6 +108,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fRandomModifying(theRect.fRandomModifying)
   , itsEquiDistance(theRect.itsEquiDistance)
   , itsEquiDistanceHalfInterval(theRect.itsEquiDistanceHalfInterval)
+  , itsEquiRadius(theRect.itsEquiRadius)
   , fMarkingValue(theRect.fMarkingValue)
   , itsSymbolGroupOrder(theRect.itsSymbolGroupOrder)
   , fMeanWindToMax(theRect.fMeanWindToMax)
@@ -639,6 +640,11 @@ bool NFmiParamRect::ReadRemaining(void)
 		SetTwo(itsEquiDistance, itsEquiDistanceHalfInterval);
 		break;
 	  }
+	case dEquiDistanceJust:
+	  {
+		SetTwo(itsEquiDistance, itsEquiRadius);
+		break;
+	  }
 	case dRandomModifying:
 	  {
 		fRandomModifying = true;
@@ -951,6 +957,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("equidistancemarking") ||
 		  lowChar==NFmiString("tasav‰lirajoitus"))
 	return dEquiDistanceMarking;
+  
+  else if(lowChar==NFmiString("equidistanceandadjust") ||
+		  lowChar==NFmiString("tasav‰lijas‰‰tˆ"))
+	return dEquiDistanceJust;
 
   else if(lowChar==NFmiString("stationtableactive") ||
 		  lowChar==NFmiString("asemataulukonaktiiviset"))
@@ -1901,8 +1911,6 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
   fMarkingValue = true;
   if(IsEquiDistanceMode() && value != kFloatMissing)
   {
-	  //float itsEquiDistanceHalfInterval = 0.5;
-	  //float itsEquiDistance = 5.;
 	  long help = static_cast<long>((value+itsEquiDistanceHalfInterval) / itsEquiDistance);
 	  float help1 = static_cast<float>(help) * itsEquiDistance;
 	  if(fabs(help1 - value) < itsEquiDistanceHalfInterval)
@@ -1910,12 +1918,108 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  else
 		  fMarkingValue = false;
   }
+
+	if(IsEquiDistanceAndCorrMode() && !(par == kFmiTemperature && itsMultiMapping && 
+		                                     itsCurrentMultiParNum > 1))
+			 JustifyConturPlace(theQueryInfo, value);
+
   if(modif)
 	delete modif;
   if(areaModif)
 	delete areaModif;
   
   return true;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theQueryInfo Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float& value)
+{
+	{	
+		if(!itsPressParam->GetGeoArea())
+		{
+ 			*itsLogFile << "*** ERROR: kartta puuttuu konttuurimerkinnˆilt‰"  << endl;
+			itsEquiRadius = 0.;
+		}
+		else
+		{
+			NFmiPoint origPoint = itsPressParam->GetCurrentUnscaledPoint();
+			double bottom = itsPressParam->GetGeoArea()->Bottom();
+			double top = itsPressParam->GetGeoArea()->Top();
+			double y0 = origPoint.Y();
+			NFmiPoint ySwitched;
+			ySwitched.Set(origPoint.X(), bottom -(y0-top));
+
+			NFmiPoint lonLatPointTest = itsPressParam->GetGeoArea()->ToLatLon(ySwitched);
+			float testvalue =  theQueryInfo->InterpolatedValue(lonLatPointTest);
+
+			NFmiPoint gradientPoints[4];
+			NFmiPoint gradienPoint = ySwitched + NFmiPoint(0., -itsEquiRadius);                
+			gradientPoints[0] = itsPressParam->GetGeoArea()->ToLatLon(gradienPoint);
+			gradienPoint = ySwitched + NFmiPoint(itsEquiRadius, 0.);                
+			gradientPoints[1] = itsPressParam->GetGeoArea()->ToLatLon(gradienPoint);
+			gradienPoint = ySwitched + NFmiPoint(0., +itsEquiRadius);                
+			gradientPoints[2] = itsPressParam->GetGeoArea()->ToLatLon(gradienPoint);
+			gradienPoint = ySwitched + NFmiPoint(-itsEquiRadius, 0.);                
+			gradientPoints[3] = itsPressParam->GetGeoArea()->ToLatLon(gradienPoint);
+			float minDist = kFloatMissing;
+			float distValue, curDist;
+			long help = static_cast<long>((value+(itsEquiDistance/2.)) / itsEquiDistance);
+			float plotValue = static_cast<float>(help) * itsEquiDistance;
+	        int dirInd = -1;
+
+			bool notSmallClosed = false; //aivan pienet suljetut k‰ppyr‰t jotka kuitenkin 
+			                          //j‰‰v‰t numeron alle hyl‰t‰‰n
+			float smallDist = 4.; //jos alle 4 pistett‰ joka suuntaan hyl‰t‰‰n 
+
+			for(int i =0; i<4; i++)
+			{
+			    distValue = theQueryInfo->InterpolatedValue(gradientPoints[i]);
+				if(plotValue < value && plotValue > distValue)
+				{
+					curDist = (value-plotValue)/(value-distValue) * itsEquiRadius;
+					if(curDist < minDist)
+					{
+						minDist = curDist;
+						dirInd = i;
+					}
+					if(curDist > smallDist)
+						notSmallClosed =  true;
+				}
+				else if(plotValue > value && plotValue < distValue)
+				{
+					curDist = (plotValue-value)/(distValue-value)*itsEquiRadius;
+					if(curDist < minDist)
+					{
+						minDist = curDist;
+						dirInd = i;
+					}
+					if(curDist > smallDist)
+						notSmallClosed =  true;				
+				}
+			}
+			if(dirInd == 0)
+				itsCorrPoint = NFmiPoint(0., minDist);
+			else if(dirInd == 1)
+				itsCorrPoint = NFmiPoint(minDist, 0.);
+			else if(dirInd == 1)
+				itsCorrPoint = NFmiPoint( 0., -minDist);
+			else if(dirInd == 1)
+				itsCorrPoint = NFmiPoint(-minDist, 0.);
+			else
+				fMarkingValue = false;
+
+			value = plotValue;
+		}
+	}
+
 }
 
 // ----------------------------------------------------------------------
