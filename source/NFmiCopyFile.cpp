@@ -67,13 +67,14 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, 
   // kaksi showpagea saa jotkut ohjelmat tekemään animaation
 
   // 5.11.99 TARVITAANKO ENÄÄ KUN STARTEISSA AKTIVOITU SHOWPAGE{}
+  // 6.2.07 Poistettu tuo edellä mainittu koska ongelmia Metview:n kanssa
 
   // 1.6 Metview:n ps-driveri tuottaa 513 pitkiä rivejä	
   const short lineSize = 2800;
 
   char inBuf[lineSize];
-  unsigned short n, m, num;
-  NFmiString notShowpage("gsave annotatepage grestore");
+  unsigned short n, num;
+  //NFmiString notShowpage("gsave annotatepage grestore");
   NFmiString bbZero("%%BoundingBox: 0 0 0 0");
   NFmiString str;
   while (inFile->getline(inBuf, lineSize, '\n'))
@@ -83,10 +84,12 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, 
 	  n = static_cast<short>(str.Search( NFmiString("showp")));
 	  if (n > 0 )
 		{
+		/*
 		  m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
 		  if(m > 0)
 			outFile->write(notShowpage.CharPtr(), notShowpage.GetLen());
 		  else
+		  */
 			outFile->write(inBuf, num-1);
 	      outFile->put('\x0A');
 		  continue;
@@ -99,8 +102,7 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, 
 		}
  	  outFile->write(inBuf, num-1);
 	  outFile->put('\x0A');		  
-	}
-	
+	}	
   return true;
 }
 // ----------------------------------------------------------------------
@@ -120,31 +122,34 @@ bool NFmiCopyFileWithoutShowpage(ifstream & inFile, ofstream & outFile)
   // kaksi showpagea saa jotkut ohjelmat tekemään animaation
 
   // 5.11.99 TARVITAANKO ENÄÄ KUN STARTEISSA AKTIVOITU SHOWPAGE{}
+  // 6.2.07 Poistettu tuo edellä mainittu koska ongelmia Metview:n kanssa
 
   // 1.6 Metview:n ps-driveri tuottaa 513 pitkiä rivejä	
   const short lineSize = 2800;
-
   char inBuf[lineSize];
-  unsigned short n, m, num;
-  NFmiString notShowpage("gsave annotatepage grestore");
+  unsigned short num;
+  //NFmiString notShowpage("gsave annotatepage grestore");
   NFmiString str;
   while (inFile.getline(inBuf, lineSize, '\n'))
 	{
 	  num = inFile.gcount();
 	  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
-	  n = static_cast<short>(str.Search( NFmiString("showp")));
+/*	  n = static_cast<short>(str.Search( NFmiString("showp")));
 	  if (n > 0 )
 		{
+
 		  m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
 		  if(m > 0)
 			outFile.write(notShowpage.CharPtr(), notShowpage.GetLen());
 		  else
+		  
 			outFile.write(inBuf, num-1);
 		}
 	  else
 		{
+	*/
 		  outFile.write(inBuf, num-1);
-		}
+	//	}
 	  outFile.put('\x0A');		  
 	}
   return true;

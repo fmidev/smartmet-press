@@ -7,6 +7,7 @@
 
 #include "NFmiPsWriting.h"
 #include "NFmiString.h"
+#include "NFmiCopyFile.h"
 #include <iostream>
 
 using namespace std;
@@ -105,35 +106,7 @@ bool NFmiPsWriting::CopyPsFile(void)
 
 bool NFmiPsWriting::CopyFileWithoutShowpage(void)
 {
-  //lisätty showpagen poisto koska itse tuotteessa on se varsinainen showpage
-  // kaksi showpagea saa jotkut ohjelmat tekemään animaation
-
-  //1.6 Metview:n ps-driveri tuottaa 513 pitkiä rivejä
-  const short lineSize = 2800;
-  char inBuf[lineSize];
-  unsigned short n, m, num;
-  NFmiString notShowpage("gsave annotatepage grestore");
-  NFmiString str;
-  while (itsInFile->getline(inBuf, lineSize, '\n'))
-  {
-	num = itsInFile->gcount();
-	str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
-	n = static_cast<short>(str.Search( NFmiString("showp")));
-	if (n > 0 )
-	  {
-		m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
-		if(m > 0)
-		  itsOutFile->write(reinterpret_cast<const char *>(notShowpage.GetCharPtr()), notShowpage.GetLen());
-		else
-		  itsOutFile->write(inBuf, num-1);
-	  }
-	else
-	  {
-		itsOutFile->write(inBuf, num-1);
-	  }
-	itsOutFile->put('\x0A');		  
-  }
-  return isTrue;
+	return NFmiCopyFileWithoutShowpage(*itsInFile, *itsOutFile);
 }
 
 // ----------------------------------------------------------------------
