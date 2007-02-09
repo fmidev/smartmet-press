@@ -1909,6 +1909,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 }
 
   fMarkingValue = true;
+  //ei niin tarkka
   if(IsEquiDistanceMode() && value != kFloatMissing)
   {
 	  long help = static_cast<long>((value+itsEquiDistanceHalfInterval) / itsEquiDistance);
@@ -1918,11 +1919,11 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  else
 		  fMarkingValue = false;
   }
-
-	if(IsEquiDistanceAndCorrMode() && !(par == kFmiTemperature && itsMultiMapping && 
-		                                     itsCurrentMultiParNum > 1))
+  //tarkempi
+  if(IsEquiDistanceAndCorrMode() && !(par == kFmiTemperature && itsMultiMapping && 
+		                              itsCurrentMultiParNum > 1))
 			 JustifyConturPlace(theQueryInfo, value);
-
+ 
   if(modif)
 	delete modif;
   if(areaModif)
@@ -1977,7 +1978,7 @@ void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float&
 
 			bool notSmallClosed = false; //aivan pienet suljetut k‰ppyr‰t jotka kuitenkin 
 			                          //j‰‰v‰t numeron alle hyl‰t‰‰n
-			float smallDist = 4.; //jos alle 4 pistett‰ joka suuntaan hyl‰t‰‰n 
+			float smallDist = 4.;     //;eli jos et‰isyys alle 4 pistett‰ joka suuntaan  
 
 			for(int i =0; i<4; i++)
 			{

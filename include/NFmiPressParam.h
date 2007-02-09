@@ -85,6 +85,12 @@ struct FmiValuePoint
 	long value;
 	NFmiPoint point;
 };
+struct FmiMaxMinPoint
+{
+	bool isMax;
+	unsigned long index;
+	NFmiPoint point;
+};
 
 
 //! Undocumented
@@ -155,6 +161,8 @@ public:
   void SetActivity(bool theActivity);
   bool IsDistanceCheck(void) const;
   bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
+  bool SetMaxMinPoints(void);
+  bool IsMaxMin(bool theIsMax);
   bool InterruptSymbolGroup(void)const;
   unsigned long GetCurrentStationStep(void) const;
   NFmiPressProduct* GetPressProduct (void)const;
@@ -223,13 +231,14 @@ protected:
   NFmiLocation* itsOptionLocation; //max/min-olio tuo tänne NFmiExtremePlaceParamRectille
   NFmiPoint itsCheckDistance;
   vector<FmiValuePoint> itsCheckLocations;
+  vector<FmiMaxMinPoint> itsMaxMinLocations;
   bool fInterruptSymbolGroup;  
   bool fSupplementary;
   bool fCoordinatesFromMainMap;
   bool fYearData;
   bool fCurrentStationBackup;
   NFmiPoint itsCurrentUnscaledPoint;
-
+  bool fMaxMinSearched;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -281,6 +290,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fCoordinatesFromMainMap(false)
   , fYearData(false)
   , fCurrentStationBackup(false)
+  , fMaxMinSearched(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -329,6 +339,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fCoordinatesFromMainMap(false)
   , fYearData(false)
   , fCurrentStationBackup(false)
+  , fMaxMinSearched(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();

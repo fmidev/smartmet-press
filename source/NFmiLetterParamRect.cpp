@@ -271,6 +271,16 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			*itsLogFile << "  vara-asemaa käytetään tekstielementille" << endl;
   }
 
+  bool fMaxMinPlotting = true;
+  bool isMax;
+  if(fMaxMinPlotting)
+  {
+	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
+	if(!itsPressParam->IsMaxMin(isMax))
+		return true;
+  }
+
+
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 

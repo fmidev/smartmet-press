@@ -224,6 +224,107 @@ NFmiPoint NFmiPressParam::GetFirstPoint(void)
  */
 // ----------------------------------------------------------------------
 
+bool NFmiPressParam::IsMaxMin(bool theIsMax) 
+{
+   	std::vector<FmiMaxMinPoint>::iterator pos;
+	for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
+	{
+		if((*pos).index == itsCurrentStationIndex)
+		{
+			theIsMax = (*pos).isMax;
+			return true;
+		}
+	}
+	return false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param dataName Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressParam::SetMaxMinPoints(void)
+{	
+	if(fMaxMinSearched)
+		return true;
+   
+	unsigned long index=0;
+	bool isMax, isMin;
+    NFmiSuperSmartInfo info(*itsDataIter);
+	NFmiLocationBag tempStations(itsStations);
+    tempStations.Reset();
+
+    while (tempStations.Next())
+	{
+		index++;
+		isMax = false;
+		isMin = false;
+		info.Location(*tempStations.Location());
+		float value = info.FloatValue();
+		if(value == kFloatMissing)
+			continue;
+		float value1 = info.PeekValue(0, 1, 0);
+		float value2 = info.PeekValue(0, 1, -1);
+		float value3 = info.PeekValue(0, 0, -1);
+		float value4 = info.PeekValue(0, -1, -1);
+		float value5 = info.PeekValue(0, -1, 0);
+		float value6 = info.PeekValue(0, -1, 1);
+		float value7 = info.PeekValue(0, 0, 1);
+		float value8 = info.PeekValue(0, 1, 1);
+
+		if((value > value1 || value1==kFloatMissing) && (value > value2 || value2==kFloatMissing)
+		&& (value > value3 || value3==kFloatMissing) && (value > value4 || value4==kFloatMissing)
+		&& (value > value5 || value5==kFloatMissing) && (value > value6 || value6==kFloatMissing)
+		&& (value > value7 || value7==kFloatMissing) && (value > value8 || value8==kFloatMissing))
+			isMax = true;
+		if(value < value1 && value < value2 && value < value3
+		&& value < value4 && value < value5 && value < value6
+		&& value < value7 && value < value8)
+			isMin = true;
+
+		if(isMax || isMin)
+		{
+		    NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
+			NFmiPoint point = statPoint.Point();
+	
+			std::vector<FmiMaxMinPoint>::iterator pos;
+			bool tooNear = false;
+
+			for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
+			{
+				if( 
+				abs((*pos).point.X() - point.X()) < itsCheckDistance.X() &&
+				abs((*pos).point.Y() - point.Y()) < itsCheckDistance.Y())
+				{
+					tooNear = true;
+					break;
+				}
+			}
+			if(!tooNear)
+			{
+				FmiMaxMinPoint maxMinPoint;
+				maxMinPoint.point = point;
+				maxMinPoint.isMax = isMax;
+				maxMinPoint.index = index;
+				itsMaxMinLocations.push_back(maxMinPoint);
+			}
+		}		
+	}
+	fMaxMinSearched = true;
+	return true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param dataName Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 bool NFmiPressParam::CheckAndSetDistance(long theValue, const NFmiPoint& point)
 {	
 	std::vector<FmiValuePoint>::iterator pos;
