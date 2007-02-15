@@ -32,6 +32,7 @@
 #include "NFmiRectScale.h"
 
 //#include <vector>
+#include <list>
 
 class NFmiPressProduct;
 class NFmiArea;
@@ -87,9 +88,11 @@ struct FmiValuePoint
 };
 struct FmiMaxMinPoint
 {
+	float value;
 	bool isMax;
 	unsigned long index;
 	NFmiPoint point;
+	float significance;
 };
 
 
@@ -162,7 +165,7 @@ public:
   bool IsDistanceCheck(void) const;
   bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
   bool SetMaxMinPoints(void);
-  bool IsMaxMin(bool theIsMax);
+  bool IsMaxMin(bool& theIsMax);
   bool InterruptSymbolGroup(void)const;
   unsigned long GetCurrentStationStep(void) const;
   NFmiPressProduct* GetPressProduct (void)const;
@@ -231,7 +234,7 @@ protected:
   NFmiLocation* itsOptionLocation; //max/min-olio tuo tänne NFmiExtremePlaceParamRectille
   NFmiPoint itsCheckDistance;
   vector<FmiValuePoint> itsCheckLocations;
-  vector<FmiMaxMinPoint> itsMaxMinLocations;
+  list<FmiMaxMinPoint> itsMaxMinLocations;
   bool fInterruptSymbolGroup;  
   bool fSupplementary;
   bool fCoordinatesFromMainMap;

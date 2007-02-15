@@ -224,9 +224,9 @@ NFmiPoint NFmiPressParam::GetFirstPoint(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressParam::IsMaxMin(bool theIsMax) 
+bool NFmiPressParam::IsMaxMin(bool& theIsMax) 
 {
-   	std::vector<FmiMaxMinPoint>::iterator pos;
+   	std::list<FmiMaxMinPoint>::iterator pos;
 	for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
 	{
 		if((*pos).index == itsCurrentStationIndex)
@@ -256,10 +256,16 @@ bool NFmiPressParam::SetMaxMinPoints(void)
     NFmiSuperSmartInfo info(*itsDataIter);
 	NFmiLocationBag tempStations(itsStations);
     tempStations.Reset();
+	float meanOfGrid = 1015.; //pit‰isi olla esim parametriin sidottu tai laskettava (min+max)/2
+	list<FmiMaxMinPoint>::iterator pos;
+    vector<list<FmiMaxMinPoint>::iterator> eraseVector;
+	vector<list<FmiMaxMinPoint>::iterator>::iterator posErase;
 
     while (tempStations.Next())
 	{
+		eraseVector.clear();
 		index++;
+
 		isMax = false;
 		isMin = false;
 		info.Location(*tempStations.Location());
@@ -275,40 +281,77 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 		float value7 = info.PeekValue(0, 0, 1);
 		float value8 = info.PeekValue(0, 1, 1);
 
-		if((value > value1 || value1==kFloatMissing) && (value > value2 || value2==kFloatMissing)
-		&& (value > value3 || value3==kFloatMissing) && (value > value4 || value4==kFloatMissing)
-		&& (value > value5 || value5==kFloatMissing) && (value > value6 || value6==kFloatMissing)
-		&& (value > value7 || value7==kFloatMissing) && (value > value8 || value8==kFloatMissing))
-			isMax = true;
-		if(value < value1 && value < value2 && value < value3
-		&& value < value4 && value < value5 && value < value6
-		&& value < value7 && value < value8)
-			isMin = true;
+		if(value1 < kFloatMissing && value2 < kFloatMissing && value3 < kFloatMissing
+			&& value4 < kFloatMissing && value5 < kFloatMissing && value6 < kFloatMissing
+			&& value7 < kFloatMissing && value8 < kFloatMissing)
+		{
+			if(value >  value1 && value >  value2 
+			&& value >= value3 && value >= value4 
+			&& value >= value5 && value >= value6
+			&& value >  value7 && value >  value8)
+				isMax = true;
+			if(value <  value1 && value <  value2 && value <= value3
+			&& value <= value4 && value <= value5 && value <= value6
+			&& value <  value7 && value <  value8)
+				isMin = true;
+		}
+		bool near = false;
 
 		if(isMax || isMin)
 		{
-		    NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
+			float significance;
+			if (isMax) 
+				significance = value - meanOfGrid;
+			else
+				significance = meanOfGrid - value;
+
+			/*
+			float significance = fabs(value - ((value1 + value2 + value3 + value4 +
+                                  value5 + value6 + value7 + value8) / 8.f));
+			if(isMax)
+				significance = significance*0.2f;
+            */
+			NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
 			NFmiPoint point = statPoint.Point();
-	
-			std::vector<FmiMaxMinPoint>::iterator pos;
-			bool tooNear = false;
 
 			for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
 			{
-				if( 
+				if(  
 				abs((*pos).point.X() - point.X()) < itsCheckDistance.X() &&
 				abs((*pos).point.Y() - point.Y()) < itsCheckDistance.Y())
 				{
-					tooNear = true;
-					break;
+					float mean = (value+(*pos).value)/2.f;
+					if((isMax && (*pos).isMax && value > (*pos).value //uusi ‰‰rev‰mpi maximi
+					||  isMin && !(*pos).isMax &&value < (*pos).value //uusi ‰‰rev‰mpi minimi
+					||  significance > (*pos).significance))
+					//||  isMax && !(*pos).isMax && mean > meanOfGrid  //max korvaa minimin suurilla arvoilla
+					//||  isMin && (*pos).isMax && mean  < meanOfGrid)) //min korvaa maximin pienill‰ arvoilla
+					{
+						eraseVector.push_back(pos);
+						//pos = itsMaxMinLocations.erase(pos); //pos talteen ettei j‰‰ roikuumaan ilmaan
+						//pos--;
+					}
+					else
+					{
+						near = true;
+						break;
+					}
 				}
 			}
-			if(!tooNear)
-			{
+			
+			if(!near)  
+			{  //vain kun uusi rankattu merkitt‰v‰mm‰ksi kaikki l‰hipisteet poistetaan
+			   // jos on hila niit‰ voi kai olla vain max kaksi
+			    for(posErase=eraseVector.begin(); posErase != eraseVector.end(); ++posErase)
+				{
+				     itsMaxMinLocations.erase(*posErase);
+				}
 				FmiMaxMinPoint maxMinPoint;
+				maxMinPoint.value = value;
 				maxMinPoint.point = point;
 				maxMinPoint.isMax = isMax;
 				maxMinPoint.index = index;
+				maxMinPoint.significance = significance;
 				itsMaxMinLocations.push_back(maxMinPoint);
 			}
 		}		

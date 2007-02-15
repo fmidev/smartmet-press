@@ -325,8 +325,16 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
   MapColor();
   NFmiString * mapString;
-
-  if (itsMultiMapping)
+  NFmiString* stringK = new NFmiString("K");
+  NFmiString* stringM = new NFmiString("M");
+  if(fMaxMinPlotting)
+  {
+	if(isMax)
+		mapString = stringK;
+	else
+		mapString = stringM;
+  }
+  else if (itsMultiMapping)
 	{
 	  bool missingFound;
 	  CompleteMultiMapping();
@@ -358,7 +366,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		mapString = itsMissingString;
   }
 
-  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
+  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !fMaxMinPlotting)
 	{
 	  float keyValue = itsCurrentParamValue;
 	  if(itsMultiMapping)
@@ -426,6 +434,8 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 {
 	NFmiStaticTime time;
 	short mon = time.GetMonth();
+	bool firstIsUpper = theString.FirstCharIsUpper();
+    theString.LowerCase();
 	string stdString(theString);
 	string::size_type startInd;
 
@@ -506,6 +516,8 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 	}
 
 	theString = stdString;
+    if(firstIsUpper)
+		theString.FirstCharToUpper();
 	return true;
 }
 
