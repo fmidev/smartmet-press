@@ -389,8 +389,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  mapString = itsMapping->Map(value);
 	}
 
-  bool fMaxMinPlotting = false;
-  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !fMaxMinPlotting)
+  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !IsMaxMinPlotting())
 	{
 	  float keyValue = itsCurrentParamValue;
 	  if(itsMultiMapping)

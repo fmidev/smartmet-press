@@ -280,7 +280,13 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 		float value6 = info.PeekValue(0, -1, 1);
 		float value7 = info.PeekValue(0, 0, 1);
 		float value8 = info.PeekValue(0, 1, 1);
+		//suoraan kahden pisteen p‰‰ss‰
+		float value9  = info.PeekValue(0, 2, 0);
+		float value10 = info.PeekValue(0, 0, -2);
+		float value11 = info.PeekValue(0, -2, 0);
+		float value12 = info.PeekValue(0, 0, 2);
 
+		//aivan reunoilla ei oteta
 		if(value1 < kFloatMissing && value2 < kFloatMissing && value3 < kFloatMissing
 			&& value4 < kFloatMissing && value5 < kFloatMissing && value6 < kFloatMissing
 			&& value7 < kFloatMissing && value8 < kFloatMissing)
@@ -288,11 +294,17 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 			if(value >  value1 && value >  value2 
 			&& value >= value3 && value >= value4 
 			&& value >= value5 && value >= value6
-			&& value >  value7 && value >  value8)
+			&& value >  value7 && value >  value8
+			//reuna voi olla kahden pisteen p‰‰ss‰
+			&& (value >   value9  || value9  == kFloatMissing)
+			&& (value >=  value10 || value10 == kFloatMissing)
+			&& (value >=  value11 || value11 == kFloatMissing)
+			&& (value >   value12 || value12 == kFloatMissing))
 				isMax = true;
 			if(value <  value1 && value <  value2 && value <= value3
 			&& value <= value4 && value <= value5 && value <= value6
-			&& value <  value7 && value <  value8)
+			&& value <  value7 && value <  value8 && value <  value9
+			&& value <= value10 && value <=  value11 && value < value12)
 				isMin = true;
 		}
 		bool near = false;

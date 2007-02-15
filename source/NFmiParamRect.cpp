@@ -118,6 +118,8 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsAlternating(theRect.itsAlternating)
   , fTempNotMean(theRect.fTempNotMean)
   , itsRotatingAngle(theRect.itsRotatingAngle)
+  , itsMaxText(theRect.itsMaxText)
+  , itsMinText(theRect.itsMinText)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -753,6 +755,18 @@ bool NFmiParamRect::ReadRemaining(void)
 	    SetOne(itsRotatingAngle);
 		break;
 	  }
+	case dExtremePlotting:
+	  {
+	    NFmiString itsHighText,itsLowText; 
+		if (!ReadEqualChar())
+			break;
+
+		itsMaxText = ReadString();
+		itsMinText = ReadString();
+
+		ReadNext();
+		break;
+	  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -993,6 +1007,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("rotate") ||
           lowChar==NFmiString("k‰‰nn‰"))
 	return dRotatingAngle;
+  
+  else if(lowChar==NFmiString("extremes") ||
+          lowChar==NFmiString("‰‰riarvot"))
+	return dExtremePlotting;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);

@@ -250,6 +250,7 @@ private:
   FmiElementStatus itsLastElementStatus;
 }; // class NFmiPressProduct
 
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

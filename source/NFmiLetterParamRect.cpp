@@ -271,9 +271,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			*itsLogFile << "  vara-asemaa käytetään tekstielementille" << endl;
   }
 
-  bool fMaxMinPlotting = true;
   bool isMax;
-  if(fMaxMinPlotting)
+  if(IsMaxMinPlotting())
   {
 	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
 	if(!itsPressParam->IsMaxMin(isMax))
@@ -325,14 +324,12 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
   MapColor();
   NFmiString * mapString;
-  NFmiString* stringK = new NFmiString("K");
-  NFmiString* stringM = new NFmiString("M");
-  if(fMaxMinPlotting)
+  if(IsMaxMinPlotting())
   {
 	if(isMax)
-		mapString = stringK;
+		mapString = &itsMaxText;
 	else
-		mapString = stringM;
+		mapString = &itsMinText;
   }
   else if (itsMultiMapping)
 	{
@@ -366,7 +363,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		mapString = itsMissingString;
   }
 
-  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !fMaxMinPlotting)
+  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !IsMaxMinPlotting())
 	{
 	  float keyValue = itsCurrentParamValue;
 	  if(itsMultiMapping)

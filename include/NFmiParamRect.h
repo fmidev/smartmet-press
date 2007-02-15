@@ -83,7 +83,8 @@ enum NFmiParamRectObjects
   dMissingValueString,
   dPlaceMoveAlternating,
   dTempNotMean,
-  dRotatingAngle = 7060
+  dRotatingAngle = 7060,
+  dExtremePlotting
 };
 
 //! Undocumented
@@ -185,6 +186,7 @@ protected:
   bool ActiveStationIndex(int currentInd) const; //vain TimeParamRect toistaiseksi
   NFmiPressProduct* GetPressProduct (void)const;
   bool CompleteMultiMapping(void); 
+  bool IsMaxMinPlotting(void) const;
 
 private:
 
@@ -259,6 +261,8 @@ protected:
   bool fTempNotMean;
   float itsRotatingAngle;
   NFmiPoint itsCorrPoint;
+  NFmiString itsMaxText;
+  NFmiString itsMinText;
 
 private:
 
@@ -314,6 +318,9 @@ NFmiParamRect::NFmiParamRect(void)
   , itsAlternating(NFmiPoint(0.,0.))
   , fTempNotMean(false)
   , itsRotatingAngle(kFloatMissing)
+  , itsMaxText(NFmiString("None"))
+  , itsMinText(NFmiString("None"))
+
 {
   itsStationLoopActivity.startIndex=0;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
@@ -375,11 +382,26 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsAlternating(NFmiPoint(0.,0.))
   , fTempNotMean(false)
   , itsRotatingAngle(kFloatMissing)
+  , itsMaxText(NFmiString("None"))
+  , itsMinText(NFmiString("None"))
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
   itsIntegrationPeriod.startWeight = kFloatMissing;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Set processing order in SymbolGroup
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiParamRect::IsMaxMinPlotting(void) const
+{
+	return itsMaxText != NFmiString("None");
 }
 // ----------------------------------------------------------------------
 /*!
