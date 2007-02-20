@@ -33,10 +33,10 @@ public:
 
   virtual NFmiParamRect * Clone(void) const; 
   bool ReadDescription(NFmiString & retString);
-  bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
-								  NFmiFastQueryInfo * theQI,
-								  ofstream & theDestinationFile,
-								  FmiPressOutputMode theOutput);
+  bool WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
+			   NFmiFastQueryInfo * theQI,
+			   ofstream & theDestinationFile,
+			   FmiPressOutputMode theOutput);
 
 protected:
 
