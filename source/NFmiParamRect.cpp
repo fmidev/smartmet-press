@@ -114,12 +114,12 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fMeanWindToMax(theRect.fMeanWindToMax)
   , itsRoundingNumber(theRect.itsRoundingNumber)
   , fSupplementForMissing(theRect.fSupplementForMissing)
-  , itsDataIdent(theRect.itsDataIdent)
   , itsAlternating(theRect.itsAlternating)
   , fTempNotMean(theRect.fTempNotMean)
   , itsRotatingAngle(theRect.itsRotatingAngle)
   , itsMaxText(theRect.itsMaxText)
   , itsMinText(theRect.itsMinText)
+  , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -1803,7 +1803,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 				{
 				  if(isExtremeModifier)
 				  {
-					theQueryInfo->CalcTimeDataWithExtremeTime((NFmiDataModifierExtreme*)modif, firstTime, lastTime);
+					theQueryInfo->CalcTimeDataWithExtremeTime(static_cast<NFmiDataModifierExtreme *>(modif), firstTime, lastTime);
 					itsPressParam->SetOptionTime((static_cast<NFmiDataModifierExtreme *>(modif))->GetTime());
 				  }
 				  else
@@ -1821,7 +1821,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 				}
 			  else if(isExtremeModifier != kNoneModifier) //pistedatasta ääriarvo
 				{
-				    theQueryInfo->CalcLocationDataWithExtremePlace((NFmiDataModifierExtremePlace*)placeModif);
+				    theQueryInfo->CalcLocationDataWithExtremePlace(static_cast<NFmiDataModifierExtremePlace *>(placeModif));
 					value = placeModif->CalculationResult();
 					if(!((itsCurrentPar == kFmiPrecipitationAmount && value <= 0.) || 
 					value == kFloatMissing))
@@ -1977,7 +1977,7 @@ void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float&
 			ySwitched.Set(origPoint.X(), bottom -(y0-top));
 
 			NFmiPoint lonLatPointTest = itsPressParam->GetGeoArea()->ToLatLon(ySwitched);
-			float testvalue =  theQueryInfo->InterpolatedValue(lonLatPointTest);
+			// float testvalue =  theQueryInfo->InterpolatedValue(lonLatPointTest);
 
 			NFmiPoint gradientPoints[4];
 			NFmiPoint gradienPoint = ySwitched + NFmiPoint(0., -itsEquiRadius);                
@@ -2357,8 +2357,8 @@ bool NFmiParamRect::CompleteMultiMapping(void)
 	    std::map<float, float>::iterator pos;
 		for(pos=mapping->begin(); pos != mapping->end(); ++pos)
 		{
-		  float test1 = pos->first;
-		  float test2 = pos->second;
+		  // float test1 = pos->first;
+		  // float test2 = pos->second;
 	      itsMultiMapping->Complete(pos->first, pos->second);
 		}
 		itsMultiMapping->SetComplete();
