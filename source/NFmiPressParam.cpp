@@ -332,7 +332,7 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 				abs((*pos).point.X() - point.X()) < itsCheckDistance.X() &&
 				abs((*pos).point.Y() - point.Y()) < itsCheckDistance.Y())
 				{
-					float mean = (value+(*pos).value)/2.f;
+				  // float mean = (value+(*pos).value)/2.f;
 					if((isMax && (*pos).isMax && value > (*pos).value //uusi ‰‰rev‰mpi maximi
 					||  isMin && !(*pos).isMax &&value < (*pos).value //uusi ‰‰rev‰mpi minimi
 					||  significance > (*pos).significance))
