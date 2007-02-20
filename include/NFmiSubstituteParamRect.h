@@ -22,7 +22,7 @@
 //! Undocumented
 enum NFmiSubstituteParamRectObjects
 {
-    dMappingSubstituteValue = 185,
+    dMappingSubstituteValue = 185
 };
 
 //! Undocumented
