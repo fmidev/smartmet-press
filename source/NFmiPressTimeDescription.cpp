@@ -221,7 +221,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		string numStr1, numStr2, numStr3, numStr4;
 		bool hourCondition;
 		NFmiMetTime now;
-		int hour = now.GetHour();
+		// int hour = now.GetHour();
 		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
 		{
 			condition = *pos;
@@ -235,7 +235,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 				conditionBody = condition.substr(3, condition.size()-3);
 				conditionBody2 = condition.substr(4, condition.size()-4);
 				firstToLower = condition.substr(3, 1);
-				transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(), tolower); 
+				transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(), ::tolower); 
 				notDir = "#ifNot" + conditionBody; //ei kuitenkaan voi k‰ytt‰‰ koska esittely ei onnistu
 				elseDir = "#" + firstToLower + conditionBody2 + "Else";
 				endDir = "#" + firstToLower + conditionBody2 + "Endif";
