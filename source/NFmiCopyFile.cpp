@@ -439,7 +439,7 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
   
   unsigned short nSlash, num;
   bool PsFound = false;
-  bool BbFound = false;
+  // bool BbFound = false;
   NFmiString line("%!PS-Adobe-3.0 EPSF-3.0\n");
   outFile.write(line.CharPtr(), line.GetLen());
   line = NFmiString("%%Title: ");
