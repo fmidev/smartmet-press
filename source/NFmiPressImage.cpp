@@ -27,8 +27,8 @@ using namespace std;
 NFmiPressImage::NFmiPressImage(void)
   : NFmiPressScaling()
   ,itsPressProduct(0)
-  ,itsShear(0.)
   ,itsRelHoursFromFirst(0)
+  ,itsShear(0.)
 {
   NFmiPoint point1 = NFmiPoint(0.,0.);
   NFmiPoint point2 = NFmiPoint(600.,750.);
@@ -61,11 +61,11 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
   , itsClippingPoints(thePressImage.itsClippingPoints)
   , itsPressProduct(thePressImage.itsPressProduct)
   , itsTempImageFile(thePressImage.itsTempImageFile)
+  , itsFileWithoutTimeStamp(thePressImage.itsFileWithoutTimeStamp)
   , itsTempImagePath(thePressImage.itsTempImagePath)
   , itsTempImageDir(thePressImage.itsTempImageDir)
-  , itsShear(thePressImage.itsShear)
-  , itsFileWithoutTimeStamp(thePressImage.itsFileWithoutTimeStamp)
   , itsRelHoursFromFirst(thePressImage.itsRelHoursFromFirst)
+  , itsShear(thePressImage.itsShear)
 {
 }
 
@@ -413,7 +413,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		  }
 		case dImageClippingPath:
 		  {
-			NFmiValueString valueString;
+			NFmiValueString valueString2;
 			if (!ReadEqualChar())
 			  break;
 			if(ReadFour(x1, y1, x2, y2) && ReadTwo(x3, y3)) //minimi 3 pistettä
@@ -431,23 +431,23 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				point.Y(y3);
                 itsClippingPoints.push_back(point);
 
-			    valueString = ReadString();
-				while (valueString.IsNumeric())
+			    valueString2 = ReadString();
+				while (valueString2.IsNumeric())
 				{
-					x1 = static_cast<float>(valueString);
-			        valueString = ReadString();
-					if(valueString.IsNumeric())
+					x1 = static_cast<float>(valueString2);
+			        valueString2 = ReadString();
+					if(valueString2.IsNumeric())
 					{
 						point.X(x1);
-						point.Y(static_cast<float>(valueString));
+						point.Y(static_cast<float>(valueString2));
 						itsClippingPoints.push_back(point);
-			            valueString = ReadString();
+			            valueString2 = ReadString();
 					}
 					else
 						*itsLogFile << "*** ERROR: x:lle puuttuu y-pari kuvan leikkauksessa"  << endl;
 				}
-				itsString = valueString;
-				itsIntObject = ConvertDefText(valueString);
+				itsString = valueString2;
+				itsIntObject = ConvertDefText(valueString2);
 			  }
 
 			else
@@ -667,7 +667,7 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 	{
 	  precedingElementMissing = false;
 
-	  int size = itsClippingPoints.size();
+	  // int size = itsClippingPoints.size();
 
 	  if (!itsClippingRect.IsEmpty())
 		WriteEPSConcatClipping(itsClippingRect);
