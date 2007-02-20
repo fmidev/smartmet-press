@@ -78,7 +78,7 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString & retString)
 
   itsMultiMapping = 0;
   itsModifier = kNoneModifier;
-  bool relPlace = false;
+  // bool relPlace = false;
 
   itsRelRect -= NFmiPoint(1., 1.);
   ReadNext();
