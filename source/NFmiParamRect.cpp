@@ -757,7 +757,6 @@ bool NFmiParamRect::ReadRemaining(void)
 	  }
 	case dExtremePlotting:
 	  {
-	    NFmiString itsHighText,itsLowText; 
 		if (!ReadEqualChar())
 			break;
 
@@ -1976,9 +1975,6 @@ void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float&
 			NFmiPoint ySwitched;
 			ySwitched.Set(origPoint.X(), bottom -(y0-top));
 
-			NFmiPoint lonLatPointTest = itsPressParam->GetGeoArea()->ToLatLon(ySwitched);
-			// float testvalue =  theQueryInfo->InterpolatedValue(lonLatPointTest);
-
 			NFmiPoint gradientPoints[4];
 			NFmiPoint gradienPoint = ySwitched + NFmiPoint(0., -itsEquiRadius);                
 			gradientPoints[0] = itsPressParam->GetGeoArea()->ToLatLon(gradienPoint);
@@ -2357,8 +2353,6 @@ bool NFmiParamRect::CompleteMultiMapping(void)
 	    std::map<float, float>::iterator pos;
 		for(pos=mapping->begin(); pos != mapping->end(); ++pos)
 		{
-		  // float test1 = pos->first;
-		  // float test2 = pos->second;
 	      itsMultiMapping->Complete(pos->first, pos->second);
 		}
 		itsMultiMapping->SetComplete();

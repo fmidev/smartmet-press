@@ -636,7 +636,15 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
     {
 	  return true;
     }
- 
+  
+  bool isMax;
+  if(IsMaxMinPlotting())
+  {
+	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
+	if(!itsPressParam->IsMaxMin(isMax))
+		return true;
+  }
+
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 
@@ -667,8 +675,15 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	}
   else
 	{
-	 
-	  if (itsMultiMapping)
+	  if(IsMaxMinPlotting())
+		{
+			if(isMax)
+				symbolFile = &itsMaxText;
+			else
+				symbolFile = &itsMinText;
+		}
+ 
+	  else if (itsMultiMapping)
 		{
 		  bool missingFound;
 		  CompleteMultiMapping();

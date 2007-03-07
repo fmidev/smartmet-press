@@ -413,7 +413,6 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		  }
 		case dImageClippingPath:
 		  {
-			NFmiValueString valueString2;
 			if (!ReadEqualChar())
 			  break;
 			if(ReadFour(x1, y1, x2, y2) && ReadTwo(x3, y3)) //minimi 3 pistettä
@@ -431,23 +430,23 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				point.Y(y3);
                 itsClippingPoints.push_back(point);
 
-			    valueString2 = ReadString();
-				while (valueString2.IsNumeric())
+			    valueString = ReadString();
+				while (valueString.IsNumeric())
 				{
-					x1 = static_cast<float>(valueString2);
-			        valueString2 = ReadString();
-					if(valueString2.IsNumeric())
+					x1 = static_cast<float>(valueString);
+			        valueString = ReadString();
+					if(valueString.IsNumeric())
 					{
 						point.X(x1);
-						point.Y(static_cast<float>(valueString2));
+						point.Y(static_cast<float>(valueString));
 						itsClippingPoints.push_back(point);
-			            valueString2 = ReadString();
+			            valueString = ReadString();
 					}
 					else
 						*itsLogFile << "*** ERROR: x:lle puuttuu y-pari kuvan leikkauksessa"  << endl;
 				}
-				itsString = valueString2;
-				itsIntObject = ConvertDefText(valueString2);
+				itsString = valueString;
+				itsIntObject = ConvertDefText(valueString);
 			  }
 
 			else

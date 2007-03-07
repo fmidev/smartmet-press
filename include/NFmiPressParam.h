@@ -73,6 +73,7 @@ enum NFmiPressParamObjects
   dMainArea,
   dCoordinatesFromMainMap,
   dStationsFromData= 3040,
+  dStationsFromDataCropping,
   dDataNotNeeded,
   dAreaOperation,
   dDistanceCheck ,

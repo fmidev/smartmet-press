@@ -90,6 +90,8 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
   bool oneMarginSet = false;
+  itsText = new NFmiString("ERROR");
+  bool textGiven = false; 
 
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
@@ -168,7 +170,9 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 		  {
 			if (!ReadEqualChar())
 			  break;
-			itsText = new NFmiString(ReadString());
+			//itsText = new NFmiString(ReadString());
+			*itsText = ReadString();
+			textGiven = true;
 
 			ReadNext();
 			break;
@@ -339,6 +343,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 			textFile = ReadString();
+            textGiven = true;
 
 		    ReadNext();
 			break;
@@ -349,6 +354,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 
             textDir = ReadString();
+            textGiven = true;
 
 			ReadNext();
 			break;
@@ -360,6 +366,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 
             textPath = ReadString();
+            textGiven = true;
 
 			ReadNext();
 			break;
@@ -375,6 +382,9 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 		}
 	}
 
+  if(!textGiven)
+  	  *itsLogFile << "  *** ERROR: no text is given"  << endl;
+  
   if(textFile.IsValue())
 	{
 	  delete itsText;
@@ -723,6 +733,9 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 
 bool NFmiPressText::WritePS(FmiPressOutputMode theOutput)
 {
+
+  if(itsPlace.X() == 0. && itsPlace.Y() == 0.)
+  	  *itsLogFile << "WARNING: Text place not given for: " << static_cast<char *>(*itsText) << endl;
 
   ScalePlotting();
   return WriteString(NFmiString("VAKIOTEKSTI"), theOutput);

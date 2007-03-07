@@ -250,13 +250,18 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 {	
 	if(fMaxMinSearched)
 		return true;
-   
+
+	itsMaxMinLocations.clear();   
 	unsigned long index=0;
 	bool isMax, isMin;
+	float allowedXDist, allowedYDist;
     NFmiSuperSmartInfo info(*itsDataIter);
 	NFmiLocationBag tempStations(itsStations);
     tempStations.Reset();
-	float meanOfGrid = 1015.; //pit‰isi olla esim parametriin sidottu tai laskettava (min+max)/2
+	float maxMinSeparator = 1015.; //huom parametririippuva, pit‰isi olla esim parametriin 
+	                          //  sidottu tai laskettava (min+max)/2;
+	                          // 1015 yli keskipaineen jotta matalat herkemmin
+	float smallerDistAllowed = 995.; //samoin parametririippuva 
 	list<FmiMaxMinPoint>::iterator pos;
     vector<list<FmiMaxMinPoint>::iterator> eraseVector;
 	vector<list<FmiMaxMinPoint>::iterator>::iterator posErase;
@@ -313,9 +318,9 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 		{
 			float significance;
 			if (isMax) 
-				significance = value - meanOfGrid;
+				significance = value - maxMinSeparator;
 			else
-				significance = meanOfGrid - value;
+				significance = maxMinSeparator - value;
 
 			/*
 			float significance = fabs(value - ((value1 + value2 + value3 + value4 +
@@ -328,9 +333,18 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 
 			for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
 			{
-				if(  
-				abs((*pos).point.X() - point.X()) < itsCheckDistance.X() &&
-				abs((*pos).point.Y() - point.Y()) < itsCheckDistance.Y())
+				allowedXDist = static_cast<float>(itsCheckDistance.X());
+				allowedYDist = static_cast<float>(itsCheckDistance.Y());
+	
+				//kaksi v‰h‰n syvemp‰‰ matalaa hyv‰ksyt‰‰n l‰hemp‰n‰kin
+				if(!isMax && !(*pos).isMax && value < smallerDistAllowed
+					                && (*pos).value < smallerDistAllowed)
+				{
+					allowedXDist = allowedXDist * .65f;
+					allowedYDist = allowedYDist * .65f;				
+				}
+				if(abs((*pos).point.X() - point.X()) < allowedXDist &&
+				   abs((*pos).point.Y() - point.Y()) < allowedYDist)
 				{
 				  // float mean = (value+(*pos).value)/2.f;
 					if((isMax && (*pos).isMax && value > (*pos).value //uusi ‰‰rev‰mpi maximi
@@ -1890,6 +1904,60 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		  
+		case dStationsFromDataCropping:
+		{			
+			float x1,y1,x2,y2;
+			if (SetFour(x1,y1,x2,y2))
+			{
+				NFmiRect croppingRect(NFmiPoint(x1,y1),NFmiPoint(x2,y2));
+				if(itsArea.GetArea())
+				{
+					if(!itsDataIter)
+					{
+						*itsLogFile << "*** ERROR: "<< "asemina datan pisteet, mutta data puuttuu "  << endl;
+						return false;
+					}
+					itsDataIter->ResetLocation();
+					double bottom = (itsArea.GetArea())->Bottom();
+					double top = (itsArea.GetArea())->Top();
+					NFmiPoint lonlat;
+					int num = 0;
+					while (itsDataIter->NextLocation())
+					{
+						num++;
+						currentStationNumOnMap++;
+						lonlat = itsDataIter->LatLon();
+						point0 = itsArea.GetArea()->ToXY(lonlat);
+						double y0 = point0.Y();
+						point1 = NFmiPoint(point0.X(), bottom -(y0-top));
+						point2 = itsScale.Scale(point1);
+						if(!croppingRect.IsInside(point1))
+							continue;
+						NFmiString name("As");
+						name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
+						NFmiStationPoint station
+						    (NFmiStation(currentStationNumOnMap, name, lonlat.X(), lonlat.Y()), point2);
+						itsStations.AddLocation(station, false);
+						if(firstStation)
+						{
+							itsName = station.GetName();
+							firstUnscaledPoint = NFmiPoint(x,y);
+							firstStation = false;
+						}
+						firstStation = false;
+					}
+				}
+				else
+					*itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu gridilt‰"  << endl;
+			  }
+			  else
+					*itsLogFile << "*** ERROR: alue puuttuu AseminaDatanPisteetRajaten-k‰skyst‰"<< ""  << endl;
+
+			//ReadNext();
+			break;
+		}
+		  
 		case dAreaOperation:
 		{
 		  fIsAreaOperation = true;
@@ -2204,6 +2272,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("stationsfromdata") ||
 		  lowChar==NFmiString("aseminadatanpisteet"))
 	return dStationsFromData;
+  
+  else if(lowChar==NFmiString("stationsfromdatacropping") ||
+		  lowChar==NFmiString("aseminadatanpisteetrajaten"))
+	return dStationsFromDataCropping;
 
   else if(lowChar==NFmiString("areaoperaion") ||
 		  lowChar==NFmiString("alueoperaatio"))
@@ -2345,6 +2417,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   while(itsCurrentStep <= itsNumberOfSteps) 
 	{
 	  FmiCounter currentStepInd = FmiMin(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
+
+	  fMaxMinSearched = false;
 
       if(!fSupplementary)  
 		 itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, false);
