@@ -75,6 +75,8 @@ public:
   bool Set1Long(long & theMember); 
   bool Set1UnsignedLong(unsigned long & theMember);
   void SetTrue(bool& theBool);
+  void OutputLog(const char cat, const NFmiString & finReport,
+				 const NFmiString & engReport, NFmiString * variable=0); 
 
   unsigned short GetMaxLoopNum(void) const;
   std::ofstream * GetLogFile (void) const;
@@ -519,7 +521,7 @@ NFmiDescription::NFmiDescription(const NFmiDescription & theD)
   itsLoopNum = theD.itsLoopNum;
   itsMaxLoopNum = theD.itsMaxLoopNum;
 }
-
+ 
   // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -13,6 +13,36 @@ using namespace std;
 //! Undocumented
 static unsigned char kSecondC = '\"';
 
+ // ----------------------------------------------------------------------
+/*!
+ * \param category W=Warning, E=Error, other->no prefix
+ * \param finReport report in Finnish
+ * \param engReport report in English
+ * \param variable failing variable, optional
+ */
+// ----------------------------------------------------------------------
+void NFmiDescription::OutputLog(const char category, const NFmiString & finReport,
+								const NFmiString & engReport, NFmiString * variable) 
+{
+	  bool finnish = true; //tee globaali muuttuja tälle
+	  NFmiString logString;
+	  if(category == 'W')
+		  logString = NFmiString("WARNING: ");
+	  else if(category == 'E')
+		  logString = NFmiString("*** ERROR: ");
+
+	  if(finnish)
+		  logString.Add(finReport);
+	  else
+		  logString.Add(engReport);
+
+	  if(variable)
+		  logString.Add(*variable);
+	  char* charString =  static_cast<char *>(logString);
+  	  *itsLogFile << charString << endl;
+	  if(category == 'W' || category == 'E')
+		  cout << charString << endl;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

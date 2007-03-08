@@ -733,9 +733,8 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 
 bool NFmiPressText::WritePS(FmiPressOutputMode theOutput)
 {
-
   if(itsPlace.X() == 0. && itsPlace.Y() == 0.)
-  	  *itsLogFile << "WARNING: Text place not given for: " << static_cast<char *>(*itsText) << endl;
+      OutputLog('W', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
 
   ScalePlotting();
   return WriteString(NFmiString("VAKIOTEKSTI"), theOutput);

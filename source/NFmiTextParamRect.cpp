@@ -649,11 +649,11 @@ bool NFmiTextParamRect::WriteShowString(double x,
 										ofstream & os) const
 {
   bool widthScaling = itsWidthFactor != 1.;
-  float xScaled = x;
+  float xScaled = static_cast<float>(x);
   if(widthScaling)
   {
 		os << itsWidthFactor << " 1 scale" << endl;
-		xScaled = x/itsWidthFactor;
+		xScaled = static_cast<float>(x)/itsWidthFactor;
   }
 
   os << xScaled << " " << y << " moveto" << endl;
