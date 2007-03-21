@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "NFmiDescription.h"
+#include "NFmiFileString.h"
 #include <iostream>
 
 using namespace std;
@@ -25,7 +26,7 @@ void NFmiDescription::OutputLog(const char category, const NFmiString & finRepor
 								const NFmiString & engReport, NFmiString * variable) 
 {
 	  bool finnish = true; //tee globaali muuttuja tälle
-	  NFmiString logString;
+	  NFmiFileString logString; //jotta ääkköset saadaan pois
 	  if(category == 'W')
 		  logString = NFmiString("WARNING: ");
 	  else if(category == 'E')
@@ -37,11 +38,28 @@ void NFmiDescription::OutputLog(const char category, const NFmiString & finRepor
 		  logString.Add(engReport);
 
 	  if(variable)
-		  logString.Add(*variable);
+	  {
+			NFmiString shortString;
+			if(variable->GetLen() > 20)
+			{
+				shortString = variable->GetChars(1, 20);
+				logString.Add(shortString);
+				logString.Add(NFmiString("..."));
+			}
+			else
+			{
+				shortString = *variable;
+				logString.Add(shortString);
+			}
+	  }
 	  char* charString =  static_cast<char *>(logString);
   	  *itsLogFile << charString << endl;
 	  if(category == 'W' || category == 'E')
+	  {
+		  logString.ChangeScandinavian();
+	      char* charString =  static_cast<char *>(logString);
 		  cout << charString << endl;
+	  }
 }
 // ----------------------------------------------------------------------
 /*!

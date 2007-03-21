@@ -382,8 +382,8 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 		}
 	}
 
-  if(!textGiven)
-  	  *itsLogFile << "  *** ERROR: no text is given"  << endl;
+//  if(!textGiven) 
+//  	  *itsLogFile << "  *** ERROR: no text is given"  << endl;
   
   if(textFile.IsValue())
 	{
@@ -733,8 +733,8 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 
 bool NFmiPressText::WritePS(FmiPressOutputMode theOutput)
 {
-  if(itsPlace.X() == 0. && itsPlace.Y() == 0.)
-      OutputLog('W', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
+//  if(itsPlace.X() == 0. && itsPlace.Y() == 0.)
+//      OutputLog('E', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
 
   ScalePlotting();
   return WriteString(NFmiString("VAKIOTEKSTI"), theOutput);
@@ -755,6 +755,13 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 {
 
   NFmiString text = Construct(itsText);
+    
+  if(itsPlace.X() == 0. && itsPlace.Y() == 0. && !fInParagraph)
+      OutputLog('E', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
+
+  if(text == NFmiString("ERROR"))
+        OutputLog('E', "Teksti puuttuu tekstioliolta", "Text missing from text object");
+
   NFmiHyphenationString hypString, helpString;
   bool firstParagraph = fInParagraph && itsTopMargin > -100.;
   bool nParagraph = fInParagraph && !firstParagraph;

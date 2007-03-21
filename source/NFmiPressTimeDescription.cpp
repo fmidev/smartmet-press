@@ -297,6 +297,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 				dirTime2.SetMonth(month2);
 
 				NFmiMetTime today;
+				today.SetMonth(GetSeasonsStatus()->month);
+				today.SetDay(GetSeasonsStatus()->day);
 				int julToday = today.GetJulianDay();
 				int jul1 = dirTime1.GetJulianDay();
 				int jul2 = dirTime2.GetJulianDay();

@@ -432,9 +432,11 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 	NFmiStaticTime time;
 	short mon = time.GetMonth();
 	bool firstIsUpper = theString.FirstCharIsUpper();
-    theString.LowerCase();
-	string stdString(theString);
+	NFmiString lowString(theString);
+    lowString.LowerCase();
+	string stdString(lowString);
 	string::size_type startInd;
+	bool changed = false;
 
 	startInd = stdString.find("lämmintä");
     if(startInd != string::npos)
@@ -443,6 +445,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 //		if(mon > 4)
 		{
 			stdString.replace(startInd, 8, "lauhaa");
+			changed = true;
 		}
 	}
 
@@ -452,6 +455,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 		if(mon > 10 || mon <4)
 		{
 			stdString.replace(startInd, 5, "milt");
+			changed = true;
 		}
 	}
 
@@ -461,6 +465,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 		if(mon > 4 && mon <9)
 		{
 			stdString.replace(startInd, 6, "koleaa");
+			changed = true;
 		}
 	}
 
@@ -470,6 +475,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 		if(mon > 4 && mon <9)
 		{
 			stdString.replace(startInd, 5, "kyligt");
+			changed = true;
 		}
 	}
 
@@ -485,6 +491,8 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 			stdString.replace(startInd, 4, "kesä");
 		else if(mon == 11 || mon == 3 || mon==5)
 			stdString.replace(startInd, 4, "pouta");
+		changed = true;
+
 	}
 
 	startInd = stdString.find("höstväder");
@@ -498,23 +506,29 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 			stdString.replace(startInd,4, "sommar");
 		else if(mon == 11 || mon == 3 || mon==5)
 			stdString.replace(startInd, 4, "uppehålls");
+		changed = true;
 	}
 	startInd = stdString.find("kallt_för_årstiden");
     if(startInd != string::npos)
 	{
 		if(mon == 12 || mon == 1 || mon == 2)
 			stdString.replace(startInd, 18, "kallt");
+		changed = true;
 	}
 	startInd = stdString.find("varmt_för_årstiden");
     if(startInd != string::npos)
 	{
 		if(mon >= 6 || mon <= 8)
 			stdString.replace(startInd, 18, "varmt");
+		changed = true;
 	}
 
-	theString = stdString;
-    if(firstIsUpper)
-		theString.FirstCharToUpper();
+	if(changed)
+	{
+		theString = stdString;
+		if(firstIsUpper)
+			theString.FirstCharToUpper();
+	}
 	return true;
 }
 

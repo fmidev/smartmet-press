@@ -265,6 +265,7 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 	list<FmiMaxMinPoint>::iterator pos;
     vector<list<FmiMaxMinPoint>::iterator> eraseVector;
 	vector<list<FmiMaxMinPoint>::iterator>::iterator posErase;
+	NFmiPoint point, point1, point2, point3, pointDiffX, pointDiffY, pointJust; 
 
     while (tempStations.Next())
 	{
@@ -274,6 +275,21 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 		isMax = false;
 		isMin = false;
 		info.Location(*tempStations.Location());
+		if(index==1)
+		{
+			point1 = (*static_cast<const NFmiStationPoint *>(tempStations.Location())).Point();
+		}
+		if(index==2)
+		{
+			point2 = (*static_cast<const NFmiStationPoint *>(tempStations.Location())).Point();
+			pointDiffX = point2 - point1;
+		}
+		if(index==info.GridYNumber()+1)
+		{
+			point3 = (*static_cast<const NFmiStationPoint *>(tempStations.Location())).Point();
+			pointDiffY = point3 - point1;
+		}
+
 		float value = info.FloatValue();
 		if(value == kFloatMissing)
 			continue;
@@ -328,8 +344,31 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 			if(isMax)
 				significance = significance*0.2f;
             */
-			NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
-			NFmiPoint point = statPoint.Point();
+			//NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
+			//NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
+		    //NFmiStationPoint* statPoint = static_cast<const_cast NFmiStationPoint *>(itsStations.Location());
+ 		    NFmiStationPoint* statPoint = static_cast<NFmiStationPoint *>
+				                         (const_cast<NFmiLocation*>(itsStations.Location()));
+            point = statPoint->Point();
+
+			//säädetään tarkkaan paikkaansa olettaen että kenttä paraabelin muotoinen molempiin suuntiin
+			// ax**2 + bx + c = y
+			// ekstreemin paikka missä derivaatta nolla: 2ax + b = 0
+
+			float a1 = (value5+value1) / 2.f - value;
+			float b1 = value1 - (value5+value1) / 2.f;
+			float just1 = (-b1 / 2.f * a1);
+			pointJust = NFmiPoint(pointDiffX.X()*just1,pointDiffX.Y()*just1);
+			
+			float a2 = (value3+value7) / 2.f - value;
+			float b2 = value3 - (value3+value7) / 2.f;
+			float just2 = (-b2 / 2.f * a2);
+			pointJust += NFmiPoint(pointDiffY.X()*just2,pointDiffY.Y()*just2);
+
+			point += pointJust;
+			//statPoint->Point(point); //sivuvaikutuksia??
+			statPoint->Point(NFmiPoint(20.,20.)); //sivuvaikutuksia??
+
 
 			for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
 			{

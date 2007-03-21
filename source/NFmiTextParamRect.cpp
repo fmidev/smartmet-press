@@ -460,8 +460,9 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		 mutta tarvitaan:
 		 + skandeihin (muuten kuin sanan viimeisinä)
 	  */
+      bool isHyphen =    theText.Search(NFmiString("-"))     != 0;
 
-	  if (fUseSelectLatinFont)
+	  if (fUseSelectLatinFont && !isHyphen)
 		{
 		  theDestinationFile << "/"
 							 << static_cast<char *>(GetFont())
@@ -653,7 +654,7 @@ bool NFmiTextParamRect::WriteShowString(double x,
   if(widthScaling)
   {
 		os << itsWidthFactor << " 1 scale" << endl;
-		xScaled = static_cast<float>(x)/itsWidthFactor;
+		xScaled = static_cast<float>((x)/itsWidthFactor);
   }
 
   os << xScaled << " " << y << " moveto" << endl;

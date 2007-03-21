@@ -140,7 +140,7 @@ bool NFmiPressDataTimeText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 
 bool NFmiPressDataTimeText::WritePS(FmiPressOutputMode theOutput)
 {
-  ScalePlotting();
+   ScalePlotting();
 
   // Mika suspects a bug in the reinterpret cast,
   // since the cast is from NFmiFastQueryInfo * to NFmiQueryData *

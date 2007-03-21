@@ -82,7 +82,7 @@ bool NFmiPressGivenTimeText::ReadRemaining(void)
 
 bool NFmiPressGivenTimeText::WritePS(FmiPressOutputMode theOutput)
 {
-  ScalePlotting();
+   ScalePlotting();
 
   SetText();
   return WriteString(NFmiString("AnnettuAikaTeksti"), theOutput);
