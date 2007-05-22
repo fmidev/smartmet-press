@@ -756,7 +756,8 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 
   NFmiString text = Construct(itsText);
     
-  if(itsPlace.X() == 0. && itsPlace.Y() == 0. && !fInParagraph)
+  if(theOutput != kPlainText && 
+	  (itsPlace.X() == 0. && itsPlace.Y() == 0. && !fInParagraph))
       OutputLog('E', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
 
   if(text == NFmiString("ERROR"))

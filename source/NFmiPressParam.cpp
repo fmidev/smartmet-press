@@ -224,7 +224,7 @@ NFmiPoint NFmiPressParam::GetFirstPoint(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressParam::IsMaxMin(bool& theIsMax) 
+bool NFmiPressParam::IsMaxMin(bool& theIsMax, NFmiPoint& theCorrectedPoint) 
 {
    	std::list<FmiMaxMinPoint>::iterator pos;
 	for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
@@ -232,6 +232,7 @@ bool NFmiPressParam::IsMaxMin(bool& theIsMax)
 		if((*pos).index == itsCurrentStationIndex)
 		{
 			theIsMax = (*pos).isMax;
+			theCorrectedPoint = (*pos).point;
 			return true;
 		}
 	}
@@ -344,30 +345,32 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 			if(isMax)
 				significance = significance*0.2f;
             */
-			//NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
-			//NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(tempStations.Location());
-		    //NFmiStationPoint* statPoint = static_cast<const_cast NFmiStationPoint *>(itsStations.Location());
- 		    NFmiStationPoint* statPoint = static_cast<NFmiStationPoint *>
-				                         (const_cast<NFmiLocation*>(itsStations.Location()));
+ 		    
+			NFmiStationPoint* statPoint = static_cast<NFmiStationPoint *>
+  				                         (const_cast<NFmiLocation*>(tempStations.Location()));
             point = statPoint->Point();
-
+            
 			//säädetään tarkkaan paikkaansa olettaen että kenttä paraabelin muotoinen molempiin suuntiin
 			// ax**2 + bx + c = y
 			// ekstreemin paikka missä derivaatta nolla: 2ax + b = 0
+			// a,b,c(=value) ratkaistavissa kolmen pisteen avulla
 
+			//X-suunta
 			float a1 = (value5+value1) / 2.f - value;
-			float b1 = value1 - (value5+value1) / 2.f;
-			float just1 = (-b1 / 2.f * a1);
+			float b1 = (value1 - value5) / 2.f;
+			float just1 = -b1 / (2.f * a1);
 			pointJust = NFmiPoint(pointDiffX.X()*just1,pointDiffX.Y()*just1);
-			
+	
+			//Y-suunta
 			float a2 = (value3+value7) / 2.f - value;
-			float b2 = value3 - (value3+value7) / 2.f;
-			float just2 = (-b2 / 2.f * a2);
+			float b2 = (value7 - value3) / 2.f;
+			float just2 = -b2 / (2.f * a2);
 			pointJust += NFmiPoint(pointDiffY.X()*just2,pointDiffY.Y()*just2);
 
 			point += pointJust;
+
 			//statPoint->Point(point); //sivuvaikutuksia??
-			statPoint->Point(NFmiPoint(20.,20.)); //sivuvaikutuksia??
+			//statPoint->Point(NFmiPoint(20.,20.)); //sivuvaikutuksia??
 
 
 			for(pos=itsMaxMinLocations.begin(); pos != itsMaxMinLocations.end(); ++pos)
@@ -407,10 +410,12 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 			if(!near)  
 			{  //vain kun uusi rankattu merkittävämmäksi kaikki lähipisteet poistetaan
 			   // jos on hila niitä voi kai olla vain max kaksi
+			
 			    for(posErase=eraseVector.begin(); posErase != eraseVector.end(); ++posErase)
 				{
 				     itsMaxMinLocations.erase(*posErase);
 				}
+				
 				FmiMaxMinPoint maxMinPoint;
 				maxMinPoint.value = value;
 				maxMinPoint.point = point;

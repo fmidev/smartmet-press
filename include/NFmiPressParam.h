@@ -166,7 +166,7 @@ public:
   bool IsDistanceCheck(void) const;
   bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
   bool SetMaxMinPoints(void);
-  bool IsMaxMin(bool& theIsMax);
+  bool IsMaxMin(bool& theIsMax, NFmiPoint& theCorrectedPoint);
   bool InterruptSymbolGroup(void)const;
   unsigned long GetCurrentStationStep(void) const;
   NFmiPressProduct* GetPressProduct (void)const;

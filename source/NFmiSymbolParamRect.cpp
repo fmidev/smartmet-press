@@ -638,10 +638,12 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
     }
   
   bool isMax;
+  NFmiPoint correctedPoint;
+
   if(IsMaxMinPlotting())
   {
 	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
-	if(!itsPressParam->IsMaxMin(isMax))
+	if(!itsPressParam->IsMaxMin(isMax, correctedPoint))
 		return true;
   }
 

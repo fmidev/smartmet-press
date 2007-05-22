@@ -258,6 +258,9 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
+  // M/K-keskukset siirretään vähän oikeaan kohtaan
+  NFmiRect correctedRect = theAbsoluteRectOfSymbolGroup;
+
   bool lastElementStatus = GetPressProduct()->LastTextStatus();
   GetPressProduct()->SetLastTextStatus(true);
   if(itsPressParam->IsBackupStation())
@@ -275,8 +278,10 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   if(IsMaxMinPlotting())
   {
 	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
-	if(!itsPressParam->IsMaxMin(isMax))
+    NFmiPoint correctedPoint;
+	if(!itsPressParam->IsMaxMin(isMax, correctedPoint))
 		return true;
+    correctedRect.Center(correctedPoint);
   }
 
 
@@ -369,7 +374,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  if(itsMultiMapping)
 		  keyValue = itsCurrentParamArray[0];
 
-		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(keyValue)), theAbsoluteRectOfSymbolGroup.Place()))
+		//if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(keyValue)), theAbsoluteRectOfSymbolGroup.Place()))
+		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(keyValue)), correctedRect.Place()))
 			return false;
 	}
 
@@ -393,12 +399,12 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			// return itsColumnText->WritePS(theAbsoluteRectOfSymbolGroup.Place(),theOutput);
 			//return itsColumnText->WritePS(theOutput);
 			// OK return itsColumnText->WritePS(NFmiPoint(100,50), theOutput);
-		      return itsColumnText->WritePS(theAbsoluteRectOfSymbolGroup.Place(), theOutput);
+		      return itsColumnText->WritePS(correctedRect.Place(), theOutput);
 
 	  }
 	  else
 			return WriteCode(Construct(&str),
-					   theAbsoluteRectOfSymbolGroup, 
+					   correctedRect, 
 					   theDestinationFile,
 					   NFmiString("TEKSTI datasta"),
 					   theOutput); 
@@ -441,7 +447,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
 	startInd = stdString.find("lämmintä");
     if(startInd != string::npos)
 	{
-		if(mon > 10 || mon <4)
+		if(mon > 11 || mon <3)
 //		if(mon > 4)
 		{
 			stdString.replace(startInd, 8, "lauhaa");
