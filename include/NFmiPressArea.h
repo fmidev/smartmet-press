@@ -24,7 +24,6 @@
 #ifndef NFMIPRESSAREA_H 
 #define NFMIPRESSAREA_H
 
-#include "NFmiPolSterArea.h"
 #include "NFmiPressDescription.h"
 #include "NFmiStereographicArea.h"
 #include "NFmiYKJArea.h"

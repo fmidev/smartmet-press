@@ -118,8 +118,6 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 			helpString.LowerCase();
 			if (helpString == NFmiString ("ykj"))
 			  proj = kNFmiYKJArea;
-			else if (helpString == NFmiString ("polster"))
-			  proj = kNFmiPolSterArea;
 			else if (helpString.GetChars(1,6) == NFmiString ("stereo"))
 			  proj = kNFmiStereographicArea;
 			else if (helpString.GetChars(1,6) == NFmiString ("equidi"))
@@ -216,12 +214,6 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 									  NFmiPoint(trLon,trLat),
 									  NFmiPoint(tlX,tlY),
 									  NFmiPoint(brX,brY));
-		  else if (proj == kNFmiPolSterArea)
-			itsArea = new NFmiPolSterArea(NFmiPoint(blLon,blLat),
-										  NFmiPoint(trLon,trLat),
-										  orientation,
-										  NFmiPoint(tlX,tlY),
-										  NFmiPoint(brX,brY));
 		  else if (proj == kNFmiStereographicArea)
 				itsArea = new NFmiStereographicArea(NFmiPoint(blLon,blLat),
 													NFmiPoint(trLon,trLat),
