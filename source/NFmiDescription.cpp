@@ -57,8 +57,7 @@ void NFmiDescription::OutputLog(const char category, const NFmiString & finRepor
 	  if(category == 'W' || category == 'E')
 	  {
 		  logString.ChangeScandinavian();
-	      char* charString =  static_cast<char *>(logString);
-		  cout << charString << endl;
+		  cout << static_cast<char *>(logString) << endl;
 	  }
 }
 // ----------------------------------------------------------------------
