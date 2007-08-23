@@ -63,6 +63,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsLastElementStatus.symbol = true;
   itsLastElementStatus.number = true;
   itsLastElementStatus.text = true;
+  itsTempCorrection = new NFmiValueCorrection();
 }
 
 // ----------------------------------------------------------------------
@@ -94,6 +95,8 @@ NFmiPressProduct::~NFmiPressProduct(void)
 	delete itsPalette;
   if(itsDescriptionFile) //owner of NFmiTimeDescription member
 	delete itsDescriptionFile;
+  if(itsTempCorrection)
+    delete itsTempCorrection;
 }
 
 // ----------------------------------------------------------------------
@@ -1177,6 +1180,12 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    logFileName += NFmiString("lehti.log");
 #endif
 
+   string tempCorrFile= GetHome();
+   tempCorrFile += kFmiDirectorySeparator;
+   tempCorrFile += "Muut";
+   tempCorrFile += kFmiDirectorySeparator;
+   tempCorrFile += "Lampokorjaus.txt";
+   itsTempCorrection->SetFiles(tempCorrFile, itsLogFile);
 
    itsLogFileName = logFileName;   //jotta voidaan sulkea/avata jatkossa
    itsLogFile->open(logFileName, ios::out|ios::app); // edellinen aloitti alusta
@@ -1216,7 +1225,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = REL 21.5.2007" << endl;       
+   *itsLogFile << "program version = REL 23.8.2007" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

@@ -79,7 +79,8 @@ enum NFmiPressParamObjects
   dDistanceCheck ,
   dSupplement,
   dSegmentNameDay,
-  dBackupStation
+  dBackupStation,
+  dDataCoordinatesMoved
 };
 
 struct FmiValuePoint
@@ -243,6 +244,7 @@ protected:
   bool fCurrentStationBackup;
   NFmiPoint itsCurrentUnscaledPoint;
   bool fMaxMinSearched;
+  bool fDataCoordinatesMoved;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -295,6 +297,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fYearData(false)
   , fCurrentStationBackup(false)
   , fMaxMinSearched(false)
+  , fDataCoordinatesMoved(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -344,6 +347,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fYearData(false)
   , fCurrentStationBackup(false)
   , fMaxMinSearched(false)
+  , fDataCoordinatesMoved(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();

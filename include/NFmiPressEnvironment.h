@@ -21,6 +21,7 @@
 #include  "NFmiGlobals.h"
 #include "NFmiPressTypes.h"
 #include "NFmiString.h"
+#include "NFmiPoint.h"
 
 class NFmiPressArea;
 
@@ -74,6 +75,9 @@ public:
   void SetCMYK(FmiCMYK theColor);
   void SetColor(const FmiGenericColor & theColor);
   void SetVersion(int theVersion);
+  bool IsSegmentMove(void)const;
+  void SetSegmentMove(const NFmiPoint& theMove);
+  NFmiPoint GetSegmentMove(void)const;
 
 private:
 
@@ -84,6 +88,7 @@ private:
   long itsAdditionalDayAdvance;
   FmiPressTextAttributes itsTextAttributes;
   int itsVersion;
+  NFmiPoint itsSegmentMove;
 
 }; // class NFmiPressEnvironment
 
@@ -113,6 +118,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
     //itsTextAttributes.color;                    //käyttöön myöhemmin
     itsTextAttributes.fLongNumberMinus = false;  //käyttöön myöhemmin
 	itsVersion = 1;
+	itsSegmentMove = NFmiPoint(0.,0.);
 }
 
 // ----------------------------------------------------------------------
@@ -151,6 +157,7 @@ FmiDirection NFmiPressEnvironment::GetTextAlignment(void)const
 {
   return itsTextAttributes.alignment;
 }
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -473,6 +480,45 @@ inline
 long NFmiPressEnvironment::GetDayAdvance(void)
 {
   return itsAdditionalDayAdvance;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetSegmentMove(const NFmiPoint& theMove)
+{
+	itsSegmentMove = theMove;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiPoint NFmiPressEnvironment::GetSegmentMove(void)const
+{
+	return itsSegmentMove;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressEnvironment::IsSegmentMove(void)const
+{
+	return itsSegmentMove.X() != 0. || itsSegmentMove.Y() != 0.;
 }
 
 #endif // NFMIPRESSENVIRONMENT_H

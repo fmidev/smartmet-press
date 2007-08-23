@@ -1089,6 +1089,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
+				//MoveSegmentPlaceConditionally(xmin,ymin);
+				//MoveSegmentPlaceConditionally(xmax,ymax);
 				if(xmin == xmax || ymin == ymax)
 				  *itsLogFile << "*** ERROR: asemienSijoitusAlueen min == max"  << endl;
 				else
@@ -1465,6 +1467,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
 					  itsString = valueString;
 					}
+					MoveSegmentPlaceConditionally(x,y);
 				}
 			  else                // 1 luku
 				{
@@ -1580,6 +1583,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 
 						itsString = valueString;
 					  }
+					  MoveSegmentPlaceConditionally(x,y);
 				  }
 				else                // 1 luku
 				  {
@@ -1640,6 +1644,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			NFmiString name;
 			if(ReadOneStringAndTwoNumbers(name,x,y))
 			  {
+			    MoveSegmentPlaceConditionally(x,y);
 				if(itsArea.GetArea())
 				  {
 					if(fCoordinatesFromMainMap)
@@ -1887,6 +1892,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			itsArea.SetDescriptionFile(itsDescriptionFile);
 			itsArea.SetXyRequest(!fIsAreaOperation); // mittoja ei tarvita jos käytetään alueoperaatioihin
 			itsArea.SetProduct(itsPressProduct);
+			itsArea.SetEnvironment(itsEnvironment);
 			itsArea.ReadDescription(itsString);
 
 			itsIntObject = ConvertDefText(itsString);
@@ -2013,6 +2019,13 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		{
 		  fSupplementary = true; //tämä segmentti
 		  itsPressProduct->SetSupplementMode(true); //muille segmenteille tiedoksi
+
+		  ReadNext();
+		  break;
+		}
+		case dDataCoordinatesMoved:
+		{
+		  fDataCoordinatesMoved = true; 
 
 		  ReadNext();
 		  break;
@@ -2336,6 +2349,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("#nameday") ||
 		  lowChar==NFmiString("#nimipäivä"))
 	return dSegmentNameDay;
+  
+  else if(lowChar==NFmiString("datacoordinatesmoved") ||
+		  lowChar==NFmiString("datankoordinaatitsiirretty"))
+	return dDataCoordinatesMoved;
 
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
@@ -2892,8 +2909,9 @@ bool NFmiPressParam::SetLonLat(NFmiStationPoint & theStation)
 	{
 		return false;
 	}
-	// ensin tarkistetaan jos on pistedata niin otetaan sielta aseman Lon/lat
-  if(!itsDataIter->IsGrid())
+// ensin tarkistetaan jos on pistedata niin otetaan sielta aseman Lon/lat
+// paitsi jos asemat ei oikeilla paikoillaan
+  if(!itsDataIter->IsGrid() && !fDataCoordinatesMoved)
 	{
 
 	  if(itsDataIter->Location(NFmiStation(*theStation.Station()).GetName()))

@@ -120,6 +120,8 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsMaxText(theRect.itsMaxText)
   , itsMinText(theRect.itsMinText)
   , itsDataIdent(theRect.itsDataIdent)
+  , fTempMaxCorrection(theRect.fTempMaxCorrection)
+  , fTempMinCorrection(theRect.fTempMinCorrection)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -766,6 +768,20 @@ bool NFmiParamRect::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
+	 case dTempMaxCorrection:
+	  {
+			SetMaxCorrection();
+ 		    ReadNext();
+
+			break;
+	  }
+	 case dTempMinCorrection:
+	  {
+			SetMinCorrection();
+ 		    ReadNext();
+
+			break;
+	  }
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -1010,6 +1026,14 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("extremes") ||
           lowChar==NFmiString("ääriarvot"))
 	return dExtremePlotting;
+  
+  else if(lowChar==NFmiString("correctmaxtemp") ||
+          lowChar==NFmiString("korjaamaksimit"))
+	return dTempMaxCorrection;
+  
+  else if(lowChar==NFmiString("correctmintemp") ||
+          lowChar==NFmiString("korjaaminimit"))
+	return dTempMinCorrection;
 
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
@@ -1909,7 +1933,11 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  
 	}
 	
-
+  if(fTempMaxCorrection || fTempMinCorrection)
+  {
+	  GetPressProduct()->GetTempCorrection()->CorrectValue(value, itsPressParam->GetCurrentStation().GetName(),
+								fTempMaxCorrection);
+  }
   if(itsRoundingNumber != kLongMissing)
 	  value = static_cast<float>(FmiRound(value/itsRoundingNumber)) * itsRoundingNumber;
 

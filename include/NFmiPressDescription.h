@@ -52,7 +52,8 @@ enum NFmiPressDescriptionObjects
   dDescTextAlignment,
   dWidthFactor,
   dMissingPrecedingImage,
-  dVersion = 2050
+  dVersion = 2050,
+  dSegmentMove,
 };
 
 //! Undocumented
@@ -90,6 +91,7 @@ public:
 	void SetTextAlignment(FmiDirection alignment);
 	bool GetOnlyForMissingPrecedingElementFlag(void) const;
 	void SetOnlyForMissingPrecedingElementFlag(bool theFlag);  
+    bool IsSegmentMove(void)const;
 
 protected:
 
@@ -100,6 +102,8 @@ protected:
   NFmiString itsHomePath; 
   FmiLanguage itsLanguage;
   bool fOnlyForMissingPrecedingElement;
+  void MoveSegmentPlace(double& theX, double& theY)const;
+  void MoveSegmentPlaceConditionally(double& theX, double& theY)const;
 
 private: 
 
@@ -359,6 +363,51 @@ inline
 void NFmiPressDescription::SetColor(const FmiGenericColor & theColor)
 {
   itsEnvironment.SetColor(theColor);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theColor Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressDescription::IsSegmentMove(void)const
+{
+  return itsEnvironment.IsSegmentMove();
+}
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theColor Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::MoveSegmentPlace(double& theX, double& theY)const
+{
+  theX += itsEnvironment.GetSegmentMove().X();
+  theY += itsEnvironment.GetSegmentMove().Y();
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theColor Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressDescription::MoveSegmentPlaceConditionally(double& theX, double& theY)const
+{
+  if(IsSegmentMove())
+  {
+	  MoveSegmentPlace(theX, theY);
+  }
 }
 
 #endif // NFMIPRESSDESCRIPTION_H

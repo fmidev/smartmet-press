@@ -84,7 +84,9 @@ enum NFmiParamRectObjects
   dPlaceMoveAlternating,
   dTempNotMean,
   dRotatingAngle = 7060,
-  dExtremePlotting
+  dExtremePlotting,
+  dTempMaxCorrection,
+  dTempMinCorrection
 };
 
 //! Undocumented
@@ -156,7 +158,9 @@ public:
   bool UpdateModifierTimes(void);
   unsigned long GetOrder(void)const; 
   void SetOrder(unsigned long theOrder); 
-  
+  void SetMaxCorrection(void);
+  void SetMinCorrection(void);
+
 protected:
 
   bool SetRelModifierTimes(long startRelHour, long endRelHour);
@@ -263,6 +267,8 @@ protected:
   NFmiPoint itsCorrPoint;
   NFmiString itsMaxText;
   NFmiString itsMinText;
+  bool fTempMaxCorrection;
+  bool fTempMinCorrection;
 
 private:
 
@@ -320,6 +326,8 @@ NFmiParamRect::NFmiParamRect(void)
   , itsRotatingAngle(kFloatMissing)
   , itsMaxText(NFmiString("None"))
   , itsMinText(NFmiString("None"))
+  , fTempMaxCorrection(false)
+  , fTempMinCorrection(false)
 
 {
   itsStationLoopActivity.startIndex=0;
@@ -384,11 +392,33 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsMaxText(NFmiString("None"))
   , itsMinText(NFmiString("None"))
   , itsDataIdent(theParam)
+  , fTempMaxCorrection(false)
+  , fTempMinCorrection(false)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
   itsIntegrationPeriod.startWeight = kFloatMissing;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiParamRect::SetMaxCorrection(void)
+{
+  fTempMaxCorrection = true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiParamRect::SetMinCorrection(void)
+{
+  fTempMinCorrection = true;
 }
 // ----------------------------------------------------------------------
 /*!

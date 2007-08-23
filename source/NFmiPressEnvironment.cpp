@@ -34,6 +34,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOther
   , itsAdditionalDayAdvance(theOtherEnvironment.itsAdditionalDayAdvance)
   , itsTextAttributes(theOtherEnvironment.itsTextAttributes)
   , itsVersion(theOtherEnvironment.itsVersion)
+  , itsSegmentMove(theOtherEnvironment.itsSegmentMove)
 {
 }
 

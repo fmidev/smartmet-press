@@ -204,6 +204,13 @@ bool NFmiPressDescription::ReadRemaining(void)
  
 			break;
 	  }
+	 case dSegmentMove:
+	  {
+			SetTwo(r1,r2);
+			itsEnvironment.SetSegmentMove(NFmiPoint(r1,r2));
+ 
+			break;
+	  }
 	}
   }
   return true;
@@ -322,6 +329,9 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
    else if(lowChar==NFmiString("version") ||
 		  lowChar==NFmiString("versio"))
 	return dVersion;
+   else if(lowChar==NFmiString("segmentmove") ||
+		  lowChar==NFmiString("segmentinsiirto"))
+	return dSegmentMove;
 else
 	return NFmiDescription :: ConvertDefText(object);
 }

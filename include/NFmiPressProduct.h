@@ -24,6 +24,7 @@
 #define NFMIPRESSPRODUCT_H
 
 // press
+#include "NFmiValueCorrection.h"
 #include "NFmiCmykColorBag.h"
 #include "NFmiHyphenationString.h"
 #include "NFmiNamedQueryData.h"
@@ -166,6 +167,7 @@ public:
   bool GetSupplementMode(void);
   bool AddSubstituteMappingValue(float theOldValue
 				             ,float theNewValue);
+
 protected:
 
   void StepMap(void);
@@ -198,6 +200,7 @@ public:
   void SetLastTextStatus (bool theBool);
   std::map<float, float> itsSubstituteMappingValues;
   FmiPageSize GetPageSize(void) const;
+  NFmiValueCorrection* GetTempCorrection(void) const;
 
 private:
 
@@ -248,9 +251,23 @@ private:
   bool fNewestDataMode;
   bool fSupplementMode;
   FmiElementStatus itsLastElementStatus;
+  NFmiValueCorrection* itsTempCorrection;
 }; // class NFmiPressProduct
 
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiValueCorrection* NFmiPressProduct::GetTempCorrection(void) const
+{
+  return itsTempCorrection;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

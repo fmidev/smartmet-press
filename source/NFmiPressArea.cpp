@@ -172,6 +172,8 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 		case dXYCorners:
 		  {
 			SetFour(tlX,tlY,brX,brY);
+			MoveSegmentPlaceConditionally(tlX,tlY);
+			MoveSegmentPlaceConditionally(brX,brY);
 			break;
 		  }
 		case dWorldXYCorners:
