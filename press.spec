@@ -1,5 +1,5 @@
 Summary: press library
-Name: smartmet_press
+Name: press
 Version: 1.0.1
 Release: 1
 License: FMI
@@ -25,13 +25,13 @@ make depend
 make %{_smp_mflags} 
 
 %install
-make install PREFIX="${RPM_BUILD_ROOT}%{_usr}"
+%makeinstall
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,www,www,0775)
+%defattr(-,root,root,0775)
 %{_includedir}/press
 %{_libdir}/libpress.a
 
