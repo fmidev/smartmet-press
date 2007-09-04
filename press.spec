@@ -1,13 +1,13 @@
 Summary: press library
-Name: press
-Version: 1.0
+Name: smartmet_press
+Version: 1.0.1
 Release: 1
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}
-Requires: newbase >= 1.0-1
+Requires: newbase >= 1.0.1-1
 Provides: press
 
 %description
@@ -25,15 +25,15 @@ make depend
 make %{_smp_mflags} 
 
 %install
-make install prefix="${RPM_BUILD_ROOT}"
+make install PREFIX="${RPM_BUILD_ROOT}%{_usr}"
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,www,www,0775)
-/usr/include/press
-/usr/lib/libpress.a
+%{_includedir}/press
+%{_libdir}/libpress.a
 
 
 %changelog
