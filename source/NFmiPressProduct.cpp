@@ -1180,7 +1180,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    logFileName += NFmiString("lehti.log");
 #endif
 
-   string tempCorrFile= GetHome();
+   string tempCorrFile= static_cast<string>(GetHome());
    tempCorrFile += kFmiDirectorySeparator;
    tempCorrFile += "Muut";
    tempCorrFile += kFmiDirectorySeparator;
