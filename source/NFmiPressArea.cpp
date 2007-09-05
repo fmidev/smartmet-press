@@ -118,7 +118,8 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 			helpString.LowerCase();
 			if (helpString == NFmiString ("ykj"))
 			  proj = kNFmiYKJArea;
-			else if (helpString.GetChars(1,6) == NFmiString ("stereo"))
+			else if (helpString.GetChars(1,6) == NFmiString ("stereo") ||
+				     helpString.GetChars(1,7) == NFmiString ("polster"))
 			  proj = kNFmiStereographicArea;
 			else if (helpString.GetChars(1,6) == NFmiString ("equidi"))
 			  proj = kNFmiEquiDistArea;
