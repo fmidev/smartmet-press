@@ -8,6 +8,7 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}
+BuildPrereq: newbase >= 1.0.1-1
 Requires: newbase >= 1.0.1-1
 Provides: %{LIBNAME}
 
@@ -23,7 +24,7 @@ mkdir $RPM_BUILD_ROOT
 %build
 make clean
 make depend
-make %{_smp_mflags} 
+make %{_smp_mflags} release
 
 %install
 %makeinstall includedir=%{buildroot}%{_includedir}/smartmet
