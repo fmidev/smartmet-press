@@ -1,6 +1,6 @@
 %define LIBNAME press
 Summary: press library
-Name: smartmet-%{LIBNAME}
+Name: libsmartmet-%{LIBNAME}
 Version: 1.0.1
 Release: 1.el5.fmi
 License: FMI
@@ -8,8 +8,7 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}
-BuildPrereq: newbase >= 1.0.1-1
-Requires: newbase >= 1.0.1-1
+#BuildPrereq: newbase >= 1.0.1-1
 Provides: %{LIBNAME}
 
 %description
