@@ -391,9 +391,9 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsRotatingAngle(kFloatMissing)
   , itsMaxText(NFmiString("None"))
   , itsMinText(NFmiString("None"))
-  , itsDataIdent(theParam)
   , fTempMaxCorrection(false)
   , fTempMinCorrection(false)
+  , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;

@@ -119,9 +119,9 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsRotatingAngle(theRect.itsRotatingAngle)
   , itsMaxText(theRect.itsMaxText)
   , itsMinText(theRect.itsMinText)
-  , itsDataIdent(theRect.itsDataIdent)
   , fTempMaxCorrection(theRect.fTempMaxCorrection)
   , fTempMinCorrection(theRect.fTempMinCorrection)
+  , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
