@@ -53,7 +53,7 @@ enum NFmiPressDescriptionObjects
   dWidthFactor,
   dMissingPrecedingImage,
   dVersion = 2050,
-  dSegmentMove,
+  dSegmentMove
 };
 
 //! Undocumented
