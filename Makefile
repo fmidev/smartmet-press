@@ -11,10 +11,17 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 DIFFICULTFLAGS = -Weffc++l -Wunreachable-code -Woverloaded-virtual
 
 CC = g++
-CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
-CFLAGS_RELEASE = -DUNIX -O2 -DNDEBUG $(MAINFLAGS)
-LDFLAGS = -s
 ARFLAGS = -r
+
+# Default compiler flags
+
+CFLAGS = -DUNIX -O2 -DNDEBUG $(MAINFLAGS)
+
+# Special modes
+
+CFLAGS_DEBUG = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
+CFLAGS_PROFILE = -DUNIX -O2 -g -pg -DNDEBUG $(MAINFLAGS)
+
 INCLUDES = -I $(includedir)/smartmet/newbase
 LIBS = -L $(libdir) -lsmartmet-newbase
 
@@ -41,6 +48,7 @@ includedir = $(PREFIX)/include
 objdir = obj
 
 # rpm variables
+
 rpmsourcedir = /smartmet/src/redhat/SOURCES
 rpmerr = "There's no spec file ($(LIB).spec). RPM wasn't created. Please make a spec file or copy and rename it into $(LIB).spec"
 
@@ -53,10 +61,14 @@ LIBFILE = libsmartmet_$(LIB).a
 INSTALL_PROG = install -m 775
 INSTALL_DATA = install -m 664
 
-# CFLAGS
+# Compiler flag overrides
 
-ifneq (,$(findstring release,$(MAKECMDGOALS)))
-  CFLAGS = $(CFLAGS_RELEASE)
+ifneq (,$(findstring debug,$(MAKECMDGOALS)))
+  CFLAGS = $(CFLAGS_DEBUG)
+endif
+
+ifneq (,$(findstring profile,$(MAKECMDGOALS)))
+  CFLAGS = $(CFLAGS_PROFILE)
 endif
 
 # Compilation directories
@@ -82,6 +94,7 @@ INCLUDES := -I include $(INCLUDES)
 all: objdir $(LIBFILE)
 debug: all
 release: all
+profile: all
 
 $(LIBFILE): $(OBJS)
 	$(AR) $(ARFLAGS) $(LIBFILE) $(OBJFILES)
