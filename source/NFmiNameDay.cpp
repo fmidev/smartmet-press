@@ -110,14 +110,20 @@ NFmiString NFmiNameDay::GetName(NFmiMetTime theTime,
   // HUOM oletetaan että nimipäivä on kuluvaa vuotta 
 
   if(theTime.DaysInMonth(2, theTime.GetYear()) == 29)
-	{
+  {
 	  if(indYear == 60)
-		{
+	  {
 		  names = NFmiString("Karkauspäivä");
-		}
+	  }
 	  else if(indYear > 60)
-		names = itsNames[indYear-1];
-	}
+	  {
+		  names = itsNames[indYear-1];
+	  }
+	  else
+	  {
+		  names = itsNames[indYear];
+	  }
+  }
   else
 	  names = itsNames[indYear];
 

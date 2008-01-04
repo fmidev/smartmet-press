@@ -1225,7 +1225,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = DEB x.9.2007" << endl;       
+   *itsLogFile << "program version = REL 4.1.2008" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -3010,10 +3010,13 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   if(!outFile)
 	{
 	  if(itsLogFile)
-		*itsLogFile << "*** ERROR: Output-tiedostossa vikaa: "	
+		*itsLogFile << "*** ERROR: Output-tiedosto ei onnistu: "	
 					<< static_cast<char *>(itsOutFile)
 					<< endl
-					<< "    samanniminen saattaa olla tuhoamiselta estetty";
+					<< "    samanniminen saattaa olla tuhoamiselta estetty"
+					<< endl
+					<< "    auki muualla?, yritä tuhota tai loggaa ulos"
+					<< endl;
 	  return false;
 	}
 

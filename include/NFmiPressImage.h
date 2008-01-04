@@ -39,7 +39,8 @@ enum NFmiPressImageObjects
   dImageShear,
   dImageClippingPath,
   dImageFileWithTimeStamp,
-  dNewImageRelWithTimeStamp
+  dNewImageRelWithTimeStamp,
+  dImagePlottingAndClipping
 };
 
 

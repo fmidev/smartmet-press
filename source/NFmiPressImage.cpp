@@ -394,6 +394,25 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dImagePlottingAndClipping:
+		  {
+			if (!ReadEqualChar())
+			  break;
+			if(Read4Double(xmin,ymin,xmax,ymax))
+			  {
+				if(xmin == xmax || ymin == ymax)
+				  *itsLogFile << "*** ERROR: OsaKuvan SijoitusAlueen min == max"  << endl;
+				else
+				{
+				  itsImageScale.SetEndScales(NFmiRect(NFmiPoint(xmin,ymin),
+													  NFmiPoint(xmax,ymax)));
+				  itsClippingRect.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
+				  itsClippingPoints.clear();
+				}
+			  }
+			ReadNext();
+			break;
+		  }
 		case dImageClippingRectangle:
 		  {
 			if (!ReadEqualChar())
@@ -607,6 +626,10 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("plottingview") ||
 		  lowChar==NFmiString("sijoitusalue"))
 	return dImagePlottingView;
+  
+  else if(lowChar==NFmiString("plottingandclipping") ||
+		  lowChar==NFmiString("sijoitusjarajaus"))
+	return dImagePlottingAndClipping;
 
   else if(lowChar==NFmiString("mapdefsize") ||
 		  lowChar==NFmiString("mittaalue"))
