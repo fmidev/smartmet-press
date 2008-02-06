@@ -101,6 +101,42 @@ NFmiPressProduct::~NFmiPressProduct(void)
 
 // ----------------------------------------------------------------------
 /*!
+ * Katkaisee stringin korkeintaan tooMaxChars pituuteen.
+ * Erottimina välilyönti tai pilkku alkuperäisessä
+ * Jollei erotin-tarkastelulla päästä alle rajan katkaistaan kesken sanan ja
+ * loppuun piste (pisteen kanssa pituus yksi yli maksimin).
+ * Oikeastaan ihan yleispätevä funktio.
+ */
+// ----------------------------------------------------------------------
+
+NFmiString NFmiPressProduct::CutOffString(NFmiString& theString, int toMaxChars) const
+{
+	NFmiString outString(theString);
+    unsigned long lastPos1, lastPos2, lastPos;
+    unsigned char sep1(',');
+	unsigned char sep2(' ');
+	while(outString.GetLen() > toMaxChars)
+	{
+	  lastPos1 = outString.SearchLast(NFmiString(","));
+	  lastPos2 = outString.SearchLast(NFmiString(" "));
+	  lastPos = FmiMax(lastPos1, lastPos2);
+	  if(lastPos > 0)
+		outString = outString.GetChars(1, lastPos-1);
+	  else
+	  {
+	    outString = outString.GetChars(1, toMaxChars);
+		outString += ('.');
+		break;
+	  }
+
+	  outString.TrimR(sep1);
+	  outString.TrimR(sep2);
+	}
+
+	return outString;
+}
+// ----------------------------------------------------------------------
+/*!
  * Undocumented
  *
  * \param value Undocumented

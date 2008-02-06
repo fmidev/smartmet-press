@@ -167,6 +167,7 @@ public:
   bool GetSupplementMode(void);
   bool AddSubstituteMappingValue(float theOldValue
 				             ,float theNewValue);
+  NFmiString CutOffString(NFmiString& theString, int toMaxChars) const;
 
 protected:
 

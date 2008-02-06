@@ -62,6 +62,7 @@ NFmiParamRect * NFmiExtremePlaceParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
+
 bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
 {			 
   NFmiString helpString;
@@ -172,6 +173,7 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+
 		default:
 		  {
 			ReadRemaining();  
