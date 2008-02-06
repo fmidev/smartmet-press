@@ -61,6 +61,10 @@ public:
   void SetDayAdvance(long theDayAdvance);
   long GetDayAdvance(void);
   int GetVersion(void)const;
+  NFmiString GetSymbolSet(void)const;
+  void SetSymbolSet(NFmiString& symbolSet);
+  float GetSymbolSizeFactor(void)const;
+  void SetSymbolSizeFactor(float symbolSet);
 
   	NFmiString GetFont(void)const;
 	void SetFont(const NFmiString& font);
@@ -89,6 +93,8 @@ private:
   FmiPressTextAttributes itsTextAttributes;
   int itsVersion;
   NFmiPoint itsSegmentMove;
+  NFmiString itsSymbolSet;
+  float itsSymbolSizeFactor;
 
 }; // class NFmiPressEnvironment
 
@@ -119,6 +125,8 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
     itsTextAttributes.fLongNumberMinus = false;  //käyttöön myöhemmin
 	itsVersion = 1;
 	itsSegmentMove = NFmiPoint(0.,0.);
+	itsSymbolSet = NFmiString("Kymi");
+	itsSymbolSizeFactor = 1.;
 }
 
 // ----------------------------------------------------------------------
@@ -146,6 +154,54 @@ void NFmiPressEnvironment::SetVersion(int theVersion)
 {
   itsVersion = theVersion;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressEnvironment::GetSymbolSet(void)const
+{
+  return itsSymbolSet;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetSymbolSet(NFmiString& theSymbolSet)
+{
+  itsSymbolSet = theSymbolSet;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+float NFmiPressEnvironment::GetSymbolSizeFactor(void)const
+{
+  return itsSymbolSizeFactor;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressEnvironment::SetSymbolSizeFactor(float theSizeFactor)
+{
+  itsSymbolSizeFactor = theSizeFactor;
+}
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

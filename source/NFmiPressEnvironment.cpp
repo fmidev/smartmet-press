@@ -35,6 +35,8 @@ NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOther
   , itsTextAttributes(theOtherEnvironment.itsTextAttributes)
   , itsVersion(theOtherEnvironment.itsVersion)
   , itsSegmentMove(theOtherEnvironment.itsSegmentMove)
+  , itsSymbolSet(theOtherEnvironment.itsSymbolSet)
+  , itsSymbolSizeFactor(theOtherEnvironment.itsSymbolSizeFactor)
 {
 }
 

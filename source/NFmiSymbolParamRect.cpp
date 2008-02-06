@@ -104,7 +104,9 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   origDir += "Symbolit";
   origDir += kFmiDirectorySeparator;
  
-  NFmiString subDir = NFmiString("Massa");  //oletus vaikka t‰m‰
+  //NFmiString subDir = NFmiString("Kymi");  //oletus vaikka t‰m‰
+  NFmiString subDir = itsEnvironment.GetSymbolSet();
+
   itsOrigDir = new NFmiString(origDir);	//oikeastaan koko polku
  
   NFmiString  helpString;
@@ -133,6 +135,10 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 	itsRelRect += NFmiPoint(-.5, -.5);
 
   itsMultiMapping = 0;
+  bool symbDirGiven = false;
+  bool symbSizeGiven = false;
+  double xh,yh;
+  xh = yh = 1.;
 
   while(itsIntObject != 9999 || itsCommentLevel)
 	{
@@ -174,6 +180,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 			  break;
 		
 			subDir = ReadString();
+			symbDirGiven = true;
 		
 			ReadNext();
 			break;
@@ -246,8 +253,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 
 			if(ReadOne(x))
 			  {
-				double xh,yh;
-				xh = yh = 1.;
+			    symbSizeGiven = true;
+				//xh = yh = 1.;
 				if(x>0.)
 				  xh = x;
 			
@@ -266,11 +273,11 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 					yh = xh;
 					itsString = valueString;
 				  }
-				itsRelRect.Inflate((xh-1.)/2., (yh-1)/2.);
-				itsRelRect += NFmiPoint(-(2-xh)/2., -(2-yh)/2.);
-				itsRelRect += NFmiPoint(.5, .5);
+				//itsRelRect.Inflate((xh-1.)/2., (yh-1)/2.);
+				//itsRelRect += NFmiPoint(-(2-xh)/2., -(2-yh)/2.);
+				//itsRelRect += NFmiPoint(.5, .5);
 			
-				itsSizeFactor = NFmiPoint(xh,yh);
+				//itsSizeFactor = NFmiPoint(xh,yh);
 			  }
 			else
 			  {
@@ -333,13 +340,29 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 		}
 	} //while
 
+	// jos symbolisetti annettu t‰ss‰, t‰ss‰ annettu kokokerroin sellaisenaan,
+	//   muuten kerrotaan p‰‰tason kertoimella
+//    if(symbSizeGiven)
+//	{
+		if(!symbDirGiven)
+		{
+  			double sizeF = static_cast<double>(itsEnvironment.GetSymbolSizeFactor());
+			xh = sizeF*xh;
+			yh = sizeF*yh;
+		}
+		itsRelRect.Inflate((xh-1.)/2., (yh-1)/2.);
+		itsRelRect += NFmiPoint(-(2-xh)/2., -(2-yh)/2.);
+		itsRelRect += NFmiPoint(.5, .5);
+		itsSizeFactor = NFmiPoint(xh,yh);
+//	}
+
   if (itsSubDir)
 	delete itsSubDir;
   itsSubDir = new NFmiString(inDir);	//oikeastaan koko polku
   itsSymbolSetName = subDir;
 
   // SYMBOLIKOKO ON NYT OMASSA TIEDOSTOSSAAN JOKAISTA SETTIƒ VARTEN
-  // MUTTA NYT JO VANHAA TEKNIIKKAA (kes‰ 88)
+  // MUTTA NYT JO VANHAA TEKNIIKKAA (kes‰ 98)
   // ei anneta en‰‰ m‰‰rittelyiss‰
 
   NFmiString sizeFile = *itsOrigDir;

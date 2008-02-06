@@ -277,6 +277,9 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   bool isMax;
   if(IsMaxMinPlotting())
   {
+	if(!PointOnParam(theQI, GetDataIdent().GetParam())) 
+		return false;
+
 	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
     NFmiPoint correctedPoint;
 	if(!itsPressParam->IsMaxMin(isMax, correctedPoint))

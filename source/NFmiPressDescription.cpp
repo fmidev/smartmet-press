@@ -59,6 +59,7 @@ bool NFmiPressDescription::ReadRemaining(void)
   //tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
   FmiRGBColor rgb;
   double r1,r2,r3,r4;
+  float f1;
   unsigned int i1;
   unsigned long helpLong;
   FmiEnumSpace helpEnumSpace = kPressRegions;
@@ -146,7 +147,7 @@ bool NFmiPressDescription::ReadRemaining(void)
 			}
 		  ReadNext();
 		  break;
-		}
+		}  
 	  case dDescFont:
 		  {
 			if (!ReadEqualChar())
@@ -154,6 +155,27 @@ bool NFmiPressDescription::ReadRemaining(void)
 
 			//itsOutFileName = ReadString();
 			itsEnvironment.SetFont(ReadString());
+
+			ReadNext();
+			break;
+		  }
+	  case dDescSymbolSet:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			itsEnvironment.SetSymbolSet(ReadString());
+
+			ReadNext();
+			break;
+		  }
+	  case dSymbolSizeFactor:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			ReadOne(f1);
+			itsEnvironment.SetSymbolSizeFactor(f1);
 
 			ReadNext();
 			break;
@@ -313,6 +335,14 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("väri") ||
 		  lowChar==NFmiString("cmykväri"))
 	return dColor;
+  else if(lowChar==NFmiString("symbolset") ||
+		  lowChar==NFmiString("kuvakansio") || 
+		  lowChar==NFmiString("symbolikansio"))
+	return dDescSymbolSet;
+  else if(lowChar==NFmiString("additionsymbolscale") ||
+		  lowChar==NFmiString("kuvienuudelleenskaalaus") ||
+		  lowChar==NFmiString("symbolienuudelleenskaalaus"))
+	return dSymbolSizeFactor;
   else if(lowChar==NFmiString("font") ||
 		  lowChar==NFmiString("fontti") ||
 		  lowChar==NFmiString("kirjasin"))

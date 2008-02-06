@@ -308,6 +308,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 		case dSymbol:
 		  {
 			NFmiSymbolParamRect tempSPar;
+			tempSPar.SetEnvironment(itsEnvironment);
 			tempSPar.SetPressParam(itsPressParam);
 			tempSPar.SetHome(GetHome());
 			tempSPar.SetLogFile(itsLogFile);
