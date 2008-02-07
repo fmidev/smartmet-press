@@ -50,7 +50,7 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect & theTextParamRect)
   , fUpperCase(theTextParamRect.fUpperCase)  
   , fLowerCase(theTextParamRect.fLowerCase)   
   , fFirstUpperCase(theTextParamRect.fFirstUpperCase)  
-
+  , itsMaxLen(theTextParamRect.itsMaxLen)
 {
   for(unsigned int ind =0; ind < maxNumOfColMaps; ind++)
 	{
@@ -265,6 +265,11 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		
 		break;
 	  }
+	case dPRMaxTextLength:
+	  {
+		SetOne(itsMaxLen);
+		break;
+	  }
 	default:
 	  {
 		return NFmiParamRect::ReadRemaining();
@@ -352,6 +357,11 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("isollaalkukirjaimella") ||
 		  lowChar==NFmiString("isoalkukirjain"))
 	return dPRFirstUpperCase;
+  
+  else if(lowChar==NFmiString("maxlength") ||
+		  lowChar==NFmiString("maksimipituus") ||
+		  lowChar==NFmiString("maxpituus"))
+	return dPRMaxTextLength;
 
   else
 	return NFmiParamRect::ConvertDefText(object);

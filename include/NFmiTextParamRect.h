@@ -40,7 +40,8 @@ enum NFmiTextParamRectObjects
   dAddStationName = 1080,
   dPRLowerCase,
   dPRUpperCase,
-  dPRFirstUpperCase
+  dPRFirstUpperCase,
+  dPRMaxTextLength
 };
 
 
@@ -123,7 +124,8 @@ protected:
   bool fUpperCase;  
   bool fLowerCase;   
   bool fFirstUpperCase;  
-}; // class NFmiTextParamRect
+  unsigned long itsMaxLen;
+}; 
 
 
 // ----------------------------------------------------------------------
@@ -144,7 +146,8 @@ NFmiTextParamRect::NFmiTextParamRect(void)
   , fAddStationName(false)
   , fUpperCase(false)  
   , fLowerCase(false)   
-  , fFirstUpperCase(false)  
+  , fFirstUpperCase(false)
+  , itsMaxLen(0)
 {
 }
 

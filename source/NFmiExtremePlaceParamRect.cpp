@@ -248,6 +248,9 @@ bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbol
 	else
 		str = location->GetName();
 
+    if(itsMaxLen > 0)
+		str = GetPressProduct()->CutOffString(str, itsMaxLen); 
+
 	return WriteCode(Construct(&str),
 				theAbsoluteRectOfSymbolGroup, 
 				theDestinationFile,

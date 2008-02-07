@@ -115,7 +115,7 @@ NFmiString NFmiPressProduct::CutOffString(NFmiString& theString, int toMaxChars)
     unsigned long lastPos1, lastPos2, lastPos;
     unsigned char sep1(',');
 	unsigned char sep2(' ');
-	while(outString.GetLen() > toMaxChars)
+	while(static_cast<int>(outString.GetLen()) > toMaxChars)
 	{
 	  lastPos1 = outString.SearchLast(NFmiString(","));
 	  lastPos2 = outString.SearchLast(NFmiString(" "));
@@ -1261,7 +1261,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = DEB 6.2.2008" << endl;       
+   *itsLogFile << "program version = REL 7.2.2008" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
