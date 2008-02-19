@@ -1261,7 +1261,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = REL 7.2.2008" << endl;       
+   *itsLogFile << "program version = DEB 19.2.2008" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1403,7 +1403,9 @@ bool NFmiPressProduct::ReadData(void)
 		  //oletus suoraan odinista; edelleen voi jonkin aikaa käyttää vanhaa kepaa jos
 		  // kausivaihtelut muutetaan
 		  // pitää laittaa myös LightBoy
-		  if(dataFile.Header() == NFmiString("kepa_suomi_168_1_uusin") && itsSeasonsStatus->editdata)
+		  if(( dataFile.Header() == NFmiString("kepa_suomi_168_1_uusin")
+		     ||dataFile.Header() == NFmiString("pal_uusin")) 
+			   && itsSeasonsStatus->editdata)
 		  {
 			  time_t fileTime, fileTimeRemote;
 			  std::string theFoundFileName, theFoundFileNameRemote;

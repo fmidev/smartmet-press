@@ -301,25 +301,31 @@ NFmiFileString NFmiPressScaling::CreatePath(NFmiString defDir,
   if (!givenPath.IsValue())
 	{
 	  if(!defDir.IsValue() || defDir[1ul] != kFmiDirectorySeparator)
-		{
+	  {
 		  fileStr = GetHome();
 		  fileStr += kFmiDirectorySeparator;
-		}
-	  fileStr += defDir;
-	  fileStr += kFmiDirectorySeparator;
+	  }
+	  if (givenFile.Search(&(kFmiDirectorySeparator)) <=0) //sisältyykö hekemisto nimeen
+	  {
+		fileStr += defDir;
+		fileStr += kFmiDirectorySeparator;
+	  }
 	  fileStr += givenFile;
 	}
   else
 	{
 	  fileStr = givenPath;
 	  fileStr.NormalizeDelimiter();
-	  // kenoviiva loppuun jos ei määrittelyssä
-	  if(!(fileStr.GetChars(givenPath.GetLen(),1) == NFmiString(kFmiDirectorySeparator)))
-		{
-		  fileStr += kFmiDirectorySeparator;
-		}
-	  
-	  fileStr += givenFile;
+	  if(givenFile.IsValue())
+	  {
+		// kenoviiva loppuun jos ei määrittelyssä
+		if(!(fileStr.GetChars(givenPath.GetLen(),1) == NFmiString(kFmiDirectorySeparator)))
+			{
+			fileStr += kFmiDirectorySeparator;
+			}
+		  
+		fileStr += givenFile;
+	  }
 	}
   if(givenDir.IsValue())
 	{

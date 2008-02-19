@@ -280,21 +280,6 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-	  /*
-		case dImageFileWithTimeStamp:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			
-			itsTempImageFile = ReadString();			
-			itsTempImageFile += NFmiString(".eps");
-	        SetPostReadingTimes();
-			NFmiString timeFormat("YYYYMMDDHH00_");
-			AddValidTimeTimeStamp(itsTempImageFile, timeFormat);
-			ReadNext();
-			break;
-		  }
-		  */
 		case dImageFileWithTimeStamp:
 			timeStamp = true;
 		case dImageFile: 			
@@ -302,8 +287,9 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 			
-			itsTempImageFile = ReadString();			
-			itsTempImageFile += NFmiString(".eps");
+			itsTempImageFile = ReadString();
+            if (itsTempImageFile.Search(NFmiString(".")) <=0)			
+				itsTempImageFile += NFmiString(".eps");
 			itsFileWithoutTimeStamp = itsTempImageFile;
 			if(timeStamp)
 			{
@@ -316,7 +302,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-	case dImageDir:
+		case dImageDir:
 		  {
 			if (!ReadEqualChar())
 			  break;
@@ -516,6 +502,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 	}
   else
 	{
+      NFmiString defExtension("eps");
 #ifndef UNIX
 	  char * env;
 	  env = getenv("lehtiPuoliValmiitDir");
@@ -523,18 +510,21 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		itsPath = CreatePath(NFmiString("PuoliValmiit"),
 							 itsTempImagePath,
 							 itsTempImageDir,
-							 itsTempImageFile);
+							 itsTempImageFile,
+							 defExtension);
 	  else
 		itsPath = CreatePath(NFmiString(env),
 							 itsTempImagePath,
 							 itsTempImageDir,
-							 itsTempImageFile);
+							 itsTempImageFile,
+							 defExtension);
 #else
 	  string dir = NFmiSettings::Optional<string>("press::inputpath","PuoliValmiit");
 	  itsPath = CreatePath(NFmiString(dir),
 						   itsTempImagePath,
 						   itsTempImageDir,
-						   itsTempImageFile);
+						   itsTempImageFile,
+						   defExtension);
 #endif
 	}
 
