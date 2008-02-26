@@ -43,6 +43,8 @@ public:
   virtual bool ReadRemaining(void);
   virtual int ConvertDefText(NFmiString & object);
   virtual NFmiParamRect * Clone(void) const;
+  void SetNotRotatingMin(double notRotatingMin);
+  void SetNotRotatingMax(double notRotatingMin);
 
 protected:
 
@@ -82,6 +84,28 @@ NFmiRotatingParamRect::NFmiRotatingParamRect(void)
   itsNotRotatingMinValue = 10.;
   itsNotRotatingMaxValue =-10.;
   itsVerticalLong = kFloatMissing;
+}
+// ----------------------------------------------------------------------
+/*!
+ * 
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiRotatingParamRect::SetNotRotatingMin(double notRotatingMin)
+{
+  itsNotRotatingMinValue = notRotatingMin;
+}
+// ----------------------------------------------------------------------
+/*!
+ * 
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiRotatingParamRect::SetNotRotatingMax(double notRotatingMax)
+{
+  itsNotRotatingMaxValue = notRotatingMax;
 }
 
 #endif // NFMIROTATINGPARAMRECT_H

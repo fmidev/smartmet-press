@@ -38,13 +38,15 @@ enum NFmiSymbolGroupObjects
   dSymbol,
   dConstSymbol,
   dConstText,
-  dText,		// = Numero
+  dNumber,		
   dRotating,
+  dWindDirection,
+  dWindSpeed,
   dLetter,
   dTime,
-  dExtremeTime,
+  dExtremeTime = 1120,
   dSunTime,
-  dScaling = 1120,
+  dScaling,
   dSubstitute,
   dExtremePlace
 };
@@ -236,6 +238,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 
   NFmiPressScaling * psObject;
   bool sizeGiven = false;
+  bool isWindSpeed, isWindDirection;
 
   ReadNext();
   while(itsIntObject != 9999 || itsCommentLevel)
@@ -250,6 +253,8 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 	  itsLoopNum ++;
 	  if (itsIntObject != dEndComment && itsCommentLevel)
 		itsIntObject = dComment;
+
+	  isWindSpeed = isWindDirection = false;
 	  
 	  switch(itsIntObject)
 		{
@@ -353,9 +358,13 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-		case dText: //oik. number
+		case dWindSpeed:
+              isWindSpeed = true;
+		case dNumber: 
 			{
 			  NFmiNumberParamRect tempNPar;
+			  if(isWindSpeed) 
+				tempNPar.SetIdentPar(kFmiWindSpeedMS);
 			  tempNPar.SetPressParam(itsPressParam);
 			  tempNPar.SetEnvironment(itsEnvironment);
 			  tempNPar.SetHome(GetHome());
@@ -474,9 +483,18 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-	case dRotating:
+	    case dWindDirection: 
+			isWindDirection = true;
+	    case dRotating:
 		  {
 			NFmiRotatingParamRect tempRPar;
+			if(isWindDirection)
+			{
+				tempRPar.SetNotRotatingMin(-1.);
+				tempRPar.SetNotRotatingMax(0.9);
+				tempRPar.SetIdentPar(kFmiWindSpeedMS);
+				tempRPar.SetSecondDataIdent(kFmiWindDirection);
+			}
 			tempRPar.SetPressParam(itsPressParam);
 			tempRPar.SetEnvironment(itsEnvironment);
 			tempRPar.SetHome(GetHome());
@@ -491,7 +509,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 			itsIntObject = ConvertDefText(itsString);
 			break;
 		  }
-		case dScaling:
+	   case dScaling:
 		  {
 			NFmiScalingParamRect tempScPar;
 			tempScPar.SetPressParam(itsPressParam);
@@ -574,7 +592,7 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("#text") ||
 		  lowChar==NFmiString("#number") ||
 		  lowChar==NFmiString("#numero"))
-	return dText;
+	return dNumber;
 
   else if(lowChar==NFmiString("#letter") ||
 		  lowChar==NFmiString("#teksti") ||
@@ -603,7 +621,15 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#k‰‰ntyv‰symboli") ||
 		  lowChar==NFmiString("#k‰‰ntyv‰kuva"))
 	return dRotating;
+
+  else if(lowChar==NFmiString("#winddirection") ||
+		  lowChar==NFmiString("#tuulensuunta"))
+	return dWindDirection;
   
+  else if(lowChar==NFmiString("#windspeed") ||
+		  lowChar==NFmiString("#tuulennopeus"))
+	return dWindSpeed;
+
   else if(lowChar==NFmiString("#substitute") ||
 	      lowChar==NFmiString("#korvaus"))
 	return dSubstitute;

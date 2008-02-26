@@ -419,6 +419,7 @@ NFmiPressProduct* NFmiPressParam::GetPressProduct (void)const
 {
 	return itsPressProduct;
 }
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

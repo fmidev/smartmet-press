@@ -160,6 +160,8 @@ public:
   void SetOrder(unsigned long theOrder); 
   void SetMaxCorrection(void);
   void SetMinCorrection(void);
+  void SetIdentPar(unsigned long theIdentPar); 
+  unsigned long NFmiParamRect::GetIdentPar(void); 
 
 protected:
 
@@ -432,6 +434,32 @@ inline
 bool NFmiParamRect::IsMaxMinPlotting(void) const
 {
 	return itsMaxText != NFmiString("None");
+}
+// ----------------------------------------------------------------------
+/*!
+ * Set processing order in SymbolGroup
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiParamRect::SetIdentPar(unsigned long theIdentPar) 
+{
+	itsIdentPar = theIdentPar;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Set processing order in SymbolGroup
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+unsigned long NFmiParamRect::GetIdentPar(void) 
+{
+	return itsIdentPar;
 }
 // ----------------------------------------------------------------------
 /*!

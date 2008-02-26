@@ -39,7 +39,8 @@ public:
   
   virtual int ConvertDefText(NFmiString & object);
   virtual NFmiParamRect * Clone(void) const;
-  
+  void SetSecondDataIdent(unsigned long theSecondPar);
+
 protected:
 
   bool ReadValues( NFmiFastQueryInfo * theQI, bool SetRelHour=true); 
@@ -77,7 +78,19 @@ NFmiDataIdent NFmi2SymbolParamRect::GetSecondDataIdent(void) const
 {
   return itsSecondDataIdent;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+inline
+void NFmi2SymbolParamRect::SetSecondDataIdent(unsigned long theSecondPar)
+{
+ 	itsSecondDataIdent.SetParam(NFmiParam(theSecondPar));
+}
 #endif // NFMI2SYMBOLPARAMRECT_H
 
 // ======================================================================

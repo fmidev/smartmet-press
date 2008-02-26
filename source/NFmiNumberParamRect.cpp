@@ -84,6 +84,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
   ReadNext();
 
   itsRelRect -= NFmiPoint(1., 1.);
+
   while(itsIntObject != 9999 || itsCommentLevel)
 	{
 	  if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
