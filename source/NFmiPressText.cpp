@@ -390,7 +390,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	  delete itsText;
 	  itsText = new NFmiString;
 
-	  NFmiHyphenationString aString;
+	  NFmiHyphenationString aString, nextString;
 
 	  if(GetTimestampDayGap() != kShortMissing)
 		AddTimeStamp(textFile);
@@ -406,26 +406,35 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	  std::fstream in(dataFile, ios::in|ios::in);
 	  if(in.good())
 		{
-		  while( !in.eof())
+		  char text[120];
+		  unsigned long tagBeg, tagEnd;
+		  bool isTag;
+		  while(!in.eof())
 			{
-			  char text[120];
 			  in >> text;
-			  if(!in.eof())	// est‰‰ viimeisen sanan kahdentumisen jos loppuu pelkk‰‰n rivinsiirtoon
-				aString += NFmiHyphenationString(text) += NFmiHyphenationString(" ");
+			  //if(!in.eof())	// est‰‰ viimeisen sanan kahdentumisen jos loppuu pelkk‰‰n rivinsiirtoon
+			  nextString = NFmiHyphenationString(text);
+			  tagBeg = nextString.Search(NFmiString("<"));
+			  tagEnd = nextString.Search(NFmiString(">"));
+			  isTag = tagBeg >0 && tagEnd>0 && tagEnd>tagBeg;
+			  if(isTag)
+			    aString = NFmiString();
+			  else if(nextString.IsValue())
+				aString += nextString += NFmiHyphenationString(" ");
 			}
-		  in.close();
-			  if(aString.GetLen() > itsMaxLen)
-			  {
-		          *itsLogFile << endl << "  *** ERROR: teksti katkaistu sallittuun maxpituuteen: " 
-					          << itsMaxLen
-							  << endl
-	                          << "             menetetty "
-							  << aString.GetLen()-itsMaxLen
-							  << " merkki‰"
-							  << endl;
-				
-				  aString = aString.GetChars(1, itsMaxLen); 
-			  }
+		    in.close();
+			if(aString.GetLen() > itsMaxLen)
+			{
+				*itsLogFile << endl << "  *** ERROR: teksti katkaistu sallittuun maxpituuteen: " 
+							<< itsMaxLen
+							<< endl
+							<< "             menetetty "
+							<< aString.GetLen()-itsMaxLen
+							<< " merkki‰"
+							<< endl;
+			
+				aString = aString.GetChars(1, itsMaxLen); 
+			}
 			  
 		  *itsText = aString; //ReplaceChar(NFmiString("-"), NFmiString("\\255")); //29.6 Illussa "-" ei mene l‰pi ??
           *itsLogFile << " luettu" << endl;
@@ -864,21 +873,35 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  hypString = NFmiHyphenationString(text);
 		  helpString = hypString.CreateHyphens("~");
 		  text = helpString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illussa "-" ei mene l‰pi ??
-			}
+		}
 
 	  // Jostain syyst‰ Mikan makrot ei l‰p‰ise miinusta,
 	  // joten ei k‰ytet‰ jos on tavuviivaa (silloin taas ei skandit tule!, mit‰ tehd‰)
 
 
-	  bool isHyphen =    text.Search(NFmiString("-"))     != 0;
+	  //bool isHyphen =    text.Search(NFmiString("-"))     != 0;
+	  bool isHyphen = false;
 	  bool isLongMinus = text.Search(NFmiString("\\226")) != 0;
 
 	  if(fInParagraph || (!isHyphen && !isLongMinus))
 		{
+		  //bool deleteHeader = true;
 		  *itsOutFile << "/"
 					  << static_cast<char *>(GetFont())
 					  << " /" << static_cast<char *>(GetFont())
 					  << "_" << endl;
+	//	  if(fInParagraph)              EI AUTA
+	//		  text += NFmiString(" "); //metkut ei aina laita rivinsiirtoa loppuun
+		  hypString = NFmiHyphenationString(text);
+		  unsigned long lastHead = hypString.SearchLast(NFmiString(">"));
+		  unsigned long firstHead = hypString.SearchLast(NFmiString("<"));
+		  bool isHeader = lastHead > 0 && firstHead > 0;
+		  if (isHeader && fInParagraph)
+				hypString = hypString.GetChars(lastHead+2, hypString.GetLen()-lastHead-1);
+		  text = hypString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illussa "-" ei mene l‰pi ??
+		  
+		  //char * lastCh = text.GetCharsPtr(text.GetLen(), 1);
+ 
 		  *itsOutFile << rect.Height() << " selectlatinfont" << endl;
 		}
 	  else

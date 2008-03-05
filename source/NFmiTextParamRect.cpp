@@ -11,6 +11,7 @@
 
 #include "NFmiTextParamRect.h"
 #include "NFmiPressParam.h"  
+#include "NFmiHyphenationString.h"
 #include <iostream>
 
 using namespace std;
@@ -389,6 +390,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 
 {
   NFmiString longMinus ("\\226");
+  bool isLongMinus = itsEnvironment.GetLongNumberMinus();
+  NFmiString locText(theText);
 
   NFmiRect numberRect = AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight()));
   if(IsEquiDistanceAndCorrMode())
@@ -410,13 +413,13 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
   // 13.10 universaali fontti-riippumaton paikan m‰‰ritys
   // vain keskikohta voi heitt‰‰ v‰h‰n, saishan senkin paikalleen
 
-  // double x = centerX + numberRect.Height() * (-.31f - .302f*(theText.GetLen()-1));
+  // double x = centerX + numberRect.Height() * (-.31f - .302f*(locText.GetLen()-1));
   double x = centerX;
   double y = topLeft.Y() + .147f * numberRect.Height(); // oli .125; nostaa v‰h‰n mutta = illu
 
   if(theOutput == kPlainText)
 	{
-	  theDestinationFile << "\t" << static_cast<char *>(theText);
+	  theDestinationFile << "\t" << static_cast<char *>(locText);
 	}
   else if(theOutput == kXml)
 	{
@@ -440,7 +443,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  
 	  itsPsWriting.WriteColor(MapColor(), theOutput, theDestinationFile);
 	  theDestinationFile << "Text \""
-						 << static_cast<char *>(theText)
+						 << static_cast<char *>(locText)
 						 << "\" "
 						 << x
 						 << " "
@@ -470,9 +473,20 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		 mutta tarvitaan:
 		 + skandeihin (muuten kuin sanan viimeisin‰)
 	  */
-      bool isHyphen =    theText.Search(NFmiString("-"))     != 0;
-
-	  if (fUseSelectLatinFont && !isHyphen)
+      //unsigned int hyphenLoc = locText.Search(NFmiString("-"));
+      //bool isHyphen = hyphenLoc != 0;
+      /*
+	  if(isHyphen)
+	  {
+		  NFmiString helpStr;
+		  helpStr = locText.GetChars(1, hyphenLoc-1);
+		  helpStr += "\\255";
+		  helpStr += locText.GetChars(hyphenLoc+1, locText.GetLen()-hyphenLoc);
+		  locText = helpStr;
+		  isHyphen = false; //ei siis en‰‰
+	  }
+     */ 
+	  if (fUseSelectLatinFont) // && !isHyphen)
 		{
 		  theDestinationFile << "/"
 							 << static_cast<char *>(GetFont())
@@ -483,7 +497,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 							 << " selectlatinfont"
 							 << endl;
 		}
-	  else
+		
+	  else  
 		{
 		  theDestinationFile << "/"
 							 << static_cast<char *>(GetFont())
@@ -493,8 +508,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 							 << endl;
 		}
 
-	  bool firstIs226 = theText.GetLen() > 3
-		&& NFmiString(theText.GetCharsPtr(1,4)).IsEqual(longMinus);
+	  bool firstIs226 = locText.GetLen() > 3
+		&& NFmiString(locText.GetCharsPtr(1,4)).IsEqual(longMinus);
 
 	  bool boldFont = false;
 	  unsigned long lenFont = GetFont().GetLen();
@@ -503,16 +518,16 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
          GetFont().GetChars(lenFont-4, 5) == NFmiString("Black"))
 		 boldFont = true;
 
-	  bool secondIs226 = theText.GetLen() > 4
-		&& NFmiString(theText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitk‰ miinus tai numerov‰li 
+	  bool secondIs226 = locText.GetLen() > 4
+		&& NFmiString(locText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitk‰ miinus tai numerov‰li 
 	                                                                //tyyppi‰ 6-10, kuitenkin vaikeuksia joten
 	                                                                //poistettu alla -> k‰yt‰ lyhytt‰ miinusta
 	  NFmiString  restString, emptyString, widthString, minusWidth;
 /*
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia
 		{
-		 // WriteShowString(x, y, theText, theText, theDestinationFile);
-		  WriteShowString(x, y, emptyString, theText, theDestinationFile);
+		 // WriteShowString(x, y, locText, locText, theDestinationFile);
+		  WriteShowString(x, y, emptyString, locText, theDestinationFile);
 		}
 	  else if(firstIs226)
 		{
@@ -523,16 +538,16 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 			widthString = NFmiString("n"); //sama leveys kuin pitk‰ll‰ miinuksella kun kerran se itse ei k‰y stringwidth:iin
 		  NFmiString onlyMinus(widthString);
 		  
-		  if(theText.GetLen()>4)
-			widthString += theText.GetCharsPtr(5,theText.GetLen()-4);
+		  if(locText.GetLen()>4)
+			widthString += locText.GetCharsPtr(5,locText.GetLen()-4);
 
 		  if(GetTextAlignment() == kLeft)
 			 WriteShowString(x, y, emptyString, longMinus, theDestinationFile);
 		  else
 			 WriteShowString(x, y, widthString, longMinus, theDestinationFile);
 
-		  if(theText.GetLen()>4)
-			  restString = theText.GetCharsPtr(5,theText.GetLen()-4);
+		  if(locText.GetLen()>4)
+			  restString = locText.GetCharsPtr(5,locText.GetLen()-4);
 			  if(GetTextAlignment() == kLeft)
 			  {
 				WriteShowString(x, y, onlyMinus, restString, theDestinationFile);
@@ -543,17 +558,18 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 			  }		  
 		}
 */
+
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia
 		{
-		 // WriteShowString(x, y, theText, theText, theDestinationFile);
-		  WriteShowString(x, y, theText, theDestinationFile);
+		 // WriteShowString(x, y, locText, locText, theDestinationFile);
+		  WriteShowString(x, y, locText, theDestinationFile);
 		}
 	  else if(firstIs226)
 		{
 		  minusWidth = NFmiString("B"); 
 
-		  if(theText.GetLen()>4)
-			  restString = theText.GetCharsPtr(5,theText.GetLen()-4);
+		  if(locText.GetLen()>4)
+			  restString = locText.GetCharsPtr(5,locText.GetLen()-4);
 		  WriteShowStringLongMinus(x, y, longMinus, minusWidth
 			                          ,restString, theDestinationFile);		  
 		  WriteShowStringText     (x, y, longMinus, minusWidth
@@ -570,18 +586,18 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		  else
 			widthString = NFmiString("n"); 
 
-		  if(theText.GetLen()>4)
-			widthString += theText.GetCharsPtr(6,theText.GetLen()-6);
+		  if(locText.GetLen()>4)
+			widthString += locText.GetCharsPtr(6,locText.GetLen()-6);
 		  widthString += NFmiString("\)");
 
 		  widthStringAll += widthString;
-		  //NFmiString first = theText.GetCharsPtr(1,1);
+		  //NFmiString first = locText.GetCharsPtr(1,1);
 		  WriteShowString(x, y, widthStringAll, NFmiString("\("), theDestinationFile);
 		  WriteShowString(x, y, widthString, longMinus, theDestinationFile);
 			
-		  if(theText.GetLen()>5)
+		  if(locText.GetLen()>5)
 			{
-			  restString = theText.GetCharsPtr(6,theText.GetLen()-6);
+			  restString = locText.GetCharsPtr(6,locText.GetLen()-6);
 		      restString += NFmiString("\)");
 			  WriteShowString(x, y, restString, restString, theDestinationFile);
 			}
