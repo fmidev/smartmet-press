@@ -2583,22 +2583,26 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 */
 			 if(fabs(lonLat.X()) < 0.0001 &&  // HUOM puuttuva testi, mikseivät ole tasan nolla !!
 				fabs(lonLat.Y()) < 0.0001)
-				   {
-					 if(itsDataIter->IsGrid())
-					   {
-						 if (!SetLonLat(statPoint))
-						   continue; // ->seuraava asema jos ei taulukossa
-					   }
-					 else
-					   {
-						 if(itsDataIter->Location(NFmiStation(*statPoint.Station()).GetName()))
-						   {
-							 statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
-							 statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
-						   }
-					   }
-
-				   }
+				{
+					if(itsDataIter->IsGrid())
+					{
+						if (!SetLonLat(statPoint))
+						continue; // ->seuraava asema jos ei taulukossa
+					}
+					else
+					{
+						if(itsDataIter->Location(NFmiStation(*statPoint.Station()).GetName()))
+						{
+							statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
+							statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
+						}
+						else if (itsDataIter->Location(NFmiStation(*statPoint.Station()).GetIdent()))
+						{
+							statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
+							statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
+						}
+					}
+				 }
 				 lonLat = statPoint.GetLocation();
 
 				 itsCurrentStation = NFmiStation(*statPoint.Station());
@@ -2867,31 +2871,41 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint& theStation)
   if(!itsDataIter)
 	return false;
 
-  NFmiString toFindName = theStation.GetName();
+  NFmiString dataName;
+  NFmiString plotName = theStation.GetName();
+
   if(!itsDataIter->IsGrid()) // perinteinen asemannimellä haku
-	{
+  {
 	  NFmiStation station;
 	  itsDataIter->ResetLocation();
 	  while(itsDataIter->NextLocation())
-		{
-		  NFmiString dataName = itsDataIter->Location()->GetName();
-		  if(toFindName == dataName)
-			{
-			  return true;
-			}
-		}
-	}
-  else
-	{
+	  {
+		  dataName = itsDataIter->Location()->GetName();
+		  if(dataName.IsValue())
+		  {
+			  if(plotName == dataName)
+				  return true;
+		  }
+		  else
+		  {
+              unsigned long dataWmo, plotWmo;
+			  dataWmo = itsDataIter->Location()->GetIdent();
+			  plotWmo = theStation.GetIdent();
+			  if(dataWmo>0 && plotWmo>0 && dataWmo == plotWmo)
+				  return true;
+		  }
+	   }
+   }
+   else
+   {
 	  // gridejä varten joutuu ottamaan pois täältä ja sijoittamaan
 	  // piirto-olioon, jossa lat/longilla haetaan interpoloiden tai lähintä pistettä,
 	  // täältä onnistuu vain lähin piste
 
-	  //true PITÄÄ OLLA
-	  return true;
+	   return true;
 	  // return (itsData->Location(theStation.GetLocation()));
-	}
-  return false;
+   }
+   return false;
 }
 
 // ----------------------------------------------------------------------

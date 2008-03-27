@@ -9,6 +9,7 @@
  #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
+#include "NFmiPressProduct.h"
 #include "NFmiTimeParamRect.h"
 #include "NFmiPressParam.h"
 #include <iostream>
@@ -396,13 +397,21 @@ NFmiTime NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI)
   if(itsPressParam->IsStationLocalTimeMode())
 	{
 	  //HUOM tämä koodi ylläpidettävä samanlaisena myös NFmiParamRectissä
-	  double latitude = itsStationPoint.GetLatitude();//Testiin
-	  double longitude = itsStationPoint.GetLongitude();//Testiin
-	  if(fabs(longitude) <= .001 && fabs(latitude) <= .001)
+	  double longitude;
+	  if(IsMissingLonLat())
+	  {
+	     NFmiPoint lonLat;
+		 NFmiString name = itsPressParam->GetCurrentStation().GetName();
+		 GetPressProduct()->FindLonLatFromList(name, lonLat);
+		 itsPressParam->SetCurrentStationLonLat(lonLat);
+	  }
+	  if(IsMissingLonLat()) //eli taulukostakaan ei löytynyt
 		*itsLogFile << "*** ERROR: longitudi puuttuu "
 					<< static_cast<char *>(itsStationPoint.GetName())
 					<< ":lta paikalliseen aikaan"
 					<< endl;
+
+	  longitude = itsPressParam->GetCurrentStation().GetLongitude();
 	  NFmiTime localTime = tim.LocalTime(-static_cast<float>(longitude));
 
 	  //Hullua näin

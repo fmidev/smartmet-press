@@ -177,6 +177,7 @@ public:
   bool IsBackupStation(void) const;
   bool SetStationNotNeeded (void);
   NFmiPoint GetCurrentUnscaledPoint(void)const;
+  void SetCurrentStationLonLat(NFmiPoint & theLonLat);
 protected:
 
   void UnsetAllErrorReported(void);
@@ -809,6 +810,20 @@ void NFmiPressParam::UnsetAllErrorReported(void)
   fErrorReported[1] = false;
   fErrorReported[2] = false;
   fErrorReported[3] = false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param scale Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressParam::SetCurrentStationLonLat(NFmiPoint & theLonLat)
+{
+  itsCurrentStation.SetLatitude(theLonLat.Y());  
+  itsCurrentStation.SetLongitude(theLonLat.X());  
 }
 
 #endif // NFMIPRESSPARAM_H

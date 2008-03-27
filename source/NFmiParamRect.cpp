@@ -1600,11 +1600,11 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  if(itsPressParam->IsStationLocalTimeMode())
 		{
 		  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
-		  double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
-		  if(longitude <= .001 && latitude <= .001)
+		  //double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
+	      if(IsMissingLonLat())
 			*itsLogFile << "*** ERROR: longitudi puuttuu "
 						<< static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
-						<< ":lta paikallista aikaa varten"
+						<< ":lta paikallista aikaa varten (FloatValue)"
 						<< endl;
 		  
 		  firstTime = firstTime.LocalTime(-static_cast<float>(longitude));
@@ -2122,11 +2122,11 @@ NFmiMetTime NFmiParamRect::CalculatePeriodTime(long theHour)
   if(itsPressParam->IsStationLocalTimeMode())
 	{
 	  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
-	  double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
-	  if(fabs(longitude) <= .001 && fabs(latitude) <= .001)
-		*itsLogFile << "*** ERROR: longitudi puuttuu "
+	  //double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
+	  if(IsMissingLonLat())
+		  *itsLogFile << "*** ERROR: longitudi puuttuu "
 					<< static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
-					<< ":lta paikallista aikaa varten"
+					<< ":lta paikallista aikaa varten (Calc.Per.Time)"
 					<< endl;
 
 	  tim = tim.LocalTime(-static_cast<float>(longitude));
@@ -2296,14 +2296,26 @@ bool NFmiParamRect:: SetStationLocalTime(NFmiFastQueryInfo * theQI)
   //optio
   if(itsPressParam->IsStationLocalTimeMode())
 	{
-      //HUOM sama koodi ylläpisettävä NFmiTimeParamRect:ssä
-	  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
-	  double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
-	  if(fabs(longitude) <= .001 && fabs(latitude) <= .001)
-		*itsLogFile << "*** ERROR: longitudi puuttuu "
+      //HUOM sama koodi ylläpidettävä NFmiTimeParamRect:ssä
+
+	 double longitude;// latitude;  
+	  if(IsMissingLonLat())
+	  {
+	     NFmiPoint lonLat;
+		 NFmiString name = itsPressParam->GetCurrentStation().GetName();
+		 GetPressProduct()->FindLonLatFromList(name, lonLat);
+		 itsPressParam->SetCurrentStationLonLat(lonLat);
+	  }
+	  if(IsMissingLonLat())
+	  {
+		    *itsLogFile << "*** ERROR: longitudi puuttuu "
 					<< static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
-					<< ":lta paikallista aikaa varten"
+					<< ":lta paikallista aikaa varten (SetStat.Loc.Time)"
 					<< endl;
+			longitude =0.;
+	  }
+	  else
+			longitude = itsPressParam->GetCurrentStation().GetLongitude();
 
 	  itsCurrentTime = itsCurrentTime.LocalTime(-static_cast<float>(longitude));
 	}
@@ -2390,6 +2402,16 @@ bool NFmiParamRect::CompleteMultiMapping(void)
 		  *itsLogFile << "***ERROR: ainakin yksi tuntematon muunnosarvo: " << value << endl;
 
 	  return true;
+}
+// ----------------------------------------------------------------------
+bool NFmiParamRect::IsMissingLonLat(void)
+{
+	  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
+	  double latitude = itsPressParam->GetCurrentStation().GetLatitude();
+
+	  //tähän pisteeseen tuskin oikeita paikkoja
+	  return fabs(longitude) <= .001 && fabs(latitude) <= .001
+		  || longitude == kFloatMissing && latitude == kFloatMissing;
 }
 
 // ======================================================================

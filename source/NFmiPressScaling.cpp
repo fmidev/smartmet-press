@@ -265,14 +265,25 @@ bool NFmiPressScaling:: AddValidTimeTimeStamp(NFmiString & theFile,
 
 bool NFmiPressScaling:: AddTimeStamp(NFmiString & theFile,
 									 const NFmiString & theFormat) const
-{
+{ 
   if(theFormat.IsValue())
 	{
 	  NFmiPressTime pressTime;
 	  NFmiString string1(pressTime.InterpretToStr(theFormat));
-	  NFmiString string2(theFile);
-	  
-	  theFile = string1+string2;
+	  unsigned long nSep = theFile.SearchLast(&kFmiDirectorySeparator);
+	  if(nSep >0)
+	  {
+		NFmiString string2;
+		string2 = theFile.GetChars(1,nSep);
+		string2 += string1;
+		string2 += theFile.GetChars(nSep+1,theFile.GetLen()-nSep+1);
+        theFile = string2;
+	  }
+	  else
+	  {
+		NFmiString string2(theFile);		  
+		theFile = string1+string2;
+	  }
 	}
   
   return true;

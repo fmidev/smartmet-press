@@ -178,6 +178,7 @@ protected:
 						bool localTimeSet=false); 
   bool FloatValue(NFmiFastQueryInfo * theQueryInfo,
 				  float & value); 
+  NFmiPressProduct* GetPressProduct (void)const;
   virtual bool PointOnParam(NFmiFastQueryInfo * theQI,
 							NFmiParam * theParam);
   virtual bool PointOnMultiParam(NFmiFastQueryInfo * theQI,
@@ -190,9 +191,9 @@ protected:
   bool IsEquiDistanceMode(void) const;
   bool IsEquiDistanceAndCorrMode(void) const;
   bool ActiveStationIndex(int currentInd) const; //vain TimeParamRect toistaiseksi
-  NFmiPressProduct* GetPressProduct (void)const;
   bool CompleteMultiMapping(void); 
   bool IsMaxMinPlotting(void) const;
+  bool IsMissingLonLat(void);
 
 private:
 
