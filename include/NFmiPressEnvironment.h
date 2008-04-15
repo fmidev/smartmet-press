@@ -62,7 +62,7 @@ public:
   long GetDayAdvance(void);
   int GetVersion(void)const;
   NFmiString GetSymbolSet(void)const;
-  void SetSymbolSet(NFmiString& symbolSet);
+  void SetSymbolSet(const NFmiString& symbolSet);
   float GetSymbolSizeFactor(void)const;
   void SetSymbolSizeFactor(float symbolSet);
 
@@ -173,7 +173,7 @@ NFmiString NFmiPressEnvironment::GetSymbolSet(void)const
 // ----------------------------------------------------------------------
 
 inline
-void NFmiPressEnvironment::SetSymbolSet(NFmiString& theSymbolSet)
+void NFmiPressEnvironment::SetSymbolSet(const NFmiString& theSymbolSet)
 {
   itsSymbolSet = theSymbolSet;
 }
