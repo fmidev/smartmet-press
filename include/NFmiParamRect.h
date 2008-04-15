@@ -161,7 +161,7 @@ public:
   void SetMaxCorrection(void);
   void SetMinCorrection(void);
   void SetIdentPar(unsigned long theIdentPar); 
-  unsigned long NFmiParamRect::GetIdentPar(void); 
+  unsigned long GetIdentPar(void); 
 
 protected:
 
