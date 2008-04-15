@@ -1,6 +1,6 @@
 LIB = press
 
-MAINFLAGS = -Wall -W -Wno-unused-parameter
+MAINFLAGS = -Wall -W -Wno-unused-parameter -fPIC -Wno-variadic-macros
 
 EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 	-Wcast-align -Wwrite-strings -Wconversion -Winline \
