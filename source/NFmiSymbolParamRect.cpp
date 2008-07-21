@@ -788,7 +788,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  if(itsMultiMapping)
 			  value = itsCurrentParamArray[0];
 
-			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(FmiRound(value)), theAbsoluteRectOfSymbolGroup.Place()))
+			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(value)), theAbsoluteRectOfSymbolGroup.Place()))
 				return false;
 		}
 

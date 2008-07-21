@@ -1939,7 +1939,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 								fTempMaxCorrection);
   }
   if(itsRoundingNumber != kLongMissing)
-	  value = static_cast<float>(FmiRound(value/itsRoundingNumber)) * itsRoundingNumber;
+	  value = round(value/itsRoundingNumber) * itsRoundingNumber;
 
   if(fMeanWindToMax && value != kFloatMissing)
 		value += static_cast<float>(max(value*.25, 2.));
