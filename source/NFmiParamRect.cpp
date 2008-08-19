@@ -34,6 +34,7 @@
 #include "NFmiDataModifierMaxPlace.h"
 
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -1897,6 +1898,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
   if (itsValueIntervalMin != kFloatMissing && (itsInterval2NumberMin =! kFloatMissing && value == itsInterval2NumberValue))
 	  value = itsValueIntervalMin <= value && value <= itsValueIntervalMax ? value : kFloatMissing;
   
+  if(itsCurrentPar == kFmiTemperature && (value > 58. || value < -90.))
+	value = kFloatMissing;
   if(itsValueOption == kFahrenheit)
 	value = FmiCelsius2Fahrenheit(value);
   else if(itsValueOption == kDegreeDays)

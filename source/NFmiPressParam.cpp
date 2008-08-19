@@ -2502,9 +2502,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  NFmiMetTime actTime(time);
 		  if(fYearData)
 			 actTime.SetYear(itsDataIter->Time().GetYear());
- 		  if((itsDataIter->Time(actTime) || fStationNotNeeded) && !done)
- 		  //if((itsDataIter->Time(time) || fStationNotNeeded) && !done)
- 		 {
+		  bool timeFound = itsDataIter->Time(actTime);
+ 		  //if((itsDataIter->Time(actTime) || fStationNotNeeded) && !done)
+  		  if((timeFound || fStationNotNeeded) && !done)
+		 {
 		  if(itsCurrentStep == 1 || fIsTimeLoop)
 		  {
 			 bool writeLog = true;
@@ -2542,7 +2543,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		 //     ***AikaTeksti
 		 //     ***Nimipäivät
 
-			DoTimeDependent(false,
+		    if(timeFound)
+				DoTimeDependent(false,
 					  currentStepInd,
 					  theFile,
 					  theOutput,
@@ -2596,6 +2598,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 							statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
 							statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
 						}
+						//tähän testi onko identti, jollei  yritetään luoda asemalonlatuusi:sta
+						// 
 						else if (itsDataIter->Location(NFmiStation(*statPoint.Station()).GetIdent()))
 						{
 							statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
@@ -2878,6 +2882,8 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint& theStation)
   {
 	  NFmiStation station;
 	  itsDataIter->ResetLocation();
+      unsigned long dataWmo;
+      unsigned long plotWmo = 0;
 	  while(itsDataIter->NextLocation())
 	  {
 		  dataName = itsDataIter->Location()->GetName();
@@ -2888,9 +2894,16 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint& theStation)
 		  }
 		  else
 		  {
-              unsigned long dataWmo, plotWmo;
 			  dataWmo = itsDataIter->Location()->GetIdent();
-			  plotWmo = theStation.GetIdent();
+			  if(plotWmo <= 0)
+			  {
+				plotWmo = theStation.GetIdent();
+				if(plotWmo < 1000)
+						plotWmo = itsPressProduct->FindWmoFromList(plotName);
+				if (plotWmo == 0)
+					return false;
+			  }
+
 			  if(dataWmo>0 && plotWmo>0 && dataWmo == plotWmo)
 				  return true;
 		  }

@@ -461,7 +461,6 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		else
 		  {
 			str += NFmiString("\\226");
-			//str += NFmiString("\\226 ");
 			NFmiHyphenationString helpFormat = format;
 			NFmiString hFormat = helpFormat.DropChar("+");
 			//tähän välilyönti

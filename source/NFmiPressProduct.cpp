@@ -767,7 +767,35 @@ bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint
 	  return false;
 	}
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theStation Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationName)
+{
+  if(itsNameToLonLat->Empty())
+	{
+	  if(!ReadNameToLonLatList())
+		{
+		  *itsLogFile << "*** ERROR: nimi/lonlat-tiedoston luku epäonnistui" << endl;
+		  return 0;
+		}
+	}
+    unsigned long wmo = itsNameToLonLat->FindWmo(theStationName);
+    if(wmo == 0)
+	{
+		*itsLogFile << "  WARNING: "
+					<< static_cast<char *>(theStationName)
+					<< ":lla ei ole WMO-numeroa Asemataulukossa"
+					<< endl;
+	}
+	return wmo;
+}
 // ----------------------------------------------------------------------
 /*!
  * ratkaisee voimassa olevat kausivaihtelut tiedostosta lukien tai
@@ -846,7 +874,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 	  start3 = line.find_first_not_of(delims, end2);
 	  end3 = line.find_first_of(delims, start3);
 
-	  if(end3 == string::npos)
+	  if(end2 == string::npos)
 		{
 		  *itsLogFile << "***ERROR: invalid line in seasonstatus: "
 					  << line
@@ -1016,7 +1044,14 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			*/
 		  else if(fmiShortStr1 == "muut" || fmiShortStr1 == "vari")
 			{
-			  itsReplaceMap.insert(pair<string, string>(str2, str3));
+				if(end3 == string::npos)
+				{
+					*itsLogFile << "***ERROR: invalid variable line in seasonstatus: "
+								<< line
+								<< endl;
+					continue;
+				}
+			    itsReplaceMap.insert(pair<string, string>(str2, str3));
 			}
 		  else
 			{
@@ -1261,7 +1296,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = DEB 28.3.2008" << endl;       
+   *itsLogFile << "program version = DEB 19.8.2008" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

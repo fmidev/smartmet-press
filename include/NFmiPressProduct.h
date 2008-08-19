@@ -149,6 +149,7 @@ public:
   bool ReplacePar(NFmiString & theString);
   bool ReadNameToLonLatList(void); 
   bool FindLonLatFromList(NFmiString & theStationName, NFmiPoint & theLonLat);
+  unsigned long FindWmoFromList(const NFmiString & theStationName);
   bool Close(void); 
   NFmiString GetInFileName(void) const;
   bool SetAllTimes(const NFmiMetTime & theTime);
