@@ -1178,6 +1178,7 @@ bool NFmiPressProduct::ReplacePar(NFmiString & theString)
 bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 {
 
+  NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
   itsOutputMode = kPostScript;
 
   NFmiString fmiString, origHome;
@@ -1242,13 +1243,21 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 
    NFmiString logFileName = fmiString;
    logFileName += kFmiDirectorySeparator;
+
 #ifdef UNIX
    if(NFmiSettings::IsSet("press::logfile"))
 	 logFileName += NFmiSettings::Require<string>("press::logfile");
    else
 	 logFileName += NFmiString("lehti.log");
 #else
-   logFileName += NFmiString("lehti.log");
+   /*
+    bool ok;
+	const NFmiPressText pressScaling; //pressScaling on abstrakti
+    ok = pressScaling.AddTimeStamp(logFileName, "YYYYMMDDHHmm");
+    logFileName += inputFileName.FileName();
+    logFileName += NFmiString(".log");
+	*/
+    logFileName += NFmiString("lehti.log");
 #endif
 
    string tempCorrFile= static_cast<string>(GetHome());
@@ -1265,7 +1274,6 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 //*******
    NFmiString retString;
    NFmiString origInputFileName = inputFile;
-   NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
    itsInFileName = inputFileName.Header(); //27.8.02 skriptistä kun kutsutaan tulee muuten koko polku
 
    NFmiFileString tempInput;
@@ -1290,7 +1298,8 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    tempInput += inputFileName.FileName();  
    tempInput += NFmiString("pss");
    
-   itsOutFileName = inputOnlyFile;  
+   itsOutFileName = inputOnlyFile;  //default if not given in definition
+   itsOutFileName += NFmiString("eps");  
 
    inputFileName += NFmiString("pss");
  

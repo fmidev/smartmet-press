@@ -80,6 +80,8 @@ public:
   virtual void SetLanguage(FmiLanguage newLanguage);
   virtual void ChangeByHours(long hours);
   virtual bool HasSubText(void)const;
+  bool AddTimeStamp(NFmiString & theGivenFile,
+					const NFmiString & theTimeFormat=NFmiString("DDMM")) const;
 
 protected:           
 
@@ -91,8 +93,6 @@ protected:
 							NFmiString extension = NFmiString());
 
   int GetTimestampDayGap(void) const {return itsTimestampDayGap;}; 
-  bool AddTimeStamp(NFmiString & theGivenFile,
-					const NFmiString & theTimeFormat=NFmiString("DDMM")) const;
   bool AddValidTimeTimeStamp(NFmiString & theFile,
 									 const NFmiString & theFormat,
 									 const NFmiPressTime & theValidTime) const;
