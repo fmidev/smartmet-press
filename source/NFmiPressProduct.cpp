@@ -811,7 +811,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   if(itsSeasonsStatus)
   {
 	  delete itsSeasonsStatus;
-	  *itsLogFile << "***Warning: Kausivaihtelun lukeminen toistuvasti" <<  endl;
+	  *itsLogFile << "***Warning: Season status file read repetitively" <<  endl;
   }
   itsSeasonsStatus = new FmiPressSeasons; 
 
@@ -850,7 +850,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 
   if(!in)
 	{
-	  *itsLogFile << "ei kausitilanne/muuttuja-tiedostoa"<< endl;
+	  *itsLogFile << "no Season status file found"<< endl;
 	  return true;
 	}
 
@@ -928,7 +928,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->wintertime = status;
-				  *itsLogFile << "  Kausitilanne pakotettu: talviaika "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Forced season status: Wintertime "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "summ" || fmiShortStr1 == "kesä")
@@ -936,7 +936,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->summer = status;
-				  *itsLogFile << "  Kausitilanne pakotettu: kesä "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Forced season status: Summer "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "poll" || fmiShortStr1 == "siit")
@@ -944,7 +944,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->pollen = status;
-				  *itsLogFile << "  Kausitilanne pakotettu: siitepölykausi "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Forced season status: Pollen Period "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "snow" || fmiShortStr1 == "lumi")
@@ -952,7 +952,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->snow = status;
-				  *itsLogFile << "  Kausitilanne pakotettu: lumikausi "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Forced season status: Snow Period "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "hour" || fmiShortStr1 == "tunt")
@@ -961,7 +961,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				{
 				  int hour = atoi(fmiShortStr2);
 				  itsSeasonsStatus->hour = hour;
-				  *itsLogFile << "  Tunti pakotettu: "<< hour << endl;
+				  *itsLogFile << "  Hour forced: "<< hour << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "date" || fmiShortStr1 == "päiv") //day vain 3 merkkiä!!
@@ -970,7 +970,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				{
 				  int day = atoi(fmiShortStr2);
 				  itsSeasonsStatus->day = day;
-				  *itsLogFile << "  Päivä pakotettu: "<< day << endl;
+				  *itsLogFile << "  Day forced: "<< day << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "mont" || fmiShortStr1 == "kuuk")
@@ -979,7 +979,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				{
 				  int month = atoi(fmiShortStr2);
 				  itsSeasonsStatus->month = month;
-				  *itsLogFile << "  Kuukausi pakotettu: "<< month << endl;
+				  *itsLogFile << "  Month forced: "<< month << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "edit")
@@ -991,7 +991,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  if(ownComputer)
 				  {
 					  itsSeasonsStatus->editdataOwn = true;
-				      *itsLogFile << "  Editoridata pakotettu omasta koneesta" << endl;
+				      *itsLogFile << "  Edit data forced from own computer" << endl;
 				  }
 			  }
 			}
@@ -1018,7 +1018,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 						*itsLogFile << "***ERROR: invalid weekday in seasonstatus: "<< str2 << endl;
 					  continue;
 					}
-				  *itsLogFile << "  Viikonpäivä pakotettu: "<< fmiShortStr2; // << endl;
+				  *itsLogFile << "  Weekday forced: "<< fmiShortStr2; // << endl;
 				}
 			}
 		  else if(fmiShortStr1 == "adva" || fmiShortStr1 == "enna")
@@ -1027,7 +1027,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				{
 				  itsSeasonsStatus->dayAdvance = atoi(str2.c_str()); //tarvitaanko missään tässä
 				  itsEnvironment.SetDayAdvance(itsSeasonsStatus->dayAdvance);
-				  *itsLogFile << "  Ennakko pakotettu: "<< str2 << endl;
+				  *itsLogFile << "  Advance in use: "<< str2 << endl;
 				}
 			}
 /*
@@ -1314,7 +1314,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
     ReadSeasonsStatus();
 	if (!GetSeasonsStatus())
 	{
-			*itsLogFile << "*** ERROR: kausivaihtelutiedot puuttuvat; ohjelmointivirhe"  << endl;
+			*itsLogFile << "*** ERROR: Season Status file missing; program bug"  << endl;
 			return false;
 	}
 
@@ -1811,7 +1811,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
   itsIntObject = ConvertDefText(itsString);
   if(!(itsString == NFmiString("#!PressProduct")))
 	{
-	  *itsLogFile << "Määrittelytiedostoa ei ole tai ei ole lehtituote" << endl;
+	  *itsLogFile << "Definion file not found or not Press Product" << endl;
 	  cin >> hourStep; //pysähdys
 	  return false;
 	}
@@ -1827,7 +1827,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 	{
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
-		  *itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty päätasolla" << endl;
+		  *itsLogFile << "*** ERROR: Max file length exceeded on top level " << endl;
 		  retString = itsString;
 		  return false;
 		}
@@ -1838,7 +1838,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		{
 		case dOther:	  //ylimääräistä roinaa, END lopettaa
 		  {
-			*itsLogFile << "*** ERROR: Tuntematon sana päätasolla: " << static_cast<char *>(itsObject) << endl;
+			*itsLogFile << "*** ERROR: Unknown key word on top level: " << static_cast<char *>(itsObject) << endl;
 
 			ReadNext();
 			break;

@@ -176,20 +176,12 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 		  }
 		case dColumnText:
 		  {
-		  	//text->SetWriteLast(fMakeElementsAfterSegments);
-            //text->SetEnvironment(itsEnvironment);
-            //text->SetHome(GetHome());
-		    //text->SetLogFile(itsLogFile);
-			//text->SetDescriptionFile(itsDescriptionFile);
-			//text->SetLanguage(itsLanguage);
-
 			itsColumnText = new NFmiPressText;
             itsColumnText->SetEnvironment(itsEnvironment);
 			itsColumnText->SetHome(GetHome());
 			itsColumnText->SetLogFile(itsLogFile);
 			itsColumnText->SetDescriptionFile(itsDescriptionFile);
 		    itsColumnText->SetFont(GetFont());
-			//itsColumnText->SetSize(itsRelRect);
 			if(!itsColumnText->ReadDescription(itsString))
 			{
 			  delete itsColumnText;
