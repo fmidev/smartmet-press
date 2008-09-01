@@ -759,7 +759,8 @@ bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint
 	}
   else
 	{
-	  if(theStationName != NFmiString("Tyhjä"))
+	  if(theStationName != NFmiString("Tyhjä")
+	  && theStationName != NFmiString("None"))
 		*itsLogFile << "  WARNING: "
 					<< static_cast<char *>(theStationName)
 					<< " ei ole nimi/lonLat-tiedostossa"
@@ -787,7 +788,7 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationNam
 		}
 	}
     unsigned long wmo = itsNameToLonLat->FindWmo(theStationName);
-    if(wmo == 0)
+	if(wmo == 0 && theStationName != NFmiString("None"))
 	{
 		*itsLogFile << "  WARNING: "
 					<< static_cast<char *>(theStationName)
@@ -1305,7 +1306,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = DEB 19.8.2008" << endl;       
+   *itsLogFile << "program version = debug BOOST 1.9.2008" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
