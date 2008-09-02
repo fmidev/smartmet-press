@@ -1306,7 +1306,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = debug BOOST 1.9.2008" << endl;       
+   *itsLogFile << "program version = release BOOST 2.9.2008" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2208,9 +2208,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 						NFmiTime tim = NFmiTime(static_cast<short>(long3),
 												static_cast<short>(long2),
 												static_cast<short>(long1));
-						NFmiTime thisDay;
-						firstDeltaDays = tim.DifferenceInDays(thisDay);
-        				itsFirstPlotTime.ChangeByDays(firstDeltaDays-origFirstDeltaDays);
+						itsFirstPlotTime = tim;
+						itsFirstPlotTime.SetHour(12);
 					  }
 				  }
 			  }
