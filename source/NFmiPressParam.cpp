@@ -2583,8 +2583,13 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 			 }
 			 */
-			 if(fabs(lonLat.X()) < 0.0001 &&  // HUOM puuttuva testi, mikseivät ole tasan nolla !!
-				fabs(lonLat.Y()) < 0.0001)
+
+			 // HUOM puuttuva testi, mikseivät ole tasan nolla !!
+			 // ja 10.2008 release versiossa lat oli hyvin iso luku mutta debug versio ok ??
+			 if(fabs(lonLat.X()) < 0.0001 &&  
+				fabs(lonLat.Y()) < 0.0001
+				|| fabs(lonLat.X()) > 200.
+				|| fabs(lonLat.Y()) > 100.)
 				{
 					if(itsDataIter->IsGrid())
 					{
@@ -2607,7 +2612,6 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 						}
 					}
 				 }
-				 lonLat = statPoint.GetLocation();
 
 				 itsCurrentStation = NFmiStation(*statPoint.Station());
 				 if (FindQDStationName(statPoint) || fStationNotNeeded)

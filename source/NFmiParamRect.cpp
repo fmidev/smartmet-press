@@ -1172,7 +1172,6 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 									  float & value,
 									  bool localTimeSet)
 {
-  
   if(!localTimeSet)                 //multimappingissä jo asetettu
 	{
 	  if(!SetStationLocalTime(theQueryInfo)) // väliaikaisesti jos optio päällä
@@ -1199,6 +1198,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 	 !(itsMultiMapping && itsCurrentMultiParNum > 1) &&
 	 itsPressParam->IsStationLocalTimeMode())
 	{
+		
 	  if(itsMultiMapping)
 		{
 		  *itsLogFile << "    eka asema: aika paikan päällä= "
@@ -1206,7 +1206,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 					  << " utc; par=moni"
 					  << endl;
 		}
-	  else
+	  else  
 		{
 		  unsigned long par = theQueryInfo->ParamDescriptor().Param().GetParam()->GetIdent();
 		  *itsLogFile << "    eka asema: aika paikan päällä= "
@@ -2304,6 +2304,7 @@ bool NFmiParamRect:: SetStationLocalTime(NFmiFastQueryInfo * theQI)
 	 double longitude;// latitude;  
 	  if(IsMissingLonLat())
 	  {
+		    *itsLogFile << "IsMissingLonLat() ekaks"  << endl; //HUOM
 	     NFmiPoint lonLat;
 		 NFmiString name = itsPressParam->GetCurrentStation().GetName();
 		 GetPressProduct()->FindLonLatFromList(name, lonLat);
@@ -2411,10 +2412,18 @@ bool NFmiParamRect::IsMissingLonLat(void)
 {
 	  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
 	  double latitude = itsPressParam->GetCurrentStation().GetLatitude();
-
+	 
 	  //tähän pisteeseen tuskin oikeita paikkoja
-	  return fabs(longitude) <= .001 && fabs(latitude) <= .001
-		  || longitude == kFloatMissing && latitude == kFloatMissing;
+	  //return fabs(longitude) <= .001 && fabs(latitude) <= .001
+	//	  || longitude == kFloatMissing && latitude == kFloatMissing;
+			 // HUOM puuttuva testi, mikseivät ole tasan nolla !!
+			 // ja 10.2008 release versiossa lat oli hyvin iso luku mutta debug versio ok ??
+			 return fabs(longitude) < 0.0001 &&  
+				fabs(latitude) < 0.0001
+		  || longitude == kFloatMissing && latitude == kFloatMissing
+				|| fabs(longitude) > 200.
+				|| fabs(latitude) > 100.;
+
 }
 
 // ======================================================================
