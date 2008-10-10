@@ -2410,20 +2410,7 @@ bool NFmiParamRect::CompleteMultiMapping(void)
 // ----------------------------------------------------------------------
 bool NFmiParamRect::IsMissingLonLat(void)
 {
-	  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
-	  double latitude = itsPressParam->GetCurrentStation().GetLatitude();
-	 
-	  //tähän pisteeseen tuskin oikeita paikkoja
-	  //return fabs(longitude) <= .001 && fabs(latitude) <= .001
-	//	  || longitude == kFloatMissing && latitude == kFloatMissing;
-			 // HUOM puuttuva testi, mikseivät ole tasan nolla !!
-			 // ja 10.2008 release versiossa lat oli hyvin iso luku mutta debug versio ok ??
-			 return fabs(longitude) < 0.0001 &&  
-				fabs(latitude) < 0.0001
-		  || longitude == kFloatMissing && latitude == kFloatMissing
-				|| fabs(longitude) > 200.
-				|| fabs(latitude) > 100.;
-
+	 return itsPressParam->GetCurrentStation().GetLongitude() == kFloatMissing;
 }
 
 // ======================================================================

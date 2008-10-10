@@ -623,7 +623,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   double xmin,xmax,ymin,ymax;
   bool timeOrLevelTableSet = false;
   long statNum;
-  double lat, lon;
+  double lat=kFloatMissing;
+  double lon=kFloatMissing;
 
   NFmiVoidPtrList * newNames = new NFmiVoidPtrList;
 
@@ -1408,8 +1409,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		}
 		case dStationNameReplace: // stationiin verrattuna lisäykset: *** PrintName
 		{
-		  lon = 0.;
-		  lat = 0.;
+		  lon = kFloatMissing;
+		  lat = kFloatMissing;
 		  bool hasOwnPoint = false;  // talukkoEscapea varten
 
 		  if (!ReadEqualChar())
@@ -1458,8 +1459,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						{
 						  x = lon;
 						  y = lat;
-						  lon = 0.;
-						  lat = 0.;
+						  lon = kFloatMissing;
+						  lat = kFloatMissing;
 						  hasOwnPoint = true;
 						}
 					  else
@@ -1528,8 +1529,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		}
 		case dStation:
 		  {
-			lon = 0.;
-			lat = 0.;
+			lon = kFloatMissing;
+			lat = kFloatMissing;
 			bool hasOwnPoint = false;  // talukkoEscapea varten
 
 			if (!ReadEqualChar())
@@ -1574,8 +1575,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						  {
 							x = lon;
 							y = lat;
-							lon = 0.;
-							lat = 0.;
+							lon = kFloatMissing;
+							lat = kFloatMissing;
 							hasOwnPoint = true;
 						  }
 						else
@@ -1811,7 +1812,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  point1 = NFmiPoint(point0.X(),bottom-y0+top);
 					  point2 = itsScale.Scale(point1);
 					  NFmiStationPoint station
-						(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+						(NFmiStation(currentStationNumOnMap, name, kFloatMissing, kFloatMissing), point2);
 					  if(fNextStationBackup)
 						station.SetBackup(true);
 					  itsStations.AddLocation(station, false);
@@ -2584,12 +2585,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 }
 			 */
 
-			 // HUOM puuttuva testi, mikseivät ole tasan nolla !!
-			 // ja 10.2008 release versiossa lat oli hyvin iso luku mutta debug versio ok ??
-			 if(fabs(lonLat.X()) < 0.0001 &&  
-				fabs(lonLat.Y()) < 0.0001
-				|| fabs(lonLat.X()) > 200.
-				|| fabs(lonLat.Y()) > 100.)
+			 if(lonLat.X() == kFloatMissing)
 				{
 					if(itsDataIter->IsGrid())
 					{
