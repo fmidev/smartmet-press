@@ -527,7 +527,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia
 		{
 		 // WriteShowString(x, y, locText, locText, theDestinationFile);
-		  WriteShowString(x, y, emptyString, locText, theDestinationFile);
+		  //WriteShowString(x, y, emptyString, locText, theDestinationFile);
+		  WriteShowString(x, y, locText, theDestinationFile);
 		}
 	  else if(firstIs226)
 		{
@@ -557,8 +558,11 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 				WriteShowString(x, y, restString, restString, theDestinationFile);
 			  }		  
 		}
-*/
+*/	
+	
+	  WriteShowString(x, y, locText, theDestinationFile);
 
+	  
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia
 		{
 		 // WriteShowString(x, y, locText, locText, theDestinationFile);
@@ -576,7 +580,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 			                          ,restString, theDestinationFile);		  
 		}
 
-	  else //secondIs226 eli suluissa (AL) 
+	  else //secondIs226 eli suluissa (AL)
+	  
 	  {  // PS:ss‰ pit‰‰ olla parilliset sulut, muuten kenon kanssa
 		 // miten k‰‰nt‰j‰st‰ saisi l‰pi NFmiString("\("); 
 		/*
@@ -601,7 +606,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		      restString += NFmiString("\)");
 			  WriteShowString(x, y, restString, restString, theDestinationFile);
 			}
-*/		
+ */		
 		}
 	  
 	  theDestinationFile << "false setoverprint" << endl;
@@ -640,9 +645,11 @@ NFmiString NFmiTextParamRect::Construct(NFmiString * theString) const
   if(fLowerCase) str.LowerCase();
   if(fFirstUpperCase)
   {
-	  str.LowerCase();
-	  str.FirstCharToUpper();
-  }
+	  //str.LowerCase();
+	  //str.FirstCharToUpper();
+ 	  str.FirstInWordToUpper();  //sivuvaikutuksia? eli onko jossain tarkoitus ett‰ vain 
+	                             //eka sana alkaa isolla 
+ }
   NFmiString retString;
   if(itsAddInFront.IsValue())
 	retString += itsAddInFront;

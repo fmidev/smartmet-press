@@ -2031,6 +2031,13 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  ReadNext();
 		  break;
 		}
+		case dStationNamesAfterParams:
+		{
+		  fStationNamesAfterParams = true; 
+
+		  ReadNext();
+		  break;
+		}
 		default:
 		  {
 			ReadRemaining();
@@ -2170,7 +2177,8 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 	return dTimeTextObject;
 
   else if(lowChar==NFmiString("#stationname") ||
-		  lowChar==NFmiString("#asemannimi"))
+		  lowChar==NFmiString("#asemannimi") ||
+		  lowChar==NFmiString("#asemanimi"))
 	return dStationTextObject;
 
   else if(lowChar==NFmiString("datanotneeded") ||
@@ -2354,6 +2362,11 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datacoordinatesmoved") ||
 		  lowChar==NFmiString("datankoordinaatitsiirretty"))
 	return dDataCoordinatesMoved;
+  
+  else if(lowChar==NFmiString("stationnamesafterparams") ||
+		  lowChar==NFmiString("asemannimetparametrienjälkeen") ||
+		  lowChar==NFmiString("asemanimetparametrienjälkeen"))
+	return dStationNamesAfterParams;
 
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
@@ -2613,9 +2626,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 				 if (FindQDStationName(statPoint) || fStationNotNeeded)
 				   {
 
-					 if(itsCurrentStep == 1 && !fCurrentStationBackup)
+					 if(itsCurrentStep == 1 && !fCurrentStationBackup 
+						 && !IsStationNamesAfterParams())
 					   {
-						// ********* AsemaSidotutObjektit ************* 
+						// ********* AsemaSidotutObjektit ennen parametrejä ************* 
 						// *** eli AsemanNimi (vainko?)
 
 						 stationObjectIter.Reset();
@@ -2665,7 +2679,42 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 						   *itsLogFile << "*** ERROR: Aseman piirto ei onnistunut: " << endl;
 						 return false;
 					   }
-					} //if(FindQStationName()
+							 if(itsCurrentStep == 1 && !fCurrentStationBackup 
+						 && IsStationNamesAfterParams())
+					   {
+						// ********* AsemaSidotutObjektit parametrien jälkeen ************* 
+						// *** eli AsemanNimi (vainko?)
+
+						 stationObjectIter.Reset();
+						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
+
+						 NFmiPoint unScaledPoint = itsScale.UnScale(stationPoint);
+						 if(object && itsStations.CurrentIndex() == 0)
+						   {
+							 // jokaisella objektilla pitää olla oma, jäseneksi
+							 nameFromData = NFmiPoint(object->Place().X() - unScaledPoint.X(),
+													  object->Place().Y() - unScaledPoint.Y());
+						   }
+						 while (object)
+						   {
+							 NFmiPoint savePlace = object->Place();
+							 object->Place(unScaledPoint+nameFromData);
+							 object->Set(itsScale, theFile);
+							 object->SetRotatingPoint(object->Place());
+							 if (!(object->WritePS(theOutput)))
+							   {
+								 if(itsLogFile)
+								   *itsLogFile << "*** ERROR: (statDep)object->WritePS() in NFmiPressParam" << endl;
+								 return false;
+							   }
+							 if(theOutput == kPostScript)
+							   object->WriteGRestore();
+							 object->Place(savePlace); // jotta toimisi seuraavalle writePs-käskylle
+
+							 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
+						   }
+					   }
+			} //if(FindQStationName()
 				 else
 				   {
 					 NFmiString statName = statPoint.Station()->GetName();

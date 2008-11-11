@@ -276,7 +276,7 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
 			{
 			  str2 = theTimeCode.GetChars(ind,2);
 			  plusInd += -1;
-			  if(str2 == NFmiString("YY") || str2 == NFmiString("yy")) //POISTA yy
+			  if(str2 == NFmiString("YY"))
 				theString += NFmiValueString(GetYear() ,"%02d").GetChars(3,2);
 			  else if(str2 == NFmiString("MM"))
 				theString += NFmiValueString(GetMonth() ,"%02d");

@@ -189,8 +189,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 		{
 		  bool isAlsoImages = itsIntObject == dManStationAndImages;
 		  NFmiString string1;
-		  lon = 0.;
-		  lat = 0.;
+		  lon = kFloatMissing;  
+		  lat = kFloatMissing; 
 		  statNum = 0;
 
 		  if (!ReadEqualChar())
@@ -237,8 +237,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 		case dManStationNewName:
 		  {
 			NFmiString string1,string2;
-			lon = 0.;
-			lat = 0.;
+		    lon = kFloatMissing;  
+		    lat = kFloatMissing; 
 			statNum = 0;
 
 			if (!ReadEqualChar())

@@ -80,7 +80,8 @@ enum NFmiPressParamObjects
   dSupplement,
   dSegmentNameDay,
   dBackupStation,
-  dDataCoordinatesMoved
+  dDataCoordinatesMoved,
+  dStationNamesAfterParams
 };
 
 struct FmiValuePoint
@@ -178,6 +179,8 @@ public:
   bool SetStationNotNeeded (void);
   NFmiPoint GetCurrentUnscaledPoint(void)const;
   void SetCurrentStationLonLat(NFmiPoint & theLonLat);
+  void SetStationNamesAfterParams(bool theStatus);
+  bool IsStationNamesAfterParams(void)const;
 protected:
 
   void UnsetAllErrorReported(void);
@@ -246,6 +249,7 @@ protected:
   NFmiPoint itsCurrentUnscaledPoint;
   bool fMaxMinSearched;
   bool fDataCoordinatesMoved;
+  bool fStationNamesAfterParams;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -299,6 +303,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fCurrentStationBackup(false)
   , fMaxMinSearched(false)
   , fDataCoordinatesMoved(false)
+  , fStationNamesAfterParams(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -349,9 +354,37 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fCurrentStationBackup(false)
   , fMaxMinSearched(false)
   , fDataCoordinatesMoved(false)
+  , fStationNamesAfterParams(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+  void NFmiPressParam::SetStationNamesAfterParams(bool theStatus)
+{
+	fStationNamesAfterParams = theStatus;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+  bool NFmiPressParam::IsStationNamesAfterParams(void)const
+{
+	return fStationNamesAfterParams;
 }
 
 // ----------------------------------------------------------------------
