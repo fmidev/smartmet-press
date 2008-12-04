@@ -224,7 +224,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		// int hour = now.GetHour();
 		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
 		{
-			condition = *pos;
+			condition = *pos;//Linuxissa ei toimi; ylimäärä välilyönti *************
 			if(firstLoop)
 				*itsLogFile << "  vapaavalintainen direktiivi: "  
 						        <<  condition << endl;

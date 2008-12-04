@@ -652,7 +652,8 @@ bool NFmiParamRect::ReadRemaining(void)
 	  }
 	case dRandomModifying:
 	  {
-		fRandomModifying = true;
+	    if(GetPressProduct()->GetSeasonsStatus()->allowRandom)
+			fRandomModifying = true;
 		ReadNext();
 		break;
 	  }

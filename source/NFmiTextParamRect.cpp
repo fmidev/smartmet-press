@@ -390,7 +390,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 
 {
   NFmiString longMinus ("\\226");
-  // bool isLongMinus = itsEnvironment.GetLongNumberMinus();
+  bool isLongMinus = itsEnvironment.GetLongNumberMinus();
   NFmiString locText(theText);
 
   NFmiRect numberRect = AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight()));
@@ -526,7 +526,6 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 /*
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia
 		{
-		 // WriteShowString(x, y, locText, locText, theDestinationFile);
 		  //WriteShowString(x, y, emptyString, locText, theDestinationFile);
 		  WriteShowString(x, y, locText, theDestinationFile);
 		}
@@ -560,7 +559,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		}
 */	
 	
-	  WriteShowString(x, y, locText, theDestinationFile);
+	  //WriteShowString(x, y, locText, theDestinationFile);
 
 	  
 	  if(!(firstIs226 || secondIs226)) //ei ongelmia

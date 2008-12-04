@@ -838,7 +838,8 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->hour = today.GetHour();
   itsSeasonsStatus->day = today.GetDay();
   itsSeasonsStatus->month = today.GetMonth();
- //itsSeasonsStatus->afternoon = false;
+  itsSeasonsStatus->allowRandom = true;
+//itsSeasonsStatus->afternoon = false;
   //if (today.GetHour() >= 12)
 	//  itsSeasonsStatus->afternoon = true;
 
@@ -1029,6 +1030,14 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  itsSeasonsStatus->dayAdvance = atoi(str2.c_str()); //tarvitaanko missään tässä
 				  itsEnvironment.SetDayAdvance(itsSeasonsStatus->dayAdvance);
 				  *itsLogFile << "  Advance in use: "<< str2 << endl;
+				}
+			}
+		  else if(fmiShortStr1 == "sall" || fmiShortStr1 == "allo")
+			{
+			  if(boolGiven && !undef)
+				{
+				  itsSeasonsStatus->allowRandom = status;
+				  *itsLogFile << "  Forced status: allowRandom "<< static_cast<char *>(statusString) << endl;
 				}
 			}
 /*
