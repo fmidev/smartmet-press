@@ -53,7 +53,8 @@ enum NFmiPressTextObjects
   dTextLanguage,
   dTextDir,
   dTextPath,
-  dMaxTextLength
+  dMaxTextLength,
+  dNotRightJustification
 };
 
 //! Undocumented
@@ -112,6 +113,7 @@ protected:
   double itsRightMargin;
   double itsLeftMargin;
   double itsIndent;
+  bool fRightJustification;
   bool fLoopErrorReported;
   bool fInParagraph;     
   NFmiPoint  itsParagraphMove;  
@@ -142,6 +144,7 @@ NFmiPressText::NFmiPressText(void)
   , itsLineStepFactor(0.)
   , itsTopMargin(-1000.)
   , itsIndent(0.)
+  , fRightJustification(true)
   , fLoopErrorReported(false)
   , fInParagraph(false)
   , fUpperCase(0)

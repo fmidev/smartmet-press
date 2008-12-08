@@ -51,6 +51,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , itsRightMargin(thePressText.itsRightMargin)
   , itsLeftMargin(thePressText.itsLeftMargin)
   , itsIndent(thePressText.itsIndent)
+  , fRightJustification(thePressText.fRightJustification)
   , fLoopErrorReported(thePressText.fLoopErrorReported)
   , fInParagraph(thePressText.fInParagraph)
   , itsParagraphMove(thePressText.itsParagraphMove)
@@ -579,6 +580,13 @@ bool NFmiPressText::ReadRemaining(void)
 		break;
 	  }
 
+	case dNotRightJustification:
+	{
+		fRightJustification = false;
+		ReadNext();
+		break;
+	  }
+
 	default:
 	  {
 		NFmiPressScaling:: ReadRemaining();
@@ -726,6 +734,11 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString ("widthfactor") ||
 		  lowChar==NFmiString ("leveyskerroin"))
 	return dWidthFactor;
+  
+  else if(lowChar==NFmiString ("notrightjustification") ||
+		  lowChar==NFmiString ("liehureuna")  ||
+		  lowChar==NFmiString ("eioikeatasaus"))
+	return dNotRightJustification;
 
   else
 	return NFmiPressScaling::ConvertDefText(object);
@@ -934,6 +947,8 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  *itsOutFile << "}" << endl;
 		  *itsOutFile << "/TextPath exch def" << endl;
 		  *itsOutFile << "/Indent " << itsIndent << " def" << endl;
+		  if(!fRightJustification)
+			  *itsOutFile << "/Justification false def" << endl;
 		  *itsOutFile << "/Leading " << lineStep << " def" << endl;
 		  *itsOutFile << "SetFirstText" << endl;
 		}
