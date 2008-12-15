@@ -24,6 +24,16 @@
 
 #include "NFmiString.h"
 
+#include <string>
+#include <vector>
+/*
+struct FmiPressHyphens
+{
+	std::string word; 
+	int pos;
+};
+*/
+
 //! Undocumented
 class _FMI_DLL NFmiHyphenationString : public NFmiString
 {
@@ -38,6 +48,7 @@ public:
 
 
   NFmiString CreateHyphens(const char * theHyphenationMark);
+  NFmiString CreateIrregularHyphens(const char * theHyphenationMark);
   bool NextChar(const NFmiString & theChar);
   bool NextIsNumeric(void);
   NFmiString ReplaceChar(const NFmiString & theChar, const NFmiString & withString);
@@ -56,9 +67,12 @@ public:
   bool NextSubString(NFmiString & resString);
 
 private:
+  bool InitIrregularHyphens(void);
 
   unsigned short itsCurrentCharPos;
   unsigned short itsLastCharPosition;
+  bool fIrregularHyphensInited;
+  std::vector<std::string> itsIrregularHyphens;
 
 }; // class NFmiHyphenationString
 

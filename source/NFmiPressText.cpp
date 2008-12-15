@@ -884,6 +884,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		{
 		  text += NFmiString(" ");
 		  hypString = NFmiHyphenationString(text);
+		  hypString = hypString.CreateIrregularHyphens("~");
 		  helpString = hypString.CreateHyphens("~");
 		  text = helpString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illussa "-" ei mene läpi ??
 		}

@@ -6,8 +6,10 @@
 // ======================================================================
 
 #include "NFmiHyphenationString.h"
-#include <string>
- 
+//#include <vector>
+//#include <string>
+using namespace std;
+
 // ----------------------------------------------------------------------
 /*!
  * The destructor does nothing special
@@ -27,6 +29,7 @@ NFmiHyphenationString::~NFmiHyphenationString(void)
 NFmiHyphenationString::NFmiHyphenationString(void)
 {
   ResetPosition();
+  fIrregularHyphensInited = false;
 }
 
 // ----------------------------------------------------------------------
@@ -41,6 +44,7 @@ NFmiHyphenationString::NFmiHyphenationString(const char * theText)
   : NFmiString(theText) 
 {
   ResetPosition();
+  fIrregularHyphensInited = false;
 }
 
 // ----------------------------------------------------------------------
@@ -55,6 +59,7 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiString & theText)
   : NFmiString(theText) 
 {
   ResetPosition();
+  fIrregularHyphensInited = false;
 }
 
 // ----------------------------------------------------------------------
@@ -80,8 +85,76 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiHyphenationString & theTe
  */
 // ----------------------------------------------------------------------
 
+bool NFmiHyphenationString::InitIrregularHyphens(void)
+{
+  itsIrregularHyphens.push_back("syd-ostlig");
+  itsIrregularHyphens.push_back("syd-östra");
+  itsIrregularHyphens.push_back("nord-ostlig");
+  itsIrregularHyphens.push_back("nord-östra");
+  itsIrregularHyphens.push_back("ster-sjö"); //Östersjön,Östersjöområdet 
+  itsIrregularHyphens.push_back("in-ska "); // Finska viken
+  itsIrregularHyphens.push_back("pohjois-osa");
+  itsIrregularHyphens.push_back("etelä-osa");
+  itsIrregularHyphens.push_back("itä-osa");
+  itsIrregularHyphens.push_back("länsi-osa");
+  fIrregularHyphensInited = true;
+  return true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theHyphenationMark Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
+{
+  if(!fIrregularHyphensInited)
+		InitIrregularHyphens();
+
+  std::string stdString(*this);
+  
+  unsigned long posText = 0;
+  unsigned long posChar = 0;
+  std::string hyphWord, word; 
+  std::vector<std::string>::iterator posWord;
+  for(posWord=itsIrregularHyphens.begin(); posWord != itsIrregularHyphens.end(); ++posWord)
+  {
+		hyphWord = *posWord;
+		word = hyphWord;
+		posChar = word.find("-");
+		int posDiff = 0;
+		while(posChar!= string::npos)
+		{
+            word.erase(posChar, 1);
+			hyphWord.replace(posChar+posDiff, 1, theHyphenationMark); 
+			posChar = word.find("-");
+			posDiff++;
+		}
+  		posChar = stdString.find(word);
+ 		while(posChar!= string::npos)
+		{
+            stdString.replace(posChar,word.size(),hyphWord);
+			posChar = stdString.find(word);
+		}
+ }
+  return stdString;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theHyphenationMark Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 {
+  //NFmiString newString = CreateIrregularHyphens(theHyphenationMark);
+	
   NFmiString newString;
   ResetPosition();
   while(NextConsonant())
@@ -300,7 +373,7 @@ void NFmiHyphenationString::SuperResetPosition(void)
 
 bool NFmiHyphenationString::IsConsonant(const NFmiString & theChar) const
 {
-  NFmiString consonants("bdfghjklmnprstv"); 
+  NFmiString consonants("bcdfghjklmnpqrstvwxz"); 
   for(int i = 1; i <= static_cast<int>(consonants.GetLen()); i++)  
 	{
 	  if(!strcmp(consonants.GetCharsPtr(i,1), theChar))
@@ -342,7 +415,7 @@ bool NFmiHyphenationString::IsNumeric(const NFmiString & theChar) const
 
 bool NFmiHyphenationString::IsVowel(const NFmiString & theChar) const
 {
-  NFmiString vowels("aeiouyäö");  
+  NFmiString vowels("aeiouyäöå");  
   for(int i = 1; i <= static_cast<int>(vowels.GetLen()); i++)
 	{
 	  if(!strcmp(vowels.GetCharsPtr(i,1), theChar))
