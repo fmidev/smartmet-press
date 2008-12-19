@@ -41,7 +41,8 @@ enum NFmiTextParamRectObjects
   dPRLowerCase,
   dPRUpperCase,
   dPRFirstUpperCase,
-  dPRMaxTextLength
+  dPRMaxTextLength,
+  dFillWithUnderscore
 };
 
 
@@ -125,6 +126,7 @@ protected:
   bool fLowerCase;   
   bool fFirstUpperCase;  
   unsigned long itsMaxLen;
+  bool fFillWithUnderscore;
 }; 
 
 
@@ -148,6 +150,7 @@ NFmiTextParamRect::NFmiTextParamRect(void)
   , fLowerCase(false)   
   , fFirstUpperCase(false)
   , itsMaxLen(0)
+  , fFillWithUnderscore(false)
 {
 }
 

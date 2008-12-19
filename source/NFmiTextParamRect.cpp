@@ -52,6 +52,7 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect & theTextParamRect)
   , fLowerCase(theTextParamRect.fLowerCase)   
   , fFirstUpperCase(theTextParamRect.fFirstUpperCase)  
   , itsMaxLen(theTextParamRect.itsMaxLen)
+  , fFillWithUnderscore(theTextParamRect.fFillWithUnderscore)
 {
   for(unsigned int ind =0; ind < maxNumOfColMaps; ind++)
 	{
@@ -271,6 +272,14 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		SetOne(itsMaxLen);
 		break;
 	  }
+	case dFillWithUnderscore:
+		{
+		fFillWithUnderscore = true;
+
+		ReadNext();
+		break;
+
+		}
 	default:
 	  {
 		return NFmiParamRect::ReadRemaining();
@@ -363,6 +372,10 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("maksimipituus") ||
 		  lowChar==NFmiString("maxpituus"))
 	return dPRMaxTextLength;
+  
+  else if(lowChar==NFmiString("fillwithunderscore") ||
+		  lowChar==NFmiString("täytäalaviivalla"))
+	return dFillWithUnderscore;
 
   else
 	return NFmiParamRect::ConvertDefText(object);
@@ -658,7 +671,8 @@ NFmiString NFmiTextParamRect::Construct(NFmiString * theString) const
   if(itsAddAfter.IsValue())
 	retString += itsAddAfter;
   
-  retString.ReplaceChars(NFmiString("_"), NFmiString(" "));
+  if (!fFillWithUnderscore)
+	retString.ReplaceChars(NFmiString("_"), NFmiString(" "));
   
   return retString;
 }

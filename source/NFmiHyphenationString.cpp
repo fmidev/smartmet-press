@@ -97,6 +97,10 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("etelä-osa");
   itsIrregularHyphens.push_back("itä-osa");
   itsIrregularHyphens.push_back("länsi-osa");
+  itsIrregularHyphens.push_back("om-kring");
+  itsIrregularHyphens.push_back("snö-blandat");
+  itsIrregularHyphens.push_back("halv-klar");
+  itsIrregularHyphens.push_back("annor-städes");
   fIrregularHyphensInited = true;
   return true;
 }

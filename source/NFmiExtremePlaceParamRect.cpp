@@ -249,7 +249,14 @@ bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbol
 		str = location->GetName();
 
     if(itsMaxLen > 0)
-		str = GetPressProduct()->CutOffString(str, itsMaxLen); 
+		str = GetPressProduct()->CutOffString(str, itsMaxLen);
+
+	if (fFillWithUnderscore)
+	{
+		unsigned long len = str.GetLen();
+		if(len < itsMaxLen)
+			str.FillR(itsMaxLen, '_');
+	}
 
 	return WriteCode(Construct(&str),
 				theAbsoluteRectOfSymbolGroup, 
