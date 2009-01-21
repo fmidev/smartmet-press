@@ -380,7 +380,10 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
 	  hString = NFmiString (*mapString);	// pitäisi olla yleisempi
 	  if(itsEnvironment.GetLongNumberMinus() && hString == NFmiString("-"))
+	  {
+		fUseSelectLatinFont = false;
 		hString = NFmiString("\\226");
+	  }
 	  str += hString;
 
 	  if(itsColumnText)
