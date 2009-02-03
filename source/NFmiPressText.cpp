@@ -54,6 +54,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , fRightJustification(thePressText.fRightJustification)
   , fLoopErrorReported(thePressText.fLoopErrorReported)
   , fInParagraph(thePressText.fInParagraph)
+  , fInFreeArea(thePressText.fInFreeArea)
   , itsParagraphMove(thePressText.itsParagraphMove)
   , fUpperCase (thePressText.fUpperCase)
   , fLowerCase (thePressText.fLowerCase)
@@ -64,6 +65,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , itsCharSpace(thePressText.itsCharSpace)
   , itsMaxLen(thePressText.itsMaxLen)
   , itsWidthFactor(thePressText.itsWidthFactor)
+  , itsFreePath(thePressText.itsFreePath)
 {
   itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : 0;
   itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : 0;
@@ -82,7 +84,8 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 {
   NFmiValueString valueString;
   NFmiString  textFile, textPath, textDir;
-  double r1,r2,r3;
+  double r1,r2,r3,x;
+  NFmiPoint point;
 
   //itsFont = NFmiString("Times-Roman");
   itsRectSize.Y(GetTextSize());
@@ -240,6 +243,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  {
 				itsTopMargin = r1;
 				fInParagraph = true;
+				fInFreeArea = false;
 			  }
 		    ReadNext();
 			break;
@@ -253,6 +257,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 				if (oneMarginSet)
 					fInParagraph = true;
 				oneMarginSet = true;
+				fInFreeArea = false;
 				itsLeftMargin = r1;
 			  }
 		    ReadNext();
@@ -267,6 +272,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 				if (oneMarginSet)
 					fInParagraph = true;
 				oneMarginSet = true;
+				fInFreeArea = false;
 				itsRightMargin = r1;
 			  }
 		    ReadNext();
@@ -329,6 +335,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 					itsTopMargin =  r2;
 					itsRightMargin = r3;
 					fInParagraph = true;
+					fInFreeArea = false;
 				  }
 				else
 				  {
@@ -337,6 +344,53 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 				  }
 			  }
 		    ReadNext();
+			break;
+		  }
+		case dTextBorders:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			if(fInParagraph)
+				*itsLogFile << "*** ERROR: Paragraph and AreaPath confusion in Text" << endl;
+
+			fInParagraph = false;
+			fInFreeArea = true;
+			
+			int numPoints = 0;
+
+			valueString = ReadString();
+			while (valueString.IsNumeric())
+			{
+				x = static_cast<float>(valueString);
+			    valueString = ReadString();
+				if(valueString.IsNumeric())
+				{
+					numPoints++;
+					if(numPoints > 100)
+					{
+						*itsLogFile << "*** ERROR: Probable leakage in Text AreaBorders (>100 points?) " << endl;
+					    fInFreeArea = false;
+					}
+					point.X(x);
+					point.Y(static_cast<float>(valueString));
+					itsFreePath.push_back(point);
+			        valueString = ReadString();
+				}
+				else
+				{
+					*itsLogFile << "*** ERROR: y-coord. missing in Text AreaBorders"  << endl;
+					fInFreeArea = false;
+				}
+			}
+			if(numPoints < 3)
+			{
+				*itsLogFile << "*** ERROR: Text AreaBorders only " << numPoints << " points" << endl;
+				fInFreeArea = false;
+			}
+			itsString = valueString;
+			itsIntObject = ConvertDefText(valueString);
+			
 			break;
 		  }
 		case dFile:
@@ -405,7 +459,22 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	  *itsLogFile << "VakioTeksti: "<< static_cast<char *>(dataFile) ;
 
 	  std::fstream in(dataFile, ios::in|ios::in);
-	  if(in.good())
+	/*const short lineSize = 2800;
+	char inBuf[lineSize];
+	unsigned long tagBeg, tagEnd;
+	bool isTag;
+*/
+	if(in.good())
+	/*	while(in.getline(inBuf, lineSize, '\n'))
+		{
+			nextString = inBuf;
+			tagBeg = nextString.Search(NFmiString("<"));
+			tagEnd = nextString.Search(NFmiString(">"));
+			isTag = tagBeg >0 && tagEnd>0 && tagEnd>tagBeg;
+			if(!isTag)
+				aString += nextString;
+        }
+*/
 		{
 		  char text[120];
 		  unsigned long tagBeg, tagEnd;
@@ -440,6 +509,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 		  *itsText = aString; //ReplaceChar(NFmiString("-"), NFmiString("\\255")); //29.6 Illussa "-" ei mene läpi ??
           *itsLogFile << " luettu" << endl;
 		}
+		
 	  else
 		{
 		  *itsLogFile << endl << "  *** ERROR: teksti ei löydy" << endl;
@@ -484,6 +554,7 @@ bool NFmiPressText::ReadRemaining(void)
 		if(ReadDouble(r1))
 		  {
 			fInParagraph = true;
+			fInFreeArea = false;
 			*itsDescriptionFile >> itsObject;
 			valueString = itsObject;
 			if(valueString.IsNumeric())
@@ -505,6 +576,7 @@ bool NFmiPressText::ReadRemaining(void)
 	case dInParagraph:
 	  {
 		fInParagraph = true;
+		fInFreeArea = false;
 		ReadNext();
 
 		break;
@@ -722,6 +794,10 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString ("palstanrajat"))
 	return dParagraphBorders;
 
+  else if(lowChar==NFmiString("areaborders") ||
+		  lowChar==NFmiString ("aluerajat"))
+	return dTextBorders;
+
   else if(lowChar==NFmiString("timestamp") ||
 		  lowChar==NFmiString ("aikaleima"))
 	return dFileTimestamp;
@@ -777,19 +853,19 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 {
 
   NFmiString text = Construct(itsText);
-    
+  bool fInArea = fInParagraph || fInFreeArea;
+   
   if(theOutput != kPlainText && 
-	  (itsPlace.X() == 0. && itsPlace.Y() == 0. && !fInParagraph))
+	  (itsPlace.X() == 0. && itsPlace.Y() == 0. && !fInArea))
       OutputLog('E', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
 
   if(text == NFmiString("ERROR"))
         OutputLog('E', "Teksti puuttuu tekstioliolta", "Text missing from text object");
 
   NFmiHyphenationString hypString, helpString;
-  bool firstParagraph = fInParagraph && itsTopMargin > -100.;
+  bool firstParagraph = fInParagraph && itsTopMargin > -100.; 
   bool nParagraph = fInParagraph && !firstParagraph;
   bool widthScaling = itsWidthFactor != 1.;
-
   text.ReplaceChars(NFmiString("_"), NFmiString(" "));
 
   NFmiRect rect = itsWriteScale.GetEndScales();
@@ -812,7 +888,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
   itsLineStep = lineStep; //pressProduct kysyy
 
   double lineStepAdd = lineStep - itsLastLineStep;
-  if(firstParagraph) lineStepAdd = 0;
+  if(firstParagraph || fInFreeArea) lineStepAdd = 0;
 
   //*******************************************************************
   //laskettu fontille LucideConsole 5.1.98
@@ -859,7 +935,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	{
 	  *itsOutFile << "<text>" << static_cast<char *>(text) << ") " << x << " " << y << endl;
 	}
-  else
+  else  //possu
 	{
 	  *itsOutFile << "%*** " << static_cast<char *>(commentString) << " ALKAA ***" << endl;
 
@@ -880,7 +956,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 
 	  WriteColor(GetColor(), theOutput, *itsOutFile);
 	
-	  if(fInParagraph)
+	  if(fInArea)
 		{
 		  text += NFmiString(" ");
 		  hypString = NFmiHyphenationString(text);
@@ -897,7 +973,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	  bool isHyphen = false;
 	  bool isLongMinus = text.Search(NFmiString("\\226")) != 0;
 
-	  if(fInParagraph || (!isHyphen && !isLongMinus))
+	  if(fInArea || (!isHyphen && !isLongMinus))
 		{
 		  //bool deleteHeader = true;
 		  *itsOutFile << "/"
@@ -910,7 +986,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  unsigned long lastHead = hypString.SearchLast(NFmiString(">"));
 		  unsigned long firstHead = hypString.SearchLast(NFmiString("<"));
 		  bool isHeader = lastHead > 0 && firstHead > 0;
-		  if (isHeader && fInParagraph)
+		  if (isHeader && fInArea)
 				hypString = hypString.GetChars(lastHead+2, hypString.GetLen()-lastHead-1);
 		  text = hypString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illussa "-" ei mene läpi ??
 		  
@@ -953,7 +1029,30 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  *itsOutFile << "/Leading " << lineStep << " def" << endl;
 		  *itsOutFile << "SetFirstText" << endl;
 		}
-	  if(!fInParagraph)
+	  if(fInFreeArea)
+		{
+			*itsOutFile << "{" << endl;
+			std::vector<NFmiPoint>::iterator pos;
+			NFmiString command("moveto");
+			for(pos= itsFreePath.begin(); pos != itsFreePath.end(); ++pos)
+			{
+				*itsOutFile << (*pos).X()   //widthScaling??
+					<< " " << (*pos).Y()
+					<< " " <<	static_cast<char *>(command)
+					<< endl;
+				command = "lineto";
+			}
+
+			*itsOutFile << "closepath" << endl;
+			*itsOutFile << "}" << endl;
+			*itsOutFile << "/TextPath exch def" << endl;
+			*itsOutFile << "/Indent " << itsIndent << " def" << endl;
+			if(!fRightJustification)
+				*itsOutFile << "/Justification false def" << endl;
+			*itsOutFile << "/Leading " << lineStep << " def" << endl;
+			*itsOutFile << "SetFirstText" << endl;
+		}
+	  if(!fInArea)
 		{
 		  double xScaled = x;
 		  if (widthScaling)
@@ -993,14 +1092,14 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 			}
 		}
 
-	  if(itsRotatingAngle == 90. && !fInParagraph)
+	  if(itsRotatingAngle == 90. && !fInArea)
 		{
 		  *itsOutFile << itsRotatingPoint.X() << " " << itsRotatingPoint.Y() << " translate" << endl;
 		  *itsOutFile << itsRotatingAngle << " rotate" << endl;
 		  *itsOutFile << -itsRotatingPoint.X() << " " << -itsRotatingPoint.Y() << " translate" << endl;
 		}
 
-	  if(fInParagraph)
+	  if(fInArea)
 		{
 		  double yMove = itsParagraphMove.Y() - lineStepAdd;
 		  *itsOutFile << "/Leading " << lineStep << " def" << endl;

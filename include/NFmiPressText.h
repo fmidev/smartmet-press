@@ -54,7 +54,8 @@ enum NFmiPressTextObjects
   dTextDir,
   dTextPath,
   dMaxTextLength,
-  dNotRightJustification
+  dNotRightJustification,
+  dTextBorders
 };
 
 //! Undocumented
@@ -116,6 +117,7 @@ protected:
   bool fRightJustification;
   bool fLoopErrorReported;
   bool fInParagraph;     
+  bool fInFreeArea;     
   NFmiPoint  itsParagraphMove;  
   NFmiString itsAddInFront;   
   NFmiString itsAddAfter;     
@@ -128,6 +130,7 @@ protected:
   double itsCharSpace;      
   unsigned long itsMaxLen;
   double itsWidthFactor;
+  std::vector<NFmiPoint> itsFreePath;
 }; // class NFmiPressText
 
 // ----------------------------------------------------------------------
@@ -147,6 +150,7 @@ NFmiPressText::NFmiPressText(void)
   , fRightJustification(true)
   , fLoopErrorReported(false)
   , fInParagraph(false)
+  , fInFreeArea(false)
   , fUpperCase(0)
   , fLowerCase(0)
   , fFirstUpperCase(false)

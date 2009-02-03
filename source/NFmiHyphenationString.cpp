@@ -107,6 +107,8 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("nord-östra");
   itsIrregularHyphens.push_back("nord-sjö");
   itsIrregularHyphens.push_back("öster-sjö");  
+  itsIrregularHyphens.push_back("öster-i-från");  
+  itsIrregularHyphens.push_back("väster-i-från");  
   itsIrregularHyphens.push_back("fin-ska "); 
   itsIrregularHyphens.push_back("nor-ska "); 
   itsIrregularHyphens.push_back("om-kring");
@@ -117,12 +119,14 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("regn-skur");
   itsIrregularHyphens.push_back("åsk-skur");
   itsIrregularHyphens.push_back("gan-ska");
-  itsIrregularHyphens.push_back("havs-område");
   itsIrregularHyphens.push_back("land-skape");
   itsIrregularHyphens.push_back("meller-sta");
   itsIrregularHyphens.push_back("skogs-brand");
   itsIrregularHyphens.push_back("väder-utsikt");
   itsIrregularHyphens.push_back("väder-prognos");
+  itsIrregularHyphens.push_back("kust-område");
+  itsIrregularHyphens.push_back("havs-område");
+  itsIrregularHyphens.push_back("land-område");
   fIrregularHyphensInited = true;
   return true;
 }

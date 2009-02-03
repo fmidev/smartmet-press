@@ -84,13 +84,7 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, 
 	  n = static_cast<short>(str.Search( NFmiString("showp")));
 	  if (n > 0 )
 		{
-		/*
-		  m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
-		  if(m > 0)
-			outFile->write(notShowpage.CharPtr(), notShowpage.GetLen());
-		  else
-		  */
-			outFile->write(inBuf, num-1);
+		  outFile->write(inBuf, num-1);
 	      outFile->put('\x0A');
 		  continue;
 		}
