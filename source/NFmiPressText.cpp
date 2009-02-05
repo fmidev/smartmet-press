@@ -1112,6 +1112,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
                 nextString = (*pos);
 				if(nextString.GetLen() > 0)
 				{
+				    nextString += NFmiString(" ");  //tarvitaan ekstra merkki??
 					nextString = nextString.CreateIrregularHyphens("~");
 					nextString = nextString.CreateHyphens("~");
 					                 
