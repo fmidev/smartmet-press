@@ -22,6 +22,7 @@
 
 #include "NFmiPressScaling.h"
 #include "NFmiPressTypes.h"  
+#include "NFmiHyphenationString.h"  
 
 //! Undocumented
 enum NFmiPressTextObjects
@@ -131,6 +132,7 @@ protected:
   unsigned long itsMaxLen;
   double itsWidthFactor;
   std::vector<NFmiPoint> itsFreePath;
+  std::vector<NFmiHyphenationString> itsNextTexts;
 }; // class NFmiPressText
 
 // ----------------------------------------------------------------------

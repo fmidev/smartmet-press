@@ -95,7 +95,8 @@ enum NFmiPressProductObjects
   dMaskFile = 3020,
   dWeekdayDir,
   dAllDataFilesCritical,
-  dDataFilesNotCritical
+  dDataFilesNotCritical,
+  dCVversion
 };
 
 //! Undocumented

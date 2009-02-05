@@ -66,6 +66,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , itsMaxLen(thePressText.itsMaxLen)
   , itsWidthFactor(thePressText.itsWidthFactor)
   , itsFreePath(thePressText.itsFreePath)
+  , itsNextTexts(thePressText.itsNextTexts)
 {
   itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : 0;
   itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : 0;
@@ -436,87 +437,81 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 
 		}
 	}
-
-//  if(!textGiven) 
-//  	  *itsLogFile << "  *** ERROR: no text is given"  << endl;
   
   if(textFile.IsValue())
-	{
-	  delete itsText;
-	  itsText = new NFmiString;
+  {
+	delete itsText;
+	itsText = new NFmiString;
 
-	  NFmiHyphenationString aString, nextString;
+	NFmiHyphenationString nextString;
 
-	  if(GetTimestampDayGap() != kShortMissing)
-		AddTimeStamp(textFile);
+	if(GetTimestampDayGap() != kShortMissing)
+	AddTimeStamp(textFile);
 
-	  NFmiFileString dataFile = CreatePath(NFmiString("Tekstit"),
-										   textPath,
-										   textDir,
-										   textFile,
-										   NFmiString("txt"));
+	NFmiFileString dataFile = CreatePath(NFmiString("Tekstit"),
+										textPath,
+										textDir,
+										textFile,
+										NFmiString("txt"));
 
-	  *itsLogFile << "VakioTeksti: "<< static_cast<char *>(dataFile) ;
+	*itsLogFile << "VakioTeksti: "<< static_cast<char *>(dataFile) ;
 
-	  std::fstream in(dataFile, ios::in|ios::in);
-	/*const short lineSize = 2800;
+	std::fstream in(dataFile, ios::in|ios::in);
+	const short lineSize = 2800;
 	char inBuf[lineSize];
-	unsigned long tagBeg, tagEnd;
-	bool isTag;
-*/
+	unsigned long tagBeg, tagEnd, tagEnd2;
+	bool firstText = true;
+	std::string stdNextStr;
+
 	if(in.good())
-	/*	while(in.getline(inBuf, lineSize, '\n'))
+	{
+		while(in.getline(inBuf, lineSize, '\n'))
 		{
-			nextString = inBuf;
-			tagBeg = nextString.Search(NFmiString("<"));
-			tagEnd = nextString.Search(NFmiString(">"));
-			isTag = tagBeg >0 && tagEnd>0 && tagEnd>tagBeg;
-			if(!isTag)
-				aString += nextString;
-        }
-*/
-		{
-		  char text[120];
-		  unsigned long tagBeg, tagEnd;
-		  bool isTag;
-		  while(!in.eof())
+            stdNextStr = inBuf;  
+			tagBeg = stdNextStr.find(NFmiString("<"));
+			tagEnd = stdNextStr.find(NFmiString(">"));
+			tagEnd2 = stdNextStr.find(NFmiString(">"), tagEnd+1);
+
+			if(tagBeg != string::npos && tagEnd != string::npos)
 			{
-			  in >> text;
-			  //if(!in.eof())	// est‰‰ viimeisen sanan kahdentumisen jos loppuu pelkk‰‰n rivinsiirtoon
-			  nextString = NFmiHyphenationString(text);
-			  tagBeg = nextString.Search(NFmiString("<"));
-			  tagEnd = nextString.Search(NFmiString(">"));
-			  isTag = tagBeg >0 && tagEnd>0 && tagEnd>tagBeg;
-			  if(isTag)
-			    aString = NFmiString();
-			  else if(nextString.IsValue())
-				aString += nextString += NFmiHyphenationString(" ");
+				if(tagEnd2 != string::npos && tagEnd2>tagBeg+8) //otsikko
+					continue;
+				if(tagEnd>tagBeg)              //muu tagi jota ei voi k‰ytt‰‰
+				{
+					stdNextStr.erase(tagBeg, tagEnd-tagBeg+1);  
+				}
 			}
-		    in.close();
-			if(aString.GetLen() > itsMaxLen)
+			nextString = NFmiHyphenationString(stdNextStr);
+			if(nextString.GetLen() > itsMaxLen)
 			{
 				*itsLogFile << endl << "  *** ERROR: teksti katkaistu sallittuun maxpituuteen: " 
 							<< itsMaxLen
 							<< endl
 							<< "             menetetty "
-							<< aString.GetLen()-itsMaxLen
+							<< nextString.GetLen()-itsMaxLen
 							<< " merkki‰"
 							<< endl;
 			
-				aString = aString.GetChars(1, itsMaxLen); 
+				nextString = nextString.GetChars(1, itsMaxLen);
 			}
-			  
-		  *itsText = aString; //ReplaceChar(NFmiString("-"), NFmiString("\\255")); //29.6 Illussa "-" ei mene l‰pi ??
-          *itsLogFile << " luettu" << endl;
-		}
-		
-	  else
-		{
-		  *itsLogFile << endl << "  *** ERROR: teksti ei lˆydy" << endl;
-		  retString = itsString;
-		  return false;
-		}
+			if(firstText)
+			{
+				*itsText = nextString;
+				firstText = false;
+			}
+			else
+				itsNextTexts.push_back(nextString);
+        }
+        *itsLogFile << " luettu" << endl;
+		in.close();
 	}
+    else
+	{
+		*itsLogFile << endl << "  *** ERROR: teksti ei lˆydy" << endl;
+		retString = itsString;
+		return false;
+  	}
+  }
 
   retString = itsString;
   return true;
@@ -851,10 +846,10 @@ bool NFmiPressText::WritePS(FmiPressOutputMode theOutput)
 bool NFmiPressText::WriteString(const NFmiString & commentString,
 								FmiPressOutputMode theOutput)
 {
-
+  bool fCV = itsEnvironment.GetCV();
   NFmiString text = Construct(itsText);
   bool fInArea = fInParagraph || fInFreeArea;
-   
+
   if(theOutput != kPlainText && 
 	  (itsPlace.X() == 0. && itsPlace.Y() == 0. && !fInArea))
       OutputLog('E', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
@@ -988,8 +983,10 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  bool isHeader = lastHead > 0 && firstHead > 0;
 		  if (isHeader && fInArea)
 				hypString = hypString.GetChars(lastHead+2, hypString.GetLen()-lastHead-1);
-		  text = hypString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illussa "-" ei mene l‰pi ??
-		  
+		  if(fCV)
+			text = hypString;
+		  else
+			text = hypString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illu8ssa "-" ei mene l‰pi ??
 		  //char * lastCh = text.GetCharsPtr(text.GetLen(), 1);
  
 		  *itsOutFile << rect.Height() << " selectlatinfont" << endl;
@@ -1106,6 +1103,26 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  *itsOutFile << itsParagraphMove.X() << " " <<             // EI ONNAA X
 			yMove << " rmoveto" << endl;
 		  *itsOutFile << "(" << static_cast<char *>(text) << ") Paragraph" << endl;
+		  if(itsNextTexts.size() >> 0)
+		  {
+			std::vector<NFmiHyphenationString>::iterator pos;
+			NFmiHyphenationString nextString;
+			for(pos= itsNextTexts.begin(); pos != itsNextTexts.end(); ++pos)
+			{
+                nextString = (*pos);
+				if(nextString.GetLen() > 0)
+				{
+					nextString = nextString.CreateIrregularHyphens("~");
+					nextString = nextString.CreateHyphens("~");
+					                 
+					if(!fCV)   // Illu8:ssa "-" ei mene l‰pi ??
+						nextString = nextString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); 
+					*itsOutFile << "(" << static_cast<char *>(nextString) << ") Paragraph" << endl;
+				}
+				else
+					*itsOutFile << "0 " << -lineStep << " rmoveto" << endl;
+			}
+		  }
 		}
 	  else
 		{

@@ -81,6 +81,8 @@ public:
   void SetVersion(int theVersion);
   bool IsSegmentMove(void)const;
   void SetSegmentMove(const NFmiPoint& theMove);
+  void SetCV(bool theCV);
+  bool GetCV(void)const;
   NFmiPoint GetSegmentMove(void)const;
 
 private:
@@ -95,6 +97,7 @@ private:
   NFmiPoint itsSegmentMove;
   NFmiString itsSymbolSet;
   float itsSymbolSizeFactor;
+  bool fCV;
 
 }; // class NFmiPressEnvironment
 
@@ -110,6 +113,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
   , itsEnumSpace(kNoneEnumSpace)
   , fLongNumberMinus(false)
   , itsAdditionalDayAdvance(0)
+  , fCV(false)
 {
   //HUOM vain jompikumpi värijärjestelmä
   itsGenericColor.color.cmyk.cyan = 0.;
@@ -128,7 +132,28 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
 	itsSymbolSet = NFmiString("Kymi");
 	itsSymbolSizeFactor = 1.;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
 
+inline
+void NFmiPressEnvironment::SetCV(bool theCV)
+{
+  fCV = theCV;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressEnvironment::GetCV(void) const
+{
+  return fCV;
+}
 // ----------------------------------------------------------------------
 /*!
  * 

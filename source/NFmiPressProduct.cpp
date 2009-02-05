@@ -1315,7 +1315,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 3.2.2009" << endl;       
+   *itsLogFile << "program version = Debug 5.2.2009" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2741,6 +2741,12 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dCVversion:
+		  {
+			itsEnvironment.SetCV(true);
+			ReadNext();
+			break;
+		  }
 		default:
 		  {
 			ReadRemaining();
@@ -2943,6 +2949,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datafilesnotcritical") ||
 		  lowChar==NFmiString("eipakollisetdatatiedostot"))
 	return dDataFilesNotCritical;
+  else if(lowChar==NFmiString("cvversion") ||
+		  lowChar==NFmiString("cvversio"))
+	return dCVversion;
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }
