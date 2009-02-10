@@ -10,7 +10,7 @@
 #endif
 
 #include "NFmiPressNameDay.h"
-
+#include "NFmiSettings.h"
 #include <iostream>
 using namespace std;
 
@@ -131,10 +131,15 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
   
   if(!itsNameDay->IsRead())
 	{
+#ifndef UNIX
 	  NFmiString fileName = GetHome();
 	  fileName += kFmiDirectorySeparator;
 	  fileName += NFmiString("Muut");
 	  fileName += kFmiDirectorySeparator;
+#else
+	  NFmiString fileName = static_cast<NFmiString>(NFmiSettings::Require<string>("press::incpath"));
+	  fileName += "/";
+#endif
 	  if(itsLanguage == kFinnish)
 		{
 		  fileName += NFmiString("nimipäivät.txt"); 
@@ -143,7 +148,6 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 		{
 		  fileName += NFmiString("nimipäivätRuotsi.txt"); 
 		}
-	  
 	  if(!itsNameDay->ReadFile(fileName))
 		{
 		  *itsLogFile << "*** ERROR: Nimipäivien lukeminen epäonnistui" << endl;

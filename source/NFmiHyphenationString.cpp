@@ -146,9 +146,9 @@ NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphena
 
   std::string stdString(*this);
   
-  unsigned long posText = 0;
+  //unsigned long posText = 0;
   unsigned long posChar = 0;
-  unsigned long posCharNot = 0;
+  //unsigned long posCharNot = 0;
   std::string hyphWord, word; 
   std::vector<std::string>::iterator posWord;
   for(posWord=itsIrregularHyphens.begin(); posWord != itsIrregularHyphens.end(); ++posWord)

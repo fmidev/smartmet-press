@@ -403,7 +403,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 
 {
   NFmiString longMinus ("\\226");
-  bool isLongMinus = itsEnvironment.GetLongNumberMinus();
+  //bool isLongMinus = itsEnvironment.GetLongNumberMinus();
   NFmiString locText(theText);
 
   NFmiRect numberRect = AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight()));

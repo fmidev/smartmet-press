@@ -508,7 +508,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 	  env = getenv("lehtiPuoliValmiitDir");
 	  if(env == 0)
 		itsPath = CreatePath(NFmiString("PuoliValmiit"),
-							 itsTempImagePath,
+					 		 itsTempImagePath,
 							 itsTempImageDir,
 							 itsTempImageFile,
 							 defExtension);
@@ -519,12 +519,17 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 							 itsTempImageFile,
 							 defExtension);
 #else
-	  string dir = NFmiSettings::Optional<string>("press::inputpath","PuoliValmiit");
-	  itsPath = CreatePath(NFmiString(dir),
-						   itsTempImagePath,
-						   itsTempImageDir,
-						   itsTempImageFile,
-						   defExtension);
+	  string path = NFmiSettings::Require<string>("press::outpath");
+	  NFmiString dir = static_cast<NFmiString>(path);
+	  dir += kFmiDirectorySeparator;
+	  dir += "misc"; // The old PuoliValmiit directory
+
+	  itsPath = CreatePath(dir,
+			       itsTempImagePath,
+			       itsTempImageDir,
+			       itsTempImageFile,
+			       defExtension);
+	  
 #endif
 	}
 
@@ -653,7 +658,12 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
 bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 {
+
+#ifdef UNIX
+  bool precedingElementMissing = false;
+#else
   extern bool precedingElementMissing;
+#endif
 
 	//testeissä kätevä merkata None:ksi
   if(itsPath.Header() == NFmiString("None"))
@@ -666,13 +676,46 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
   ScalePlotting();
   
   if (itsInFile)
-	delete itsInFile;
+    	delete itsInFile;
   itsInFile = new ifstream;
+
+  
+#ifdef UNIX
+  NFmiString imageFile;
+  if (itsTempImageFile.Search(&(kFmiDirectorySeparator)) <=0)
+	{
+	  string path = NFmiSettings::Require<string>("press::cnfpath");
+	  string productName = NFmiSettings::Require<string>("press::product");
+	  NFmiString filename = itsPath;
+	  
+	  string temppath = path;
+	  itsPath = static_cast<NFmiString>(path);
+	  itsPath += kFmiDirectorySeparator;
+	  itsPath += productName;
+	  itsPath += kFmiDirectorySeparator;
+	  itsPath += itsTempImageFile;
+	  imageFile = itsPath;
+	}
+  else
+	{
+	  imageFile = itsTempImageFile;
+	}
+#endif
+  
+#ifndef UNIX
   itsInFile->open(itsPath, ios::in|ios::binary);
+#else
+  itsInFile->open(imageFile, ios::in|ios::binary);
+#endif
   if(!itsInFile->good() || itsInFile->eof())
 	{
+#ifndef UNIX
 	  *itsLogFile << "*** WARNING: Missing EPS image: "
 				  << static_cast<char *>(itsPath) << endl;
+#else
+	  *itsLogFile << "*** WARNING: Missing EPS image: "
+				  << static_cast<char *>(imageFile) << endl;
+#endif
 	   precedingElementMissing = true;
 	}
   else
@@ -697,10 +740,15 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 		CopyFileWithoutShowpage();
 	  
 	  WriteEPSEnd();
-	  
+#ifndef UNIX	  
 	  *itsLogFile << "EPS image included into eps output: "
 				  << static_cast<char *>(itsPath)
 				  << endl;
+#else
+	  *itsLogFile << "EPS image included into eps output: "
+				  << static_cast<char *>(imageFile)
+				  << endl;
+#endif
 	}
   itsInFile->close();
   itsInFile->clear(); // seuraava open ei ollut good (kun managerista vaihtoi)

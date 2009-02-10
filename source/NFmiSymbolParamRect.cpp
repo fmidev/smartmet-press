@@ -18,6 +18,8 @@
 #include "NFmiFileSystem.h"
 #include <iostream>
 
+// Boost
+#include <boost/filesystem/operations.hpp>
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -95,16 +97,33 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   inDir += kFmiDirectorySeparator;
   inDir += "LyhytSymbolit";
 #ifdef UNIX
-  if(NFmiSettings::IsSet("press::tmpsymbolpath"))
-	inDir = NFmiSettings::Require<string>("press::tmpsymbolpath");
+  // Create the symbol cache directory if it doesn't exist already
+  inDir = NFmiSettings::Require<string>("press::symbolcachepath");
+  try 
+    {
+      boost::filesystem::create_directory(static_cast<string>(inDir));
+    }
+  catch(exception e)
+    {
+      cout << "Creating the symbol cache directory failed." << endl;
+    }
 #endif
+  
   inDir += kFmiDirectorySeparator;
+
+#ifndef UNIX
   origDir = GetHome();
   origDir += kFmiDirectorySeparator;
   origDir += "Symbolit";
   origDir += kFmiDirectorySeparator;
- 
-  //NFmiString subDir = NFmiString("Kymi");  //oletus vaikka tämä
+#else
+  origDir = NFmiSettings::Require<string>("press::path");
+  origDir += kFmiDirectorySeparator;
+  origDir += "symbols";
+  origDir += kFmiDirectorySeparator;
+#endif
+
+   //NFmiString subDir = NFmiString("Kymi");  //oletus vaikka tämä
   NFmiString subDir = itsEnvironment.GetSymbolSet();
 
   itsOrigDir = new NFmiString(origDir);	//oikeastaan koko polku

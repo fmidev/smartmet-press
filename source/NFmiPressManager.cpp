@@ -46,11 +46,9 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
    if(env != 0)
 	 tempInput = static_cast<NFmiString>(env);
 #else
-   if(NFmiSettings::IsSet("press::tmppath"))
-	 {
-	   string tmp = NFmiSettings::Require<string>("press::tmppath");
-	   tempInput = NFmiString(tmp);
-	 }
+   tempInput = getTmpPath();
+   tempInput += kFmiDirectorySeparator;
+   tempInput += getProductName();
 #endif
    tempInput += kFmiDirectorySeparator;
 

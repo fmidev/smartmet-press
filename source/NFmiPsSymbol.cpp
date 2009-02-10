@@ -70,7 +70,15 @@ NFmiPsSymbol * NFmiPsSymbol::Clone(void) const
 
 bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 {
+
+#ifdef UNIX
+  string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
+  tmpDir += kFmiDirectorySeparator;
+  NFmiString fileName = static_cast<NFmiString>(tmpDir);
+#else
   NFmiString fileName = itsShortDir;
+#endif
+
   fileName += NFmiFileString(itsOrigDir).Directory();
   fileName += NFmiString("_");
   fileName += itsSymbol;
@@ -111,15 +119,34 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
 
   // VAIN WINDOWSILLA TEHDYILLE SYMBOLEILLE
 
-  NFmiString inputName = itsOrigDir;
-  inputName += NFmiString("/");
+#ifdef UNIX
+  string inputDir = NFmiSettings::Require<string>("press::path");
+  inputDir += kFmiDirectorySeparator;
+  inputDir += "symbols";
+  inputDir += kFmiDirectorySeparator;
+  NFmiString inputName = static_cast<NFmiString>(inputDir);
+  inputName += NFmiFileString(itsOrigDir).Directory();
+  inputName += kFmiDirectorySeparator;
   inputName += itsSymbol;
   inputName += NFmiString(".ai");
+#else
+  NFmiString inputName = itsOrigDir;
+  //inputName += NFmiString("/");
+  inputName += itsSymbol;
+  inputName += NFmiString(".ai");
+#endif
+
   ifstream input(inputName, ios::in);
 
   if(input.good() && !input.eof())
 	{
-      NFmiString outputName = itsShortDir;
+#ifdef UNIX
+	  string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
+	  tmpDir += kFmiDirectorySeparator;
+	  NFmiString outputName = static_cast<NFmiString>(tmpDir);
+#else
+	  NFmiString outputName = itsShortDir;
+#endif
  	  outputName += NFmiFileString(itsOrigDir).Directory();
       outputName += NFmiString("_");
       outputName += itsSymbol;
@@ -225,15 +252,21 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
   inDir += kFmiDirectorySeparator;
   inDir += "LyhytSymbolit";
 #ifdef UNIX
-  if(NFmiSettings::IsSet("press::tmpsymbolpath"))
-	inDir = NFmiSettings::Require<string>("press::tmpsymbolpath");
+  inDir = getSymbolCachePath();
 #endif
   inDir += kFmiDirectorySeparator;
 
+#ifndef UNIX
   itsOrigDir = GetHome();
   itsOrigDir += kFmiDirectorySeparator;
   itsOrigDir += "Symbolit";
   itsOrigDir += kFmiDirectorySeparator;
+#else
+  itsOrigDir = getCnfPath();
+  itsOrigDir += kFmiDirectorySeparator;
+  itsOrigDir += "symbols";
+  itsOrigDir += kFmiDirectorySeparator;
+#endif
 
   NFmiString subDir = NFmiString("Massa");  //oletus vaikka tämä
 

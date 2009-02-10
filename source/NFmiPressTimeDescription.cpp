@@ -190,9 +190,13 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
   bool res, res2;
   NFmiTime tim;
 
+#ifndef UNIX
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
-	includePath += "Include";
+  includePath += "Include";
+#else
+  string includePath = static_cast<string>(getIncPath());
+#endif
 	//res = prePr.ReadFile(inFileName);
 	set<string> optinalDirectives;
 	//HUOM kaikki optiot esiteltävä päätasolla, vaikka includeissa käyetettäisiin
@@ -224,7 +228,15 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		// int hour = now.GetHour();
 		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
 		{
-			condition = *pos;//Linuxissa ei toimi; ylimäärä välilyönti *************
+			condition = *pos;
+#ifdef UNIX
+			// For some reason, the Linux program sees \r characters in the ends
+			// of some directives, e.g. #ifConditionDate. They must be removed.
+			string::size_type bad_character = condition.find("\r", 0);
+			if (bad_character != string::npos)
+			  condition = condition.substr(0, bad_character);
+#endif
+
 			if(firstLoop)
 				*itsLogFile << "  vapaavalintainen direktiivi: "  
 						        <<  condition << endl;
@@ -312,6 +324,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 					return false;
 			}
 	}
+
 		if(!prePr.IncludeFiles("#Include", includePath, "inc"))
 		  {
 			*itsLogFile << "*** ERROR: Preprocessing failed to include file:" << endl;

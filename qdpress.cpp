@@ -25,27 +25,54 @@
 
 #include <cstdlib>
 #include <stdexcept>
+//#include <boost/filesystem/path.hpp>
 
 using namespace std;
 
 int domain(int argc, const char ** argv)
 {
-  NFmiSettings::Init();
-
-  NFmiString dataExt[4] = {"pre", "PRE", "prt", "PRT"};
 
 #ifdef UNIX
-  NFmiCmdLine cmdLine(argc,argv,"h!o!l!L!");
+  NFmiCmdLine cmdLine(argc,argv,"c!p!h!o!l!L!s!");
 #else
   NFmiCmdLine cmdLine(argc,argv,"h!o!l!");
 #endif
 
   if(cmdLine.Status().IsError())
-	throw runtime_error(cmdLine.Status().ErrorLog().CharPtr());
+    throw runtime_error(cmdLine.Status().ErrorLog().CharPtr());
   
   if(cmdLine.NumberofParameters() != 1)
-	throw runtime_error("Filename argument missing");
+    throw runtime_error("Filename argument missing");
+  
+#ifdef UNIX
+  if (cmdLine.isOption('c'))
+    {
+      string confFile = cmdLine.OptionValue('c');
+      NFmiSettingsImpl::Instance().Init(confFile);
+    }
+  else
+    {
+      NFmiSettingsImpl::Instance().Init("press/press.conf");
+    }
+#endif
+  
+  NFmiString dataExt[4] = {"pre", "PRE", "prt", "PRT"};
+  
 
+
+#ifdef UNIX
+  if(cmdLine.isOption('p'))
+    {
+      string product = cmdLine.OptionValue('p');
+      NFmiSettings::Set("press::product",product);
+    }
+  else
+    {
+      string p = static_cast<string>(cmdLine.Parameter(1));
+      //boost::filesystem::path productPath(static_cast<string>(cmdLine.Parameter(1)));
+    }
+#endif
+  
   string homedir("lehtiTuoteDir=");
   if(cmdLine.isOption('h'))
 	{
@@ -78,6 +105,14 @@ int domain(int argc, const char ** argv)
 	}
 #endif
 
+#ifdef UNIX
+  if (cmdLine.isOption('s'))
+	{
+	  string dayshift = cmdLine.OptionValue('s');
+	  NFmiSettings::Set("press::dayshift", dayshift);
+	}
+#endif
+
   string outdir("lehtiOutDir=");
   if(cmdLine.isOption('o'))
 	{
@@ -92,7 +127,6 @@ int domain(int argc, const char ** argv)
 
   
   NFmiFileString descriptionFile(cmdLine.Parameter(1));
-  cout << "File: " << cmdLine.Parameter(1) << endl;
   
   bool ok;
   bool managerReadFailed;

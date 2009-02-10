@@ -23,6 +23,7 @@
 #include "NFmiPressScaling.h"
 #include "NFmiPressTypes.h"  
 #include "NFmiHyphenationString.h"  
+#include "NFmiSettings.h"
 
 //! Undocumented
 enum NFmiPressTextObjects

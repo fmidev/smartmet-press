@@ -29,6 +29,9 @@
 #include <cstdlib>
 #include <iostream>
 
+// Boost
+#include <boost/filesystem/operations.hpp>
+
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -521,7 +524,11 @@ bool NFmiPressProduct::SetImagePreNames(const NFmiLocation& theLocation)
 	{
 	  if(image->ClassId() == kNFmiPressImage)
 		{
+#ifndef UNIX
 		  path = image->GetPath();
+#else
+		  path = getCnfPath();
+#endif
 		  oldFile = path.Header();
 		  if(oldFile.NextSubString(underScore, dummy))
 			{
@@ -710,7 +717,13 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 bool NFmiPressProduct::ReadNameToLonLatList(void)
 {
   NFmiString fileName, fileName1;
+
+  // To smartmet structure
+#ifndef UNIX
   fileName = GetHome();
+#else
+  fileName = getIncPath();
+#endif
 
   fileName += kFmiDirectorySeparator;
   fileName += NFmiString("Muut");
@@ -843,11 +856,18 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   //if (today.GetHour() >= 12)
 	//  itsSeasonsStatus->afternoon = true;
 
+#ifndef UNIX
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
   includePath += "Muut";
   includePath += kFmiDirectorySeparator;
   includePath += "KausiTilanne.txt";
+#else
+  string includePath(getIncPath());
+  includePath += kFmiDirectorySeparator;
+  includePath += "KausiTilanne.txt";
+#endif
+  
   ifstream in(includePath.c_str(),ios::in|ios::binary);
 
   if(!in)
@@ -1070,6 +1090,17 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			}
 		}
 	}
+
+  
+  // Siirretään ennustepäivää, jos on annettu -s -parametri komentorivillä
+  if (NFmiSettings::IsSet("press::dayshift"))
+	{
+	  int dayshift = static_cast<int>(NFmiSettings::Require<int>("press::dayshift"));
+	  itsSeasonsStatus->dayAdvance = dayshift; //tarvitaanko missään tässä
+	  itsEnvironment.SetDayAdvance(itsSeasonsStatus->dayAdvance);
+	  *itsLogFile << "  Ennakko pakotettu: "<< dayshift << endl;
+	}
+  
   itsSeasonsStatus->pollenOrSnow = itsSeasonsStatus->pollen || itsSeasonsStatus->snow;
   return true;
 }
@@ -1189,6 +1220,26 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 {
 
   NFmiFileString inputFileName = inputFile.GetChars(1,inputFile.GetLen()-3);
+  // Set the paths right
+#ifdef UNIX
+  string path = NFmiSettings::Require<string>("press::cnfpath");
+  setCnfPath(path);
+  path = NFmiSettings::Require<string>("press::tmppath");
+  setTmpPath(path);
+  path = NFmiSettings::Require<string>("press::symbolcachepath");
+  setSymbolCachePath(path);
+  path = NFmiSettings::Require<string>("press::incpath");
+  setIncPath(path);
+  path = NFmiSettings::Require<string>("press::datapath");
+  setDataPath(path);
+  path = NFmiSettings::Require<string>("press::outpath");
+  setOutPath(path);
+  path = NFmiSettings::Require<string>("press::logpath");
+  setLogPath(path);
+  string productName = NFmiSettings::Require<string>("press::product");
+  setProductName(productName);
+#endif
+
   itsOutputMode = kPostScript;
 
   NFmiString fmiString, origHome;
@@ -1207,12 +1258,14 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 	  origHome = NFmiString("(Ympäristömuuttuja)");
 	}
 #else
+  //fmiString = NFmiSettings::Require<string>("press::oldpath");
   fmiString = NFmiSettings::Require<string>("press::path");
-  origHome = NFmiString("(fmi.conf)");
+  origHome = NFmiString("(press.conf)");
 #endif
 
    SetHome(fmiString);
 
+#ifndef UNIX
   // Tarkistus että hakemisto olemassa, vaikka nyt endA4.eps:n olemassaolo
   NFmiString endFileName = GetHome();
 
@@ -1229,13 +1282,20 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 		   << GetHome().GetCharPtr()
 		   << " kadoksissa**" <<  endl;
 	  cout << "  joko annettava ympäristömuuttujana" <<  endl;
-#ifndef UNIX
 	  cout << "  tai oltava C:\\Program Files\\LehtiAuto" <<  endl;
+	  return false;
+	}
+#endif
+	  /*
+#ifndef UNIX
+
 #else
 	  cout << "  tai oltava $HOME/LehtiAuto" <<  endl;
 #endif
 	  return false;
 	}
+	  */
+
 
 #ifndef UNIX
   hChar = getenv("lehtiLokiDir");
@@ -1248,10 +1308,24 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   else
 	   fmiString = hChar;
 #else
-  fmiString = NFmiSettings::Require<string>("press::logpath");
+  fmiString = getLogPath();
+  fmiString += kFmiDirectorySeparator;
+  fmiString += getProductName();
+  // Create the log directory if it doesn't exist already
+  try 
+    {
+      boost::filesystem::create_directory(static_cast<string>(fmiString));
+    }
+  catch(exception e)
+    {
+      cout << "Creating the log directory failed." << endl;
+    }
 #endif
 
    NFmiString logFileName = fmiString;
+
+   cout << "LOG: " << logFileName << endl;
+
    logFileName += kFmiDirectorySeparator;
 
 #ifdef UNIX
@@ -1295,14 +1369,24 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    if(env != 0)
 	 tempInput =  static_cast<NFmiString>(env);
 #else
-   if(NFmiSettings::IsSet("press::tmppath"))
-	 {
-	   string tmp = NFmiSettings::Require<string>("press::tmppath");
-	   tempInput = NFmiString(tmp);
-	 }
-#endif
+   tempInput = getTmpPath();
    tempInput += kFmiDirectorySeparator;
-
+   tempInput += getProductName();
+#endif
+   // Create tmp directory if it doesn't exist.
+   // If the tmp dir isn't available, program will hang.
+   try 
+	 {
+	   boost::filesystem::create_directory(static_cast<string>(tempInput));
+	 }
+   catch(exception e)
+	 {
+	   cout << "Creating the tmp directory " 
+			<< tempInput << " failed." << endl;
+	 }
+   
+   tempInput += kFmiDirectorySeparator;
+   
    NFmiString inputOnlyFile = inputFileName.FileName();
 	
    tempInput += inputFileName.FileName();  
@@ -1389,6 +1473,49 @@ bool NFmiPressProduct::ReadData(void)
 #else
   const string tmp = NFmiSettings::Require<string>("press::datapath");
   str = tmp.c_str();
+  string path = NFmiSettings::Require<string>("press::datapath");
+  if (boost::filesystem::is_directory(path))
+	{
+
+	  
+	  NFmiVoidPtrIterator iter(itsDatas);
+	  NFmiNamedQueryData * nData;
+	  iter.Reset();
+	  nData = static_cast<NFmiNamedQueryData *>(iter.Next());
+	  string path;
+	  string newestfile;
+	  NFmiQueryData ** data;
+	  NFmiQueryData * dataPtr;
+
+	  while(nData)
+		{
+		  dataPtr = nData->GetData();
+		  data = & dataPtr;
+		  path = static_cast<string>(nData->GetName());
+		  string newestfile = NFmiFileSystem::NewestFile(path);
+		  if (newestfile.empty())
+			{
+			  throw runtime_error("Error: Directory " + path + " is empty.");
+			}
+		  string file = path + "/" + newestfile;
+		  cout << "file: " << file <<endl;
+		  ReadQueryData(*data,static_cast<NFmiString>(file));
+		  nData = static_cast<NFmiNamedQueryData *>(iter.Next());
+		}
+
+	  fDataRead = true;
+	  if(itsMaskIter)
+		delete itsMaskIter;
+	  bool dummy;
+	  if(DataByName(itsMaskFileName, dummy))
+		{
+		  itsMaskIter = new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy));
+		}
+	  else
+		itsMaskIter = 0;
+	  return true;
+	  
+	}
 #endif
 
   *itsLogFile << "  datapolut: " << static_cast<char *>(str) << endl;
@@ -1818,14 +1945,17 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
+  cout << "ITSSTRING:" << static_cast<NFmiString>(itsObject) << endl;
+
   itsIntObject = ConvertDefText(itsString);
+  
   if(!(itsString == NFmiString("#!PressProduct")))
 	{
 	  *itsLogFile << "Definion file not found or not Press Product" << endl;
 	  cin >> hourStep; //pysähdys
 	  return false;
 	}
-
+  
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
@@ -1882,6 +2012,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 				helpString == NFmiString ("ps") ||
 				helpString == NFmiString ("eps"))
 			  itsOutputMode = kPostScript;
+
 			else if (helpString == NFmiString ("meta") ||
 					 helpString == NFmiString ("metakieli") ||
 					 helpString.GetChars(1,5) == NFmiString ("magic"))
@@ -2770,6 +2901,20 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 	  }
 	  *itsLogFile << "TUOTETIEDOSTO LUETTU" << endl;
 	}
+
+  
+#ifdef UNIX
+  NFmiString tempOutFile(itsOutFileName);
+  
+  string outFile = static_cast<string>(tempOutFile);
+  setProductName(outFile);
+  
+  int pos = outFile.find('.');
+  outFile = outFile.substr(0, pos);
+  setProductName(outFile);
+  
+#endif
+  
   return true;
 }
 
@@ -3025,7 +3170,14 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	itsCurrentDataIter = 0;
 
   NFmiString endFileName;	// = NFmiString("..\\Muut\\");
+
+  // To smartmet structure
+#ifndef UNIX
   endFileName = GetHome();
+#else
+  endFileName = getIncPath();
+#endif
+
   endFileName += kFmiDirectorySeparator;
   endFileName += NFmiString("Muut");
   endFileName += kFmiDirectorySeparator;
@@ -3035,7 +3187,12 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   NFmiString startFileName;
 
+  // To smartmet structure
+#ifndef UNIX
   startFileName = GetHome();
+#else
+  startFileName = getIncPath();
+#endif
 
   startFileName += kFmiDirectorySeparator;
   startFileName += NFmiString("Muut");
@@ -3160,12 +3317,20 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   startFile.clear();
 
   NFmiString mapFilePath;
-
+#ifndef UNIX
   mapFilePath = GetHome();
   mapFilePath += kFmiDirectorySeparator;
   mapFilePath += NFmiString("Pohjat");
   mapFilePath += kFmiDirectorySeparator;
+#else
+  mapFilePath = getCnfPath();
+  mapFilePath += kFmiDirectorySeparator;
+  mapFilePath += getProductName();
+  mapFilePath += kFmiDirectorySeparator;
+#endif
 
+  cout << "productname=" << getProductName() << endl;
+  cout << "mapfilepath=" << mapFilePath << endl;
   ifstream mapFile;
 
   itsCurrentMap=1;
@@ -3502,8 +3667,12 @@ bool NFmiPressProduct::WriteSameSymbols(bool theDoPreSegments, FmiPressOutputMod
 bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutputMode theOutput)
 {
   //kutsutaan kahteen kertaan: ennen ja jälkeen segmenttien
-
+#ifdef UNIX
+  bool precedingElementMissing = false;
+#else
   extern bool precedingElementMissing;
+#endif
+
 
   NFmiVoidPtrIterator objectIter(itsObjects);
   NFmiPressScaling * object;
@@ -3592,12 +3761,26 @@ bool NFmiPressProduct::ConstructOutFileName(void)
   else
 	str = hChar;
 #else
-  str = NFmiSettings::Require<string>("press::outpath");
+  str = getOutPath();
 #endif
-
+  
   itsOutFile = str;
   itsOutFile += NFmiString("/");
-
+  
+#ifdef UNIX
+  itsOutFile += getProductName();
+  itsOutFile += NFmiString("/");
+  // Create the output directory if it doesn't exist already
+  try 
+    {
+      boost::filesystem::create_directory(static_cast<string>(itsOutFile));
+    }
+  catch(exception e)
+    {
+      cout << "Creating the output directory failed." << endl;
+    }
+#endif  
+  
   NFmiString name;
 
   NFmiString timeFormat = itsStringNameTimeFormat;

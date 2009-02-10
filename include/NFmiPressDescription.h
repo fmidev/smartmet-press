@@ -75,6 +75,24 @@ public:
   NFmiString GetHome(void) const;
   void SetHome(const NFmiString & path);
 
+  NFmiString getCnfPath(void) const;
+  NFmiString getTmpPath(void) const;
+  NFmiString getSymbolCachePath(void) const;
+  NFmiString getIncPath(void) const;
+  NFmiString getDataPath(void) const;
+  NFmiString getOutPath(void) const;
+  NFmiString getLogPath(void) const;
+  NFmiString getProductName(void) const;
+
+  void setCnfPath(const NFmiString & path);
+  void setTmpPath(const NFmiString & path);
+  void setSymbolCachePath(const NFmiString & path);
+  void setIncPath(const NFmiString & path);
+  void setDataPath(const NFmiString & path);
+  void setOutPath(const NFmiString & path);
+  void setLogPath(const NFmiString & path);
+  void setProductName(const NFmiString & productName);
+
   void SetEnvironment(const NFmiPressEnvironment & theEnvironment);
   NFmiPressEnvironment GetEnvironment(void) const;
 
@@ -102,6 +120,16 @@ protected:
 
   NFmiPressEnvironment itsEnvironment;  
   NFmiString itsHomePath; 
+
+  NFmiString itsProductName;
+  NFmiString itsCnfPath;
+  NFmiString itsTmpPath;
+  NFmiString itsSymbolCachePath;
+  NFmiString itsIncPath;
+  NFmiString itsDataPath;
+  NFmiString itsOutPath;
+  NFmiString itsLogPath;
+
   FmiLanguage itsLanguage;
   bool fOnlyForMissingPrecedingElement;
   void MoveSegmentPlace(double& theX, double& theY)const;
@@ -282,6 +310,230 @@ void NFmiPressDescription::SetHome(const NFmiString & path)
 {
   itsHomePath=path;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Gets the name of the product under process.
+ *
+ * \return The name of the product.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getProductName(void) const
+{
+  return itsProductName;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the name of the product under process.
+ *
+ * \param productName The name to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setProductName(const NFmiString & productName)
+{
+  itsProductName = productName;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Gets the path to the configuration files.
+ *
+ * \return The configuration path.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getCnfPath(void) const
+{
+  return itsCnfPath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the path to the configuration files.
+ *
+ * \param path The path to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setCnfPath(const NFmiString & path)
+{
+  itsCnfPath=path;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Gets the path to the temporary files
+ *
+ * \return The temp path.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getTmpPath(void) const
+{
+  return itsTmpPath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the path to the temporary files.
+ *
+ * \param path The path to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setTmpPath(const NFmiString & path)
+{
+  itsTmpPath=path;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Gets the path to the symbol cache files
+ *
+ * \return The symbol cache path.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getSymbolCachePath(void) const
+{
+  return itsSymbolCachePath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the path to the symbol cache files.
+ *
+ * \param path The path to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setSymbolCachePath(const NFmiString & path)
+{
+  itsSymbolCachePath=path;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Gets the path to the .inc files
+ *
+ * \return The .inc file path.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getIncPath(void) const
+{
+  return itsIncPath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the path to the .inc files.
+ *
+ * \param path The path to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setIncPath(const NFmiString & path)
+{
+  itsIncPath=path;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Gets the path to the data files
+ *
+ * \return The data file path.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getDataPath(void) const
+{
+  return itsDataPath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the path to the data files.
+ *
+ * \param path The path to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setDataPath(const NFmiString & path)
+{
+  itsDataPath=path;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Gets the path to the output files
+ *
+ * \return The output file path.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getOutPath(void) const
+{
+  return itsOutPath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the path to the output files.
+ *
+ * \param path The path to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setOutPath(const NFmiString & path)
+{
+  itsOutPath=path;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Gets the path to the log files
+ *
+ * \return The log file path.
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiString NFmiPressDescription::getLogPath(void) const
+{
+  return itsLogPath;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the path to the log files.
+ *
+ * \param path The path to be set.
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressDescription::setLogPath(const NFmiString & path)
+{
+  itsLogPath=path;
+}
+
 
 // ----------------------------------------------------------------------
 /*!

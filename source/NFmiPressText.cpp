@@ -15,6 +15,7 @@
 #include "NFmiPressComputerTimeText.h"
 #include "NFmiPressDataTimeText.h"
 #include "NFmiFileString.h"
+#include "NFmiFileSystem.h"
 #include <iostream>
 
 using namespace std;
@@ -448,11 +449,15 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	if(GetTimestampDayGap() != kShortMissing)
 	AddTimeStamp(textFile);
 
-	NFmiFileString dataFile = CreatePath(NFmiString("Tekstit"),
-										textPath,
-										textDir,
-										textFile,
-										NFmiString("txt"));
+#ifndef UNIX
+	  NFmiFileString dataFile = CreatePath(NFmiString("Tekstit"),
+										   textPath,
+										   textDir,
+										   textFile,
+										   NFmiString("txt"));
+#else
+	  NFmiFileString dataFile = textDir + "/" + textFile + ".txt";
+#endif
 
 	*itsLogFile << "VakioTeksti: "<< static_cast<char *>(dataFile) ;
 
@@ -473,17 +478,18 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			tagEnd2 = stdNextStr.find(NFmiString(">"), tagEnd+1);
 
 			if(tagBeg != string::npos && tagEnd != string::npos)
+
 			{
-				if(tagEnd2 != string::npos && tagEnd2>tagBeg+8) //otsikko
-					continue;
-				if(tagEnd>tagBeg)              //muu tagi jota ei voi käyttää
+			  if(tagEnd2 != string::npos && tagEnd2>tagBeg+8) //otsikko
+				continue;
+			  if(tagEnd>tagBeg)              //muu tagi jota ei voi käyttää
 				{
-					stdNextStr.erase(tagBeg, tagEnd-tagBeg+1);  
+				  stdNextStr.erase(tagBeg, tagEnd-tagBeg+1);  
 				}
 			}
 			nextString = NFmiHyphenationString(stdNextStr);
 			if(nextString.GetLen() > itsMaxLen)
-			{
+			  {
 				*itsLogFile << endl << "  *** ERROR: teksti katkaistu sallittuun maxpituuteen: " 
 							<< itsMaxLen
 							<< endl
@@ -491,9 +497,9 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 							<< nextString.GetLen()-itsMaxLen
 							<< " merkkiä"
 							<< endl;
-			
+				
 				nextString = nextString.GetChars(1, itsMaxLen);
-			}
+			  }
 			if(firstText)
 			{
 				*itsText = nextString;
@@ -983,6 +989,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  bool isHeader = lastHead > 0 && firstHead > 0;
 		  if (isHeader && fInArea)
 				hypString = hypString.GetChars(lastHead+2, hypString.GetLen()-lastHead-1);
+
 		  if(fCV)
 			text = hypString;
 		  else
@@ -1056,7 +1063,6 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 			  xScaled = x/itsWidthFactor;
 
 		  *itsOutFile << xScaled << " " << y << " moveto" << endl;
-
 		  if(GetTextAlignment() == kRight )
 			{
 			  if(itsRotatingAngle == 90.)
