@@ -23,6 +23,10 @@
 #ifndef NFMIPRESSPRODUCT_H
 #define NFMIPRESSPRODUCT_H
 
+//namespace fs = boost::filesystem;
+//using namespace boost;
+//namespace boost
+
 // press
 #include "NFmiValueCorrection.h"
 #include "NFmiCmykColorBag.h"

@@ -467,6 +467,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	unsigned long tagBeg, tagEnd, tagEnd2;
 	bool firstText = true;
 	std::string stdNextStr;
+	unsigned long posDuobleSpace, numDuobleSpace;
 
 	if(in.good())
 	{
@@ -487,6 +488,18 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 				  stdNextStr.erase(tagBeg, tagEnd-tagBeg+1);  
 				}
 			}
+			numDuobleSpace = 0;
+            posDuobleSpace = stdNextStr.find("  ");
+			while (posDuobleSpace != string::npos)
+			{
+				stdNextStr.erase(posDuobleSpace,1);
+                posDuobleSpace = stdNextStr.find("  ");
+				numDuobleSpace++;
+			}
+			if(numDuobleSpace > 0)
+				*itsLogFile << endl << "  INFO: " << numDuobleSpace 
+				<< " double spaces removed" << endl; 
+
 			nextString = NFmiHyphenationString(stdNextStr);
 			if(nextString.GetLen() > itsMaxLen)
 			  {
@@ -508,7 +521,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			else
 				itsNextTexts.push_back(nextString);
         }
-        *itsLogFile << " luettu" << endl;
+        *itsLogFile << "  luettu" << endl;
 		in.close();
 	}
     else
@@ -961,7 +974,6 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		{
 		  text += NFmiString(" ");
 		  hypString = NFmiHyphenationString(text);
-		  hypString = hypString.CreateIrregularHyphens("~");
 		  helpString = hypString.CreateHyphens("~");
 		  text = helpString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illussa "-" ei mene läpi ??
 		}
@@ -983,7 +995,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 					  << "_" << endl;
 	//	  if(fInParagraph)              EI AUTA
 	//		  text += NFmiString(" "); //metkut ei aina laita rivinsiirtoa loppuun
-		  hypString = NFmiHyphenationString(text);
+		  hypString.Set(text, text.GetLen());
 		  unsigned long lastHead = hypString.SearchLast(NFmiString(">"));
 		  unsigned long firstHead = hypString.SearchLast(NFmiString("<"));
 		  bool isHeader = lastHead > 0 && firstHead > 0;
@@ -1112,19 +1124,21 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  if(itsNextTexts.size() >> 0)
 		  {
 			std::vector<NFmiHyphenationString>::iterator pos;
-			NFmiHyphenationString nextString;
+			NFmiString nextString;
+
 			for(pos= itsNextTexts.begin(); pos != itsNextTexts.end(); ++pos)
 			{
                 nextString = (*pos);
 				if(nextString.GetLen() > 0)
 				{
-				    nextString += NFmiString(" ");  //tarvitaan ekstra merkki??
-					nextString = nextString.CreateIrregularHyphens("~");
-					nextString = nextString.CreateHyphens("~");
+					hypString.Set(nextString, nextString.GetLen());
+
+				    hypString += NFmiString(" ");  //tarvitaan ekstra merkki??
+					helpString = hypString.CreateHyphens("~");
 					                 
 					if(!fCV)   // Illu8:ssa "-" ei mene läpi ??
-						nextString = nextString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); 
-					*itsOutFile << "(" << static_cast<char *>(nextString) << ") Paragraph" << endl;
+						helpString = helpString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); 
+					*itsOutFile << "(" << static_cast<char *>(helpString) << ") Paragraph" << endl;
 				}
 				else
 					*itsOutFile << "0 " << -lineStep << " rmoveto" << endl;

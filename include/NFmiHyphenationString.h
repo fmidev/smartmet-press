@@ -48,7 +48,7 @@ public:
 
 
   NFmiString CreateHyphens(const char * theHyphenationMark);
-  NFmiString CreateIrregularHyphens(const char * theHyphenationMark);
+  void CreateIrregularHyphens(const char * theHyphenationMark);
   bool NextChar(const NFmiString & theChar);
   bool NextIsNumeric(void);
   NFmiString ReplaceChar(const NFmiString & theChar, const NFmiString & withString);

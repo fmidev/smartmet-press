@@ -61,7 +61,6 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiString & theText)
   ResetPosition();
   fIrregularHyphensInited = false;
 }
-
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -73,21 +72,22 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiString & theText)
 NFmiHyphenationString::NFmiHyphenationString(const NFmiHyphenationString & theText)
   : NFmiString(theText) 
 {
+	fIrregularHyphensInited = theText.fIrregularHyphensInited;
+    itsIrregularHyphens = theText.itsIrregularHyphens; 
 }
 
 
 // ----------------------------------------------------------------------
 /*!
- * Undocumented
  *
- * \param theHyphenationMark Undocumented
- * \return Undocumented
+ * upper case starting char need not be listed separately
+ * 
  */
 // ----------------------------------------------------------------------
 
 bool NFmiHyphenationString::InitIrregularHyphens(void)
 {
-  // # = not allowed to hyphenate, tarvitaanko
+  // # = not allowed to hyphenate, needed??
   itsIrregularHyphens.push_back("pohjois-os"); //osa, osissa
   itsIrregularHyphens.push_back("etelä-os");
   itsIrregularHyphens.push_back("itä-os");
@@ -97,20 +97,27 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("lounais-os");
   itsIrregularHyphens.push_back("luoteis-os");
   itsIrregularHyphens.push_back("koillis-os");
+  itsIrregularHyphens.push_back("keski-os");
   itsIrregularHyphens.push_back("sää-ennuste");
   itsIrregularHyphens.push_back("sade-alue");
   itsIrregularHyphens.push_back("kuuro-alue");
+  itsIrregularHyphens.push_back("meri-alue");
+  itsIrregularHyphens.push_back("alu-ei");
+  itsIrregularHyphens.push_back("pakkas-aste");
+  itsIrregularHyphens.push_back("lämpö-aste");
+  itsIrregularHyphens.push_back("pää-osin");
 
   itsIrregularHyphens.push_back("syd-ost");
   itsIrregularHyphens.push_back("syd-östra");
   itsIrregularHyphens.push_back("nord-ost");
   itsIrregularHyphens.push_back("nord-östra");
-  itsIrregularHyphens.push_back("nord-sjö");
+  itsIrregularHyphens.push_back("nord-sjö");  
   itsIrregularHyphens.push_back("öster-sjö");  
   itsIrregularHyphens.push_back("öster-i-från");  
   itsIrregularHyphens.push_back("väster-i-från");  
   itsIrregularHyphens.push_back("fin-ska "); 
   itsIrregularHyphens.push_back("nor-ska "); 
+  itsIrregularHyphens.push_back("sven-ska "); 
   itsIrregularHyphens.push_back("om-kring");
   itsIrregularHyphens.push_back("snö-blandat");
   itsIrregularHyphens.push_back("halv-klar");
@@ -127,6 +134,14 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("kust-område");
   itsIrregularHyphens.push_back("havs-område");
   itsIrregularHyphens.push_back("land-område");
+  itsIrregularHyphens.push_back("regn-område");
+  itsIrregularHyphens.push_back("börds-område");
+  itsIrregularHyphens.push_back("falls-område");
+  itsIrregularHyphens.push_back("köld-grad");
+  itsIrregularHyphens.push_back("värme-grad");
+  itsIrregularHyphens.push_back("öst-gräns");
+  itsIrregularHyphens.push_back("väst-gräns");
+  itsIrregularHyphens.push_back("sol-sken");
   fIrregularHyphensInited = true;
   return true;
 }
@@ -139,7 +154,8 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
+//NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
+void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
 {
   if(!fIrregularHyphensInited)
 		InitIrregularHyphens();
@@ -160,7 +176,7 @@ NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphena
 		while(posChar!= string::npos)
 		{
             word.erase(posChar, 1);
-			//posCharNot = word.find("#");
+			//posCharNot = word.find("#"); //need this option??
 			//if(posCharNot!= string::npos)
 			//	word.erase(posCharNot, 1);
 
@@ -174,10 +190,26 @@ NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphena
             stdString.replace(posChar,word.size(),hyphWord);
 			posChar = stdString.find(word);
 		}
-		//sama isoille alkukirjaimille, 
+		//same for starting upper case
+		//toupper do not function with skandinavian chars
 		word[0] = toupper(word[0]);
  		hyphWord[0] = toupper(hyphWord[0]);
-  		posChar = stdString.find(word);
+		if(word[0] == 'ö')
+		{
+			word[0] = 'Ö';
+			hyphWord[0] = 'Ö';
+		}
+		if(word[0] == 'ä')
+		{
+			word[0] = 'Ä';
+			hyphWord[0] = 'Ä';
+		}
+ 		if(word[0] == 'å')
+		{
+			word[0] = 'Å';
+			hyphWord[0] = 'Å';
+		}
+ 		posChar = stdString.find(word);
  		while(posChar!= string::npos)
 		{
             stdString.replace(posChar,word.size(),hyphWord);
@@ -185,8 +217,9 @@ NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphena
 			word[0] = toupper(word[0]);
  		    hyphWord[0] = toupper(hyphWord[0]);
 		}
-}
-  return stdString;
+	}
+    NFmiString fmiString(stdString);
+    Set(fmiString, fmiString.GetLen());
 }
 // ----------------------------------------------------------------------
 /*!
@@ -199,9 +232,8 @@ NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphena
 
 NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 {
-  //NFmiString newString = CreateIrregularHyphens(theHyphenationMark);
-	
   NFmiString newString;
+  CreateIrregularHyphens(theHyphenationMark);
   ResetPosition();
   while(NextConsonant())
 	{
@@ -212,7 +244,13 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 		 GetChars(itsCurrentCharPos-3, 1) != NFmiString(" ") &&  // eikä jätetä yksi kirjain alkuun
 		                                    // annetun epäsäännöllisen jälkeen väh. 2 merkkiä
 		 GetChars(itsCurrentCharPos-2, 1) != NFmiString(theHyphenationMark) && 
-		 GetChars(itsCurrentCharPos-3, 1) != NFmiString(theHyphenationMark) && 
+		 GetChars(itsCurrentCharPos-3, 1) != NFmiString(theHyphenationMark) &&
+		
+		   !(GetChars(itsCurrentCharPos-4, 1) == NFmiString(" ") && // kolme kons. sanan alussa  
+			IsConsonant(GetChars(itsCurrentCharPos-3, 1)) &&        // esim ei "på dagen sp-ricker"
+			IsConsonant(GetChars(itsCurrentCharPos-2, 1)))
+		 &&
+		
 //		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki, tarvitaanko
 		 IsVowel(GetChars(itsCurrentCharPos, 1)))
 		{
@@ -423,7 +461,7 @@ void NFmiHyphenationString::SuperResetPosition(void)
 
 bool NFmiHyphenationString::IsConsonant(const NFmiString & theChar) const
 {
-  NFmiString consonants("bcdfghjklmnpqrstvwxz"); 
+  NFmiString consonants("bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ"); 
   for(int i = 1; i <= static_cast<int>(consonants.GetLen()); i++)  
 	{
 	  if(!strcmp(consonants.GetCharsPtr(i,1), theChar))
@@ -465,7 +503,7 @@ bool NFmiHyphenationString::IsNumeric(const NFmiString & theChar) const
 
 bool NFmiHyphenationString::IsVowel(const NFmiString & theChar) const
 {
-  NFmiString vowels("aeiouyäöå");  
+  NFmiString vowels("aeiouyäöåAEIOUYÄÖÅ");  
   for(int i = 1; i <= static_cast<int>(vowels.GetLen()); i++)
 	{
 	  if(!strcmp(vowels.GetCharsPtr(i,1), theChar))
