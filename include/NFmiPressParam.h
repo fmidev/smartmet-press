@@ -53,6 +53,7 @@ enum NFmiPressParamObjects
   dTimeTable,
   dTimeTableRelative= 1040,
   dSegmentDataFile ,
+  dSegmentPrimaryDataFile ,
   dStationNameReplace,
   dMultiParams,
   dMultiMapping,
@@ -61,8 +62,8 @@ enum NFmiPressParamObjects
   dLevelTable,
   dSegmentLevel,
   dLevelPlace,
-  dTimePlace,
-  dTimePlaceRelative= 2040,
+  dTimePlace= 2040,
+  dTimePlaceRelative,
   dLogText ,
   dLogTextAdd,
   dStationLonLatOnMap,
@@ -71,8 +72,8 @@ enum NFmiPressParamObjects
   dStationPlaceMatrixOnMap,
   dSegmentMapArea,
   dMainArea,
-  dCoordinatesFromMainMap,
-  dStationsFromData= 3040,
+  dCoordinatesFromMainMap= 3040,
+  dStationsFromData,
   dStationsFromDataCropping,
   dDataNotNeeded,
   dAreaOperation,
@@ -81,7 +82,7 @@ enum NFmiPressParamObjects
   dSegmentNameDay,
   dBackupStation,
   dDataCoordinatesMoved,
-  dStationNamesAfterParams
+  dStationNamesAfterParams= 5040
 };
 
 struct FmiValuePoint
@@ -126,15 +127,18 @@ public:
 			   FmiPressOutputMode theOutput); 
 
   bool SetData(const NFmiString & dataName);    
+  bool SetPrimaryData(const NFmiString & dataName);    
   void SetStationScale(const NFmiRectScale & scale); 
   void SetScale(const NFmiRectScale & scale);        
   virtual bool ReadDescription(NFmiString & retString); 
   int ConvertDefText(NFmiString & object);
   void SetData(NFmiQueryData * data);
+  void SetPrimaryData(NFmiQueryData * data);
   void SetMaskIter(NFmiFastQueryInfo * info);
   NFmiFastQueryInfo*  GetMaskIter(void);
   NFmiInfoAreaMask* GetAreaMask(void);
   void SetDataName(NFmiString name);
+  void SetPrimaryDataName(NFmiString name);
   void SetLanguage(FmiLanguage theLanguage);
   FmiLanguage GetLanguage(void);
   NFmiString GetName(void);
@@ -181,6 +185,10 @@ public:
   void SetCurrentStationLonLat(NFmiPoint & theLonLat);
   void SetStationNamesAfterParams(bool theStatus);
   bool IsStationNamesAfterParams(void)const;
+  NFmiFastQueryInfo * GetPrimaryDataIter(void) const;
+  unsigned long GetPrimaryDataNum(void)const;
+  void AddPrimaryDataNum(void);
+  bool PrimaryDataOk(void) const;
 protected:
 
   void UnsetAllErrorReported(void);
@@ -213,7 +221,9 @@ protected:
   unsigned long itsProducer; 
   short itsHourStep;   
   NFmiString itsDataName;   
+  NFmiString itsPrimaryDataName;   
   NFmiFastQueryInfo * itsDataIter;
+  NFmiFastQueryInfo * itsPrimaryDataIter;
   NFmiFastQueryInfo * itsMaskIter;
   NFmiInfoAreaMask * itsAreaMask;
   FmiCounter itsCurrentStep;
@@ -250,6 +260,8 @@ protected:
   bool fMaxMinSearched;
   bool fDataCoordinatesMoved;
   bool fStationNamesAfterParams;
+  unsigned long itsPrimaryDataNum;
+  bool fPrimaryDataOk;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -267,6 +279,8 @@ NFmiPressParam::~NFmiPressParam (void)
   itsTimeDepObjects.Clear(isTrue);    
   itsStationDepObjects.Clear(isTrue); 
   if(itsDataIter)
+	delete itsDataIter;  
+  if(itsPrimaryDataIter)
 	delete itsDataIter;  
   if(itsAreaMask)
 	delete itsAreaMask;  
@@ -290,6 +304,7 @@ NFmiPressParam::NFmiPressParam(void)
   , itsPressProduct(0)
   , itsHourStep(24)
   , itsDataIter(0)
+  , itsPrimaryDataIter(0)
   , itsAreaMask(0)
   , itsNumberOfSteps(1)
   , fIsPureRegTimeLoop(true)
@@ -304,6 +319,8 @@ NFmiPressParam::NFmiPressParam(void)
   , fMaxMinSearched(false)
   , fDataCoordinatesMoved(false)
   , fStationNamesAfterParams(false)
+  , itsPrimaryDataNum(0)
+  , fPrimaryDataOk(true)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -340,6 +357,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , itsProducer(producer)             
   , itsHourStep(hourStep)          
   , itsDataIter(0)
+  , itsPrimaryDataIter(0)
   , itsAreaMask(0)
   , itsNumberOfSteps(1)
   , fIsPureRegTimeLoop(true)
@@ -355,9 +373,54 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fMaxMinSearched(false)
   , fDataCoordinatesMoved(false)
   , fStationNamesAfterParams(false)
+  , itsPrimaryDataNum(0)
+  , fPrimaryDataOk(true)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
+}
+ // ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+bool NFmiPressParam::PrimaryDataOk(void) const
+{
+  return fPrimaryDataOk;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+unsigned long NFmiPressParam::GetPrimaryDataNum(void)const
+{
+  return itsPrimaryDataNum;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressParam::AddPrimaryDataNum(void)
+{
+  itsPrimaryDataNum++;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+  NFmiFastQueryInfo * NFmiPressParam::GetPrimaryDataIter(void) const
+{
+	return itsPrimaryDataIter;
 }
 
 // ----------------------------------------------------------------------
@@ -540,6 +603,20 @@ void NFmiPressParam::SetData(NFmiQueryData * data)
 /*!
  * Undocumented
  *
+ * \param data Undocumented
+ * \todo Siivoa sijoitus selkeämmäksi, ei temppuilla liikaa
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::SetPrimaryData(NFmiQueryData * data)
+{
+  data ? itsPrimaryDataIter = new NFmiSuperSmartInfo(data) : 0;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
  * \param info Undocumented
  */
 // ----------------------------------------------------------------------
@@ -590,6 +667,19 @@ inline
 void NFmiPressParam::SetDataName(NFmiString name)
 {
   itsDataName = name;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param name Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::SetPrimaryDataName(NFmiString name)
+{
+  itsPrimaryDataName = name;
 }
 
 // ----------------------------------------------------------------------

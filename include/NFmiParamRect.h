@@ -162,6 +162,7 @@ public:
   void SetMinCorrection(void);
   void SetIdentPar(unsigned long theIdentPar); 
   unsigned long GetIdentPar(void); 
+  unsigned long GetPrimaryDataNum(void)const;
 
 protected:
 
@@ -272,7 +273,6 @@ protected:
   NFmiString itsMinText;
   bool fTempMaxCorrection;
   bool fTempMinCorrection;
-
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -403,6 +403,8 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   itsIntegrationPeriod.period = kUnsignedLongMissing;
   itsIntegrationPeriod.startWeight = kFloatMissing;
 }
+
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

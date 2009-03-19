@@ -319,16 +319,32 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	}
   else
 	{
-	  if(!PointOnParam(theQI, GetDataIdent().GetParam()))
-		return false;
+	  bool primaryDataFound = false;
+	  NFmiFastQueryInfo* primaryData = itsPressParam->GetPrimaryDataIter();
+	  if(primaryData && itsPressParam->PrimaryDataOk())
+	  {
+		if(PointOnParam(primaryData, GetDataIdent().GetParam()))
+			if(SetRelativeHour(primaryData,NFmiString("#Numero")))
+				if(ReadCurrentValue(primaryData, itsCurrentParamValue))
+				{
+					value = itsCurrentParamValue;
+					primaryDataFound = true;
+					itsPressParam->AddPrimaryDataNum();
+				}
+	  }
+	  if(!primaryDataFound)
+	  {
+		if(!PointOnParam(theQI, GetDataIdent().GetParam()))
+			return false;
 
-	  if(!SetRelativeHour(theQI,NFmiString("#Numero")))
-		return false;
+		if(!SetRelativeHour(theQI,NFmiString("#Numero")))
+			return false;
 
-	  if(!ReadCurrentValue(theQI, itsCurrentParamValue))
-		return false;
+		if(!ReadCurrentValue(theQI, itsCurrentParamValue))
+			return false;
 
-	  value = itsCurrentParamValue;
+		value = itsCurrentParamValue;
+	  }
 	}
 
   if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))

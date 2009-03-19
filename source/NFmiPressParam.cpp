@@ -527,6 +527,34 @@ bool NFmiPressParam::SetData(const NFmiString & dataName)
 	}
   return true;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param dataName Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiPressParam::SetPrimaryData(const NFmiString & dataName)
+{
+  if(itsPrimaryDataIter)
+	delete itsPrimaryDataIter;
+
+  bool fYearData = false;
+  NFmiQueryData * data = itsPressProduct->DataByName(dataName, fYearData);
+
+  if(data)
+	{
+	  itsPrimaryDataIter = new NFmiSuperSmartInfo(data);
+	  itsPrimaryDataIter->First();
+	  itsPrimaryDataName = dataName;
+	}
+  else
+	itsPrimaryDataIter = 0;
+
+  return true;
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -1042,6 +1070,19 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 							<< endl;
 			  }
 			SetData(itsDataName);
+
+			ReadNext();
+			break;
+		  }
+		case dSegmentPrimaryDataFile:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			itsPrimaryDataName = ReadString();
+			itsPrimaryDataName.LowerCase();
+
+			SetPrimaryData(itsPrimaryDataName);
 
 			ReadNext();
 			break;
@@ -2207,7 +2248,11 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("data"))
 	return dSegmentDataFile;
 
-  else if(lowChar==NFmiString("grid") ||
+   else if(lowChar==NFmiString("primarydatafile") ||
+		  lowChar==NFmiString("ensisijainendata"))
+	return dSegmentPrimaryDataFile;
+ 
+   else if(lowChar==NFmiString("grid") ||
 		  lowChar==NFmiString("hila"))
 	{
 	  return dGridMode;    // ei koodattu vielä, Tarvitaanko???
@@ -2456,6 +2501,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	  return true; //false lopettaa kaikki segmentit
 	}
   itsDataIter->First(); // ainakin level pitää asettaa nollaksi eikä -1:ksi
+  if(itsPrimaryDataIter)
+	  itsPrimaryDataIter->First();
 
   CreateAreaMask();
 
@@ -2468,6 +2515,9 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	  *itsLogFile << "  data: " << static_cast<char *>(itsDataName) << endl;
 	else
 	  *itsLogFile << "  data: tuotteessa ekana oleva" << endl;
+  
+  if(itsPrimaryDataName.IsValue())
+	  *itsLogFile << "  primary data: " << static_cast<char *>(itsPrimaryDataName) << endl;
 
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
   NFmiPressScaling * object;
@@ -2487,13 +2537,15 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   itsCurrentStationIndex = 0;
   FmiCounter statAll = 0;
   bool done, supplementLater;
+  fPrimaryDataOk = true;
+  bool primaryDataTimeOk = true;
 
   /********* AIKA/PAINEPINTA-luuppi ********/
   while(itsCurrentStep <= itsNumberOfSteps) 
 	{
 	  FmiCounter currentStepInd = FmiMin(static_cast<int>(itsCurrentStep),kMaxNumOfTableElements-1);
-
 	  fMaxMinSearched = false;
+      itsPrimaryDataNum = 0;
 
       if(!fSupplementary)  
 		 itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, false);
@@ -2506,7 +2558,11 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	  else
 		{
 		  if(fIsLevelLoop)
+		  {
 			itsDataIter->Level(NFmiLevel(kFmiPressureLevel,itsLevels[currentStepInd]));
+			if(itsPrimaryDataIter)
+				itsPrimaryDataIter->Level(NFmiLevel(kFmiPressureLevel,itsLevels[currentStepInd]));
+		  }
 
 		  done = fSupplementary && itsPressProduct->GetSegmentTimeStatus(itsCurrentStep);
 		  supplementLater = itsPressProduct->GetSupplementMode() && !fSupplementary;
@@ -2517,6 +2573,15 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  if(fYearData)
 			 actTime.SetYear(itsDataIter->Time().GetYear());
 		  bool timeFound = itsDataIter->Time(actTime);
+		  if(itsPrimaryDataIter)
+		  {
+			if(!itsPrimaryDataIter->Time(actTime))
+			{
+				primaryDataTimeOk = false;
+				//fPrimaryDataOk = false;
+			}
+		  }
+
  		  //if((itsDataIter->Time(actTime) || fStationNotNeeded) && !done)
   		  if((timeFound || fStationNotNeeded) && !done)
 		 {
@@ -2620,6 +2685,14 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 							statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
 						}
 					}
+				 }
+
+				 if(itsPrimaryDataIter && primaryDataTimeOk)
+				 {
+					 if(!itsPrimaryDataIter->Location(NFmiStation(*statPoint.Station()).GetName()))
+						 fPrimaryDataOk = false;
+					 else
+						 fPrimaryDataOk = true;
 				 }
 
 				 itsCurrentStation = NFmiStation(*statPoint.Station());
@@ -2788,6 +2861,11 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		 time.ChangeByHours(hourStep);
 	     StepTimeDependent(hourStep);
 	  }
+	  if(itsPrimaryDataNum > 0)
+		{
+		   *itsLogFile << "  Primary data used in time step= " << 
+						itsPrimaryDataNum << endl;
+		}
 
 	  itsCurrentStep++;
 
@@ -2811,6 +2889,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		   object = static_cast<NFmiPressScaling *>(objectIter.Next());
 		 }
 	}
+
   return true;
 
 }

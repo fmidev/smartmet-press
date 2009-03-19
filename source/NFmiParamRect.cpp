@@ -123,6 +123,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fTempMaxCorrection(theRect.fTempMaxCorrection)
   , fTempMinCorrection(theRect.fTempMinCorrection)
   , itsDataIdent(theRect.itsDataIdent)
+
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
