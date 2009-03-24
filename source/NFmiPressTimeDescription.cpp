@@ -189,18 +189,24 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
   NFmiPreProcessor prePr;
   bool res, res2;
   NFmiTime tim;
+  bool isUnix;
 
 #ifndef UNIX
   string includePath(itsHomePath);
   includePath += kFmiDirectorySeparator;
   includePath += "Include";
+  isUnix = false;
 #else
   string includePath = static_cast<string>(getIncPath());
+  isUnix = true;
 #endif
 	//res = prePr.ReadFile(inFileName);
 	set<string> optinalDirectives;
 	//HUOM kaikki optiot esitelt‰v‰ p‰‰tasolla, vaikka includeissa k‰yetett‰isiin
 	res = prePr.ReadFileCheckingOptions(inFileName, "#ifCondition", optinalDirectives);
+	
+	if(!PreProcessConditionally(prePr, isUnix, "#ifUnix", "#ifNotUnix", "#unixEndif", "#unixElse"))
+		return false;
 
 	bool firstLoop = true;
 	while (!prePr.NoFilesIncluded())
