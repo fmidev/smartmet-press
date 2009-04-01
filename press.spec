@@ -2,7 +2,7 @@
 Summary: press binary
 Name: smartmet-%{BINNAME}
 Version: 9.4.1
-Release: 2.el5.fmi
+Release: 3.el5.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Apr  1 2009 oksman <santeri.oksman@fmi.fi> - 9.4.1-3.el5.fmi
+- Fixed overflowing string bug.
 * Wed Apr  1 2009 oksman <santeri.oksman@fmi.fi> - 9.4.1-2.el5.fmi
 - Fixed a bug regarding directory detection.
 * Wed Apr  1 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.4.1-1.el5.fmi
