@@ -270,12 +270,13 @@ bool NFmiPressScaling:: AddTimeStamp(NFmiString & theFile,
 	{
 	  NFmiPressTime pressTime;
 	  NFmiString string1(pressTime.InterpretToStr(theFormat));
+
 #ifndef UNIX
 	  unsigned long nSep = theFile.SearchLast(&kFmiDirectorySeparator);
 #else
 	  unsigned long nSep = static_cast<string>(theFile).find("/");
 #endif
-	  if(nSep >0)
+	  if(nSep >0 && nSep != string::npos )
 	  {
 		NFmiString string2;
 		string2 = theFile.GetChars(1,nSep);
