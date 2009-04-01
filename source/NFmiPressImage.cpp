@@ -682,7 +682,8 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
   
 #ifdef UNIX
   NFmiString imageFile;
-  if (itsTempImageFile.Search(&(kFmiDirectorySeparator)) <=0)
+
+  if (static_cast<string>(itsTempImageFile).find("/") == string::npos )
 	{
 	  string path = NFmiSettings::Require<string>("press::cnfpath");
 	  string productName = NFmiSettings::Require<string>("press::product");

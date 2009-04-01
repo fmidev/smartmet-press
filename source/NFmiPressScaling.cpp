@@ -270,7 +270,11 @@ bool NFmiPressScaling:: AddTimeStamp(NFmiString & theFile,
 	{
 	  NFmiPressTime pressTime;
 	  NFmiString string1(pressTime.InterpretToStr(theFormat));
+#ifndef UNIX
 	  unsigned long nSep = theFile.SearchLast(&kFmiDirectorySeparator);
+#else
+	  unsigned long nSep = static_cast<string>(theFile).find("/");
+#endif
 	  if(nSep >0)
 	  {
 		NFmiString string2;
@@ -316,7 +320,11 @@ NFmiFileString NFmiPressScaling::CreatePath(NFmiString defDir,
 		  fileStr = GetHome();
 		  fileStr += kFmiDirectorySeparator;
 	  }
+#ifdef UNIX
+	  if (static_cast<string>(givenFile).find("/") == string::npos)
+#else
 	  if (givenFile.Search(&(kFmiDirectorySeparator)) <=0) //sisältyykö hekemisto nimeen
+#endif
 	  {
 		fileStr += defDir;
 		fileStr += kFmiDirectorySeparator;

@@ -3375,7 +3375,6 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 			}
 		  else
 			{
-
 			  NFmiString fullEpsFileName = mapFilePath;
 			  fullEpsFileName += *epsFileName;
 			  fullEpsFileName += NFmiString(".eps");
