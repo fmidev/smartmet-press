@@ -7,7 +7,7 @@
 
 #include "NFmiNameDay.h"
 #include "NFmiTime.h"
-#include <iostream>
+#include <fstream>
 
 using namespace std;
 

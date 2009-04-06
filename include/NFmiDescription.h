@@ -27,6 +27,7 @@
 #define NFMIDESCRIPTION_H
 
 #include "NFmiValueString.h"
+#include <fstream>
 #include <cstdlib>
 
 using namespace std;

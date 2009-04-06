@@ -9,7 +9,7 @@
 #include "NFmiHyphenationString.h"
 #include "NFmiValueString.h"
 #include "NFmiStaticTime.h"
-#include <iostream>
+#include <fstream>
 
 using namespace std;
 
