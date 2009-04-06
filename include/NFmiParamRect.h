@@ -31,7 +31,6 @@
 #include "NFmiRectScale.h"
 // newbase
 #include "NFmiDataIdent.h"
-#include "NFmiSaveBase.h"
 #include "NFmiSuperSmartInfo.h"
 
 class _FMI_DLL NFmiPressParam;
