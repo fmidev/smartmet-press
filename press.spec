@@ -2,7 +2,7 @@
 Summary: press binary
 Name: smartmet-%{BINNAME}
 Version: 9.4.6
-Release: 3.el5.fmi
+Release: 4.el5.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
