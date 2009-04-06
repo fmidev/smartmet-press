@@ -15,11 +15,11 @@
 #ifndef NFMISCALE_H
 #define NFMISCALE_H
 
-#include "NFmiSaveBase.h"
+// #include "NFmiSaveBase.h"
 #include "NFmiGlobals.h"
 
 //! Undocumented
-class _FMI_DLL NFmiScale : public NFmiSaveBase
+class _FMI_DLL NFmiScale
 {
 
 public:

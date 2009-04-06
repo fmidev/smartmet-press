@@ -65,8 +65,7 @@ NFmiScale::NFmiScale(float theStartValue, float theEndValue)
 // ----------------------------------------------------------------------
 
 NFmiScale::NFmiScale(const NFmiScale & anOtherScale)
-  : NFmiSaveBase()
-  , itsStartValue (anOtherScale.itsStartValue)
+  : itsStartValue (anOtherScale.itsStartValue)
   , itsEndValue (anOtherScale.itsEndValue)
   , itsEpsilon (anOtherScale.itsEpsilon)
   , itsDataOk(anOtherScale.itsDataOk)
