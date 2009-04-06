@@ -16,7 +16,7 @@
 #ifndef NFMIPRESSTIMEDESCRIPTION_H
 #define NFMIPRESSTIMEDESCRIPTION_H
 
-#ifdef WIN32
+#ifndef UNIX
 #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
