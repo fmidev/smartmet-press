@@ -100,9 +100,14 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 
   NFmiMetTime firstPlotTime(thePressProduct.GetFirstPlotTime());
 
+#ifndef UNIX
   NFmiFileString inputFileName = thePressProduct.GetHome();
   inputFileName += kFmiDirectorySeparator;
   inputFileName += NFmiString("Managerit");
+#else
+  NFmiString mpath = NFmiSettings::Require<string>("press::managerspath");
+  NFmiFileString inputFileName = mpath;
+#endif
   inputFileName += kFmiDirectorySeparator;
   inputFileName += NFmiString("nimi.prem");
   inputFileName.Header(static_cast<char *>(NFmiFileString(thePressProduct.GetInFileName()).Header()));
