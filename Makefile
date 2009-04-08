@@ -1,5 +1,5 @@
 HTML = qdpress
-PROG =	qdpress
+PROG = qdpress
 
 # Expected input:
 #
@@ -42,7 +42,7 @@ specfile = /smartmet/src/redhat/SPECS/$(CWD).spec
 rpmsourcedir = /smartmet/src/redhat/SOURCES
 rpmerr = "There's no spec file ($(specfile)). RPM wasn't created. Please make a spec file or copy and rename it into $(specfile)"
 
-
+DEFINES = -DUNIX -DBOOST_DISABLE_THREADS
 
 MAINFLAGS = -Wall -W -Wno-unused-parameter
 
@@ -66,8 +66,10 @@ EXTRAFLAGS = -Werror \
 DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wold-style-cast
 
 CC = g++
-CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
-CFLAGS_RELEASE = -DUNIX -O2 -DNDEBUG $(MAINFLAGS)
+
+CFLAGS = -O0 -g $(DEFINES) $(MAINFLAGS) $(EXTRAFLAGS) -Werror
+CFLAGS_RELEASE = -O2 -DNDEBUG $(DEFINES) $(MAINFLAGS)
+
 LDFLAGS =
 ARFLAGS = -r
 INCLUDES = -I$(includedir) \
@@ -81,8 +83,7 @@ LIBS = -L$(libdir) \
 	-lboost_system \
 	-lboost_regex \
 	-lboost_iostreams \
-	-lboost_filesystem \
-	-lpthread
+	-lboost_filesystem
 
 # Common library compiling template
 
@@ -91,15 +92,6 @@ LIBS = -L$(libdir) \
 ifeq ($(MAKECMDGOALS),release)
   CFLAGS = $(CFLAGS_RELEASE)
 endif
-
-ifneq (,$(findstring gmon,$(MAKECMDGOALS)))
- objdir := pgobj
- CFLAGS := -pg $(CFLAGS)
-endif
-
-PGLIB = subspg
-LIBFILE = libsubs.a
-PGLIBFILE = lib$(PGLIB).a
 
 # Compilation directories
 
@@ -119,19 +111,17 @@ HDRS = $(patsubst include/%,%,$(wildcard *.h include/*.h))
 OBJS = $(SRCS:%.cpp=%.o)
 
 OBJFILES = $(OBJS:%.o=obj/%.o)
-PGOBJFILES = $(OBJS:%.o=pgobj/%.o)
 
 MAINSRCS = $(PROG:%=%.cpp)
 SUBSRCS = $(filter-out $(MAINSRCS),$(SRCS))
 SUBOBJS = $(SUBSRCS:%.cpp=%.o)
 SUBOBJFILES = $(SUBOBJS:%.o=obj/%.o)
-PGSUBOBJFILES = $(SUBOBJS:%.o=pgobj/%.o)
 
 ALLSRCS = $(wildcard source/*.cpp *.cpp )
 
 INCLUDES := -Iinclude $(INCLUDES)
 
-.PHONY: test gmon rpm
+.PHONY: test rpm
 
 # The rules
 
@@ -145,11 +135,8 @@ $(PROG): % : $(SUBOBJS) %.o
 $(LIBFILE): objdir $(OBJS)
 	$(AR) $(ARFLAGS) $(LIBFILE) $(OBJFILES)
 
-$(PGLIBFILE): objdir $(OBJS)
-	$(AR) $(ARFLAGS) $(PGLIBFILE) $(PGOBJFILES)
-
 clean:
-	rm -f $(PROG) $(OBJFILES) $(PGOBJFILES) *~ source/*~ include/*~
+	rm -f $(PROG) $(OBJFILES) *~ source/*~ include/*~
 
 install:
 	mkdir -p $(bindir)
