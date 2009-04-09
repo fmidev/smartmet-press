@@ -402,6 +402,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 								  FmiPressOutputMode theOutput)
 
 {
+
   NFmiString longMinus ("\\226");
   //bool isLongMinus = itsEnvironment.GetLongNumberMinus();
   NFmiString locText(theText);

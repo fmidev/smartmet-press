@@ -14,7 +14,6 @@
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
 #include <iostream>
-
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -397,7 +396,6 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   // tehty maaseudun tulevaisuutta varten, häiritseeköhän jossain
 
   if(value == 0.) format = NFmiString("%d");
-
   NFmiValueString str;
   NFmiString* mapString =0;
 
@@ -472,7 +470,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  else if(value != kFloatMissing)  // NORMAALI POS. TAI NEG. ARVO
 		if(value >= 0. || !itsEnvironment.GetLongNumberMinus())
 		  {
-			str += NFmiValueString (value,format);
+			str += NFmiValueString (FmiRound(value),format);
 		  }
 		else
 		  {
@@ -502,7 +500,6 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	} //ei-mappi luuppi
 
   str = DetachSign(str, value);
-
   return WriteCode(Construct(&str), theAbsoluteRectOfSymbolGroup,
 				   theDestinationFile, NFmiString("NUMERO"), theOutput);
 }
