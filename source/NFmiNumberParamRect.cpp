@@ -395,7 +395,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   // tasan nolla pirretään ilman desimaaliosia
   // tehty maaseudun tulevaisuutta varten, häiritseeköhän jossain
 
-  if(value == 0.) format = NFmiString("%d");
+  if(value == 0.) format = NFmiString("%.0f");
   NFmiValueString str;
   NFmiString* mapString =0;
 
@@ -470,7 +470,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  else if(value != kFloatMissing)  // NORMAALI POS. TAI NEG. ARVO
 		if(value >= 0. || !itsEnvironment.GetLongNumberMinus())
 		  {
-			str += NFmiValueString (FmiRound(value),format);
+			str += NFmiValueString (value,format);
 		  }
 		else
 		  {
