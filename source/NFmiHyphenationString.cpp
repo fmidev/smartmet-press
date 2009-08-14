@@ -250,7 +250,7 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 			IsConsonant(GetChars(itsCurrentCharPos-3, 1)) &&        // esim ei "på dagen sp-ricker"
 			IsConsonant(GetChars(itsCurrentCharPos-2, 1)))
 		 &&
-		
+		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("-") && //muuten tuplana jaettaessa
 //		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki, tarvitaanko
 		 IsVowel(GetChars(itsCurrentCharPos, 1)))
 		{
