@@ -2204,34 +2204,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
-/*
-		case dMandatoryDataFile:
-		  {
-			if (!ReadEqualChar())
-			  break;
 
-			itsDataFileName = ReadString();
-			itsDataFileName.LowerCase();
-
-			if(fDataRead)
-			  {
-				*itsLogFile << "*** ERROR: Data "
-							<< static_cast<char *>(itsDataFileName)
-							<< "pitää antaa ennen 'KäytäDatanAlkuAikaa' ja 'SuhteellinenTuntiDatasta'"
-							<< endl;
-				*itsLogFile << "            " << "sekä kaikkia jäsenelementtejä" << endl;
-				*itsLogFile << "       KESKEYTETÄÄN" << endl;
-				return false;
-			  }
-
-			NFmiQueryData * newData = new NFmiQueryData();
-			NFmiNamedQueryData * newNData = new NFmiNamedQueryData(newData,itsDataFileName, true);
-			itsDatas.Add(newNData);
-
-			ReadNext();
-			break;
-		  }
-*/
 		case dChangeScandinavian:
 		  {
 			fChangeScandinavian = true;
