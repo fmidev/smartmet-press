@@ -156,7 +156,9 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 			if(Read2Double(r1,r2))
 			  {
-				Move(NFmiPoint(r1,r2));
+			    NFmiPoint point(r1, r2);
+				itsMovePlace = point;
+				Move(point);
 			}
 			ReadNext();
 			break;

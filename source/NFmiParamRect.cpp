@@ -1186,7 +1186,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
   if(!theQueryInfo->TimeToNearestStep(itsCurrentTime,kCenter,theQueryInfo->TimeResolution()/2))
 	{
 	   // tänne joudutaan jos piirtoelementissä muutetaan olemattomaan aikaan
-	  if(!fTimeErrorReported)
+	  if(!fTimeErrorReported && !itsPressParam->HasPrimaryData())
 		{
 		  *itsLogFile << "    WARNING: invalid time: "
 					  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
@@ -1235,7 +1235,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
   
   if(value == kFloatMissing)
 	{
-	  if(!itsMultiMapping && fMarkingValue)
+	  if(!itsMultiMapping && fMarkingValue && !itsPressParam->HasPrimaryData())
 		itsNumOfMissing++;
 
 //	  if(itsMultiMapping && itsIdentPar == kFmiFogIntensity)

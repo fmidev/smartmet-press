@@ -2648,24 +2648,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 			 fCurrentStationBackup = statPoint.IsBackup() ? true : false;
 			 NFmiPoint lonLat = statPoint.GetLocation();
-/*
-			 bool fGradientCheck = true;
-			 if(fGradientCheck)
-			 {   
-				NFmiPoint itsLonGradientPoint, itsLatGradientPoint;
-				 NFmiPoint gradienPoint = stationPoint + NFmiPoint(10., 0.);                
-				 itsLonGradientPoint = itsArea.GetArea()->ToLatLon(gradienPoint);
-				 gradienPoint = stationPoint + NFmiPoint(0., 5.);
-				 if(!itsArea.GetArea())
-				     loki _=
-				 itsLatGradientPoint = itsArea.GetArea()->ToLatLon(gradienPoint);
-
-			 }
-			 */
 
 			 if(lonLat.X() == kFloatMissing)
-				{
-					if(itsDataIter->IsGrid())
+			 {
+				if(itsDataIter->IsGrid())
 					{
 						if (!SetLonLat(statPoint))
 						continue; // ->seuraava asema jos ei taulukossa
@@ -2709,16 +2695,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 
 						 NFmiPoint unScaledPoint = itsScale.UnScale(stationPoint);
-						 if(object && itsStations.CurrentIndex() == 0)
-						   {
-							 // jokaisella objektilla pitää olla oma, jäseneksi
-							 nameFromData = NFmiPoint(object->Place().X() - unScaledPoint.X(),
-													  object->Place().Y() - unScaledPoint.Y());
-						   }
 						 while (object)
-						   {
+						 {
 							 NFmiPoint savePlace = object->Place();
-							 object->Place(unScaledPoint+nameFromData);
+							 object->Place(unScaledPoint + object->GetMovePlace());
 							 object->Set(itsScale, theFile);
 							 object->SetRotatingPoint(object->Place());
 							 if (!(object->WritePS(theOutput)))
@@ -2732,7 +2712,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 							 object->Place(savePlace); // jotta toimisi seuraavalle writePs-käskylle
 
 							 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
-						   }
+						  }
 					   }
 					 // ************ AsemaSidotutObjektit loppu ************
 
@@ -2762,16 +2742,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 
 						 NFmiPoint unScaledPoint = itsScale.UnScale(stationPoint);
-						 if(object && itsStations.CurrentIndex() == 0)
-						   {
-							 // jokaisella objektilla pitää olla oma, jäseneksi
-							 nameFromData = NFmiPoint(object->Place().X() - unScaledPoint.X(),
-													  object->Place().Y() - unScaledPoint.Y());
-						   }
 						 while (object)
-						   {
+						 {
 							 NFmiPoint savePlace = object->Place();
-							 object->Place(unScaledPoint+nameFromData);
+							 object->Place(unScaledPoint + object->GetMovePlace());
 							 object->Set(itsScale, theFile);
 							 object->SetRotatingPoint(object->Place());
 							 if (!(object->WritePS(theOutput)))
@@ -2785,7 +2759,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 							 object->Place(savePlace); // jotta toimisi seuraavalle writePs-käskylle
 
 							 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
-						   }
+						  }
 					   }
 			} //if(FindQStationName()
 				 else
@@ -2863,7 +2837,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	  }
 	  if(itsPrimaryDataNum > 0)
 		{
-		   *itsLogFile << "  Primary data used in time step= " << 
+		   *itsLogFile << "  Numbers of Primary data used in this time step = " << 
 						itsPrimaryDataNum << endl;
 		}
 

@@ -82,6 +82,7 @@ public:
   virtual bool HasSubText(void)const;
   bool AddTimeStamp(NFmiString & theGivenFile,
 					const NFmiString & theTimeFormat=NFmiString("DDMM")) const;
+  NFmiPoint GetMovePlace(void)const;
 
 protected:           
 
@@ -105,6 +106,7 @@ protected:
   NFmiRect itsRelArea;   
   NFmiPoint itsRectSize;  
   NFmiPoint itsPlace;  
+  NFmiPoint itsMovePlace;  //siirtymä  
   bool fPrintOnce;		// pakotettu kerran-vain-tulostus
   bool fScaleNotPlace;	// DataAlkio-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
   int itsTimestampDayGap;
@@ -124,13 +126,27 @@ NFmiPressScaling::NFmiPressScaling(void)
   , itsRelArea(NFmiPoint(0.,0.), NFmiPoint(1.,1.))
   , itsRectSize(40.,40.)
   , itsPlace(NFmiPoint(0.,0.))
+  , itsMovePlace(NFmiPoint(0.,0.))
   , fPrintOnce(false)
   , fScaleNotPlace(false)
   , itsTimestampDayGap(kShortMissing)
 {
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theOutput Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+inline
+  NFmiPoint NFmiPressScaling::GetMovePlace(void)const
+{
+  return itsMovePlace;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

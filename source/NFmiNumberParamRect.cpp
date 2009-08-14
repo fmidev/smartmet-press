@@ -327,8 +327,11 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 				if(ReadCurrentValue(primaryData, itsCurrentParamValue))
 				{
 					value = itsCurrentParamValue;
-					primaryDataFound = true;
-					itsPressParam->AddPrimaryDataNum();
+					if(value != kFloatMissing)
+					{
+						primaryDataFound = true;
+						itsPressParam->AddPrimaryDataNum();
+					}
 				}
 	  }
 	  if(!primaryDataFound)
@@ -414,8 +417,10 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			return false;
 	}
 
-   fUseSelectLatinFont = value >= 0.  // astemerkki edes positiivisille
-	&& value != kFloatMissing
+   fUseSelectLatinFont = (value >= 0.  // astemerkki edes positiivisille
+	&& value != kFloatMissing)
+	|| itsEnvironment.GetVersion() >=30; //CS:ssä vaaditaan
+
 	/* || value == kFloatMissing       // pitkät miinukset näkyviin
 	&& itsEnvironment.GetLongNumberMinus()*/;
 

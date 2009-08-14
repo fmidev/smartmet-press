@@ -189,6 +189,8 @@ public:
   unsigned long GetPrimaryDataNum(void)const;
   void AddPrimaryDataNum(void);
   bool PrimaryDataOk(void) const;
+  bool HasPrimaryData(void) const;
+
 protected:
 
   void UnsetAllErrorReported(void);
@@ -680,6 +682,19 @@ inline
 void NFmiPressParam::SetPrimaryDataName(NFmiString name)
 {
   itsPrimaryDataName = name;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param name Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressParam::HasPrimaryData(void) const
+{
+	return itsPrimaryDataIter == 0 ? false : true;
 }
 
 // ----------------------------------------------------------------------

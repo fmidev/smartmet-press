@@ -1399,7 +1399,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 24.3.2009" << endl;       
+   *itsLogFile << "program version = Release 12.8.2009" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1539,6 +1539,7 @@ bool NFmiPressProduct::ReadData(void)
   iter.Reset();
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   short loop = 1;
+  bool errorWarning = false;
   while(nData)
 	{
 	  dataPtr = nData->GetData();
@@ -1588,6 +1589,7 @@ bool NFmiPressProduct::ReadData(void)
 		     ||dataFile.Header() == NFmiString("pal_uusin")) 
 			   && itsSeasonsStatus->editdata)
 		  {
+			  errorWarning = true;
 			  time_t fileTime, fileTimeRemote;
 			  std::string theFoundFileName, theFoundFileNameRemote;
 			  std::string path, pathRemote;
@@ -1669,11 +1671,16 @@ bool NFmiPressProduct::ReadData(void)
 	  //  k‰yet‰‰n nyt Vilin poikkeusmenettely‰
 	  // Yritet‰‰n sek‰ fqd-tiedostoa ett‰ sqd:t‰ ja kahdesta hakemistosta
 
-   if(loop < 3)
-   {
-	   NFmiTime time;
-	   *itsLogFile << "** ENNEN READ " << time << " **" << endl;
-   }
+      if(loop < 3)
+      {
+	      NFmiTime time;
+	      *itsLogFile << "** ENNEN READ " << time << " **" << endl;
+      }
+	  if(errorWarning)
+	  {
+		  *itsLogFile << "  Editoridataa aletaan lukea, onnistuuhan, jollei, tuhoa se" << endl;
+		  errorWarning = false;
+	  }
 	  if(!ReadQueryData(*data,dataFile))
 		{
 		  if(!twoOptinalTypes || !ReadQueryData(*data,dataFileSqd))
