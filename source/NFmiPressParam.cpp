@@ -551,8 +551,12 @@ bool NFmiPressParam::SetPrimaryData(const NFmiString & dataName)
 	  itsPrimaryDataName = dataName;
 	}
   else
-	itsPrimaryDataIter = 0;
-
+  {
+	  itsPrimaryDataIter = 0;
+	  *itsLogFile << "  *** ERROR: Primary data lost: "
+				  << static_cast<char *>(itsPrimaryDataName)
+				  << endl;
+  }
   return true;
 }
 
@@ -2501,8 +2505,11 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	  return true; //false lopettaa kaikki segmentit
 	}
   itsDataIter->First(); // ainakin level pitää asettaa nollaksi eikä -1:ksi
+  
   if(itsPrimaryDataIter)
+  {
 	  itsPrimaryDataIter->First();
+  }
 
   CreateAreaMask();
 
@@ -2575,11 +2582,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  bool timeFound = itsDataIter->Time(actTime);
 		  if(itsPrimaryDataIter)
 		  {
-			if(!itsPrimaryDataIter->Time(actTime))
-			{
+			if(itsPrimaryDataIter->Time(actTime))
+				primaryDataTimeOk = true;
+			else
 				primaryDataTimeOk = false;
-				//fPrimaryDataOk = false;
-			}
 		  }
 
  		  //if((itsDataIter->Time(actTime) || fStationNotNeeded) && !done)
@@ -2680,6 +2686,9 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 					 else
 						 fPrimaryDataOk = true;
 				 }
+				 else
+					fPrimaryDataOk = false;
+
 
 				 itsCurrentStation = NFmiStation(*statPoint.Station());
 				 if (FindQDStationName(statPoint) || fStationNotNeeded)
