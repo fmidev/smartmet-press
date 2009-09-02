@@ -55,7 +55,8 @@ enum NFmiPressDescriptionObjects
   dVersion = 2050,
   dSegmentMove,
   dDescSymbolSet,
-  dSymbolSizeFactor
+  dSymbolSizeFactor,
+  dStationNumberObject,
 };
 
 //! Undocumented

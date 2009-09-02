@@ -1156,6 +1156,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dStationNumberObject:
 		case dStationTextObject:
 		  {
 			if(!itsDataIter) // ilman data ei voi saada asemannimiä
@@ -1163,6 +1164,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				*itsLogFile << "*** ERROR: AsemanNimeä yritetty ilman dataa" << endl;
 			  }
 			NFmiPressStationText * text = new NFmiPressStationText;
+			if(itsIntObject == dStationNumberObject)
+				text->SetStationNumberMode();
             text->SetEnvironment(itsEnvironment);
 			text->SetHome(GetHome());
 			text->SetLogFile(itsLogFile);
@@ -2225,6 +2228,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#asemannimi") ||
 		  lowChar==NFmiString("#asemanimi"))
 	return dStationTextObject;
+  
+  else if(lowChar==NFmiString("#stationnumber") ||
+		  lowChar==NFmiString("#asemannumero"))
+	return dStationNumberObject;
 
   else if(lowChar==NFmiString("datanotneeded") ||
 		  lowChar==NFmiString("eidataa"))

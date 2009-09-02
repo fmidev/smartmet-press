@@ -53,11 +53,14 @@ public:
   virtual bool WritePS(FmiPressOutputMode theOutput);
   NFmiString StationName(void);
   virtual unsigned long ClassId(void);
+  void SetStationNumberMode(void);
 		
 protected:
 
   NFmiVoidPtrList * itsNewNames;
   NFmiPressParam * itsPressParam;
+private:
+  bool fStationNumberMode;
 
 }; // class NFmiPressStationText
 
@@ -73,7 +76,22 @@ NFmiPressStationText::NFmiPressStationText(void)
   : NFmiPressText()
   , NFmiPressDataObject()
   , itsNewNames(0)
+  , fStationNumberMode(false)
 {
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theNames Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressStationText::SetStationNumberMode(void)
+{
+  fStationNumberMode=true;
 }
 
 // ----------------------------------------------------------------------
@@ -89,7 +107,6 @@ void NFmiPressStationText::SetNewNames(NFmiVoidPtrList * theNames)
 {
   itsNewNames=theNames;
 }
-
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
