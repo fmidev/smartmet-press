@@ -355,6 +355,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
 							 unsigned short theMaxLoopNum)
   : NFmiRect(theRect)
   , fModifierUsed(false)
+  , itsInterval2NumberMin(kFloatMissing)
   , itsValueIntervalMin(kFloatMissing)
   , fAllowMissing(false)
   , fUseFromStorage(false)
