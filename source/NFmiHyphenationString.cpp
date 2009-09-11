@@ -230,6 +230,57 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMa
  */
 // ----------------------------------------------------------------------
 
+NFmiString NFmiHyphenationString::DeleteShortSyllables(const char * theHyphenationMark)
+{
+  NFmiString newString;
+  ResetPosition();
+  while(NextChar(theHyphenationMark))
+	{
+	  newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
+      if(itsCurrentCharPos <= 4  ||
+		 IsPunctuation(itsCurrentCharPos-3) || IsPunctuation(itsCurrentCharPos-4) ||
+		 IsPunctuation(itsCurrentCharPos+3) || IsPunctuation(itsCurrentCharPos+4) ||
+		 GetLen()-itsCurrentCharPos <= 4)
+	  {
+         itsLastCharPosition = itsCurrentCharPos+1;	 	  
+	  }
+	  else
+	  {
+         itsLastCharPosition = itsCurrentCharPos;	 	  
+	  }
+  }
+  if (GetLen() - itsLastCharPosition > 0)
+	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition+1);
+
+  return newString; 
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theHyphenationMark Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+bool NFmiHyphenationString::IsPunctuation(unsigned short theChar)
+{
+	return GetChars(theChar, 1) == NFmiString(" ") ||
+           GetChars(theChar, 1) == NFmiString(",") ||
+		   GetChars(theChar, 1) == NFmiString(".") ||
+		   GetChars(theChar, 1) == NFmiString("-") ||
+		   GetChars(theChar, 1) == NFmiString(":");
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theHyphenationMark Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
 NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 {
   NFmiString newString;
@@ -251,6 +302,12 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 			IsConsonant(GetChars(itsCurrentCharPos-2, 1)))
 		 &&
 		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("-") && //muuten tuplana jaettaessa
+		 GetChars(itsCurrentCharPos+3, 1) != NFmiString('\r') && //omalle riville väh. 8 merkki
+		 GetChars(itsCurrentCharPos+4, 1) != NFmiString('\r') && 
+		 GetChars(itsCurrentCharPos+5, 1) != NFmiString('\r') && 
+		 GetChars(itsCurrentCharPos+6, 1) != NFmiString('\r') && 
+		 GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r') && 
+
 //		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki, tarvitaanko
 		 IsVowel(GetChars(itsCurrentCharPos, 1)))
 		{
@@ -259,6 +316,7 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 	  itsLastCharPosition = --itsCurrentCharPos;
 	  
 	}
+
   if (GetLen() - itsLastCharPosition > 0)
 	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition);
 
@@ -375,6 +433,25 @@ bool NFmiHyphenationString::NextChar(const NFmiString & theChar)
   return false;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theChar Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+/*
+bool NFmiHyphenationString::PreviousChar(const NFmiString & theChar)
+{
+  while(BackPosition())
+	{
+	  if(GetChars(itsCurrentCharPos, 1) == theChar)
+		return true;
+	}
+  return false;
+}
+*/
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

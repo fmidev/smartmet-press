@@ -84,7 +84,8 @@ public:
   void SetCV(bool theCV);
   bool GetCV(void)const;
   NFmiPoint GetSegmentMove(void)const;
-
+  void AvoidOrphanSyllables(bool theMode);
+  bool AvoidOrphanSyllables(void) const;
 private:
 
   unsigned long itsMaskNumber;
@@ -98,6 +99,7 @@ private:
   NFmiString itsSymbolSet;
   float itsSymbolSizeFactor;
   bool fCV;
+  bool fAvoidOrphanSyllables;
 
 }; // class NFmiPressEnvironment
 
@@ -131,6 +133,28 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
 	itsSegmentMove = NFmiPoint(0.,0.);
 	itsSymbolSet = NFmiString("Kymi");
 	itsSymbolSizeFactor = 1.;
+	fAvoidOrphanSyllables = false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressEnvironment::AvoidOrphanSyllables(bool theMode)
+{
+  fAvoidOrphanSyllables = theMode;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressEnvironment::AvoidOrphanSyllables(void)const
+{
+  return fAvoidOrphanSyllables;
 }
 // ----------------------------------------------------------------------
 /*!

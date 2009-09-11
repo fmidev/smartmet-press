@@ -57,6 +57,7 @@ enum NFmiPressDescriptionObjects
   dDescSymbolSet,
   dSymbolSizeFactor,
   dStationNumberObject,
+  dAvoidOrphanSyllables
 };
 
 //! Undocumented

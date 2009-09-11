@@ -233,6 +233,13 @@ bool NFmiPressDescription::ReadRemaining(void)
  
 			break;
 	  }
+	 case dAvoidOrphanSyllables:
+	  {
+			itsEnvironment.AvoidOrphanSyllables(true);
+ 		    ReadNext();
+
+			break;
+	  }
 	}
   }
   return true;
@@ -362,6 +369,9 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
    else if(lowChar==NFmiString("segmentmove") ||
 		  lowChar==NFmiString("segmentinsiirto"))
 	return dSegmentMove;
+   else if(lowChar==NFmiString("avoidorphansyllables") ||
+		  lowChar==NFmiString("vältäorpotavuja"))
+	return dAvoidOrphanSyllables;
 else
 	return NFmiDescription :: ConvertDefText(object);
 }

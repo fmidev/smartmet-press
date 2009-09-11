@@ -38,6 +38,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOther
   , itsSymbolSet(theOtherEnvironment.itsSymbolSet)
   , itsSymbolSizeFactor(theOtherEnvironment.itsSymbolSizeFactor)
   , fCV(theOtherEnvironment.fCV)
+  , fAvoidOrphanSyllables(theOtherEnvironment.fAvoidOrphanSyllables)
 {
 }
 

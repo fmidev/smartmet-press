@@ -977,6 +977,9 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  text += NFmiString(" ");
 		  hypString = NFmiHyphenationString(text);
 		  helpString = hypString.CreateHyphens("~");
+		  if(itsEnvironment.AvoidOrphanSyllables())
+			helpString = helpString.DeleteShortSyllables("~");
+
 		  text = helpString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illussa "-" ei mene läpi ??
 		}
 
@@ -1137,7 +1140,9 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 
 				    hypString += NFmiString(" ");  //tarvitaan ekstra merkki??
 					helpString = hypString.CreateHyphens("~");
-					                 
+					if(itsEnvironment.AvoidOrphanSyllables())
+						helpString = helpString.DeleteShortSyllables("~");
+				                 
 					if(!fCV)   // Illu8:ssa "-" ei mene läpi ??
 						helpString = helpString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); 
 					*itsOutFile << "(" << static_cast<char *>(helpString) << ") Paragraph" << endl;
