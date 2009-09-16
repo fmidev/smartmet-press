@@ -1,14 +1,14 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 9.4.9
-Release: 2.el5.fmi
+Version: 9.9.16
+Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 9.4.6-1
+BuildRequires: libsmartmet-newbase >= 9.7.14-1
 Provides: qdpress
 
 %description
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Sep 16 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.9.16-1.el5.fmi
+- Various improvements to hyphenation etc
 * Thu Apr  9 2009 oksman <santeri.oksman@fmi.fi> - 9.4.9-2.el5.fmi
 - Bug fix to former zero values bug fix.
 * Thu Apr  9 2009 oksman <santeri.oksman@fmi.fi> - 9.4.9-1.el5.fmi
