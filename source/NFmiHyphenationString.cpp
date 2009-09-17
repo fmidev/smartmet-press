@@ -160,11 +160,10 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMa
   if(!fIrregularHyphensInited)
 		InitIrregularHyphens();
 
-  std::string stdString(*this);
-  
-  //unsigned long posText = 0;
+  std::string stdString(*this); 
   unsigned long posChar = 0;
-  //unsigned long posCharNot = 0;
+  unsigned long posReturn = 0;
+  unsigned long posLast = 0;
   std::string hyphWord, word; 
   std::vector<std::string>::iterator posWord;
   for(posWord=itsIrregularHyphens.begin(); posWord != itsIrregularHyphens.end(); ++posWord)
@@ -187,8 +186,18 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMa
   		posChar = stdString.find(word);
  		while(posChar!= string::npos)
 		{
-            stdString.replace(posChar,word.size(),hyphWord);
-			posChar = stdString.find(word);
+			posLast = posChar;
+	//       avoid very short orphane text fragments  
+			posReturn = stdString.find('\r', posChar);
+			int len = stdString.length();
+			int len2 = word.length();
+			if (!(len-posChar-len2 < 6 || posReturn != string::npos && posReturn-posChar-len2 < 6))
+	//		if(posReturn != string::npos && posReturn-posChar > 11 
+	//			          && stdString.length()-posChar > 11)
+			{
+				stdString.replace(posChar,word.size(),hyphWord);
+			}
+			posChar = stdString.find(word, posLast+1);
 		}
 		//same for starting upper case
 		//toupper do not function with skandinavian chars
@@ -212,10 +221,17 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMa
  		posChar = stdString.find(word);
  		while(posChar!= string::npos)
 		{
-            stdString.replace(posChar,word.size(),hyphWord);
-			posChar = stdString.find(word);
-			word[0] = toupper(word[0]);
- 		    hyphWord[0] = toupper(hyphWord[0]);
+			posLast = posChar;
+	//       avoid very short orphane text fragments  
+ 			int len = stdString.length();
+			int len2 = word.length();
+			if (!(len-posChar-len2 < 6 || posReturn != string::npos && posReturn-posChar-len2 < 6))
+			{
+				stdString.replace(posChar,word.size(),hyphWord);
+				word[0] = toupper(word[0]);
+ 				hyphWord[0] = toupper(hyphWord[0]);
+			}
+			posChar = stdString.find(word, posLast+1);
 		}
 	}
     NFmiString fmiString(stdString);
@@ -306,7 +322,8 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 		 GetChars(itsCurrentCharPos+4, 1) != NFmiString('\r') && 
 		 GetChars(itsCurrentCharPos+5, 1) != NFmiString('\r') && 
 		 GetChars(itsCurrentCharPos+6, 1) != NFmiString('\r') && 
-		 GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r') && 
+		 GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r') &&
+		 //itsCurrentCharPos < GetLen()-6   &&
 
 //		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki, tarvitaanko
 		 IsVowel(GetChars(itsCurrentCharPos, 1)))

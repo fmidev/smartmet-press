@@ -370,7 +370,8 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("segmentinsiirto"))
 	return dSegmentMove;
    else if(lowChar==NFmiString("avoidorphansyllables") ||
-		  lowChar==NFmiString("vältäorpotavuja"))
+		  lowChar==NFmiString("vältäorpotavuja") ||
+		  lowChar==NFmiString("vältäorpojatavuja"))
 	return dAvoidOrphanSyllables;
 else
 	return NFmiDescription :: ConvertDefText(object);
