@@ -106,6 +106,15 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("pakkas-aste");
   itsIrregularHyphens.push_back("lämpö-aste");
   itsIrregularHyphens.push_back("pää-osin");
+  itsIrregularHyphens.push_back("pakkas-aamu");
+  itsIrregularHyphens.push_back("pakkas-yö");
+  itsIrregularHyphens.push_back("halla-yö");
+  itsIrregularHyphens.push_back("tai-yö");
+  itsIrregularHyphens.push_back("tai-aamu");
+  itsIrregularHyphens.push_back("tai-il");  //ilta, illalla
+  itsIrregularHyphens.push_back("huomis-aamu");
+  itsIrregularHyphens.push_back("huomis-il");
+  itsIrregularHyphens.push_back("huomis-yö");
 
   itsIrregularHyphens.push_back("syd-ost");
   itsIrregularHyphens.push_back("syd-östra");

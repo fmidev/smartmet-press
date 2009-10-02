@@ -50,6 +50,7 @@ inline
 NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(void)
   : NFmiTimeParamRect()						
 {
+	fUseSelectLatinFont = true;
 }
 
 
