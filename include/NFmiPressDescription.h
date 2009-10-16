@@ -177,8 +177,18 @@ inline
 NFmiPressDescription::NFmiPressDescription(const NFmiPressDescription & theD)
     : NFmiDescription(theD.GetLogFile(),theD.GetMaxLoopNum())
 	, itsEnvironment(theD.itsEnvironment)
+	, itsHomePath(theD.itsHomePath)
+	, itsProductName(theD.itsProductName)
+	, itsCnfPath(theD.itsCnfPath)
+	, itsTmpPath(theD.itsTmpPath)
+	, itsSymbolCachePath(theD.itsSymbolCachePath)
+	, itsIncPath(theD.itsIncPath)
+	, itsDataPath(theD.itsDataPath)
+	, itsOutPath(theD.itsOutPath)
+	, itsLogPath(theD.itsLogPath)
+	, itsLanguage(theD.itsLanguage)
+	, fOnlyForMissingPrecedingElement(false)
 {
-	fOnlyForMissingPrecedingElement= false;
 }
 
 // ----------------------------------------------------------------------
