@@ -32,6 +32,8 @@
 // newbase
 #include "NFmiDataIdent.h"
 #include "NFmiSuperSmartInfo.h"
+// system
+#include <vector>
 
 class _FMI_DLL NFmiPressParam;
 class _FMI_DLL NFmiPressProduct;
@@ -86,7 +88,7 @@ enum NFmiParamRectObjects
   dExtremePlotting,
   dTempMaxCorrection,
   dTempMinCorrection,
-  dUseBackupTime,
+  dUseBackupTime
 };
 
 //! Undocumented
@@ -239,7 +241,7 @@ protected:
   // yhteinen symbolille ja letterille vaikka tav mappi ilmeisesti erikseen
   NFmiMultiParamMapping * itsMultiMapping;
 
-  float * itsCurrentParamArray;   
+  std::vector<float> itsCurrentParamArray;   
   FmiParameterName * itsMultiParams;
   long itsFirstExtremRelHour;
   long itsLastExtremRelHour;  
@@ -404,11 +406,11 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , itsMinText(NFmiString("None"))
   , fTempMaxCorrection(false)
   , fTempMinCorrection(false)
-  , itsDataIdent(theParam)
   , fUseBackupTime(false)
   , fUseBackupTimeForward(false)
   , fBackupReported(false)
   , fBackupDayForThisPar(false)
+  , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
