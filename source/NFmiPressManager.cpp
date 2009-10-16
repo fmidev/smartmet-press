@@ -38,10 +38,10 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 //   itsInFileName = inputFileName.Header(); //27.8.02 skriptistä kun kutsutaan tulee muuten koko polku
 
    NFmiFileString tempInput;
+#ifndef UNIX
    tempInput = GetHome();
    tempInput += kFmiDirectorySeparator;
    tempInput += NFmiString("Temp");
-#ifndef UNIX
    char * env = getenv("lehtiTempDir");
    if(env != 0)
 	 tempInput = static_cast<NFmiString>(env);
@@ -49,6 +49,7 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
    tempInput = getTmpPath();
    tempInput += kFmiDirectorySeparator;
    tempInput += getProductName();
+
 #endif
    tempInput += kFmiDirectorySeparator;
 
@@ -69,10 +70,11 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString& inputFile)
 	  *itsLogFile << "***ERROR: PROGRAM INTERRUPTED, see above" << endl;
 	  return false;
 	}
-    delete itsDescriptionFile;
-    itsDescriptionFile = new ifstream(tempInput, ios::in);
+
+   delete itsDescriptionFile;
+   itsDescriptionFile = new ifstream(tempInput, ios::in);
 	
-	return true;
+   return true;
 }
 
 // ----------------------------------------------------------------------
@@ -94,7 +96,12 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   unsigned long uLong;
   double lon, lat;
   NFmiString helpString;
-  itsLogFile = thePressProduct.GetLogFile();
+
+  itsLogFile  = thePressProduct.GetLogFile();
+
+  itsHomePath = thePressProduct.GetHome();
+  itsTmpPath  = thePressProduct.getTmpPath();
+
   FmiPressOutputMode outMode = theOutMode;
   FmiEnumSpace helpEnumSpace = kPressRegions;
 
@@ -118,6 +125,16 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 	  delete itsDescriptionFile;
 
   itsDescriptionFile = new ifstream(inputFileName, ios::in);
+  if(!itsDescriptionFile)
+	{
+	  if(itsLogFile)
+		*itsLogFile << "tiedoston avaaminen ei onnistunut: '"
+					<< inputFileName
+					<< "'"
+					<< endl;
+	  return false;
+	}
+
   if(!itsDescriptionFile->good() || itsDescriptionFile->eof())
 	{
 	  if(itsLogFile)
@@ -138,6 +155,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
+
   itsIntObject = ConvertDefText(itsString);
 
   bool changed = true; //sallitaan aloitus suoraan TeeTuotteesta
