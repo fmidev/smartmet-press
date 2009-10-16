@@ -66,7 +66,7 @@ class _FMI_DLL NFmiPressText : public NFmiPressScaling
 public:
 
   virtual ~NFmiPressText(void);
-  NFmiPressText(void);
+  NFmiPressText();
   NFmiPressText(const NFmiPressText & theTextParamRect); 
 
   virtual bool ReadDescription(NFmiString & retString);
@@ -143,12 +143,14 @@ protected:
 // ----------------------------------------------------------------------
 
 inline
-NFmiPressText::NFmiPressText(void)
+NFmiPressText::NFmiPressText()
   : NFmiPressScaling()
   , itsLastLineStep(0.)
   , itsLineStep(0.)
   , itsLineStepFactor(0.)
   , itsTopMargin(-1000.)
+  , itsRightMargin(0)
+  , itsLeftMargin(0)
   , itsIndent(0.)
   , fRightJustification(true)
   , fLoopErrorReported(false)
