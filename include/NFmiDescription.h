@@ -55,7 +55,7 @@ class _FMI_DLL NFmiDescription
 public:
 
   virtual ~NFmiDescription(void);
-  NFmiDescription(void);
+  NFmiDescription();
   NFmiDescription(std::ofstream * theLogFile, unsigned short theMaxLoopNum);
   NFmiDescription(const NFmiDescription & theD);
 
@@ -476,13 +476,17 @@ NFmiDescription::~NFmiDescription(void)
 // ----------------------------------------------------------------------
 
 inline
-NFmiDescription::NFmiDescription(void)
+NFmiDescription::NFmiDescription()
+  : itsLogFile(0)
+  , itsDescriptionFile(0)
+  , itsLoopNum(0)
+  , itsMaxLoopNum(4000)
+  , itsIntObject(0)
+  , itsValueHelpString()
+  , itsString()
+  , itsCommentLevel(0)
 {
-  itsCommentLevel=0;
-  itsLoopNum = 0;
-  itsMaxLoopNum = 4000;
-  itsLogFile = 0;
-  itsDescriptionFile = 0;
+  itsObject[0] = '\0';
 }
 
 // ----------------------------------------------------------------------
