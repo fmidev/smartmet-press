@@ -47,7 +47,6 @@ NFmiParamRect::~NFmiParamRect(void)
 {
   if(itsMultiMapping)
 	{
-	  delete [] itsCurrentParamArray;
 	  delete [] itsMultiParams;
 	  delete itsMultiMapping;
 	}
@@ -122,21 +121,21 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , itsMinText(theRect.itsMinText)
   , fTempMaxCorrection(theRect.fTempMaxCorrection)
   , fTempMinCorrection(theRect.fTempMinCorrection)
-  , itsDataIdent(theRect.itsDataIdent)
   , fUseBackupTime(theRect.fUseBackupTime)
   , fUseBackupTimeForward(theRect.fUseBackupTimeForward)
   , fBackupReported(theRect.fBackupReported)
   , fBackupDayForThisPar(theRect.fBackupDayForThisPar)
-
+  , itsDataIdent(theRect.itsDataIdent)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
 	{
 	  itsMultiMapping = new NFmiMultiParamMapping(*theRect.itsMultiMapping);
 	  //vikaa ei arvoille tarvita
-	  itsCurrentParamArray = new float[FmiMaxNumOfMappingParams+1];
+	  itsCurrentParamArray.resize(FmiMaxNumOfMappingParams+1,0);
 	  itsMultiParams = new FmiParameterName[FmiMaxNumOfMappingParams+1];
-	  for (int i=0;i<=FmiMaxNumOfMappingParams;i++)
+
+	  for (unsigned int i=0; i<itsCurrentParamArray.size();i++)
 		{
 		  itsCurrentParamArray[i] = theRect.itsCurrentParamArray[i];
 		  itsMultiParams[i] = theRect.itsMultiParams[i];
@@ -316,7 +315,7 @@ bool NFmiParamRect::ReadRemaining(void)
 		
 		itsMultiMapping = new NFmiMultiParamMapping;
 		itsMultiParams = new FmiParameterName[FmiMaxNumOfMappingParams+1];
-		itsCurrentParamArray = new float[FmiMaxNumOfMappingParams];
+		itsCurrentParamArray.resize(FmiMaxNumOfMappingParams+1,0);
 		
 		int i;
 		for(i=0; i<=FmiMaxNumOfMappingParams; i++)
