@@ -86,6 +86,8 @@ public:
   NFmiPoint GetSegmentMove(void)const;
   void AvoidOrphanSyllables(bool theMode);
   bool AvoidOrphanSyllables(void) const;
+  void UseBackupPreviousDay(bool theMode);
+  bool UseBackupPreviousDay(void)const;
 private:
 
   unsigned long itsMaskNumber;
@@ -100,7 +102,7 @@ private:
   float itsSymbolSizeFactor;
   bool fCV;
   bool fAvoidOrphanSyllables;
-
+  bool fUseBackupPreviousDay;
 }; // class NFmiPressEnvironment
 
 // ----------------------------------------------------------------------
@@ -134,6 +136,28 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
 	itsSymbolSet = NFmiString("Kymi");
 	itsSymbolSizeFactor = 1.;
 	fAvoidOrphanSyllables = false;
+	fUseBackupPreviousDay = false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressEnvironment::UseBackupPreviousDay(bool theMode)
+{
+  fUseBackupPreviousDay = theMode;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressEnvironment::UseBackupPreviousDay(void)const
+{
+  return fUseBackupPreviousDay;
 }
 // ----------------------------------------------------------------------
 /*!

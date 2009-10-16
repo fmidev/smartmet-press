@@ -30,6 +30,7 @@
 #include "NFmiInfoAreaMask.h"
 #include "NFmiQueryData.h"
 #include "NFmiRectScale.h"
+//#include "NFmiText.h"
 
 //#include <vector>
 #include <list>
@@ -82,7 +83,9 @@ enum NFmiPressParamObjects
   dSegmentNameDay,
   dBackupStation,
   dDataCoordinatesMoved,
-  dStationNamesAfterParams= 5040
+  dStationNamesAfterParams= 5040,
+  dDayChangeText,
+  dOptimizeGlobalObs
 };
 
 struct FmiValuePoint
@@ -190,7 +193,11 @@ public:
   void AddPrimaryDataNum(void);
   bool PrimaryDataOk(void) const;
   bool HasPrimaryData(void) const;
-
+  bool AddNumberOfBackupTimeUsed(void);
+  void SetDayChanged(void);
+  bool IsOptimizeGlobalObs(void) const;
+  void SetBackupDayReported(void);
+  bool IsBackupDayReported(void)const;
 protected:
 
   void UnsetAllErrorReported(void);
@@ -264,6 +271,10 @@ protected:
   bool fStationNamesAfterParams;
   unsigned long itsPrimaryDataNum;
   bool fPrimaryDataOk;
+  NFmiPressText* itsDayChangeText;
+  bool fDayChanged;
+  bool fOptimizeGlobalObs;
+  bool fBackupDayReported;
 }; // class NFmiPressParam
 
 // ----------------------------------------------------------------------
@@ -287,7 +298,9 @@ NFmiPressParam::~NFmiPressParam (void)
   if(itsAreaMask)
 	delete itsAreaMask;  
   if(itsOptionLocation)
-	delete itsOptionLocation;  
+	delete itsOptionLocation;
+  if(itsDayChangeText)
+	  delete itsDayChangeText;
 }
 
 // ----------------------------------------------------------------------
@@ -323,6 +336,10 @@ NFmiPressParam::NFmiPressParam(void)
   , fStationNamesAfterParams(false)
   , itsPrimaryDataNum(0)
   , fPrimaryDataOk(true)
+  , itsDayChangeText(0)
+  , fDayChanged(false)
+  , fOptimizeGlobalObs(false)
+  , fBackupDayReported(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -377,11 +394,56 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fStationNamesAfterParams(false)
   , itsPrimaryDataNum(0)
   , fPrimaryDataOk(true)
+  , itsDayChangeText(0)
+  , fDayChanged(false)
+  , fOptimizeGlobalObs(false)
+  , fBackupDayReported(false)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
+}  
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressParam::SetBackupDayReported(void)
+{
+  fBackupDayReported = true;
 }
- // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+bool NFmiPressParam::IsBackupDayReported(void)const
+{
+  return fBackupDayReported;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+bool NFmiPressParam::IsOptimizeGlobalObs(void)const
+{
+  return fOptimizeGlobalObs;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressParam::SetDayChanged(void)
+{
+  fDayChanged = true;
+}
+// ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
@@ -393,7 +455,7 @@ bool NFmiPressParam::PrimaryDataOk(void) const
 }
 // ----------------------------------------------------------------------
 /*!
- * Undocumented
+ * Undocumented  
  */
 // ----------------------------------------------------------------------
 inline

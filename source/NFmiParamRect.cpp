@@ -123,6 +123,10 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fTempMaxCorrection(theRect.fTempMaxCorrection)
   , fTempMinCorrection(theRect.fTempMinCorrection)
   , itsDataIdent(theRect.itsDataIdent)
+  , fUseBackupTime(theRect.fUseBackupTime)
+  , fUseBackupTimeForward(theRect.fUseBackupTimeForward)
+  , fBackupReported(theRect.fBackupReported)
+  , fBackupDayForThisPar(theRect.fBackupDayForThisPar)
 
 {
   SetEnvironment(theRect.GetEnvironment());
@@ -785,6 +789,13 @@ bool NFmiParamRect::ReadRemaining(void)
 
 			break;
 	  }
+	 case dUseBackupTime:
+	 {
+			fUseBackupTime = true;
+ 			ReadNext();
+			break;
+	 }
+
 	default:
 	  {
 		return NFmiPressTimeDescription::ReadRemaining();
@@ -1038,6 +1049,10 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
           lowChar==NFmiString("korjaaminimit"))
 	return dTempMinCorrection;
 
+  else if(lowChar==NFmiString("usebackuptime") ||
+          lowChar==NFmiString("käytävaraaikaa"))
+	return dUseBackupTime;
+  
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
 }
@@ -1183,6 +1198,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 	}
   // muualla ei enää kosketa QInfon aikaan
 
+  NFmiMetTime oldTime = itsCurrentTime;
   if(!theQueryInfo->TimeToNearestStep(itsCurrentTime,kCenter,theQueryInfo->TimeResolution()/2))
 	{
 	   // tänne joudutaan jos piirtoelementissä muutetaan olemattomaan aikaan
@@ -1195,7 +1211,43 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 		  fTimeErrorReported = true;
 		}
 	}
-  
+  NFmiMetTime newTime = theQueryInfo->Time();
+
+  NFmiMetTime nowMet;
+  NFmiTime now;
+  nowMet.SetMin(now.GetMin());
+  long timeDiffNow = nowMet.DifferenceInMinutes(newTime); 
+  if(timeDiffNow < 30 && itsEnvironment.UseBackupPreviousDay()) //30 min before data begins to arrive
+  {
+	    itsPressParam ->SetDayChanged();
+        NFmiMetTime newDay = newTime;
+        newDay.ChangeByDays(-1);
+		itsCurrentTime = newDay;
+		itsFirstPlotTime.ChangeByDays(-1);
+        fBackupDayForThisPar = true;
+        if(!itsPressParam->IsBackupDayReported())
+		{
+			*itsLogFile << "  BACKUP DAY used: Station=" << 
+					static_cast<char *>(theQueryInfo->Location()->GetName()) <<
+					"; par=" << theQueryInfo->Param().GetParamIdent() << "; " <<
+					static_cast<char *>(oldTime.ToStr("DD.MM.YYYY HH")) << "utc -> " <<
+					static_cast<char *>(newDay.ToStr("DD.MM.YYYY HH")) << "utc" << endl;
+			itsPressParam->SetBackupDayReported();
+		}
+		if(!theQueryInfo->Time(newDay))
+		{
+			*itsLogFile << "  *** ERROR: Changing of data day failed" << endl;
+		}
+		
+  }
+/*  else if(fDayChangeMark)
+  {
+		return false;
+  }
+*/
+  long timeDiff = newTime.DifferenceInHours(oldTime);
+  fUseBackupTimeForward = timeDiff < 0;   //save in case of using backup times for missing values
+
   if(itsPressParam->IsFirstStation() &&
 	 !(itsMultiMapping && itsCurrentMultiParNum > 1) &&
 	 itsPressParam->IsStationLocalTimeMode())
@@ -1218,7 +1270,8 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 					  << endl;
 		}
 	  *itsLogFile << "      ->lähin data-aika= "
-				  << (static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time()
+				  << static_cast<char *>((static_cast<NFmiFastQueryInfo *>(theQueryInfo))
+				                          ->Time().ToStr("DD.MM.YYYY HH"))
 				  << " utc"
 				  << endl;
 	}
@@ -1463,6 +1516,11 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	{
 	  firstTime = CalculatePeriodTime(itsFirstExtremHour);
 	  lastTime = CalculatePeriodTime(itsLastExtremHour);
+	  if(fBackupDayForThisPar)
+	  {
+		  firstTime.ChangeByDays(-1);
+		  lastTime.ChangeByDays(-1);
+	  }
 	  period = lastTime.DifferenceInHours(firstTime);
 	  
 	  if(itsFirstExtremYear != kLongMissing)
@@ -1874,6 +1932,45 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	}
   }
  */
+
+  //often observations are not available for actual time, then you may have permission
+  // to use the next nearest time  
+  if(fUseBackupTime && value == kFloatMissing)
+  {
+    NFmiMetTime actualTime, newTime; //for the log
+	NFmiString status("  value now ok");
+    actualTime = theQueryInfo->Time();
+	fUseBackupTimeForward ? theQueryInfo->NextTime() : theQueryInfo->PreviousTime();
+    newTime = theQueryInfo->Time();
+	value = theQueryInfo->FloatValue();   
+	fUseBackupTimeForward ? theQueryInfo->PreviousTime() : theQueryInfo->NextTime();
+	if(value == kFloatMissing)
+		status = (" still missing");
+	if(!fBackupReported)
+	{
+	       *itsLogFile << "  Backup time used: Station=" << 
+                static_cast<char *>(theQueryInfo->Location()->GetName()) <<
+				"; par=" << theQueryInfo->Param().GetParamIdent() << "; " <<
+				static_cast<char *>(actualTime.ToStr("DD.MM.YYYY HH")) << "utc -> " <<
+				static_cast<char *>(newTime.ToStr("DD.MM.YYYY HH")) << "utc" << 
+				static_cast<char *>(status) << endl;
+		   fBackupReported = true;
+	}
+
+	/*
+	//still missing, then go the other direction although longer (Western Europe today)!
+	if(value == kFloatMissing)
+	{
+	    *itsLogFile << "BACKUPTIMESECOND "<< fUseBackupTimeForward  << endl;
+        *itsLogFile << "  time is "<< theQueryInfo->Time()  << endl;
+	    fUseBackupTimeForward ? theQueryInfo->PreviousTime() : theQueryInfo->NextTi3me();
+        *itsLogFile << "  new time "<< theQueryInfo->Time()  << endl;
+		value = theQueryInfo->FloatValue();   
+		fUseBackupTimeForward ? theQueryInfo->NextTime() : theQueryInfo->PreviousTime();
+	}
+   */
+  }
+
  //tämä taas toimii ok tiehallinnon kanssa mutta tuottaa turhia varoituksi käyttämättömistä varastoarvoista
   if(fUseFromStorageConditionally && value == kFloatMissing)  //4.10.01 olkoon ainoa ehto nyt aluksi että arvo puuttuu
 	{

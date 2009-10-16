@@ -240,6 +240,12 @@ bool NFmiPressDescription::ReadRemaining(void)
 
 			break;
 	  }
+	 case dUseBackupPreviousDay:
+	 {
+			itsEnvironment.UseBackupPreviousDay(true);
+ 			ReadNext();
+			break;
+	 }
 	}
   }
   return true;
@@ -373,6 +379,10 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("vältäorpotavuja") ||
 		  lowChar==NFmiString("vältäorpojatavuja"))
 	return dAvoidOrphanSyllables;
+    
+    else if(lowChar==NFmiString("usebackuppreviousday") ||
+          lowChar==NFmiString("käytäeilistätarvittaessa"))
+	return dUseBackupPreviousDay;
 else
 	return NFmiDescription :: ConvertDefText(object);
 }

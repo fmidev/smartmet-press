@@ -700,6 +700,7 @@ bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
 								*itsOutFile,
 								theOutput);
 	}
+
   itsQueryDataIter->Time(currentSegmentTime);
   return true;
 }

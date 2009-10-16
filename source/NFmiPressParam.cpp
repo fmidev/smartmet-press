@@ -2086,6 +2086,40 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  ReadNext();
 		  break;
 		}
+		case dDayChangeText:
+		{
+			itsDayChangeText = new NFmiPressText;
+            itsDayChangeText->SetEnvironment(itsEnvironment);
+			itsDayChangeText->SetHome(GetHome());
+			itsDayChangeText->SetLogFile(itsLogFile);
+			itsDayChangeText->SetDescriptionFile(itsDescriptionFile);
+			itsDayChangeText->SetLanguage(itsLanguage);
+			itsDayChangeText->Place(firstUnscaledPoint);
+			// tarvitaankohan
+			//point1 = itsCurrentStationScale.Scale(text->Place());
+			//text->Place(point1);
+
+			if(itsDayChangeText->ReadDescription(itsString))
+			  {
+				// PITÄISI KAI OLLA VAIN OPTIO, SAMOIN MUILLA JA AIKALUUPILLA
+				//point1 = itsCurrentStationScale.Scale(text->Place());
+				//text->Place(point1);
+			  }
+			else
+			  delete itsDayChangeText;
+
+			itsIntObject = ConvertDefText(itsString);
+			break;
+		}
+		case dOptimizeGlobalObs:
+		{
+		  fOptimizeGlobalObs = true; 
+		  fStationsAreLocalTime = true;
+		  itsEnvironment.UseBackupPreviousDay(true);
+
+		  ReadNext();
+		  break;
+		}
 		default:
 		  {
 			ReadRemaining();
@@ -2423,8 +2457,16 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("asemannimetparametrienjälkeen") ||
 		  lowChar==NFmiString("asemanimetparametrienjälkeen"))
 	return dStationNamesAfterParams;
+  
+  else if(lowChar==NFmiString("#daychangetext") ||
+	      lowChar==NFmiString("#päivänvaihtoteksti"))
+	return dDayChangeText;
+  
+  else if(lowChar==NFmiString("optimizeglobalobs") ||
+	      lowChar==NFmiString("optimoimaailmahavainnot"))
+	return dOptimizeGlobalObs;
 
-  else
+  else 
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }
 
@@ -2650,6 +2692,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		 itsCurrentStationIndex = 0;
 	     while(itsStations.Next())
 		   {
+			 fBackupDayReported = false;
+		     fDayChanged = false;
 			 statAll++;
 			 itsCurrentStationIndex++;
 
@@ -2748,12 +2792,36 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 						   *itsLogFile << "*** ERROR: Aseman piirto ei onnistunut: " << endl;
 						 return false;
 					   }
-							 if(itsCurrentStep == 1 && !fCurrentStationBackup 
+
+					  // ********* PäivänVaihtoTeksti 
+
+					  if(itsDayChangeText && fDayChanged)
+					  {
+						     NFmiPoint unScaledPoint = itsScale.UnScale(stationPoint);
+							 //NFmiPoint savePlace = itsDayChangeText->Place(); //tarvitaanko tähän, otin vaan asematekstistä
+							 itsDayChangeText->Place(unScaledPoint + itsDayChangeText->GetMovePlace());
+							 itsDayChangeText->Set(itsScale, theFile);
+							 itsDayChangeText->SetRotatingPoint(itsDayChangeText->Place());
+
+							 if(!(itsDayChangeText->WritePS(theOutput)))
+							 {
+								  *itsLogFile << "*** ERROR: DayChangeText->WritePS() in NFmiPressParam" << endl;
+								  return false;
+							 }
+	
+						 	 if(theOutput == kPostScript)
+								itsDayChangeText->WriteGRestore();
+							 //itsDayChangeText->Place(savePlace); // jotta toimisi seuraavalle writePs-käskylle
+					   }
+ 
+					   if(itsCurrentStep == 1 && !fCurrentStationBackup 
 						 && IsStationNamesAfterParams())
 					   {
-						// ********* AsemaSidotutObjektit parametrien jälkeen ************* 
-						// *** eli AsemanNimi (vainko?)
 
+						// ********* AsemaSidotutObjektit parametrien jälkeen ************* 
+						// ********* eli ilmeisesti vain AsemanNimi 
+						
+             // AsemanNimi
 						 stationObjectIter.Reset();
 						 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
 
@@ -2791,6 +2859,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 			   }
 			 fIsFirstStation = false;
+ 		
 		   } //while(itsStations.Next())
 
   // ************** Lopun AikaSidotutObjektit, jotka määritelty loppuun ******************
@@ -2868,7 +2937,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   if(num > 0 && itsLogFile)
 	*itsLogFile << "  WARNING: " << num << " puuttuvaa dataa" << endl;
   itsSymbols.InitMissing(); // jotta ei manageri-käytössä kertyisi
-
+	    
   for(int i=1; i< itsNumberOfSteps; i++)
 	{
 	  objectIter.Reset();

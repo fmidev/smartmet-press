@@ -85,7 +85,8 @@ enum NFmiParamRectObjects
   dRotatingAngle = 7060,
   dExtremePlotting,
   dTempMaxCorrection,
-  dTempMinCorrection
+  dTempMinCorrection,
+  dUseBackupTime,
 };
 
 //! Undocumented
@@ -162,7 +163,6 @@ public:
   void SetIdentPar(unsigned long theIdentPar); 
   unsigned long GetIdentPar(void); 
   unsigned long GetPrimaryDataNum(void)const;
-
 protected:
 
   bool SetRelModifierTimes(long startRelHour, long endRelHour);
@@ -272,6 +272,10 @@ protected:
   NFmiString itsMinText;
   bool fTempMaxCorrection;
   bool fTempMinCorrection;
+  bool fUseBackupTime;
+  bool fUseBackupTimeForward;
+  bool fBackupReported;
+  bool fBackupDayForThisPar;
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -330,6 +334,10 @@ NFmiParamRect::NFmiParamRect(void)
   , itsMinText(NFmiString("None"))
   , fTempMaxCorrection(false)
   , fTempMinCorrection(false)
+  , fUseBackupTime(0)
+  , fUseBackupTimeForward(false)
+  , fBackupReported(false)
+  , fBackupDayForThisPar(false)
 
 {
   itsStationLoopActivity.startIndex=0;
@@ -397,13 +405,16 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fTempMaxCorrection(false)
   , fTempMinCorrection(false)
   , itsDataIdent(theParam)
+  , fUseBackupTime(false)
+  , fUseBackupTimeForward(false)
+  , fBackupReported(false)
+  , fBackupDayForThisPar(false)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
   itsIntegrationPeriod.startWeight = kFloatMissing;
 }
-
 
 // ----------------------------------------------------------------------
 /*!

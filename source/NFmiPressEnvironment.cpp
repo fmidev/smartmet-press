@@ -39,6 +39,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOther
   , itsSymbolSizeFactor(theOtherEnvironment.itsSymbolSizeFactor)
   , fCV(theOtherEnvironment.fCV)
   , fAvoidOrphanSyllables(theOtherEnvironment.fAvoidOrphanSyllables)
+  , fUseBackupPreviousDay(theOtherEnvironment.fUseBackupPreviousDay)
 {
 }
 

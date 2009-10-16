@@ -221,6 +221,21 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 
   SetPostReadingTimes();
 
+  if(itsPressParam->IsOptimizeGlobalObs())
+  {
+	  if(itsIdentPar == 4)
+	  {
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** WARNING: summa toisen vastaavan määrittelyn jälkeen (#Numero, OptimoiMaailmaHavainnot)"
+				          << endl;
+		}
+		SetRelModifierTimes(10, 18);
+		fModifierUsed = true;
+		itsModifier = kMaximum;
+		fAllowMissing = true;
+	  }
+  }
   if(!relPlace)
 	  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
 
@@ -288,6 +303,8 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
+  fBackupReported = false;
+  fBackupDayForThisPar = false;
   itsPressParam->DeleteOptionLocation(); //voi olla edellisestä
   bool lastElementStatus = GetPressProduct()->LastNumberStatus();
   GetPressProduct()->SetLastNumberStatus(true);

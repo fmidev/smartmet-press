@@ -1007,12 +1007,11 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  if (isHeader && fInArea)
 				hypString = hypString.GetChars(lastHead+2, hypString.GetLen()-lastHead-1);
 
-		  if(fCV)
+		  if(fCV || hypString == NFmiString("*")) //!!!!!!!!!!!!!!! p‰iv‰Vaihtoteksti vaati, pit‰‰ tutkia; ks alla
 			text = hypString;
 		  else
 			text = hypString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illu8ssa "-" ei mene l‰pi ??
-		  //char * lastCh = text.GetCharsPtr(text.GetLen(), 1);
- 
+                                                                                // h‰vitt‰‰ yhden merkin pituiset
 		  *itsOutFile << rect.Height() << " selectlatinfont" << endl;
 		}
 	  else

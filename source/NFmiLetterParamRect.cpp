@@ -199,6 +199,23 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 		}
 	} //while
 	
+   if(itsPressParam->IsOptimizeGlobalObs())
+   {
+	  if(itsIdentPar == 4 && !itsMultiMapping)
+	  {
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** WARNING: summa toisen vastaavan määrittelyn jälkeen (#Teksti, OptimoiMaailmaHavainnot)"
+				          << endl;
+		}
+		SetRelModifierTimes(10, 18);
+		fModifierUsed = true;
+		itsModifier = kMaximum;
+		fAllowMissing = true;
+	  }
+	  else
+		fUseBackupTime = true;
+   }
   //flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
@@ -251,6 +268,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  FmiPressOutputMode theOutput)
 {
   // M/K-keskukset siirretään vähän oikeaan kohtaan
+  fBackupReported = false;
+  fBackupDayForThisPar = false;
   NFmiRect correctedRect = theAbsoluteRectOfSymbolGroup;
 
   bool lastElementStatus = GetPressProduct()->LastTextStatus();

@@ -114,6 +114,9 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 
   *itsLogFile << "manageri olisi: " << static_cast<char *>(inputFileName) << endl;
 
+  if (itsDescriptionFile)
+	  delete itsDescriptionFile;
+
   itsDescriptionFile = new ifstream(inputFileName, ios::in);
   if(!itsDescriptionFile->good() || itsDescriptionFile->eof())
 	{
@@ -141,6 +144,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
+  
+//	*itsLogFile << "Read from manager: " << static_cast<char *>(itsString) << endl; 
 
 	  if(itsLoopNum > itsMaxLoopNum)
 		{

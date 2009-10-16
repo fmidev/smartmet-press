@@ -1399,7 +1399,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 2.10.2009" << endl;       
+   *itsLogFile << "program version = Release 16.10.2009" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1418,7 +1418,10 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 	  return false;
 	}
 
-  itsDescriptionFile = new ifstream(tempInput, ios::in);
+   if(itsDescriptionFile)
+	   delete itsDescriptionFile;
+
+   itsDescriptionFile = new ifstream(tempInput, ios::in);
 
   fDataRead = false;
 

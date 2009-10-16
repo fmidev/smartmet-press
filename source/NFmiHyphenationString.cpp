@@ -108,6 +108,7 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("pää-osin");
   itsIrregularHyphens.push_back("pakkas-aamu");
   itsIrregularHyphens.push_back("pakkas-yö");
+  itsIrregularHyphens.push_back("pakkas-öi");
   itsIrregularHyphens.push_back("halla-yö");
   itsIrregularHyphens.push_back("tai-yö");
   itsIrregularHyphens.push_back("tai-aamu");

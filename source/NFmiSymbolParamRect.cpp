@@ -357,7 +357,25 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 			break;
 		  }
 		}
-	} //while
+	} //end while *************************************
+   
+	if(itsPressParam->IsOptimizeGlobalObs())
+   {
+	  if(itsIdentPar == 4 && !itsMultiMapping)
+	  {
+		if(fModifierUsed)
+		{
+			*itsLogFile << "*** WARNING: summa toisen vastaavan määrittelyn jälkeen (#Symboli, OptimoiMaailmaHavainnot)"
+				          << endl;
+		}
+		SetRelModifierTimes(10, 18);
+		fModifierUsed = true;
+		itsModifier = kMaximum;
+		fAllowMissing = true;
+	  }
+	  else
+		fUseBackupTime = true;
+   }
 
 	// jos symbolisetti annettu tässä, tässä annettu kokokerroin sellaisenaan,
 	//   muuten kerrotaan päätason kertoimella
@@ -661,6 +679,8 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 								  ofstream & theDestinationFile,
 								  FmiPressOutputMode theOutput)
 {
+  fBackupReported = false;
+  fBackupDayForThisPar = false;
   bool lastElementStatus = GetPressProduct()->LastSymbolStatus();
   GetPressProduct()->SetLastSymbolStatus(true);
   if(itsPressParam->IsBackupStation())
@@ -767,6 +787,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  }
 	}
  
+ 
   if(isScaled)
 	{
 	  double scaleFactor = ((static_cast<long>(itsCurrentParamValue)) % 1000)/100.; //tonni on nyt fixattu
@@ -865,6 +886,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	{
 		theDestinationFile << "<Picture>" << endl;
 	}
+ 
   return true;
 }
 
