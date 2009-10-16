@@ -463,7 +463,7 @@ int NFmiDescription::ConvertDefText(NFmiString & object)
 		  NFmiString(object.GetCharsPtr(1,2)) == NFmiString("//"))
 	return dComment; 
 
-  else if(NFmiString(object.GetCharsPtr(1,1)) == NFmiString("#"))
+  else if(len >= 1 && NFmiString(object.GetCharsPtr(1,1)) == NFmiString("#"))
 	{
 	  return dEnd;
 	}
