@@ -1968,6 +1968,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
   
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
+
   itsIntObject = ConvertDefText(itsString);
 
   bool uniBBset = false;
@@ -3202,7 +3203,10 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   if(output==kPostScript || itsNumOfWritePS < 2)
 	{
-	  bool notExt = !itsOutFile.Search(NFmiString("."));
+	  // 0=no match, 1=first char
+	  int pos = itsOutFile.SearchLast(NFmiString("."));
+	  bool notExt = (pos <= 1);
+
 	  if(output==kPostScript)
 		{
 		  if(notExt) itsOutFile += NFmiString(".eps");
