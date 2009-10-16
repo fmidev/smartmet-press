@@ -18,6 +18,7 @@
 #include "NFmiParameterName.h"
 #include "NFmiSize.h"
 #include "NFmiString.h"
+#include <vector>
 
 //! Undocumented
 struct FmiMappingInterval
@@ -54,7 +55,7 @@ public:
   
   void AddMappingInterval(const FmiMultiMapping & theInterval);
   
-  NFmiString * Map(float values[FmiMaxNumOfMappingParams], bool & missingFound);
+  NFmiString * Map(const std::vector<float> & values, bool & missingFound);
   void SetMissing (const NFmiString &theString);
   NFmiString * GetMissing (void)const;
 

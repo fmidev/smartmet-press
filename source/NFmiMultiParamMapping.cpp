@@ -158,7 +158,7 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping & theInterv
  */
 // ----------------------------------------------------------------------
 
-NFmiString *	NFmiMultiParamMapping::Map(float values[FmiMaxNumOfMappingParams], bool & missingFound)
+NFmiString * NFmiMultiParamMapping::Map(const vector<float> & values, bool & missingFound)
 {
   missingFound = false;
   for(int j=0; j<static_cast<int>(itsSize); j++)
