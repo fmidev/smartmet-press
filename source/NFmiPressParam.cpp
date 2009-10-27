@@ -678,6 +678,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   NFmiStationPoint newStation;
   bool dataTimeGiven = false;
   bool takeToMainArea = false;
+  FmiLevelType levelType = kFmiPressureLevel;
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
 	  if(itsLoopNum > itsMaxLoopNum)
@@ -789,6 +790,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dSegmentHybridLevel:
+			levelType = kFmiHybridLevel;
 		case dSegmentLevel:
 		  {
 			if (!ReadEqualChar())
@@ -805,16 +808,19 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				  }
 				else
 				  {
-					itsLevels[currentLevelInd] = long1;
+				    NFmiLevel level = NFmiLevel(levelType, long1); 
+					itsLevels[currentLevelInd] = level;
 					fIsLevelLoop = true;    //HUOM vaikka yksi vain
 					fIsTimeLoop = false;
 					timeOrLevelTableSet = true;
 				  }
 			  }
-
+            levelType = kFmiPressureLevel; //default for next
 			ReadNext();
 			break;
 		  }
+		case dHybridLevelPlace:
+			levelType = kFmiHybridLevel;
 		case dLevelPlace:
 		  {
 			if (!ReadEqualChar())
@@ -832,7 +838,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				  }
 				else
 				  {
-					itsLevels[currentLevelInd] = long1;
+				    NFmiLevel level = NFmiLevel(levelType, long1); 
+					itsLevels[currentLevelInd] = level;
 					if(ReadTwo(x, y))
 					  {
 						fIsLevelLoop = true;
@@ -842,7 +849,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  }
 				  }
 			  }
-
+            levelType = kFmiPressureLevel; //default for next
 			ReadNext();
 			break;
 		  }
@@ -2382,10 +2389,18 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("level") ||
 		  lowChar==NFmiString("painepinta"))
 	return dSegmentLevel;
+  
+  else if(lowChar==NFmiString("hybridlevel") ||
+		  lowChar==NFmiString("hybridipinta"))
+	return dSegmentHybridLevel;
 
   else if(lowChar==NFmiString("levelplace") ||
 		  lowChar==NFmiString("painepintapaikka"))
 	return dLevelPlace;
+
+  else if(lowChar==NFmiString("hybridlevelplace") ||
+		  lowChar==NFmiString("hybridipintapaikka"))
+	return dHybridLevelPlace;
 
   else if(lowChar==NFmiString("timeplace") ||
 		  lowChar==NFmiString("aikapaikka"))
@@ -2615,9 +2630,12 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		{
 		  if(fIsLevelLoop)
 		  {
-			itsDataIter->Level(NFmiLevel(kFmiPressureLevel,itsLevels[currentStepInd]));
+		    bool ok = itsDataIter->Level(itsLevels[currentStepInd]);
 			if(itsPrimaryDataIter)
-				itsPrimaryDataIter->Level(NFmiLevel(kFmiPressureLevel,itsLevels[currentStepInd]));
+				ok = itsPrimaryDataIter->Level(itsLevels[currentStepInd]);
+			if(!ok)
+				*itsLogFile << "*** ERROR: missing level= " << 
+				 static_cast<unsigned long>(itsLevels[currentStepInd].LevelValue())<< endl;
 		  }
 
 		  done = fSupplementary && itsPressProduct->GetSegmentTimeStatus(itsCurrentStep);
@@ -2669,7 +2687,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, true);
 
 		 if(fIsLevelLoop)
-		   *itsLogFile << "  Segmentin painepinta: " << itsLevels[currentStepInd] << endl;
+		   if(itsLevels[currentStepInd].LevelType() == kFmiPressureLevel)
+		       *itsLogFile << "  Segmentin painepinta: " << itsLevels[currentStepInd].LevelValue() << endl;
+		   else
+		       *itsLogFile << "  Segmentin hybridipinta: " << itsLevels[currentStepInd].LevelValue() << endl;
 
 		 // ************** AikaSidotutObjektit ensin (paitsi ne jotka pyydetty lopussa) ***********
 		 // eli ***VakioSymboli

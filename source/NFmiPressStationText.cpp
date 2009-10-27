@@ -81,6 +81,8 @@ bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 
   NFmiString str;
   str = StationName();
+  if(itsPressParam->IsDayChanged()) //OPTIOKSI
+	  str += NFmiString("*");
 
   if(fAddLocalTime)
 	{

@@ -234,11 +234,14 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 		// int hour = now.GetHour();
 		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
 		{
-			condition = *pos;
+ 		   condition = *pos;
+           string::size_type bad_character = condition.find("\t", 0);
+		   if (bad_character != string::npos)
+			  condition = condition.substr(0, bad_character);
 #ifdef UNIX
 			// For some reason, the Linux program sees \r characters in the ends
 			// of some directives, e.g. #ifConditionDate. They must be removed.
-			string::size_type bad_character = condition.find("\r", 0);
+			bad_character = condition.find("\r", 0);
 			if (bad_character != string::npos)
 			  condition = condition.substr(0, bad_character);
 #endif

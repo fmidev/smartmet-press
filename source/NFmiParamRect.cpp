@@ -581,7 +581,7 @@ bool NFmiParamRect::ReadRemaining(void)
 		  }
 		break;
 	  }
-	case dLevel:
+	case dLevel:  //ei toimi
 	  {
 		if(SetOne(long1))
 		  itsLevel = NFmiLevel(kFmiPressureLevel, long1);
@@ -867,8 +867,8 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 
   else if(lowChar==NFmiString("level") ||
 		  lowChar==NFmiString("painepinta"))
-	return dLevel;
-
+	return dLevel;  //ei toimi
+  
   else if(lowChar==NFmiString("valuefactor") ||
 		  lowChar==NFmiString("arvokerroin"))
 	return dValueFactor;

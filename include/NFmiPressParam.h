@@ -85,7 +85,9 @@ enum NFmiPressParamObjects
   dDataCoordinatesMoved,
   dStationNamesAfterParams= 5040,
   dDayChangeText,
-  dOptimizeGlobalObs
+  dOptimizeGlobalObs,
+  dSegmentHybridLevel,
+  dHybridLevelPlace
 };
 
 struct FmiValuePoint
@@ -195,6 +197,7 @@ public:
   bool HasPrimaryData(void) const;
   bool AddNumberOfBackupTimeUsed(void);
   void SetDayChanged(void);
+  bool IsDayChanged(void) const;
   bool IsOptimizeGlobalObs(void) const;
   void SetBackupDayReported(void);
   bool IsBackupDayReported(void)const;
@@ -238,7 +241,7 @@ protected:
   FmiCounter itsCurrentStep;
   FmiCounter itsNumberOfSteps;
   unsigned long itsCurrentStationIndex;
-  unsigned long itsLevels[kMaxNumOfTableElements];  
+  NFmiLevel itsLevels[kMaxNumOfTableElements];  
   NFmiPoint itsSteps[kMaxNumOfTableElements];  
   NFmiPoint itsUnscaledSteps[kMaxNumOfTableElements]; 
   long itsTimeSteps[kMaxNumOfTableElements];        
@@ -432,6 +435,16 @@ inline
 bool NFmiPressParam::IsOptimizeGlobalObs(void)const
 {
   return fOptimizeGlobalObs;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+bool NFmiPressParam::IsDayChanged(void) const
+{
+  return fDayChanged;
 }
 // ----------------------------------------------------------------------
 /*!
