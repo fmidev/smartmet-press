@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 9.9.16
+Version: 9.10.29
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Thu Oct 29 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.10.29-1.el5.fmi
+- Improvements required for the new Helsingin Sanomat layout
+* Mon Oct 19 2009 oksman <santeri.oksman@fmi.fi> - 9.10.19-1.el5.fmi
+- Fixed a bug which crashed qdpress while using manager files. Also improvements to code by Mika Heiskanen.
 * Wed Sep 16 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.9.16-1.el5.fmi
 - Various improvements to hyphenation etc
 * Thu Apr  9 2009 oksman <santeri.oksman@fmi.fi> - 9.4.9-2.el5.fmi
