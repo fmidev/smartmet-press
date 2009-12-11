@@ -25,12 +25,17 @@
 #include "NFmiSuperSmartInfo.h"
 //#undef CopyFile
 #include "NFmiFileSystem.h"   
-// system
-#include <cstdlib>
-#include <iostream>
 
 // Boost
 #include <boost/filesystem/operations.hpp>
+
+// system
+#include <cstdlib>
+#include <iostream>
+#include <list>
+#include <string>
+
+extern std::list<std::string> errors;
 
 using namespace std;
 
@@ -240,9 +245,10 @@ float NFmiPressProduct::UseFromStorage(int queueNum, bool errorReport)
 	{
 	  if(itsFloatQueue.size() < 1)
 		{
+		  string msg = "Use of empty Product storage 1";
+		  // errors.push_back(msg);
 		  if(errorReport)
-			*itsLogFile << "  ***ERROR: Use of empty Product storage 1"
-						<< endl;
+			*itsLogFile << "  ***ERROR: " << msg << endl;
 		  value = kFloatMissing;
 		}
 	  else
@@ -255,9 +261,10 @@ float NFmiPressProduct::UseFromStorage(int queueNum, bool errorReport)
 	{
 	  if(itsFloatQueue2.size() < 1)
 		{
+		  string msg = "Use of empty Product storage 2";
+		  // errors.push_back(msg);
 		  if(errorReport)
-			*itsLogFile << "  ***ERROR: Use of empty Product storage 2"
-						<< endl;
+			*itsLogFile << "  ***ERROR: " << msg << endl;
 		  value = kFloatMissing;
 		}
 	  else
@@ -408,8 +415,10 @@ bool NFmiPressProduct::SetFirstSegmentActivity(bool theActivity)
 	object->SetActivity(theActivity);
   else
   {
-	  *itsLogFile << "*** ERROR: elementtejä puuttuu (de)aktivoitavaksi managerista" << endl;
-	  return false;
+	string msg = "Elementtejä puuttuu (de)aktivoitavaksi managerista";
+	errors.push_back(msg);
+	*itsLogFile << "*** ERROR: " << msg << endl;
+	return false;
   }
 
   return true;
@@ -434,8 +443,10 @@ bool NFmiPressProduct::SetFirstObjectActivity(bool theActivity)
 	object->SetActivity(theActivity);
   else
   {
-	  *itsLogFile << "*** ERROR: elementtejä puuttuu (de)aktivoitavaksi managerista" << endl;
-	  return false;
+	string msg = "Elementtejä puuttuu (de)aktivoitavaksi managerista";
+	errors.push_back(msg);
+	*itsLogFile << "*** ERROR: " << msg << endl;
+	return false;
   }
 
   return true;
@@ -469,7 +480,9 @@ bool NFmiPressProduct::ChangeFirstPossibleObject(bool toNewActivity)
 		return true;
 	}
 
-  *itsLogFile << "*** ERROR: ei ole elementtejä (de)aktivoitavaksi managerista" << endl;
+  string msg = "Ei ole elementtejä (de)aktivoitavaksi managerista";
+  errors.push_back(msg);
+  *itsLogFile << "*** ERROR: " << msg << endl;
   return false;
 }
 
@@ -690,9 +703,10 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 				lonLat.Set(26., 66.5);
 			else
 			{
-				*itsLogFile << "*** ERROR: #OsaKuvassa (selite?) tuntematon maankolkka: " 
-					<< static_cast<char *>(theCountryPart) 
-					<< endl;
+			  string msg = string(string("#OsaKuvassa (selite?) tuntematon maankolkka: ")
+								  +static_cast<char *>(theCountryPart));
+			  errors.push_back(msg);
+			  *itsLogFile << "*** ERROR: " << msg << endl;
 			}
 			if(lonLat.Y() < 98. && info.Location(lonLat)) //eka ehto pistetietokantoja varten
 			{                                             //jotka muuten aina menevät lähimpään
@@ -740,8 +754,9 @@ bool NFmiPressProduct::ReadNameToLonLatList(void)
 	}
   else
 	{
-	  *itsLogFile << "*** ERROR: AsemaNimetLonLatUusi.txt:n luku epäonnistui"
-				  << endl;
+	  string msg = "AsemaNimetLonLatUusi.txt:n luku epäonnistui";
+	  errors.push_back(msg);
+	  *itsLogFile << "*** ERROR: " << msg << endl;
 	  return false;
 	}
 }
@@ -760,7 +775,9 @@ bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint
 	{
 	  if(!ReadNameToLonLatList())
 		{
-		  *itsLogFile << "*** ERROR: nimi/lonlat-tiedoston luku epäonnistui" << endl;
+		  string msg = "Nimi/lonlat-tiedoston luku epäonnistui";
+		  errors.push_back(msg);
+		  *itsLogFile << "*** ERROR: " << msg << endl;
 		  return false;
 		}
 	}
@@ -796,7 +813,9 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationNam
 	{
 	  if(!ReadNameToLonLatList())
 		{
-		  *itsLogFile << "*** ERROR: nimi/lonlat-tiedoston luku epäonnistui" << endl;
+		  string msg = "Nimi/lonlat-tiedoston luku epäonnistui";
+		  errors.push_back(msg);
+		  *itsLogFile << "*** ERROR: " << msg << endl;
 		  return 0;
 		}
 	}
@@ -898,9 +917,9 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 
 	  if(end2 == string::npos)
 		{
-		  *itsLogFile << "***ERROR: invalid line in seasonstatus: "
-					  << line
-					  << endl;
+		  string msg = string("Invalid line in seasonstatus: ")+NFmiValueString(line).CharPtr();
+		  errors.push_back(msg);
+		  *itsLogFile << "***ERROR: " << msg << endl;
 		  continue;
 		}
 	  else
@@ -1037,7 +1056,9 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 					itsSeasonsStatus->weekday = 7;
 				  else
 					{
-						*itsLogFile << "***ERROR: invalid weekday in seasonstatus: "<< str2 << endl;
+					  string msg = "Invalid weekday in seasonstatus: " + str2;
+					  errors.push_back(msg);
+					  *itsLogFile << "***ERROR: " << msg << endl;
 					  continue;
 					}
 				  *itsLogFile << "  Weekday forced: "<< fmiShortStr2; // << endl;
@@ -1076,16 +1097,18 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			{
 				if(end3 == string::npos)
 				{
-					*itsLogFile << "***ERROR: invalid variable line in seasonstatus: "
-								<< line
-								<< endl;
-					continue;
+				  string msg = string("Invalid variable line in seasonstatus: ")+NFmiValueString(line).CharPtr();
+				  errors.push_back(msg);
+				  *itsLogFile << "***ERROR: " << msg << endl;
+				  continue;
 				}
 			    itsReplaceMap.insert(pair<string, string>(str2, str3));
 			}
 		  else
 			{
-				*itsLogFile << "***ERROR: invalid keyword in seasonstatus: "<< str1 << endl;
+			  string msg = "Invalid keyword in seasonstatus: " + str1;
+			  errors.push_back(msg);
+			  *itsLogFile << "***ERROR: " << msg << endl;
 			  continue;
 			}
 		}
@@ -1157,8 +1180,10 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& origInput, ofstream& output)
 			}
 		  else
 			{
+			  string msg = string("LiiteTiedostoa ei ole: ")+static_cast<char *>(file);
+			  errors.push_back(msg);
 			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: LiiteTiedostoa ei ole: " << static_cast<char *>(file) << endl;
+				*itsLogFile << "*** ERROR: " << msg << endl;
 			}
 		  includeFile.close();
 		  includeFile.clear();
@@ -1408,14 +1433,18 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
     ReadSeasonsStatus();
 	if (!GetSeasonsStatus())
 	{
-			*itsLogFile << "*** ERROR: Season Status file missing; program bug"  << endl;
-			return false;
+	  string msg = "Season Status file missing; program bug";
+	  errors.push_back(msg);
+	  *itsLogFile << "*** ERROR: " << msg << endl;
+	  return false;
 	}
 
    if(!PreProcessDefinition(inputStdName, outputStdName))
    {
-	  *itsLogFile << "*** ERROR: PROGRAM INTERRUPTED, see above" << endl;
-	  return false;
+	 string msg = "PROGRAM INTERRUPTED, see above";
+	 errors.push_back(msg);
+	 *itsLogFile << "*** ERROR: " << msg << endl;
+	 return false;
 	}
 
    if(itsDescriptionFile)
@@ -1978,7 +2007,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 	{
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
-		  *itsLogFile << "*** ERROR: Max file length exceeded on top level " << endl;
+		  string msg = "Max file length exceeded on top level ";
+		  errors.push_back(msg);
+		  *itsLogFile << "*** ERROR: " << msg << endl;
 		  retString = itsString;
 		  return false;
 		}
@@ -1989,7 +2020,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		{
 		case dOther:	  //ylimääräistä roinaa, END lopettaa
 		  {
-			*itsLogFile << "*** ERROR: Unknown key word on top level: " << static_cast<char *>(itsObject) << endl;
+			string msg = string("Unknown key word on top level: ")+static_cast<char *>(itsObject);
+			errors.push_back(msg);
+			*itsLogFile << "*** ERROR: " << msg << endl;
 
 			ReadNext();
 			break;
@@ -2034,10 +2067,10 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  itsOutputMode = kXml;
 			else
 			  {
+				string msg = string("Tuntematon tulostusmuoto: ")+ static_cast<char *>(helpString);
+				errors.push_back(msg);
 				if (itsLogFile)
-				  *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto: "
-							  << static_cast<char *>(helpString)
-							  << endl;
+				  *itsLogFile << "*** ERROR: " << msg << endl;
 			  }
 
 			ReadNext();
@@ -2187,12 +2220,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 
 			if(fDataRead)
 			  {
-				*itsLogFile << "*** ERROR: Data "
-							<< static_cast<char *>(itsDataFileName)
-							<< "pitää antaa ennen 'KäytäDatanAlkuAikaa' ja 'SuhteellinenTuntiDatasta'"
-							<< endl;
-				*itsLogFile << "            " << "sekä kaikkia jäsenelementtejä" << endl;
-				*itsLogFile << "       KESKEYTETÄÄN" << endl;
+				string msg = string("Data ")
+				       + static_cast<char *>(itsDataFileName)
+   				       + "pitää antaa ennen 'KäytäDatanAlkuAikaa' ja 'SuhteellinenTuntiDatasta' sekä kaikkia jäsenelementtejä. KESKEYTETÄÄN.";
+				errors.push_back(msg);
+				*itsLogFile << "*** ERROR: " << msg << endl;
 				return false;
 			  }
 
@@ -2253,10 +2285,10 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 				  itsPageSize = kLetter;
 				else
 				{
-				  *itsLogFile << "*** ERROR: Tuntematon arkkikoko: "
-							  << static_cast<char *>(lowChar)
-							  << endl;
-				   pageSet = false;
+				  string msg = string("Tuntematon arkkikoko: ")+static_cast<char *>(lowChar);
+				  errors.push_back(msg);
+				  *itsLogFile << "*** ERROR: " << msg << endl;
+				  pageSet = false;
 				}
 			}
 			else
@@ -2355,9 +2387,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  }
 			else
 			  {
-				*itsLogFile << "*** ERROR: Pitää antaa datat ennen 'KäytäDatanAlkuAikaa'"
-							<< endl;
-				*itsLogFile << "       KESKEYTETÄÄN"  << endl;
+				string msg = "Pitää antaa datat ennen 'KäytäDatanAlkuAikaa'. KESKEYTETÄÄN";
+				errors.push_back(msg);
+				*itsLogFile << "*** ERROR: " << msg << endl;
 				return false;
 			  }
 
@@ -2408,9 +2440,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  }
 			else
 			  {
-				*itsLogFile << "*** ERROR: Pitää antaa datat ennen 'SuhteellinenTuntiDatasta'"
-							<< endl;
-				*itsLogFile << "       KESKEYTETÄÄN"  << endl;
+				string msg = "Pitää antaa datat ennen 'SuhteellinenTuntiDatasta'. KESKEYTETÄÄN";
+				errors.push_back(msg);
+				*itsLogFile << "*** ERROR: " << msg << endl;
 				return false;
 			  }
 
@@ -2462,7 +2494,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: mitta-alueen min == max"  << endl;
+				  {
+					string msg = "Mitta-alueen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				  itsScale.SetStartScales(NFmiRect(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax)));
 			  }
@@ -2477,7 +2513,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: sijoitusalueen min == max"  << endl;
+				  {
+					string msg = "Sijoitusalueen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				  itsPlottingRect.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
 			  }
@@ -2506,7 +2546,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: GifRajauksen min == max"  << endl;
+				  {
+					string msg = "GifRajauksen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				{
 				  itsBoundingBorder.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
@@ -2524,7 +2568,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: AlueRajauksen min == max"  << endl;
+				  {
+					string msg = "AlueRajauksen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				{
 				  itsBoundingBorder.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
@@ -2546,7 +2594,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: rajauksen min == max"  << endl;
+				  {
+					string msg = "Rajauksen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				  itsClippingRect.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
 			  }
@@ -2780,7 +2832,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			else
 			{
 				delete text;
-				*itsLogFile << "*** ERROR: Analyysiajalle ei dataa"  << endl;
+				string msg = "Analyysiajalle ei dataa";
+				errors.push_back(msg);
+				*itsLogFile << "*** ERROR: " << msg << endl;
 				break;
 			}
 			text->SetWriteLast(fMakeElementsAfterSegments);
@@ -3235,32 +3289,30 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   if(!startFile)
 	{
+	  string msg = string("StartPs-tiedostossa vikaa: ")+static_cast<char *>(startFileName);
+	  errors.push_back(msg);
 	  if(itsLogFile)
-		*itsLogFile << "*** ERROR: StartPs-tiedostossa vikaa: "
-					<< static_cast<char *>(startFileName)
-					<< endl;
+		*itsLogFile << "*** ERROR: " << msg << endl;
 	  return false;
 	}
 
   if(!endFile)
 	{
+	  string msg = string("LoppuPs-tiedostossa vikaa: ")+static_cast<char *>(endFileName);
+	  errors.push_back(msg);
 	  if(itsLogFile)
-		*itsLogFile << "*** ERROR: LoppuPs-tiedostossa vikaa: "
-					<< static_cast<char *>(endFileName)
-					<< endl;
+		*itsLogFile << "*** ERROR: " << msg << endl;
 	  return false;
 	}
 
   if(!outFile)
 	{
+	  string msg = (string("Output-tiedost ei onnistu: ")
+					+ static_cast<char *>(itsOutFile)
+					+ ", samanniminen saattaa olla tuhoamiselta estetty tai auki muualla? Yritä tuhota tai loggaa ulos");
+	  errors.push_back(msg);
 	  if(itsLogFile)
-		*itsLogFile << "*** ERROR: Output-tiedosto ei onnistu: "	
-					<< static_cast<char *>(itsOutFile)
-					<< endl
-					<< "    samanniminen saattaa olla tuhoamiselta estetty"
-					<< endl
-					<< "    auki muualla?, yritä tuhota tai loggaa ulos"
-					<< endl;
+		*itsLogFile << "*** ERROR: " << msg << endl;
 	  return false;
 	}
 
@@ -3471,8 +3523,10 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 					  outFile.clear();
 					  mapFile.close();
 					  mapFile.clear();
+					  string msg = "param->WritePS() in NFmiPressProduct";
+					  errors.push_back(msg);
 					  if(itsLogFile)
-						*itsLogFile << "*** ERROR: param->WritePS() in NFmiPressProduct" << endl;
+						*itsLogFile << "*** ERROR: " << msg << endl;
 					  return false;
 					}
 				}
@@ -3627,8 +3681,10 @@ bool NFmiPressProduct::WriteSameSymbols(bool theDoPreSegments, FmiPressOutputMod
 		  sameSymbols->SetScale(itsScale);
 		  if (!(sameSymbols->WritePS(outFile)))
 			{
+			  string msg = "sameSymbols->WritePS() in NFmiPressProduct";
+			  errors.push_back(msg);
 			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: sameSymbols->WritePS() in NFmiPressProduct" << endl;
+				*itsLogFile << "*** ERROR: " << msg << endl;
 			  outFile.close();
 			  outFile.clear();
 			  return false;
@@ -3684,9 +3740,11 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
 		  	  
 			    if (!(object->WritePS(theOutput)))
 				{
-					if(itsLogFile)
-						*itsLogFile << "*** ERROR: (timeDep)object->WritePS() in NFmiPressProduct" << endl;
-					return false;
+				  string msg = "(timeDep)object->WritePS() in NFmiPressProduct";
+				  errors.push_back(msg);
+				  if(itsLogFile)
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  return false;
 				}
 			}
 		}

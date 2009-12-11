@@ -371,7 +371,6 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 			subDir = ReadString();
-
 			ReadNext();
 			break;
 		  }

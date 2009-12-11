@@ -22,12 +22,22 @@
 #include "NFmiCmdLine.h"   
 #include "NFmiPreProcessor.h"
 #include "NFmiSettings.h"
+#include "NFmiValueString.h"
+
+#include <boost/algorithm/string/join.hpp>
 
 #include <cstdlib>
+#include <list>
 #include <stdexcept>
+#include <string>
 //#include <boost/filesystem/path.hpp>
 
 using namespace std;
+
+// Keep track of errors which do not stop production but should
+// make qdpress exit with failure code at the end.
+
+list<string> errors;
 
 int domain(int argc, const char ** argv)
 {
@@ -157,7 +167,11 @@ int domain(int argc, const char ** argv)
 	  }
 	  pressProduct.Close();
 	  
-	  return (ok ? EXIT_SUCCESS : EXIT_FAILURE);
+	  if(errors.empty())
+		return (ok ? EXIT_SUCCESS : EXIT_FAILURE);
+	  else
+		throw runtime_error("Encountered errors building product:\n"
+							+ boost::algorithm::join(errors,"\n"));
 	}
 
   throw runtime_error("Tuntematon tiedostotyyppi");
@@ -171,8 +185,7 @@ int main(int argc, const char ** argv)
 	}
   catch(exception & e)
 	{
-	  cerr << "Error: Caught an exception" << endl
-		   << " --> " << e.what() << endl;
+	  cerr << "Error: Caught an exception: " << e.what() << endl;
 	  return 1;
 	}
   catch(...)

@@ -8,6 +8,10 @@
 #include "NFmiDescription.h"
 #include "NFmiFileString.h"
 #include <iostream>
+#include <list>
+#include <string>
+
+extern std::list<std::string> errors;
 
 using namespace std;
 
@@ -266,9 +270,11 @@ NFmiString NFmiDescription::ReadString(void)
 		}
 
 	  if(loop >= 11)
-		*itsLogFile << "*** ERROR: lainausmerkiltä puuttuu pari: "
-					<< static_cast<char *>(helpObject)
-					<< endl; 
+		{
+		  string msg = string("lainausmerkiltä puuttuu pari: ")+static_cast<char *>(helpObject);
+		  errors.push_back(msg);
+		  *itsLogFile << "*** ERROR: " << msg << endl;
+		}
 
 	  return helpObject.GetChars(1, helpObject.GetLen()-1);
 
@@ -295,9 +301,10 @@ bool NFmiDescription::ReadEqualChar(void)
 	  return true;
 	}
   itsValueHelpString = itsObject;
-  *itsLogFile << "*** ERROR: yhtäkuin-merkki (=) puuttuu: "
-			  << static_cast<char *>(itsValueHelpString)
-			  << endl;
+
+  string msg = string("Yhtäkuin-merkki (=) puuttuu: ")+static_cast<char *>(itsValueHelpString);
+  errors.push_back(msg);
+  *itsLogFile << "*** ERROR: " << msg << endl;
   ReadNext();
   return false;
 }
@@ -322,9 +329,14 @@ bool NFmiDescription::ReadUnsignedLong(unsigned long & retValue)
 	  return true;
 	}
   retValue = 0;
-  *itsLogFile << "*** ERROR: pitää olla luku: "
-			  << static_cast<char *>(itsValueHelpString)
-			  << endl;
+
+  if(itsLogFile)
+	{
+	  string msg = string("Pitää olla luku: ")+static_cast<char *>(itsValueHelpString);
+	  errors.push_back(msg);
+	  *itsLogFile << "*** ERROR: " << msg << endl;
+	}
+
   return false;
 }
 
@@ -350,10 +362,13 @@ bool NFmiDescription::ReadLong(long & retValue, bool errorReport)
 	  return true;
 	}
   retValue = 0;
+
   if(errorReport)
-	*itsLogFile << "*** ERROR: pitää olla luku: "
-				<< static_cast<char *>(itsValueHelpString)
-				<< endl;
+	{
+	  string msg = string("Pitää olla luku: ")+static_cast<char *>(itsValueHelpString);
+	  errors.push_back(msg);
+	  *itsLogFile << "*** ERROR: " << msg << endl;
+	}
 
   return false;
 }
@@ -378,9 +393,13 @@ bool NFmiDescription::ReadDouble(double & retValue)
 	}
   retValue = 0.;
   
-  *itsLogFile << "*** ERROR: pitää olla luku: "
-			  << static_cast<char *>(itsValueHelpString)
-			  << endl;
+  if(itsLogFile)
+	{
+	  string msg = string("Pitää olla luku: ")+static_cast<char *>(itsValueHelpString);
+	  errors.push_back(msg);
+	  *itsLogFile << "*** ERROR: " << msg << endl;
+	}
+
   return false;
 }
 

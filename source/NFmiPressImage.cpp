@@ -15,6 +15,10 @@
 #include "NFmiCopyFile.h"
 #include <cstdlib>
 #include <iostream>
+#include <list>
+#include <string>
+
+extern std::list<std::string> errors;
 
 using namespace std;
 
@@ -80,6 +84,7 @@ NFmiPressImage::NFmiPressImage(const NFmiPressImage & thePressImage)
 
 bool NFmiPressImage::ReadDescription(NFmiString & retString)
 {
+
   NFmiString tempString;
   NFmiValueString valueString;
   double r1,r2,r3;
@@ -102,7 +107,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #OsaKuvassa" << endl;
+			{
+			  string msg = "Tuotetiedoston maksimipituus ylitetty #OsaKuvass";
+			  errors.push_back(msg);
+			  *itsLogFile << "*** ERROR: " << msg << endl;
+			}
 		  retString = itsString;
 		  return false;
 		}
@@ -112,9 +121,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		case dOther:
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #OsaKuvassa: "
-						  << static_cast<char *>(itsObject)
-						  << endl;
+			  {
+				string msg = string("Tuntematon sana #OsaKuvassa: ") + static_cast<char *>(itsObject);
+				errors.push_back(msg);
+				*itsLogFile << "*** ERROR: " << msg << endl;
+			  }
 			ReadNext();
 			break;
 		  }
@@ -137,7 +148,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			  if(itsPressProduct)
 			     itsPressProduct->itsObjects.Add(image);
 			  else
-				  *itsLogFile << "*** ERROR: OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE" << endl;
+				{
+				  string msg = "OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE";
+				  errors.push_back(msg);
+				  *itsLogFile << "*** ERROR: " << msg << endl;
+				}
 			}
 			else
 			  delete image;
@@ -161,7 +176,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			  if(itsPressProduct)
 			     itsPressProduct->itsObjects.Add(image);
 			  else
-				  *itsLogFile << "*** ERROR: OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE" << endl;
+				{
+				  string msg = "OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE";
+				  errors.push_back(msg);
+				  *itsLogFile << "*** ERROR: " << msg << endl;
+				}
 			}
 			else
 			  delete image;
@@ -240,7 +259,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 				  if(itsPressProduct)
 					 itsPressProduct->itsObjects.Add(image);
 				  else
-					  *itsLogFile << "*** ERROR: OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE" << endl;
+					{
+					  string msg = "OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE";
+					  errors.push_back(msg);
+					  *itsLogFile << "*** ERROR: " << msg << endl;
+					}
 				}
 				else
 				  delete image;
@@ -357,7 +380,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: OsaKuvan mittaAlueen min == max"  << endl;
+				  {
+					string msg = "OsaKuvan mittaAlueen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				  itsImageScale.SetStartScales(NFmiRect(NFmiPoint(xmin,ymin),
 														NFmiPoint(xmax,ymax)));
@@ -372,7 +399,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: OsaKuvan SijoitusAlueen min == max"  << endl;
+				  {
+					string msg = "OsaKuvan sijoitusAlueen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				  itsImageScale.SetEndScales(NFmiRect(NFmiPoint(xmin,ymin),
 													  NFmiPoint(xmax,ymax)));
@@ -387,7 +418,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: OsaKuvan SijoitusAlueen min == max"  << endl;
+				  {
+					string msg = "OsaKuvan sijoitusAlueen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				{
 				  itsImageScale.SetEndScales(NFmiRect(NFmiPoint(xmin,ymin),
@@ -406,7 +441,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: OsaKuvan rajauksen min == max"  << endl;
+				  {
+					string msg = "OsaKuvan rajauksen min == max";
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				  }
 				else
 				{
 				  itsClippingRect.Set(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax));
@@ -448,7 +487,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			            valueString = ReadString();
 					}
 					else
-						*itsLogFile << "*** ERROR: x:lle puuttuu y-pari kuvan leikkauksessa"  << endl;
+					  {
+						string msg = "x:lle puuttuu y-pari kuvan leikkauksessa";
+						errors.push_back(msg);
+						*itsLogFile << "*** ERROR: " << msg << endl;
+					  }
 				}
 				itsString = valueString;
 				itsIntObject = ConvertDefText(valueString);
@@ -456,8 +499,10 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 
 			else
 			{
-				 *itsLogFile << "*** ERROR: liian vähän pisteitä kuvan leikkauksessa"  << endl;
-			     ReadNext();
+			  string msg = "Liian vähän pisteitä kuvan leikkauksessa";
+			  errors.push_back(msg);
+			  *itsLogFile << "*** ERROR: " << msg << endl;
+			  ReadNext();
 			}
 			break;
 		  }
@@ -496,7 +541,11 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
   if(!itsTempImagePath.IsValue() && !itsTempImageFile.IsValue())
 	{
 	  if(itsLogFile)
-		*itsLogFile << "*** ERROR: OsaKuva-tiedosto ei määritelty" << endl;
+		{
+		  string msg = "OsaKuva-tiedosto ei määritelty";
+		  errors.push_back(msg);
+		  *itsLogFile << "*** ERROR: " << msg << endl;
+		}
 	  retString = itsString;
 	  return false;
 	}
@@ -608,9 +657,9 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
   else if(lowChar==NFmiString("paikka"))
   {
-	*itsLogFile << 
-	"*** ERROR: Paikka ei sallittu #OsaKuvassa, pitääkö olla suhtPaikka"
-	  << endl;
+	string msg = "Paikka ei sallittu #OsaKuvassa, pitääkö olla suhtPaikka";
+	errors.push_back(msg);
+	*itsLogFile << "*** ERROR: " << msg << endl;
 	return dImagePlaceMove;
   }
 
@@ -658,7 +707,6 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
 bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 {
-
 #ifdef UNIX
   bool precedingElementMissing = false;
 #else
@@ -711,13 +759,13 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
   if(!itsInFile->good() || itsInFile->eof())
 	{
 #ifndef UNIX
-	  *itsLogFile << "*** WARNING: Missing EPS image: "
-				  << static_cast<char *>(itsPath) << endl;
-#else
-	  *itsLogFile << "*** WARNING: Missing EPS image: "
-				  << static_cast<char *>(imageFile) << endl;
+	  string msg = string("Missing EPS image: ") + static_cast<char *>(itsPath);
+#else	  
+	  string msg = string("Missing EPS image: ") + static_cast<char *>(imageFile);
 #endif
-	   precedingElementMissing = true;
+	  errors.push_back(msg);
+	  *itsLogFile << "*** WARNING: " << msg << endl;
+	  precedingElementMissing = true;
 	}
   else
 	{

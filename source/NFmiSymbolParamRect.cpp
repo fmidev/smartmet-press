@@ -17,6 +17,10 @@
 #include "NFmiSettings.h"
 #include "NFmiFileSystem.h"
 #include <iostream>
+#include <list>
+#include <string>
+
+extern std::list<std::string> errors;
 
 // Boost
 #include <boost/filesystem/operations.hpp>
@@ -405,6 +409,15 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   NFmiString sizeFile = *itsOrigDir;
   sizeFile += itsSymbolSetName;
   sizeFile += NFmiString("/");
+
+  if(!NFmiFileSystem::DirectoryExists(sizeFile.CharPtr()))
+	{
+	  string msg = string("Symbolihakemisto ")+sizeFile.CharPtr()+" puuttuu!";
+	  errors.push_back(msg);
+	  if(itsLogFile)
+		* itsLogFile << "*** Error: " << msg << endl;
+	}
+
   sizeFile += NFmiString("symbolikoko.txt");
   ifstream input(sizeFile, ios::in);
 /*
@@ -487,7 +500,7 @@ int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
   if(lowChar==NFmiString("symboldirectory") ||
 	 lowChar==NFmiString("symbolitaulu") ||
 	 lowChar==NFmiString("kuvakansio"))
-	return dSymbolDirectory;
+	  return dSymbolDirectory;
 
   else if(lowChar==NFmiString("sizefactor") ||
 		  lowChar==NFmiString("kokokerroin"))
