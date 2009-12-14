@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 9.10.29
+Version: 9.12.14
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Dec 14 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.12.14-1.el5.fmi
+- Improved error handling
+- Added printout of command line options when no arguments are given
 * Thu Oct 29 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.10.29-1.el5.fmi
 - Improvements required for the new Helsingin Sanomat layout
 * Mon Oct 19 2009 oksman <santeri.oksman@fmi.fi> - 9.10.19-1.el5.fmi
