@@ -39,6 +39,28 @@ using namespace std;
 
 list<string> errors;
 
+void usage()
+{
+  cout << "Usage: qdpress [options] prefile" << endl
+	   << endl
+	   << "Available options:" << endl
+	   << endl
+#ifdef UNIX
+	   << "  -c conffile" << endl
+	   << "  -p productname" << endl
+	   << "  -h pressdir\t(default from press::path)" << endl
+	   << "  -o outdir\t(default from press::outpath)" << endl
+	   << "  -l logdir\t(default from press::logpath)" << endl
+	   << "  -L logfile" << endl
+	   << "  -s dayshift" << endl
+#else
+	   << "  -h pressdir\t(default from press::path)" << endl
+	   << "  -o outdir\t(default from press::outpath)" << endl
+	   << "  -l logdir\t(default from press::logpath)" << endl
+#endif
+	   << endl;
+}
+
 int domain(int argc, const char ** argv)
 {
 
@@ -49,10 +71,16 @@ int domain(int argc, const char ** argv)
 #endif
 
   if(cmdLine.Status().IsError())
-    throw runtime_error(cmdLine.Status().ErrorLog().CharPtr());
+	{
+	  usage();
+	  throw runtime_error(cmdLine.Status().ErrorLog().CharPtr());
+	}
   
   if(cmdLine.NumberofParameters() != 1)
-    throw runtime_error("Filename argument missing");
+	{
+	  usage();
+	  throw runtime_error("Filename argument missing");
+	}
   
 #ifdef UNIX
   if (cmdLine.isOption('c'))
