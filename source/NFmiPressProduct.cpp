@@ -3420,10 +3420,11 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 			  mapFile.open(fullEpsFileName, ios::in|ios::in);
 			  if(!mapFile.good() || mapFile.eof())
 				{
+				  string msg = string("Pohjaa ei ole: ") + static_cast<char *>(fullEpsFileName);
+
 				  if(itsLogFile)
-					*itsLogFile << "WARNING: Pohjaa ei ole: "
-								<< static_cast<char *>(fullEpsFileName)
-								<< endl;
+					*itsLogFile << "Error: " << msg << endl;
+				  errors.push_back(msg);
 				}
 			  else
 				{
