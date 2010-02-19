@@ -2579,7 +2579,6 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
   NFmiPoint stationPoint;
   NFmiPoint stationPointMovement;
-  NFmiPoint nameFromData;
 
   if(itsLogFile)
 	if(itsDataName.IsValue())
