@@ -858,10 +858,15 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 							<< endl;			 
 			}
 		  else
-			  *itsLogFile << "*** ERROR: Symbol missing from set: "
-						  << static_cast<char *>(itsSymbolSetName)
-						  << ":" << static_cast<char *>(*symbolFile)
-						  << endl;
+			{
+			  string msg = string("Symbol missing from set: ")
+				+ static_cast<char *>(itsSymbolSetName)
+				+ ":" 
+				+ static_cast<char *>(*symbolFile);
+
+			  *itsLogFile << "*** ERROR: " << msg << endl;
+			  errors.push_back(msg);
+			}
 	  }
 	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile, itsRotatingAngle))
 		{
@@ -870,10 +875,15 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		{
 		  if(itsLogFile)
 			{
-			  *itsLogFile << "*** ERROR: Short symbol not found: "
-						  << static_cast<char *>(itsSymbolSetName)
-						  << ":" << static_cast<char *>(*symbolFile)
-						  << endl;
+			  string msg = string("Short symbol not found: ")
+				+ static_cast<char *>(itsSymbolSetName)
+				+ ":"
+				+ static_cast<char *>(*symbolFile);
+
+
+			  *itsLogFile << "*** ERROR: " << msg << endl;
+			  errors.push_back(msg);
+
 			 if(rawToBeConverted)
 			  *itsLogFile << "       missing permission ?"
 						  << endl;
