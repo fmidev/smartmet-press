@@ -1424,7 +1424,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 26.10.2009" << endl;       
+   *itsLogFile << "program version = Release 23.2.2010" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1706,7 +1706,7 @@ bool NFmiPressProduct::ReadData(void)
       if(loop < 3)
       {
 	      NFmiTime time;
-	      *itsLogFile << "** ENNEN READ " << time << " **" << endl;
+	      *itsLogFile << "  ENNEN READ " << time << " **" << endl;
       }
 	  if(errorWarning)
 	  {
@@ -1765,7 +1765,7 @@ bool NFmiPressProduct::ReadData(void)
   fDataRead = true;
 
   NFmiTime time;
-	   *itsLogFile << "** JÄLKEEN READ " << time << " **" << endl;
+	   *itsLogFile << "  JÄLKEEN READ " << time << " **" << endl;
 
   if(itsMaskIter)
 	delete itsMaskIter;
@@ -3420,10 +3420,11 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 			  mapFile.open(fullEpsFileName, ios::in|ios::in);
 			  if(!mapFile.good() || mapFile.eof())
 				{
-				  string msg = string("Pohjaa ei ole: ") + static_cast<char *>(fullEpsFileName);
+				  string msg = string(string("Missing background: ")
+						+static_cast<char *>(fullEpsFileName));
 
 				  if(itsLogFile)
-					*itsLogFile << "Error: " << msg << endl;
+						*itsLogFile << "***Error: " << msg << endl;
 				  errors.push_back(msg);
 				}
 			  else

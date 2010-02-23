@@ -402,6 +402,9 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 								  FmiPressOutputMode theOutput)
 
 {
+//  if(BlockLatinFont(GetFont())) 
+//  if(itsEnvironment.GetVersion() == 35)
+//	  fUseSelectLatinFont = true; //ainakin winkkarissa tarvitaan 
 
   NFmiString longMinus ("\\226");
   //bool isLongMinus = itsEnvironment.GetLongNumberMinus();

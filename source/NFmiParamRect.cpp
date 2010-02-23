@@ -126,6 +126,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fBackupReported(theRect.fBackupReported)
   , fBackupDayForThisPar(theRect.fBackupDayForThisPar)
   , itsDataIdent(theRect.itsDataIdent)
+  , fMoonPhase(theRect.fMoonPhase)
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)
@@ -794,6 +795,12 @@ bool NFmiParamRect::ReadRemaining(void)
  			ReadNext();
 			break;
 	 }
+	 case dIsMoonPhase:
+	 {
+			SetMoonPhase();
+ 			ReadNext();
+			break;
+	 }
 
 	default:
 	  {
@@ -1052,6 +1059,11 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
           lowChar==NFmiString("käytävaraaikaa"))
 	return dUseBackupTime;
   
+  else if(lowChar==NFmiString("moonphase") ||
+          lowChar==NFmiString("kuunvaihe") ||
+          lowChar==NFmiString("kuunvaiheet"))
+	return dIsMoonPhase;
+  
   else
 	return NFmiPressTimeDescription :: ConvertDefText(object);
 }
@@ -1274,8 +1286,20 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 				  << " utc"
 				  << endl;
 	}
-
-  FloatValue(theQueryInfo, value);
+  
+  if(IsMoonPhase())
+  {
+	    NFmiMetTime midDay = newTime;
+		midDay.SetHour(12);
+		NFmiMetTime moonRefTime(2010,1,15,7,11); //utc newMoon i Finland
+		long timeDiff = midDay.DifferenceInMinutes(moonRefTime);
+		double cycleInMinutes = 29.5306*24*60;
+		double phaseMod = fmod(double(timeDiff), cycleInMinutes);
+		double phase = phaseMod/cycleInMinutes;
+		value = float(phase);
+  }
+  else
+		FloatValue(theQueryInfo, value);
   
   if(value != kFloatMissing &&
 	 itsIdentPar == kFmiPresentWeather &&

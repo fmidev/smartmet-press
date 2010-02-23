@@ -88,7 +88,8 @@ enum NFmiParamRectObjects
   dExtremePlotting,
   dTempMaxCorrection,
   dTempMinCorrection,
-  dUseBackupTime
+  dUseBackupTime,
+  dIsMoonPhase
 };
 
 //! Undocumented
@@ -196,6 +197,8 @@ protected:
   bool CompleteMultiMapping(void); 
   bool IsMaxMinPlotting(void) const;
   bool IsMissingLonLat(void);
+  bool IsMoonPhase(void)const;
+  void SetMoonPhase(void);
 
 private:
 
@@ -278,6 +281,7 @@ protected:
   bool fUseBackupTimeForward;
   bool fBackupReported;
   bool fBackupDayForThisPar;
+  bool fMoonPhase;
 private:
 
   NFmiDataIdent	itsDataIdent;
@@ -340,6 +344,7 @@ NFmiParamRect::NFmiParamRect(void)
   , fUseBackupTimeForward(false)
   , fBackupReported(false)
   , fBackupDayForThisPar(false)
+  , fMoonPhase(false)
 
 {
   itsStationLoopActivity.startIndex=0;
@@ -411,6 +416,7 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fBackupReported(false)
   , fBackupDayForThisPar(false)
   , itsDataIdent(theParam)
+  , fMoonPhase(false)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
@@ -418,6 +424,26 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   itsIntegrationPeriod.startWeight = kFloatMissing;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiParamRect::SetMoonPhase(void)
+{
+  fMoonPhase = true;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+bool NFmiParamRect::IsMoonPhase(void)const
+{
+  return fMoonPhase;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

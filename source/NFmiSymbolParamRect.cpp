@@ -203,6 +203,11 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 			  break;
 		
 			subDir = ReadString();
+			NFmiString apu = subDir;
+			apu.LowerCase();
+			if(apu == "kuunvaiheet")
+				SetMoonPhase();
+				
 			symbDirGiven = true;
 		
 			ReadNext();

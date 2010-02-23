@@ -758,13 +758,15 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 #endif
   if(!itsInFile->good() || itsInFile->eof())
 	{
+			  //string msg = string(string("#OsaKuvassa (selite?) tuntematon maankolkka: ")
+				//				  +static_cast<char *>(theCountryPart));
 #ifndef UNIX
-	  string msg = string("Missing EPS image: ") + static_cast<char *>(itsPath);
+	  string msg = string(string("Missing EPS image: ") + static_cast<char *>(itsPath));
 #else	  
-	  string msg = string("Missing EPS image: ") + static_cast<char *>(imageFile);
+	  string msg = string(string("Missing EPS image: ") + static_cast<char *>(imageFile));
 #endif
 	  errors.push_back(msg);
-	  *itsLogFile << "*** WARNING: " << msg << endl;
+	  *itsLogFile << "*** ERROR: " << msg << endl;
 	  precedingElementMissing = true;
 	}
   else

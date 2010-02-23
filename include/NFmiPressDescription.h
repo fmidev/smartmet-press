@@ -115,6 +115,8 @@ public:
 	bool GetOnlyForMissingPrecedingElementFlag(void) const;
 	void SetOnlyForMissingPrecedingElementFlag(bool theFlag);  
     bool IsSegmentMove(void)const;
+	bool BlockLatinFont(const NFmiString& font) const; 
+
 
 protected:
 
@@ -206,8 +208,19 @@ NFmiPressDescription::NFmiPressDescription(std::ofstream * theLogFile,
   : NFmiDescription(theLogFile, theMaxLoopNum)
 {
 	fOnlyForMissingPrecedingElement= false;
-}
+}	 
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+bool NFmiPressDescription::BlockLatinFont(const NFmiString& font) const
+{
+  return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
