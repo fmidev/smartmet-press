@@ -367,7 +367,8 @@ NFmiString NFmiHyphenationString::ReplaceChar(const NFmiString & theChar,
   // lisää myös oct=136 kun ei saa jakaa
 
   NFmiString newString;
-  ResetPosition();
+  //ResetPosition();
+  SuperResetPosition();
   while(NextChar(theChar))
 	{
 	  newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
@@ -379,12 +380,13 @@ NFmiString NFmiHyphenationString::ReplaceChar(const NFmiString & theChar,
 	  newString += NFmiString(withString);
 
 	  // eikö pitäisi ynnätä enemmän jos += NFmiString("\\136")??
-	  itsCurrentCharPos += 2;
+	  //itsCurrentCharPos++;
+	  itsLastCharPosition = itsCurrentCharPos+1;
 
-	  itsLastCharPosition = --itsCurrentCharPos;
+	  //itsLastCharPosition = itsCurrentCharPos-1;
 
 	}
-  if (GetLen() - itsLastCharPosition > 0)
+  if (GetLen() - itsLastCharPosition >= 0)
 	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition+1);
 
   return newString;
@@ -526,7 +528,8 @@ bool NFmiHyphenationString::BackPosition(void)
 
 bool NFmiHyphenationString::NextPosition(void)
 {
-  return itsCurrentCharPos++ < fLength;
+  //return itsCurrentCharPos++ < fLength;
+  return ++itsCurrentCharPos <= fLength;
 }
 
 // ----------------------------------------------------------------------
