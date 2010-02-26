@@ -11,11 +11,7 @@
 #include <list>
 #include <string>
 
-#ifdef UNIX
-	extern std::list<std::string> errors;
-#else
-	std::list<std::string> errors;
-#endif
+extern std::list<std::string> errors;
 
 using namespace std;
 

@@ -30,6 +30,7 @@
 #include <iostream>
 
 using namespace std;
+extern std::list<std::string> errors;
 
 // ----------------------------------------------------------------------
 /*!
@@ -2870,12 +2871,12 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 				   {
 					 NFmiString statName = statPoint.Station()->GetName();
 					 if(!(statName == NFmiString("Tyhjä") || statName == NFmiString("None")))
-					   {
-						 if(itsLogFile)
-						   *itsLogFile << "  *** ERROR: Station missing from data: "
-									   << static_cast<char *>(statName)
-									   << endl;
-					   }
+					 {
+			              string msg = static_cast<char *>(statName);
+		                  errors.push_back(msg);
+					      if(itsLogFile)
+				              *itsLogFile << "  ***ERROR: " << msg << endl;
+					 }
 
 			   }
 			 fIsFirstStation = false;
@@ -2898,13 +2899,19 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 		  else
 			{   //HUOM QD:ssä pitää olla segmentin aika vaikka data-alkioissa käytettäissin eri tuntia
 			  NFmiString firstText;
+			  string msg;
 			  if(done)
 			     firstText = "  aika tehty yllä: ";
 			  else if(supplementLater)
 			     firstText = "  Segment time missing from this data: ";
 			  else
+			  {
 			     firstText = "  *** ERROR: Segment time missing from data: ";
-
+				 msg = string("Segment time missing from data: ")
+					  + static_cast<char *>(time.ToStr("DD.MM.YYYY HH"))
+					  + string(" utc");
+				 errors.push_back(msg);
+		      }
 			  *itsLogFile << static_cast<char *>(firstText)
 							<< static_cast<char *>(time.ToStr("DD.MM.YYYY HH"))
 							<< " utc"
@@ -2955,7 +2962,21 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
   long num = itsSymbols.NumOfMissing();
   if(num > 0 && itsLogFile)
-	*itsLogFile << "  WARNING: " << num << " puuttuvaa dataa" << endl;
+  {
+    string msg;
+	NFmiValueString valString(num); 
+	if(GetFirstDeltaDays() <= 1) //ei niin vakavaa
+	{
+		msg = static_cast<char *>(valString) + string(" missing observation data");
+		*itsLogFile << "  WARNING: " << msg << endl;
+	}
+	else    //vakavampaa
+	{
+		msg = static_cast<char *>(valString) + string(" missing forecast data");
+		*itsLogFile << "  ***ERROR: " << msg << endl;
+		errors.push_back(msg);
+	}
+  }
   itsSymbols.InitMissing(); // jotta ei manageri-käytössä kertyisi
 	    
   for(int i=1; i< itsNumberOfSteps; i++)

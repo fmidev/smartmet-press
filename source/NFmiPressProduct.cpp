@@ -1424,7 +1424,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 25.2.2010" << endl;       
+   *itsLogFile << "program version = Release 26.2.2010" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1971,7 +1971,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
   itsLanguage = kFinnish;
   double xmin,xmax,ymin,ymax;
   long long1, long2, long3;
-
+	
   long firstDeltaDays = 1 + itsEnvironment.GetDayAdvance();
   long origFirstDeltaDays = firstDeltaDays;
   short firstPlotHours = 12;
@@ -2067,7 +2067,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  itsOutputMode = kXml;
 			else
 			  {
-				string msg = string("Tuntematon tulostusmuoto: ")+ static_cast<char *>(helpString);
+				string msg = string("Unknown output mode: ")+ static_cast<char *>(helpString);
 				errors.push_back(msg);
 				if (itsLogFile)
 				  *itsLogFile << "*** ERROR: " << msg << endl;
@@ -2832,7 +2832,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			else
 			{
 				delete text;
-				string msg = "Analyysiajalle ei dataa";
+				string msg = "No data for #Analysingtime";
 				errors.push_back(msg);
 				*itsLogFile << "*** ERROR: " << msg << endl;
 				break;
@@ -3289,7 +3289,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   if(!startFile)
 	{
-	  string msg = string("StartPs-tiedostossa vikaa: ")+static_cast<char *>(startFileName);
+	  string msg = string("StartPs file is bad: ")+static_cast<char *>(startFileName);
 	  errors.push_back(msg);
 	  if(itsLogFile)
 		*itsLogFile << "*** ERROR: " << msg << endl;

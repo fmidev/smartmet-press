@@ -108,7 +108,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		{
 		  if(itsLogFile)
 			{
-			  string msg = "Tuotetiedoston maksimipituus ylitetty #OsaKuvass";
+			  string msg = "Tuotetiedoston maksimipituus ylitetty #OsaKuvassa";
 			  errors.push_back(msg);
 			  *itsLogFile << "*** ERROR: " << msg << endl;
 			}
