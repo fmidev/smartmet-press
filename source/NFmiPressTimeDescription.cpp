@@ -17,8 +17,10 @@
 #include "NFmiValueString.h"
 // system
 #include <iostream>
+#include <list>
 
 using namespace std;
+extern std::list<std::string> errors;
 
 // ----------------------------------------------------------------------
 /*!
@@ -225,11 +227,12 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 //		  return false;
 
 		set<string>::const_iterator pos;
+		//set<string>::const_iterator dayPos;
 		string condition, conditionBody, conditionBody2, conditionBodyLow, firstToLower;
 		string conditionMode;
 		string notDir, elseDir, endDir, numStr;
-		string numStr1, numStr2, numStr3, numStr4;
-		bool hourCondition;
+		string numStr1, numStr2, numStr3, numStr4, dayStr, todayStr;
+		bool hourCondition, multiDayCondition;
 		NFmiMetTime now;
 		// int hour = now.GetHour();
 		for(pos = optinalDirectives.begin(); pos!= optinalDirectives.end(); ++pos)
@@ -249,8 +252,9 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 			if(firstLoop)
 				*itsLogFile << "  vapaavalintainen direktiivi: "  
 						        <<  condition << endl;
-			conditionMode = condition.substr(12, 4);
-			hourCondition = conditionMode == "Hour";
+			conditionMode = condition.substr(12, 3);
+			hourCondition = conditionMode == "Hou";
+			multiDayCondition = conditionMode == "Day";
 			if(hourCondition)
 			{
 				conditionBody = condition.substr(3, condition.size()-3);
@@ -275,7 +279,40 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 				if(!PreProcessConditionally(prePr, GetSeasonsStatus()->hour >= dirHour, condition, notDir, endDir, elseDir))  
 					return false;
 			}
-			else //DataConversion; else ja end-komentoihin kuitenkin ajan toisto mukaan, muuten  
+			else if(multiDayCondition)
+			{
+				conditionBody = condition.substr(15, condition.size()-15);
+				notDir = "#ifNot" + conditionBody; //ei kuitenkaan voi k‰ytt‰‰ koska esittely ei onnistu
+				elseDir = "#" + conditionBody + "Else";
+				endDir = "#" + conditionBody + "Endif";
+				bool isDay = false;
+				int dayPos = 15;
+				string weekday(tim.Weekday(kEnglish));
+				weekday = weekday.substr(0,2);
+				int condSize = condition.size();
+				string msg = string("Unknown key word on top level: ")+static_cast<char *>(itsObject);
+				{
+					dayStr = condition.substr(dayPos, 2);
+					dayPos += 2;
+					if(dayStr != "Mo" && dayStr != "Tu" && dayStr != "We" &&
+					   dayStr != "Th" && dayStr != "Fr" && dayStr != "Sa" && dayStr != "Su")
+					{
+						string msg = string("invalid day directive: ") + condition; 
+						errors.push_back(msg);
+					    *itsLogFile << "*** ERROR: " << msg << endl;  
+						continue;
+					}
+					if(dayStr == weekday)
+					{
+						isDay = true;
+						break;
+					}
+				}
+
+				if(!PreProcessConditionally(prePr, isDay, condition, notDir, endDir, elseDir))  
+					return false;
+			} 
+			else //DateCondition; else ja end-komentoihin kuitenkin ajan toisto mukaan, muuten  
 				 //eri aikaehdot k‰ytt‰v‰t toistensa else/endej‰  
 			{
 				conditionBody = condition.substr(3, condition.size()-3);
@@ -295,8 +332,9 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 					||numStr3.find_first_not_of("0123456789") != string::npos
 					||numStr4.find_first_not_of("0123456789") != string::npos)
 				{
-						*itsLogFile << "*** ERROR: kielletty p‰iv‰direktiivi: "  
-									<<  condition << endl;
+						string msg = string("kielletty p‰iv‰direktiivi: ") + condition; 
+						errors.push_back(msg);
+					    *itsLogFile << "*** ERROR: " << msg << endl;  
 						continue;
 				}
 
@@ -307,8 +345,9 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 				if(day1 < 1 || day1 >31 || day2 < 1 || day2 >31
 				   ||month1 < 1 || month1 >12 || month2 < 1 || month2 >12)
 				{
-						*itsLogFile << "*** ERROR: virheellinen aika: "  
-									<<  condition << endl;
+						string msg = string("virheellinen aika: ") + condition; 
+						errors.push_back(msg);
+					    *itsLogFile << "*** ERROR: " << msg << endl;  
 						continue;
 				}
 				NFmiMetTime dirTime1, dirTime2;
