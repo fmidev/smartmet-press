@@ -290,7 +290,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 				string weekday(tim.Weekday(kEnglish));
 				weekday = weekday.substr(0,2);
 				int condSize = condition.size();
-				string msg = string("Unknown key word on top level: ")+static_cast<char *>(itsObject);
+				//string msg = string("Unknown key word on top level: ")+static_cast<char *>(itsObject);
+				while(dayPos+2 <= condSize && !isDay)
 				{
 					dayStr = condition.substr(dayPos, 2);
 					dayPos += 2;
@@ -305,7 +306,6 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 					if(dayStr == weekday)
 					{
 						isDay = true;
-						break;
 					}
 				}
 
