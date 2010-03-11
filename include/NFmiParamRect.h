@@ -416,8 +416,8 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fUseBackupTimeForward(false)
   , fBackupReported(false)
   , fBackupDayForThisPar(false)
-  , itsDataIdent(theParam)
   , fMoonPhase(false)
+  , itsDataIdent(theParam)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
