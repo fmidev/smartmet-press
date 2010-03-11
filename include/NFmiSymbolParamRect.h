@@ -32,7 +32,8 @@ enum NFmiSymbolParamRectObjects
 	dScaleMapping,
 	dSymbolDefSize,
 	dRelSize,
-	dConstSymbolName
+	dConstSymbolName,
+    dIncludeNightSymbols
   };
 
 
@@ -72,6 +73,7 @@ protected:
 							 NFmiPoint realPos,
 							 std::ofstream & os);
   bool RawSymbolToBeConverted(NFmiString * symbolFil);
+  void UseDayNightSymbols(void);
 
 protected:
 
@@ -83,7 +85,7 @@ protected:
   NFmiString *       itsOrigDir;
   NFmiString         itsSymbolSetName;
   NFmiRectScale		 itsDefToProductScale;
-
+  bool				 fUseDayNightSymbols;
 }; // class NFmiSymbolParamRect
 
 // ----------------------------------------------------------------------
@@ -101,9 +103,23 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(void)
   , itsOrigDir(0)
   , itsDefToProductScale(NFmiRect(0.,0.,140.,140.),  //sovittu koko
 						 NFmiRect(0.,0.,1.,1.))
+  , fUseDayNightSymbols(false)
 {
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param boo Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiSymbolParamRect::UseDayNightSymbols(void)
+{
+  fUseDayNightSymbols = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -199,6 +199,7 @@ protected:
   bool IsMissingLonLat(void);
   bool IsMoonPhase(void)const;
   void SetMoonPhase(void);
+  bool IsDayNightString(NFmiString &theSymbolName)const;
 
 private:
 

@@ -2534,5 +2534,19 @@ bool NFmiParamRect::IsMissingLonLat(void)
 {
 	 return itsPressParam->GetCurrentStation().GetLongitude() == kFloatMissing;
 }
+// ----------------------------------------------------------------------
+bool NFmiParamRect::IsDayNightString(NFmiString &theSymbolName)const
+{
+	 NFmiString symbolName(theSymbolName);
+	 symbolName.LowerCase();
+
+     unsigned long kuuroPos = symbolName.Search(NFmiString("kuuro"));
+	 if (kuuroPos > 0)
+		 return true;
+	 if(symbolName == NFmiString("melkeinpilvinen") || symbolName == NFmiString("puolipilvinen")
+		 || symbolName == NFmiString("melkeinselkeä") || symbolName == NFmiString("selkeä"))
+		 return true;
+	 return false;
+}
 
 // ======================================================================

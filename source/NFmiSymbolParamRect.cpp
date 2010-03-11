@@ -61,6 +61,7 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect & theSymbolRe
   , itsOrigDir(new NFmiString(*theSymbolRect.itsOrigDir))
   , itsSymbolSetName(theSymbolRect.itsSymbolSetName)
   , itsDefToProductScale(theSymbolRect.itsDefToProductScale)
+  , fUseDayNightSymbols(theSymbolRect.fUseDayNightSymbols)
 
 {
 }
@@ -360,6 +361,12 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 			SetOne(itsFirstPlotHours);
 			break;
 		  }
+		case dIncludeNightSymbols:
+		  {
+			UseDayNightSymbols();
+			ReadNext();
+			break;
+		  }
 		default:
 		  {
 			ReadRemaining();
@@ -519,10 +526,14 @@ int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("scaledsymbol") ||
 		  lowChar==NFmiString("skaalamuunnos"))
 	return dScaleMapping;
-  
+
   else if(lowChar==NFmiString("name") ||
           lowChar==NFmiString("nimi"))
 	return dConstSymbolName;
+
+  else if(lowChar==NFmiString("includenightsymbols") ||
+          lowChar==NFmiString("yösymbolitmukaan"))
+	return dIncludeNightSymbols;
 
   else
 	return NFmiParamRect::ConvertDefText(object);
@@ -771,6 +782,14 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  CompleteMultiMapping();
 
 	      symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
+		  
+		  if(fUseDayNightSymbols && IsDayNightString(*symbolFile))
+		  {
+			float elev = SunElevation(theQI);
+		    if(elev < -.83)
+				*symbolFile += NFmiString("yö");
+		  }
+        
 		  if(symbolFile && symbolFile->IsEqual(NFmiString("ristiriita")))
 		  {
 			  *itsLogFile << "ERROR: ristiriita symbolia määrättäessä" << endl;
