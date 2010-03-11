@@ -386,7 +386,7 @@ NFmiString NFmiHyphenationString::ReplaceChar(const NFmiString & theChar,
 	  //itsLastCharPosition = itsCurrentCharPos-1;
 
 	}
-  if (GetLen() - itsLastCharPosition >= 0)
+  if (GetLen() >= itsLastCharPosition )
 	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition+1);
 
   return newString;
