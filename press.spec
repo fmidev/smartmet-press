@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 10.1.15
+Version: 10.3.15
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Mar 15 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.3.14-1.el5.fmi
+- Added moon phase and easier symbol definitions
+* Wed Feb 10 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.2.10-1.el5.fmi
+- Improved error handling
 * Fri Jan 15 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.1.15-1.el5.fmi
 - Compiled with latest newbase
 * Mon Dec 14 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.12.14-1.el5.fmi
