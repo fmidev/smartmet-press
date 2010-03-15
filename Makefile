@@ -67,7 +67,7 @@ DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wold-style-cast
 
 CC = g++
 
-CFLAGS = -O0 -g $(DEFINES) $(MAINFLAGS) $(EXTRAFLAGS) -Werror
+CFLAGS_DEBUG = -O0 -g $(DEFINES) $(MAINFLAGS) $(EXTRAFLAGS) -Werror
 CFLAGS_RELEASE = -O2 -DNDEBUG $(DEFINES) $(MAINFLAGS)
 
 LDFLAGS =
@@ -89,7 +89,9 @@ LIBS = -L$(libdir) \
 
 # CFLAGS
 
-ifeq ($(MAKECMDGOALS),release)
+ifeq ($(MAKECMDGOALS),debug)
+  CFLAGS = $(CFLAGS_DEBUG)
+else
   CFLAGS = $(CFLAGS_RELEASE)
 endif
 
