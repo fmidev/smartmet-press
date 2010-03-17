@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 10.3.15
+Version: 10.3.17
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Mar 17 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.3.15-1.el5.fmi
+- Missing segment time is no longer a fatal error
 * Mon Mar 15 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.3.14-1.el5.fmi
 - Added moon phase and easier symbol definitions
 * Wed Feb 10 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.2.10-1.el5.fmi
