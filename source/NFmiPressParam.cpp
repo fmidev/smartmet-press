@@ -2910,7 +2910,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 				 msg = string("Segment time missing from data: ")
 					  + static_cast<char *>(time.ToStr("DD.MM.YYYY HH"))
 					  + string(" utc");
-				 errors.push_back(msg);
+				 // errors.push_back(msg);
 		      }
 			  *itsLogFile << static_cast<char *>(firstText)
 							<< static_cast<char *>(time.ToStr("DD.MM.YYYY HH"))
