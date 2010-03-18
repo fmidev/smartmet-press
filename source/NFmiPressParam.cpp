@@ -2973,8 +2973,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	else    //vakavampaa
 	{
 		msg = static_cast<char *>(valString) + string(" missing forecast data");
-		*itsLogFile << "  ***ERROR: " << msg << endl;
-		errors.push_back(msg);
+		*itsLogFile << "  ***WARNING: " << msg << endl;
+		// errors.push_back(msg);
 	}
   }
   itsSymbols.InitMissing(); // jotta ei manageri-käytössä kertyisi
