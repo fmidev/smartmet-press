@@ -78,8 +78,9 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream * inFile)
 	}
   
   short ind = 0;
+  row.ReplaceChars(NFmiString("\t"), NFmiString(" "));
   while (row.NextSubString(comma, onePair))
-	{
+	{ 
 	  hyphOnePair = onePair.CharPtr();
 	  hyphOnePair.NextSubString(str);
 	  
