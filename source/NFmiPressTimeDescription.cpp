@@ -287,10 +287,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 				endDir = "#" + conditionBody + "Endif";
 				bool isDay = false;
 				int dayPos = 15;
-				string weekday(tim.Weekday(kEnglish));
-				weekday = weekday.substr(0,2);
+				int weekday = GetSeasonsStatus()->weekday;
 				int condSize = condition.size();
-				//string msg = string("Unknown key word on top level: ")+static_cast<char *>(itsObject);
 				while(dayPos+2 <= condSize && !isDay)
 				{
 					dayStr = condition.substr(dayPos, 2);
@@ -303,12 +301,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 					    *itsLogFile << "*** ERROR: " << msg << endl;  
 						continue;
 					}
-					if(dayStr == weekday)
-					{
-						isDay = true;
-					}
+					isDay = Weekday2Num(NFmiString(dayStr)) == weekday;
 				}
-
 				if(!PreProcessConditionally(prePr, isDay, condition, notDir, endDir, elseDir))  
 					return false;
 			} 
@@ -426,6 +420,38 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 	  }
 
 	return true;
+}
+
+
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theWeekday Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+int NFmiPressTimeDescription::Weekday2Num(NFmiString& theWeekday)const
+{
+	NFmiString theString(theWeekday);
+	theString.LowerCase();
+	int num = 0;
+    if(theString == "mo" || theString == "ma")
+		num = 1;
+	else if(theString == "tu" || theString == "ti")
+		num = 2;
+	else if(theString == "we" || theString == "ke")
+		num = 3;
+	else if(theString == "th" || theString == "to")
+		num = 4;
+	else if(theString == "fr" || theString == "pe")
+		num = 5;
+	else if(theString == "sa" || theString == "la")
+		num = 6;
+	else if(theString == "su")
+		num = 7;
+	return num;
 }
 // ----------------------------------------------------------------------
 /*!

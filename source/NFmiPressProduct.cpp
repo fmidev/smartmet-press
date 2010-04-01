@@ -1040,20 +1040,9 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			{
 			  if(!undef)
 				{
-				  if(fmiShortStr2 == "mo" || fmiShortStr2 == "ma")
-					itsSeasonsStatus->weekday = 1;
-				  else if(fmiShortStr2 == "tu" || fmiShortStr2 == "ti")
-					itsSeasonsStatus->weekday = 2;
-				  else if(fmiShortStr2 == "we" || fmiShortStr2 == "ke")
-					itsSeasonsStatus->weekday = 3;
-				  else if(fmiShortStr2 == "th" || fmiShortStr2 == "to")
-					itsSeasonsStatus->weekday = 4;
-				  else if(fmiShortStr2 == "fr" || fmiShortStr2 == "pe")
-					itsSeasonsStatus->weekday = 5;
-				  else if(fmiShortStr2 == "sa" || fmiShortStr2 == "la")
-					itsSeasonsStatus->weekday = 6;
-				  else if(fmiShortStr2 == "su")
-					itsSeasonsStatus->weekday = 7;
+				  int help = Weekday2Num(fmiShortStr2);
+				  if(help > 0)
+						itsSeasonsStatus->weekday = help;
 				  else
 					{
 					  string msg = "Invalid weekday in seasonstatus: " + str2;
@@ -1424,7 +1413,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 26.3.2010" << endl;       
+   *itsLogFile << "program version = Release 1.4.2010" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
