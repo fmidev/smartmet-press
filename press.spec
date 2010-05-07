@@ -1,14 +1,14 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 10.3.18
+Version: 10.5.7
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 10.1.15-1
+BuildRequires: libsmartmet-newbase >= 10.4.23-1
 Provides: qdpress
 
 %description
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Fri May  7 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.5.7-1.el5.fmi
+- Missing text file is now fatal
 * Thu Mar 18 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.3.18-1.el5.fmi
 - Missing forecast data is no longer fatal (happened for wave height data)
 * Wed Mar 17 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.3.17-1.el5.fmi
