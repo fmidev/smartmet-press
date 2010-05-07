@@ -114,7 +114,7 @@ public:
   bool ActiveTimeIndex(int currentInd) const;
   bool IsWriteAsUtc(void) const;
   FmiPressSeasons* GetSeasonsStatus(void)const;
-  int Weekday2Num(NFmiString& theWeekday)const;
+  int Weekday2Num(const NFmiString& theWeekday)const;
 
 protected:
 

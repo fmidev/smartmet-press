@@ -432,7 +432,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-int NFmiPressTimeDescription::Weekday2Num(NFmiString& theWeekday)const
+int NFmiPressTimeDescription::Weekday2Num(const NFmiString& theWeekday)const
 {
 	NFmiString theString(theWeekday);
 	theString.LowerCase();
