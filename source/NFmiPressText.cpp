@@ -18,6 +18,8 @@
 #include "NFmiFileSystem.h"
 #include <iostream>
 
+extern std::list<std::string> errors;
+
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -528,9 +530,11 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	}
     else
 	{
-		*itsLogFile << endl << "  *** ERROR: teksti ei löydy" << endl;
-		retString = itsString;
-		return false;
+	  string msg = string("Teksti ei löydy: ")+dataFile.CharPtr();
+	  *itsLogFile << endl << "  *** ERROR: " << msg << endl;
+	  errors.push_back(msg);
+	  retString = itsString;
+	  return false;
   	}
   }
 
