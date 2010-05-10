@@ -30,6 +30,7 @@ NFmiHyphenationString::NFmiHyphenationString(void)
 {
   ResetPosition();
   fIrregularHyphensInited = false;
+  fNarrowColumn = false;
 }
 
 // ----------------------------------------------------------------------
@@ -45,6 +46,7 @@ NFmiHyphenationString::NFmiHyphenationString(const char * theText)
 {
   ResetPosition();
   fIrregularHyphensInited = false;
+  fNarrowColumn = false;
 }
 
 // ----------------------------------------------------------------------
@@ -60,6 +62,7 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiString & theText)
 {
   ResetPosition();
   fIrregularHyphensInited = false;
+  fNarrowColumn = false;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -73,9 +76,20 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiHyphenationString & theTe
   : NFmiString(theText) 
 {
 	fIrregularHyphensInited = theText.fIrregularHyphensInited;
-    itsIrregularHyphens = theText.itsIrregularHyphens; 
+    itsIrregularHyphens = theText.itsIrregularHyphens;
+	fNarrowColumn = theText.fNarrowColumn;
 }
+// ----------------------------------------------------------------------
+/*!
+ *
+ * \param 
+ */
+// ----------------------------------------------------------------------
 
+void NFmiHyphenationString::SetNarrowColumn(bool theStatus) 
+{
+	fNarrowColumn = theStatus;
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -326,13 +340,15 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 		   !(GetChars(itsCurrentCharPos-4, 1) == NFmiString(" ") && // kolme kons. sanan alussa  
 			IsConsonant(GetChars(itsCurrentCharPos-3, 1)) &&        // esim ei "på dagen sp-ricker"
 			IsConsonant(GetChars(itsCurrentCharPos-2, 1)))
-		 &&
+		 &&		 
 		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("-") && //muuten tuplana jaettaessa
-		 GetChars(itsCurrentCharPos+3, 1) != NFmiString('\r') && //omalle riville väh. 8 merkki
+		 EnoughOnRow() &&
+		/* GetChars(itsCurrentCharPos+3, 1) != NFmiString('\r') && //omalle riville väh. 8 merkki
 		 GetChars(itsCurrentCharPos+4, 1) != NFmiString('\r') && 
 		 GetChars(itsCurrentCharPos+5, 1) != NFmiString('\r') && 
 		 GetChars(itsCurrentCharPos+6, 1) != NFmiString('\r') && 
 		 GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r') &&
+		 */
 		 //itsCurrentCharPos < GetLen()-6   &&
 
 //		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki, tarvitaanko
@@ -349,7 +365,28 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
 
   return newString;
 }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theChar Undocumented
+ * \param withString Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
 
+bool NFmiHyphenationString::EnoughOnRow(void)const
+{
+   if(fNarrowColumn)
+	   return true;
+   else
+	   return
+		 GetChars(itsCurrentCharPos+3, 1) != NFmiString('\r') && //omalle riville väh. 8 merkki
+		 GetChars(itsCurrentCharPos+4, 1) != NFmiString('\r') && 
+		 GetChars(itsCurrentCharPos+5, 1) != NFmiString('\r') && 
+		 GetChars(itsCurrentCharPos+6, 1) != NFmiString('\r') && 
+		 GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r');		 
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

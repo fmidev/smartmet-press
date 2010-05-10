@@ -70,6 +70,7 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , itsWidthFactor(thePressText.itsWidthFactor)
   , itsFreePath(thePressText.itsFreePath)
   , itsNextTexts(thePressText.itsNextTexts)
+  , fNarrowColumn(thePressText.fNarrowColumn)
 {
   itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : 0;
   itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : 0;
@@ -442,7 +443,11 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 
 		}
 	}
-  
+  fNarrowColumn = false;
+  double height = itsRectSize.Y();
+  if(fInParagraph && height>0.)
+	fNarrowColumn = ((itsRightMargin - itsLeftMargin)/height) < 12.;
+
   if(textFile.IsValue())
   {
 	delete itsText;
@@ -980,6 +985,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		{
 		  text += NFmiString(" ");
 		  hypString = NFmiHyphenationString(text);
+		  hypString.SetNarrowColumn(fNarrowColumn);
 		  helpString = hypString.CreateHyphens("~");
 		  if(itsEnvironment.AvoidOrphanSyllables())
 			helpString = helpString.DeleteShortSyllables("~");

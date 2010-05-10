@@ -65,16 +65,19 @@ public:
   unsigned long CurrentCharPosition(void) const;
   bool NextSubString(const NFmiString & toDelimiter, NFmiString & resString);
   bool NextSubString(NFmiString & resString);
+  void SetNarrowColumn(bool theStatus);
 
 private:
   bool IsPunctuation(unsigned short theChar);
   bool InitIrregularHyphens(void);
   void CreateIrregularHyphens(const char * theHyphenationMark);
+  bool EnoughOnRow(void)const;
 
   unsigned short itsCurrentCharPos;
   unsigned short itsLastCharPosition;
   bool fIrregularHyphensInited;
   std::vector<std::string> itsIrregularHyphens;
+  bool fNarrowColumn;
 
 }; // class NFmiHyphenationString
 

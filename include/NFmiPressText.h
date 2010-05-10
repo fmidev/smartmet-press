@@ -134,6 +134,7 @@ protected:
   double itsWidthFactor;
   std::vector<NFmiPoint> itsFreePath;
   std::vector<NFmiHyphenationString> itsNextTexts;
+  bool fNarrowColumn;
 }; // class NFmiPressText
 
 // ----------------------------------------------------------------------
@@ -164,6 +165,7 @@ NFmiPressText::NFmiPressText()
   , itsCharSpace(0.)
   , itsMaxLen(kUnsignedLongMissing)
   , itsWidthFactor(1.)
+  , fNarrowColumn(false)
 {
   itsSubText = 0;
   itsLanguage = kFinnish;
