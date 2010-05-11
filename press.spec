@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 10.5.7
+Version: 10.5.11
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Tue May 11 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.5.11-1.el5.fmi
+- Hyphenation improvements by Lars Winberg
 * Fri May  7 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.5.7-1.el5.fmi
 - Missing text file is now fatal
 * Thu Mar 18 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.3.18-1.el5.fmi
