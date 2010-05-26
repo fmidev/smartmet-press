@@ -83,7 +83,8 @@ public:
 
   virtual std::ostream & Write(std::ostream & file) const;
   virtual std::istream & Read(std::istream & file); 
-  
+  void SetAlternatingSizeFactor (float theSizeFactor);
+  float GetAlternatingSizeFactor(void) const; 
 protected:
 
   float GetWmoDifference(void) const;
@@ -92,6 +93,7 @@ private:
 
   NFmiPoint itsPoint;
   bool fIsBackup;
+  float itsAlternatingSizeFactor;
 	 
 }; // class NFmiStationPoint
 
@@ -117,6 +119,7 @@ NFmiStationPoint::NFmiStationPoint(void)
   : NFmiStation(2111, "Helsinki")
   , itsPoint(0.,0.)
   , fIsBackup(false)
+  , itsAlternatingSizeFactor(-1.)
 {
 }
 
@@ -135,6 +138,24 @@ NFmiStationPoint::NFmiStationPoint(const NFmiStation & theStation,
   : NFmiStation(theStation)
   , itsPoint(thePoint)
   , fIsBackup(false)
+  , itsAlternatingSizeFactor(-1.)
+{
+}
+// ----------------------------------------------------------------------
+/*!
+ * Copy constructor
+ *
+ * \param theStation The object being copied
+ */
+// ----------------------------------------------------------------------
+
+inline
+NFmiStationPoint::NFmiStationPoint(const NFmiStationPoint & theStation) 
+  : NFmiStation(*theStation.Station())
+  , NFmiDescription()
+  , itsPoint(theStation.Point())
+  , fIsBackup(theStation.fIsBackup)
+  , itsAlternatingSizeFactor(theStation.GetAlternatingSizeFactor())
 {
 }
   
@@ -167,6 +188,33 @@ inline
 NFmiPoint NFmiStationPoint::Point(void) const
 {
   return itsPoint;
+} 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiStationPoint::SetAlternatingSizeFactor(float theSizeFactor) 
+{
+  itsAlternatingSizeFactor = theSizeFactor;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+float NFmiStationPoint::GetAlternatingSizeFactor(void) const 
+{
+  return itsAlternatingSizeFactor;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -196,22 +244,6 @@ bool NFmiStationPoint::IsBackup(void) const
   return fIsBackup;
 }
 
-// ----------------------------------------------------------------------
-/*!
- * Copy constructor
- *
- * \param theStation The object being copied
- */
-// ----------------------------------------------------------------------
-
-inline
-NFmiStationPoint::NFmiStationPoint(const NFmiStationPoint & theStation) 
-  : NFmiStation(*theStation.Station())
-  , NFmiDescription()
-  , itsPoint(theStation.Point())
-  , fIsBackup(theStation.fIsBackup)
-{
-}
 
 // ----------------------------------------------------------------------
 /*!

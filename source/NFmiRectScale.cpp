@@ -60,6 +60,24 @@ void NFmiRectScale::SetScales(const NFmiRect & theStartRect, const NFmiRect & th
 {
   SetStartScales(theStartRect);
   SetEndScales(theEndRect);
+}  
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param withFactor Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiRectScale::RescaleEndScales(double withFactor)
+{
+  double deltaX = withFactor*(itsXEndScale.Difference())/2.f;
+  double deltaY = withFactor*(itsYEndScale.Difference())/2.f;
+  
+  SetEndScales(NFmiRect(GetEndCenter().X() - deltaX
+	                   ,GetEndCenter().Y() + deltaY
+	                   ,GetEndCenter().X() + deltaX
+	                   ,GetEndCenter().Y() - deltaY));  
 }
 
 // ----------------------------------------------------------------------
@@ -168,8 +186,8 @@ void NFmiRectScale::MoveEndScales(const NFmiPoint& theDiff)
 
 void NFmiRectScale::MoveXEndScale(double theDelta)
 {
-  SetXEndScale(NFmiScale(itsXEndScale.StartValue()+ theDelta,
-						 itsXEndScale.EndValue()+ theDelta));
+  SetXEndScale(NFmiScale(itsXEndScale.StartValue()+ (float)theDelta,
+						 itsXEndScale.EndValue()+ (float)theDelta));
 }
 
 // ----------------------------------------------------------------------

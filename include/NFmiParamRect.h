@@ -166,6 +166,8 @@ public:
   void SetIdentPar(unsigned long theIdentPar); 
   unsigned long GetIdentPar(void); 
   unsigned long GetPrimaryDataNum(void)const;
+  void SetAlternatingSizeFactor(float theFactor);
+
 protected:
 
   bool SetRelModifierTimes(long startRelHour, long endRelHour);
@@ -200,6 +202,7 @@ protected:
   bool IsMoonPhase(void)const;
   void SetMoonPhase(void);
   bool IsDayNightString(NFmiString &theSymbolName)const;
+  float GetAlternatingSizeFactor(void)const;
 
 private:
 
@@ -283,8 +286,10 @@ protected:
   bool fBackupReported;
   bool fBackupDayForThisPar;
   bool fMoonPhase;
-private:
+  NFmiPoint itsPreviousPoint;
+  float itsAlternatingSizeFactor; //for symbols
 
+private:
   NFmiDataIdent	itsDataIdent;
 
 }; // class NFmiParamRect
@@ -346,6 +351,8 @@ NFmiParamRect::NFmiParamRect(void)
   , fBackupReported(false)
   , fBackupDayForThisPar(false)
   , fMoonPhase(false)
+  , itsPreviousPoint(NFmiPoint(-1.,-1.))
+  , itsAlternatingSizeFactor(-1.) 
 
 {
   itsStationLoopActivity.startIndex=0;
@@ -418,13 +425,35 @@ NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
   , fBackupDayForThisPar(false)
   , fMoonPhase(false)
   , itsDataIdent(theParam)
+  , itsPreviousPoint(NFmiPoint(-1.,-1.))
+  , itsAlternatingSizeFactor(-1.)
 {
   itsLogFile = theLogFile;
   itsMaxLoopNum = theMaxLoopNum;
   itsIntegrationPeriod.period = kUnsignedLongMissing;
   itsIntegrationPeriod.startWeight = kFloatMissing;
-}
+}  
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiParamRect::SetAlternatingSizeFactor(float theFactor)
+{
+  itsAlternatingSizeFactor = theFactor;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+float NFmiParamRect::GetAlternatingSizeFactor(void)const
+{
+  return itsAlternatingSizeFactor;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

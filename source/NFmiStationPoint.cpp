@@ -29,6 +29,8 @@ NFmiStationPoint & NFmiStationPoint::operator=(const NFmiStationPoint & theStati
   Station(*theStationPoint.Station());
   Point(theStationPoint.Point());
   fIsBackup = theStationPoint.IsBackup();
+  itsAlternatingSizeFactor = theStationPoint.GetAlternatingSizeFactor();
+
   return *this;
 }
 
@@ -330,7 +332,7 @@ NFmiString NFmiStationPoint::LocalWmoTime(int utc) const
   else
   {
     int hour = static_cast<int>(diffHour);
-	float corrDiffHour = static_cast<float>(hour) + (diffHour-hour) * 0.6;
+	float corrDiffHour = static_cast<float>(hour) + (diffHour-hour) * 0.6f;
 	retString.SetValue(static_cast<float>(corrDiffHour),NFmiString("%05.2f"));
   }
   

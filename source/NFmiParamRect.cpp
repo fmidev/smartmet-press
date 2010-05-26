@@ -127,6 +127,9 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect & theRect)
   , fBackupDayForThisPar(theRect.fBackupDayForThisPar)
   , fMoonPhase(theRect.fMoonPhase)
   , itsDataIdent(theRect.itsDataIdent)
+  , itsPreviousPoint(theRect.itsPreviousPoint)
+  , itsAlternatingSizeFactor(theRect.itsAlternatingSizeFactor)
+
 {
   SetEnvironment(theRect.GetEnvironment());
   if(theRect.itsMultiMapping)

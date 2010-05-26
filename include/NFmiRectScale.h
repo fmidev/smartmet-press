@@ -36,6 +36,7 @@ public:
   void MoveEndScales (const NFmiPoint & theDiff);
   void MoveXEndScale (double theDelta);
   void SetEndScales(const NFmiRect & endRect);
+  void RescaleEndScales(double withFactor);
   void SetScales(const NFmiRect & startRect, const NFmiRect & endRect);
   double GetXScaling(void) const;
   double GetYScaling(void) const;

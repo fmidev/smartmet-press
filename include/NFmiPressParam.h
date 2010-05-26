@@ -87,7 +87,8 @@ enum NFmiPressParamObjects
   dDayChangeText,
   dOptimizeGlobalObs,
   dSegmentHybridLevel,
-  dHybridLevelPlace
+  dHybridLevelPlace,
+  dAlternatingSizeFactor
 };
 
 struct FmiValuePoint
@@ -201,6 +202,7 @@ public:
   bool IsOptimizeGlobalObs(void) const;
   void SetBackupDayReported(void);
   bool IsBackupDayReported(void)const;
+  NFmiStationPoint* GetCurrentStationPoint(void)const;
 protected:
 
   void UnsetAllErrorReported(void);
@@ -278,8 +280,8 @@ protected:
   bool fDayChanged;
   bool fOptimizeGlobalObs;
   bool fBackupDayReported;
-}; // class NFmiPressParam
-
+  NFmiStationPoint* itsCurrentStationPoint; 
+};
 // ----------------------------------------------------------------------
 /*!
  * Destructor
@@ -304,6 +306,8 @@ NFmiPressParam::~NFmiPressParam (void)
 	delete itsOptionLocation;
   if(itsDayChangeText)
 	  delete itsDayChangeText;
+  if(itsCurrentStationPoint)
+      delete itsCurrentStationPoint;
 }
 
 // ----------------------------------------------------------------------
@@ -343,6 +347,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fDayChanged(false)
   , fOptimizeGlobalObs(false)
   , fBackupDayReported(false)
+  , itsCurrentStationPoint(0)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -401,11 +406,22 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fDayChanged(false)
   , fOptimizeGlobalObs(false)
   , fBackupDayReported(false)
+  , itsCurrentStationPoint(0)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
-}  
+}    
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+NFmiStationPoint* NFmiPressParam::GetCurrentStationPoint(void)const
+{
+  return itsCurrentStationPoint;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -651,7 +651,7 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
+bool NFmiSymbolGroup::WritePS(NFmiStationPoint* theStationPoint,
 							  FmiPressOutputMode theOutput)
 {
 
@@ -661,10 +661,10 @@ bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
   
   NFmiRect absRectOfGroup;
 
-  absRectOfGroup = NFmiRect(theStationPoint.X() -  scaledXSize/2,	// left
-							theStationPoint.Y() + scaledYSize/2,	// top
-							theStationPoint.X() + scaledXSize/2,	// right
-							theStationPoint.Y() - scaledYSize/2);	// bottom
+  absRectOfGroup = NFmiRect(theStationPoint->X() -  scaledXSize/2,	// left
+							theStationPoint->Y() + scaledYSize/2,	// top
+							theStationPoint->X() + scaledXSize/2,	// right
+							theStationPoint->Y() - scaledYSize/2);	// bottom
 
   NFmiVoidPtrIterator objectIter(itsPressScalingObjects);
   NFmiPressScaling * object;
@@ -680,7 +680,7 @@ bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
 	  object->Set(*itsRectScale, *itsOutFile);
 	  
 	  object->ScaleNotPlace(); // koska jo kerran skaalat
-	  if (!(object->WritePS(theStationPoint.Point(),theOutput)))
+	  if (!(object->WritePS(theStationPoint->Point(),theOutput)))
 		{
 		  if(itsLogFile)
 			*itsLogFile << "*** ERROR: (timeDep)object->WritePS() in NFmiSymbolGroup" << endl;
@@ -695,6 +695,7 @@ bool NFmiSymbolGroup::WritePS(const NFmiStationPoint &theStationPoint,
 	{
 	  itsQueryDataIter->Time(currentSegmentTime); // piirtoalkiot saattavat muuttaa (ainakin tuntia)
 	  itsParamRects[i]->SetOrder(i+1);
+      itsParamRects[i]->SetAlternatingSizeFactor(theStationPoint->GetAlternatingSizeFactor());
 	  itsParamRects[i]->WritePS(absRectOfGroup,
 								itsQueryDataIter,
 								*itsOutFile,

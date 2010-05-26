@@ -46,7 +46,7 @@ public:
   void InitMissing(void);
   bool  ReadDescription(NFmiString & retString); 
 
-  bool WritePS(const NFmiStationPoint & theStationPoint,
+  bool WritePS(NFmiStationPoint* theStationPoint,
 			   FmiPressOutputMode theOutput);
 
   bool SetPressParam(NFmiPressParam * param);

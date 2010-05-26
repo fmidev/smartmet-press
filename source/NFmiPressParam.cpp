@@ -680,6 +680,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   bool dataTimeGiven = false;
   bool takeToMainArea = false;
   FmiLevelType levelType = kFmiPressureLevel;
+  float alternatingSize = -1.;
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
 	  if(itsLoopNum > itsMaxLoopNum)
@@ -1559,9 +1560,9 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   			  point2 = itsScale.Scale(point1);
               NFmiStationPoint station
 				= NFmiStationPoint(NFmiStation(statNum, string1, lon, lat), point2);
+			  station.SetAlternatingSizeFactor(alternatingSize);
 			  if(fNextStationBackup)
 						station.SetBackup(true);
-
 			  itsStations.AddLocation(station, false);
 			  if(firstStation)
 				{
@@ -1678,7 +1679,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				// t‰m‰ temppu jotta koordinaatit oikein PsSymbolille
 				// voidaan tallettaa point1:een kun kaikki periytyy NFmiPsSymbolista
 				// lat/loniahan ei tarvita mihink‰‰n
-
+				station.SetAlternatingSizeFactor(alternatingSize);
 				if(fNextStationBackup)
 						station.SetBackup(true);
 				itsStations.AddLocation(station, false);
@@ -1754,6 +1755,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					}
 					NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+				    station.SetAlternatingSizeFactor(alternatingSize);
 					if(fNextStationBackup)
 						station.SetBackup(true);
 					itsStations.AddLocation(station, false);
@@ -1823,6 +1825,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 								name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 							}
 							NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+				            station.SetAlternatingSizeFactor(alternatingSize);
 							if(fNextStationBackup)
 								station.SetBackup(true);
 							itsStations.AddLocation(station, false);
@@ -1859,7 +1862,8 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				{
 				  currentStationNumOnMap++;
 				  NFmiStationPoint statPoint(NFmiStation(currentStationNumOnMap,name),NFmiPoint(10,10));
-				  if(SetLonLat(statPoint))
+				  statPoint.SetAlternatingSizeFactor(alternatingSize);
+			      if(SetLonLat(statPoint))
 					{
 					  point0 = (itsArea.GetArea())->ToXY(NFmiPoint(statPoint.GetLongitude(),statPoint.GetLatitude()));
 					  double bottom = (itsArea.GetArea())->Bottom();
@@ -1869,6 +1873,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					  point2 = itsScale.Scale(point1);
 					  NFmiStationPoint station
 						(NFmiStation(currentStationNumOnMap, name, kFloatMissing, kFloatMissing), point2);
+				      station.SetAlternatingSizeFactor(alternatingSize);
 					  if(fNextStationBackup)
 						station.SetBackup(true);
 					  itsStations.AddLocation(station, false);
@@ -1922,6 +1927,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					}
 					NFmiStationPoint station
 					  (NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
+				    station.SetAlternatingSizeFactor(alternatingSize);
 					if(fNextStationBackup)
 						station.SetBackup(true);
 					itsStations.AddLocation(station, false);
@@ -1995,6 +2001,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 					NFmiStationPoint station
 					  (NFmiStation(currentStationNumOnMap, name, lonlat.X(), lonlat.Y()), point2);
+				    station.SetAlternatingSizeFactor(alternatingSize);
 					itsStations.AddLocation(station, false);
 					if(firstStation)
 					  {
@@ -2045,6 +2052,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						name += NFmiValueString(static_cast<int>(currentStationNumOnMap)); //uniikki nimi jokaiselle
 						NFmiStationPoint station
 						    (NFmiStation(currentStationNumOnMap, name, lonlat.X(), lonlat.Y()), point2);
+				        station.SetAlternatingSizeFactor(alternatingSize);
 						itsStations.AddLocation(station, false);
 						if(firstStation)
 						{
@@ -2126,6 +2134,11 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  itsEnvironment.UseBackupPreviousDay(true);
 
 		  ReadNext();
+		  break;
+		}
+		case dAlternatingSizeFactor:
+		{
+		  SetOne(alternatingSize); 
 		  break;
 		}
 		default:
@@ -2481,6 +2494,11 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("optimizeglobalobs") ||
 	      lowChar==NFmiString("optimoimaailmahavainnot"))
 	return dOptimizeGlobalObs;
+  
+  else if(lowChar==NFmiString("relativesymbolsize") ||
+	      lowChar==NFmiString("suhteellinensymbolikoko") ||
+		  lowChar==NFmiString("suhtsymbolikoko"))
+	return dAlternatingSizeFactor;
 
   else 
 	return NFmiPressTimeDescription::ConvertDefText(object);
@@ -2718,42 +2736,44 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 statAll++;
 			 itsCurrentStationIndex++;
 
-			 //itsCurrentStationPoint = static_cast<const NFmiStationPoint *>(itsStations.Location());
-
 			 stationPoint = NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location())).Point();
 			 itsCurrentUnscaledPoint = stationPoint;
-			 NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
-
-			 fCurrentStationBackup = statPoint.IsBackup() ? true : false;
-			 NFmiPoint lonLat = statPoint.GetLocation();
+			 //NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint *>(itsStations.Location());
+	         if(itsCurrentStationPoint)
+				 delete itsCurrentStationPoint;
+			 NFmiStationPoint* itsCurrentStationPoint = new NFmiStationPoint
+				 (*static_cast<const NFmiStationPoint *>(itsStations.Location()));
+     		 
+			 fCurrentStationBackup = itsCurrentStationPoint->IsBackup() ? true : false;
+			 NFmiPoint lonLat = itsCurrentStationPoint->GetLocation();
 
 			 if(lonLat.X() == kFloatMissing)
 			 {
 				if(itsDataIter->IsGrid())
 					{
-						if (!SetLonLat(statPoint))
+						if (!SetLonLat(*itsCurrentStationPoint))
 						continue; // ->seuraava asema jos ei taulukossa
 					}
 					else
 					{
-						if(itsDataIter->Location(NFmiStation(*statPoint.Station()).GetName()))
+						if(itsDataIter->Location(NFmiStation(*itsCurrentStationPoint->Station()).GetName()))
 						{
-							statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
-							statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
+							itsCurrentStationPoint->SetLongitude(itsDataIter->Location()->GetLongitude());
+							itsCurrentStationPoint->SetLatitude(itsDataIter->Location()->GetLatitude());
 						}
 						//t‰h‰n testi onko identti, jollei  yritet‰‰n luoda asemalonlatuusi:sta
 						// 
-						else if (itsDataIter->Location(NFmiStation(*statPoint.Station()).GetIdent()))
+						else if (itsDataIter->Location(NFmiStation(*itsCurrentStationPoint->Station()).GetIdent()))
 						{
-							statPoint.SetLongitude(itsDataIter->Location()->GetLongitude());
-							statPoint.SetLatitude(itsDataIter->Location()->GetLatitude());
+							itsCurrentStationPoint->SetLongitude(itsDataIter->Location()->GetLongitude());
+							itsCurrentStationPoint->SetLatitude(itsDataIter->Location()->GetLatitude());
 						}
 					}
 				 }
 
 				 if(itsPrimaryDataIter && primaryDataTimeOk)
 				 {
-					 if(!itsPrimaryDataIter->Location(NFmiStation(*statPoint.Station()).GetName()))
+					 if(!itsPrimaryDataIter->Location(NFmiStation(*itsCurrentStationPoint->Station()).GetName()))
 						 fPrimaryDataOk = false;
 					 else
 						 fPrimaryDataOk = true;
@@ -2762,8 +2782,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 					fPrimaryDataOk = false;
 
 
-				 itsCurrentStation = NFmiStation(*statPoint.Station());
-				 if (FindQDStationName(statPoint) || fStationNotNeeded)
+				 itsCurrentStation = NFmiStation(*itsCurrentStationPoint->Station());
+				 if (FindQDStationName(*itsCurrentStationPoint) || fStationNotNeeded)
 				   {
 
 					 if(itsCurrentStep == 1 && !fCurrentStationBackup 
@@ -2800,14 +2820,14 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 					 if(theOutput == kPlainText && saveObject)
 						  saveObject->WritePSUpdatingSubText(theOutput);
 					 
-					 statPoint.Point(statPoint.Point() + stationPointMovement);
+					 itsCurrentStationPoint->Point(itsCurrentStationPoint->Point() + stationPointMovement);
 
 					 // ***************************************
 					 // ****** itse symbolit/numerot jne ******
 					 // ***************************************
 
 					 fInterruptSymbolGroup = false; //l‰heisyystesti-optiota varten
-					 if(!(itsSymbols.WritePS(statPoint,theOutput)))
+					 if(!(itsSymbols.WritePS(itsCurrentStationPoint,theOutput)))
 					   {
 						 if(itsLogFile)
 						   *itsLogFile << "*** ERROR: Aseman piirto ei onnistunut: " << endl;
@@ -2869,7 +2889,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			} //if(FindQStationName()
 				 else
 				   {
-					 NFmiString statName = statPoint.Station()->GetName();
+					 NFmiString statName = itsCurrentStationPoint->Station()->GetName();
 					 if(!(statName == NFmiString("Tyhj‰") || statName == NFmiString("None")))
 					 {
 			              string msg = static_cast<char *>(statName);

@@ -553,6 +553,20 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
 											   ofstream & theDestinationFile,
 											   float theRotating)
 {
+  double xScale = itsDefToProductScale.GetXScaling();
+  double yScale = itsDefToProductScale.GetYScaling();
+  double xTrans = itsDefToProductScale.GetEndStartPoint().X() / xScale;
+  double yTrans = itsDefToProductScale.GetEndStartPoint().Y() / yScale;
+  NFmiPoint currentPoint(xTrans, yTrans);
+  if(currentPoint == itsPreviousPoint)
+  {
+	  *itsLogFile << "  Covering symbol dropped: " << static_cast<char *>(*symbolFile)
+		          << " at "
+				  << static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
+		          << endl;
+	  return true;  //false antaisi virheilmoituksen
+  }
+
   NFmiString fileName = *itsSubDir;
   fileName += itsSymbolSetName;
   fileName += NFmiString("_");
@@ -564,6 +578,7 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
 	  NFmiWritePSConcat(itsDefToProductScale, theDestinationFile, theRotating);
 	  NFmiCopyFile(inFile,theDestinationFile);
 	  NFmiWritePSEnd(theDestinationFile);
+	  itsPreviousPoint = currentPoint;
 	  return isTrue;
   }
   else
@@ -742,6 +757,11 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   itsCurrentTime = itsCurrentSegmentTime;
 
   itsDefToProductScale.SetEndScales(theAbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight())));
+  
+  float rescale = GetAlternatingSizeFactor();
+  if(rescale > 0.)
+		itsDefToProductScale.RescaleEndScales(rescale);
+  
   if(itsPressParam->GetCurrentStationStep()%2 == 0)
   {
 	    itsDefToProductScale.MoveEndScales(itsAlternating);
@@ -832,7 +852,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  endScales.Inflate(scaleFactor);
 	  itsDefToProductScale.SetEndScales(endScales);
 	}
- 
+  
   ScaleByValue();
 
   if(!symbolFile)
@@ -894,6 +914,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  }
 	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile, itsRotatingAngle))
 		{
+    
 		}
 	  else
 		{
