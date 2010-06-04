@@ -63,8 +63,6 @@ NFmiPressText::NFmiPressText(const NFmiPressText & thePressText)
   , fLowerCase (thePressText.fLowerCase)
   , fFirstUpperCase(thePressText.fFirstUpperCase)
   , fAddLocalTime(thePressText.fAddLocalTime)
-//  , itsFont(thePressText.itsFont)
-//  , itsAlignment(thePressText.itsAlignment)
   , itsCharSpace(thePressText.itsCharSpace)
   , itsMaxLen(thePressText.itsMaxLen)
   , itsWidthFactor(thePressText.itsWidthFactor)
@@ -100,7 +98,11 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
   itsIntObject = ConvertDefText(itsString);
   bool oneMarginSet = false;
   itsText = new NFmiString("ERROR");
-  bool textGiven = false; 
+  bool textGiven = false;
+  NFmiString headerFont("None");
+  double headerSize(0.);
+  NFmiString mainHeaderFont("None");
+  double mainHeaderSize(0.);
 
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
@@ -433,7 +435,34 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dHeaderFont:
+		{
+			if (!ReadEqualChar())
+				break;
 
+			headerFont = ReadString();
+			ReadNext();
+			break;
+	    }
+		case dHeaderSize:
+		{
+			SetOne(headerSize);
+			break;
+	    }
+		case dMainHeaderFont:
+		{
+			if (!ReadEqualChar())
+				break;
+
+			mainHeaderFont = ReadString();
+			ReadNext();
+			break;
+	    }
+		case dMainHeaderSize:
+		{
+			SetOne(mainHeaderSize);
+			break;
+	    }
 
 		default:
 		  {
@@ -473,29 +502,67 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	std::fstream in(dataFile, ios::in|ios::in);
 	const short lineSize = 2800;
 	char inBuf[lineSize];
-	unsigned long tagBeg, tagEnd, tagEnd2;
+	unsigned long tagBeg, tagBegH, tagEnd;
 	bool firstText = true;
 	std::string stdNextStr;
 	unsigned long posDuobleSpace, numDuobleSpace;
 
+    std::string string0, string1, string2, string3;
+
+	int textNum = -1;
+	int numCR = 0;
+	if(headerFont == NFmiString("None"))
+		headerFont = itsEnvironment.GetFont();
+    if(headerSize == 0.)
+		headerSize = GetHeight();
+	
+	if(mainHeaderFont == NFmiString("None"))
+		mainHeaderFont = headerFont;
+    if(mainHeaderSize == 0.)
+		mainHeaderSize = headerSize;
+	
+	bool isHeader, isMainHeader;
+	NFmiString baseFont = GetFont();
+	double baseSize = itsRectSize.Y();
+	double baseLineStep = GetLineStep();
+	double baseLineStepFactor = GetLineStepFactor();
 	if(in.good())
 	{
 		while(in.getline(inBuf, lineSize, '\n'))
 		{
+			isHeader = false;
+			isMainHeader = false;
             stdNextStr = inBuf;  
-			tagBeg = stdNextStr.find(NFmiString("<"));
+			tagBeg = stdNextStr.find(NFmiString("<b"));
+			tagBegH = stdNextStr.find(NFmiString("<h"));
 			tagEnd = stdNextStr.find(NFmiString(">"));
-			tagEnd2 = stdNextStr.find(NFmiString(">"), tagEnd+1);
-
 			if(tagBeg != string::npos && tagEnd != string::npos)
-
 			{
-			  if(tagEnd2 != string::npos && tagEnd2>tagBeg+8) //otsikko
-				continue;
-			  if(tagEnd>tagBeg)              //muu tagi jota ei voi k‰ytt‰‰
+				stdNextStr.erase(tagBeg, tagEnd-tagBeg+1);
+				isHeader = true;
+			
+				tagBeg = stdNextStr.find(NFmiString("<"));
+				tagEnd = stdNextStr.find(NFmiString(">"));
+				if(tagBeg != string::npos && tagEnd != string::npos)
 				{
-				  stdNextStr.erase(tagBeg, tagEnd-tagBeg+1);  
+					stdNextStr.erase(tagBeg, tagEnd-tagBeg+1);  
 				}
+				//else
+				//	pot. virhe (lehtohjelmalle k‰y muttei html:n‰)
+			}
+			if(tagBegH != string::npos && tagEnd != string::npos)
+			{
+				stdNextStr.erase(tagBegH, tagEnd-tagBegH+1);
+				isMainHeader = true;
+			
+				tagBegH = stdNextStr.find(NFmiString("<"));
+				tagEnd = stdNextStr.find(NFmiString(">"));
+				if(tagBegH != string::npos && tagEnd != string::npos)
+				{
+					stdNextStr.erase(tagBegH, tagEnd-tagBegH+1);  
+				}
+				//else
+				//	pot. virhe (lehtohjelmalle k‰y muttei html:n‰)
 			}
 			numDuobleSpace = 0;
             posDuobleSpace = stdNextStr.find("  ");
@@ -522,13 +589,62 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 				
 				nextString = nextString.GetChars(1, itsMaxLen);
 			  }
+			
 			if(firstText)
 			{
 				*itsText = nextString;
+				if(isHeader)
+				{
+					SetFont(headerFont);
+					SetHeight(headerSize);
+					SetLineStep(0.);
+					SetLineStepFactor(0.);
+				}
+				else if(isMainHeader)
+				{
+					SetFont(mainHeaderFont);
+					SetHeight(mainHeaderSize);
+					SetLineStep(0.);
+					SetLineStepFactor(0.);
+				}
+				else
+				{
+					SetFont(baseFont);
+					SetHeight(baseSize);
+					SetLineStep(baseLineStep);
+					SetLineStepFactor(baseLineStepFactor);
+				}
+
 				firstText = false;
 			}
 			else
-				itsNextTexts.push_back(nextString);
+			{
+				NFmiPressText newText(*this);
+				newText.SetText(nextString);
+				if(isHeader)
+				{
+					newText.SetFont(headerFont);
+					newText.SetHeight(headerSize);
+					newText.SetLineStep(0.);
+					newText.SetLineStepFactor(0.);
+				}
+				else if(isMainHeader)
+				{
+					newText.SetFont(mainHeaderFont);
+					newText.SetHeight(mainHeaderSize);
+					newText.SetLineStep(0.);
+					newText.SetLineStepFactor(0.);
+				}
+				else
+				{
+					newText.SetFont(baseFont);
+					newText.SetHeight(baseSize);
+					newText.SetLineStep(baseLineStep);
+					newText.SetLineStepFactor(baseLineStepFactor);
+				}
+
+				itsNextTexts.push_back(newText);
+			}
         }
         *itsLogFile << "  luettu" << endl;
 		in.close();
@@ -683,7 +799,7 @@ bool NFmiPressText::ReadRemaining(void)
 		ReadNext();
 		break;
 	  }
-
+	
 	default:
 	  {
 		NFmiPressScaling:: ReadRemaining();
@@ -706,7 +822,6 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 {
   NFmiString lowChar = object;
   lowChar.LowerCase();
-
   if(lowChar==NFmiString("size") ||
 	 lowChar==NFmiString("textsize") ||
 	 lowChar==NFmiString("koko") ||
@@ -840,6 +955,24 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString ("liehureuna")  ||
 		  lowChar==NFmiString ("eioikeatasaus"))
 	return dNotRightJustification;
+  
+  else if(lowChar==NFmiString ("headerfont") ||
+		  lowChar==NFmiString ("otsikkokirjasin")  ||
+		  lowChar==NFmiString ("otsikkofontti"))
+	return dHeaderFont;
+  
+  else if(lowChar==NFmiString ("headersize") ||
+		  lowChar==NFmiString ("otsikkokoko"))
+	return dHeaderSize;
+  
+  else if(lowChar==NFmiString ("mainheaderfont") ||
+		  lowChar==NFmiString ("p‰‰otsikkokirjasin")  ||
+		  lowChar==NFmiString ("p‰‰otsikkofontti"))
+	return dMainHeaderFont;
+  
+  else if(lowChar==NFmiString ("mainheadersize") ||
+		  lowChar==NFmiString ("p‰‰otsikkokoko"))
+	return dMainHeaderSize;
 
   else
 	return NFmiPressScaling::ConvertDefText(object);
@@ -1000,6 +1133,9 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	  //bool isHyphen =    text.Search(NFmiString("-"))     != 0;
 	  bool isHyphen = false;
 	  bool isLongMinus = text.Search(NFmiString("\\226")) != 0;
+	  NFmiString lastFont;
+	  double lastHeight;
+	  double lastLeading;
 
 	  if(fInArea || (!isHyphen && !isLongMinus))
 		{
@@ -1025,12 +1161,16 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  *itsOutFile << rect.Height() << " selectlatinfont" << endl;
 		}
 	  else
-
+	  {
 		*itsOutFile << "/"
 					<< static_cast<char *>(GetFont())
 					<< " " << rect.Height()
 					<< " selectfont"
 					<< endl;
+	  }
+	  
+	  lastFont = GetFont();
+	  lastHeight = rect.Height();
 
 	  if(firstParagraph)
 		{
@@ -1057,6 +1197,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  if(!fRightJustification)
 			  *itsOutFile << "/Justification false def" << endl;
 		  *itsOutFile << "/Leading " << lineStep << " def" << endl;
+		  lastLeading = lineStep;
 		  *itsOutFile << "SetFirstText" << endl;
 		}
 	  if(fInFreeArea)
@@ -1080,6 +1221,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 			if(!fRightJustification)
 				*itsOutFile << "/Justification false def" << endl;
 			*itsOutFile << "/Leading " << lineStep << " def" << endl;
+		    lastLeading = lineStep;
 			*itsOutFile << "SetFirstText" << endl;
 		}
 	  if(!fInArea)
@@ -1130,6 +1272,8 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 
 	  if(fInArea)
 		{
+		  NFmiString actualFont;
+		  double actualHeight;
 		  double yMove = itsParagraphMove.Y() - lineStepAdd;
 		  *itsOutFile << "/Leading " << lineStep << " def" << endl;
 		  *itsOutFile << itsParagraphMove.X() << " " <<             // EI ONNAA X
@@ -1137,12 +1281,12 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  *itsOutFile << "(" << static_cast<char *>(text) << ") Paragraph" << endl;
 		  if(itsNextTexts.size() >> 0)
 		  {
-			std::vector<NFmiHyphenationString>::iterator pos;
+			std::vector<NFmiPressText>::iterator pos;
 			NFmiString nextString;
 
 			for(pos= itsNextTexts.begin(); pos != itsNextTexts.end(); ++pos)
 			{
-                nextString = (*pos);
+                nextString = *((*pos).GetText());
 				if(nextString.GetLen() > 0)
 				{
 					hypString.Set(nextString, nextString.GetLen());
@@ -1154,6 +1298,32 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 				                 
 					if(!fCV)   // Illu8:ssa "-" ei mene l‰pi ??
 						helpString = helpString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); 
+					actualFont = (*pos).GetFont();
+				    actualHeight = (*pos).GetHeight();
+					if(actualFont != lastFont || actualHeight != lastHeight)
+					{
+						*itsOutFile << "/"
+							<< static_cast<char *>(actualFont)
+							<< " /" << static_cast<char *>(actualFont)
+							<< "_" << endl;
+						*itsOutFile << actualHeight << " selectlatinfont" << endl;
+						lastFont = actualFont;
+						lastHeight = actualHeight;
+					}
+  lineStep = (*pos).GetLineStep();
+  lineStepFactor = (*pos).GetLineStepFactor();
+  if(lineStepFactor <= 0.)
+	lineStepFactor = 1.2;
+  if(lineStep <= 0.)
+	lineStep = (*pos).GetHeight() * lineStepFactor;
+
+					if(lineStep != lastLeading)
+					{
+						*itsOutFile << "/Leading " << lineStep << " def" << endl;
+						double stepDiff = lineStep - lastLeading;
+						*itsOutFile << "0 " << -stepDiff << " rmoveto" << endl;
+				    }
+		            lastLeading = lineStep;
 					*itsOutFile << "(" << static_cast<char *>(helpString) << ") Paragraph" << endl;
 				}
 				else

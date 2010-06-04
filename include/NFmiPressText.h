@@ -57,7 +57,11 @@ enum NFmiPressTextObjects
   dTextPath,
   dMaxTextLength,
   dNotRightJustification,
-  dTextBorders
+  dTextBorders,
+  dHeaderFont = 3140,
+  dHeaderSize,
+  dMainHeaderFont,
+  dMainHeaderSize
 };
 
 //! Undocumented
@@ -84,11 +88,6 @@ public:
   virtual void AddText(const NFmiString& theText);
   virtual void SetPreText(const NFmiString& theText);
   virtual void SetPostText(const NFmiString& theText);
-/*
-  void SetTextAttributes(NFmiString theFont,
-						 FmiDirection theAlignment,
-						 NFmiString theStyle);
-*/
   bool WriteString(const NFmiString & commentString,
 				   FmiPressOutputMode theOutput);
 
@@ -100,7 +99,10 @@ public:
   virtual bool IsInParagraph(void);
   virtual void ScalePlotting(void);
   double GetLineStep(void) const;
+  void SetLineStep(double lineStep);
   void SetLastLineStep(double lineStep);
+  double GetLineStepFactor(void) const;
+  void SetLineStepFactor(double stepFactor);
   virtual void SetTime(const NFmiMetTime& theTime);
   double GetWidthFactor(void) const;
   void Move(const NFmiPoint & addPlace);
@@ -133,7 +135,8 @@ protected:
   unsigned long itsMaxLen;
   double itsWidthFactor;
   std::vector<NFmiPoint> itsFreePath;
-  std::vector<NFmiHyphenationString> itsNextTexts;
+  //std::vector<NFmiHyphenationString> itsNextTexts;
+  std::vector<NFmiPressText> itsNextTexts;
   bool fNarrowColumn;
 }; // class NFmiPressText
 
@@ -366,6 +369,19 @@ bool NFmiPressText::IsInParagraph(void)
 // ----------------------------------------------------------------------
 
 inline
+void NFmiPressText::SetLineStep(double lineStep) 
+{
+  itsLineStep = lineStep;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
 double NFmiPressText::GetLineStep(void) const
 {
   return itsLineStep;
@@ -382,9 +398,35 @@ double NFmiPressText::GetLineStep(void) const
 inline
 void NFmiPressText::SetLastLineStep(double lineStep)
 {
-  itsLastLineStep=lineStep;
+  itsLastLineStep = lineStep;
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressText::SetLineStepFactor(double lineStep) 
+{
+  itsLineStepFactor = lineStep;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline
+double NFmiPressText::GetLineStepFactor(void) const
+{
+  return itsLineStepFactor;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

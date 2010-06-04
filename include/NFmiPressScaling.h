@@ -66,6 +66,8 @@ public:
   virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
   bool SetSize(const NFmiPoint & theSize);
+  bool SetHeight(double theHeight);
+  double GetHeight(void)const; 
   bool Set( NFmiRectScale & theRectScale, std::ofstream & theDestinationFile);
   bool SetScale(const NFmiRectScale & theRectScale);
   void Place(const NFmiPoint & thePlace);
@@ -187,6 +189,34 @@ bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 inline
 void NFmiPressScaling::ChangeByHours(long hours)
 {
+}
+// ---------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theHeight Undocumented
+ * \return Undocumented
+ */
+// ---------------------------------------------------------------------
+
+inline
+double NFmiPressScaling::GetHeight(void)const 
+{
+  return itsRectSize.Y();
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theHeight Undocumented
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+bool NFmiPressScaling::SetHeight(double theHeight) 
+{
+  itsRectSize.Y(theHeight);
+  return isTrue;
 }
 // ----------------------------------------------------------------------
 /*!
