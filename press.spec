@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 10.5.11
+Version: 10.6.7
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Jun  7 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.6.7-1.el5.fmi
+- Remove duplicate images from eps
 * Tue May 11 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.5.11-1.el5.fmi
 - Hyphenation improvements by Lars Winberg
 * Fri May  7 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.5.7-1.el5.fmi
