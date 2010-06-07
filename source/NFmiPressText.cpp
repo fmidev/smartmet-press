@@ -509,8 +509,8 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 
     std::string string0, string1, string2, string3;
 
-	int textNum = -1;
-	int numCR = 0;
+	// int textNum = -1;
+	// int numCR = 0;
 	if(headerFont == NFmiString("None"))
 		headerFont = itsEnvironment.GetFont();
     if(headerSize == 0.)
