@@ -1,14 +1,14 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 10.6.7
+Version: 10.7.5
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 10.4.23-1
+BuildRequires: libsmartmet-newbase >= 10.7.5-2
 Provides: qdpress
 
 %description
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Jul  5 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.7.5-1.el5.fmi
+- Upgrade to newbase 10.7.5-2
 * Mon Jun  7 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.6.7-1.el5.fmi
 - Remove duplicate images from eps
 * Tue May 11 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.5.11-1.el5.fmi
