@@ -2304,7 +2304,7 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 		 && value == kFloatMissing)
 		{
 			NFmiEnumConverter enumConv;
-			*itsLogFile << "  *** ERROR: " << enumConv.ToString(itsMultiParams[i]) 
+			*itsLogFile << "  *** WARNING: " << enumConv.ToString(itsMultiParams[i]) 
 				<< " puuttuu ajalta " << static_cast<char *>(theQI->Time().ToStr("DD.MM.YYYY HH"))
 				<< "utc; käytetään 0" << endl;
 			value = 0.;
