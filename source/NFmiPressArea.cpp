@@ -83,7 +83,7 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Kartassa" << endl;
+			*itsLogFile << "*** ERROR: Maximum length of product file exceeded in #map" << endl;
 		  retString = itsString;
 		  return isFalse;
 		}
@@ -93,7 +93,7 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 		case dOther:
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Kartassa: "
+			  *itsLogFile << "*** ERROR: Unknown keyword in #map: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();
@@ -124,7 +124,7 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 			else if (helpString.GetChars(1,6) == NFmiString ("equidi"))
 			  proj = kNFmiEquiDistArea;
 			else
-			  *itsLogFile << "*** ERROR: Tuntematon projektio: "
+			  *itsLogFile << "*** ERROR: Unknown projection: "
 						  << static_cast<char *>(helpString)
 						  << endl;
 			ReadNext();
@@ -162,7 +162,7 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 				trLat = lonLat2.Y();
 			}
 			else
-			  *itsLogFile << "*** ERROR: Kartta ei pysty käyttämään asemaparia: "
+			  *itsLogFile << "*** ERROR: Unable to use station pair in map:: "
 						  << static_cast<char *>(helpString)
 						  << " "
 						  << static_cast<char *>(helpString2)
@@ -250,7 +250,7 @@ bool NFmiPressArea::ReadDescription(NFmiString & retString)
 	}
   else
 	{
-	  *itsLogFile << "*** ERROR: " << "#Kartassa pitää LatLonin lisäksi antaa mitat jollei alueoperaatio"  << endl;
+	  *itsLogFile << "*** ERROR: " << "#map should in addition to lat/lon contain measurements unless there is a regional operation"  << endl;
 	  
 	}
   return false;

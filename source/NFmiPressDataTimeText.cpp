@@ -67,7 +67,7 @@ int NFmiPressDataTimeText::ConvertDefText(NFmiString & object)
   lowChar.LowerCase(); // kaikille pitäisi sallia vapaa isot/pienet kirj.
   if(lowChar==NFmiString("hour") || lowChar==NFmiString("tunti")
 	     || lowChar==NFmiString("day") || lowChar==NFmiString("päivä"))
-	  *itsLogFile << "WARNING: Päivä tai Tunti siirtänyt tulkinnan #Ajasta #Segmentti-tasolle"
+	  *itsLogFile << "WARNING: Day or hour moved from #time to #pressparam level"
 	              << endl;
 
   if(lowChar==NFmiString("analysetime") || lowChar==NFmiString("analyysiaika"))

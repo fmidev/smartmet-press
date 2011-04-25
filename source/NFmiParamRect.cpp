@@ -312,7 +312,7 @@ bool NFmiParamRect::ReadRemaining(void)
 		
 		if(itsMultiMapping)
 		  {
-			*itsLogFile << "*** ERROR: MoniMuunnoksen parametrit toiseen kertaan, hylätään "
+			*itsLogFile << "*** ERROR: Duplicate multimapping parameters rejected "
 						<< endl;
 			break;
 		  }
@@ -349,7 +349,7 @@ bool NFmiParamRect::ReadRemaining(void)
 		if(itsMultiMapping)
 		  itsMultiMapping->AddMappingInterval(itsMultiMapping->ReadOneMapping(itsDescriptionFile));
 		else
-		  *itsLogFile << "*** ERROR: MoniMuunnos ilman parametrilistaa " << endl;
+		  *itsLogFile << "*** ERROR: Multimapping without a parameter list " << endl;
 		
 		ReadNext();
 		break;
@@ -358,14 +358,14 @@ bool NFmiParamRect::ReadRemaining(void)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+			*itsLogFile << "*** ERROR: Sum after a similar definition bypassed "
 				          << endl;
 			SetTwo(long1, long2); //luetaan vain pois
 		}
 		else
 		{
 			if(!SetTwo(long1, long2)  ||  long1 > long2)
-			  *itsLogFile << "*** ERROR: Summa-ajat väärin " << endl;
+			  *itsLogFile << "*** ERROR: Sum time definitions incorrect " << endl;
 			else
 			  {
 				SetRelModifierTimes(long1, long2);
@@ -379,14 +379,14 @@ bool NFmiParamRect::ReadRemaining(void)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+			*itsLogFile << "*** ERROR: Sum after a similar definition bypassed "
 				          << endl;
 			SetTwo(long1, long2); //luetaan vain pois
 		}
 		else
 		{
 			if(!SetTwo(long1, long2)  ||  long1 > long2)
-			  *itsLogFile << "*** ERROR: Minimiajat väärin " << endl;
+			  *itsLogFile << "*** ERROR: Minimum times incorrect " << endl;
 			else
 			  {
 				SetRelModifierTimes(long1, long2);
@@ -400,7 +400,7 @@ bool NFmiParamRect::ReadRemaining(void)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+			*itsLogFile << "*** ERROR: Sum after a similar definition bypassed "
 				          << endl;
 			SetTwo(long1, long2); //luetaan vain pois
 		}
@@ -421,7 +421,7 @@ bool NFmiParamRect::ReadRemaining(void)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+			*itsLogFile << "*** ERROR: Sum after a similar definition bypassed "
 				          << endl;
 			SetTwo(long1, long2); //luetaan vain pois
 		}
@@ -429,7 +429,7 @@ bool NFmiParamRect::ReadRemaining(void)
 		{
 			if(!SetTwo(long1, long2)  ||  long1 > long2)
 			  {
-				*itsLogFile << "*** ERROR: Keskiarvoajat väärin " << endl;
+				*itsLogFile << "*** ERROR: Mean times incorrect " << endl;
 			  }
 			else
 			  {
@@ -445,7 +445,7 @@ bool NFmiParamRect::ReadRemaining(void)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** ERROR: summa toisen vastaavan määrittelyn jälkeen, ohitetaan "
+			*itsLogFile << "*** ERROR: Sum after a similar definition bypassed "
 				          << endl;
 			SetTwo(long1, long2); //luetaan vain pois
 		}
@@ -453,7 +453,7 @@ bool NFmiParamRect::ReadRemaining(void)
 		{
 			if(!SetFive(long1, long2, itsIntegrationPeriod.startWeight,itsIntegrationPeriod.centreWeight,itsIntegrationPeriod.endWeight)
 			   || long1 > long2)
-			  *itsLogFile << "*** ERROR: Painotettu keskiarvo annettu väärin " << endl;
+			  *itsLogFile << "*** ERROR: Weighted mean incorrectly defined " << endl;
 			else
 			  {
 				SetRelModifierTimes(long1, long2);
@@ -576,7 +576,7 @@ bool NFmiParamRect::ReadRemaining(void)
 	  {
 		if(!SetTwo(long1, long2) || long1 > long2	)
 		  {
-			*itsLogFile << "*** ERROR: Vuosijakso annettu väärin " << endl;
+			*itsLogFile << "*** ERROR: Year period incorrectly defined " << endl;
 		  }
 		else
 		  {
@@ -667,7 +667,7 @@ bool NFmiParamRect::ReadRemaining(void)
 	  }
 	case dRelHour:
 	  {
-		*itsLogFile << "*** ERROR: Ei sallittu dataelementeille: "
+		*itsLogFile << "*** ERROR: Not allowed for data elements: "
 					<< static_cast<char *>(itsString)
 					<< endl;
 		ReadNext();
@@ -1101,7 +1101,7 @@ bool NFmiParamRect:: PointOnParam(NFmiFastQueryInfo * theQI, NFmiParam * thePara
 		{
 		  
 		  long paramIdent = theParam->GetIdent();
-		  *itsLogFile << "*** ERROR: Parametria ei löydy: "
+		  *itsLogFile << "*** ERROR: Unable to find parameter: "
 					  << paramIdent
 					  << endl;
 		  fParamErrorReported = true;
@@ -1138,7 +1138,7 @@ bool NFmiParamRect::PointOnMultiParam(NFmiFastQueryInfo * theQI, short theNum)
 	  if(itsLogFile && !fParamErrorReported && !itsPressParam->HasPrimaryData())
 		{
 		  long paramIdent = static_cast<unsigned long>(itsMultiParams[theNum]);
-		  *itsLogFile << "*** ERROR: multiParametria ei löydy: "
+		  *itsLogFile << "*** ERROR: Unable to find multiparameter: "
 					  << paramIdent
 					  << endl;
 		  fParamErrorReported = true;
@@ -1178,7 +1178,7 @@ bool NFmiParamRect::PointOnLevel(NFmiFastQueryInfo * theQI)
 	  
 	  if(itsLogFile && !fLevelErrorReported)
 		{
-		  *itsLogFile << "*** ERROR: Painepintaa ei löydy: "
+		  *itsLogFile << "*** ERROR: Unable to find pressure level: "
 					  << itsLevel.LevelValue()
 					  << endl;
 		  fLevelErrorReported = true;
@@ -1269,7 +1269,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 		
 	  if(itsMultiMapping)
 		{
-		  *itsLogFile << "    eka asema: aika paikan päällä= "
+		  *itsLogFile << "    first station: local time= "
 					  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
 					  << " utc; par=moni"
 					  << endl;
@@ -1277,13 +1277,13 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 	  else  
 		{
 		  unsigned long par = theQueryInfo->ParamDescriptor().Param().GetParam()->GetIdent();
-		  *itsLogFile << "    eka asema: aika paikan päällä= "
+		  *itsLogFile << "    first station: local time= "
 					  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
 					  << " utc; par="
 					  << par
 					  << endl;
 		}
-	  *itsLogFile << "      ->lähin data-aika= "
+	  *itsLogFile << "      -> nearest data-time= "
 				  << static_cast<char *>((static_cast<NFmiFastQueryInfo *>(theQueryInfo))
 				                          ->Time().ToStr("DD.MM.YYYY HH"))
 				  << " utc"
@@ -1443,7 +1443,7 @@ int NFmiParamRect::WaWa2PresentWeather(int value, NFmiFastQueryInfo * theData)
 	  return 90;	// raekuuroja ???
 	  
     default:
-	  *itsLogFile << "  WARNING: Tuntematon WaWa-koodi: " << value << endl;
+	  *itsLogFile << "  WARNING: Unknown WaWa-code: " << value << endl;
       return 0;
 	}
 }
@@ -1464,7 +1464,7 @@ int NFmiParamRect:: PreWeaWithPrecForm(int value, NFmiFastQueryInfo * theData)
   int newValue;
   if(!theData->Param(kFmiTemperature))
 	{
-	  *itsLogFile << "  WARNING: Lämpöä ei ole WaWalle" << endl;
+	  *itsLogFile << "  WARNING: No temperature for calculating WaWa" << endl;
 	  return value;
 	}
   float temp = theData->FloatValue();
@@ -1524,7 +1524,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  static bool warningGivenForWindModifierChange = false; 
 	  if(actualModifier != kNoneModifier && !warningGivenForWindModifierChange)
 	  {
-		*itsLogFile << "*** WARNING: Tuulesta hetkellinen arvo eikä keskiarvo " << endl;
+		*itsLogFile << "*** WARNING: Momentary wind instead of mean value used " << endl;
 		warningGivenForWindModifierChange = true;
 	  }
 	actualModifier = kNoneModifier;
@@ -1559,7 +1559,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  if(itsPressParam->IsFirstStation() && !(itsMultiMapping && itsCurrentMultiParNum > 1))
 		{
 		  
-		  *itsLogFile << "      ->aikajakso= "
+		  *itsLogFile << "      ->time period= "
 					  << static_cast<char *>(firstTime.ToStr("DD.MM.YYYY HH"))
 					  << " - "
 					  << static_cast<char *>(lastTime.ToStr("DD.MM.YYYY HH"))
@@ -1689,9 +1689,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 		  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
 		  //double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
 	      if(IsMissingLonLat())
-			*itsLogFile << "*** ERROR: longitudi puuttuu "
+			*itsLogFile << "*** ERROR: longitude missing from "
 						<< static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
-						<< ":lta paikallista aikaa varten (FloatValue)"
+						<< " for calculating local time"
 						<< endl;
 		  
 		  firstTime = firstTime.LocalTime(-static_cast<float>(longitude));
@@ -2119,7 +2119,7 @@ void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float&
 	{	
 		if(!itsPressParam->GetGeoArea())
 		{
- 			*itsLogFile << "*** ERROR: kartta puuttuu konttuurimerkinnöiltä"  << endl;
+ 			*itsLogFile << "*** ERROR: Map missing from countour markers"  << endl;
 			itsEquiRadius = 0.;
 		}
 		else
@@ -2252,9 +2252,9 @@ NFmiMetTime NFmiParamRect::CalculatePeriodTime(long theHour)
 	  double longitude = itsPressParam->GetCurrentStation().GetLongitude();
 	  //double latitude = itsPressParam->GetCurrentStation().GetLatitude();//Testiin
 	  if(IsMissingLonLat())
-		  *itsLogFile << "*** ERROR: longitudi puuttuu "
+		  *itsLogFile << "*** ERROR: Longitude missing from "
 					<< static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
-					<< ":lta paikallista aikaa varten (Calc.Per.Time)"
+					<< " for calculating local time (Calc.Per.Time)"
 					<< endl;
 
 	  tim = tim.LocalTime(-static_cast<float>(longitude));
@@ -2305,8 +2305,8 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 		{
 			NFmiEnumConverter enumConv;
 			*itsLogFile << "  *** WARNING: " << enumConv.ToString(itsMultiParams[i]) 
-				<< " puuttuu ajalta " << static_cast<char *>(theQI->Time().ToStr("DD.MM.YYYY HH"))
-				<< "utc; käytetään 0" << endl;
+				<< " missing for time " << static_cast<char *>(theQI->Time().ToStr("DD.MM.YYYY HH"))
+				<< "utc; using value zero" << endl;
 			value = 0.;
 		}
 
@@ -2317,7 +2317,7 @@ bool NFmiParamRect:: ReadCurrentValueArray(NFmiFastQueryInfo * theQI)
 		
 		if(i>FmiMaxNumOfMappingParams) //varmuuden vuoksi
 		  {
-			*itsLogFile << "  *** ERROR: moniParametriluvussa ylivuoto" << endl;
+			*itsLogFile << "  *** ERROR: Multiparameter overflow" << endl;
 			return false;
 		  }
 	  }
@@ -2429,7 +2429,7 @@ bool NFmiParamRect:: SetStationLocalTime(NFmiFastQueryInfo * theQI)
 	 double longitude;// latitude;  
 	  if(IsMissingLonLat())
 	  {
-		    *itsLogFile << "IsMissingLonLat() ekaks"  << endl; //HUOM
+		    *itsLogFile << "IsMissingLonLat() first"  << endl; //HUOM
 	     NFmiPoint lonLat;
 		 NFmiString name = itsPressParam->GetCurrentStation().GetName();
 		 GetPressProduct()->FindLonLatFromList(name, lonLat);
@@ -2437,9 +2437,9 @@ bool NFmiParamRect:: SetStationLocalTime(NFmiFastQueryInfo * theQI)
 	  }
 	  if(IsMissingLonLat())
 	  {
-		    *itsLogFile << "*** ERROR: longitudi puuttuu "
+		    *itsLogFile << "*** ERROR: Longitude missing for "
 					<< static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
-					<< ":lta paikallista aikaa varten (SetStat.Loc.Time)"
+					<< " for calculating local time (SetStat.Loc.Time)"
 					<< endl;
 			longitude =0.;
 	  }
@@ -2473,16 +2473,16 @@ bool NFmiParamRect::SetRelativeHour(NFmiFastQueryInfo * data,
 	  if(itsPressParam->IsFirstStation())
 		{
 		  if(itsPressParam->IsStationLocalTimeMode())
-			*itsLogFile << "    tunti muutettu "
+			*itsLogFile << "    hour changed in "
 						<< static_cast<char *>(calledFrom)
-						<< ":ssa: "
+						<< ": "
 						<< itsFirstPlotHours
-						<< " pa"
+						<< " local time"
 						<< endl;
 		  else
-			*itsLogFile << "    tunti muutettu "
+			*itsLogFile << "    hour changed in "
 						<< static_cast<char *>(calledFrom)
-						<< ":ssa: "
+						<< ": "
 						<< itsFirstPlotHours
 						<< " utc"
 						<< endl;
@@ -2528,7 +2528,7 @@ bool NFmiParamRect::CompleteMultiMapping(void)
 	  }
 	  short value = itsMultiMapping->CheckIfIncomplete();
 	  if(value != 0)
-		  *itsLogFile << "***ERROR: ainakin yksi tuntematon muunnosarvo: " << value << endl;
+		  *itsLogFile << "***ERROR: At least one unknown multimapping value: " << value << endl;
 
 	  return true;
 }

@@ -416,7 +416,7 @@ bool NFmiPressProduct::SetFirstSegmentActivity(bool theActivity)
 	object->SetActivity(theActivity);
   else
   {
-	string msg = "Elementtejä puuttuu (de)aktivoitavaksi managerista";
+	string msg = "Elements missing for (de)activation inside manager";
 	errors.push_back(msg);
 	*itsLogFile << "*** ERROR: " << msg << endl;
 	return false;
@@ -444,7 +444,7 @@ bool NFmiPressProduct::SetFirstObjectActivity(bool theActivity)
 	object->SetActivity(theActivity);
   else
   {
-	string msg = "Elementtejä puuttuu (de)aktivoitavaksi managerista";
+	string msg = "Elements missing for (de)activation inside manager";
 	errors.push_back(msg);
 	*itsLogFile << "*** ERROR: " << msg << endl;
 	return false;
@@ -481,7 +481,7 @@ bool NFmiPressProduct::ChangeFirstPossibleObject(bool toNewActivity)
 		return true;
 	}
 
-  string msg = "Ei ole elementtejä (de)aktivoitavaksi managerista";
+  string msg = "No elements to (de)activate inside manager";
   errors.push_back(msg);
   *itsLogFile << "*** ERROR: " << msg << endl;
   return false;
@@ -704,7 +704,7 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 				lonLat.Set(26., 66.5);
 			else
 			{
-			  string msg = string(string("#OsaKuvassa (selite?) tuntematon maankolkka: ")
+			  string msg = string(string("Unknown direction given in #subimage: ")
 								  +static_cast<char *>(theCountryPart));
 			  errors.push_back(msg);
 			  *itsLogFile << "*** ERROR: " << msg << endl;
@@ -750,12 +750,12 @@ bool NFmiPressProduct::ReadNameToLonLatList(void)
   // uusi/vanha muoto mahdollistamaan versionpäivityksen Vespaan
   if (itsNameToLonLat->AddFile(fileName1, true, true))
 	{
-	  *itsLogFile << "  AsemaNimetLonLatUusi.txt luettu" << endl;
+	  *itsLogFile << "  AsemaNimetLonLatUusi.txt read ok" << endl;
 	  return true;
 	}
   else
 	{
-	  string msg = "AsemaNimetLonLatUusi.txt:n luku epäonnistui";
+	  string msg = "AsemaNimetLonLatUusi.txt read failed";
 	  errors.push_back(msg);
 	  *itsLogFile << "*** ERROR: " << msg << endl;
 	  return false;
@@ -776,7 +776,7 @@ bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint
 	{
 	  if(!ReadNameToLonLatList())
 		{
-		  string msg = "Nimi/lonlat-tiedoston luku epäonnistui";
+		  string msg = "Failed to read name/latlon file";
 		  errors.push_back(msg);
 		  *itsLogFile << "*** ERROR: " << msg << endl;
 		  return false;
@@ -794,7 +794,7 @@ bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint
 	  && theStationName != NFmiString("None"))
 		*itsLogFile << "  WARNING: "
 					<< static_cast<char *>(theStationName)
-					<< " ei ole nimi/lonLat-tiedostossa"
+					<< " is not in the name/latlon file"
 					<< endl;
 	  return false;
 	}
@@ -814,7 +814,7 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationNam
 	{
 	  if(!ReadNameToLonLatList())
 		{
-		  string msg = "Nimi/lonlat-tiedoston luku epäonnistui";
+		  string msg = "Failed to read name/latlon file";
 		  errors.push_back(msg);
 		  *itsLogFile << "*** ERROR: " << msg << endl;
 		  return 0;
@@ -825,7 +825,7 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationNam
 	{
 		*itsLogFile << "  WARNING: "
 					<< static_cast<char *>(theStationName)
-					<< ":lla ei ole WMO-numeroa Asemataulukossa"
+					<< " does not have a WMO-number in the station table"
 					<< endl;
 	}
 	return wmo;
@@ -1029,7 +1029,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->editdata = status;
-				  *itsLogFile << "  Editoridata pakotettu: editori "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Forced editor data: editor "<< static_cast<char *>(statusString) << endl;
 				  if(ownComputer)
 				  {
 					  itsSeasonsStatus->editdataOwn = true;
@@ -1170,7 +1170,7 @@ bool NFmiPressProduct::PreProcessProduct( ifstream& origInput, ofstream& output)
 			}
 		  else
 			{
-			  string msg = string("LiiteTiedostoa ei ole: ")+static_cast<char *>(file);
+			  string msg = string("Missing file attachment: ")+static_cast<char *>(file);
 			  errors.push_back(msg);
 			  if(itsLogFile)
 				*itsLogFile << "*** ERROR: " << msg << endl;
@@ -1293,11 +1293,11 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   if(!endFile)
 	{
 	  // Mikan korjaus ja Lassen muutos siihen
-	  cout << "**Kotihakemisto "
+	  cout << "** Home directory "
 		   << GetHome().GetCharPtr()
-		   << " kadoksissa**" <<  endl;
-	  cout << "  joko annettava ympäristömuuttujana" <<  endl;
-	  cout << "  tai oltava C:\\Program Files\\LehtiAuto" <<  endl;
+		   << " missing**" <<  endl;
+	  cout << "  must be given as an environment file" <<  endl;
+	  cout << "  or be C:\\Program Files\\LehtiAuto" <<  endl;
 	  return false;
 	}
 #endif
@@ -1369,7 +1369,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    itsLogFileName = logFileName;   //jotta voidaan sulkea/avata jatkossa
    itsLogFile->open(logFileName, ios::out|ios::app); // edellinen aloitti alusta
    NFmiTime time;
-   *itsLogFile << endl << "** Loki avattu " << time << " **" << endl;
+   *itsLogFile << endl << "** Log opened " << time << " **" << endl;
 //*******
    NFmiString retString;
    NFmiString origInputFileName = inputFile;
@@ -1457,7 +1457,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 		return false;
 
    if(itsLogFile)
-	 *itsLogFile << "KOOSTETAAN TUOTE" << endl;
+	 *itsLogFile << "BUILDING PRODUCT" << endl;
 
    return true;
 }
@@ -1476,7 +1476,7 @@ bool NFmiPressProduct::ReadData(void)
 	return true;
 
   if(itsLogFile)
-	*itsLogFile << "LUETAAN ANNETUT DATATIEDOSTOT" << endl;
+	*itsLogFile << "READING DATA FILES" << endl;
 
   bool mandatoryNotFound = false;
 

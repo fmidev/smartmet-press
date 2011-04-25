@@ -108,7 +108,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		{
 		  if(itsLogFile)
 			{
-			  string msg = "Tuotetiedoston maksimipituus ylitetty #OsaKuvassa";
+			  string msg = "Maximum product length exceeded in #subimage";
 			  errors.push_back(msg);
 			  *itsLogFile << "*** ERROR: " << msg << endl;
 			}
@@ -122,7 +122,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 		  {
 			if(itsLogFile)
 			  {
-				string msg = string("Tuntematon sana #OsaKuvassa: ") + static_cast<char *>(itsObject);
+				string msg = string("Unknown keyword in #subimage: ") + static_cast<char *>(itsObject);
 				errors.push_back(msg);
 				*itsLogFile << "*** ERROR: " << msg << endl;
 			  }
@@ -149,7 +149,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			     itsPressProduct->itsObjects.Add(image);
 			  else
 				{
-				  string msg = "OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE";
+				  string msg = "Subimage has no product pointer. PROGRAMMING ERROR";
 				  errors.push_back(msg);
 				  *itsLogFile << "*** ERROR: " << msg << endl;
 				}
@@ -177,7 +177,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			     itsPressProduct->itsObjects.Add(image);
 			  else
 				{
-				  string msg = "OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE";
+				  string msg = "Subimage has no product pointer. PROGRAMMING ERROR";
 				  errors.push_back(msg);
 				  *itsLogFile << "*** ERROR: " << msg << endl;
 				}
@@ -227,7 +227,6 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			       }
 				   else
 				   {
-					    //*itsLogFile << "*** ERROR: UusiSuhtAikaleimalla-rivi" << endl; tulee muutenkin
 						delete image;
 						itsIntObject = ConvertDefText(itsString);
 						break;
@@ -260,7 +259,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 					 itsPressProduct->itsObjects.Add(image);
 				  else
 					{
-					  string msg = "OsaKuvalla ei tuotepointteria, OHJELMOINTIVIRHE";
+					  string msg = "Subimage has no product pointer. PROGRAMMING ERROR";
 					  errors.push_back(msg);
 					  *itsLogFile << "*** ERROR: " << msg << endl;
 					}
@@ -381,7 +380,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			  {
 				if(xmin == xmax || ymin == ymax)
 				  {
-					string msg = "OsaKuvan mittaAlueen min == max";
+					string msg = "#subimage definition size min == max";
 					errors.push_back(msg);
 					*itsLogFile << "*** ERROR: " << msg << endl;
 				  }
@@ -400,7 +399,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			  {
 				if(xmin == xmax || ymin == ymax)
 				  {
-					string msg = "OsaKuvan sijoitusAlueen min == max";
+					string msg = "#subimage plotting view min == max";
 					errors.push_back(msg);
 					*itsLogFile << "*** ERROR: " << msg << endl;
 				  }
@@ -419,7 +418,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			  {
 				if(xmin == xmax || ymin == ymax)
 				  {
-					string msg = "OsaKuvan sijoitusAlueen min == max";
+					string msg = "#subimage plotting view min == max";
 					errors.push_back(msg);
 					*itsLogFile << "*** ERROR: " << msg << endl;
 				  }
@@ -442,7 +441,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			  {
 				if(xmin == xmax || ymin == ymax)
 				  {
-					string msg = "OsaKuvan rajauksen min == max";
+					string msg = "#subimage clipping rectangle min == max";
 					errors.push_back(msg);
 					*itsLogFile << "*** ERROR: " << msg << endl;
 				  }
@@ -488,7 +487,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 					}
 					else
 					  {
-						string msg = "x:lle puuttuu y-pari kuvan leikkauksessa";
+						string msg = "x-coordinate missing y-coordinate pair in clipping path";
 						errors.push_back(msg);
 						*itsLogFile << "*** ERROR: " << msg << endl;
 					  }
@@ -499,7 +498,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 
 			else
 			{
-			  string msg = "Liian vähän pisteitä kuvan leikkauksessa";
+			  string msg = "Too few coordinates in clipping path";
 			  errors.push_back(msg);
 			  *itsLogFile << "*** ERROR: " << msg << endl;
 			  ReadNext();
@@ -542,7 +541,7 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 	{
 	  if(itsLogFile)
 		{
-		  string msg = "OsaKuva-tiedosto ei määritelty";
+		  string msg = "#subimage file not defined";
 		  errors.push_back(msg);
 		  *itsLogFile << "*** ERROR: " << msg << endl;
 		}
@@ -657,7 +656,7 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
   else if(lowChar==NFmiString("paikka"))
   {
-	string msg = "Paikka ei sallittu #OsaKuvassa, pitääkö olla suhtPaikka";
+	string msg = "#stationplaceonmap not allowed in #subimage, should you use #placemove instead?";
 	errors.push_back(msg);
 	*itsLogFile << "*** ERROR: " << msg << endl;
 	return dImagePlaceMove;

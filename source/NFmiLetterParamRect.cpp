@@ -93,7 +93,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)  
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Tekstisssä" << endl;
+			*itsLogFile << "*** ERROR: Maximum length of product filename exceeded in #consttext" << endl;
 		  retString = itsString;
 		  return false;
 		}
@@ -103,7 +103,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 		case dOther:	  
 		  {    
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Tekstisssä: "
+			  *itsLogFile << "*** ERROR: Unknown keyword in #consttext: "
 						  << static_cast<char *>(itsObject)
 						  << endl;  
 			ReadNext();
@@ -160,7 +160,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 
 			ReadNext();
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Päiviä ei voi asettaa #Tekstissä"
+			  *itsLogFile << "*** ERROR: Cannot set dates in #consttext"
 						  << endl;  
 			break;
 		  }
@@ -205,7 +205,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** WARNING: summa toisen vastaavan määrittelyn jälkeen (#Teksti, OptimoiMaailmaHavainnot)"
+			*itsLogFile << "*** WARNING: sum after a similar definition (#consttext, optimizeglobalobs)"
 				          << endl;
 		}
 		SetRelModifierTimes(10, 18);
@@ -275,15 +275,15 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   bool lastElementStatus = GetPressProduct()->LastTextStatus();
   GetPressProduct()->SetLastTextStatus(true);
   if(itsPressParam->IsBackupStation())
-  {
+	{
 	  if(lastElementStatus)
-	  {
-			*itsLogFile << "  vara-asemaa ei tarvita tekstielementille" << endl;
-		    return true;
-	  }
+		{
+		  *itsLogFile << "  backup station not needed for text element" << endl;
+		  return true;
+		}
 	  else
-			*itsLogFile << "  vara-asemaa käytetään tekstielementille" << endl;
-  }
+		*itsLogFile << "  backup station used for text element" << endl;
+	}
 
   bool isMax;
   if(IsMaxMinPlotting())
@@ -428,9 +428,9 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	}
   else if(!mapString)
 	{
-	  *itsLogFile << "WARNING: arvolle "
+	  *itsLogFile << "WARNING: No transformation needed for value "
 				  << value 
-				  << " ei muunnosta (#Teksti datasta)"
+				  << " in #consttext data"
 				  << endl;
       GetPressProduct()->SetLastTextStatus(false);
 	  return false;

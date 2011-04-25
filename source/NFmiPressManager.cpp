@@ -119,7 +119,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   inputFileName += NFmiString("nimi.prem");
   inputFileName.Header(static_cast<char *>(NFmiFileString(thePressProduct.GetInFileName()).Header()));
 
-  *itsLogFile << "manageri olisi: " << static_cast<char *>(inputFileName) << endl;
+  *itsLogFile << "the manager would be: " << static_cast<char *>(inputFileName) << endl;
 
   if (itsDescriptionFile)
 	  delete itsDescriptionFile;
@@ -128,7 +128,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   if(!itsDescriptionFile)
 	{
 	  if(itsLogFile)
-		*itsLogFile << "tiedoston avaaminen ei onnistunut: '"
+		*itsLogFile << "Failed to open file: '"
 					<< inputFileName
 					<< "'"
 					<< endl;
@@ -138,12 +138,12 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   if(!itsDescriptionFile->good() || itsDescriptionFile->eof())
 	{
 	  if(itsLogFile)
-		*itsLogFile << "ei manageria" << endl;
+		*itsLogFile << "no manager used" << endl;
 	  return false;
 	}
   else
 	if(itsLogFile)
-	  *itsLogFile << "Manageri-tiedosto avattu: "<< static_cast<char *>(inputFileName) << endl;
+	  *itsLogFile << "Manager file opened: "<< static_cast<char *>(inputFileName) << endl;
 
   SetSeasonsStatus(thePressProduct.GetSeasonsStatus());
   SetHome(thePressProduct.GetHome());
@@ -163,12 +163,10 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   while(itsIntObject != dEnd || itsCommentLevel)
 	{
   
-//	*itsLogFile << "Read from manager: " << static_cast<char *>(itsString) << endl; 
-
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: max length exceeded in the Manager" << endl;
+			*itsLogFile << "*** ERROR: Max length exceeded in the Manager" << endl;
 		  return false;
 		}
 	  itsLoopNum++;
@@ -178,7 +176,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 		case dOther: // ylimääräistä roinaa
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Managerissa: "
+			  *itsLogFile << "*** ERROR: Unknown keyword in manager: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 
@@ -198,7 +196,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 				if(!thePressProduct.WritePS(outMode))
 				  {
 					if(itsLogFile)
-					  *itsLogFile << "*** ERROR: problems with the manager" << endl;
+					  *itsLogFile << "*** ERROR: Problems writing output with the manager" << endl;
 					return false;
 				  }
 			  }
@@ -332,7 +330,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 			  }
 			else
 			{
-			  *itsLogFile << "*** ERROR: Not valid PressMask : "
+			  *itsLogFile << "*** ERROR: Invalid PressMask : "
 						  << static_cast<char *>(maskName)
 						  << " in space "
 						  << static_cast<int>(helpEnumSpace)
@@ -435,7 +433,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 		  }
 		case dManCloseLog:
 			{
-			  *itsLogFile << "** Loki suljetaan managerista" << endl;
+			  *itsLogFile << "** Closing log from the manager" << endl;
 			  thePressProduct.SetLogFile(false);
 
 			  ReadNext();
@@ -522,7 +520,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 			else
 			  {
 				if (itsLogFile)
-				  *itsLogFile << "*** ERROR: Tuntematon tulostusmuoto managerissa: "
+				  *itsLogFile << "*** ERROR: Unknown output format in manager: "
 							  << static_cast<char *>(helpString)
 							  << endl;
 			}

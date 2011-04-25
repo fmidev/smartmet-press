@@ -205,7 +205,7 @@ bool NFmiPressDescription::ReadRemaining(void)
 				itsEnvironment.SetTextAlignment(dir);
 				//itsAlignment = dir;
 			else
-				*itsLogFile << "*** ERROR: Tuntematon kohdistus: "
+				*itsLogFile << "*** ERROR: Unknown alignment: "
 							<< static_cast<char *>(itsObject)
 							<< endl;  
 			ReadNext();
@@ -222,7 +222,7 @@ bool NFmiPressDescription::ReadRemaining(void)
 	  {
 			SetOne(i1);
 			itsEnvironment.SetVersion(i1);
-	        *itsLogFile << "määrittelyversio: " << i1 << endl;
+	        *itsLogFile << "version: " << i1 << endl;
  
 			break;
 	  }
@@ -292,7 +292,7 @@ FmiLanguage NFmiPressDescription::ReadLanguage(void)
   else if (helpString == NFmiString ("saame")) 
 	language = kSaame;
   else
-	*itsLogFile << "*** ERROR: Tuntematon kieli: "
+	*itsLogFile << "*** ERROR: Unknown language: "
 				<< static_cast<char *>(helpString)
 				<< endl;
   return language;

@@ -90,7 +90,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Numerossa" << endl;
+			*itsLogFile << "*** ERROR: Maximum length of product file exceeded in #number" << endl;
 		  retString = itsString;
 		  return false;
 		}
@@ -100,7 +100,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 		case dOther:
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Numerossa: "
+			  *itsLogFile << "*** ERROR: Unknown keyword in #number: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();
@@ -191,7 +191,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 
 			ReadNext();
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Päiviä ei voi asettaa #Numerossa"  << endl;
+			  *itsLogFile << "*** ERROR: Cannot set date in #number"  << endl;
 			break;
 		  }
 		case dHour:
@@ -227,7 +227,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** WARNING: summa toisen vastaavan määrittelyn jälkeen (#Numero, OptimoiMaailmaHavainnot)"
+			*itsLogFile << "*** WARNING: Sum after a similar definition (#number, optimizeglobalobs)"
 				          << endl;
 		}
 		SetRelModifierTimes(10, 18);

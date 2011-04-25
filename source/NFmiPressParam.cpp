@@ -686,7 +686,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Segmentiss‰" << endl;
+			*itsLogFile << "*** ERROR: Maximum length of product exceeded in #pressparam" << endl;
 		  retString = itsString;
 		  return false;
 		}
@@ -697,7 +697,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		case dOther:	  //ylim‰‰r‰ist‰ roinaa,
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Segmentiss‰: "
+			  *itsLogFile << "*** ERROR: Unknown keyword in #pressparam: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();
@@ -803,7 +803,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  {
 				if(++currentLevelInd > kMaxNumOfTableElements)
 				  {
-					*itsLogFile << "*** ERROR: sallittu painepintam‰‰r‰ ylitetty: "
+					*itsLogFile << "*** ERROR: Maximum allowed number of pressure levels exceeded: "
 								<< numOfTableLevels
 								<< endl;
 					--currentLevelInd;
@@ -832,7 +832,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  {
 				if(++currentLevelInd > kMaxNumOfTableElements)
 				  {
-					*itsLogFile << "*** ERROR: sallittu painepintam‰‰r‰ ylitetty: "
+					*itsLogFile << "*** ERROR: Maximum allowed number of pressure levels exceeded: "
 								<< numOfTableLevels
 								<< endl;
 					ReadTwo(x, y); //luetaan vaan pois
@@ -874,9 +874,9 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					numberOfTimeSteps = static_cast<unsigned short>(long1);
 					if(numberOfTimeSteps >= kMaxNumOfTableElements)
 					  {
-						*itsLogFile << "*** WARNING: taulukkoon varattu aika-askelm‰‰r‰ ylitetty: "
+						*itsLogFile << "*** WARNING: Maximum number of time steps allocated for tables exceeded: "
 									<< numberOfTimeSteps
-									<< "; hidastuu"
+									<< "; slowing down"
 									<< endl;
 					  }
 					if(ReadLong(long1))
@@ -919,9 +919,9 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					numberOfTimeSteps = static_cast<unsigned short>(long1);
 					if(numberOfTimeSteps >= kMaxNumOfTableElements)
 					  {
-						*itsLogFile << "*** WARNING: taulukkoon varattu aika-askelm‰‰r‰ ylitetty: "
+						*itsLogFile << "*** WARNING: Maximum number of time steps allocated for tables exceeded: "
 									<< numberOfTimeSteps
-									<< "; hidastuu"
+									<< "; slowing down"
 									<< endl;
 					  }
 					if(ReadLong(long1))
@@ -948,7 +948,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  {
 				if(++currentTimeInd > kMaxNumOfTableElements)
 				  {
-					*itsLogFile << "*** ERROR: sallittu aika-askelm‰‰r‰ ylitetty segmentiss‰: "
+					*itsLogFile << "*** ERROR: Maximum number of time steps exceeded in #pressparam: "
 								<< currentTimeInd
 								<< endl;
 					ReadTwo(x, y); //luetaan vaan pois
@@ -982,7 +982,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  {
 				if(++currentTimeInd > kMaxNumOfTableElements)
 				  {
-					*itsLogFile << "*** ERROR: sallittu aika-askelm‰‰r‰ ylitetty segmentiss‰: "
+					*itsLogFile << "*** ERROR: Maximum number of time steps exceeeded in #pressparam: "
 								<< currentTimeInd
 								<< endl;
 					ReadTwo(x, y); //luetaan vaan pois
@@ -1075,11 +1075,11 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  {
 			    *itsLogFile << "*** ERROR: Data '"
 							<< static_cast<char *>(itsDataName)
-							<< "' segmentiss‰ pit‰‰ antaa ennen"
+							<< "' in #pressparam must be defined prior to"
 							<< endl;
-			    *itsLogFile << "       'K‰yt‰DatanAlkuaikaa' ja 'SuhteellinenTuntiDatasta'"
+			    *itsLogFile << "       'UseDataStartTime' and 'RelativeHoursFromData'"
 							<< endl;
-			    *itsLogFile << "       -> segmentiss‰ mahdollisesti v‰‰r‰ aika"
+			    *itsLogFile << "       -> #pressparam possibly uses an incorrect time"
 							<< endl;
 			  }
 			SetData(itsDataName);
@@ -1117,7 +1117,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				itsCurrentStationScale.SetEndScales(NFmiRect(NFmiPoint(x,y), NFmiPoint(upRight+x,upRight+y)));
 			}
 			else
-				  *itsLogFile << "*** ERROR: AsemienSiirto-k‰skyn parametreiss‰"  << endl;
+				  *itsLogFile << "*** ERROR: StationRelocation parameters incorrect"  << endl;
 
 			break;
 		  }
@@ -1129,7 +1129,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			if(Read4Double(xmin,ymin,xmax,ymax))
 			  {
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: asemienMittaAlueen min == max"  << endl;
+				  *itsLogFile << "*** ERROR: StationDefArea min == max"  << endl;
 				else
 				  itsCurrentStationScale.SetStartScales(NFmiRect(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax)));
 			  }
@@ -1147,7 +1147,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				//MoveSegmentPlaceConditionally(xmin,ymin);
 				//MoveSegmentPlaceConditionally(xmax,ymax);
 				if(xmin == xmax || ymin == ymax)
-				  *itsLogFile << "*** ERROR: asemienSijoitusAlueen min == max"  << endl;
+				  *itsLogFile << "*** ERROR: StationPlotArea min == max"  << endl;
 				else
 				  itsCurrentStationScale.SetEndScales(NFmiRect(NFmiPoint(xmin,ymin), NFmiPoint(xmax,ymax)));
 			  }
@@ -1170,7 +1170,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  {
 			if(!itsDataIter) // ilman data ei voi saada asemannimi‰
 			  {
-				*itsLogFile << "*** ERROR: AsemanNime‰ yritetty ilman dataa" << endl;
+				*itsLogFile << "*** ERROR: StationName used without a defined data source" << endl;
 			  }
 			NFmiPressStationText * text = new NFmiPressStationText;
 			if(itsIntObject == dStationNumberObject)
@@ -1235,7 +1235,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  {
 			if(!itsDataIter) // ilman data ei voi saada aikateksti‰
 			  {
-				*itsLogFile << "*** ERROR: AikaTeksti‰ yritetty ilman dataa segmentiss‰" << endl;
+				*itsLogFile << "*** ERROR: TimeText used without a data source in the segment" << endl;
 
 			  }
 			NFmiPressDataTimeText * text = new NFmiPressDataTimeText;
@@ -1308,7 +1308,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		  {
 			if(symbolGroupCalled)
 			  {
-				*itsLogFile << "*** ERROR: Useamman #DataAlkoit-elementin k‰yttˆ kielletty #Segmentiss‰, ohitetaan"  << endl;
+				*itsLogFile << "*** ERROR: Cannot use more than one #symbolgroup in a #pressparam segment, bypassing"  << endl;
 				NFmiSymbolGroup dummyGroup;
 				dummyGroup.ReadDescription(itsString);
 			  }
@@ -1383,7 +1383,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  }
 			else
 			  {
-				*itsLogFile << "*** ERROR: Aikaa yritetty lukea olemattomasta datasta Segmentiss‰"  << endl;
+				*itsLogFile << "*** ERROR: Trying to read time from undefined data source in a #pressparam segment"  << endl;
 			  }
 
 			dataTimeGiven = true;
@@ -1407,7 +1407,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  }
 			else
 			  {
-				*itsLogFile << "*** ERROR: Aikaa yritetty lukea olemattomasta datasta Segmentiss‰"  << endl;
+				*itsLogFile << "*** ERROR: Trying to read time from undefined data source in a #pressparam segment"  << endl;
 			  }
 			dataTimeGiven = true;
 
@@ -1532,9 +1532,9 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				  itsString = valueString;
 				  if(numOfTableStations < 1)
 					{
-					  *itsLogFile << "*** ERROR: "
+					  *itsLogFile << "*** ERROR: Station "
 								  << static_cast<char *>(string1)
-								  << ": asemalla, joka ei taulukossa, tulisi olla paikka"
+								  << " which is not in the table should have a defined location"
 								  << endl;
 					  helpBool = false;
 					}
@@ -1654,9 +1654,9 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				itsString = valueString;
 				if(numOfTableStations < 1)
 				  {
-					*itsLogFile << "*** ERROR: "
+					*itsLogFile << "*** ERROR: Station "
 								<< static_cast<char *>(string1)
-								<< ": asemalla, joka ei taulukossa, tulisi olla paikka"
+								<< " which is not in a table should have a defined location"
 								<< endl;
 					helpBool = false;
 				  }
@@ -1711,7 +1711,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						NFmiArea *ownArea = itsArea.GetArea();
 						if(!mainArea || !ownArea)
 						{			
-							*itsLogFile << "*** ERROR: "<< "p‰‰- tai oma karttaa puuttuu"  << endl;
+							*itsLogFile << "*** ERROR: "<< "Main or own map missing"  << endl;
 						}
 						else
 						{
@@ -1768,7 +1768,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					firstStation = false;
 				  }
 				else
-				  *itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu"  << endl;
+				  *itsLogFile << "*** ERROR: Missing map projection"  << endl;
 
 			  }
             fNextStationBackup = false;
@@ -1795,7 +1795,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 								if(!mainArea || !ownArea)
 								{
 									if(!errReported)
-										*itsLogFile << "*** ERROR: "<< "p‰‰- tai oma karttaa puuttuu"  << endl;
+										*itsLogFile << "*** ERROR: Main or own map missing"  << endl;
 									errReported = true;
 								}
 								else
@@ -1840,11 +1840,11 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 						}
 				}
 				else
-					*itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu"  << endl;
+					*itsLogFile << "*** ERROR: Map projection missing"  << endl;
 
 			}
 			else
-				 *itsLogFile << "*** ERROR: "<< "paikkamatriisi puutteellinen"  << endl;
+				 *itsLogFile << "*** ERROR: Location matrix not fully defined"  << endl;
 
 
             fNextStationBackup = false;
@@ -1887,12 +1887,12 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					}
 				  else
 					*itsLogFile << "*** ERROR: "
-								<< "lat/lon puuttuu: "
+								<< "lat/lon missing: "
 								<< static_cast<char *>(name)
 								<< endl;
 				}
 			  else
-				*itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu"  << endl;
+				*itsLogFile << "*** ERROR: map projection missing"  << endl;
 
 			}
 
@@ -1940,7 +1940,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					firstStation = false;
 				  }
 				else
-				  *itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu"  << endl;
+				  *itsLogFile << "*** ERROR: Map projection missing"  << endl;
 
 			}
 
@@ -1980,7 +1980,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			  {
 				if(!itsDataIter)
 				{
-					*itsLogFile << "*** ERROR: "<< "asemina datan pisteet, mutta data puuttuu "  << endl;
+					*itsLogFile << "*** ERROR: Stations defined by data locations, but data itself is missing "  << endl;
 					return false;
 				}
 				itsDataIter->ResetLocation();
@@ -2013,7 +2013,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				  }
 			  }
 			else
-			  *itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu gridilt‰"  << endl;
+			  *itsLogFile << "*** ERROR: Map projection missing from grid"  << endl;
 
 			ReadNext();
 			break;
@@ -2029,7 +2029,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				{
 					if(!itsDataIter)
 					{
-						*itsLogFile << "*** ERROR: "<< "asemina datan pisteet, mutta data puuttuu "  << endl;
+						*itsLogFile << "*** ERROR: Data station locations used, but data itself is missing "  << endl;
 						return false;
 					}
 					itsDataIter->ResetLocation();
@@ -2064,10 +2064,10 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 					}
 				}
 				else
-					*itsLogFile << "*** ERROR: "<< "karttaprojektio puuttuu gridilt‰"  << endl;
+					*itsLogFile << "*** ERROR: Map projection missing from grid"  << endl;
 			  }
 			  else
-					*itsLogFile << "*** ERROR: alue puuttuu AseminaDatanPisteetRajaten-k‰skyst‰"<< ""  << endl;
+					*itsLogFile << "*** ERROR: Area missing from StationsFromDataCropping command"<< ""  << endl;
 
 			//ReadNext();
 			break;
@@ -2164,7 +2164,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   {
  	 NFmiStationPoint station(NFmiStation(1, "Helsinki", 25., 60.), NFmiPoint(100.,100.));
 	 itsStations.AddLocation(station, false);
-	 *itsLogFile << "   *** WARNING: "<< "#Segmentti teki yhden dummy-aseman kun m‰‰rittelyss‰ ei yht‰‰n"  << endl;
+	 *itsLogFile << "   *** WARNING: #pressparam segment created a dummy station since there are non in the definition itself"  << endl;
  }
 
   if(timeOrLevelTableSet) // ei voi asettaa yll‰ p‰‰luupissa koska ekan aseman paikkaa ei v‰ltt‰m‰tt‰ tied‰
@@ -2232,7 +2232,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   if(takeToMainArea)
   {
 		if(itsArea.GetArea() == 0)
-			*itsLogFile << "*** ERROR: "<< "puuttuvaa karttaa ei saa p‰‰kartaksi"  << endl;
+			*itsLogFile << "*** ERROR: Cannot use a missing map as the main map"  << endl;
 		else
 			itsPressProduct->itsMainArea = itsArea.GetArea(); 
   }
@@ -2578,7 +2578,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   UnsetAllErrorReported();
 
   if(fSupplementary)
-	  *itsLogFile << "  VAINTƒYDENNYS" << endl;
+	  *itsLogFile << "  SUPPLEMENT ONLY" << endl;
 
   if (!itsDataIter)
 	{
@@ -2603,7 +2603,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	if(itsDataName.IsValue())
 	  *itsLogFile << "  data: " << static_cast<char *>(itsDataName) << endl;
 	else
-	  *itsLogFile << "  data: tuotteessa ekana oleva" << endl;
+	  *itsLogFile << "  data: first one defined in the product" << endl;
   
   if(itsPrimaryDataName.IsValue())
 	  *itsLogFile << "  primary data: " << static_cast<char *>(itsPrimaryDataName) << endl;
@@ -2642,7 +2642,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	  if(!itsDataIter)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "  *** ERROR: Dataa ei ole" << endl;
+			*itsLogFile << "  *** ERROR: Data missing" << endl;
 		}
 	  else
 		{
@@ -2683,21 +2683,21 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			   {
 				 if(itsCurrentStep == 1)
 				   {
-					 *itsLogFile << "  ekan ajan segmentti-aika: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
+					 *itsLogFile << "  first time for the segment: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
 				   }
 				 else if (itsCurrentStep == itsNumberOfSteps)
 				   {
-					 *itsLogFile << "  vikan ajan segmentti-aika: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
+					 *itsLogFile << "  last time for the segment: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
 				   }
 				 else
 				   writeLog = false;
 			   }
 			 else
 			   {
-				 *itsLogFile << "  Segmentin aika: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
+				 *itsLogFile << "  Segment time: " << static_cast<char *>(time.ToStr("DD.MM.YYYY HH"));
 			   }
 			 if(IsStationLocalTimeMode() && writeLog)
-			   *itsLogFile << " pa"<< endl;
+			   *itsLogFile << " local time"<< endl;
 			 else if(writeLog)
 			   *itsLogFile << " utc"<< endl;
 		   }
@@ -2706,9 +2706,9 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
 		 if(fIsLevelLoop)
 		   if(itsLevels[currentStepInd].LevelType() == kFmiPressureLevel)
-		       *itsLogFile << "  Segmentin painepinta: " << itsLevels[currentStepInd].LevelValue() << endl;
+		       *itsLogFile << "  Segment pressure level: " << itsLevels[currentStepInd].LevelValue() << endl;
 		   else
-		       *itsLogFile << "  Segmentin hybridipinta: " << itsLevels[currentStepInd].LevelValue() << endl;
+		       *itsLogFile << "  Segment hybrid level: " << itsLevels[currentStepInd].LevelValue() << endl;
 
 		 // ************** AikaSidotutObjektit ensin (paitsi ne jotka pyydetty lopussa) ***********
 		 // eli ***VakioSymboli
@@ -2830,7 +2830,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 					 if(!(itsSymbols.WritePS(itsCurrentStationPoint,theOutput)))
 					   {
 						 if(itsLogFile)
-						   *itsLogFile << "*** ERROR: Aseman piirto ei onnistunut: " << endl;
+						   *itsLogFile << "*** ERROR: Failed to draw station: " << endl;
 						 return false;
 					   }
 
@@ -2978,7 +2978,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	} //while(time/level Step)
 
   if(itsLogFile)
-	*itsLogFile << "  " << statAll << " asemaa*aikaa(tai pintaa) k‰sitelty" << endl;
+	*itsLogFile << "  " << statAll << " stations*times (or levels) processed" << endl;
 
   long num = itsSymbols.NumOfMissing();
   if(num > 0 && itsLogFile)
@@ -3197,7 +3197,7 @@ bool NFmiPressParam::SetLonLat(NFmiStationPoint & theStation)
 		}
 	  else
 		{
-		  *itsLogFile << "*** ERROR: datasta ei saatu lon/lat:ia" << endl;
+		  *itsLogFile << "*** ERROR: Could not extract lat/lon from data" << endl;
 		  return false;
 		}
 	}

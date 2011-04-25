@@ -90,7 +90,7 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)  
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Tekstisssä" << endl;
+			*itsLogFile << "*** ERROR: Maximum length of product filename exceeded in #consttext" << endl;
 		  retString = itsString;
 		  return false;
 		}
@@ -100,7 +100,7 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
 		case dOther:	  
 		  {    
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #ÄäriarvoPaikassa: "
+			  *itsLogFile << "*** ERROR: Unknown keyword in #extremeplace: "
 						  << static_cast<char *>(itsObject)
 						  << endl;  
 			ReadNext();
@@ -157,7 +157,7 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
 
 			ReadNext();
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Päivää ei voi asettaa #ÄäriarvoPaikassa"
+			  *itsLogFile << "*** ERROR: Cannot set date in #extremeplace"
 						  << endl;  
 			break;
 		  }
@@ -167,7 +167,7 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
 			  break;
 			ReadLong(long1);
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntia ei voi asettaa #ÄäriarvoPaikassa"
+			  *itsLogFile << "*** ERROR: Cannot set hour in #extremeplace"
 						  << endl;  
 			
 			ReadNext();
@@ -243,7 +243,7 @@ bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbol
 	{
 		str = NFmiString("-");
 		    //esim jos ei missään satanut on max-paikka: -
-		*itsLogFile << "   WARNING: ääriarvon paikka puuttuu" << endl;
+		*itsLogFile << "   WARNING: location for extreme value is missing" << endl;
 	}
 	else
 		str = location->GetName();
