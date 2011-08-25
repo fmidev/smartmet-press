@@ -496,20 +496,21 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 
 int NFmiPsSymbol::ConvertDefText(NFmiString & object)
 {
-	if(object==NFmiString("Directory") ||
-	   object==NFmiString("KuvaKansio") ||
-	   object==NFmiString("Kuvakansio") ||
-	   object==NFmiString("Hakemisto"))
+    NFmiString lowChar = object;
+    lowChar.LowerCase();
+	
+	if(lowChar==NFmiString("directory") ||
+	   lowChar==NFmiString("kuvakansio") ||
+	   lowChar==NFmiString("hakemisto"))
 	  return dSymbolDir;
 
-	else if(object==NFmiString("Name") ||
-			object==NFmiString("Nimi") ||
-			object==NFmiString("Tiedosto"))
+	else if(lowChar==NFmiString("name") ||
+			lowChar==NFmiString("nimi") ||
+			lowChar==NFmiString("tiedosto"))
 	  return dConstantSymbol;
 
-	else if(object==NFmiString("SizeFactor") ||
-			object==NFmiString("KokoKerroin") ||
-			object==NFmiString("Kokokerroin"))
+	else if(lowChar==NFmiString("sizefactor") ||
+			lowChar==NFmiString("kokokerroin"))
 	  return dPsRelSize;
 
 	else
