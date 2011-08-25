@@ -4,6 +4,7 @@
  * \brief Implementation of class NFmiPressComputerTimeText
  */
 // ======================================================================
+// GIT testi
 
 #ifndef UNIX
  #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
