@@ -5,7 +5,7 @@
 
 \section sec_johdanto Johdanto
 
-Puuttuu.
+Puuttuu. GITtesti
 
 \section sec_syntaksi M‰‰rittelytiedoston syntaksi
 
