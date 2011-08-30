@@ -7,7 +7,7 @@
 
 #include "NFmiHyphenationString.h"
 //#include <vector>
-//#include <string>
+#include <cstring>
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -215,7 +215,7 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMa
 			posReturn = stdString.find('\r', posChar);
 			int len = stdString.length();
 			int len2 = word.length();
-			if (!(len-posChar-len2 < 6 || posReturn != string::npos && posReturn-posChar-len2 < 6))
+			if (!(len-posChar-len2 < 6 || (posReturn != string::npos && posReturn-posChar-len2 < 6)))
 	//		if(posReturn != string::npos && posReturn-posChar > 11 
 	//			          && stdString.length()-posChar > 11)
 			{
@@ -249,7 +249,7 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMa
 	//       avoid very short orphane text fragments  
  			int len = stdString.length();
 			int len2 = word.length();
-			if (!(len-posChar-len2 < 6 || posReturn != string::npos && posReturn-posChar-len2 < 6))
+			if (!(len-posChar-len2 < 6 || (posReturn != string::npos && posReturn-posChar-len2 < 6)))
 			{
 				stdString.replace(posChar,word.size(),hyphWord);
 				word[0] = toupper(word[0]);
