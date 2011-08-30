@@ -2257,7 +2257,9 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   lowChar.LowerCase(); 
 
   if(lowChar==NFmiString("#symbolgroup") ||
-	 lowChar==NFmiString("#symboliryhmä") ||
+     lowChar==NFmiString("#params") ||
+	 lowChar==NFmiString("#parameters") ||
+     lowChar==NFmiString("#symboliryhmä") ||
 	 lowChar==NFmiString("#dataalkiot") ||
 	 lowChar==NFmiString("#parametrit") ||
 	 lowChar==NFmiString("#symboliryhmä"))

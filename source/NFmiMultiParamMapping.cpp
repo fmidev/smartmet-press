@@ -167,21 +167,21 @@ NFmiString * NFmiMultiParamMapping::Map(const vector<float> & values, bool & mis
 	  int i;
 	  for(i=0; i<static_cast<int>(itsNumOfParams); i++)
 	  {  
-		  {
+		  //{
 		   if(itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues 
 				&&itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing 
 			|| itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues
 				&&itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing) 
 		     break; 
 		   if(!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing ||
-			   itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing &&
-			   values[i] == itsMappingIntervals[j].mappingInterval[i].lowBorder ||
+			   (itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing &&
+			   values[i] == itsMappingIntervals[j].mappingInterval[i].lowBorder) ||
 			   (values[i] >= itsMappingIntervals[j].mappingInterval[i].lowBorder &&
 				values[i]  <= itsMappingIntervals[j].mappingInterval[i].highBorder &&
 				values[i]  != kFloatMissing &&
 				itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing)))
 			break;
-		  }
+		  //}
 		}
 	  if(i >= static_cast<int>(itsNumOfParams)) 
 		return &itsMappingIntervals[j].symbol;

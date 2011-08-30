@@ -589,8 +589,7 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#vakioteksti"))
 	return dConstText;
 
-  else if(lowChar==NFmiString("#text") ||
-		  lowChar==NFmiString("#number") ||
+  else if(lowChar==NFmiString("#number") ||
 		  lowChar==NFmiString("#numero"))
 	return dNumber;
 
