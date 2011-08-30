@@ -687,10 +687,11 @@ bool NFmiPressTimeDescription::ActiveTimeIndex(int currentInd) const
 {
   //halutessa olioita voidaan piirt‰‰ esim joka n:teen aika-askeleeseen
   // Mika: Kannattaisikohan laittaa sulkuja?
-  if(itsLoopActivity.startIndex < 1 || (currentInd-itsLoopActivity.startIndex)
-	 % itsLoopActivity.step == 0
-	 && currentInd >= static_cast<int>(itsLoopActivity.startIndex)
-	 && currentInd <= static_cast<int>(itsLoopActivity.stopIndex)
+  if(itsLoopActivity.startIndex < 1 ||
+	 ((currentInd-itsLoopActivity.startIndex) % itsLoopActivity.step == 0
+	  && currentInd >= static_cast<int>(itsLoopActivity.startIndex)
+	  && currentInd <= static_cast<int>(itsLoopActivity.stopIndex)
+	 )
 	 ) return true;
   return false;
 }

@@ -1921,8 +1921,8 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName, bool &isYearD
 	name = nData->GetName();
 	//monessa määrittelyssä Search toisi väärän tiedoston riippuen määrittely-
 	// järjestyksestä (SuomiHav->SuomiHavSade), siksi oletus koko nimi
-	if(fNewestDataMode && givenName.IsValue() && name.Search(givenName) > 0
-	|| !fNewestDataMode && name == givenName)
+	if((fNewestDataMode && givenName.IsValue() && name.Search(givenName) > 0)
+	   || (!fNewestDataMode && name == givenName))
 	{
 		isYearData = nData->IsYearData();
 		return nData->GetData();

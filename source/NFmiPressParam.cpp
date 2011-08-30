@@ -390,9 +390,11 @@ bool NFmiPressParam::SetMaxMinPoints(void)
 				   abs((*pos).point.Y() - point.Y()) < allowedYDist)
 				{
 				  // float mean = (value+(*pos).value)/2.f;
-					if((isMax && (*pos).isMax && value > (*pos).value //uusi ‰‰rev‰mpi maximi
-					||  isMin && !(*pos).isMax &&value < (*pos).value //uusi ‰‰rev‰mpi minimi
-					||  significance > (*pos).significance))
+				  if(
+					 (isMax && (*pos).isMax && value > (*pos).value) //uusi ‰‰rev‰mpi maximi
+					 || (isMin && !(*pos).isMax && value < (*pos).value) //uusi ‰‰rev‰mpi minimi
+					 || significance > (*pos).significance
+						)
 					//||  isMax && !(*pos).isMax && mean > meanOfGrid  //max korvaa minimin suurilla arvoilla
 					//||  isMin && (*pos).isMax && mean  < meanOfGrid)) //min korvaa maximin pienill‰ arvoilla
 					{
@@ -2602,10 +2604,12 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   NFmiPoint stationPointMovement;
 
   if(itsLogFile)
-	if(itsDataName.IsValue())
-	  *itsLogFile << "  data: " << static_cast<char *>(itsDataName) << endl;
-	else
-	  *itsLogFile << "  data: first one defined in the product" << endl;
+	{
+	  if(itsDataName.IsValue())
+		*itsLogFile << "  data: " << static_cast<char *>(itsDataName) << endl;
+	  else
+		*itsLogFile << "  data: first one defined in the product" << endl;
+	}
   
   if(itsPrimaryDataName.IsValue())
 	  *itsLogFile << "  primary data: " << static_cast<char *>(itsPrimaryDataName) << endl;
@@ -2707,10 +2711,12 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			 itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, true);
 
 		 if(fIsLevelLoop)
-		   if(itsLevels[currentStepInd].LevelType() == kFmiPressureLevel)
+		   {
+			 if(itsLevels[currentStepInd].LevelType() == kFmiPressureLevel)
 		       *itsLogFile << "  Segment pressure level: " << itsLevels[currentStepInd].LevelValue() << endl;
-		   else
+			 else
 		       *itsLogFile << "  Segment hybrid level: " << itsLevels[currentStepInd].LevelValue() << endl;
+		   }
 
 		 // ************** AikaSidotutObjektit ensin (paitsi ne jotka pyydetty lopussa) ***********
 		 // eli ***VakioSymboli
