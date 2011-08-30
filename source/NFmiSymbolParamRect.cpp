@@ -510,6 +510,7 @@ int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
   lowChar.LowerCase();
 
   if(lowChar==NFmiString("symboldirectory") ||
+	 lowChar==NFmiString("symbolset") ||
 	 lowChar==NFmiString("symbolitaulu") ||
 	 lowChar==NFmiString("kuvakansio"))
 	  return dSymbolDirectory;

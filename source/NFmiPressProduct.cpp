@@ -2957,9 +2957,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 
 int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 {
-  //"Oikeat" tässä alla
   NFmiString lowChar = object;
-  lowChar.LowerCase(); // kaikille pitäisi sallia vapaa isot/pienet kirj.
+  lowChar.LowerCase();
 
   if(lowChar==NFmiString("product") || lowChar==NFmiString("productname")
 	|| lowChar==NFmiString("tuote") || lowChar==NFmiString("tuotenimi"))
@@ -3018,6 +3017,7 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("paletti"))
 	return dPalette;
   else if(lowChar==NFmiString("mapfile") ||
+	      lowChar==NFmiString("background") ||
 		  lowChar==NFmiString("pohja"))
 	return dMapFile;
   else if(lowChar==NFmiString("datafile") ||
@@ -3046,7 +3046,7 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#osakuva")  ||
 		  lowChar==NFmiString("#osakuvia"))
 	return dSubImage;
-  else if(lowChar==NFmiString("#consttext") ||
+  else if(lowChar==NFmiString("#text") ||
 		  lowChar==NFmiString("#vakioteksti")||
 		  lowChar==NFmiString("#teksti"))
 	return dTextObject;
@@ -3097,7 +3097,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("väli"))
 	return dGap;
   else if(lowChar==NFmiString("#pressparam") ||
-		  lowChar==NFmiString("#segmentti") ||
+	      lowChar==NFmiString("#segment") ||
+	      lowChar==NFmiString("#segmentti") ||
 		  lowChar==NFmiString("#parametriasemat")) // takaisin, oli vanhoissa reittisäissä
 	return dPressParam;
   else if(lowChar==NFmiString("#constplaces") ||
