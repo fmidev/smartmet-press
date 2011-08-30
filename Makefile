@@ -52,7 +52,6 @@ EXTRAFLAGS = -Werror \
 	-Wcast-qual \
 	-Wcast-align \
 	-Wwrite-strings \
-        -Wconversion \
         -Winline \
 	-Wctor-dtor-privacy \
         -Wnon-virtual-dtor \
@@ -63,7 +62,8 @@ EXTRAFLAGS = -Werror \
         -Woverloaded-virtual \
 	-Wno-long-long
 
-DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wold-style-cast
+DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wold-style-cast  -Wconversion
+
 
 CC = g++
 
