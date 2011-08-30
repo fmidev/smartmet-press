@@ -2532,9 +2532,8 @@ bool NFmiPressParam::CreateAreaMask(void)
 	  NFmiAreaMask::Type maskType = NFmiAreaMask::kInfo;
 
 	  NFmiInfoData::Type dataType = NFmiInfoData::kStationary;
-	  bool ownsInfo = false;
 	  NFmiAreaMask::BinaryOperator postBinaryOperator = NFmiAreaMask::kAnd;
-	  itsAreaMask = new NFmiInfoAreaMask(maskOperation, maskType, dataType, itsMaskIter, ownsInfo, postBinaryOperator);
+	  itsAreaMask = new NFmiInfoAreaMask(maskOperation, maskType, dataType, itsMaskIter, postBinaryOperator);
 	  *itsLogFile << "  areamask created: " <<  maskNr << endl;
 	}
   return true;

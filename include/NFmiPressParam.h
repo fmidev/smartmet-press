@@ -32,6 +32,8 @@
 #include "NFmiRectScale.h"
 //#include "NFmiText.h"
 
+#include <boost/shared_ptr.hpp>
+
 //#include <vector>
 #include <list>
 
@@ -140,8 +142,8 @@ public:
   int ConvertDefText(NFmiString & object);
   void SetData(NFmiQueryData * data);
   void SetPrimaryData(NFmiQueryData * data);
-  void SetMaskIter(NFmiFastQueryInfo * info);
-  NFmiFastQueryInfo*  GetMaskIter(void);
+  void SetMaskIter(boost::shared_ptr<NFmiFastQueryInfo> info);
+  boost::shared_ptr<NFmiFastQueryInfo> GetMaskIter(void);
   NFmiInfoAreaMask* GetAreaMask(void);
   void SetDataName(NFmiString name);
   void SetPrimaryDataName(NFmiString name);
@@ -238,7 +240,7 @@ protected:
   NFmiString itsPrimaryDataName;   
   NFmiFastQueryInfo * itsDataIter;
   NFmiFastQueryInfo * itsPrimaryDataIter;
-  NFmiFastQueryInfo * itsMaskIter;
+  boost::shared_ptr<NFmiFastQueryInfo> itsMaskIter;
   NFmiInfoAreaMask * itsAreaMask;
   FmiCounter itsCurrentStep;
   FmiCounter itsNumberOfSteps;
@@ -715,7 +717,7 @@ void NFmiPressParam::SetPrimaryData(NFmiQueryData * data)
 // ----------------------------------------------------------------------
 
 inline
-void NFmiPressParam::SetMaskIter(NFmiFastQueryInfo * info)
+void NFmiPressParam::SetMaskIter(boost::shared_ptr<NFmiFastQueryInfo> info)
 {
   itsMaskIter = info;
 }
@@ -729,7 +731,7 @@ void NFmiPressParam::SetMaskIter(NFmiFastQueryInfo * info)
 // ----------------------------------------------------------------------
 
 inline
-NFmiFastQueryInfo * NFmiPressParam::GetMaskIter(void)
+boost::shared_ptr<NFmiFastQueryInfo> NFmiPressParam::GetMaskIter(void)
 {
   return itsMaskIter;
 }

@@ -43,6 +43,7 @@
 #include "NFmiFileString.h"
 #include "NFmiVoidPtrList.h"
 // system
+#include <boost/shared_ptr.hpp>
 #include <queue>
 #include <vector>
 #include <map>
@@ -244,7 +245,7 @@ private:
   NFmiRect itsClippingRect;
   NFmiRect itsBoundingBorder;
   NFmiFastQueryInfo * itsCurrentDataIter;
-  NFmiSuperSmartInfo * itsMaskIter;
+  boost::shared_ptr<NFmiSuperSmartInfo> itsMaskIter;
   NFmiVoidPtrList itsDatas;
   NFmiVoidPtrList itsParams;
   NFmiVoidPtrList itsSameSymbols;
