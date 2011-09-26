@@ -951,7 +951,9 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString ("leveyskerroin"))
 	return dWidthFactor;
   
-  else if(lowChar==NFmiString ("notrightjustification") ||
+  else if(lowChar==NFmiString ("noalignment") ||
+	      lowChar==NFmiString ("nojustification") ||
+		  lowChar==NFmiString ("notrightjustification") ||
 		  lowChar==NFmiString ("liehureuna")  ||
 		  lowChar==NFmiString ("eioikeatasaus"))
 	return dNotRightJustification;

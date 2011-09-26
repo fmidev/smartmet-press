@@ -344,7 +344,8 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("rgbcolor") ||
 		  lowChar==NFmiString("rgbväri"))
 	return dRGBColor;
-  else if(lowChar==NFmiString("color") ||
+  else if(lowChar==NFmiString("cmykcolor") ||
+		  lowChar==NFmiString("color") ||
 		  lowChar==NFmiString("väri") ||
 		  lowChar==NFmiString("cmykväri"))
 	return dColor;

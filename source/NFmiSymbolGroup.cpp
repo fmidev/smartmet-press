@@ -580,7 +580,9 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#kuva"))
 	return dSymbol;
 
-  else if(lowChar==NFmiString("#constantsymbol") ||
+  else if(lowChar==NFmiString("#fixedsymbol") ||
+		  lowChar==NFmiString("#constantsymbol") ||
+		  lowChar==NFmiString("#kiinteäsymboli") ||
 		  lowChar==NFmiString("#vakiosymboli") ||
 		  lowChar==NFmiString("#vakiokuva"))
 	return dConstSymbol;
@@ -594,11 +596,13 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 	return dNumber;
 
   else if(lowChar==NFmiString("#letter") ||
+		  lowChar==NFmiString("#text") ||
 		  lowChar==NFmiString("#teksti") ||
 		  lowChar==NFmiString("#kirjain"))
 	return dLetter;
 
-  else if(lowChar==NFmiString("#time") ||
+  else if(lowChar==NFmiString("#timetext") ||
+		  lowChar==NFmiString("#time") ||
 		  lowChar==NFmiString("#aikateksti") ||
 		  lowChar==NFmiString("#aika") )
 	return dTime;

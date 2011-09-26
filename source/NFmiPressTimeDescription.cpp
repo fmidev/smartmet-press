@@ -653,7 +653,8 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("relhour") ||
 		  lowChar==NFmiString("suhteellinentunti"))
 	return dRelHour;                     
-  else if(lowChar==NFmiString("relhours") ||
+  else if(lowChar==NFmiString("relativetime") ||
+	      lowChar==NFmiString("relhours") ||
 		  lowChar==NFmiString("suhteellisettunnit")) // data-alkioissa
 	return dGivenRelHours;                     
   else if(lowChar==NFmiString("hourstep") ||

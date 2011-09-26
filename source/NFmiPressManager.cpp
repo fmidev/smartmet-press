@@ -551,7 +551,8 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
   NFmiString lowChar = object;
   lowChar.LowerCase();
 
-  if(lowChar==NFmiString("teetuote"))
+  if(lowChar==NFmiString("makeproduct") ||
+	 lowChar==NFmiString("teetuote"))
 	return dManWritePs;
   else if(lowChar==NFmiString("maski"))
 	return dManMaskNumber;
@@ -571,15 +572,18 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
 	return dManDeactivateFirstSegment;
   else if(lowChar==NFmiString("tuotenimi"))
 	return dManProduct;
-  else if(lowChar==NFmiString("tuotenimiformaatti"))
+  else if(lowChar==NFmiString("productnameformat") ||
+	      lowChar==NFmiString("tuotenimiformaatti"))
 	return dManProductFormat;
-  else if(lowChar==NFmiString("asema"))
+  else if(lowChar==NFmiString("station") ||
+	      lowChar==NFmiString("asema"))
 	return dManStation;
   else if(lowChar==NFmiString("asemajaosakuvat"))
 	return dManStationAndImages;
   else if(lowChar==NFmiString("asemanimeävaihtaen"))
 	return dManStationNewName;
-  else if(lowChar==NFmiString("tuoteniminumerointi"))
+  else if(lowChar==NFmiString("numberproducts") ||
+	      lowChar==NFmiString("tuoteniminumerointi"))
 	return dManNumberAddingToName;
   else if(lowChar==NFmiString("tuoteniminumerointipois"))
 	return dManDeleteNumberAddingToName;
@@ -593,9 +597,12 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
 	return dManOutputMode;
   else if(lowChar==NFmiString("suhteellinentunti"))
 	return dManRelativeHours;
-  else if(lowChar==NFmiString("tuntimuutos"))
+  else if(lowChar==NFmiString("addhours") ||
+	      lowChar==NFmiString("addhour") ||
+	      lowChar==NFmiString("tuntimuutos"))
 	return dManAddHours;
-  else if(lowChar==NFmiString("kieli"))
+  else if(lowChar==NFmiString("language") ||
+	      lowChar==NFmiString("kieli"))
 	return dManLanguage;
   else
 	return NFmiPressDescription::ConvertDefText(object);

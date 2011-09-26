@@ -889,7 +889,8 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("suhteellinenpaikka"))
 	return dPlaceMove;
 
-  else if(lowChar==NFmiString("param") ||
+  else if(lowChar==NFmiString("parameter") ||
+	      lowChar==NFmiString("param") ||
           lowChar==NFmiString("parametri"))
 	return dParam;
 
@@ -943,6 +944,7 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 	return dYearPeriod;
 
   else if(lowChar==NFmiString("multiparams") ||
+	      lowChar==NFmiString("multiparameters") ||
 		  lowChar==NFmiString("moniparametrit"))
 	return dMultiParams;
 
@@ -1002,7 +1004,8 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("satunnaisväli"))
 	return dRandomInterval;
 
-  else if(lowChar==NFmiString("randommodifying") ||
+  else if(lowChar==NFmiString("randomization") ||
+	      lowChar==NFmiString("randommodifying") ||
 		  lowChar==NFmiString("satunnaiskäsittely"))
 	return dRandomModifying;
 

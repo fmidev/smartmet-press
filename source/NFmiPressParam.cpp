@@ -2277,6 +2277,7 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 	return dTextObject;
 
   else if(lowChar==NFmiString("#time") ||
+		  lowChar==NFmiString("#timetext") ||
 		  lowChar==NFmiString("#aika") ||
 		  lowChar==NFmiString("#aikateksti"))
 	return dTimeTextObject;
@@ -2364,7 +2365,9 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 	  fLonLatMode = true;
 	  return dStationNameReplace;
 	}
-  else if(lowChar==NFmiString("stationdefarea") ||
+  else if(lowChar==NFmiString("initialscalingpoints") ||
+		  lowChar==NFmiString("stationdefarea") ||
+		  lowChar==NFmiString("alkuskaalauspisteet") ||
 		  lowChar==NFmiString("asemienmittaalue"))
 	return dStationDefArea;
 
@@ -2372,8 +2375,10 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("asemiensiirto"))
 	return dStationRelocation;
 
-  else if(lowChar==NFmiString("stationplotarea") ||
-		  lowChar==NFmiString("asemiensijoitusalue"))
+  else if(lowChar==NFmiString("currentscalingpoints") ||
+	      lowChar==NFmiString("stationplotarea") ||
+		  lowChar==NFmiString("nykyskaalauspisteet") ||
+	      lowChar==NFmiString("asemiensijoitusalue"))
 	return dStationPlotArea;
 
   else if(lowChar==NFmiString("paramsubviews") ||
@@ -2393,7 +2398,9 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("aikataulukko"))
 	return dTimeTable;
 
-  else if(lowChar==NFmiString("timetablerelative") ||
+  else if(lowChar==NFmiString("timeseries") ||
+		  lowChar==NFmiString("timetablerelative") ||
+		  lowChar==NFmiString("aikasarja") ||
 		  lowChar==NFmiString("aikataulukkosuhteellisena") ||
 		  lowChar==NFmiString("aikataulukkosuht"))
 	return dTimeTableRelative;
@@ -2422,7 +2429,8 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("aikapaikka"))
 	return dTimePlace;
 
-  else if(lowChar==NFmiString("timeplacerelative") ||
+  else if(lowChar==NFmiString("timeplacemoving") ||
+		  lowChar==NFmiString("timeplacerelative") ||
 		  lowChar==NFmiString("aikapaikkasuhteellisena") ||
 		  lowChar==NFmiString("aikapaikkasuht"))
 	return dTimePlaceRelative;
@@ -2436,6 +2444,7 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 	return dStationNameOnMap;
 
   else if(lowChar==NFmiString("stationplaceonmap") ||
+	      lowChar==NFmiString("placeonmap") ||
 		  lowChar==NFmiString("asemapaikallakartalle") ||
 		  lowChar==NFmiString("paikka"))
 	return dStationPlaceOnMap;

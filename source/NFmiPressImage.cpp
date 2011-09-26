@@ -630,7 +630,9 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 		  )
 	return dNewImageRelWithTimeStamp;
   
-  else if(lowChar==NFmiString("newrelatively") ||
+  else if(lowChar==NFmiString("newfilemoving") ||
+		  lowChar==NFmiString("newrelatively") ||
+		  lowChar==NFmiString("uusitiedostosiirtyen") ||
 		  lowChar==NFmiString("uusisuhteellisena") ||
 	      lowChar==NFmiString("uusisuht")
 		  )
@@ -666,19 +668,26 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("kokokerroin"))
 	return dImageSizeFactor;
 
-  else if(lowChar==NFmiString("plottingview") ||
+  else if(lowChar==NFmiString("currentscalingpoints") ||
+		  lowChar==NFmiString("plottingview") ||
+		  lowChar==NFmiString("nykyskaalauspisteet") ||
 		  lowChar==NFmiString("sijoitusalue"))
 	return dImagePlottingView;
   
-  else if(lowChar==NFmiString("plottingandclipping") ||
+  else if(lowChar==NFmiString("currentscalingandclipping") ||
+		  lowChar==NFmiString("plottingandclipping") ||
+		  lowChar==NFmiString("nykyskaalausjarajaus") ||
 		  lowChar==NFmiString("sijoitusjarajaus"))
 	return dImagePlottingAndClipping;
 
-  else if(lowChar==NFmiString("mapdefsize") ||
+  else if(lowChar==NFmiString("initialscalingpoints") ||
+		  lowChar==NFmiString("mapdefsize") ||
+		  lowChar==NFmiString("alkuskaalauspisteet") ||
 		  lowChar==NFmiString("mittaalue"))
 	return dImageDefSize;
 
   else if(lowChar==NFmiString("clippingrectangle") ||
+		  lowChar==NFmiString("clip") ||
 		  lowChar==NFmiString("rajaus"))
 	return dImageClippingRectangle;
    

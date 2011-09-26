@@ -1414,7 +1414,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Debug 25.8.2011" << endl;       
+   *itsLogFile << "program version = Debug 26.9.2011" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -3053,7 +3053,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("#columntext") ||
 		  lowChar==NFmiString("#palstateksti"))
 	return dColumnTextObject;
-  else if(lowChar==NFmiString("#timetext") ||
+  else if(lowChar==NFmiString("#time") ||
+		  lowChar==NFmiString("#timetext") ||
 		  lowChar==NFmiString("#aikateksti") ||
 		  lowChar==NFmiString("#aika"))
 	return dTimeTextObject;
@@ -3080,7 +3081,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("gifrectangle") ||
 		  lowChar==NFmiString("gifrajaus"))
 	return dBoundingBorder;
-  else if(lowChar==NFmiString("boundingborder") ||
+  else if(lowChar==NFmiString("boundingbox") ||
+	      lowChar==NFmiString("boundingborder") ||
 		  lowChar==NFmiString("aluerajaus"))
 	return dUniBoundingBorder;
   else if(lowChar==NFmiString("mapisreduced") ||
