@@ -862,7 +862,12 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->summer = today >= summerStart && today < summerStop;
   itsSeasonsStatus->pollen = today >= pollenStart && today < pollenStop;
   //itsSeasonsStatus->pollen = !itsSeasonsStatus->wintertime;
-  itsSeasonsStatus->snow = !itsSeasonsStatus->pollen;
+  NFmiTime snowStart(today);
+  snowStart.SetDate(today.GetYear(), 10, 15);
+  NFmiTime snowStop(today);
+  snowStop.SetDate(today.GetYear(), 5, 10);
+  itsSeasonsStatus->snow = today >= snowStart && today < snowStop;
+//itsSeasonsStatus->snow = !itsSeasonsStatus->pollen;
   itsSeasonsStatus->pollenOrSnow = itsSeasonsStatus->pollen || itsSeasonsStatus->snow;
   itsSeasonsStatus->weekday = today.GetWeekday();
   itsSeasonsStatus->dayAdvance = +0;
@@ -885,7 +890,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 #else
   string includePath(getIncPath());
   includePath += kFmiDirectorySeparator;
-  includePath += "KausiTilanne.txt";
+  includePath += "season_status.txt";
 #endif
   
   ifstream in(includePath.c_str(),ios::in|ios::binary);
@@ -943,13 +948,13 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 		  bool boolGiven = true;
 		  bool undef = false;
 		  bool ownComputer = false;
-		  if(fmiShortStr2 == "ye" || fmiShortStr2 == "on")
+		  if(fmiShortStr2 == "ye" || fmiShortStr2 == "on") //both eng=ON & Fin=on
 			{
 			  status = true;
 			  statusString = "PÄÄLLE";
 			  ownComputer = false;
 			}
-		  else if(fmiShortStr2 == "no" || fmiShortStr2 == "ei")
+		  else if(fmiShortStr2 == "of" || fmiShortStr2 == "no" || fmiShortStr2 == "ei") //off
 			{
 			  status = false;
 			  statusString = "POIS";
@@ -1006,7 +1011,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  *itsLogFile << "  Hour forced: "<< hour << endl;
 				}
 			}
-		  else if(fmiShortStr1 == "date" || fmiShortStr1 == "päiv") //day vain 3 merkkiä!!
+		  else if(fmiShortStr1 == "day_" ||fmiShortStr1 == "date" || fmiShortStr1 == "päiv") //day:hin alaviiva!!
 			{
 			  if(!undef)
 				{
@@ -1054,7 +1059,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 				  *itsLogFile << "  Weekday forced: "<< fmiShortStr2; // << endl;
 				}
 			}
-		  else if(fmiShortStr1 == "adva" || fmiShortStr1 == "enna")
+		  else if(fmiShortStr1 == "offs" || fmiShortStr1 == "adva" || fmiShortStr1 == "enna")
 			{
 			  if(!undef)
 				{
@@ -1414,7 +1419,8 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Debug 26.9.2011" << endl;       
+   *itsLogFile << "program version = Debug 4.10.2011" << endl;       
+   *itsLogFile << "UTF8: AaAaCcEeGgIiKkLlNnŠšUuŽžÅÄÖåäöTt" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
