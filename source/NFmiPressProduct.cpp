@@ -3297,7 +3297,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   if(!endFile)
 	{
-	  string msg = string("LoppuPs-tiedostossa vikaa: ")+static_cast<char *>(endFileName);
+	  string msg = string("EndPs file is bad vikaa: ")+static_cast<char *>(endFileName);
 	  errors.push_back(msg);
 	  if(itsLogFile)
 		*itsLogFile << "*** ERROR: " << msg << endl;
