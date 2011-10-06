@@ -236,11 +236,11 @@ bool NFmiParamRect::ActiveStationIndex(int currentInd) const
 {
 //vain TimeParamRectin käytössä toistaiseksi
 
-  if(itsStationLoopActivity.startIndex < 1 || (currentInd-itsStationLoopActivity.startIndex)
-	 % itsStationLoopActivity.step == 0
-	 && currentInd >= static_cast<int>(itsStationLoopActivity.startIndex)
+  if(itsStationLoopActivity.startIndex < 1 ||
+	 ((currentInd-itsStationLoopActivity.startIndex) % itsStationLoopActivity.step == 0
+	  && currentInd >= static_cast<int>(itsStationLoopActivity.startIndex)
 	 && currentInd <= static_cast<int>(itsStationLoopActivity.stopIndex)
-	 ) return true;
+	 )) return true;
   return false;
 }
 // ----------------------------------------------------------------------
@@ -1533,9 +1533,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	actualModifier = kNoneModifier;
   }
   
-  bool isWeightedMean = period > 0 &&
-	period != kUnsignedLongMissing ||
-	actualModifier == kWeightedMean;
+  bool isWeightedMean = (period > 0 && period != kUnsignedLongMissing) || actualModifier == kWeightedMean;
 
 //  bool fTempNotMean = true;
   if(par == kFmiTemperature && fTempNotMean)
@@ -1703,10 +1701,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	}
   
   bool varEtc = (fIsProbability ||
-				 itsAreaModifier != kNoneModifier &&
-				 actualModifier != kNoneModifier ||
-				 itsCurrentPar == kFmiPrecipitation1h &&
-				 itsAreaModifier == kMaximum); //HUOM w&c
+				 (itsAreaModifier != kNoneModifier && actualModifier != kNoneModifier) ||
+				 (itsCurrentPar == kFmiPrecipitation1h && itsAreaModifier == kMaximum)); //HUOM w&c
 
   if(varEtc)
 	{
@@ -1798,15 +1794,17 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 	  if(theQueryInfo->IsGrid())
 		{
 		  if (isWeightedMean || //ajan suhteen 
-			  period > 0 &&
-			  (par == kFmiWeatherSymbol1 ||
-			   par == kFmiWeatherAndCloudiness ||
-			   par == kFmiTotalWindMS ||
-			   par == kFmiMiddleAndLowCloudCover ||
-			   par == kFmiPrecipitationForm ||
-			   par == kFmiPrecipitation1h ||
-			   par == 375) &&
-			  (actualModifier == kNoneModifier || actualModifier == kMean))
+			  (
+			   period > 0 &&
+			   (par == kFmiWeatherSymbol1 ||
+				par == kFmiWeatherAndCloudiness ||
+				par == kFmiTotalWindMS ||
+				par == kFmiMiddleAndLowCloudCover ||
+				par == kFmiPrecipitationForm ||
+				par == kFmiPrecipitation1h ||
+				par == 375) &&
+			   (actualModifier == kNoneModifier || actualModifier == kMean))
+			  )
 			{
 			  value = static_cast<float>(theQueryInfo->InterpolatedTimePeriodFloatValue(itsPressParam->GetCurrentStation().GetLocation(),
 																						firstTime,lastTime,startWeight,centreWeight,endWeight));

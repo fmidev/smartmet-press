@@ -129,10 +129,12 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping & theInterv
   
   for(int i=0; i<itsNumOfParams; i++)
   {		
-	if(theInterval.mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&
-	   theInterval.mappingInterval[i].lowBorder < kFloatMissing
-	   || theInterval.mappingInterval[i].highBorder >= FmiStartOfIncompleteValues &&
-	   theInterval.mappingInterval[i].highBorder < kFloatMissing)
+	if((theInterval.mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&
+		theInterval.mappingInterval[i].lowBorder < kFloatMissing)
+	   ||
+	   (theInterval.mappingInterval[i].highBorder >= FmiStartOfIncompleteValues &&
+		theInterval.mappingInterval[i].highBorder < kFloatMissing)
+	   )
 		fIncomplete = true;
   }
   
@@ -167,11 +169,11 @@ NFmiString * NFmiMultiParamMapping::Map(const vector<float> & values, bool & mis
 	  int i;
 	  for(i=0; i<static_cast<int>(itsNumOfParams); i++)
 	  {  
-		  //{
-		   if(itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues 
-				&&itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing 
-			|| itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues
-				&&itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing) 
+		if( (itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues 
+			 &&itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing )
+			||
+			(itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues
+			 &&itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing))
 		     break; 
 		   if(!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing ||
 			   (itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing &&
@@ -188,8 +190,8 @@ NFmiString * NFmiMultiParamMapping::Map(const vector<float> & values, bool & mis
 
 	  // moniparametrien puuttuva-testi t‰‰ll‰ eli
 	  // puuttuva vain jos jokin signifikantti puuttuu
-	  if(i<static_cast<int>(itsNumOfParams) && values[i] == kFloatMissing  ||
-		 i==static_cast<int>(itsNumOfParams) && values[i-1] == kFloatMissing)
+	  if( (i<static_cast<int>(itsNumOfParams) && values[i] == kFloatMissing)  ||
+		  (i==static_cast<int>(itsNumOfParams) && values[i-1] == kFloatMissing))
 		{											
 		  missingFound = true;
 		  //return itsMissingString;

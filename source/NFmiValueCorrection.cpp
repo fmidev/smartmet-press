@@ -7,6 +7,7 @@
 
 #include "NFmiValueCorrection.h"
 #include <fstream>
+#include <cstdlib>
 
 using namespace std;
 

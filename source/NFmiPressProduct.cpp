@@ -65,7 +65,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsCurrentNumberToName = kLongMissing;
   itsNumOfWritePS = 0;
   fMakeElementsAfterSegments = false;
-  itsMaskIter = 0;
+  itsMaskIter.reset();
   fNewestDataMode = false;
   fSupplementMode = false;
   itsMainArea = 0;
@@ -91,8 +91,6 @@ NFmiPressProduct::~NFmiPressProduct(void)
 	delete itsNameDaySw;
   if(itsCurrentDataIter)
 	delete itsCurrentDataIter;
-  if(itsMaskIter)
-	delete itsMaskIter;
   delete itsNameToLonLat;
   itsParams.Clear(true);
   itsSameSymbols.Clear(true);
@@ -1532,15 +1530,14 @@ bool NFmiPressProduct::ReadData(void)
 		}
 
 	  fDataRead = true;
-	  if(itsMaskIter)
-		delete itsMaskIter;
+
 	  bool dummy;
 	  if(DataByName(itsMaskFileName, dummy))
 		{
-		  itsMaskIter = new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy));
+		  itsMaskIter.reset(new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy)));
 		}
 	  else
-		itsMaskIter = 0;
+		itsMaskIter.reset();
 	  return true;
 	  
 	}
@@ -1763,15 +1760,13 @@ bool NFmiPressProduct::ReadData(void)
   NFmiTime time;
 	   *itsLogFile << "  JÄLKEEN READ " << time << " **" << endl;
 
-  if(itsMaskIter)
-	delete itsMaskIter;
   bool dummy;
   if(DataByName(itsMaskFileName, dummy))
   {
-	itsMaskIter = new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy));
+	itsMaskIter.reset(new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy)));
   }
   else
-	itsMaskIter = 0;
+	itsMaskIter.reset();
 
   if(itsLogFile)
 	{
@@ -1927,8 +1922,8 @@ NFmiQueryData * NFmiPressProduct::DataByName(NFmiString givenName, bool &isYearD
 	name = nData->GetName();
 	//monessa määrittelyssä Search toisi väärän tiedoston riippuen määrittely-
 	// järjestyksestä (SuomiHav->SuomiHavSade), siksi oletus koko nimi
-	if(fNewestDataMode && givenName.IsValue() && name.Search(givenName) > 0
-	|| !fNewestDataMode && name == givenName)
+	if((fNewestDataMode && givenName.IsValue() && name.Search(givenName) > 0)
+	   || (!fNewestDataMode && name == givenName))
 	{
 		isYearData = nData->IsYearData();
 		return nData->GetData();

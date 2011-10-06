@@ -340,12 +340,14 @@ float NFmiScale::RelLocation(float theValue) const
 {
   float value = kFloatMissing;
   if (itsDataOk && theValue != kFloatMissing)
-	if(Difference() > 0.f)
-	  value = (theValue-itsStartValue)/Difference();
-	else
-	  value = 0.f;
+	{
+	  if(Difference() > 0.f)
+		value = (theValue-itsStartValue)/Difference();
+	  else
+		value = 0.f;
+	}
   
-  return (value == kFloatMissing || !Inside(theValue) && itsLimitCheck) ? kFloatMissing : value;
+  return (value == kFloatMissing || (!Inside(theValue) && itsLimitCheck)) ? kFloatMissing : value;
 }
 
 // ----------------------------------------------------------------------

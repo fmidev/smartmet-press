@@ -357,9 +357,9 @@ float NFmiStationPoint::GetWmoDifference(void) const
   int wmoCode = GetIdent();
   float zoneDifferenceHour = -100; //Lasse
   //**** EUROOPPA
-  if(wmoCode >= 3000 && wmoCode < 4000 ||	//Englanti,Irlanti
-	 wmoCode >= 8500 && wmoCode < 8600 ||	//Portugal
-	 wmoCode >= 60000 && wmoCode < 60041)	// Kanarian saaret, Lasse siirsi tänne
+  if((wmoCode >= 3000 && wmoCode < 4000) ||	//Englanti,Irlanti
+	 (wmoCode >= 8500 && wmoCode < 8600) ||	//Portugal
+	 (wmoCode >= 60000 && wmoCode < 60041))	// Kanarian saaret, Lasse siirsi tänne
 	{
 	  zoneDifferenceHour = 0;
 	}
