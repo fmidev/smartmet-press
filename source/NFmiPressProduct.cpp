@@ -951,18 +951,18 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 		  if(fmiShortStr2 == "ye" || fmiShortStr2 == "on") //both eng=ON & Fin=on
 			{
 			  status = true;
-			  statusString = "PÄÄLLE";
+			  statusString = "ON";
 			  ownComputer = false;
 			}
 		  else if(fmiShortStr2 == "of" || fmiShortStr2 == "no" || fmiShortStr2 == "ei") //off
 			{
 			  status = false;
-			  statusString = "POIS";
+			  statusString = "OFF";
 			}
 		  else if(fmiShortStr2 == "om" || fmiShortStr2 == "ow") //oma/own
 			{
 			  status = true;
-			  statusString = "PÄÄLLE";
+			  statusString = "ON";
 			  ownComputer = true;
 			}
 		  else if(fmiShortStr2 == "de" || fmiShortStr2 == "ol")
@@ -2923,7 +2923,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 
   if(itsLogFile)
 	{
-	  *itsLogFile << "Lopetusrivivarmistus (pitää olla #LOPPU): "
+	  *itsLogFile << "Confirming reaching End-of-Product (should be #END): "
 				  << static_cast<char *>(itsString)
 				  << endl;
 	  if(itsString.GetLen() >= 2 &&
@@ -2931,9 +2931,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		 NFmiString(itsString.GetCharsPtr(1,2)) != NFmiString("#L"))
 	  {
 		*itsLogFile << "*********" << endl;
-		*itsLogFile << "*** ERROR: MÄÄRITTELYTIEDOSTON LUKEMINEN KESKEYTETTY ?" << endl;
+		*itsLogFile << "*** ERROR: SERIOUS, INTERPRETATION INTERRUPTED ?" << endl;
 	  }
-	  *itsLogFile << "TUOTETIEDOSTO LUETTU" << endl;
+	  *itsLogFile << "INTERPRETATION FINISHED" << endl;
 	}
 
   
