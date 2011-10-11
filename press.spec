@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 11.1.11
+Version: 11.10.11
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Tue Oct 11 2011 oksman <santeri.oksman@fmi.fi> - 11.10.11-1.el5.fmi
+- Changes to support English language by Lars Winberg.
 * Tue Jan 11 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.1.11-1.el5.fmi
 - Upgraded to newbase 11.1.11 to avoid reading rsync files
 * Mon Jul  5 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.7.5-1.el5.fmi
