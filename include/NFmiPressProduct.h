@@ -56,6 +56,7 @@ class NFmiFastQueryInfo;
 enum NFmiPressProductObjects
 {
   dProduct = 20,
+  dEncoding,
   dOutDir,
   dMapFile,
   dDataFile,
@@ -260,6 +261,7 @@ private:
   bool fSupplementMode;
   FmiElementStatus itsLastElementStatus;
   NFmiValueCorrection* itsTempCorrection;
+  std::string itsEncoding;
 }; // class NFmiPressProduct
 
 

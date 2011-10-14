@@ -73,6 +73,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsLastElementStatus.number = true;
   itsLastElementStatus.text = true;
   itsTempCorrection = new NFmiValueCorrection();
+  itsEncoding = "latin";
 }
 
 // ----------------------------------------------------------------------
@@ -2722,6 +2723,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
+			text->SetEncoding(itsEncoding);
 			//text->SetTime(itsFirstPlotTime);
 			if(text->ReadDescription(itsString))
 			{
@@ -2758,6 +2760,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
+			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2779,6 +2782,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
+			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2803,6 +2807,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetTime(itsFirstPlotTime);
 			text->SetLanguage(itsLanguage);
+			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2835,6 +2840,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetPostText(NFmiString("+18"));
 			text->SetLanguage(itsLanguage);
+			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2856,6 +2862,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
+			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2904,6 +2911,17 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		case dCVversion:
 		  {
 			itsEnvironment.SetCV(true);
+			ReadNext();
+			break;
+		  }
+		  // Check which encoding should be used. Default is latin1.
+		case dEncoding:
+		  {
+			if (!ReadEqualChar())
+			  {
+				break;
+			  }
+			itsEncoding = ReadString();
 			ReadNext();
 			break;
 		  }
@@ -3129,6 +3147,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("cvversion") ||
 		  lowChar==NFmiString("cvversio"))
 	return dCVversion;
+  else if(lowChar == NFmiString("encoding") ||
+		  lowChar == NFmiString("enkoodaus"))
+	return dEncoding;
   else
 	return NFmiPressTimeDescription::ConvertDefText(object);
 }

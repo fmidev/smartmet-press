@@ -511,7 +511,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 							 << "_"
 							 << endl;
 		  theDestinationFile << numberRect.Height()
-							 << " selectlatinfont"
+							 << " select"+itsEncoding+"font"
 							 << endl;
 		}
 		
