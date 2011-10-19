@@ -740,8 +740,11 @@ bool NFmiPressProduct::ReadNameToLonLatList(void)
 #endif
 
   fileName += kFmiDirectorySeparator;
+  // Get rid of the Muut subdirectory in Linux
+#ifndef UNIX
   fileName += NFmiString("Muut");
   fileName += kFmiDirectorySeparator;
+#else
 
   fileName1 = fileName;
   fileName1 += NFmiString("AsemaNimetLonLatUusi.txt");
@@ -1365,8 +1368,11 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 
    string tempCorrFile= static_cast<string>(GetHome());
    tempCorrFile += kFmiDirectorySeparator;
+   // Get rid of the Muut directory in Linux
+#ifndef UNIX
    tempCorrFile += "Muut";
    tempCorrFile += kFmiDirectorySeparator;
+#endif
    tempCorrFile += "Lampokorjaus.txt";
    itsTempCorrection->SetFiles(tempCorrFile, itsLogFile);
 
@@ -3232,8 +3238,11 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 #endif
 
   endFileName += kFmiDirectorySeparator;
+  // Get rid of the Muut directory in Linux
+#ifndef UNIX
   endFileName += NFmiString("Muut");
   endFileName += kFmiDirectorySeparator;
+#endif
 
   endFileName += NFmiString("endA4.eps");
   ifstream endFile(endFileName, ios::in|ios::in);
@@ -3248,8 +3257,11 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 #endif
 
   startFileName += kFmiDirectorySeparator;
+  // Get rid of the Muut directory in Linux
+#ifndef UNIX
   startFileName += NFmiString("Muut");
   startFileName += kFmiDirectorySeparator;
+#endif
 
   if(itsPageSize == kA3Maisema)
 	startFileName += NFmiString("startEpsA3Maisema.ps");
