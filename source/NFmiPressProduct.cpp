@@ -744,7 +744,7 @@ bool NFmiPressProduct::ReadNameToLonLatList(void)
 #ifndef UNIX
   fileName += NFmiString("Muut");
   fileName += kFmiDirectorySeparator;
-#else
+#endif
 
   fileName1 = fileName;
   fileName1 += NFmiString("AsemaNimetLonLatUusi.txt");
