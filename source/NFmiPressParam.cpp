@@ -812,7 +812,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				  }
 				else
 				  {
-				    NFmiLevel level = NFmiLevel(levelType, long1); 
+				    NFmiLevel level = NFmiLevel(levelType, static_cast<float>(long1)); 
 					itsLevels[currentLevelInd] = level;
 					fIsLevelLoop = true;    //HUOM vaikka yksi vain
 					fIsTimeLoop = false;
@@ -842,7 +842,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 				  }
 				else
 				  {
-				    NFmiLevel level = NFmiLevel(levelType, long1); 
+				    NFmiLevel level = NFmiLevel(levelType, static_cast<float>(long1)); 
 					itsLevels[currentLevelInd] = level;
 					if(ReadTwo(x, y))
 					  {
@@ -2542,8 +2542,14 @@ bool NFmiPressParam::CreateAreaMask(void)
 
 	  NFmiInfoData::Type dataType = NFmiInfoData::kStationary;
 	  NFmiAreaMask::BinaryOperator postBinaryOperator = NFmiAreaMask::kAnd;
+  
+//#ifndef UNIX
+//	  itsAreaMask = 0;
+//	  *itsLogFile << "  AREAMASK ON WINDOWS = 0, search Boost " << endl;
+//#else
 	  itsAreaMask = new NFmiInfoAreaMask(maskOperation, maskType, dataType, itsMaskIter, postBinaryOperator);
 	  *itsLogFile << "  areamask created: " <<  maskNr << endl;
+//#endif    
 	}
   return true;
 }

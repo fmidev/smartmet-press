@@ -35,6 +35,7 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include <locale>
 
 extern std::list<std::string> errors;
 
@@ -3971,6 +3972,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 				addString = NFmiString("kii");
 			  else if(itsLanguage == kSaame)
 				addString = NFmiString("saa");
+			  else if(itsLanguage == kLettish)
+				addString = NFmiString("lat");
 
 			  if(subString.FirstCharIsUpper())
 				addString.FirstCharToUpper();

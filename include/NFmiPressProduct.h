@@ -47,6 +47,7 @@
 #include <queue>
 #include <vector>
 #include <map>
+#include <locale>
 
 class NFmiLocationFinder;
 class NFmiNameDay;

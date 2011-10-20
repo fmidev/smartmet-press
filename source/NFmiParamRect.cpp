@@ -588,7 +588,7 @@ bool NFmiParamRect::ReadRemaining(void)
 	case dLevel:  //ei toimi
 	  {
 		if(SetOne(long1))
-		  itsLevel = NFmiLevel(kFmiPressureLevel, long1);
+		  itsLevel = NFmiLevel(kFmiPressureLevel, static_cast<float>(long1));
 		
 		break;
 	  }

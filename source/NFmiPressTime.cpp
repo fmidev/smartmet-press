@@ -330,13 +330,18 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
 
 static const char
 *reldays [] =
-  {"alivuoto","Toissapäivänä", "Eilen", "Tänään", "Huomenna", "Ylihuomenna", "ylivuoto",
-
-   "alivuoto","I förrgår", "I går", "I dag", "I morgon", "I övermorgon","ylivuoto",
-
-   "alivuoto","The day before yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow","ylivuoto",
-
-   "alivuoto","Yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow", "ylivuoto"};
+     {"alivuoto","Toissapäivänä", "Eilen", "Tänään", "Huomenna", "Ylihuomenna", "ylivuoto",
+	  
+	  "alivuoto","I förrgår", "I går", "I dag", "I morgon", "I övermorgon","ylivuoto",
+	  
+	  "alivuoto","The day before yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow","ylivuoto",
+	  
+	  "alivuoto","The day before yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow", "ylivuoto",
+	  "alivuoto","Vorgestern", "Gestern", "Heute", "Morgen", "Übermorgen", "ylivuoto",
+	  "alivuoto","The day before yesterday", "Yesterday", "Today", "Tomorrow", "The day after tomorrow", "ylivuoto",
+	  "alivuoto","The day before yesterday", "ikte", "ådne", "Tomorrow", "The day after tomorrow", "ylivuoto",
+       //latvia, korjaa Vorgestern
+	   "alivuoto","Vorgestern!", "Vakar", "Sodien", "Rit", "Parit","ylivuoto"};
 
 // ----------------------------------------------------------------------
 /*!
@@ -372,6 +377,7 @@ NFmiString NFmiPressTime::RelativeDay(FmiLanguage theLanguage,
 	  thePlusInd = 2;
 	}
   diff =  std::min(std::max(diff,static_cast<short>(-3)),static_cast<short>(3)); //pysäytetään ali/ylivuotoon
+  
   retString = NFmiString(reldays[(theLanguage-1)*7+diff +3]);
   if (theStr6.GetChars(1,4) == NFmiString("tttt"))  //oletus Tttt
 	retString.LowerCase();

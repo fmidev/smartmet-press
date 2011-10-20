@@ -291,7 +291,10 @@ FmiLanguage NFmiPressDescription::ReadLanguage(void)
 	language = kChinese;
   else if (helpString == NFmiString ("saame")) 
 	language = kSaame;
-  else
+  else if (helpString == NFmiString ("latvia") ||
+		   helpString == NFmiString ("lettish"))
+	language = kLettish;
+ else
 	*itsLogFile << "*** ERROR: Unknown language: "
 				<< static_cast<char *>(helpString)
 				<< endl;
