@@ -1425,8 +1425,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Debug 4.10.2011" << endl;       
-   *itsLogFile << "UTF8: AaAaCcEeGgIiKkLlNnŠšUuŽžÅÄÖåäöTt" << endl;       
+   *itsLogFile << "program version = Release 20.10.2011" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
