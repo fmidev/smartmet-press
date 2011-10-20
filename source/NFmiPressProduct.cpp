@@ -4004,7 +4004,7 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 				addString = NFmiString("kii");
 			  else if(itsLanguage == kSaame)
 				addString = NFmiString("saa");
-			  else if(itsLanguage == kLettish)
+			  else if(itsLanguage == kLatvian)
 				addString = NFmiString("lat");
 
 			  if(subString.FirstCharIsUpper())
