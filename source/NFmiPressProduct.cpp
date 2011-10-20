@@ -681,33 +681,64 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 		NFmiFastQueryInfo info = NFmiFastQueryInfo(FirstData());
 		today.SetHour(12);
 		today.ChangeByDays(2); //tuotteet keskim‰‰rin kahden p‰iv‰n p‰‰ss‰
+		NFmiPoint lonLat(99.,99.); //not valid on earth 
+		NFmiString lowChar(theCountryPart);
+		lowChar.LowerCase();
 		if (info.Time(today))
 		{
-			NFmiPoint lonLat(99.,99.); //not valid on earth 
-			NFmiString lowChar(theCountryPart);
-			lowChar.LowerCase();
-			if(lowChar == NFmiString("lounas")|| lowChar == NFmiString("southwest"))
-				lonLat.Set(22.5, 60.5);
-			else if(lowChar == NFmiString("etel‰") || lowChar == NFmiString("south"))
-				lonLat.Set(25., 60.3);
-			else if(lowChar == NFmiString("kaakko") || lowChar == NFmiString("southeast"))
-				lonLat.Set(27.5, 61.2);
-			else if(lowChar == NFmiString("l‰nsi") || lowChar == NFmiString("west"))
-				lonLat.Set(22., 63.);
-			else if(lowChar == NFmiString("keski") || lowChar == NFmiString("centre"))
-				lonLat.Set(26., 62.5);
-			else if(lowChar == NFmiString("it‰") || lowChar == NFmiString("east"))
-				lonLat.Set(30., 62.5);
-			else if(lowChar == NFmiString("oulu"))
-				lonLat.Set(26., 65.);
-			else if(lowChar == NFmiString("lappi") || lowChar == NFmiString("north"))
-				lonLat.Set(26., 66.5);
-			else
+			if(itsLanguage != kLatvian)
 			{
-			  string msg = string(string("Unknown direction given in #subimage: ")
-								  +static_cast<char *>(theCountryPart));
-			  errors.push_back(msg);
-			  *itsLogFile << "*** ERROR: " << msg << endl;
+				if(lowChar == NFmiString("lounas")|| lowChar == NFmiString("southwest"))
+					lonLat.Set(22.5, 60.5);
+				else if(lowChar == NFmiString("etel‰") || lowChar == NFmiString("south"))
+					lonLat.Set(25., 60.3);
+				else if(lowChar == NFmiString("kaakko") || lowChar == NFmiString("southeast"))
+					lonLat.Set(27.5, 61.2);
+				else if(lowChar == NFmiString("l‰nsi") || lowChar == NFmiString("west"))
+					lonLat.Set(22., 63.);
+				else if(lowChar == NFmiString("keski") || lowChar == NFmiString("centre"))
+					lonLat.Set(26., 62.5);
+				else if(lowChar == NFmiString("it‰") || lowChar == NFmiString("east"))
+					lonLat.Set(30., 62.5);
+				else if(lowChar == NFmiString("oulu"))
+					lonLat.Set(26., 65.);
+				else if(lowChar == NFmiString("lappi") || lowChar == NFmiString("north"))
+					lonLat.Set(26., 66.5);
+				else
+				{
+					string msg = string(string("Unknown direction given in #subimage: ")
+										+static_cast<char *>(theCountryPart));
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				}
+			}
+			else  //kLatvian
+			{
+				if(lowChar == NFmiString("lounas")|| lowChar == NFmiString("southwest"))
+					lonLat.Set(56.5, 21.3);
+				else if(lowChar == NFmiString("etel‰") || lowChar == NFmiString("south"))
+					lonLat.Set(56.5, 24.4);
+				else if(lowChar == NFmiString("kaakko") || lowChar == NFmiString("southeast"))
+					lonLat.Set(55.8, 26.5);
+				else if(lowChar == NFmiString("l‰nsi") || lowChar == NFmiString("west"))
+					lonLat.Set(57., 22.3);
+				else if(lowChar == NFmiString("keski") || lowChar == NFmiString("centre"))
+					lonLat.Set(57., 24.6);
+				else if(lowChar == NFmiString("it‰") || lowChar == NFmiString("east"))
+					lonLat.Set(57., 27.);
+				else if(lowChar == NFmiString("luode") || lowChar == NFmiString("northwest"))
+					lonLat.Set(57.6, 22.5);
+				else if(lowChar == NFmiString("pohjoinen") || lowChar == NFmiString("north"))
+					lonLat.Set(57.8, 25.2);
+				else if(lowChar == NFmiString("koillinen") || lowChar == NFmiString("northeast"))
+					lonLat.Set(57.3, 27.2);
+				else  
+				{
+					string msg = string(string("Unknown direction given in Latvian #subimage: ")
+										+static_cast<char *>(theCountryPart));
+					errors.push_back(msg);
+					*itsLogFile << "*** ERROR: " << msg << endl;
+				}
 			}
 			if(lonLat.Y() < 98. && info.Location(lonLat)) //eka ehto pistetietokantoja varten
 			{                                             //jotka muuten aina menev‰t l‰himp‰‰n
@@ -748,17 +779,18 @@ bool NFmiPressProduct::ReadNameToLonLatList(void)
 #endif
 
   fileName1 = fileName;
-  fileName1 += NFmiString("AsemaNimetLonLatUusi.txt");
+  //fileName1 += NFmiString("AsemaNimetLonLatUusi.txt");
+  fileName1 += NFmiString("Name2LongLat.txt");
 
   // uusi/vanha muoto mahdollistamaan versionp‰ivityksen Vespaan
   if (itsNameToLonLat->AddFile(fileName1, true, true))
 	{
-	  *itsLogFile << "  AsemaNimetLonLatUusi.txt read ok" << endl;
+	  *itsLogFile << "  Name2LongLat.txt read, ok" << endl;
 	  return true;
 	}
   else
 	{
-	  string msg = "AsemaNimetLonLatUusi.txt read failed";
+	  string msg = "Name2LongLat.txt reading failed";
 	  errors.push_back(msg);
 	  *itsLogFile << "*** ERROR: " << msg << endl;
 	  return false;
@@ -779,7 +811,7 @@ bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint
 	{
 	  if(!ReadNameToLonLatList())
 		{
-		  string msg = "Failed to read name/latlon file";
+		  string msg = "Failed to read name/longlat file";
 		  errors.push_back(msg);
 		  *itsLogFile << "*** ERROR: " << msg << endl;
 		  return false;
@@ -797,7 +829,7 @@ bool NFmiPressProduct::FindLonLatFromList(NFmiString & theStationName, NFmiPoint
 	  && theStationName != NFmiString("None"))
 		*itsLogFile << "  WARNING: "
 					<< static_cast<char *>(theStationName)
-					<< " is not in the name/latlon file"
+					<< " is not in the name/longlat file"
 					<< endl;
 	  return false;
 	}
@@ -817,7 +849,7 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationNam
 	{
 	  if(!ReadNameToLonLatList())
 		{
-		  string msg = "Failed to read name/latlon file";
+		  string msg = "Failed to read name/longlat file";
 		  errors.push_back(msg);
 		  *itsLogFile << "*** ERROR: " << msg << endl;
 		  return 0;
@@ -828,7 +860,7 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationNam
 	{
 		*itsLogFile << "  WARNING: "
 					<< static_cast<char *>(theStationName)
-					<< " does not have a WMO-number in the station table"
+					<< " does not have a WMO-number in the station name table"
 					<< endl;
 	}
 	return wmo;
@@ -3802,7 +3834,7 @@ bool NFmiPressProduct::Close(void)
 	{
 	  NFmiFileString inFile(itsInFileName);
 	  NFmiString str(inFile.Header());
-	  *itsLogFile << "** Loki suljettu: "  << static_cast<char *>(str) << endl;
+	  *itsLogFile << "** Log file closed: "  << static_cast<char *>(str) << endl;
 	  itsLogFile->close();
 	  itsLogFile->clear();
 	}
