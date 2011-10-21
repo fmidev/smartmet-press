@@ -138,7 +138,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
   if(!itsDescriptionFile->good() || itsDescriptionFile->eof())
 	{
 	  if(itsLogFile)
-		*itsLogFile << "no manager used" << endl;
+		*itsLogFile << "no manager found" << endl;
 	  return false;
 	}
   else

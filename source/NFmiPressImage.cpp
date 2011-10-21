@@ -283,6 +283,25 @@ bool NFmiPressImage::ReadDescription(NFmiString & retString)
 			ReadNext();
 			break;
 		  }
+		case dSummerWinterChoise:
+		  {
+			if (!ReadEqualChar())
+			  break;
+
+			NFmiString summerFile(ReadString());
+			NFmiString winterFile(ReadString());
+			NFmiString countryPart("Middle");
+
+			if(itsPressProduct->IsSummerWeather(countryPart))
+				itsTempImageFile = summerFile;
+			else
+				itsTempImageFile = winterFile;
+
+			itsTempImageFile += NFmiString(".eps");
+			
+			ReadNext();
+			break;
+		  }
 		case dSummerWinterImageFile:
 		  {
 			if (!ReadEqualChar())
@@ -610,7 +629,13 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("nimiaikaleimalla") )
 	return dImageFileWithTimeStamp;
 
-  else if(lowChar==NFmiString("summerwinterfile") ||
+  else if(lowChar==NFmiString("summerwinterchoice") ||
+	      lowChar==NFmiString("kesätalvivalinta"))
+	 return dSummerWinterChoise;
+
+  else if(lowChar==NFmiString("summerwinterchoicefocusing") ||
+	 lowChar==NFmiString("summerwinterfile") ||
+	 lowChar==NFmiString("kesätalvivalintatarkentaen") ||
 	 lowChar==NFmiString("kesätalvitiedosto") ||
 	 lowChar==NFmiString("kesätalvinimi") )
 	return dSummerWinterImageFile;

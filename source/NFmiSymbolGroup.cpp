@@ -363,10 +363,16 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 		case dNumber: 
 			{
 			  NFmiNumberParamRect tempNPar;
-			  if(isWindSpeed) 
+			  if(isWindSpeed)
+			  {
 				tempNPar.SetIdentPar(kFmiWindSpeedMS);
+			  }
 			  tempNPar.SetPressParam(itsPressParam);
 			  tempNPar.SetEnvironment(itsEnvironment);
+			  if(isWindSpeed)
+			  {
+			    tempNPar.SetTextAlignment(kCenter);
+			  }
 			  tempNPar.SetHome(GetHome());
 			  tempNPar.SetLogFile(itsLogFile);
 			  tempNPar.SetDescriptionFile(itsDescriptionFile);

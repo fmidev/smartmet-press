@@ -696,7 +696,8 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 					lonLat.Set(27.5, 61.2);
 				else if(lowChar == NFmiString("länsi") || lowChar == NFmiString("west"))
 					lonLat.Set(22., 63.);
-				else if(lowChar == NFmiString("keski") || lowChar == NFmiString("centre"))
+				else if(lowChar == NFmiString("keski")  || lowChar == NFmiString("centre") ||
+					    lowChar == NFmiString("center") || lowChar == NFmiString("middle"))
 					lonLat.Set(26., 62.5);
 				else if(lowChar == NFmiString("itä") || lowChar == NFmiString("east"))
 					lonLat.Set(30., 62.5);
@@ -722,7 +723,8 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 					lonLat.Set(55.8, 26.5);
 				else if(lowChar == NFmiString("länsi") || lowChar == NFmiString("west"))
 					lonLat.Set(57., 22.3);
-				else if(lowChar == NFmiString("keski") || lowChar == NFmiString("centre"))
+				else if(lowChar == NFmiString("keski")  || lowChar == NFmiString("centre") ||
+					    lowChar == NFmiString("center") || lowChar == NFmiString("middle"))
 					lonLat.Set(57., 24.6);
 				else if(lowChar == NFmiString("itä") || lowChar == NFmiString("east"))
 					lonLat.Set(57., 27.);

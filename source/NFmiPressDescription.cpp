@@ -29,6 +29,8 @@ FmiDirection NFmiPressDescription::String2FmiDirection(const NFmiString& theStri
 	lowChar.LowerCase();
 
 	if (lowChar == NFmiString ("center") ||
+		lowChar == NFmiString ("centre") ||
+		lowChar == NFmiString ("middle") ||
 		lowChar == NFmiString ("keskipiste") ||
 		lowChar == NFmiString ("keski"))
 	  return kCenter;

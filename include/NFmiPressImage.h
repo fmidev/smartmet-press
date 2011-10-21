@@ -40,7 +40,8 @@ enum NFmiPressImageObjects
   dImageClippingPath,
   dImageFileWithTimeStamp,
   dNewImageRelWithTimeStamp,
-  dImagePlottingAndClipping
+  dImagePlottingAndClipping,
+  dSummerWinterChoise         //almost = dSummerWinterImageFile
 };
 
 
