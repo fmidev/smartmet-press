@@ -3940,7 +3940,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 		  NFmiHyphenationString lowerString(subString);
 		  lowerString.LowerCase(); //kelpaa isot/pienet kirjaimet
 		  NFmiString addString;
-		  if(lowerString == NFmiString("asema"))
+		  if(lowerString == NFmiString("asema")
+		  || lowerString == NFmiString("station"))
 			{
 			  addString = FirstSegmentName();
 
@@ -3949,17 +3950,19 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 			  else
 				addString.LowerCase();
 			}
-		  else if(lowerString == NFmiString("ase"))
+		  else if(lowerString == NFmiString("ase")
+			   || lowerString == NFmiString("sta"))
 			{
 			  addString = FirstSegmentName();
 			  addString = addString.GetChars(1,3);
 
 			  if(subString.FirstCharIsUpper())
-				addString.FirstCharToUpper();
+				 addString.FirstCharToUpper();
 			  else
 				addString.LowerCase();
 			}
-		  else if(lowerString == NFmiString("aikaleima"))
+		  else if(lowerString == NFmiString("aikaleima")
+			   || lowerString == NFmiString("timestamp"))
 			{
 				NFmiMetTime computerTime = NFmiMetTime(1);
 				NFmiMetTime localTime(computerTime.LocalTime(25.f),1);
@@ -3972,7 +3975,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 				timeFormat = itsSecondStringNameTimeFormat;
 
 			}
-		  else if(lowerString == NFmiString("aikaleimautc"))
+		  else if(lowerString == NFmiString("aikaleimautc")
+			   || lowerString == NFmiString("timestamputc"))
 			{
 			  NFmiMetTime computerTime = NFmiMetTime(1);
 			  NFmiPressTime localPressTime(computerTime);
@@ -3984,7 +3988,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 			  timeFormat = itsSecondStringNameTimeFormat;
 
 			}
-		  else if(lowerString == NFmiString("datanaikaleima"))
+		  else if(lowerString == NFmiString("datanaikaleima")
+			   || lowerString == NFmiString("datatimestamp"))
 			{
 			  NFmiPressTime localPressTime(itsFirstPlotTime.LocalTime(25.));
 			  if(timeFormat.IsValue())
@@ -3995,7 +4000,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 			  timeFormat = itsSecondStringNameTimeFormat;
 
 			}
-		  else if(lowerString == NFmiString("datanaikaleimautc"))
+		  else if(lowerString == NFmiString("datanaikaleimautc")
+			   || lowerString == NFmiString("datatimestamputc"))
 			{
 			  NFmiPressTime localPressTime(itsFirstPlotTime);
 			  if(timeFormat.IsValue())
@@ -4007,7 +4013,7 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 
 			}
 		  else if(lowerString == NFmiString("analyysiaika") ||
-				  lowerString == NFmiString("analyysiaikautc"))
+				  lowerString == NFmiString("analysestime"))
 			{
 			  NFmiPressTime tim = (static_cast<NFmiMetTime>(FirstData()->OriginTime()));
 
@@ -4019,7 +4025,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 			  timeFormat = itsSecondStringNameTimeFormat;
 
 			}
-		  else if(lowerString == NFmiString("kie"))
+		  else if(lowerString == NFmiString("kie")
+			   || lowerString == NFmiString("lan"))
 			{
 
 			  if(itsLanguage == kFinnish)
@@ -4047,7 +4054,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 				addString.LowerCase();
 
 			}
-		  else if(lowerString == NFmiString("kieli"))
+		  else if(lowerString == NFmiString("kieli")
+			  ||  lowerString == NFmiString("language"))
 			{
 			  if(itsLanguage == kFinnish)
 				addString = NFmiString("suomi");
@@ -4065,6 +4073,8 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 				addString = NFmiString("kiina");
 			  else if(itsLanguage == kSaame)
 				addString = NFmiString("saame");
+			  else if(itsLanguage == kLatvian)
+				addString = NFmiString("latvian");
 
 			  if(subString.FirstCharIsUpper())
 				addString.FirstCharToUpper();
