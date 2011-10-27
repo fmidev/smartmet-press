@@ -98,16 +98,17 @@ bool NFmiSunTimeParamRect::ReadRemaining(void)
 
 int NFmiSunTimeParamRect::ConvertDefText(NFmiString & object) 
 {
-  if(object==NFmiString("SunRise") ||
-	 object==NFmiString("AuringonNousu") ||
-	 object==NFmiString("Auringonnousu") ||
-	 object==NFmiString("Nousu"))
+  NFmiString lowChar = object;
+  lowChar.LowerCase();
+
+  if(lowChar==NFmiString("sunrise") ||
+	 lowChar==NFmiString("auringonnousu") ||
+	 lowChar==NFmiString("nousu"))
 	return dSunRise;
 
-  else if(object==NFmiString("SunSet") ||
-		  object==NFmiString("AuringonLasku") ||
-		  object==NFmiString("Auringonlasku") ||
-		  object==NFmiString("Lasku")) 
+  else if(lowChar==NFmiString("sunset") ||
+		  lowChar==NFmiString("auringonlasku") ||
+		  lowChar==NFmiString("lasku")) 
 	return dSunSet;
 
   else

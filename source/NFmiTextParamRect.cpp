@@ -471,7 +471,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	{
 	  theDestinationFile << "%*** "
 						 << static_cast<char *>(theObjectName)
-						 << " ALKAA ***"
+						 << " BEGINS ***"
 						 << endl;
 	  theDestinationFile << "gsave" << endl;
 	  

@@ -163,7 +163,7 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
       unsigned long copiedLines = 0;
       NFmiString mess = NFmiString ("%****** ");
       mess += itsSymbol;
-      mess += NFmiString (" ALKAA ********************");
+      mess += NFmiString (" BEGINS ********************");
       output.write(mess.CharPtr(),40);
       output.write(static_cast<char *>(NFmiString("\n")),1);
       short num;
@@ -203,7 +203,7 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
 		}
       mess = NFmiString ("%****** ");
       mess += itsSymbol;
-      mess += NFmiString (" LOPPU ************************");
+      mess += NFmiString (" ENDS ************************");
       output.write(mess.CharPtr(),40);
       output.write(static_cast<char *>(NFmiString("\n")),1);
 

@@ -126,7 +126,7 @@ bool NFmiPsWriting::WritePSConcat(void)
   double yTrans = (itsWriteScale.GetEndStartPoint().Y() / yScale
 				   - itsWriteScale.GetStartStartPoint().Y());
 
-  *itsOutFile << "%********* WritePSConcat alkaa ******" << endl;
+  *itsOutFile << "%********* WritePSConcat begins ******" << endl;
 
   *itsOutFile << "gsave" << endl;
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
@@ -209,7 +209,7 @@ bool NFmiPsWriting::WriteEPSConcatClipping(NFmiRect theClippingRect)
   double xTrans = itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
   double yTrans = itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
 
-  *itsOutFile << "%********* WriteEPSConcatClipping alkaa ******" << endl;
+  *itsOutFile << "%********* WriteEPSConcatClipping begins ******" << endl;
   *itsOutFile << "gsave" << endl;  //5.7
   
   //miksei rectclip käy suoraan ??
@@ -262,7 +262,7 @@ bool NFmiPsWriting::WriteEPSConcatClipping(std::vector<NFmiPoint> thePoints)
   double xTrans = itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
   double yTrans = itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
 
-  *itsOutFile << "%********* WriteEPSConcatClippingPath alkaa ******" << endl;
+  *itsOutFile << "%********* WriteEPSConcatClippingPath begins ******" << endl;
   *itsOutFile << "gsave" << endl;  //5.7
 
 	std::vector<NFmiPoint>::iterator pos;
@@ -308,7 +308,7 @@ bool NFmiPsWriting::WritePSConcatRotating(float theDirection)
   double xTrans = itsWriteScale.GetEndCenter().X();
   double yTrans = itsWriteScale.GetEndCenter().Y();
 
-  *itsOutFile << "%********* WritePSConcatRotating alkaa ******" << endl;
+  *itsOutFile << "%********* WritePSConcatRotating begins ******" << endl;
 
   *itsOutFile << "gsave" << endl;
   *itsOutFile << "[" << xScale

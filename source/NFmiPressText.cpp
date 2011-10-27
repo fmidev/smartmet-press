@@ -1097,7 +1097,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 	}
   else  //possu
 	{
-	  *itsOutFile << "%*** " << static_cast<char *>(commentString) << " ALKAA ***" << endl;
+	  *itsOutFile << "%*** " << static_cast<char *>(commentString) << " BEGINS ***" << endl;
 
 
 	  // skandit vaatii erikoiskäsittelyn:

@@ -1414,7 +1414,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
    itsLogFileName = logFileName;   //jotta voidaan sulkea/avata jatkossa
    itsLogFile->open(logFileName, ios::out|ios::app); // edellinen aloitti alusta
    NFmiTime time;
-   *itsLogFile << endl << "** Log opened " << time << " **" << endl;
+   *itsLogFile << endl << "** Log file opened " << time << " **" << endl;
 //*******
    NFmiString retString;
    NFmiString origInputFileName = inputFile;
@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 20.10.2011" << endl;       
+   *itsLogFile << "program version = Release 27.10.2011" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

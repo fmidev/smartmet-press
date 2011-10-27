@@ -289,6 +289,7 @@ int NFmiPressArea::ConvertDefText(NFmiString & object)
 	return dLonLatCorners;
 
   else if(lowChar==NFmiString("lonlatcornersnames") ||
+	      lowChar==NFmiString("lonlatcornernames") ||
 		  lowChar==NFmiString("lonlatnimet"))
 	return dLonLatCornerNames;
 

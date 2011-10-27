@@ -171,7 +171,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Symbolissa" << endl;
+			*itsLogFile << "*** ERROR: max output file length exceeded in #Symbol" << endl;
 		  retString = itsString;
 		  return false;
 		}
@@ -181,7 +181,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 		case dOther:	  //tuntematon sana
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Symbolissa: "
+			  *itsLogFile << "*** ERROR: Unknown string in #Symbol: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();
@@ -353,7 +353,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 		  {
 			SetOne(itsFirstDeltaDays);
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Päiviä ei voi asettaa #Symbolissa"  << endl;
+			  *itsLogFile << "*** ERROR: The day cannot be set in #Symbol"  << endl;
 			break;
 		}
 		case dHour:
@@ -381,7 +381,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 	  {
 		if(fModifierUsed)
 		{
-			*itsLogFile << "*** WARNING: summa toisen vastaavan määrittelyn jälkeen (#Symboli, OptimoiMaailmaHavainnot)"
+			*itsLogFile << "*** WARNING: sum after other similar command (#Symbol, OptimizeWorldObservations)"
 				          << endl;
 		}
 		SetRelModifierTimes(10, 18);
@@ -654,7 +654,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
 	  unsigned long copiedLines = 0;
 	  NFmiString mess = NFmiString ("%*** ");
 	  mess += *symbolFile;
-	  mess += NFmiString (" ALKAA ***");
+	  mess += NFmiString (" BEGINS ***");
 	  unsigned long len = mess.GetLen();
 	  output.write(mess.CharPtr(),len);
 	  output.write(static_cast<char *>(NFmiString("\n")),1);
@@ -667,9 +667,9 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
 		  if(apu.Search(NFmiString("%AI5_BeginLayer")) > 0 && copyOn)
 			{
 			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: Symbolin "
+				*itsLogFile << "*** ERROR: Conversion of Symbol "
 							<< static_cast<char *>(*symbolFile)
-							<< "konvertointi epäonnistui, BeginLayer:ta, sisäkkäin"
+							<< " failed, BeginLayers inside each others"
 							<< endl;
 			  copyOn = isTrue;
 			}
@@ -693,13 +693,13 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
 		}
 	  mess = NFmiString ("%*** ");
 	  mess += *symbolFile;
-	  mess += NFmiString (" LOPPU ***");
+	  mess += NFmiString (" ENDS ***");
 	  len = mess.GetLen();
 	  output.write(mess.CharPtr(),len);
 	  output.write(static_cast<char *>(NFmiString("\n")),1);
 	 
 	  if(itsLogFile)
-		*itsLogFile << "rivejä kopioitu: " << copiedLines << " kun" << endl;
+		*itsLogFile << "lines copied: " << copiedLines << " as" << endl;
 	 
 	  return isTrue;
 	}
@@ -732,11 +732,11 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   {
 	  if(lastElementStatus)
 	  {
-			*itsLogFile << "  vara-asemaa ei tarvita symbolille" << endl;
+			*itsLogFile << "  backup station not needed for Symbol" << endl;
 		    return true;
 	  }
 	  else
-			*itsLogFile << "  vara-asemaa käytetään symbolissa" << endl;
+			*itsLogFile << "  backup station used for Symbol" << endl;
   }
 
   if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
@@ -813,7 +813,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
         
 		  if(symbolFile && symbolFile->IsEqual(NFmiString("ristiriita")))
 		  {
-			  *itsLogFile << "ERROR: ristiriita symbolia määrättäessä" << endl;
+			  *itsLogFile << "ERROR: conflict in selecting Symbol" << endl;
 		  }
 		  if(missingFound)
 			{
@@ -864,18 +864,16 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   if(!symbolFile)
 	{
 	  if(itsMultiMapping)
-		*itsLogFile << "WARNING: Arvoilla "
+		*itsLogFile << "WARNING: No symbol mapping for "
 					<< itsCurrentParamArray[0]
 					<< ", "
 					<< itsCurrentParamArray[1]
 					<< ", "
 					<< itsCurrentParamArray[2]
-					<< "... ei ole symbolivastaavuutta"
 					<< endl;
 	  else
-		*itsLogFile << "WARNING: Arvolla "
+		*itsLogFile << "WARNING: No symbol mapping for value "
 					<< itsCurrentParamValue
-					<< " ei ole symbolivastaavuutta"
 					<< endl;
 	}
   else if(*symbolFile != NFmiString("None")  && theOutput == kPostScript)
@@ -897,9 +895,9 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		  if(ConvertOrig2Short(symbolFile))
 			{
 			  if(itsLogFile)
-				*itsLogFile << "Symboli "
+				*itsLogFile << "Symbol "
 							<< static_cast<char *>(*symbolFile)
-							<< " konvertoitu"
+							<< " converted"
 							<< endl;			 
 			}
 		  else
