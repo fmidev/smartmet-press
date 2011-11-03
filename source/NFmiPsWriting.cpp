@@ -131,7 +131,7 @@ bool NFmiPsWriting::WritePSConcat(void)
   *itsOutFile << "gsave" << endl;
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
   *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
-  *itsOutFile << "%********* WritePSConcat tehty ******" << endl;
+  *itsOutFile << "%********* WritePSConcat done ******" << endl;
 
   return isTrue;
 }
@@ -189,7 +189,7 @@ bool NFmiPsWriting::WriteEPSConcat(void)
 	  *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
 	}
   *itsOutFile << "%%BeginDocument: XXX.EPS" << endl;
-  *itsOutFile << "%********* WriteEPSConcat tehty ******" << endl;
+  *itsOutFile << "%********* WriteEPSConcat done ******" << endl;
   return isTrue;
 }
 
@@ -241,7 +241,7 @@ bool NFmiPsWriting::WriteEPSConcatClipping(NFmiRect theClippingRect)
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
   *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
   *itsOutFile << "%%BeginDocument: XXX.EPS" << endl;
-  *itsOutFile << "%********* WriteEPSConcatClipping tehty ******" << endl;
+  *itsOutFile << "%********* WriteEPSConcatClipping done ******" << endl;
 
   return isTrue;
 }
@@ -288,7 +288,7 @@ bool NFmiPsWriting::WriteEPSConcatClipping(std::vector<NFmiPoint> thePoints)
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
   *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
   *itsOutFile << "%%BeginDocument: XXX.EPS" << endl;
-  *itsOutFile << "%********* WriteEPSConcatClippingPath tehty ******" << endl;
+  *itsOutFile << "%********* WriteEPSConcatClippingPath done ******" << endl;
 
   return isTrue;
 }
@@ -323,7 +323,7 @@ bool NFmiPsWriting::WritePSConcatRotating(float theDirection)
   // määrittelysymboli näyttää länteen ja PS kiertää eri suuntaan kuin meteorologiassa
   *itsOutFile << (270.f - theDirection) << " rotate" << endl;
 
-  *itsOutFile << "%********* WritePSConcatRotating tehty ******" << endl;
+  *itsOutFile << "%********* WritePSConcatRotating done ******" << endl;
 
   return isTrue;
 }

@@ -315,7 +315,8 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("koko"))
 	return dParamSize;
 
-  else if(lowChar==NFmiString("parenthesis") ||
+  else if(lowChar==NFmiString("parentheses") || //monikko
+		  lowChar==NFmiString("parenthesis") || //yksikkö
 		  lowChar==NFmiString("sulkuihin"))
 	return dParenthesis;
 
@@ -363,7 +364,8 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("isotkirjaimet"))
 	return dPRUpperCase;
   
-  else if(lowChar==NFmiString("firstuppercase") ||
+  else if(lowChar==NFmiString("capitalize") ||
+	      lowChar==NFmiString("firstuppercase") ||
 		  lowChar==NFmiString("isollaalkukirjaimella") ||
 		  lowChar==NFmiString("isoalkukirjain"))
 	return dPRFirstUpperCase;

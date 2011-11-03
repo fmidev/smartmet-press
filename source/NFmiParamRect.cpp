@@ -1274,7 +1274,7 @@ bool NFmiParamRect:: ReadCurrentValue(NFmiFastQueryInfo * theQueryInfo,
 		{
 		  *itsLogFile << "    first station: local time= "
 					  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
-					  << " utc; par=moni"
+					  << " utc; par=multi"
 					  << endl;
 		}
 	  else  

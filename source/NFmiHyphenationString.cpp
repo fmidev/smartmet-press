@@ -166,6 +166,14 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("öst-gräns");
   itsIrregularHyphens.push_back("väst-gräns");
   itsIrregularHyphens.push_back("sol-sken");
+  //latvia; some cases from the paper received from Latvia
+  itsIrregularHyphens.push_back("ru-dzi");
+  itsIrregularHyphens.push_back("kau-dze");
+  itsIrregularHyphens.push_back("rk-st");
+  itsIrregularHyphens.push_back("nk-st");
+  itsIrregularHyphens.push_back("n-gr");
+  itsIrregularHyphens.push_back("k-st");
+  itsIrregularHyphens.push_back("pa-dsmit");
   fIrregularHyphensInited = true;
   return true;
 }

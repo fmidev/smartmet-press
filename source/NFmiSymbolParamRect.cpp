@@ -206,7 +206,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 			subDir = ReadString();
 			NFmiString apu = subDir;
 			apu.LowerCase();
-			if(apu == "kuunvaiheet")
+			if (apu == "kuunvaiheet"  //pitäisi hoitaa komennolla
+			 || apu == "moon_phases")
 				SetMoonPhase();
 				
 			symbDirGiven = true;

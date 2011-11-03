@@ -152,11 +152,11 @@ bool NFmiPressTimeDescription::PreProcessConditionally(NFmiPreProcessor & thePre
 	}
   int num = thePrepr.NumOfReplacesDone();
   if (num>0)
-	  *itsLogFile << "  muuttujakorvauksia include-kierroksella "
-				  << num
-				  << " kpl"
+	  *itsLogFile << "  " << num
+				  << " variables substituted in include round"
 				  << endl;
-/*
+
+  /*
   unsigned long pos = oldString.find("$#");
   if (pos != string::npos)
   {

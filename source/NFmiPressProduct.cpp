@@ -716,24 +716,24 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString& theCountryPart)
 			else  //kLatvian
 			{
 				if(lowChar == NFmiString("lounas")|| lowChar == NFmiString("southwest"))
-					lonLat.Set(56.5, 21.3);
+					lonLat.Set(21.3, 56.5);
 				else if(lowChar == NFmiString("etelä") || lowChar == NFmiString("south"))
-					lonLat.Set(56.5, 24.4);
+					lonLat.Set(24.4, 56.5);
 				else if(lowChar == NFmiString("kaakko") || lowChar == NFmiString("southeast"))
-					lonLat.Set(55.8, 26.5);
+					lonLat.Set(26.5, 55.8);
 				else if(lowChar == NFmiString("länsi") || lowChar == NFmiString("west"))
-					lonLat.Set(57., 22.3);
+					lonLat.Set(22.3, 57.);
 				else if(lowChar == NFmiString("keski")  || lowChar == NFmiString("centre") ||
 					    lowChar == NFmiString("center") || lowChar == NFmiString("middle"))
-					lonLat.Set(57., 24.6);
+					lonLat.Set(24.6, 57.);
 				else if(lowChar == NFmiString("itä") || lowChar == NFmiString("east"))
-					lonLat.Set(57., 27.);
+					lonLat.Set(27., 57.);
 				else if(lowChar == NFmiString("luode") || lowChar == NFmiString("northwest"))
-					lonLat.Set(57.6, 22.5);
+					lonLat.Set(22.5, 57.6);
 				else if(lowChar == NFmiString("pohjoinen") || lowChar == NFmiString("north"))
-					lonLat.Set(57.8, 25.2);
+					lonLat.Set(25.2, 57.8);
 				else if(lowChar == NFmiString("koillinen") || lowChar == NFmiString("northeast"))
-					lonLat.Set(57.3, 27.2);
+					lonLat.Set(27.2, 57.3);
 				else  
 				{
 					string msg = string(string("Unknown direction given in Latvian #subimage: ")
@@ -1312,7 +1312,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   else
 	{
 	  fmiString = hChar;
-	  origHome = NFmiString("(Ympäristömuuttuja)");
+	  origHome = NFmiString("(Env. variable)");
 	}
 #else
   //fmiString = NFmiSettings::Require<string>("press::oldpath");
@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 27.10.2011" << endl;       
+   *itsLogFile << "program version = Release 2.11.2011" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1584,7 +1584,7 @@ bool NFmiPressProduct::ReadData(void)
 	}
 #endif
 
-  *itsLogFile << "  datapolut: " << static_cast<char *>(str) << endl;
+  *itsLogFile << "  data path: " << static_cast<char *>(str) << endl;
 
   // kaksi datahakemistoa, luupituksella voisi ottaa useampiakin
   NFmiString dataPath, dataPath2;
@@ -1740,11 +1740,11 @@ bool NFmiPressProduct::ReadData(void)
       if(loop < 3)
       {
 	      NFmiTime time;
-	      *itsLogFile << "  ENNEN READ " << time << " **" << endl;
+	      *itsLogFile << "  BEFORE READ " << time << " **" << endl;
       }
 	  if(errorWarning)
 	  {
-		  *itsLogFile << "  Editoridataa aletaan lukea, onnistuuhan, jollei, tuhoa se" << endl;
+//		  *itsLogFile << "  Editoridataa aletaan lukea, onnistuuhan, jollei, tuhoa se" << endl;
 		  errorWarning = false;
 	  }
 	  if(!ReadQueryData(*data,dataFile))
@@ -1758,8 +1758,8 @@ bool NFmiPressProduct::ReadData(void)
 					  if(!twoOptinalTypes || !ReadQueryData(*data,dataFileSqd2))
 						{
 						  nData->SetData(0);
-						  *itsLogFile << "  *** ERROR: datan luku epäonnistui: " << static_cast<char *>(nData->GetName()) << endl
-							         <<  "      jos pakollinen keskeytetään" << endl;
+						  *itsLogFile << "  *** ERROR: reading of data failed: " << static_cast<char *>(nData->GetName()) << endl
+							         <<  "      if mandatory, program is interrupted" << endl;
 						  if(nData->IsMandatory())
 						     mandatoryNotFound = true;
 						}
@@ -1776,8 +1776,8 @@ bool NFmiPressProduct::ReadData(void)
 			  else
 				{
 				  nData->SetData(0);
-				  *itsLogFile << "  *** ERROR: datan luku epäonnistui: " << static_cast<char *>(nData->GetName()) << endl
-							 <<  "      jos pakollinen keskeytetään" << endl;
+				  *itsLogFile << "  *** ERROR: reading of data failed: " << static_cast<char *>(nData->GetName()) << endl
+							 <<  "      if mandatory, program is interrupted" << endl;
 
 				  if(nData->IsMandatory())
 					mandatoryNotFound = true;
@@ -1785,12 +1785,12 @@ bool NFmiPressProduct::ReadData(void)
 			}
 		  else
 			{
-			  *itsLogFile << "  sqd-data luettu: " <<  static_cast<char *>(dataFileSqd) << endl;
+			  *itsLogFile << "  sqd-data read: " <<  static_cast<char *>(dataFileSqd) << endl;
 			}
 		}
 	  else
 		{
-		  *itsLogFile << "  fqd-data luettu: " <<  static_cast<char *>(dataFile) << endl;
+		  *itsLogFile << "  fqd-data read: " <<  static_cast<char *>(dataFile) << endl;
 		}
 
 	  loop++;
@@ -1799,7 +1799,7 @@ bool NFmiPressProduct::ReadData(void)
   fDataRead = true;
 
   NFmiTime time;
-	   *itsLogFile << "  JÄLKEEN READ " << time << " **" << endl;
+	   *itsLogFile << "  AFTER READ " << time << " **" << endl;
 
   bool dummy;
   if(DataByName(itsMaskFileName, dummy))
@@ -1812,9 +1812,9 @@ bool NFmiPressProduct::ReadData(void)
   if(itsLogFile)
 	{
 	  if(loop > 1)
-		*itsLogFile << "KAIKKI DATAT LUETTU" << endl;
+		*itsLogFile << "ALL DATA READ" << endl;
 	  else
-		*itsLogFile << "EI ANNETTUJA DATATIEDOSTOJA" << endl;
+		*itsLogFile << "NO DATA FILES GIVEN" << endl;
 	}
 
   return !mandatoryNotFound;
@@ -3577,7 +3577,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 				if(param->IsActive())
 				{
 				  if(itsLogFile)
-					*itsLogFile << segNum << ". segmentti ("
+					*itsLogFile << segNum << ". Segment ("
 								<< static_cast<char *>(param->MakeLogComment())
 								<< ")" << endl;
 				  if (!(param->WritePS(itsScale, outFile, output)))
@@ -3649,7 +3649,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	*itsLogFile << "WARNING: Unused values in storage queue 2"  << endl;
 
   if(itsLogFile)
-	*itsLogFile << "** " << static_cast<char *>(itsOutFileName) << " tehty "  << tim << endl;
+	*itsLogFile << "** " << static_cast<char *>(itsOutFileName) << " done "  << tim << endl;
 
   return true;
 }

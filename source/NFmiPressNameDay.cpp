@@ -140,13 +140,17 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 	  NFmiString fileName = static_cast<NFmiString>(NFmiSettings::Require<string>("press::incpath"));
 	  fileName += "/";
 #endif
-	  if(itsLanguage == kFinnish)
+	  if(itsLanguage == kLatvian)
 		{
-		  fileName += NFmiString("nimipäivät.txt"); 
+		  fileName += NFmiString("namedays_lat.txt"); 
+		}
+	  else if(itsLanguage == kSwedish)
+		{
+		  fileName += NFmiString("nimipäivätRuotsi.txt"); 
 		}
 	  else
 		{
-		  fileName += NFmiString("nimipäivätRuotsi.txt"); 
+		  fileName += NFmiString("nimipäivät.txt"); 
 		}
 	  if(!itsNameDay->ReadFile(fileName))
 		{

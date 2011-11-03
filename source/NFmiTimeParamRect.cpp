@@ -339,12 +339,16 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 					<< endl;
 
 		if(errCode == 1)
-			*itsLogFile << "  ->ei Wmo-numeroa eik‰ longitudia" << endl;
+			//*itsLogFile << "  ->ei Wmo-numeroa eik‰ longitudia" << endl;
+			*itsLogFile << "  ->no Wmo-number or longitude" << endl;
 		else if(errCode == 2)
-			*itsLogFile << "  ->Wmo-nro puuttuu Asema-m‰‰rittelylt‰(longitudi k‰ytetty)" << endl;
+			//*itsLogFile << "  ->Wmo-nro puuttuu Asema-m‰‰rittelylt‰(longitudi k‰ytetty)" << endl;
+			*itsLogFile << "  ->Wmo-number missing from Station definition(longitude used)" << endl;
 		else if(errCode == 3)
-			*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta eik‰ longitudia ole"  << endl;
+			//*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta eik‰ longitudia ole"  << endl;
+			*itsLogFile << "  ->Wmo-number puuttuu ohjelmasta eik‰ longitudia ole"  << endl;
 		else if(errCode == 4)
+			//*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta (longitudi k‰ytetty)" << endl;
 			*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta (longitudi k‰ytetty)" << endl;
 		itsPressParam->SetErrorReported(errCode);
 		}

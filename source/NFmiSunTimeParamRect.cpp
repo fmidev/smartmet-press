@@ -137,13 +137,23 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI)
 				<< static_cast<char *>(itsStationPoint.GetName())
 				<< ":lta paikalliseen aikaan"
 				<< endl;
-
+  
+  if(fIsSunRise)  //toimii marraskuussa 2011 eli korjaus pois
+	{
+	  // fIsValidTime; false jos ei laske/nouse
+	  return itsStationPoint.TimeOfSunrise(tim, static_cast<bool &>(fIsValidTime));
+	}
+  else
+	{
+	  return itsStationPoint.TimeOfSunset(tim, static_cast<bool &>(fIsValidTime));
+	}
+/*
   // auringonnousu/lasku ei toimi, vaan ainakin nyt kev‰‰ll‰ antaa eilisen nousun t‰m‰n
   // p‰iv‰n sijasta ja lasku saman suuntaan pieleen
   // v‰liaikainen muutos t‰h‰n joka siirt‰‰ p‰iv‰n yhdell‰ eteenp‰in
   // KORJATTAVA, MCGYVER TAI JOTAIN
   NFmiMetTime timError(itsCurrentSegmentTime);
-  timError.ChangeByDays(1);
+  timError.ChangeByDays(1);   
   if(fIsSunRise)
 	{
 	  // fIsValidTime; false jos ei laske/nouse
@@ -153,6 +163,7 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI)
 	{
 	  return itsStationPoint.TimeOfSunset(timError, static_cast<bool &>(fIsValidTime));
 	}
+*/
 }
 
 // ======================================================================

@@ -497,7 +497,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	  NFmiFileString dataFile = textDir + "/" + textFile + ".txt";
 #endif
 
-	*itsLogFile << "VakioTeksti: "<< static_cast<char *>(dataFile) ;
+	  *itsLogFile << "#Text: "<< static_cast<char *>(dataFile) ;
 
 	std::fstream in(dataFile, ios::in|ios::in);
 	const short lineSize = 2800;
@@ -646,7 +646,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 				itsNextTexts.push_back(newText);
 			}
         }
-        *itsLogFile << "  luettu" << endl;
+        *itsLogFile << "  read" << endl;
 		in.close();
 	}
     else
@@ -884,7 +884,8 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("isotkirjaimet"))
 	return dUpperCase;
   
-  else if(lowChar==NFmiString("firstuppercase") ||
+  else if(lowChar==NFmiString("capitalize") ||
+		  lowChar==NFmiString("firstuppercase") ||
 		  lowChar==NFmiString("isollaalkukirjaimella") ||
 		  lowChar==NFmiString("isoalkukirjain"))
 	return dFirstUpperCase;
@@ -995,7 +996,7 @@ bool NFmiPressText::WritePS(FmiPressOutputMode theOutput)
 //      OutputLog('E', "Tekstin paikka antamatta: ", "Text place not given for: ", itsText);
 
   ScalePlotting();
-  return WriteString(NFmiString("VAKIOTEKSTI"), theOutput);
+  return WriteString(NFmiString("#TEXT"), theOutput);
 }
 
 // ----------------------------------------------------------------------

@@ -2943,7 +2943,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 			  NFmiString firstText;
 			  string msg;
 			  if(done)
-			     firstText = "  aika tehty yllä: ";
+			     firstText = "  time already done: ";
 			  else if(supplementLater)
 			     firstText = "  Segment time missing from this data: ";
 			  else
