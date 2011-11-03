@@ -91,7 +91,7 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)  
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Tekstisssä" << endl;
+			*itsLogFile << "*** ERROR: max file length exceeded in #Text" << endl;
 		  retString = itsString;
 		  return isFalse;
 		}
@@ -101,7 +101,7 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString & retString)
 		case dOther:	  
 		  {    
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Tekstisssä: "
+			  *itsLogFile << "*** ERROR: Unknown word in #Text: "
 						  << static_cast<char *>(itsObject)
 						  << endl;  
 			ReadNext();

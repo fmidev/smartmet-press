@@ -805,11 +805,20 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
 	      symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
 		  
+		  
 		  if(fUseDayNightSymbols && IsDayNightString(*symbolFile))
 		  {
+			//	*itsLogFile << "SYMBOL "
+			//				<< static_cast<char *>(*symbolFile)
+			//				<< endl;			 
 			float elev = SunElevation(theQI);
+			//*itsLogFile << "ELEV " << elev << endl;
 		    if(elev < -.83)
-				*symbolFile += NFmiString("yö");
+				//if(itsLanguage == kLatvian)
+				//	*symbolFile += NFmiString("_night");
+				//else
+					//*symbolFile += NFmiString("yö");
+					*symbolFile += NFmiString("_night");
 		  }
         
 		  if(symbolFile && symbolFile->IsEqual(NFmiString("ristiriita")))

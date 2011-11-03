@@ -2547,8 +2547,17 @@ bool NFmiParamRect::IsDayNightString(NFmiString &theSymbolName)const
      unsigned long kuuroPos = symbolName.Search(NFmiString("kuuro"));
 	 if (kuuroPos > 0)
 		 return true;
+     
+	 kuuroPos = symbolName.Search(NFmiString("shower"));
+	 if (kuuroPos > 0)
+		 return true;
+	 
 	 if(symbolName == NFmiString("melkeinpilvinen") || symbolName == NFmiString("puolipilvinen")
 		 || symbolName == NFmiString("melkeinselkeä") || symbolName == NFmiString("selkeä"))
+		 return true;
+	 
+	 if(symbolName == NFmiString("near_cloudy") || symbolName == NFmiString("partly_cloudy")
+		 || symbolName == NFmiString("near_clear") || symbolName == NFmiString("clear"))
 		 return true;
 	 return false;
 }

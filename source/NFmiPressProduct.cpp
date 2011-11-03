@@ -3097,7 +3097,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("maskfile") ||
 		  lowChar==NFmiString("maskidata"))
 	return dMaskFile;
-  else if(lowChar==NFmiString("#constimage") ||
+  else if(lowChar==NFmiString("#fixedsymbol") ||
+	      lowChar==NFmiString("#constimage") ||
 		  lowChar==NFmiString("#vakiosymboli"))
 	return dImageObject;
   else if(lowChar==NFmiString("#subimage") ||
@@ -3162,7 +3163,9 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 	      lowChar==NFmiString("#segmentti") ||
 		  lowChar==NFmiString("#parametriasemat")) // takaisin, oli vanhoissa reittisäissä
 	return dPressParam;
-  else if(lowChar==NFmiString("#constplaces") ||
+  else if(lowChar==NFmiString("#fixedsymbollocations") ||
+	      lowChar==NFmiString("#constplaces") ||
+		  lowChar==NFmiString("#vakiosymbolipaikat") ||
 		  lowChar==NFmiString("#vakiopaikat"))
 	return dSymbolPlaces;
   else if(lowChar==NFmiString("magicsavepath") ||

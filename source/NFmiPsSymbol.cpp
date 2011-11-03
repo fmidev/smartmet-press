@@ -288,7 +288,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #VakioSymbolissa" << endl;
+			*itsLogFile << "*** ERROR: max file length exceeded in #FixedSymbol" << endl;
 		  retString = itsString;
 		  return isFalse;
 		}
@@ -298,7 +298,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 		case dOther:
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #VakioSymbolissa: "
+			  *itsLogFile << "*** ERROR: Unknown word in #FixedSymbol: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();

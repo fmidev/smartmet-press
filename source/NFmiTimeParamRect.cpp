@@ -116,7 +116,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Numerossa" << endl;
+			*itsLogFile << "*** ERROR: max file length exceeded in #Number" << endl;
 		  retString = itsString;
 		  return isFalse;
 		}
@@ -126,7 +126,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 		case dOther:
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #AikaTekstissä: "
+			  *itsLogFile << "*** ERROR: Unknown word in #TimeText: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();
@@ -205,7 +205,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 		  itsString = itsObject;
 		  itsIntObject = ConvertDefText(itsString);
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: Päiviä ei voi asettaa #AikaParamissa"  << endl;
+			*itsLogFile << "*** ERROR: You cannot set Day in #Parameters"  << endl;
 		  break;
 		}
 		case dHour:
@@ -312,7 +312,7 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
   if(!PointParam(theQI))
 	return isFalse;
-  if(!SetRelativeHour(theQI,NFmiString("#AikaTeksti")))
+  if(!SetRelativeHour(theQI,NFmiString("#TimeText")))
 	return isFalse;
 
   NFmiPressTime pTime = TimeToWrite(theQI);
@@ -339,17 +339,13 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 					<< endl;
 
 		if(errCode == 1)
-			//*itsLogFile << "  ->ei Wmo-numeroa eikä longitudia" << endl;
 			*itsLogFile << "  ->no Wmo-number or longitude" << endl;
 		else if(errCode == 2)
-			//*itsLogFile << "  ->Wmo-nro puuttuu Asema-määrittelyltä(longitudi käytetty)" << endl;
 			*itsLogFile << "  ->Wmo-number missing from Station definition(longitude used)" << endl;
 		else if(errCode == 3)
-			//*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta eikä longitudia ole"  << endl;
-			*itsLogFile << "  ->Wmo-number puuttuu ohjelmasta eikä longitudia ole"  << endl;
+			*itsLogFile << "  ->Wmo-number missing from program and no longitude exists"  << endl;
 		else if(errCode == 4)
-			//*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta (longitudi käytetty)" << endl;
-			*itsLogFile << "  ->Wmo-nro puuttuu ohjelmasta (longitudi käytetty)" << endl;
+			*itsLogFile << "  ->Wmo-number missin from program (longitude used)" << endl;
 		itsPressParam->SetErrorReported(errCode);
 		}
 	if(fIsValidTime)
@@ -379,7 +375,7 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   return WriteCode(Construct(&str),
 				   theAbsoluteRectOfSymbolGroup,
 				   theDestinationFile,
-				   NFmiString("AIKATEKSTI"),
+				   NFmiString("#TimeText"),
 				   theOutput);
 }
 
@@ -410,9 +406,9 @@ NFmiTime NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI)
 		 itsPressParam->SetCurrentStationLonLat(lonLat);
 	  }
 	  if(IsMissingLonLat()) //eli taulukostakaan ei löytynyt
-		*itsLogFile << "*** ERROR: longitudi puuttuu "
+		*itsLogFile << "*** ERROR: longitudu missing from "
 					<< static_cast<char *>(itsStationPoint.GetName())
-					<< ":lta paikalliseen aikaan"
+					<< "to local time"
 					<< endl;
 
 	  longitude = itsPressParam->GetCurrentStation().GetLongitude();

@@ -80,7 +80,7 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #AikaTekstissä" << endl;
+			*itsLogFile << "*** ERROR: max file length exceeded in #TimeText" << endl;
 		  retString = itsString;
 		  return isFalse;
 		}
@@ -90,7 +90,7 @@ bool NFmiPressTimeText::ReadDescription(NFmiString & retString)
 		case dOther:	  
 		  {    
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #AikaTekstissä: "
+			  *itsLogFile << "*** ERROR: Unknown word in #TimeText: "
 						  << static_cast<char *>(itsObject)
 						  << endl;  
 			ReadNext();

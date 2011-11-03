@@ -110,7 +110,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #Tekstissä" << endl;
+			*itsLogFile << "*** ERROR: max file length exceeded in #Text" << endl;
 		  retString = itsString;
 		  return isFalse;
 		}
@@ -120,7 +120,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 		case dOther:
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #Tekstissä: "
+			  *itsLogFile << "*** ERROR: Unknown word in #Text: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();

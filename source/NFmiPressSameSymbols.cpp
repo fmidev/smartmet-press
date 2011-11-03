@@ -64,7 +64,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #SymboliPaikat-oliossa" << endl;
+			*itsLogFile << "*** ERROR: max file length exceeded in #FixedSymbolLocations" << endl;
 		  retString = str;
 		  return isFalse;
 		}
@@ -76,7 +76,7 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString & retString)
 		case dOther:
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #ParametriAsematissa: " << static_cast<char *>(object) << endl;
+			  *itsLogFile << "*** ERROR: Unknown word in #FixedSymbolLocations: " << static_cast<char *>(object) << endl;
 			*itsDescriptionFile >> object;
 			str = object;
 			iobject = ConvertDefText(str);

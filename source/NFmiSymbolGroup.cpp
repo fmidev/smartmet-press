@@ -246,7 +246,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 	  if(itsLoopNum > itsMaxLoopNum)
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: tuotetiedoston maksimipituus ylitetty #DataAlkiot-elementissä" << endl;
+			*itsLogFile << "*** ERROR: max file length exceeded in #Parameters" << endl;
 		  retString = itsString;
 		  return isFalse;
 		}
@@ -261,7 +261,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 		case dOther:	  //ylimääräistä roinaa, End.. lopettaa
 		  {
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Tuntematon sana #DataAlkiot-elementissä: "
+			  *itsLogFile << "*** ERROR: Unknown word in #Parameters: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();
