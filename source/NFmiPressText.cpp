@@ -935,7 +935,8 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString ("palstanrajat"))
 	return dParagraphBorders;
 
-  else if(lowChar==NFmiString("areaborders") ||
+  else if(lowChar==NFmiString("areapath")    ||
+	      lowChar==NFmiString("areaborders") ||
 		  lowChar==NFmiString ("aluerajat"))
 	return dTextBorders;
 

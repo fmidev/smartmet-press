@@ -339,7 +339,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 				if(day1 < 1 || day1 >31 || day2 < 1 || day2 >31
 				   ||month1 < 1 || month1 >12 || month2 < 1 || month2 >12)
 				{
-						string msg = string("virheellinen aika: ") + condition; 
+						string msg = string("incorrect time: ") + condition; 
 						errors.push_back(msg);
 					    *itsLogFile << "*** ERROR: " << msg << endl;  
 						continue;
@@ -650,7 +650,9 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("hour") ||
 		  lowChar==NFmiString("tunti"))
 	return dHour;
-  else if(lowChar==NFmiString("relhour") ||
+  else if(lowChar==NFmiString("relativehours") ||
+	      lowChar==NFmiString("relativehour") ||
+	      lowChar==NFmiString("relhour") ||
 		  lowChar==NFmiString("suhteellinentunti"))
 	return dRelHour;                     
   else if(lowChar==NFmiString("relativetime") ||

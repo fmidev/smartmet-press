@@ -2311,7 +2311,9 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("käytädatanalkuaikaa"))
 	return dDataTime;
 
-  else if(lowChar==NFmiString("relativehoursfromdata") ||
+  else if(lowChar==NFmiString("hoursfromdata") ||
+	      lowChar==NFmiString("relativehoursfromdata") ||
+		  lowChar==NFmiString("tuntejadatasta") ||
 		  lowChar==NFmiString("suhteellinentuntidatasta"))
 	return dRelativeDataTime;
 

@@ -280,6 +280,7 @@ int NFmiPressArea::ConvertDefText(NFmiString & object)
 	return dOrientation;
 
   else if(lowChar==NFmiString("truelat") ||
+	      lowChar==NFmiString("truelatitude") ||
 		  lowChar==NFmiString("referenssilatitudi") ||
 		  lowChar==NFmiString("reflat"))
 	return dTrueLat;

@@ -360,6 +360,7 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("symbolikansio"))
 	return dDescSymbolSet;
   else if(lowChar==NFmiString("additionsymbolscale") ||
+	      lowChar==NFmiString("additionalsymbolscale") ||
 		  lowChar==NFmiString("kuvienuudelleenskaalaus") ||
 		  lowChar==NFmiString("symbolienuudelleenskaalaus"))
 	return dSymbolSizeFactor;
@@ -373,7 +374,7 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("textalignment") ||
 		  lowChar==NFmiString("tekstikohdistus"))
 	return dDescTextAlignment;  
-  else if(lowChar==NFmiString("onlyformissingprecedingelimage") ||
+  else if(lowChar==NFmiString("onlyformissingprecedingimage") ||
 		  lowChar==NFmiString("vainedellisenkuvanpuuttuessa"))
 	return dMissingPrecedingImage;
    else if(lowChar==NFmiString("version") ||

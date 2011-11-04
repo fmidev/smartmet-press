@@ -1502,7 +1502,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 		return false;
 
    if(itsLogFile)
-	 *itsLogFile << "BUILDING PRODUCT" << endl;
+	 *itsLogFile << "NOW BUILDING PRODUCT" << endl;
 
    return true;
 }
@@ -3063,10 +3063,12 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("usedatastarttime") ||
 		  lowChar==NFmiString("käytädatanalkuaikaa"))
 	return dDataTime;
-  else if(lowChar==NFmiString("relativehoursfromdata") ||
+  else if(lowChar==NFmiString("hoursfromdata") ||
+	      lowChar==NFmiString("relativehoursfromdata") ||
 		  lowChar==NFmiString("suhteellinentuntidatasta"))
 	return dRelativeDataTime;
-  else if(lowChar==NFmiString("outdir") ||
+  else if(lowChar==NFmiString("outdirectory") ||
+	      lowChar==NFmiString("outdir") ||
 		  lowChar==NFmiString("tulostus"))
 	return dOutDir;
   else if(lowChar==NFmiString("pagesize") ||

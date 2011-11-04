@@ -91,7 +91,7 @@ bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 		{
 		  if(!fLoopErrorReported)
 			{
-			  *itsLogFile << "  *** ERROR: gridistä ei saa paikallisia aikoja"
+			  *itsLogFile << "  *** ERROR: cannot get local times from GRID"
 						  << endl;
 			  fLoopErrorReported = true;
 			}
@@ -106,9 +106,9 @@ bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 		  str += ("(");
 		  str += tString;
 		  if(tString == NFmiString("-"))
-			*itsLogFile << "  *** ERROR: asemalta "
+			*itsLogFile << "  *** ERROR: the station "
 						<< static_cast<char *>(stationP.GetName())
-						<< " puuttuu paik.aika"
+						<< " has no local time"
 						<< endl;
 		  str += (")");
 		}
@@ -116,7 +116,7 @@ bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 
   SetText(str);
 
-  return WriteString(NFmiString("ASEMATEKSTI"),theOutput);
+  return WriteString(NFmiString("StationName"),theOutput);
 }
 
 // ----------------------------------------------------------------------

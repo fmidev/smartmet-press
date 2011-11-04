@@ -154,7 +154,7 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 		}
 	  if(!itsNameDay->ReadFile(fileName))
 		{
-		  *itsLogFile << "*** ERROR: Nimipäivien lukeminen epäonnistui" << endl;
+		  *itsLogFile << "*** ERROR: Reading of nameday file failed" << endl;
 		  return false; 
 		}
 	}
@@ -163,6 +163,14 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 	{
 	  str = itsNameDay->GetName(itsFirstPlotTime, itsMaxNumber, itsMaxLength);
 	  SetText(str);
+      *itsLogFile << "  Nameday: " << static_cast<char *>(str) << endl;
+
+	  if(itsLanguage != kFinnish && str == "Karkauspäivä")
+		  SetText("Leap day");
+	  
+	  if(itsLanguage == kSwedish && str == "Karkauspäivä")
+		  SetText("Skottdag");
+
 	  return WriteString(NFmiString("NIMIPÄIVÄ"), theOutput);
 	}
   else
