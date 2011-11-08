@@ -1,14 +1,14 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 11.10.19
-Release: 1.el5.fmi
+Version: 11.11.8
+Release: 1.el6.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 11.1.11-1
+BuildRequires: libsmartmet-newbase >= 11.11.8-1
 Provides: qdpress
 
 %description
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Tue Nov  8 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.11.8-1.el5.fmi
+- Translations to English by Lasse
 * Wed Oct 19 2011 oksman <santeri.oksman@fmi.fi> - 11.10.19-1.el5.fmi
 - Added support for selecting encoding.
 - Get rid of the Muut subdirectory in Linux.
