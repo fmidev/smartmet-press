@@ -956,7 +956,8 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("pakkasenpurevuus"))
 	return dWindCill;
 
-  else if(lowChar==NFmiString("degreeday") ||
+  else if(lowChar==NFmiString("degreedays") ||
+	      lowChar==NFmiString("degreeday") ||
 		  lowChar==NFmiString("lämmitystarve") ||
 		  lowChar==NFmiString("lämmitystarveluku"))
 	return dDegreeDays;
@@ -1000,7 +1001,8 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("numeromuunnos"))
 	return dInterval2Number;
 
-  else if(lowChar==NFmiString("randominterval") ||
+  else if(lowChar==NFmiString("randomizationinterval") ||
+	      lowChar==NFmiString("randominterval") ||
 		  lowChar==NFmiString("satunnaisväli"))
 	return dRandomInterval;
 
@@ -1013,7 +1015,8 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("tasavälirajoitus"))
 	return dEquiDistanceMarking;
   
-  else if(lowChar==NFmiString("equidistanceandadjust") ||
+  else if(lowChar==NFmiString("equidistanceandadjusting") ||
+	      lowChar==NFmiString("equidistanceandadjust") ||
 		  lowChar==NFmiString("tasavälijasäätö"))
 	return dEquiDistanceJust;
 
@@ -1037,7 +1040,8 @@ int NFmiParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("puuttuvaarvo"))
   return dMissingValueString;
   
-  else if(lowChar==NFmiString("relativeplacealternating") ||
+  else if(lowChar==NFmiString("placemovealternating") ||
+	      lowChar==NFmiString("relativeplacealternating") ||
           lowChar==NFmiString("suhtpaikkavuorotellen"))
 	return dPlaceMoveAlternating;
 

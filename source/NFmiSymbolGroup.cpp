@@ -593,7 +593,8 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#vakiokuva"))
 	return dConstSymbol;
 
-  else if(lowChar==NFmiString("#constanttext") ||
+  else if(lowChar==NFmiString("#text") ||    
+	      lowChar==NFmiString("#constanttext") ||
 		  lowChar==NFmiString("#vakioteksti"))
 	return dConstText;
 

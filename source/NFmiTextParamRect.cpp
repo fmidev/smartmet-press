@@ -328,7 +328,7 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("lis‰‰eteen"))
 	return dAddTextInFront;
 
-  else if(lowChar==NFmiString("mapping") ||
+  else if(lowChar==NFmiString("textmapping") ||
 		  lowChar==NFmiString("muunnos") ||
 		  lowChar==NFmiString("tekstimuunnos"))
 	return dTextMapping;

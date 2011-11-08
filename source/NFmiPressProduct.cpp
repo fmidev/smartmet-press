@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 2.11.2011" << endl;       
+   *itsLogFile << "program version = Release 7.11.2011" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2868,7 +2868,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			else
 			{
 				delete text;
-				string msg = "No data for #Analysingtime";
+				string msg = "No data for #AnalysisTime";
 				errors.push_back(msg);
 				*itsLogFile << "*** ERROR: " << msg << endl;
 				break;
@@ -3023,7 +3023,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 	|| lowChar==NFmiString("tuote") || lowChar==NFmiString("tuotenimi"))
 
 	return dProduct;
-  else if(lowChar==NFmiString("tuoteniminumerointi"))
+  else if(lowChar==NFmiString("productnamenumbering") ||
+	      lowChar==NFmiString("tuoteniminumerointi"))
 	return dNumberAddingToName;
   else if(lowChar==NFmiString("outputmode") ||
 		  lowChar==NFmiString("tulosmuoto") ||
@@ -3120,7 +3121,7 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#aikateksti") ||
 		  lowChar==NFmiString("#aika"))
 	return dTimeTextObject;
-  else if(lowChar==NFmiString("#analysingtime") ||
+  else if(lowChar==NFmiString("#analysistime") ||
 		  lowChar==NFmiString("#analyysiaika"))
 	return dOrigTimeObject;
   else if(lowChar==NFmiString("#computertime") ||
@@ -4018,7 +4019,7 @@ bool NFmiPressProduct::ConstructOutFileName(void)
 
 			}
 		  else if(lowerString == NFmiString("analyysiaika") ||
-				  lowerString == NFmiString("analysestime"))
+				  lowerString == NFmiString("analysistime"))
 			{
 			  NFmiPressTime tim = (static_cast<NFmiMetTime>(FirstData()->OriginTime()));
 

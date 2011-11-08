@@ -114,7 +114,8 @@ int NFmiRotatingParamRect::ConvertDefText(NFmiString & object)
   lowChar.LowerCase(); // kaikille pit‰isi sallia vapaa isot/pienet kirj.
   //emossa nimell‰ ToinenParametri
 
-  if(lowChar==NFmiString("rotatingparameter") ||
+  if(lowChar==NFmiString("rotatingparam")  ||
+	  lowChar==NFmiString("rotatingparameter") ||
 	 lowChar==NFmiString("k‰‰nt‰v‰parametri"))
 	return dSecondPar;
 

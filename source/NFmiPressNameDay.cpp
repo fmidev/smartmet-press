@@ -99,9 +99,11 @@ bool NFmiPressNameDay::ReadRemaining(void)
 
 int NFmiPressNameDay::ConvertDefText(NFmiString & object)
 {
-  if(object==NFmiString("MaxNumber") || object==NFmiString("MaksimiM‰‰r‰"))
+  NFmiString lowChar = object;
+  lowChar.LowerCase();
+  if(lowChar==NFmiString("maxnumber") || lowChar==NFmiString("maksimim‰‰r‰"))
 	return dMaxNumber;
-  else if(object==NFmiString("MaxLength") || object==NFmiString("MaksimiPituus"))
+  else if(lowChar==NFmiString("maxlength") || lowChar==NFmiString("maksimipituus"))
 	return dMaxLength;
   else
 	return NFmiPressText::ConvertDefText(object);

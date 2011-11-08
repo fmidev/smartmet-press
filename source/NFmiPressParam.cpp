@@ -2321,7 +2321,8 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("data"))
 	return dSegmentDataFile;
 
-   else if(lowChar==NFmiString("primarydatafile") ||
+   else if(lowChar==NFmiString("primarydata") ||
+	       lowChar==NFmiString("primarydatafile") ||
 		  lowChar==NFmiString("ensisijainendata"))
 	return dSegmentPrimaryDataFile;
  
@@ -2375,7 +2376,8 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("asemienmittaalue"))
 	return dStationDefArea;
 
-  else if(lowChar==NFmiString("stationrelocation") ||
+  else if(lowChar==NFmiString("stationmove") ||
+	      lowChar==NFmiString("stationrelocation") ||
 		  lowChar==NFmiString("asemiensiirto"))
 	return dStationRelocation;
 
@@ -2469,15 +2471,16 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("paikkakoordinaatitp‰‰kartasta"))
 	return dCoordinatesFromMainMap;
 
-  else if(lowChar==NFmiString("stationsfromdata") ||
+  else if(lowChar==NFmiString("usegridasstationpoints")||
+	      lowChar==NFmiString("stationsfromdata") ||
 		  lowChar==NFmiString("aseminadatanpisteet"))
 	return dStationsFromData;
   
-  else if(lowChar==NFmiString("stationsfromdatacropping") ||
+  else if(lowChar==NFmiString("usegridasstationpointscropping") ||
 		  lowChar==NFmiString("aseminadatanpisteetrajaten"))
 	return dStationsFromDataCropping;
 
-  else if(lowChar==NFmiString("areaoperaion") ||
+  else if(lowChar==NFmiString("areaoperation") ||
 		  lowChar==NFmiString("alueoperaatio"))
 	return dAreaOperation;
   

@@ -70,7 +70,7 @@ int NFmiPressDataTimeText::ConvertDefText(NFmiString & object)
 	  *itsLogFile << "WARNING: Day or hour moved from #time to #pressparam level"
 	              << endl;
 
-  if(lowChar==NFmiString("analysetime") || lowChar==NFmiString("analyysiaika"))
+  if(lowChar==NFmiString("analysistime") || lowChar==NFmiString("analyysiaika"))
 	return dUseOriginTime;
   else
 	return NFmiPressTimeText::ConvertDefText(object);

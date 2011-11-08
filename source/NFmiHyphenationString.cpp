@@ -613,7 +613,7 @@ void NFmiHyphenationString::SuperResetPosition(void)
 
 bool NFmiHyphenationString::IsConsonant(const NFmiString & theChar) const
 {
-  NFmiString consonants("bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ"); 
+  NFmiString consonants("bcdfghjklmnpqrstvwxzklžšBCDFGHJKLMNPQRSTVWXZ"); 
   for(int i = 1; i <= static_cast<int>(consonants.GetLen()); i++)  
 	{
 	  if(!strcmp(consonants.GetCharsPtr(i,1), theChar))

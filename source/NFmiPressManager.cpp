@@ -554,53 +554,93 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
   if(lowChar==NFmiString("makeproduct") ||
 	 lowChar==NFmiString("teetuote"))
 	return dManWritePs;
-  else if(lowChar==NFmiString("maski"))
+  
+  else if(lowChar==NFmiString("mask") ||
+	      lowChar==NFmiString("maski"))
 	return dManMaskNumber;
-  else if(lowChar==NFmiString("aluemaski"))
+  
+  else if(lowChar==NFmiString("areamask") ||
+	      lowChar==NFmiString("aluemaski"))
 	return dManPressMaskNumber;
-  else if(lowChar==NFmiString("aktivoiekaelementti"))
+  
+  else if(lowChar==NFmiString("activatefirstelement") ||
+	      lowChar==NFmiString("aktivoiekaelementti"))
 	return dManActivateFirst;
-  else if(lowChar==NFmiString("deaktivoiekaelementti"))
+  
+  else if(lowChar==NFmiString("deactivatefirstelement") ||
+	      lowChar==NFmiString("deaktivoiekaelementti"))
 	return dManDeactivateFirst;
-  else if(lowChar==NFmiString("aktivoiekapassiivinenelementti"))
+  
+  else if(lowChar==NFmiString("activatefirstpassiveelement")   ||
+	      lowChar==NFmiString("aktivoiekapassiivinenelementti"))
 	return dManActivateFirstPassive;
-  else if(lowChar==NFmiString("deaktivoiekaaktiivinenelementti"))
+  
+  else if(lowChar==NFmiString("deactivatefirstactiveelement")   ||
+	      lowChar==NFmiString("deaktivoiekaaktiivinenelementti"))
 	return dManDeactivateFirstActive;
-  else if(lowChar==NFmiString("aktivoiekasegmentti"))
+  
+  else if(lowChar==NFmiString("activatefirstsegment") ||
+	      lowChar==NFmiString("aktivoiekasegmentti"))
 	return dManActivateFirstSegment;
-  else if(lowChar==NFmiString("deaktivoiekasegmentti"))
+  
+  else if(lowChar==NFmiString("deactivatefirstsegment") ||
+	      lowChar==NFmiString("deaktivoiekasegmentti"))
 	return dManDeactivateFirstSegment;
-  else if(lowChar==NFmiString("tuotenimi"))
+  
+  else if(lowChar==NFmiString("productname") ||
+	      lowChar==NFmiString("product")     ||
+	      lowChar==NFmiString("tuotenimi"))
 	return dManProduct;
+  
   else if(lowChar==NFmiString("productnameformat") ||
 	      lowChar==NFmiString("tuotenimiformaatti"))
 	return dManProductFormat;
+  
   else if(lowChar==NFmiString("station") ||
 	      lowChar==NFmiString("asema"))
 	return dManStation;
-  else if(lowChar==NFmiString("asemajaosakuvat"))
+  
+  
+  else if(lowChar==NFmiString("stationandimages") ||
+	      lowChar==NFmiString("asemajaosakuvat"))
 	return dManStationAndImages;
-  else if(lowChar==NFmiString("asemanimeävaihtaen"))
+  
+  else if(lowChar==NFmiString("stationnewnaming") ||
+	      lowChar==NFmiString("asemanimeävaihtaen"))
 	return dManStationNewName;
-  else if(lowChar==NFmiString("numberproducts") ||
+  
+  else if(lowChar==NFmiString("productnamenumbering") ||
 	      lowChar==NFmiString("tuoteniminumerointi"))
 	return dManNumberAddingToName;
-  else if(lowChar==NFmiString("tuoteniminumerointipois"))
+  
+  else if(lowChar==NFmiString("stopnumbering") ||
+	      lowChar==NFmiString("tuoteniminumerointipois"))
 	return dManDeleteNumberAddingToName;
-  else if(lowChar==NFmiString("suljeloki"))
+  
+  else if(lowChar==NFmiString("closelogfile") ||
+	      lowChar==NFmiString("suljeloki"))
 	return dManCloseLog;
-  else if(lowChar==NFmiString("avaaloki"))   //ei kai toimi
+  
+  else if(lowChar==NFmiString("openlogfile") ||
+	      lowChar==NFmiString("avaaloki"))   //ei kai toimi
 	return dManOpenLog;
+  
   else if(lowChar==NFmiString("data"))
 	return dManData;
-  else if(lowChar==NFmiString("tulostusmuoto"))
+  
+  else if(lowChar==NFmiString("outputmode") ||
+	      lowChar==NFmiString("tulostusmuoto"))
 	return dManOutputMode;
-  else if(lowChar==NFmiString("suhteellinentunti"))
+  
+  else if(lowChar==NFmiString("relativehours") ||
+	      lowChar==NFmiString("suhteellinentunti"))
 	return dManRelativeHours;
+  
   else if(lowChar==NFmiString("addhours") ||
-	      lowChar==NFmiString("addhour") ||
+	      lowChar==NFmiString("addhour")  ||
 	      lowChar==NFmiString("tuntimuutos"))
 	return dManAddHours;
+  
   else if(lowChar==NFmiString("language") ||
 	      lowChar==NFmiString("kieli"))
 	return dManLanguage;

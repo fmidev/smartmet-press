@@ -663,10 +663,12 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("tuntiaskel") ||
 		  lowChar==NFmiString("tuntiaskel"))
 	return dHourStep;
-  else if(lowChar==NFmiString("utcwriting") ||
+  else if(lowChar==NFmiString("utcoutput")  ||
+	      lowChar==NFmiString("utcwriting") ||
 		  lowChar==NFmiString("utctulostus")) // data-alkioissa
 	return dWriteTimeAsUtc;                     
-  else if(lowChar==NFmiString("timetableactive") ||
+  else if(lowChar==NFmiString("timeseriesactive") ||
+	      lowChar==NFmiString("timetableactive") ||
 		  lowChar==NFmiString("aikataulukonaktiiviset"))
 	return dTimeTableActive;
   else if(lowChar==NFmiString("bypassvalue") ||
