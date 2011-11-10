@@ -450,7 +450,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 	  if(helpS == NFmiString("-") && itsEnvironment.GetLongNumberMinus())
 		helpS = NFmiString("\\226");
 	  return WriteCode(Construct(&helpS), theAbsoluteRectOfSymbolGroup,
-					   theDestinationFile, NFmiString("NUMERO"), theOutput);
+					   theDestinationFile, NFmiString("NUMBER"), theOutput);
 	}
   else
 	{
@@ -523,7 +523,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
   str = DetachSign(str, value);
   return WriteCode(Construct(&str), theAbsoluteRectOfSymbolGroup,
-				   theDestinationFile, NFmiString("NUMERO"), theOutput);
+				   theDestinationFile, NFmiString("NUMBER"), theOutput);
 }
 
 // ----------------------------------------------------------------------

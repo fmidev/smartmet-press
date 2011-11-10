@@ -473,7 +473,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	{
 	  theDestinationFile << "%*** "
 						 << static_cast<char *>(theObjectName)
-						 << " BEGINS ***"
+						 << " STARTS ***"
 						 << endl;
 	  theDestinationFile << "gsave" << endl;
 	  
@@ -513,7 +513,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 							 << "_"
 							 << endl;
 		  theDestinationFile << numberRect.Height()
-							 << " select"+itsEncoding+"font"
+							 //<< " select"+itsEncoding+"fontAA"
+							 << " selectlatinfont"
 							 << endl;
 		}
 		

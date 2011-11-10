@@ -423,7 +423,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 			return WriteCode(Construct(&str),
 					   correctedRect, 
 					   theDestinationFile,
-					   NFmiString("TEKSTI datasta"),
+					   NFmiString("TEXT from data"),
 					   theOutput); 
 	}
   else if(!mapString)

@@ -261,6 +261,6 @@ bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbol
 	return WriteCode(Construct(&str),
 				theAbsoluteRectOfSymbolGroup, 
 				theDestinationFile,
-				NFmiString("Ääriarvoasema"),
+				NFmiString("ExtremePlace"),
 				theOutput); 	
 }
