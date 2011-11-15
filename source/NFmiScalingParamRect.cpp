@@ -101,7 +101,7 @@ bool NFmiScalingParamRect::ReadSymbolScale(FmiValueScaling & theScale)
 	{
 	  if(theScale.noneValue == theScale.symbolValue)
 		{
-		  *itsLogFile << "*** ERROR: SymboliSkaalan kaksi ekaa arvoa ei voi olla samoja"  << endl;
+		  *itsLogFile << "*** ERROR: First two values of SymbolScale cannot be identical"  << endl;
 		  theScale.symbolValue = kFloatMissing;
 		  return false;
 		}

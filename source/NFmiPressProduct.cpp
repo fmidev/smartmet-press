@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 7.11.2011" << endl;       
+   *itsLogFile << "program version = Release 11.11.11" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2254,7 +2254,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  {
 				string msg = string("Data ")
 				       + static_cast<char *>(itsDataFileName)
-   				       + "pitää antaa ennen 'KäytäDatanAlkuAikaa' ja 'SuhteellinenTuntiDatasta' sekä kaikkia jäsenelementtejä. KESKEYTETÄÄN.";
+   				       + "should be given before 'UseDataStartTime' and 'HoursFromData' and all subelements. INTERRUPTED.";
 				errors.push_back(msg);
 				*itsLogFile << "*** ERROR: " << msg << endl;
 				return false;
@@ -2419,7 +2419,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  }
 			else
 			  {
-				string msg = "Pitää antaa datat ennen 'KäytäDatanAlkuAikaa'. KESKEYTETÄÄN";
+				//string msg = "Pitää antaa datat ennen 'KäytäDatanAlkuAikaa'. KESKEYTETÄÄN";
+				string msg = "Should be given before 'UseDataStartTime', INTERRUPTED";
 				errors.push_back(msg);
 				*itsLogFile << "*** ERROR: " << msg << endl;
 				return false;
@@ -2472,7 +2473,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  }
 			else
 			  {
-				string msg = "Pitää antaa datat ennen 'SuhteellinenTuntiDatasta'. KESKEYTETÄÄN";
+				string msg = "Must be given before 'HoursFromData', INTERRUPTED";
 				errors.push_back(msg);
 				*itsLogFile << "*** ERROR: " << msg << endl;
 				return false;

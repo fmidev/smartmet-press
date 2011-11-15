@@ -133,11 +133,11 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI)
   double latitude = itsStationPoint.GetLatitude();
   double longitude = itsStationPoint.GetLongitude();
   if(fabs(longitude) <= .001 && fabs(latitude) <= .001) //ei pitäisi voida tapahtua
-	*itsLogFile << "*** ERROR: aurinkoajan longitudi puuttuu "
+ 	*itsLogFile << "*** ERROR: missing longitude for "
 				<< static_cast<char *>(itsStationPoint.GetName())
-				<< ":lta paikalliseen aikaan"
+				<< " needed for local time"
 				<< endl;
-  
+ 
   if(fIsSunRise)  //toimii marraskuussa 2011 eli korjaus pois
 	{
 	  // fIsValidTime; false jos ei laske/nouse

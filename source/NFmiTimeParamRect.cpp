@@ -345,7 +345,7 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 		else if(errCode == 3)
 			*itsLogFile << "  ->Wmo-number missing from program and no longitude exists"  << endl;
 		else if(errCode == 4)
-			*itsLogFile << "  ->Wmo-number missin from program (longitude used)" << endl;
+			*itsLogFile << "  ->Wmo-number missing from program (longitude used)" << endl;
 		itsPressParam->SetErrorReported(errCode);
 		}
 	if(fIsValidTime)

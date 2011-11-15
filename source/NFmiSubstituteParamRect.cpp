@@ -127,7 +127,8 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString & retString)
 
 			ReadNext();
 			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Päiviä ei voi asettaa #Tekstissä"
+			  //*itsLogFile << "*** ERROR: Päiviä ei voi asettaa #Tekstissä"
+			  *itsLogFile << "*** ERROR: Day cannot be set in #Text"
 						  << endl;  
 			break;
 		  }
@@ -212,11 +213,11 @@ bool NFmiSubstituteParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGr
   {
 	  if(lastElementStatus)
 	  {
-			*itsLogFile << "  vara-asemaa ei tarvita tekstielementille" << endl;
+			*itsLogFile << "  backup station not needed for Text element" << endl;
 		    return true;
 	  }
 	  else
-			*itsLogFile << "  vara-asemaa käytetään tekstielementille" << endl;
+			*itsLogFile << "  backup station used in Text element" << endl;
   }
 
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
@@ -248,7 +249,8 @@ bool NFmiSubstituteParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGr
 	if(itsSubstituteMappingValue >0)
 		itsPressParam->GetPressProduct()->AddSubstituteMappingValue(itsSubstituteMappingValue, value);
 	else
-		*itsLogFile << "***ERROR: #Korvaus-oliolta puuttuu KorvattavaMuunnosArvo" << endl;
+		//*itsLogFile << "***ERROR: #Korvaus-oliolta puuttuu KorvattavaMuunnosArvo" << endl;
+		*itsLogFile << "***ERROR: Missing MappingValueToSubstitute in #Substitute" << endl;
 
 	return true;
   }

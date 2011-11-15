@@ -154,7 +154,7 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
       ofstream output(outputName, ios::out);
 
 	  if(!output && itsLogFile)
-		*itsLogFile << "*** ERROR: Tiedoston '" << outputName << "' avaaminen kirjoitusta varten epäonnistui" << endl;
+		*itsLogFile << "*** ERROR: Opening of '" << outputName << "' for output failed" << endl;
 
 
       const short lineSize = 250;	// HUOM max rivipituus
@@ -176,9 +176,9 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
 //	      if(NFmiString(inBuf) == NFmiString("%AI5_BeginLayer") && copyOn)
 			{
 		      if(itsLogFile)
-				*itsLogFile << "*** ERROR: Symbolin "
+				*itsLogFile << "*** ERROR: Conversion of "
 							<< static_cast<char *>(itsSymbol)
-							<< "konvertointi epäonnistui, BeginLayer:ta, sisäkkäin"
+							<< " to short symbol failed, nested BeginLayers"
 							<< endl;
 		      copyOn = isTrue;
 			}
@@ -208,7 +208,7 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
       output.write(static_cast<char *>(NFmiString("\n")),1);
 
       if(itsLogFile)
-		*itsLogFile << "  rivejä kopioitu: " << copiedLines << endl;
+		*itsLogFile << "  lines copied: " << copiedLines << endl;
 
 	  output.close();
 	  output.clear();
@@ -470,7 +470,8 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 	  else
 		{
 		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: Ongelmia symbolikoko-tiedostossa"  << endl;
+			//*itsLogFile << "*** ERROR: Ongelmia symbolikoko-tiedostossa"  << endl;
+			*itsLogFile << "*** ERROR: OBSOLETE, check reason"  << endl;
 		}
 	  itsWriteScale.SetStartScales(NFmiRect(sizePoint1Size,sizePoint2Size));
 	}
@@ -540,9 +541,9 @@ bool NFmiPsSymbol::MakeAndWritePS(NFmiPoint place)
 	  if(ConvertOrig2Short()) //itsOrigDir
 		{
 		  if(itsLogFile)
-			*itsLogFile << "Symboli "
+			*itsLogFile << "Symbol "
 						<< static_cast<char *>(itsSymbol)
-						<< " konvertoitu"
+						<< " converted"
 						<< endl;
 
 		  if (CopyShortSymbol2Dest()) //itsShortDir
@@ -552,7 +553,7 @@ bool NFmiPsSymbol::MakeAndWritePS(NFmiPoint place)
 		  else
 			{
 			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: Symbolia ei konvertoinnin jälkeen löydy: "
+				*itsLogFile << "*** ERROR: Symbol not found after conversion: "
 							<< static_cast<char *>(itsSymbol)
 							<< endl;
 			  return isFalse;
@@ -560,7 +561,7 @@ bool NFmiPsSymbol::MakeAndWritePS(NFmiPoint place)
 		}
 	  else
 		if(itsLogFile)
-		  *itsLogFile << "*** ERROR: Symbolia ei ole: "
+		  *itsLogFile << "*** ERROR: Missing Symbol: "
 					  << static_cast<char *>(itsSymbol)
 					  << endl;
 	  return isFalse;
@@ -603,9 +604,9 @@ bool NFmiPsSymbol::WritePS(FmiPressOutputMode theOutput)
 	  if(ConvertOrig2Short()) //itsOrigDir
 		{
 		  if(itsLogFile)
-			*itsLogFile << "Symboli "
+			*itsLogFile << "Symbol "
 						<< static_cast<char *>(itsSymbol)
-						<< " konvertoitu"
+						<< " converted"
 						<< endl;
 
 		  if (CopyShortSymbol2Dest()) //itsShortDir
@@ -615,7 +616,7 @@ bool NFmiPsSymbol::WritePS(FmiPressOutputMode theOutput)
 		  else
 			{
 			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: Symbolia ei konvertoinnin jälkeen löydy: "
+				*itsLogFile << "*** ERROR: Symbol not found after conversion: "
 							<< static_cast<char *>(itsSymbol)
 							<< endl;
 			  return isFalse;
@@ -623,7 +624,7 @@ bool NFmiPsSymbol::WritePS(FmiPressOutputMode theOutput)
 		}
 	  else
 		if(itsLogFile)
-		  *itsLogFile << "*** ERROR: Symbolia ei ole: "
+		  *itsLogFile << "*** ERROR: Missing Symbol: "
 					  << static_cast<char *>(itsSymbol)
 					  << endl;
 	  return isFalse;

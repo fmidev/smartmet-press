@@ -123,7 +123,7 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 {
   if(!itsNameDay)
 	{
-	  *itsLogFile << "*** ERROR: NimiPäiväOlio puuttuu, ohjelmointivirhe"
+	  *itsLogFile << "*** ERROR: Nameday Object missing, must be program bug"
 				  << endl;
 	  return false;
 	}
@@ -173,7 +173,7 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 	  if(itsLanguage == kSwedish && str == "Karkauspäivä")
 		  SetText("Skottdag");
 
-	  return WriteString(NFmiString("NIMIPÄIVÄ"), theOutput);
+	  return WriteString(NFmiString("NameDay"), theOutput);
 	}
   else
 	return false;
