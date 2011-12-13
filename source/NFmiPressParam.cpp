@@ -1248,6 +1248,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			text->SetData(itsDataIter);
 			text->SetLanguage(itsLanguage);
 			text->Place(firstUnscaledPoint);
+			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  {
 				text->ScalePlotting();

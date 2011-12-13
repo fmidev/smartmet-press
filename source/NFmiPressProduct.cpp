@@ -2677,6 +2677,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			newParam->SetLanguage(itsLanguage);
 			newParam->SetTime(itsFirstPlotTime);
 			newParam->SetNewGeoArea(itsArea);
+			newParam->SetEncoding(itsEncoding);
 			if(newParam->ReadDescription(itsString))
 			  {
 				itsParams.Add(newParam);
@@ -2836,7 +2837,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		  //  tehty uudelleen NFmiPressGivenTimeTextinä
 		  // jotta riippumaton QD:sta ja sen ajoista
 		  {
-
 			if(!ReadData())
 				return false;
 

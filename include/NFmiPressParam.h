@@ -168,6 +168,7 @@ public:
   void SetOptionTime(NFmiTime theTime);
   NFmiLocation* GetOptionLocation(void);
   void SetOptionLocation(NFmiLocation theLocation);
+  void SetEncoding(std::string theEncoding);
   void DeleteOptionLocation(void);
   bool IsAreaOperation(void);
   NFmiArea * GetGeoArea(void);
@@ -285,6 +286,7 @@ protected:
   bool fBackupDayReported;
   NFmiStationPoint* itsCurrentStationPoint;
   bool fReportProseccedNumber;
+  std::string itsEncoding;
 };
 // ----------------------------------------------------------------------
 /*!
@@ -353,6 +355,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fBackupDayReported(false)
   , itsCurrentStationPoint(0)
   , fReportProseccedNumber(true)
+  , itsEncoding("latin")
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -413,6 +416,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fBackupDayReported(false)
   , itsCurrentStationPoint(0)
   , fReportProseccedNumber(true)
+  , itsEncoding("latin")
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -983,6 +987,20 @@ inline
 void NFmiPressParam::SetOptionLocation(NFmiLocation theLocation)
 {
   itsOptionLocation = new NFmiLocation(theLocation);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Sets the encoding of the parameter in case it is needed as text
+ *
+ * \param theEncoding The given encoding
+ */
+// ----------------------------------------------------------------------
+
+inline
+void NFmiPressParam::SetEncoding(std::string theEncoding)
+{
+  itsEncoding = theEncoding;
 }
 
 // ----------------------------------------------------------------------
