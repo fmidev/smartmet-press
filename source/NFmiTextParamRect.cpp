@@ -105,7 +105,7 @@ bool NFmiTextParamRect::ReadRemaining(void)
 				SetTextAlignment(dir);
 			}
 			else
-			  *itsLogFile << "*** ERROR: Tuntematon kohdistus: "
+			  *itsLogFile << "*** ERROR: Unknown alignment: "
 						  << static_cast<char *>(itsObject)
 						  << endl;
 			ReadNext();
@@ -224,7 +224,7 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		if(itsCurrentNumOfColMaps > maxNumOfColMaps)
 		  {
 			itsCurrentNumOfColMaps = maxNumOfColMaps;
-			*itsLogFile << "*** ERROR: värimuunosten maxlkm ylitetty"  << endl;
+			*itsLogFile << "*** ERROR: number of color mappings exceeded"  << endl;
 			}
 		if (SetFive(itsColorMapping[itsCurrentNumOfColMaps-1].minValue,
 					itsColorMapping[itsCurrentNumOfColMaps-1].maxValue,
@@ -237,7 +237,7 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		else
 		  {
 			itsCurrentNumOfColMaps--;
-			*itsLogFile << "*** ERROR: värimuunoksen lukeminen epäonnistui"  << endl;
+			*itsLogFile << "*** ERROR: reading of color mapping failed"  << endl;
 		  }
 		
 		break;
@@ -248,7 +248,7 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		if(itsCurrentNumOfColMaps > maxNumOfColMaps)
 		  {
 			itsCurrentNumOfColMaps = maxNumOfColMaps;
-			*itsLogFile << "*** ERROR: värimuunosten maxlkm ylitetty"  << endl;
+			*itsLogFile << "*** ERROR: number of color mappings exceeded"  << endl;
 		  }
 		if (SetSix(itsColorMapping[itsCurrentNumOfColMaps-1].minValue,
 				   itsColorMapping[itsCurrentNumOfColMaps-1].maxValue,
@@ -262,7 +262,7 @@ bool NFmiTextParamRect::ReadRemaining(void)
 		else
 		  {
 			itsCurrentNumOfColMaps--;
-			*itsLogFile << "*** ERROR: värimuunoksen lukeminen epäonnistui"  << endl;
+			*itsLogFile << "*** ERROR: reading of color mapping failed"  << endl;
 		  }
 		
 		break;

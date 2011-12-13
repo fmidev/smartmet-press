@@ -205,6 +205,7 @@ public:
   void SetBackupDayReported(void);
   bool IsBackupDayReported(void)const;
   NFmiStationPoint* GetCurrentStationPoint(void)const;
+  void SetReportProseccedNumber(bool theValue);
 protected:
 
   void UnsetAllErrorReported(void);
@@ -282,7 +283,8 @@ protected:
   bool fDayChanged;
   bool fOptimizeGlobalObs;
   bool fBackupDayReported;
-  NFmiStationPoint* itsCurrentStationPoint; 
+  NFmiStationPoint* itsCurrentStationPoint;
+  bool fReportProseccedNumber;
 };
 // ----------------------------------------------------------------------
 /*!
@@ -350,6 +352,7 @@ NFmiPressParam::NFmiPressParam(void)
   , fOptimizeGlobalObs(false)
   , fBackupDayReported(false)
   , itsCurrentStationPoint(0)
+  , fReportProseccedNumber(true)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -409,6 +412,7 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fOptimizeGlobalObs(false)
   , fBackupDayReported(false)
   , itsCurrentStationPoint(0)
+  , fReportProseccedNumber(true)
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -423,6 +427,16 @@ inline
 NFmiStationPoint* NFmiPressParam::GetCurrentStationPoint(void)const
 {
   return itsCurrentStationPoint;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressParam::SetReportProseccedNumber(bool theValue)
+{
+  fReportProseccedNumber = theValue;
 }
 // ----------------------------------------------------------------------
 /*!

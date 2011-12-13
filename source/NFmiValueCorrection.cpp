@@ -52,7 +52,7 @@ bool NFmiValueCorrection::ReadFile(void)
   if(!in)
 	{
 		fMissing = true;
-		*itsLogFile << "*** WARNING: ei Lampokorjaus-tiedostoa" << endl;
+		*itsLogFile << "*** WARNING: ei Lampokorjaus-tiedostoa, is this valid??" << endl;
 		return false;
 	}
 

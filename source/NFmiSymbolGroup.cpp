@@ -467,6 +467,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 			{
 			  Add(tempEPPar);
 			  itsPressParam->SetStationNotNeeded();
+			  itsPressParam->SetReportProseccedNumber(false);
 			}
 			
 			itsIntObject = ConvertDefText(itsString);

@@ -407,7 +407,7 @@ bool NFmiParamRect::ReadRemaining(void)
 		else
 		{
 			if(!SetTwo(long1, long2)  ||  long1 > long2)
-			  *itsLogFile << "*** ERROR: Maksimiajat väärin " << endl;
+			  *itsLogFile << "*** ERROR: Max times incorrect " << endl;
 			else
 			  {
 				SetRelModifierTimes(long1, long2);

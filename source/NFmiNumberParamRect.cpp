@@ -311,12 +311,12 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   if(itsPressParam->IsBackupStation())
   {
 	  if(lastElementStatus)
-	  {
-			*itsLogFile << "  vara-asemaa ei tarvita numerolle" << endl;
+	  {                       
+			*itsLogFile << "  backup station not needed for #Number" << endl;
 		    return true;
 	  }
-	  else
-			*itsLogFile << "  vara-asemaa käytetään numerolle" << endl;
+	  else                    
+			*itsLogFile << "  backup station used for #Number" << endl;
   }
 
   float value;

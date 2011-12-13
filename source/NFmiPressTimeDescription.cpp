@@ -77,27 +77,27 @@ bool NFmiPressTimeDescription::WeekdayDirectiveActive(const string & theDefiniti
 	  str.LowerCase();
 	  if(str == "summer" || str == "kesä")
 		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: kesä"<< endl;
+		  *itsLogFile << "weekday dependency: summer"<< endl;
 		  return in == theSeasons->summer;
 		}
 	  else if(str == "snowperiod" || str == "lumikausi")
 		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: lumikausi"<< endl;
+		  *itsLogFile << "weekday dependency: snowperiod"<< endl;
 		  return in == theSeasons->snow;
 		}
 	  else if(str == "pollenperiod" || str == "siitepölykausi")
 		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: siitepölykausi"<< endl;
+		  *itsLogFile << "weekday dependency: pollen"<< endl;
 		  return in == theSeasons->pollen;
 		}
 	  else if(str == "wintertime" || str == "talviaika")
 		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: talviaika"<< endl;
+		  *itsLogFile << "weekday dependency: winter time"<< endl;
 		  return in == theSeasons->wintertime;
 		}
 	  else if(str == "summertime" || str == "kesäaika")
 		{
-		  *itsLogFile << "viikonpäiväohjauksen riippuvuus: kesäaika"<< endl;
+		  *itsLogFile << "weekday dependency: summer time"<< endl;
 		  return in != theSeasons->wintertime; //HUOM
 		}
 	  else
@@ -250,7 +250,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 #endif
 
 			if(firstLoop)
-				*itsLogFile << "  vapaavalintainen direktiivi: "  
+				*itsLogFile << "  freestyle directive: "  
 						        <<  condition << endl;
 			conditionMode = condition.substr(12, 3);
 			hourCondition = conditionMode == "Hou";
@@ -414,7 +414,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 	  {
 		  string newString = outString.substr(pos, 3);
 
-		  *itsLogFile << "*** ERROR: Määrittelemätön muuttuja: "
+		  *itsLogFile << "*** ERROR: Undefined variable: "
 					  << newString
 					  << endl;
 	  }
@@ -726,7 +726,7 @@ NFmiMetTime NFmiPressTimeDescription::NextUseTime(long relHours, long hourRes, l
   compTime.ChangeByDays(-2); //riittääkö
   compTime.SetHour(static_cast<short>(hourDelta));
   if (compTime >= curTime)
-	*itsLogFile << "*** ERROR: suhteellinen aikaero liian suuri: "
+	*itsLogFile << "*** ERROR: too long time difference: "
 				<< relHours
 				<< endl;
   else
@@ -822,7 +822,7 @@ bool NFmiPressTimeDescription::SetDataHour(NFmiFastQueryInfo * data,
 	  NFmiMetTime saveTime = (static_cast<NFmiQueryInfo *>(data))->Time();
 	  NFmiMetTime tim = saveTime;
 	  if(!(tim.GetHour() == itsFirstPlotHours) )
-		*itsLogFile << "    tunti muutettu pirtoalkiossa: "
+		*itsLogFile << "    hour changed in plot element: "
 					<< itsFirstPlotHours
 					<< " utc"
 					<< endl;
@@ -831,7 +831,7 @@ bool NFmiPressTimeDescription::SetDataHour(NFmiFastQueryInfo * data,
 	  if(!data->Time(tim))
 		{
 		  if(itsLogFile)      
-			*itsLogFile << "*** ERROR: aikaa ei ole: "
+			*itsLogFile << "*** ERROR: missing time: "
 						<< tim
 						<< static_cast<char *>(calledFrom)
 						<< endl;

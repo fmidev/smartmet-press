@@ -3005,7 +3005,10 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 	} //while(time/level Step)
 
   if(itsLogFile)
-	*itsLogFile << "  " << statAll << " stations*times (or levels) processed" << endl;
+	  if(fReportProseccedNumber)
+		 *itsLogFile << "  " << statAll << " stations*times (or levels) processed" << endl;
+	  else
+		 *itsLogFile << "  stations processed" << endl;
 
   long num = itsSymbols.NumOfMissing();
   if(num > 0 && itsLogFile)
