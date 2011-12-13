@@ -1,8 +1,8 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 11.11.8
-Release: 1.el6.fmi
+Version: 11.12.13
+Release: 2.el6.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
@@ -33,6 +33,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Tue Dec 13 2011 oksman <santeri.oksman@fmi.fi> - 11.12.13-2.el5.fmi
+- Still a couple of fixes to encodings
+* Tue Dec 13 2011 oksman <santeri.oksman@fmi.fi> - 11.12.13-1.el5.fmi
+- Lots of changes by Lasse.
+- Now all texts should comply the given encoding. Default is still latin(1).
 * Tue Nov  8 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.11.8-1.el5.fmi
 - Translations to English by Lasse
 * Wed Oct 19 2011 oksman <santeri.oksman@fmi.fi> - 11.10.19-1.el5.fmi
