@@ -500,7 +500,8 @@ int NFmiPsSymbol::ConvertDefText(NFmiString & object)
     NFmiString lowChar = object;
     lowChar.LowerCase();
 	
-	if(lowChar==NFmiString("directory") ||
+	if(lowChar==NFmiString("symbolset") ||
+	   lowChar==NFmiString("directory") ||
 	   lowChar==NFmiString("kuvakansio") ||
 	   lowChar==NFmiString("hakemisto"))
 	  return dSymbolDir;
@@ -510,7 +511,8 @@ int NFmiPsSymbol::ConvertDefText(NFmiString & object)
 			lowChar==NFmiString("tiedosto"))
 	  return dConstantSymbol;
 
-	else if(lowChar==NFmiString("sizefactor") ||
+	else if(lowChar==NFmiString("scale") ||
+		    lowChar==NFmiString("sizefactor") ||
 			lowChar==NFmiString("kokokerroin"))
 	  return dPsRelSize;
 

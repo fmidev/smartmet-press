@@ -229,38 +229,37 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString & retString)
 
 int NFmiPressSameSymbols:: ConvertDefText(NFmiString & object)
 {
-  if(object==NFmiString("Place") ||
-	 object==NFmiString("Paikka"))
+ NFmiString lowChar(object);
+ lowChar.LowerCase(); 
+ 
+ if(lowChar==NFmiString("place") ||
+	 lowChar==NFmiString("paikka"))
 	return dPlace;
 
-  else if(object==NFmiString("#ConstantSymbol") ||
-		  object==NFmiString("#VakioSymboli") ||
-		  object==NFmiString("#Vakiosymboli") ||
-		  object==NFmiString("#Kuva"))
+  else if(lowChar==NFmiString("#fixedsymbol") ||
+	      lowChar==NFmiString("#constantsymbol") ||
+		  lowChar==NFmiString("#vakiosymboli") ||
+		  lowChar==NFmiString("#kuva"))
 	return dPlaceSymbol;
 
-  else if(object==NFmiString("PlaceDefArea") ||
-		  object==NFmiString("PaikkojenMittaAlue") ||
-		  object==NFmiString("Paikkojenmittaalue"))
+  else if(lowChar==NFmiString("placedefarea") ||
+		  lowChar==NFmiString("paikkojenmittaalue"))
 	return dPlaceDefArea;
 
-  else if(object==NFmiString("PlacePlotArea") ||
-		  object==NFmiString("PaikkojenSijoitusAlue") ||
-		  object==NFmiString("Paikkojensijoitusalue"))
+  else if(lowChar==NFmiString("placeplotarea") ||
+		  lowChar==NFmiString("paikkojensijoitusalue"))
 	return dPlacePlotArea;
 
-  else if(object==NFmiString("SubViews") ||
-		  object==NFmiString("SiirtoLukum‰‰r‰") ||
-		  object==NFmiString("Siirtolukum‰‰r‰"))
+  else if(lowChar==NFmiString("subviews") ||
+		  lowChar==NFmiString("siirtolukum‰‰r‰"))
 	return dPlaceSubViews;
 
-  else if(object==NFmiString("StepSize") ||
-		  object==NFmiString("Siirrot"))
+  else if(lowChar==NFmiString("stepsize") ||
+		  lowChar==NFmiString("siirrot"))
 	return dPlaceStepSize;
 
-  else if(object==NFmiString("PlaceTable") ||
-		  object==NFmiString("PaikkaTaulukko") ||
-		  object==NFmiString("Paikkataulukko"))
+  else if(lowChar==NFmiString("placetable") ||
+		  lowChar==NFmiString("paikkataulukko"))
 	return dPlaceTable;
 
   else

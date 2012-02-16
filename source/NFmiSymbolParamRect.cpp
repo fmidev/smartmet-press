@@ -516,7 +516,8 @@ int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("kuvakansio"))
 	  return dSymbolDirectory;
 
-  else if(lowChar==NFmiString("sizefactor") ||
+  else if(lowChar==NFmiString("scale") ||
+	      lowChar==NFmiString("sizefactor") ||
 		  lowChar==NFmiString("kokokerroin"))
 	return dRelSize;
 

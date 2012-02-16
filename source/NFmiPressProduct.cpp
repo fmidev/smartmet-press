@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 16.11.11" << endl;       
+   *itsLogFile << "program version = Release 16.2.12" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -3135,7 +3135,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("mapdefsize") ||
 		  lowChar==NFmiString("mittaalue"))
 	return dMapDefSize;
-  else if(lowChar==NFmiString("sizefactor") ||
+  else if(lowChar==NFmiString("scale") ||
+	      lowChar==NFmiString("sizefactor") ||
 		  lowChar==NFmiString("kokokerroin"))
 	return dProductSizeFactor;
   else if(lowChar==NFmiString("clippingrectangle") ||

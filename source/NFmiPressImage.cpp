@@ -689,7 +689,8 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 	return dImagePlaceMove;
   }
 
-  else if(lowChar==NFmiString("sizefactor") ||
+  else if(lowChar==NFmiString("scale") ||
+	      lowChar==NFmiString("sizefactor") ||
 		  lowChar==NFmiString("kokokerroin"))
 	return dImageSizeFactor;
 

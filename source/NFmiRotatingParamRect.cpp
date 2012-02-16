@@ -119,7 +119,9 @@ int NFmiRotatingParamRect::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("k‰‰nt‰v‰parametri"))
 	return dSecondPar;
 
-  else if(lowChar==NFmiString("notrotinterval") ||
+  else if(lowChar==NFmiString("notrotatingrange") ||
+	      lowChar==NFmiString("notrotrange") ||
+	      lowChar==NFmiString("notrotinterval") ||
 		  lowChar==NFmiString("notrotatinginterval") ||
 		  lowChar==NFmiString("eik‰‰ntyv‰tarvot"))
 	return dNotRotInterval;

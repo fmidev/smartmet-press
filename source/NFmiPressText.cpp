@@ -832,7 +832,8 @@ int NFmiPressText::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("kieli"))
 	return dTextLanguage;
 
-  else if(lowChar==NFmiString("#subconsttext") ||
+  else if(lowChar==NFmiString("#subtext") ||
+	      lowChar==NFmiString("#subconsttext") ||
 		  lowChar==NFmiString("#jatkovakioteksti"))
 	return dSubTextObject;
 

@@ -604,7 +604,7 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 	return dNumber;
 
   else if(lowChar==NFmiString("#letter") ||
-		  lowChar==NFmiString("#text") ||
+		  //lowChar==NFmiString("#text") || = #(constant)text
 		  lowChar==NFmiString("#teksti") ||
 		  lowChar==NFmiString("#kirjain"))
 	return dLetter;
@@ -628,7 +628,8 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("#aurinko"))
 	return dSunTime;
 
-  else if(lowChar==NFmiString("#rotating") ||
+  else if(lowChar==NFmiString("#rotatingsymbol") ||
+	      lowChar==NFmiString("#rotating") ||
 		  lowChar==NFmiString("#k‰‰ntyv‰symboli") ||
 		  lowChar==NFmiString("#k‰‰ntyv‰kuva"))
 	return dRotating;

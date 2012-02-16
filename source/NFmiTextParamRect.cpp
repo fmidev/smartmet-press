@@ -302,7 +302,9 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
   NFmiString lowChar = object;
   lowChar.LowerCase();
 
-  if(lowChar==NFmiString("alignment") ||
+  if(lowChar==NFmiString("textalignment") ||
+	 lowChar==NFmiString("alignment") ||
+	 lowChar==NFmiString("tekstikohdistus")  ||
 	 lowChar==NFmiString("kohdistus"))
 	return dAlignment;
 
@@ -312,6 +314,8 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 	return dFont;
 
   else if(lowChar==NFmiString("size") ||
+	      lowChar==NFmiString("textsize") ||
+	      lowChar==NFmiString("tekstikoko") ||
 		  lowChar==NFmiString("koko"))
 	return dParamSize;
 
@@ -328,7 +332,8 @@ int NFmiTextParamRect::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("lis‰‰eteen"))
 	return dAddTextInFront;
 
-  else if(lowChar==NFmiString("textmapping") ||
+  else if(lowChar==NFmiString("mapping") ||
+	      lowChar==NFmiString("textmapping") ||
 		  lowChar==NFmiString("muunnos") ||
 		  lowChar==NFmiString("tekstimuunnos"))
 	return dTextMapping;

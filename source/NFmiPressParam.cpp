@@ -2267,7 +2267,7 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
 	 lowChar==NFmiString("#symboliryhmä"))
 	return dSymbolGroup;
 
-  else if(lowChar==NFmiString("#image") ||
+  else if(lowChar==NFmiString("#fixedsymbol") ||
 		  lowChar==NFmiString("#kuva") ||
 		  lowChar==NFmiString("#vakiosymboli") ||
 		  lowChar==NFmiString("#vakiokuva"))
