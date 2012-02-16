@@ -513,7 +513,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 					 helpString == NFmiString ("metakieli") ||
 					 helpString.GetChars(1,5) == NFmiString ("magic"))
 			  outMode = kMetaLanguage;
-			else if (helpString == NFmiString ("teksti"))
+			else if (helpString == NFmiString ("teksti") ||
+				     helpString == NFmiString ("text"))
 			  outMode = kPlainText;
 			else if (helpString == NFmiString ("xml"))
 			  outMode = kXml;
@@ -524,6 +525,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct & thePressProduc
 							  << static_cast<char *>(helpString)
 							  << endl;
 			}
+			changed = true;
 
 			ReadNext();
 			break;
@@ -601,8 +603,10 @@ int NFmiPressManager:: ConvertDefText(NFmiString & object)
 	return dManStation;
   
   
-  else if(lowChar==NFmiString("stationandimages") ||
-	      lowChar==NFmiString("asemajaosakuvat"))
+  else if(lowChar==NFmiString("stationandfilenames") ||
+	      lowChar==NFmiString("stationandimages") ||
+		  lowChar==NFmiString("asemajaosakuvat")  ||
+          lowChar==NFmiString("asemajatiedostonimet"))
 	return dManStationAndImages;
   
   else if(lowChar==NFmiString("stationnewnaming") ||

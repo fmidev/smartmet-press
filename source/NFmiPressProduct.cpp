@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 16.2.12" << endl;       
+   *itsLogFile << "program version = Release 16.2.12 B" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2093,7 +2093,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 					 helpString == NFmiString ("metakieli") ||
 					 helpString.GetChars(1,5) == NFmiString ("magic"))
 			  itsOutputMode = kMetaLanguage;
-			else if (helpString == NFmiString ("teksti"))
+			else if (helpString == NFmiString ("teksti") ||
+				     helpString == NFmiString ("text"))
 			  itsOutputMode = kPlainText;
 			else if (helpString == NFmiString ("xml"))
 			  itsOutputMode = kXml;
@@ -3461,7 +3462,10 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	  while (epsFileName)
 		{
 		  numOfEps++;
-		  if(output==kMetaLanguage)
+		  if(output==kPlainText)
+		  {
+		  }
+		  else if(output==kMetaLanguage)
 			{
 			  if(itsNumOfWritePS < 2)
 				{
@@ -3567,8 +3571,9 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	  // **************************************
 	  // vakiopaikat, jotka ennen segmenttejä
 	  // **************************************
-	  if(!WriteSameSymbols(true, output))
-		return false;
+	  if(output != kPlainText)
+		if(!WriteSameSymbols(true, output))
+			return false;
 
 //	  if(itsCurrentDataIter) // kaatuu ilman dataa; 2.03 ei enää kaadukaan
 		{
@@ -3614,8 +3619,9 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 	  // vakiopaikat jotka segmenttien jälkeen
 	  // **********************************************
 
-	  if(!WriteSameSymbols(false, output))
-		return false;
+	  if(output != kPlainText)
+		if(!WriteSameSymbols(false, output))
+			return false;
 
 	  // *******************************************************
 	  // norm.objektit(myös osakuvat), jotka jälkeen segmenttejä

@@ -70,7 +70,6 @@ NFmiPsSymbol * NFmiPsSymbol::Clone(void) const
 
 bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 {
-
 #ifdef UNIX
   string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
   tmpDir += kFmiDirectorySeparator;
@@ -596,6 +595,10 @@ bool NFmiPsSymbol::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 bool NFmiPsSymbol::WritePS(FmiPressOutputMode theOutput)
 {
   ScalePlotting();
+  
+  if(theOutput == kPlainText)
+	  return true;
+  
   if (CopyShortSymbol2Dest()) //itsSymbol
 	{
 	  return isTrue;

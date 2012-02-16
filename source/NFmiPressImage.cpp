@@ -741,6 +741,9 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 
 bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 {
+if(theOutput == kPlainText)
+	return true;
+
 #ifdef UNIX
   bool precedingElementMissing = false;
 #else
