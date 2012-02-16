@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 16.2.12 B" << endl;       
+   *itsLogFile << "program version = Release 16.2.12 C" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -3087,7 +3087,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datafile") ||
 		  lowChar==NFmiString("data"))
 	return dDataFile;
-  else if(lowChar==NFmiString("yeardatafile") ||
+  else if(lowChar==NFmiString("yeardata") ||
+	      lowChar==NFmiString("yeardatafile") ||
 		  lowChar==NFmiString("vuosidata"))
 	return dYearDataFile;
   else if(lowChar==NFmiString("newestdatafile") ||
@@ -3096,7 +3097,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("datafilewithtimestamp") ||
 		  lowChar==NFmiString("dataaikaleimalla"))
 	return dDataFileTimeStamp;
- else if(lowChar==NFmiString("mandatorydatafile") ||
+ else if( lowChar==NFmiString("mandatorydata") ||
+	      lowChar==NFmiString("mandatorydatafile") ||
 		  lowChar==NFmiString("pakollinendata"))
 	return dMandatoryDataFile;
   else if(lowChar==NFmiString("maskfile") ||
@@ -3187,7 +3189,8 @@ int NFmiPressProduct:: ConvertDefText(NFmiString & object)
   else if(lowChar==NFmiString("#weekday") ||
 		  lowChar==NFmiString("#viikonpäivä"))
 	return dWeekdayDir;
-  else if(lowChar==NFmiString("alldatafilescritical") ||
+  else if(lowChar==NFmiString("datafilescritical") ||
+	      lowChar==NFmiString("alldatafilescritical") ||
 		  lowChar==NFmiString("pakollisetdatatiedostot"))
 	return dAllDataFilesCritical;
   else if(lowChar==NFmiString("datafilesnotcritical") ||
