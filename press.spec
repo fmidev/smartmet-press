@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 12.2.17
+Version: 12.2.27
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Tools
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Feb 27 2012 oksman <santeri.oksman@fmi.fi> - 12.2.27-1.el6.fmi
+- New RPM for RHEL6. Contains fix for time zones in Latvia. Removed -DBOOST_DISABLE_THREADS flag from Makefile.
 * Fri Feb 17 2012 oksman <santeri.oksman@fmi.fi> - 12.2.17-1.el6.fmi
 - New RPM for RHEL6. Contains fixes made by Lasse.
 * Tue Dec 13 2011 oksman <santeri.oksman@fmi.fi> - 11.12.13-2.el5.fmi
