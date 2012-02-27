@@ -1,8 +1,8 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 11.12.13
-Release: 2.el6.fmi
+Version: 12.2.17
+Release: 1.el6.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
@@ -33,6 +33,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Fri Feb 17 2012 oksman <santeri.oksman@fmi.fi> - 12.2.17-1.el6.fmi
+- New RPM for RHEL6. Contains fixes made by Lasse.
 * Tue Dec 13 2011 oksman <santeri.oksman@fmi.fi> - 11.12.13-2.el5.fmi
 - Still a couple of fixes to encodings
 * Tue Dec 13 2011 oksman <santeri.oksman@fmi.fi> - 11.12.13-1.el5.fmi
