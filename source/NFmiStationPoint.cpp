@@ -384,12 +384,16 @@ float NFmiStationPoint::GetWmoDifference(void) const
 	  {
 		zoneDifferenceHour = 2;
 	  }
-  else if( wmoCode == 26038 || wmoCode == 26422)//Tallinna,Riika,Vilna?
+  else if( wmoCode >= 26229 && wmoCode < 26551) //Latvia, pienin/suurin WMO:n taulukosta 
 	{
 	  zoneDifferenceHour = 2;
-	  //	  useSummerTime = false; //17.3.2000, ensi kesänä baltia ei enää kesäajassa; 11.4.2002 taas kesäajassa
 	}	  
   else if( wmoCode == 26629)//Tallinna,Riika,Vilna?
+	{
+	  zoneDifferenceHour = 2;
+	  useSummerTime = false;    //17.3.2000, ensi kesänä baltia ei enää kesäajassa ENTÄ 2002??
+	}	  
+else if( wmoCode == 26629)//Tallinna,Riika,Vilna?
 	{
 	  zoneDifferenceHour = 2;
 	  useSummerTime = false;    //17.3.2000, ensi kesänä baltia ei enää kesäajassa ENTÄ 2002??
