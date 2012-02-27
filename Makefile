@@ -42,7 +42,7 @@ specfile = /smartmet/src/redhat/SPECS/$(CWD).spec
 rpmsourcedir = /smartmet/src/redhat/SOURCES
 rpmerr = "There's no spec file ($(specfile)). RPM wasn't created. Please make a spec file or copy and rename it into $(specfile)"
 
-DEFINES = -DUNIX -DBOOST_DISABLE_THREADS
+DEFINES = -DUNIX
 
 MAINFLAGS = -Wall -W -Wno-unused-parameter
 
@@ -83,7 +83,9 @@ LIBS = -L$(libdir) \
 	-lboost_system \
 	-lboost_regex \
 	-lboost_iostreams \
-	-lboost_filesystem
+	-lboost_filesystem \
+	-lboost_thread \
+	-lpthread
 
 # Common library compiling template
 
@@ -164,7 +166,7 @@ objdir:
 rpm: clean
 	if [ -e $(BIN).spec ]; \
 	then \
-	  tar -C ../ -cf $(rpmsourcedir)/smartmet-$(BIN).tar $(BIN) ; \
+	  tar --exclude-vcs -C ../ -cf $(rpmsourcedir)/smartmet-$(BIN).tar $(BIN) ; \
 	  gzip -f $(rpmsourcedir)/smartmet-$(BIN).tar ; \
 	  rpmbuild -ta $(rpmsourcedir)/smartmet-$(BIN).tar.gz ; \
 	else \
