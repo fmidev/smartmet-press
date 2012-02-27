@@ -651,7 +651,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 	}
     else
 	{
-	  string msg = string("Teksti ei löydy: ")+dataFile.CharPtr();
+	  string msg = string("Text not found: ")+dataFile.CharPtr();
 	  *itsLogFile << endl << "  *** ERROR: " << msg << endl;
 	  errors.push_back(msg);
 	  retString = itsString;

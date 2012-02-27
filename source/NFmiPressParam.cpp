@@ -2171,7 +2171,7 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
   {
  	 NFmiStationPoint station(NFmiStation(1, "Helsinki", 25., 60.), NFmiPoint(100.,100.));
 	 itsStations.AddLocation(station, false);
-	 *itsLogFile << "   *** WARNING: #pressparam segment created a dummy station since there are non in the definition itself"  << endl;
+	 *itsLogFile << "   *** WARNING: #Segment created a dummy station since there are none in the definition itself"  << endl;
  }
 
   if(timeOrLevelTableSet) // ei voi asettaa yllä pääluupissa koska ekan aseman paikkaa ei välttämättä tiedä

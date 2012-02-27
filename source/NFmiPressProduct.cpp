@@ -1459,7 +1459,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 27.2.12 " << endl;       
+   *itsLogFile << "program version = Release 27.2.12 B" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1838,9 +1838,9 @@ bool NFmiPressProduct::ReadQueryData(NFmiQueryData * theQD,char * fileName)
   if(NFmiFileSystem::DirectoryExists(filename))
 	{
 	  const string file = NFmiFileSystem::NewestFile(filename);
-	  *itsLogFile << "  Hakemiston '"
+	  *itsLogFile << "  In the directory '"
 				  << filename
-				  << "' uusin tiedosto on '"
+				  << "' the newest file is '"
 				  << file
 				  << "'"
 				  << endl;
