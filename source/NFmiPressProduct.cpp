@@ -858,6 +858,8 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString & theStationNam
 		}
 	}
     unsigned long wmo = itsNameToLonLat->FindWmo(theStationName);
+
+	*itsLogFile << "WMO=" << wmo << endl; //bbbbb
 	if(wmo == 0 && theStationName != NFmiString("None"))
 	{
 		*itsLogFile << "  WARNING: "
@@ -1459,7 +1461,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 27.2.12 B" << endl;       
+   *itsLogFile << "program version = Release 2.3.2012" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);

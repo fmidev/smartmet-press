@@ -3198,7 +3198,7 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint& theStation)
 	  // piirto-olioon, jossa lat/longilla haetaan interpoloiden tai lähintä pistettä,
 	  // täältä onnistuu vain lähin piste
 
-	   return true;
+	   return true;  
 	  // return (itsData->Location(theStation.GetLocation()));
    }
    return false;

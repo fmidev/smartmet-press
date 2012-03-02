@@ -248,7 +248,8 @@ bool NFmiStationPoint:: LocalTime(NFmiTime & utc, int & errorCode)
   //           3=wmo annettu mutta puuttuu oliolta eikä longitudiakaan ole
   //           4=     - " -                       , käytetty longitudia 
 {
-  errorCode = 0;	
+  errorCode = 0;
+  
   if(GetIdent() > 1000) //mwo-nro tunnettu
 	{
 	  if(LocalWmoTime(utc))
@@ -355,6 +356,7 @@ float NFmiStationPoint::GetWmoDifference(void) const
   bool useSummerTime = true;
   
   int wmoCode = GetIdent();
+
   float zoneDifferenceHour = -100; //Lasse
   //**** EUROOPPA
   if((wmoCode >= 3000 && wmoCode < 4000) ||	//Englanti,Irlanti

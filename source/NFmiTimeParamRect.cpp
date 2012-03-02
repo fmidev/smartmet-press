@@ -12,6 +12,7 @@
 #include "NFmiPressProduct.h"
 #include "NFmiTimeParamRect.h"
 #include "NFmiPressParam.h"
+#include "NFmiLocationFinder.h" 
 #include <iostream>
 
 using namespace std;
@@ -309,7 +310,7 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
   //2.3.2000 StationPoint hallitsee lokaaliajat (wmo-nro ja longitudi)
   // joita myös tarvitaan auringon lasku/nousuissa
   itsStationPoint = NFmiStationPoint(itsPressParam->GetCurrentStation(), NFmiPoint(0.,0.));
-
+  
   if(!PointParam(theQI))
 	return isFalse;
   if(!SetRelativeHour(theQI,NFmiString("#TimeText")))
@@ -321,11 +322,17 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
   NFmiString timeString; // = pTime.ToStr(itsFormat,itsLanguage);
 
-
-  //aina local time piirtoalkioissa (vrt segmentti ja tuote missä ei)
 	int errCode;
 
 	NFmiStationPoint tempStationPoint(itsStationPoint);
+    
+	//aina pitäisi olla localTime piirtoalkioissa (vrt segmentti ja tuote missä ei)
+	if(tempStationPoint.Station()->GetIdent() < 1000)  //oletuksena on numeroitu 1->
+	{
+ 		long wmo = itsPressParam->GetPressProduct()->itsNameToLonLat
+			        ->FindWmo(tempStationPoint.Station()->GetName()); 
+		tempStationPoint.SetIdent(wmo);
+	}
 
 	if(fFinnishTimezone)
 			tempStationPoint.SetLongitude(25.);
