@@ -348,6 +348,7 @@ bool  NFmiSymbolGroup::ReadDescription(NFmiString & retString)
 		case dConstText:
 		  {
 			psObject = new NFmiPressText;
+			psObject->SetEnvironment(itsEnvironment);
 			psObject->SetHome(GetHome());
 			psObject->SetLogFile(itsLogFile);
 			psObject->SetDescriptionFile(itsDescriptionFile);
