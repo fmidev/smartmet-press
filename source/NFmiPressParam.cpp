@@ -1185,7 +1185,6 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			text->SetPressParam(this);
 			text->SetLanguage(itsLanguage);
 			text->SetNewNames(newNames);
-			text->SetEncoding(itsEncoding);
 			text->Place(firstUnscaledPoint);
 			// tarvitaankohan
 			point1 = itsCurrentStationScale.Scale(text->Place());
@@ -1226,7 +1225,6 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsTimeDepObjects.Add(text);
 			else
@@ -1250,7 +1248,6 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			text->SetData(itsDataIter);
 			text->SetLanguage(itsLanguage);
 			text->Place(firstUnscaledPoint);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  {
 				text->ScalePlotting();
@@ -1287,7 +1284,6 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			text->SetLanguage(itsLanguage);
 			text->SetTime(itsFirstPlotTime);
 			text->Place(firstUnscaledPoint);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  {
 				text->ScalePlotting();
@@ -2117,7 +2113,6 @@ bool NFmiPressParam::ReadDescription(NFmiString & retString)
 			itsDayChangeText->SetDescriptionFile(itsDescriptionFile);
 			itsDayChangeText->SetLanguage(itsLanguage);
 			itsDayChangeText->Place(firstUnscaledPoint);
-			itsDayChangeText->SetEncoding(itsEncoding);
 			// tarvitaankohan
 			//point1 = itsCurrentStationScale.Scale(text->Place());
 			//text->Place(point1);

@@ -139,7 +139,6 @@ protected:
   //std::vector<NFmiHyphenationString> itsNextTexts;
   std::vector<NFmiPressText> itsNextTexts;
   bool fNarrowColumn;
-  std::string itsEncoding;
 }; // class NFmiPressText
 
 // ----------------------------------------------------------------------
@@ -174,7 +173,6 @@ NFmiPressText::NFmiPressText()
 {
   itsSubText = 0;
   itsLanguage = kFinnish;
-  itsEncoding = "latin";
 } 
 
 // ----------------------------------------------------------------------
@@ -334,29 +332,6 @@ void NFmiPressText::SetLanguage(FmiLanguage theLanguage)
 {
   itsLanguage=theLanguage;
 }
-
-// ----------------------------------------------------------------------
-/*!
- * Sets the used encoding to print out to the eps
- *
- * \param theEncoding given encoding string
- */
-// ----------------------------------------------------------------------
-
-inline
-void NFmiPressText::SetEncoding(std::string encoding)
-{
-  itsEncoding = encoding;
-}
-
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
 
 inline
 FmiLanguage NFmiPressText::GetLanguage(void)

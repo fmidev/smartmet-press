@@ -1163,7 +1163,8 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 		  else
 			text = hypString.ReplaceChar(NFmiString("-"), NFmiString("\\255")); // Illu8ssa "-" ei mene l‰pi ??
                                                                                 // h‰vitt‰‰ yhden merkin pituiset
-		  *itsOutFile << rect.Height() << " select" << itsEncoding << "font" << endl;
+
+		  *itsOutFile << rect.Height() << " select" << GetEncoding() << "font" << endl;
 		}
 	  else
 	  {
@@ -1311,7 +1312,7 @@ bool NFmiPressText::WriteString(const NFmiString & commentString,
 							<< static_cast<char *>(actualFont)
 							<< " /" << static_cast<char *>(actualFont)
 							<< "_" << endl;
-						*itsOutFile << actualHeight << " select" << itsEncoding << "font" << endl;
+					    *itsOutFile << actualHeight << " select" << GetEncoding() << "font" << endl;
 						lastFont = actualFont;
 						lastHeight = actualHeight;
 					}

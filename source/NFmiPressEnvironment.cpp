@@ -40,6 +40,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment & theOther
   , fCV(theOtherEnvironment.fCV)
   , fAvoidOrphanSyllables(theOtherEnvironment.fAvoidOrphanSyllables)
   , fUseBackupPreviousDay(theOtherEnvironment.fUseBackupPreviousDay)
+  , itsEncoding(theOtherEnvironment.itsEncoding)
 {
 }
 

@@ -116,6 +116,7 @@ public:
 	void SetOnlyForMissingPrecedingElementFlag(bool theFlag);  
     bool IsSegmentMove(void)const;
 	bool BlockLatinFont(const NFmiString& font) const; 
+    std::string GetEncoding(void)const;
 
 
 protected:
@@ -210,6 +211,18 @@ NFmiPressDescription::NFmiPressDescription(std::ofstream * theLogFile,
 	fOnlyForMissingPrecedingElement= false;
 }	 
 
+// ----------------------------------------------------------------------
+/*!
+ * Sets the encoding of the parameter in case it is needed as text
+ *
+ * \param theEncoding The given encoding
+ */
+// ----------------------------------------------------------------------
+inline
+std::string NFmiPressDescription::GetEncoding(void) const
+{
+  return itsEnvironment.GetEncoding();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

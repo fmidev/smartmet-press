@@ -88,6 +88,8 @@ public:
   bool AvoidOrphanSyllables(void) const;
   void UseBackupPreviousDay(bool theMode);
   bool UseBackupPreviousDay(void)const;
+  void SetEncoding(std::string theEncoding);
+  std::string GetEncoding(void)const;
 private:
 
   unsigned long itsMaskNumber;
@@ -103,6 +105,7 @@ private:
   bool fCV;
   bool fAvoidOrphanSyllables;
   bool fUseBackupPreviousDay;
+  std::string itsEncoding;
 }; // class NFmiPressEnvironment
 
 // ----------------------------------------------------------------------
@@ -118,6 +121,7 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
   , fLongNumberMinus(false)
   , itsAdditionalDayAdvance(0)
   , fCV(false)
+  , itsEncoding("latin")
 {
   //HUOM vain jompikumpi värijärjestelmä
   itsGenericColor.color.cmyk.cyan = 0.;
@@ -137,6 +141,30 @@ NFmiPressEnvironment::NFmiPressEnvironment(void)
 	itsSymbolSizeFactor = 1.;
 	fAvoidOrphanSyllables = false;
 	fUseBackupPreviousDay = false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Sets the encoding of the parameter in case it is needed as text
+ *
+ * \param theEncoding The given encoding
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressEnvironment::SetEncoding(std::string theEncoding)
+{
+  itsEncoding = theEncoding;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Sets the encoding of the parameter in case it is needed as text
+ *
+ * \param theEncoding The given encoding
+ */
+// ----------------------------------------------------------------------
+inline
+std::string NFmiPressEnvironment::GetEncoding(void) const
+{
+  return itsEncoding;
 }
 // ----------------------------------------------------------------------
 /*!

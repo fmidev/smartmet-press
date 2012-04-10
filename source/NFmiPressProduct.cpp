@@ -74,7 +74,6 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsLastElementStatus.number = true;
   itsLastElementStatus.text = true;
   itsTempCorrection = new NFmiValueCorrection();
-  itsEncoding = "latin";
 }
 
 // ----------------------------------------------------------------------
@@ -1461,7 +1460,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 5.3.2012" << endl;       
+   *itsLogFile << "program version = Release 10.4.2012" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -2680,7 +2679,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			newParam->SetLanguage(itsLanguage);
 			newParam->SetTime(itsFirstPlotTime);
 			newParam->SetNewGeoArea(itsArea);
-			newParam->SetEncoding(itsEncoding);
 			if(newParam->ReadDescription(itsString))
 			  {
 				itsParams.Add(newParam);
@@ -2768,7 +2766,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
-			text->SetEncoding(itsEncoding);
 			//text->SetTime(itsFirstPlotTime);
 			if(text->ReadDescription(itsString))
 			{
@@ -2805,7 +2802,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2827,7 +2823,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2851,7 +2846,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetTime(itsFirstPlotTime);
 			text->SetLanguage(itsLanguage);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2884,7 +2878,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetPostText(NFmiString("+18"));
 			text->SetLanguage(itsLanguage);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2906,7 +2899,6 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 		    text->SetLogFile(itsLogFile);
 			text->SetDescriptionFile(itsDescriptionFile);
 			text->SetLanguage(itsLanguage);
-			text->SetEncoding(itsEncoding);
 			if(text->ReadDescription(itsString))
 			  itsObjects.Add(text);
 			else
@@ -2965,7 +2957,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString & retString)
 			  {
 				break;
 			  }
-			itsEncoding = ReadString();
+			SetEncoding(std::string(ReadString()));
 			ReadNext();
 			break;
 		  }

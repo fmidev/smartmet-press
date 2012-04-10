@@ -510,15 +510,18 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 		  isHyphen = false; //ei siis en‰‰
 	  }
      */ 
-	  if (fUseSelectLatinFont) // && !isHyphen)
+
+	if (fUseSelectLatinFont) // && !isHyphen)
 		{
-		  theDestinationFile << "/"
+
+	      theDestinationFile << "/"
 							 << static_cast<char *>(GetFont())
 							 << " /" << static_cast<char *>(GetFont())
 							 << "_"
 							 << endl;
+
 		  theDestinationFile << numberRect.Height()
-							 << " select"+itsEncoding+"font"
+							 << " select"+GetEncoding()+"font"
 							 << endl;
 		}
 		

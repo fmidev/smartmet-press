@@ -36,8 +36,8 @@ NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void)
 
 NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(const NFmiExtremePlaceParamRect & theExtremePlaceParamRect)
   : NFmiTextParamRect(theExtremePlaceParamRect)
-{  	
-}
+{
+}                      
 
 // ----------------------------------------------------------------------
 /*!

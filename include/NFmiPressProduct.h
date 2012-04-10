@@ -183,8 +183,8 @@ protected:
   void StepMap(void);
   void Scale(void);
 
- private:
-
+private:
+  void SetEncoding(std::string theEncoding);
   bool ReadQueryData(NFmiQueryData * theQD, char * fileName);
   bool ConstructOutFileName(void);
   bool WriteScalingObjects(bool doPreSegments, FmiPressOutputMode theOutput);
@@ -262,10 +262,21 @@ private:
   bool fSupplementMode;
   FmiElementStatus itsLastElementStatus;
   NFmiValueCorrection* itsTempCorrection;
-  std::string itsEncoding;
 }; // class NFmiPressProduct
 
 
+// ----------------------------------------------------------------------
+/*!
+ * Sets the encoding of the parameter in case it is needed as text
+ *
+ * \param theEncoding The given encoding
+ */
+// ----------------------------------------------------------------------
+inline
+void NFmiPressProduct::SetEncoding(std::string theEncoding)
+{
+  itsEnvironment.SetEncoding(theEncoding);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -127,7 +127,6 @@ protected:
   bool fFirstUpperCase;  
   unsigned long itsMaxLen;
   bool fFillWithUnderscore;
-  std::string itsEncoding;
 }; 
 
 
@@ -152,7 +151,6 @@ NFmiTextParamRect::NFmiTextParamRect(void)
   , fFirstUpperCase(false)
   , itsMaxLen(0)
   , fFillWithUnderscore(false)
-  , itsEncoding("latin")
 {
 }
 

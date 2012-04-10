@@ -286,7 +286,6 @@ protected:
   bool fBackupDayReported;
   NFmiStationPoint* itsCurrentStationPoint;
   bool fReportProseccedNumber;
-  std::string itsEncoding;
 };
 // ----------------------------------------------------------------------
 /*!
@@ -355,7 +354,6 @@ NFmiPressParam::NFmiPressParam(void)
   , fBackupDayReported(false)
   , itsCurrentStationPoint(0)
   , fReportProseccedNumber(true)
-  , itsEncoding("latin")
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -416,7 +414,6 @@ NFmiPressParam::NFmiPressParam(const NFmiRectScale & scale,
   , fBackupDayReported(false)
   , itsCurrentStationPoint(0)
   , fReportProseccedNumber(true)
-  , itsEncoding("latin")
 {
   itsLanguage=kFinnish;
   itsOptionTime.SetMissing();
@@ -988,28 +985,6 @@ void NFmiPressParam::SetOptionLocation(NFmiLocation theLocation)
 {
   itsOptionLocation = new NFmiLocation(theLocation);
 }
-
-// ----------------------------------------------------------------------
-/*!
- * Sets the encoding of the parameter in case it is needed as text
- *
- * \param theEncoding The given encoding
- */
-// ----------------------------------------------------------------------
-
-inline
-void NFmiPressParam::SetEncoding(std::string theEncoding)
-{
-  itsEncoding = theEncoding;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theLocation Undocumented
- */
-// ----------------------------------------------------------------------
 
 inline
 void NFmiPressParam::DeleteOptionLocation(void)
