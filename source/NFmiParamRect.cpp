@@ -2026,10 +2026,12 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 						itsInterval2NumberValue : value;
 
   if (itsValueIntervalMin != kFloatMissing && (!(itsInterval2NumberMin != kFloatMissing && value == itsInterval2NumberValue)))
-	if(itsValueIntervalMin < itsValueIntervalMax)
+	{
+	  if(itsValueIntervalMin < itsValueIntervalMax)
 		value = itsValueIntervalMin <= value && value <= itsValueIntervalMax ? value : kFloatMissing;
-	else
+	  else
 		value = itsValueIntervalMax >= value || value >= itsValueIntervalMin ? value : kFloatMissing;
+	}
 
   if(itsCurrentPar == kFmiTemperature && (value > 58. || value < -90.))
 	value = kFloatMissing;
