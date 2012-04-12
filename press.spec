@@ -1,14 +1,14 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 12.2.27
-Release: 1.el6.fmi
+Version: 12.4.12
+Release: 1.el5.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 11.11.8-1
+BuildRequires: libsmartmet-newbase >= 12.4.12-1
 Provides: qdpress
 
 %description
@@ -33,6 +33,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Thu Apr 12 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.4.12-1.el.fmi
+- Newbase fixed Swedish weekday names encoding
+* Tue Apr 10 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.4.10-1.el.fmi
+- Fixed encoding setting to be global
+* Mon Feb 27 2012 oksman <santeri.oksman@fmi.fi> - 12.2.27-2.el6.fmi
+- Some log messages translated to English.
 * Mon Feb 27 2012 oksman <santeri.oksman@fmi.fi> - 12.2.27-1.el6.fmi
 - New RPM for RHEL6. Contains fix for time zones in Latvia. Removed -DBOOST_DISABLE_THREADS flag from Makefile.
 * Fri Feb 17 2012 oksman <santeri.oksman@fmi.fi> - 12.2.17-1.el6.fmi
