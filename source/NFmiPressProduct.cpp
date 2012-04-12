@@ -1072,7 +1072,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 			  if(boolGiven && !undef)
 				{
 				  itsSeasonsStatus->editdata = status;
-				  *itsLogFile << "  Forced editor data: editor "<< static_cast<char *>(statusString) << endl;
+				  *itsLogFile << "  Forced data (obsolete on Linux): editor "<< static_cast<char *>(statusString) << endl;
 				  if(ownComputer)
 				  {
 					  itsSeasonsStatus->editdataOwn = true;
@@ -1154,7 +1154,7 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
 	  int dayshift = static_cast<int>(NFmiSettings::Require<int>("press::dayshift"));
 	  itsSeasonsStatus->dayAdvance = dayshift; //tarvitaanko missään tässä
 	  itsEnvironment.SetDayAdvance(itsSeasonsStatus->dayAdvance);
-	  *itsLogFile << "  Ennakko pakotettu: "<< dayshift << endl;
+	  *itsLogFile << "  Advance-day forced: "<< dayshift << endl;
 	}
   
   itsSeasonsStatus->pollenOrSnow = itsSeasonsStatus->pollen || itsSeasonsStatus->snow;
@@ -1460,7 +1460,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 10.4.2012" << endl;       
+   *itsLogFile << "program version = Release 12.4.2012" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -3533,7 +3533,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 					  NFmiWritePSEnd(outFile);
 					}
 				  if(itsLogFile)
-					*itsLogFile << "Pohja kopioitu: "
+					*itsLogFile << "Background copied: "
 								<< static_cast<char *>(fullEpsFileName)
 								<< endl;
 				}
