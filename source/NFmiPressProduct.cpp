@@ -3886,8 +3886,13 @@ bool NFmiPressProduct::ConstructOutFileName(void)
   itsOutFile += NFmiString("/");
   
 #ifdef UNIX
-  itsOutFile += getProductName();
-  itsOutFile += NFmiString("/");
+
+  if(NFmiSettings::Optional<bool>("press::appendproduct",true))
+	{
+	  itsOutFile += getProductName();
+	  itsOutFile += NFmiString("/");
+	}
+
   // Create the output directory if it doesn't exist already
   try 
     {
