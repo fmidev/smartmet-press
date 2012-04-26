@@ -2261,7 +2261,6 @@ int NFmiPressParam::ConvertDefText(NFmiString & object)
   if(lowChar==NFmiString("#symbolgroup") ||
      lowChar==NFmiString("#params") ||
 	 lowChar==NFmiString("#parameters") ||
-     lowChar==NFmiString("#symboliryhmä") ||
 	 lowChar==NFmiString("#dataalkiot") ||
 	 lowChar==NFmiString("#parametrit") ||
 	 lowChar==NFmiString("#symboliryhmä"))
