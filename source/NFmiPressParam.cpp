@@ -3016,8 +3016,11 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
   if(num > 0 && itsLogFile)
   {
     string msg;
-	NFmiValueString valString(num); 
-	if(GetFirstDeltaDays() <= 1) //ei niin vakavaa
+	NFmiValueString valString(num);
+	//NFmiMetTime now;
+
+	if(GetFirstDeltaDays() <= 0)  // miksi oli <= 1  
+	//	GetFirstDeltaDays() == 0 && now.GetHour() >= GetFirstPlotHours()) 
 	{
 		msg = static_cast<char *>(valString) + string(" missing observation data");
 		*itsLogFile << "  WARNING: " << msg << endl;
