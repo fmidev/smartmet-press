@@ -1316,7 +1316,6 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 	  origHome = NFmiString("(Env. variable)");
 	}
 #else
-  //fmiString = NFmiSettings::Require<string>("press::oldpath");
   fmiString = NFmiSettings::Require<string>("press::path");
   origHome = NFmiString("(press.conf)");
 #endif
@@ -1335,7 +1334,6 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   ifstream endFile(endFileName, ios::in|ios::in);
   if(!endFile)
 	{
-	  // Mikan korjaus ja Lassen muutos siihen
 	  cout << "** Home directory "
 		   << GetHome().GetCharPtr()
 		   << " missing**" <<  endl;
@@ -1344,16 +1342,6 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 	  return false;
 	}
 #endif
-	  /*
-#ifndef UNIX
-
-#else
-	  cout << "  tai oltava $HOME/LehtiAuto" <<  endl;
-#endif
-	  return false;
-	}
-	  */
-
 
 #ifndef UNIX
   hChar = getenv("lehtiLokiDir");
@@ -1419,7 +1407,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 //*******
    NFmiString retString;
    NFmiString origInputFileName = inputFile;
-   itsInFileName = inputFileName.Header(); //27.8.02 skriptistä kun kutsutaan tulee muuten koko polku
+   itsInFileName = inputFileName.Header(); 
 
    NFmiFileString tempInput;
    tempInput = GetHome();
@@ -1460,7 +1448,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  
    NFmiString writeString = inputFileName.Header();	
    *itsLogFile << "** " << static_cast<char *>(writeString) << " **"<< endl;
-   *itsLogFile << "program version = Release 11.6.2012" << endl;       
+   *itsLogFile << "program version = Release 19.6.2012" << endl;       
    *itsLogFile << "Home dir " << static_cast<char *>(origHome) << ": " << static_cast<char *>(GetHome())  << endl;
 
    string inputStdName(origInputFileName);
@@ -1617,9 +1605,7 @@ bool NFmiPressProduct::ReadData(void)
 			path = nData->GetName();
 			std::string theFoundFileName;
 			NFmiFileSystem::FindFile(path, true, &theFoundFileName);
-			//cout << theFoundFileName << endl;
 			dataFile2 = nData->GetName();
-            //unsigned long pos = dataFile2.Search(NFmiString("ke"));
 			dataFile = dataFile2.Device();
 			dataFile += dataFile2.Path();
 			dataFile += NFmiString(theFoundFileName);
@@ -1674,15 +1660,11 @@ bool NFmiPressProduct::ReadData(void)
 
 					dir = dataPath;
 					dir += "\\";
-					//path = dir;
-					//dir += "PAL_Scand_Local.sqd";
 					dir += "PAL_Scand15km_Local.sqd";
 					fileTime = NFmiFileSystem::FindFile(dir, true, &theFoundFileName);
-					//dir += theFoundFileName;
 
 				    dirRemote = "O:\\data\\in\\";
 					pathRemote = dirRemote;
-					//pathRemote += "PAL_Scand_*DB*.sqd";
 					pathRemote += "PAL_Scand15km_*DB*.sqd";
 					fileTimeRemote = NFmiFileSystem::FindFile(pathRemote, true, &theFoundFileNameRemote);
 					dirRemote += theFoundFileNameRemote;
@@ -1693,7 +1675,6 @@ bool NFmiPressProduct::ReadData(void)
                        copyOk = NFmiFileSystem::CopyFile(dirRemote, dir);
 						if(copyOk)
 						{
-							//*itsLogFile << "  tuoreempi data kopioitu PAL_Scand_Localiksi:" << endl;
 							*itsLogFile << "  tuoreempi data kopioitu PAL_Scand15km_Localiksi:" << endl;
 						    *itsLogFile << "    " << theFoundFileNameRemote << endl;
 						}
@@ -1703,35 +1684,8 @@ bool NFmiPressProduct::ReadData(void)
 					}
 					dataFile = NFmiString(dir);
 
-/*
-					dir = dataPath;
-					dir += "\\";
-					path = dir;
-					path += "PAL_Scand*DB*";
-					fileTime = NFmiFileSystem::FindFile(path, true, &theFoundFileName);
-					if (fileTime == 0)
-					{
-						dir = "O:\\data\\in\\";
-						path = dir;
-						path += "PAL_Scand*DB*";
-						fileTime = NFmiFileSystem::FindFile(path, true, &theFoundFileName);
-						dir += theFoundFileName;
-						dataFile = NFmiString(dir);
-					}
-					else
-					{
-						dir += theFoundFileName;
-						dataFile = NFmiString(dir);
-					}
-*/
+
 			  }
-/*
-			path = dir;
-			path += "PAL_Scand*DB*";
-			fileTime = NFmiFileSystem::FindFile(path, true, &theFoundFileName);
-			dir += theFoundFileName;
-			dataFile = NFmiString(dir);
-*/
 		  }
 	  }
 
