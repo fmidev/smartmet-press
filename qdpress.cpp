@@ -50,6 +50,7 @@ void usage()
 	   << "  -p productname" << endl
 	   << "  -h pressdir\t(default from press::path)" << endl
 	   << "  -o outdir\t(default from press::outpath)" << endl
+	   << "  -n\tdisable appending product name to outdir" << endl
 	   << "  -l logdir\t(default from press::logpath)" << endl
 	   << "  -L logfile" << endl
 	   << "  -s dayshift" << endl
@@ -65,7 +66,7 @@ int domain(int argc, const char ** argv)
 {
 
 #ifdef UNIX
-  NFmiCmdLine cmdLine(argc,argv,"c!p!h!o!l!L!s!");
+  NFmiCmdLine cmdLine(argc,argv,"nc!p!h!o!l!L!s!");
 #else
   NFmiCmdLine cmdLine(argc,argv,"h!o!l!");
 #endif
@@ -163,6 +164,12 @@ int domain(int argc, const char ** argv)
 #endif	 
 	}
 
+#ifdef UNIX
+  if(cmdLine.isOption('n'))
+	NFmiSettings::Set("press::appendproduct","false");
+  else
+	NFmiSettings::Set("press::appendproduct","true");
+#endif
   
   NFmiFileString descriptionFile(cmdLine.Parameter(1));
   
