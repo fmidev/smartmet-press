@@ -667,7 +667,8 @@ int NFmiPressImage::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("hakemisto"))
 	return dImageDir;
 
-  else if(lowChar==NFmiString("rotatefirst") ||
+  else if(lowChar==NFmiString("rotationfirst") ||
+	      lowChar==NFmiString("rotatefirst") ||
 		  lowChar==NFmiString("kiertoensin"))
 	return dRotateFirst;
 

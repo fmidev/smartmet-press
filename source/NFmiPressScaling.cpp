@@ -204,7 +204,8 @@ int NFmiPressScaling::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("suhteellinenpaikka"))
 	return dPsPlaceMove;
 
-  else if(lowChar==NFmiString("rotate") ||
+  else if(lowChar==NFmiString("rotation") ||
+	      lowChar==NFmiString("rotate") ||
 		  lowChar==NFmiString("kierto"))
 	return dRotate;
 

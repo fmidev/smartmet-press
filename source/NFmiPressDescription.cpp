@@ -356,6 +356,7 @@ int NFmiPressDescription::ConvertDefText(NFmiString & object)
 		  lowChar==NFmiString("cmykväri"))
 	return dColor;
   else if(lowChar==NFmiString("symbolset") ||
+		  lowChar==NFmiString("symbolisetti") || 
 		  lowChar==NFmiString("kuvakansio") || 
 		  lowChar==NFmiString("symbolikansio"))
 	return dDescSymbolSet;
