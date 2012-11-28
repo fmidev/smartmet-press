@@ -42,6 +42,8 @@ specfile = /smartmet/src/redhat/SPECS/$(CWD).spec
 rpmsourcedir = /smartmet/src/redhat/SOURCES
 rpmerr = "There's no spec file ($(specfile)). RPM wasn't created. Please make a spec file or copy and rename it into $(specfile)"
 
+rpmexcludevcs := $(shell tar --help | grep -m 1 -o -- '--exclude-vcs')
+
 DEFINES = -DUNIX
 
 MAINFLAGS = -Wall -W -Wno-unused-parameter
@@ -166,7 +168,7 @@ objdir:
 rpm: clean
 	if [ -e $(BIN).spec ]; \
 	then \
-	  tar -C ../ -cf $(rpmsourcedir)/smartmet-$(BIN).tar $(BIN) ; \
+	  tar $(rpmexcludevcs) -C ../ -cf $(rpmsourcedir)/smartmet-$(BIN).tar $(BIN) ; \
 	  gzip -f $(rpmsourcedir)/smartmet-$(BIN).tar ; \
 	  rpmbuild -ta $(rpmsourcedir)/smartmet-$(BIN).tar.gz ; \
 	else \
