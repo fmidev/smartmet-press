@@ -2,7 +2,7 @@
 Summary: press binary
 Name: smartmet-%{BINNAME}
 Version: 12.8.6
-Release: 1.el6.fmi
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
@@ -34,7 +34,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
-* Mon Aug  6 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.8.6-1.el6.fmi
+* Mon Aug  6 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.8.6-1.fmi
 - Keyword translations added by Lars Winberg
 * Fri Apr 13 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.4.13-2.el6.fmi
 - Recompiled with newbase to get latin1 month names and time phrases
