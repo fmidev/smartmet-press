@@ -92,8 +92,7 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
   if(itsInFile->good() && !itsInFile->eof())
 	{
 	  WritePSConcat();
-	  bool ok;
-	  ok = CopyPsFile();
+      CopyPsFile();	// for some reason the return value is ignored here
 	  WritePSEnd();
 	  itsInFile->close();
 	  itsInFile->clear();
