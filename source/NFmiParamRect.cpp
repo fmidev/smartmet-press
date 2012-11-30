@@ -1864,7 +1864,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo * theQueryInfo, float& value)
 					  {
 						if(areaModif)
 						  {
-							if(itsPressParam->GetAreaMask() > 0)
+							if(itsPressParam->GetAreaMask())
 							  {
 								//oikeastaan turha testi nyt jos aina SupersmartInfo
 								if (NFmiString(theQueryInfo->ClassName()) != NFmiString("NFmiSuperSmartInfo"))
@@ -2156,9 +2156,11 @@ void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float&
 			float plotValue = static_cast<float>(help) * itsEquiDistance;
 	        int dirInd = -1;
 
+#if 0
 			bool notSmallClosed = false; //aivan pienet suljetut k‰ppyr‰t jotka kuitenkin 
 			                          //j‰‰v‰t numeron alle hyl‰t‰‰n
 			float smallDist = 4.;     //;eli jos et‰isyys alle 4 pistett‰ joka suuntaan  
+#endif
 
 			for(int i =0; i<4; i++)
 			{
@@ -2171,8 +2173,10 @@ void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float&
 						minDist = curDist;
 						dirInd = i;
 					}
+#if 0
 					if(curDist > smallDist)
 						notSmallClosed =  true;
+#endif
 				}
 				else if(plotValue > value && plotValue < distValue)
 				{
@@ -2182,8 +2186,10 @@ void NFmiParamRect:: JustifyConturPlace(NFmiFastQueryInfo * theQueryInfo, float&
 						minDist = curDist;
 						dirInd = i;
 					}
+#if 0
 					if(curDist > smallDist)
 						notSmallClosed =  true;				
+#endif
 				}
 			}
 			if(dirInd == 0)
