@@ -538,12 +538,15 @@ bool NFmiTextParamRect::WriteCode(const NFmiString & theText,
 	  bool firstIs226 = locText.GetLen() > 3
 		&& NFmiString(locText.GetCharsPtr(1,4)).IsEqual(longMinus);
 
+#if 0
 	  bool boldFont = false;
 	  unsigned long lenFont = GetFont().GetLen();
+
 	  if(GetFont() == NFmiString("FranklinGothic-Roman") ||
          GetFont().GetChars(lenFont-3, 4) == NFmiString("Bold") ||
          GetFont().GetChars(lenFont-4, 5) == NFmiString("Black"))
-		 boldFont = true;
+		  boldFont = true;
+#endif
 
 	  bool secondIs226 = locText.GetLen() > 4
 		&& NFmiString(locText.GetCharsPtr(2,4)).IsEqual(longMinus); //suluissa pitkä miinus tai numeroväli 

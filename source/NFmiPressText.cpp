@@ -98,7 +98,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
   itsIntObject = ConvertDefText(itsString);
   bool oneMarginSet = false;
   itsText = new NFmiString("ERROR");
-  bool textGiven = false;
+  // bool textGiven = false;
   NFmiString headerFont("None");
   double headerSize(0.);
   NFmiString mainHeaderFont("None");
@@ -185,7 +185,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 			//itsText = new NFmiString(ReadString());
 			*itsText = ReadString();
-			textGiven = true;
+			// textGiven = true;
 
 			ReadNext();
 			break;
@@ -407,7 +407,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			if (!ReadEqualChar())
 			  break;
 			textFile = ReadString();
-            textGiven = true;
+            // textGiven = true;
 
 		    ReadNext();
 			break;
@@ -418,7 +418,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 
             textDir = ReadString();
-            textGiven = true;
+            // textGiven = true;
 
 			ReadNext();
 			break;
@@ -430,7 +430,7 @@ bool NFmiPressText::ReadDescription(NFmiString & retString)
 			  break;
 
             textPath = ReadString();
-            textGiven = true;
+            // textGiven = true;
 
 			ReadNext();
 			break;

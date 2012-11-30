@@ -746,7 +746,7 @@ if(theOutput == kPlainText)
 	return true;
 
 #ifdef UNIX
-  bool precedingElementMissing = false;
+// bool precedingElementMissing = false;
 #else
   extern bool precedingElementMissing;
 #endif
@@ -805,11 +805,11 @@ if(theOutput == kPlainText)
 #endif
 	  errors.push_back(msg);
 	  *itsLogFile << "*** ERROR: " << msg << endl;
-	  precedingElementMissing = true;
+	  // precedingElementMissing = true;
 	}
   else
 	{
-	  precedingElementMissing = false;
+	  // precedingElementMissing = false;
 
 	  // int size = itsClippingPoints.size();
 

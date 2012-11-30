@@ -160,7 +160,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 
   itsMultiMapping = 0;
   bool symbDirGiven = false;
-  bool symbSizeGiven = false;
+  // bool symbSizeGiven = false;
   double xh,yh;
   xh = yh = 1.;
 
@@ -283,7 +283,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
 
 			if(ReadOne(x))
 			  {
-			    symbSizeGiven = true;
+			    // symbSizeGiven = true;
 				//xh = yh = 1.;
 				if(x>0.)
 				  xh = x;
