@@ -1,14 +1,14 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 12.8.6
+Version: 13.1.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 12.7.23-1
+BuildRequires: libsmartmet-newbase >= 13.1.16-1
 Provides: qdpress
 
 %description
@@ -34,6 +34,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Jan 16 2013 mheiskan <mika.heiskanen@fmi.fi> - 13.1.16-1.fmi
+- Recompiled due to a bug fix in newbase NFmiLocationFinder
 * Mon Aug  6 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.8.6-1.fmi
 - Keyword translations added by Lars Winberg
 * Fri Apr 13 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.4.13-2.el6.fmi
