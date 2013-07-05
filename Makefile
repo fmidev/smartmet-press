@@ -89,7 +89,7 @@ LIBS = -L$(libdir) \
 	-lboost_iostreams \
 	-lboost_filesystem \
 	-lboost_thread \
-	-lpthread
+	-lpthread -lrt
 
 # Common library compiling template
 
