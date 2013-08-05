@@ -144,8 +144,11 @@ bool NFmiStationPoint::ReadDescription(NFmiString & retString)
 		  }
 		case dLonLat:		  
 		  {
+			double lon, lat;
 			*itsDescriptionFile >> ch;
-			*itsDescriptionFile >> itsLongitude >> itsLatitude;
+			*itsDescriptionFile >> lon >> lat;
+			SetLongitude(lon);
+			SetLatitude(lat);
 			
 			*itsDescriptionFile >> object;
 			str = object;
@@ -154,8 +157,10 @@ bool NFmiStationPoint::ReadDescription(NFmiString & retString)
 		  }
 		case dLatitude:
 		  {
+			double lat;
 			*itsDescriptionFile >> ch;
-			*itsDescriptionFile >> itsLatitude;
+			*itsDescriptionFile >> lat;
+			SetLatitude(lat);
 			
 			*itsDescriptionFile >> object;
 			str = object;
@@ -164,8 +169,10 @@ bool NFmiStationPoint::ReadDescription(NFmiString & retString)
 		  }
 		case dLongitude:
 		  {
+			double lon;
 			*itsDescriptionFile >> ch;
-			*itsDescriptionFile >> itsLongitude;
+			*itsDescriptionFile >> lon;
+			SetLongitude(lon);
 			
 			*itsDescriptionFile >> object;
 			str = object;

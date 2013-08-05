@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 13.1.16
+Version: 13.8.5
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -34,6 +34,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Aug  5 2013 mheiskan <mika.heiskanen@fmi.fi> - 13.8.5-1.fmi
+- Do not show units in texts if the value is "-"
 * Wed Jan 16 2013 mheiskan <mika.heiskanen@fmi.fi> - 13.1.16-1.fmi
 - Recompiled due to a bug fix in newbase NFmiLocationFinder
 * Mon Aug  6 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.8.6-1.fmi

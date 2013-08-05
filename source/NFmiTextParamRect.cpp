@@ -685,8 +685,30 @@ NFmiString NFmiTextParamRect::Construct(NFmiString * theString) const
   retString += str;
   if(fAddStationName)
 	  retString += itsPressParam->GetCurrentStation().GetName();
+
   if(itsAddAfter.IsValue())
-	retString += itsAddAfter;
+	{
+	  if(retString == "-" || retString == "\226")	// long dash
+		{
+		  // Do now show "- C" or "- mm", just "-"
+		  if(itsAddAfter == "m" ||
+			 itsAddAfter == "_m" ||
+			 itsAddAfter == "cm" ||
+			 itsAddAfter == "_cm" ||
+			 itsAddAfter == "mm" ||
+			 itsAddAfter == "_mm" ||
+			 itsAddAfter == "\260" ||	// deg
+			 itsAddAfter == "m/s")
+			{
+			}
+		  else
+			{
+			  retString += itsAddAfter;
+			}
+		}
+	  else
+		retString += itsAddAfter;
+	}
   
   if (!fFillWithUnderscore)
 	retString.ReplaceChars(NFmiString("_"), NFmiString(" "));

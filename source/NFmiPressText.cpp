@@ -1371,7 +1371,28 @@ NFmiString NFmiPressText::Construct(NFmiString * theString) const
 	retString += itsAddInFront;
   retString += str;
   if(itsAddAfter.IsValue())
-	retString += itsAddAfter;
+	{
+	  if(retString == "-" || retString == "\226")	// long dash
+		{
+		  // Do now show "- C" or "- mm", just "-"
+		  if(itsAddAfter == "m" ||
+			 itsAddAfter == "_m" ||
+			 itsAddAfter == "cm" ||
+			 itsAddAfter == "_cm" ||
+			 itsAddAfter == "mm" ||
+			 itsAddAfter == "_mm" ||
+			 itsAddAfter == "\260" ||	// deg
+			 itsAddAfter == "m/s")
+			{
+			}
+		  else
+			{
+			  retString += itsAddAfter;
+			}
+		}
+	  else
+		retString += itsAddAfter;
+	}
 
   if(itsSubText)
 	{
