@@ -409,7 +409,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 	file.close();
 	file.clear();
 
-	  unsigned long pos = outString.find("$#");
+	  size_t pos = outString.find("$#");
 	  if (pos != string::npos)
 	  {
 		  string newString = outString.substr(pos, 3);
