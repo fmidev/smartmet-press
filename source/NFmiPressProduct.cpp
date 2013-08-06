@@ -3739,8 +3739,9 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
   //kutsutaan kahteen kertaan: ennen ja jälkeen segmenttien
 #ifdef UNIX
   bool precedingElementMissing = false;
-#else
-  extern bool precedingElementMissing;
+#else // _MSC_VER en tiedä mistä tämä precedingElementMissing -muuttuja on winkkarilla määrätty, joten otan muuttujan käyttöön tässä
+//  extern bool precedingElementMissing;
+  bool precedingElementMissing = false;
 #endif
 
 
