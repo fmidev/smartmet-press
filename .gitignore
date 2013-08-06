@@ -1,3 +1,9 @@
 obj
 Dependencies
 qdpress
+*.suo
+*.ncb
+*.sdf
+*.aps
+*.vcproj.*
+*.vcxproj.*
