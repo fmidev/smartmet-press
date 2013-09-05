@@ -84,11 +84,11 @@ LIBS = -L$(libdir) \
 	-lsmartmet_newbase \
 	-lz \
 	-lbz2 \
-	-lboost_system \
-	-lboost_regex \
-	-lboost_iostreams \
-	-lboost_filesystem \
-	-lboost_thread \
+	-lboost_system-mt\
+	-lboost_regex-mt\
+	-lboost_iostreams-mt\
+	-lboost_filesystem-mt\
+	-lboost_thread-mt \
 	-lpthread -lrt
 
 # Common library compiling template
