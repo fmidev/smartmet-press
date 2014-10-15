@@ -405,6 +405,12 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string & inFileName,
 
 	string outString = prePr.GetString();
 	ofstream file(outFileName.c_str());
+	if(!file)
+	  {
+		*itsLogFile << "*** ERROR: Failed to save preprocessed file to '" << outFileName.c_str() << "'" << std::endl;
+		return false;
+	  }
+
 	file << outString ;
 	file.close();
 	file.clear();

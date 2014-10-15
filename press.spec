@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 13.8.5
+Version: 14.10.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -34,6 +34,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Oct 15 2014 Mika Heiskanen <mika.heiskanen@fmi.fi> - 14.10.15-1.fmi
+- Failing to write the preprocessed file to disk is now a fatal error
 * Mon Aug  5 2013 mheiskan <mika.heiskanen@fmi.fi> - 13.8.5-1.fmi
 - Do not show units in texts if the value is "-"
 * Wed Jan 16 2013 mheiskan <mika.heiskanen@fmi.fi> - 13.1.16-1.fmi

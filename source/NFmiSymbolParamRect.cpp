@@ -469,7 +469,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
  
   SetPostReadingTimes();
 
-  SetIdent(NFmiDataIdent(NFmiParam(itsIdentPar),240)); // joku NFmiProducer(itsProducer)
+  SetIdent(NFmiDataIdent(NFmiParam(itsIdentPar),NFmiProducer(240))); // joku NFmiProducer(itsProducer)
 
   DoPostReading();
 

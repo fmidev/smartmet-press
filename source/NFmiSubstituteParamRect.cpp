@@ -163,7 +163,7 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString & retString)
   //flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
-  Set(NFmiDataIdent(NFmiParam(itsIdentPar),240), NFmiRect(itsRelRect));
+  Set(NFmiDataIdent(NFmiParam(itsIdentPar),NFmiProducer(240)), NFmiRect(itsRelRect));
 
   retString = itsString;
   return true;

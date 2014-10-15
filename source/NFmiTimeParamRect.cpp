@@ -249,7 +249,7 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString & retString)
 
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);
-  Set(NFmiDataIdent(NFmiParam(itsIdentPar),240/*=dummy NFmiProducer(itsProducer)*/)
+  Set(NFmiDataIdent(NFmiParam(itsIdentPar),NFmiProducer(240) /*=dummy */)
 	  ,NFmiRect(itsRelRect));
 
   retString = itsString;

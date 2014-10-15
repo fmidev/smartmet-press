@@ -241,7 +241,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString & retString)
 
   if(fNewScaling)
 	itsRelRect += NFmiPoint(1.,1.);
-  Set(NFmiDataIdent(NFmiParam(itsIdentPar),240),NFmiRect(itsRelRect));
+  Set(NFmiDataIdent(NFmiParam(itsIdentPar),NFmiProducer(240)),NFmiRect(itsRelRect));
 
   retString = itsString;
   return true;
