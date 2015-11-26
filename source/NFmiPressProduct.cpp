@@ -1807,34 +1807,16 @@ bool NFmiPressProduct::ReadQueryData(NFmiQueryData * theQD,char * fileName)
   if(filename.empty())
 	return false;
 
-  std::ifstream dataFile(filename.c_str(), ios::in | ios::binary);
-
-  if(dataFile.good() && !dataFile.eof())
+  // Use memory mapping to speed up processing
+  try
 	{
-	  // Asetaan poikkeutuskäsittely
-	  // tänne voisi yhdistää testin yllä (ifit pois)
-	  try
-		{
-		  dataFile >> *theQD;
-		}
-	  catch(char * msg)          //virheen sattuessa jatketaan tästä suoritusta
-		{
-		  if(itsLogFile)
-			*itsLogFile << "  " << msg << endl;
-
-		  dataFile.close();
-		  dataFile.clear();
-		  return false;
-		}
-
-	  dataFile.close();
-	  dataFile.clear();
+	  NFmiQueryData tmpqd(filename);
+	  tmpqd.swap(*theQD);
 	}
-  else
+  catch(...)
 	{
 	  return false;
 	}
-
   return true;
 }
 

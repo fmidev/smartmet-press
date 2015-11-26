@@ -1,7 +1,7 @@
 %define BINNAME press
 Summary: press binary
 Name: smartmet-%{BINNAME}
-Version: 14.10.15
+Version: 15.11.26
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -30,10 +30,12 @@ make %{_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root,0775)
+%defattr(0775,root,root,-)
 %{_bindir}/qdpress
 
 %changelog
+* Thu Nov 26 2015 Mika Heiskanen <mika.heiskanen@fmi.fi> - 15.11.26-1.fmi
+- Use memory mapped querydata for speed
 * Wed Oct 15 2014 Mika Heiskanen <mika.heiskanen@fmi.fi> - 14.10.15-1.fmi
 - Failing to write the preprocessed file to disk is now a fatal error
 * Mon Aug  5 2013 mheiskan <mika.heiskanen@fmi.fi> - 13.8.5-1.fmi
