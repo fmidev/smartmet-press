@@ -26,7 +26,7 @@
  * itse nimi. Samalle p‰iv‰lle voi antaa 1-n kappaletta
  * nimi‰. Nimip‰iv‰ kysyt‰‰n oliolta MetTime:lla tuloksen ollessa
  * muotoa "Kari, Karri". Tuloksen voi rajoittaa nimien lukum‰‰r‰n tai
- * merkkim‰‰r‰n mukaan. Karkausp‰iv‰lle ei voi antaa arvoa. 
+ * merkkim‰‰r‰n mukaan. Karkausp‰iv‰lle ei voi antaa arvoa.
  *
  * Soveltuu myˆs muihin samankaltaisiin teht‰viin.
  *
@@ -44,37 +44,33 @@
 
 struct FmiTempCorrections
 {
-	NFmiString stationName;
-	float dayCorr;
-	float nightCorr;
+  NFmiString stationName;
+  float dayCorr;
+  float nightCorr;
 };
 //! Undocumented
-class _FMI_DLL NFmiValueCorrection 
+class _FMI_DLL NFmiValueCorrection
 {
-
-public:
-
+ public:
   NFmiValueCorrection(void);
   virtual ~NFmiValueCorrection(void);
-  void SetFiles(const std::string & theFile, std::ofstream * theLogFile);
+  void SetFiles(const std::string& theFile, std::ofstream* theLogFile);
   bool IsRead(void);
   bool IsMissing(void);
-  bool CorrectValue(float& thevalue, const NFmiString& theStation,
-								bool dayTime);
-private:
-    //bool ReadFile(const NFmiString & theFileName);  
-  bool ReadFile(void);  
+  bool CorrectValue(float& thevalue, const NFmiString& theStation, bool dayTime);
 
-private:
+ private:
+  // bool ReadFile(const NFmiString & theFileName);
+  bool ReadFile(void);
+
+ private:
   std::string itsFile;
-  std::ofstream* itsLogFile;       
+  std::ofstream* itsLogFile;
   std::vector<FmiTempCorrections> itsTempCorrections;
   bool fRead;
   bool fMissing;
 
-}; // class NFmiValueCorrection
-
-
+};  // class NFmiValueCorrection
 
 // ----------------------------------------------------------------------
 /*!
@@ -82,8 +78,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiValueCorrection::NFmiValueCorrection(void)
+inline NFmiValueCorrection::NFmiValueCorrection(void)
 {
   fRead = false;
   fMissing = false;
@@ -97,12 +92,7 @@ NFmiValueCorrection::NFmiValueCorrection(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiValueCorrection::IsRead(void)
-{
-  return fRead;
-}
-
+inline bool NFmiValueCorrection::IsRead(void) { return fRead; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -111,12 +101,7 @@ bool NFmiValueCorrection::IsRead(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiValueCorrection::IsMissing(void)
-{
-return fMissing;
-}
-
-#endif // NFMIVALUECORRECTION_H
+inline bool NFmiValueCorrection::IsMissing(void) { return fMissing; }
+#endif  // NFMIVALUECORRECTION_H
 
 // ======================================================================

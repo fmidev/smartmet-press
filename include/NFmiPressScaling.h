@@ -9,7 +9,7 @@
  *
  * PS-tuotteiden skaalaukset hallitaan t‰st‰ luokasta.
  * Koska t‰m‰ on peritty luokista NFmiDescription ja NFmiPsWriting
- * on t‰m‰ perusluokka kaikille ps-olioille ja hallitsee 
+ * on t‰m‰ perusluokka kaikille ps-olioille ja hallitsee
  *
  *  - ps-koodin kirjoittamisen
  *  - m‰‰rittelytiedoston lukemisen
@@ -50,27 +50,25 @@ enum NFmiPressScalingObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressScaling : public NFmiPressTimeDescription,
-								  public NFmiPsWriting
+class _FMI_DLL NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
 {
-public:
-
+ public:
   virtual ~NFmiPressScaling(void);
   NFmiPressScaling(void);
-  NFmiPressScaling(const NFmiPressScaling & thePsSymbol);
-  
-  virtual int ConvertDefText(NFmiString & object);
-  virtual bool ReadDescription(NFmiString & retString) = 0;
-  virtual bool ReadRemaining(void);        
-  virtual bool WritePS(const NFmiPoint & thePoint, FmiPressOutputMode theOutput);
+  NFmiPressScaling(const NFmiPressScaling& thePsSymbol);
+
+  virtual int ConvertDefText(NFmiString& object);
+  virtual bool ReadDescription(NFmiString& retString) = 0;
+  virtual bool ReadRemaining(void);
+  virtual bool WritePS(const NFmiPoint& thePoint, FmiPressOutputMode theOutput);
   virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
-  bool SetSize(const NFmiPoint & theSize);
+  bool SetSize(const NFmiPoint& theSize);
   bool SetHeight(double theHeight);
-  double GetHeight(void)const; 
-  bool Set( NFmiRectScale & theRectScale, std::ofstream & theDestinationFile);
-  bool SetScale(const NFmiRectScale & theRectScale);
-  void Place(const NFmiPoint & thePlace);
+  double GetHeight(void) const;
+  bool Set(NFmiRectScale& theRectScale, std::ofstream& theDestinationFile);
+  bool SetScale(const NFmiRectScale& theRectScale);
+  void Place(const NFmiPoint& thePlace);
   virtual void Move(const NFmiPoint& addPlace);
   NFmiPoint Place(void);
   void SetPrintOnceOn(void);
@@ -81,40 +79,36 @@ public:
   virtual void SetLastLineStep(double step);
   virtual void SetLanguage(FmiLanguage newLanguage);
   virtual void ChangeByHours(long hours);
-  virtual bool HasSubText(void)const;
-  bool AddTimeStamp(NFmiString & theGivenFile,
-					const NFmiString & theTimeFormat=NFmiString("DDMM")) const;
-  NFmiPoint GetMovePlace(void)const;
+  virtual bool HasSubText(void) const;
+  bool AddTimeStamp(NFmiString& theGivenFile,
+                    const NFmiString& theTimeFormat = NFmiString("DDMM")) const;
+  NFmiPoint GetMovePlace(void) const;
 
-protected:           
-
+ protected:
   virtual void ScalePlotting(void);
   NFmiFileString CreatePath(NFmiString defaultDir,
-							NFmiString givenPath,
-							NFmiString givenDir,
-							NFmiString givenFile,
-							NFmiString extension = NFmiString());
+                            NFmiString givenPath,
+                            NFmiString givenDir,
+                            NFmiString givenFile,
+                            NFmiString extension = NFmiString());
 
-  int GetTimestampDayGap(void) const {return itsTimestampDayGap;}; 
-  bool AddValidTimeTimeStamp(NFmiString & theFile,
-									 const NFmiString & theFormat,
-									 const NFmiPressTime & theValidTime) const;
+  int GetTimestampDayGap(void) const { return itsTimestampDayGap; };
+  bool AddValidTimeTimeStamp(NFmiString& theFile,
+                             const NFmiString& theFormat,
+                             const NFmiPressTime& theValidTime) const;
 
-private:
-  
-protected:
-
-  NFmiRectScale itsRectScale; //koko kartta, tulee vasta writePs;ss‰
-  NFmiRect itsRelArea;   
-  NFmiPoint itsRectSize;  
-  NFmiPoint itsPlace;  
-  NFmiPoint itsMovePlace;  //siirtym‰  
-  bool fPrintOnce;		// pakotettu kerran-vain-tulostus
-  bool fScaleNotPlace;	// DataAlkio-j‰senet tarvii jotta ei kahteen kertaan siirrett‰isi
+ private:
+ protected:
+  NFmiRectScale itsRectScale;  // koko kartta, tulee vasta writePs;ss‰
+  NFmiRect itsRelArea;
+  NFmiPoint itsRectSize;
+  NFmiPoint itsPlace;
+  NFmiPoint itsMovePlace;  // siirtym‰
+  bool fPrintOnce;      // pakotettu kerran-vain-tulostus
+  bool fScaleNotPlace;  // DataAlkio-j‰senet tarvii jotta ei kahteen kertaan siirrett‰isi
   int itsTimestampDayGap;
 
-}; // class NFmiPressScaling
-
+};  // class NFmiPressScaling
 
 // ----------------------------------------------------------------------
 /*!
@@ -122,16 +116,15 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressScaling::NFmiPressScaling(void)
-  : NFmiPressTimeDescription()
-  , itsRelArea(NFmiPoint(0.,0.), NFmiPoint(1.,1.))
-  , itsRectSize(40.,40.)
-  , itsPlace(NFmiPoint(0.,0.))
-  , itsMovePlace(NFmiPoint(0.,0.))
-  , fPrintOnce(false)
-  , fScaleNotPlace(false)
-  , itsTimestampDayGap(kShortMissing)
+inline NFmiPressScaling::NFmiPressScaling(void)
+    : NFmiPressTimeDescription(),
+      itsRelArea(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
+      itsRectSize(40., 40.),
+      itsPlace(NFmiPoint(0., 0.)),
+      itsMovePlace(NFmiPoint(0., 0.)),
+      fPrintOnce(false),
+      fScaleNotPlace(false),
+      itsTimestampDayGap(kShortMissing)
 {
 }
 
@@ -144,11 +137,7 @@ NFmiPressScaling::NFmiPressScaling(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-  NFmiPoint NFmiPressScaling::GetMovePlace(void)const
-{
-  return itsMovePlace;
-}
+inline NFmiPoint NFmiPressScaling::GetMovePlace(void) const { return itsMovePlace; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -158,11 +147,7 @@ inline
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressScaling::HasSubText(void)const
-{
-  return false;
-}
+inline bool NFmiPressScaling::HasSubText(void) const { return false; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -172,12 +157,7 @@ bool NFmiPressScaling::HasSubText(void)const
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
-{
-  return true;
-}
-
+inline bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput) { return true; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -186,10 +166,7 @@ bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressScaling::ChangeByHours(long hours)
-{
-}
+inline void NFmiPressScaling::ChangeByHours(long hours) {}
 // ---------------------------------------------------------------------
 /*!
  * Undocumented
@@ -199,11 +176,7 @@ void NFmiPressScaling::ChangeByHours(long hours)
  */
 // ---------------------------------------------------------------------
 
-inline
-double NFmiPressScaling::GetHeight(void)const 
-{
-  return itsRectSize.Y();
-}
+inline double NFmiPressScaling::GetHeight(void) const { return itsRectSize.Y(); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -212,8 +185,7 @@ double NFmiPressScaling::GetHeight(void)const
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-inline
-bool NFmiPressScaling::SetHeight(double theHeight) 
+inline bool NFmiPressScaling::SetHeight(double theHeight)
 {
   itsRectSize.Y(theHeight);
   return isTrue;
@@ -227,8 +199,7 @@ bool NFmiPressScaling::SetHeight(double theHeight)
  */
 // ---------------------------------------------------------------------
 
-inline
-bool NFmiPressScaling::SetSize(const NFmiPoint & theSize) 
+inline bool NFmiPressScaling::SetSize(const NFmiPoint& theSize)
 {
   itsRectSize = theSize;
   return isTrue;
@@ -242,12 +213,7 @@ bool NFmiPressScaling::SetSize(const NFmiPoint & theSize)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressScaling::Place(const NFmiPoint & thePlace)
-{
-  itsPlace = thePlace;
-}
-
+inline void NFmiPressScaling::Place(const NFmiPoint& thePlace) { itsPlace = thePlace; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -256,12 +222,7 @@ void NFmiPressScaling::Place(const NFmiPoint & thePlace)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressScaling::Move(const NFmiPoint & addPlace)
-{
-  itsPlace += addPlace;
-}
-
+inline void NFmiPressScaling::Move(const NFmiPoint& addPlace) { itsPlace += addPlace; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -270,36 +231,21 @@ void NFmiPressScaling::Move(const NFmiPoint & addPlace)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPoint NFmiPressScaling::Place(void)
-{
-  return itsPlace;
-}
-
+inline NFmiPoint NFmiPressScaling::Place(void) { return itsPlace; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressScaling::SetPrintOnceOn(void)
-{
-  fPrintOnce=true;
-}
-
+inline void NFmiPressScaling::SetPrintOnceOn(void) { fPrintOnce = true; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressScaling::ScaleNotPlace(void)
-{
-  fScaleNotPlace=true;
-}
-
+inline void NFmiPressScaling::ScaleNotPlace(void) { fScaleNotPlace = true; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -308,12 +254,7 @@ void NFmiPressScaling::ScaleNotPlace(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressScaling::GetPrintOnce(void)
-{
-return fPrintOnce;
-}
-
+inline bool NFmiPressScaling::GetPrintOnce(void) { return fPrintOnce; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -322,12 +263,7 @@ return fPrintOnce;
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressScaling::IsInParagraph(void)
-{
-return false;
-}
-
+inline bool NFmiPressScaling::IsInParagraph(void) { return false; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -336,12 +272,7 @@ return false;
  */
 // ----------------------------------------------------------------------
 
-inline
-double NFmiPressScaling::GetLineStep(void) const
-{
-  return 0.;
-}
-
+inline double NFmiPressScaling::GetLineStep(void) const { return 0.; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -350,11 +281,7 @@ double NFmiPressScaling::GetLineStep(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressScaling::SetLastLineStep(double lineStep)
-{
-}
- 
+inline void NFmiPressScaling::SetLastLineStep(double lineStep) {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -363,13 +290,7 @@ void NFmiPressScaling::SetLastLineStep(double lineStep)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressScaling::SetLanguage(FmiLanguage theLanguage)
-{
-}
-
-#endif // NFMIPRESSSCALING_H
+inline void NFmiPressScaling::SetLanguage(FmiLanguage theLanguage) {}
+#endif  // NFMIPRESSSCALING_H
 
 // ======================================================================
-
-

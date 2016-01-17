@@ -22,48 +22,43 @@
 enum NFmiNumberParamRectObjects
 {
   dFormat = 27,
-  dZeroMinus     ,
+  dZeroMinus,
   dDetachSign,
   dDotToComma = 1027
 };
 
-
 //! Undocumented
 class _FMI_DLL NFmiNumberParamRect : public NFmiTextParamRect
 {
-public:
-
+ public:
   virtual ~NFmiNumberParamRect(void);
 
   NFmiNumberParamRect(void);
-  NFmiNumberParamRect(const NFmiNumberParamRect & theNumberParamRect); 
-  
-  virtual bool ReadDescription(NFmiString & retString);
+  NFmiNumberParamRect(const NFmiNumberParamRect& theNumberParamRect);
+
+  virtual bool ReadDescription(NFmiString& retString);
   virtual bool ReadRemaining(void);
-  virtual NFmiParamRect * Clone(void) const; 
-  int ConvertDefText(NFmiString & object);
-  
-  virtual bool WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
-					   NFmiFastQueryInfo * theQI,
-					   std::ofstream & theDestinationFile,
-					   FmiPressOutputMode theOutput);
+  virtual NFmiParamRect* Clone(void) const;
+  int ConvertDefText(NFmiString& object);
 
-private:
+  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+                       NFmiFastQueryInfo* theQI,
+                       std::ofstream& theDestinationFile,
+                       FmiPressOutputMode theOutput);
 
-  NFmiString DetachSign(const NFmiString & theString, float theValue) const;
+ private:
+  NFmiString DetachSign(const NFmiString& theString, float theValue) const;
 
-protected:
-
+ protected:
   FmiGenericColor MapColor(void) const;
-  
-protected:              
-  
+
+ protected:
   NFmiString itsFormat;
   bool fZeroMinus;
   bool fDetachSign;
   bool fDotToComma;
 
-}; // class NFmiNumberParamRect
+};  // class NFmiNumberParamRect
 
 // ----------------------------------------------------------------------
 /*!
@@ -71,17 +66,15 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiNumberParamRect::NFmiNumberParamRect(void)
-  : NFmiTextParamRect()
-  , itsFormat(NFmiString("%1.f"))
-  , fZeroMinus(false)
-  , fDetachSign(false)
-  , fDotToComma(false)
+inline NFmiNumberParamRect::NFmiNumberParamRect(void)
+    : NFmiTextParamRect(),
+      itsFormat(NFmiString("%1.f")),
+      fZeroMinus(false),
+      fDetachSign(false),
+      fDotToComma(false)
 {
 }
 
-#endif // NFMINUMBERPARAMRECT_H
+#endif  // NFMINUMBERPARAMRECT_H
 
 // ======================================================================
-

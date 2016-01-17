@@ -8,7 +8,7 @@
  * \class NFmiPressNameDay
  *
  * Nimip‰iv‰(t) lehtituotteeseen. K‰ytt‰‰ yleist‰ nimip‰iv‰luokkaa
- * (NFmiNameDay) mutta osaa press-luokkana lukea m‰‰rittelyns‰ ja 
+ * (NFmiNameDay) mutta osaa press-luokkana lukea m‰‰rittelyns‰ ja
  * kirjoittaa eps-koodinsa.
  *
  */
@@ -21,7 +21,6 @@
 #include "NFmiNameDay.h"
 #include "NFmiMetTime.h"
 
-
 //! Undocumented
 enum NFmiPressNameDayObjects
 {
@@ -29,17 +28,15 @@ enum NFmiPressNameDayObjects
   dMaxNumber
 };
 
-
 //! Undocumented
-class _FMI_DLL NFmiPressNameDay : public NFmiPressText 
+class _FMI_DLL NFmiPressNameDay : public NFmiPressText
 {
-public:
-
+ public:
   virtual ~NFmiPressNameDay(void);
   NFmiPressNameDay(void);
 
-  virtual bool ReadRemaining(void);  
-  virtual int ConvertDefText(NFmiString & object); 
+  virtual bool ReadRemaining(void);
+  virtual int ConvertDefText(NFmiString& object);
 #ifdef OLD_MSC
   using NFmiPressText::WritePS;
 #else
@@ -48,18 +45,16 @@ public:
   virtual bool WritePS(FmiPressOutputMode theOutput);
   void SetMaxNumber(FmiCounter maxNumber);
   void SetMaxLength(FmiCounter maxLength);
-  void SetNameDay(NFmiNameDay * theNameDay);
-  void SetTime(const NFmiMetTime & theTime);
+  void SetNameDay(NFmiNameDay* theNameDay);
+  void SetTime(const NFmiMetTime& theTime);
   void ChangeByHours(long hours);
-     
-protected:
 
-  NFmiNameDay * itsNameDay;
+ protected:
+  NFmiNameDay* itsNameDay;
   FmiCounter itsMaxNumber;
-  FmiCounter itsMaxLength;  //voisi olla textill‰
+  FmiCounter itsMaxLength;  // voisi olla textill‰
 
-}; // class NFmiPressNameDay
-
+};  // class NFmiPressNameDay
 
 // ----------------------------------------------------------------------
 /*!
@@ -67,12 +62,8 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressNameDay::NFmiPressNameDay(void)
-  : NFmiPressText()
-  , itsNameDay(0)
-  , itsMaxNumber(kShortMissing)
-  , itsMaxLength(kShortMissing)
+inline NFmiPressNameDay::NFmiPressNameDay(void)
+    : NFmiPressText(), itsNameDay(0), itsMaxNumber(kShortMissing), itsMaxLength(kShortMissing)
 {
 }
 
@@ -84,11 +75,7 @@ NFmiPressNameDay::NFmiPressNameDay(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressNameDay::SetTime(const NFmiMetTime & theTime)
-{
-	itsFirstPlotTime = theTime;
-}
+inline void NFmiPressNameDay::SetTime(const NFmiMetTime& theTime) { itsFirstPlotTime = theTime; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -97,11 +84,7 @@ void NFmiPressNameDay::SetTime(const NFmiMetTime & theTime)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressNameDay::ChangeByHours(long hours)
-{
-	itsFirstPlotTime.ChangeByHours(hours);
-}
+inline void NFmiPressNameDay::ChangeByHours(long hours) { itsFirstPlotTime.ChangeByHours(hours); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -110,12 +93,7 @@ void NFmiPressNameDay::ChangeByHours(long hours)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressNameDay::SetMaxNumber(FmiCounter maxNumber)
-{
-  itsMaxNumber=maxNumber;
-}
-
+inline void NFmiPressNameDay::SetMaxNumber(FmiCounter maxNumber) { itsMaxNumber = maxNumber; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -124,12 +102,7 @@ void NFmiPressNameDay::SetMaxNumber(FmiCounter maxNumber)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressNameDay::SetMaxLength(FmiCounter maxLength)
-{
-  itsMaxLength=maxLength;
-}
-
+inline void NFmiPressNameDay::SetMaxLength(FmiCounter maxLength) { itsMaxLength = maxLength; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -138,13 +111,7 @@ void NFmiPressNameDay::SetMaxLength(FmiCounter maxLength)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressNameDay::SetNameDay(NFmiNameDay * theNameDay)
-{
-itsNameDay=theNameDay;
-}
-
-#endif // NFMIPRESSNAMEDAY_H
+inline void NFmiPressNameDay::SetNameDay(NFmiNameDay* theNameDay) { itsNameDay = theNameDay; }
+#endif  // NFMIPRESSNAMEDAY_H
 
 // ======================================================================
-

@@ -8,7 +8,7 @@
  * \class NFmiPsWriting
  *
  * Luokka hoitaa PS-koodin kirjoittamisen tulostiedostoon
- * ja siinä yhteydessä koodaa skaalauksen myös (scale+transform) 
+ * ja siinä yhteydessä koodaa skaalauksen myös (scale+transform)
  * Tästä peritään luokat jotka tuottavat ps-koodia
  */
 // ======================================================================
@@ -23,46 +23,43 @@
 #include "NFmiString.h"
 #include <vector>
 
-
 // Undocumented
 enum FmiPressOutputMode
 {
-  kPostScript = 1                                                  ,
+  kPostScript = 1,
   kMetaLanguage,
   kXml,
   kPlainText
 };
 
-
 //! Undocumented
-class _FMI_DLL NFmiPsWriting 
+class _FMI_DLL NFmiPsWriting
 {
-public:
-
+ public:
   ~NFmiPsWriting(void);
   NFmiPsWriting(void);
-  NFmiPsWriting(const NFmiPsWriting & thePsWriting);
-		
-  bool WriteOutString(const NFmiString & outString);
+  NFmiPsWriting(const NFmiPsWriting& thePsWriting);
+
+  bool WriteOutString(const NFmiString& outString);
   bool CopyPsFile(void);
   bool CopyFileWithoutShowpage(void);
   bool WriteGRestore(void);
   void Rotate(void);
   bool WritePSConcat(void);
-  bool WritePSConcatRotating(float); 
+  bool WritePSConcatRotating(float);
   bool WritePSEnd(void);
   bool WriteEPSConcatClipping(NFmiRect theClippingRect);
   bool WriteEPSConcatClipping(std::vector<NFmiPoint> points);
   bool WriteEPSConcat(void);
   bool WriteEPSEnd(void);
-  void SetRotatingPoint(const NFmiPoint & thePoint);
+  void SetRotatingPoint(const NFmiPoint& thePoint);
   void SetRotBeforeScale(const bool rBeforeS);
-  NFmiString AlignmentToMeta(const FmiDirection & pressAlignment) const;
-  void SetFile(std::ofstream & theDestinationFile);
+  NFmiString AlignmentToMeta(const FmiDirection& pressAlignment) const;
+  void SetFile(std::ofstream& theDestinationFile);
 
-  void WriteColor(const FmiGenericColor & theColor,
-				  FmiPressOutputMode mode,
-				  std::ofstream & os) const;
+  void WriteColor(const FmiGenericColor& theColor,
+                  FmiPressOutputMode mode,
+                  std::ofstream& os) const;
 
   bool IsActive(void) const;
   void SetActivity(bool theActivity);
@@ -70,21 +67,20 @@ public:
   void SetWriteLast(bool theWriteLat);
   void SetLineFeed(bool theValue);
   bool IsLineFeed(void);
-  
-protected:
 
+ protected:
   bool fActivity;
   bool fWriteAsLast;
   bool fRotBeforeScale;
   NFmiPoint itsRotatingPoint;
   double itsRotatingAngle;
   bool fOverPrint;
-  std::ifstream * itsInFile; 
-  std::ofstream * itsOutFile; // does not own, does not destroy
+  std::ifstream* itsInFile;
+  std::ofstream* itsOutFile;  // does not own, does not destroy
   NFmiRectScale itsWriteScale;
   bool fLineFeed;
 
-}; // class NFmiPsWriting
+};  // class NFmiPsWriting
 
 // ----------------------------------------------------------------------
 /*!
@@ -92,18 +88,17 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPsWriting::NFmiPsWriting(void)
-  : fActivity(true)
-  , fWriteAsLast(false)
-  , fRotBeforeScale(false)
-  , itsRotatingAngle(0.)
-  , fOverPrint(false)
-  , itsInFile(0)
-  , itsOutFile(0)
-	, itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.)),
-								  NFmiRect(NFmiPoint(0.,0.),NFmiPoint(1.,1.))))
-	,fLineFeed(true)
+inline NFmiPsWriting::NFmiPsWriting(void)
+    : fActivity(true),
+      fWriteAsLast(false),
+      fRotBeforeScale(false),
+      itsRotatingAngle(0.),
+      fOverPrint(false),
+      itsInFile(0),
+      itsOutFile(0),
+      itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
+                                  NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.)))),
+      fLineFeed(true)
 {
 }
 
@@ -115,12 +110,7 @@ NFmiPsWriting::NFmiPsWriting(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPsWriting::IsLineFeed(void)
-{
-  return fLineFeed;
-}
-
+inline bool NFmiPsWriting::IsLineFeed(void) { return fLineFeed; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -129,12 +119,7 @@ bool NFmiPsWriting::IsLineFeed(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPsWriting::SetLineFeed(bool theValue)
-{
-  fLineFeed = theValue;
-}
-
+inline void NFmiPsWriting::SetLineFeed(bool theValue) { fLineFeed = theValue; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -143,8 +128,7 @@ void NFmiPsWriting::SetLineFeed(bool theValue)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPsWriting::SetRotatingPoint(const NFmiPoint & thePoint)
+inline void NFmiPsWriting::SetRotatingPoint(const NFmiPoint& thePoint)
 {
   itsRotatingPoint = thePoint;
 }
@@ -157,12 +141,7 @@ void NFmiPsWriting::SetRotatingPoint(const NFmiPoint & thePoint)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPsWriting::SetRotBeforeScale(const bool rBeforeS)
-{
-  fRotBeforeScale = rBeforeS;
-}
-
+inline void NFmiPsWriting::SetRotBeforeScale(const bool rBeforeS) { fRotBeforeScale = rBeforeS; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -171,8 +150,7 @@ void NFmiPsWriting::SetRotBeforeScale(const bool rBeforeS)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPsWriting::SetFile(std::ofstream & theDestinationFile)
+inline void NFmiPsWriting::SetFile(std::ofstream& theDestinationFile)
 {
   itsOutFile = &theDestinationFile;
 }
@@ -185,12 +163,7 @@ void NFmiPsWriting::SetFile(std::ofstream & theDestinationFile)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPsWriting::IsActive(void) const
-{
-  return fActivity;
-}
-
+inline bool NFmiPsWriting::IsActive(void) const { return fActivity; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -199,12 +172,7 @@ bool NFmiPsWriting::IsActive(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPsWriting::SetActivity(bool theActivity)
-{
-  fActivity= theActivity;
-}
-
+inline void NFmiPsWriting::SetActivity(bool theActivity) { fActivity = theActivity; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -213,12 +181,7 @@ void NFmiPsWriting::SetActivity(bool theActivity)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPsWriting::IsToWriteLast(void) const
-{
-  return fWriteAsLast;
-}
-
+inline bool NFmiPsWriting::IsToWriteLast(void) const { return fWriteAsLast; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -227,13 +190,7 @@ bool NFmiPsWriting::IsToWriteLast(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPsWriting::SetWriteLast(bool theWriteLat)
-{
-  fWriteAsLast=theWriteLat;
-}
-
-#endif // NFMIPSWRITING_H
+inline void NFmiPsWriting::SetWriteLast(bool theWriteLat) { fWriteAsLast = theWriteLat; }
+#endif  // NFMIPSWRITING_H
 
 // ======================================================================
-

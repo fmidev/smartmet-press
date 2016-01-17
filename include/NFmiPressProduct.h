@@ -8,14 +8,14 @@
  * \class NFmiPressProduct
  *
  * Tämä on lehtisääohjelman pääluokka. Segmentit (NFmiPressParam)
- * ja monet muut oliot ovat tämän jäseniä. Määrittelytiedoston 
- * lukeminen ja eps-tiedoston kirjoitus aloitetaan täältä 
+ * ja monet muut oliot ovat tämän jäseniä. Määrittelytiedoston
+ * lukeminen ja eps-tiedoston kirjoitus aloitetaan täältä
  * kontrollin siirtyessä jäsenille mahd. useammankin tason kautta.
- * Yleiset asiat kuten pohjat, tiedostonimet, data hoidetaan 
+ * Yleiset asiat kuten pohjat, tiedostonimet, data hoidetaan
  * täällä (Windowsin ympäristömuuttujat luetaan). Määrittelytiedosto
  * preprosessoidaan ennen käsittelyä (kommentit pois, includet mukaan,
- * direktiivikäsittely). Managerikäytössä löytyy metodit erilaisiin 
- * (pikku) muutoksiin.  
+ * direktiivikäsittely). Managerikäytössä löytyy metodit erilaisiin
+ * (pikku) muutoksiin.
  *
  */
 // ======================================================================
@@ -23,9 +23,9 @@
 #ifndef NFMIPRESSPRODUCT_H
 #define NFMIPRESSPRODUCT_H
 
-//namespace fs = boost::filesystem;
-//using namespace boost;
-//namespace boost
+// namespace fs = boost::filesystem;
+// using namespace boost;
+// namespace boost
 
 // press
 #include "NFmiValueCorrection.h"
@@ -84,17 +84,17 @@ enum NFmiPressProductObjects
   dProductWithPressTimeStamp,
 
   dProductWithDataTimeStamp,
-  dTimeStampFormat ,
+  dTimeStampFormat,
   dProductSizeFactor,
   dProductPlaceMove,
   dRelativeHours,
   dChangeScandinavian = 2020,
-  dNameDay ,
+  dNameDay,
   dProductNameFormat,
   dProductNameTimeFormat,
   dSecondProductNameTimeFormat,
 
-  dOutputMode ,
+  dOutputMode,
   dNumberAddingToName,
   dMagicSavePath,
   dMapArea,
@@ -124,104 +124,99 @@ struct FmiSubstituteMappingValue
 //! Undocumented
 class _FMI_DLL NFmiPressProduct : public NFmiPressTimeDescription
 {
-
-public:
-
+ public:
   virtual ~NFmiPressProduct(void);
   NFmiPressProduct(void);
 
-  bool WritePS(FmiPressOutputMode=kPostScript);
+  bool WritePS(FmiPressOutputMode = kPostScript);
 
   void ReadPalette(void);
   virtual bool ReadDescriptionFile(NFmiString inputFileName);
-  virtual bool ReadDescription(NFmiString & retString);
-  int ConvertDefText(NFmiString & object);
-  bool SetSegmentData(const NFmiString & theDataName);
-  bool PreProcessProduct(std::ifstream & origInput, std::ofstream & output);
+  virtual bool ReadDescription(NFmiString& retString);
+  int ConvertDefText(NFmiString& object);
+  bool SetSegmentData(const NFmiString& theDataName);
+  bool PreProcessProduct(std::ifstream& origInput, std::ofstream& output);
   bool SetAllLanguages(FmiLanguage theLanguage);
   NFmiStationPoint FirstParamLocation();
-  NFmiQueryData * DataByName(NFmiString givenName, bool &isYearData);
-  NFmiQueryData * FirstData(void);
-  NFmiNamedQueryData * FirstNamedData(void);
+  NFmiQueryData* DataByName(NFmiString givenName, bool& isYearData);
+  NFmiQueryData* FirstData(void);
+  NFmiNamedQueryData* FirstNamedData(void);
   NFmiString FirstDataName(void);
   NFmiString FirstSegmentName(void);
-  bool SetMaskNumber(unsigned long theNumber, FmiEnumSpace theEnumSpace); 
-  bool SetFirstStation(const NFmiLocation & theLocation);
-  bool SetStationRename(const NFmiRenaming & theRename);
-  bool SetImagePreNames(const NFmiLocation & theLocation);
-  bool SetProductName(const NFmiString & theName);
-  bool SetProductNameFormat(const NFmiString & theName);
+  bool SetMaskNumber(unsigned long theNumber, FmiEnumSpace theEnumSpace);
+  bool SetFirstStation(const NFmiLocation& theLocation);
+  bool SetStationRename(const NFmiRenaming& theRename);
+  bool SetImagePreNames(const NFmiLocation& theLocation);
+  bool SetProductName(const NFmiString& theName);
+  bool SetProductNameFormat(const NFmiString& theName);
   bool SetLogFile(bool OnOff);
   bool ReadData(void);
-  bool DefinePar(const NFmiString & theString);
-  bool ReplacePar(NFmiString & theString);
-  bool ReadNameToLonLatList(void); 
-  bool FindLonLatFromList(NFmiString & theStationName, NFmiPoint & theLonLat);
-  unsigned long FindWmoFromList(const NFmiString & theStationName);
-  bool Close(void); 
+  bool DefinePar(const NFmiString& theString);
+  bool ReplacePar(NFmiString& theString);
+  bool ReadNameToLonLatList(void);
+  bool FindLonLatFromList(NFmiString& theStationName, NFmiPoint& theLonLat);
+  unsigned long FindWmoFromList(const NFmiString& theStationName);
+  bool Close(void);
   NFmiString GetInFileName(void) const;
-  bool SetAllTimes(const NFmiMetTime & theTime);
+  bool SetAllTimes(const NFmiMetTime& theTime);
   void ActivateNumberToName(long theStartNumber);
   void DeActivateNumberToName(void);
   bool SetFirstObjectActivity(bool theActivity);
   bool ChangeFirstPossibleObject(bool toNewActivity);
   bool SetFirstSegmentActivity(bool theActivity);
-  void PutInStorage(const float value, int queueNum=1);
-  float UseFromStorage(int queueNum=1, bool errorReport = true);
+  void PutInStorage(const float value, int queueNum = 1);
+  float UseFromStorage(int queueNum = 1, bool errorReport = true);
   bool GetElementsAfterSegments(void) const;
   bool ReadSeasonsStatus(void);
   bool SetSegmentTimeStatus(int theSegmentNum, bool theStatus);
   bool GetSegmentTimeStatus(int theSegmentNum) const;
   void SetSupplementMode(bool theMode);
   bool GetSupplementMode(void);
-  bool AddSubstituteMappingValue(float theOldValue
-				             ,float theNewValue);
+  bool AddSubstituteMappingValue(float theOldValue, float theNewValue);
   NFmiString CutOffString(NFmiString& theString, int toMaxChars) const;
 
-protected:
-
+ protected:
   void StepMap(void);
   void Scale(void);
 
-private:
+ private:
   void SetEncoding(std::string theEncoding);
-  bool ReadQueryData(NFmiQueryData * theQD, char * fileName);
+  bool ReadQueryData(NFmiQueryData* theQD, char* fileName);
   bool ConstructOutFileName(void);
   bool WriteScalingObjects(bool doPreSegments, FmiPressOutputMode theOutput);
   bool WriteSameSymbols(bool doPreSegments, FmiPressOutputMode theOutput);
   bool WriteMetaInit(void);
-public:
 
-  NFmiLocationFinder * itsNameToLonLat;
+ public:
+  NFmiLocationFinder* itsNameToLonLat;
   std::queue<float> itsFloatQueue;
   std::queue<float> itsFloatQueue2;
-  NFmiVoidPtrList itsObjects; //osakuvat voivat tuoda rekursiivisesti lisäkuvia
+  NFmiVoidPtrList itsObjects;  // osakuvat voivat tuoda rekursiivisesti lisäkuvia
   bool IsSummerWeather(const NFmiString& theCountryPart);
   std::vector<bool> itsSegmentDoneTimes;
-  void SetNameDay(NFmiNameDay* nameDay, FmiLanguage=kFinnish);
-  NFmiNameDay* GetNameDay(FmiLanguage=kFinnish)const;
-  NFmiArea * itsMainArea; //jonkun PressArean pressProduktissa tai Paramissa, joka omistaa
+  void SetNameDay(NFmiNameDay* nameDay, FmiLanguage = kFinnish);
+  NFmiNameDay* GetNameDay(FmiLanguage = kFinnish) const;
+  NFmiArea* itsMainArea;  // jonkun PressArean pressProduktissa tai Paramissa, joka omistaa
 
   bool LastSymbolStatus(void) const;
   bool LastNumberStatus(void) const;
   bool LastTextStatus(void) const;
-  void SetLastSymbolStatus (bool theBool);
-  void SetLastNumberStatus (bool theBool);
-  void SetLastTextStatus (bool theBool);
+  void SetLastSymbolStatus(bool theBool);
+  void SetLastNumberStatus(bool theBool);
+  void SetLastTextStatus(bool theBool);
   std::map<float, float> itsSubstituteMappingValues;
   FmiPageSize GetPageSize(void) const;
   NFmiValueCorrection* GetTempCorrection(void) const;
 
-private:
-
+ private:
   bool fMakeElementsAfterSegments;
-  NFmiNameDay * itsNameDayFi;
-  NFmiNameDay * itsNameDaySw;
+  NFmiNameDay* itsNameDayFi;
+  NFmiNameDay* itsNameDaySw;
   bool fChangeScandinavian;
   bool fDataRead;
   FmiPageSize itsPageSize;
   NFmiString itsPaletteName;
-  NFmiCmykColorBag * itsPalette;
+  NFmiCmykColorBag* itsPalette;
   unsigned long itsProducer;
   unsigned short itsHourStep;
   NFmiString itsPath;
@@ -246,7 +241,7 @@ private:
   NFmiRect itsPlottingRect;
   NFmiRect itsClippingRect;
   NFmiRect itsBoundingBorder;
-  NFmiFastQueryInfo * itsCurrentDataIter;
+  NFmiFastQueryInfo* itsCurrentDataIter;
   boost::shared_ptr<NFmiSuperSmartInfo> itsMaskIter;
   NFmiVoidPtrList itsDatas;
   NFmiVoidPtrList itsParams;
@@ -262,8 +257,7 @@ private:
   bool fSupplementMode;
   FmiElementStatus itsLastElementStatus;
   NFmiValueCorrection* itsTempCorrection;
-}; // class NFmiPressProduct
-
+};  // class NFmiPressProduct
 
 // ----------------------------------------------------------------------
 /*!
@@ -272,8 +266,7 @@ private:
  * \param theEncoding The given encoding
  */
 // ----------------------------------------------------------------------
-inline
-void NFmiPressProduct::SetEncoding(std::string theEncoding)
+inline void NFmiPressProduct::SetEncoding(std::string theEncoding)
 {
   itsEnvironment.SetEncoding(theEncoding);
 }
@@ -285,8 +278,7 @@ void NFmiPressProduct::SetEncoding(std::string theEncoding)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiValueCorrection* NFmiPressProduct::GetTempCorrection(void) const
+inline NFmiValueCorrection* NFmiPressProduct::GetTempCorrection(void) const
 {
   return itsTempCorrection;
 }
@@ -298,11 +290,7 @@ NFmiValueCorrection* NFmiPressProduct::GetTempCorrection(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-FmiPageSize NFmiPressProduct:: GetPageSize(void) const
-{
-  return itsPageSize;
-}
+inline FmiPageSize NFmiPressProduct::GetPageSize(void) const { return itsPageSize; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -311,8 +299,7 @@ FmiPageSize NFmiPressProduct:: GetPageSize(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressProduct::SetLastSymbolStatus(bool theBool)
+inline void NFmiPressProduct::SetLastSymbolStatus(bool theBool)
 {
   itsLastElementStatus.symbol = theBool;
 }
@@ -324,8 +311,7 @@ void NFmiPressProduct::SetLastSymbolStatus(bool theBool)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressProduct::SetLastNumberStatus(bool theBool)
+inline void NFmiPressProduct::SetLastNumberStatus(bool theBool)
 {
   itsLastElementStatus.number = theBool;
 }
@@ -337,8 +323,7 @@ void NFmiPressProduct::SetLastNumberStatus(bool theBool)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressProduct::SetLastTextStatus(bool theBool)
+inline void NFmiPressProduct::SetLastTextStatus(bool theBool)
 {
   itsLastElementStatus.text = theBool;
 }
@@ -350,11 +335,7 @@ void NFmiPressProduct::SetLastTextStatus(bool theBool)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressProduct::LastSymbolStatus(void) const
-{
-  return itsLastElementStatus.symbol;
-}
+inline bool NFmiPressProduct::LastSymbolStatus(void) const { return itsLastElementStatus.symbol; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -363,11 +344,7 @@ bool NFmiPressProduct::LastSymbolStatus(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressProduct::LastNumberStatus(void) const
-{
-  return itsLastElementStatus.number;
-}
+inline bool NFmiPressProduct::LastNumberStatus(void) const { return itsLastElementStatus.number; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -376,11 +353,7 @@ bool NFmiPressProduct::LastNumberStatus(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressProduct::LastTextStatus(void) const
-{
-  return itsLastElementStatus.text;
-}
+inline bool NFmiPressProduct::LastTextStatus(void) const { return itsLastElementStatus.text; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -389,11 +362,7 @@ bool NFmiPressProduct::LastTextStatus(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressProduct::SetSupplementMode(bool theMode)
-{
-  fSupplementMode = theMode;
-}
+inline void NFmiPressProduct::SetSupplementMode(bool theMode) { fSupplementMode = theMode; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -402,11 +371,7 @@ void NFmiPressProduct::SetSupplementMode(bool theMode)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressProduct::GetSupplementMode(void)
-{
-  return fSupplementMode;
-}
+inline bool NFmiPressProduct::GetSupplementMode(void) { return fSupplementMode; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -415,8 +380,7 @@ bool NFmiPressProduct::GetSupplementMode(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressProduct::GetElementsAfterSegments(void) const
+inline bool NFmiPressProduct::GetElementsAfterSegments(void) const
 {
   return fMakeElementsAfterSegments;
 }
@@ -428,13 +392,12 @@ bool NFmiPressProduct::GetElementsAfterSegments(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiNameDay* NFmiPressProduct::GetNameDay(FmiLanguage theLanguage) const
+inline NFmiNameDay* NFmiPressProduct::GetNameDay(FmiLanguage theLanguage) const
 {
-  if(theLanguage == kFinnish)
-      return itsNameDayFi;
+  if (theLanguage == kFinnish)
+    return itsNameDayFi;
   else
-      return itsNameDaySw;
+    return itsNameDaySw;
 }
 
 // ----------------------------------------------------------------------
@@ -445,13 +408,12 @@ NFmiNameDay* NFmiPressProduct::GetNameDay(FmiLanguage theLanguage) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressProduct::SetNameDay(NFmiNameDay* nameDay, FmiLanguage theLanguage)
+inline void NFmiPressProduct::SetNameDay(NFmiNameDay* nameDay, FmiLanguage theLanguage)
 {
-  if(theLanguage == kFinnish)
-      itsNameDayFi = nameDay;
+  if (theLanguage == kFinnish)
+    itsNameDayFi = nameDay;
   else
-      itsNameDaySw = nameDay;
+    itsNameDaySw = nameDay;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -461,11 +423,7 @@ void NFmiPressProduct::SetNameDay(NFmiNameDay* nameDay, FmiLanguage theLanguage)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiString NFmiPressProduct::GetInFileName(void) const
-{
-  return itsInFileName;
-}
+inline NFmiString NFmiPressProduct::GetInFileName(void) const { return itsInFileName; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -474,8 +432,7 @@ NFmiString NFmiPressProduct::GetInFileName(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressProduct::ActivateNumberToName(long theStartNumber)
+inline void NFmiPressProduct::ActivateNumberToName(long theStartNumber)
 {
   itsCurrentNumberToName = theStartNumber;
 }
@@ -486,13 +443,11 @@ void NFmiPressProduct::ActivateNumberToName(long theStartNumber)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressProduct::DeActivateNumberToName(void)
+inline void NFmiPressProduct::DeActivateNumberToName(void)
 {
   itsCurrentNumberToName = kLongMissing;
 }
 
-#endif // NFMIPRESSPRODUCT_H
+#endif  // NFMIPRESSPRODUCT_H
 
 // ======================================================================
-

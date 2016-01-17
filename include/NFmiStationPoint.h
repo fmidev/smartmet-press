@@ -7,7 +7,7 @@
 /*!
  * \class NFmiStationPoint
  *
- * Luokka jossa yhdistetty NFmiStation ja NFmiPoint (j‰sen). 
+ * Luokka jossa yhdistetty NFmiStation ja NFmiPoint (j‰sen).
  * Point:ia k‰ytet‰‰n sijoittamaan asema esim Illun
  * koordinaattiavaruuteen. Peritty myˆs NFmiDescriptionista
  * (pit‰isi olla PressDescription) mutta t‰m‰ perint‰ on sovelluksen
@@ -26,7 +26,7 @@
 #include "NFmiMetTime.h"
 
 // perint‰ NFmiPoint:sta ei l‰htenyt toimimaan, debuggeri ei osannut n‰ytt‰‰
-// pointia kun sen perint‰ savebase:sta tehtiin virtuaaliseksi ja t‰ss‰ 
+// pointia kun sen perint‰ savebase:sta tehtiin virtuaaliseksi ja t‰ss‰
 // kirjoitettu copy-konstruktori kaatoi ohjelman, sensijaan ilman
 // copy-konstruktoria ohjelma ajautui, ehk‰ oikein.
 //
@@ -35,11 +35,10 @@
 // debuggeri alkoi n‰ytt‰‰ oikein vasta kun NFmiPointin perint‰
 // NFmisaveBase:sta muutettiin takaisin ei-virtuaaliseksi
 
-
 // Undocumented
 enum NFmiStationPointObjects
 {
-  dLonLat = 1 ,
+  dLonLat = 1,
   dLatitude,
   dLongitude,
   dPrintName,
@@ -47,55 +46,50 @@ enum NFmiStationPointObjects
   dIdent
 };
 
-
-//! Undocumented										
-class _FMI_DLL NFmiStationPoint : public NFmiStation,
-								  public  NFmiDescription
+//! Undocumented
+class _FMI_DLL NFmiStationPoint : public NFmiStation, public NFmiDescription
 {
-
-public:
-
+ public:
   virtual ~NFmiStationPoint(void);
   NFmiStationPoint(void);
-  NFmiStationPoint(const NFmiStation & theStation, const NFmiPoint & thePoint);
-  NFmiStationPoint (const NFmiStationPoint & theStation);
+  NFmiStationPoint(const NFmiStation &theStation, const NFmiPoint &thePoint);
+  NFmiStationPoint(const NFmiStationPoint &theStation);
 
-  NFmiStationPoint & operator=(const NFmiStationPoint & theStation);
-  virtual bool ReadDescription(NFmiString & retString);
-  int ConvertDefText(NFmiString & object);
+  NFmiStationPoint &operator=(const NFmiStationPoint &theStation);
+  virtual bool ReadDescription(NFmiString &retString);
+  int ConvertDefText(NFmiString &object);
 
-  virtual NFmiLocation * Clone(void) const; 
+  virtual NFmiLocation *Clone(void) const;
   NFmiString LocalWmoTime(int utc) const;
-  bool LocalWmoTime(NFmiTime & utc) const;
-  bool LocalTime(NFmiTime & utc, int & errorCode);
+  bool LocalWmoTime(NFmiTime &utc) const;
+  bool LocalTime(NFmiTime &utc, int &errorCode);
 
   double X(void) const;
   double Y(void) const;
 
   //  Ei hyv‰, eih‰n se s‰ily kun ei tehd‰ new:ll‰
-  NFmiStation * Station(void) const;
+  NFmiStation *Station(void) const;
   NFmiPoint Point(void) const;
   void Station(NFmiStation theStation);
   void Location(NFmiLocation theLocation);
   void Point(NFmiPoint thePoint);
-  bool IsBackup (void) const;
-  void SetBackup (bool theStatus);
+  bool IsBackup(void) const;
+  void SetBackup(bool theStatus);
 
-  virtual std::ostream & Write(std::ostream & file) const;
-  virtual std::istream & Read(std::istream & file); 
-  void SetAlternatingSizeFactor (float theSizeFactor);
-  float GetAlternatingSizeFactor(void) const; 
-protected:
+  virtual std::ostream &Write(std::ostream &file) const;
+  virtual std::istream &Read(std::istream &file);
+  void SetAlternatingSizeFactor(float theSizeFactor);
+  float GetAlternatingSizeFactor(void) const;
 
+ protected:
   float GetWmoDifference(void) const;
 
-private:
-
+ private:
   NFmiPoint itsPoint;
   bool fIsBackup;
   float itsAlternatingSizeFactor;
-	 
-}; // class NFmiStationPoint
+
+};  // class NFmiStationPoint
 
 // ----------------------------------------------------------------------
 /*!
@@ -103,23 +97,18 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiStationPoint::~NFmiStationPoint(void)
-{
-}
-
+inline NFmiStationPoint::~NFmiStationPoint(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiStationPoint::NFmiStationPoint(void)
-  : NFmiStation(2111, "Helsinki")
-  , itsPoint(0.,0.)
-  , fIsBackup(false)
-  , itsAlternatingSizeFactor(-1.)
+inline NFmiStationPoint::NFmiStationPoint(void)
+    : NFmiStation(2111, "Helsinki"),
+      itsPoint(0., 0.),
+      fIsBackup(false),
+      itsAlternatingSizeFactor(-1.)
 {
 }
 
@@ -132,13 +121,8 @@ NFmiStationPoint::NFmiStationPoint(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiStationPoint::NFmiStationPoint(const NFmiStation & theStation,
-								   const NFmiPoint & thePoint)
-  : NFmiStation(theStation)
-  , itsPoint(thePoint)
-  , fIsBackup(false)
-  , itsAlternatingSizeFactor(-1.)
+inline NFmiStationPoint::NFmiStationPoint(const NFmiStation &theStation, const NFmiPoint &thePoint)
+    : NFmiStation(theStation), itsPoint(thePoint), fIsBackup(false), itsAlternatingSizeFactor(-1.)
 {
 }
 // ----------------------------------------------------------------------
@@ -149,16 +133,15 @@ NFmiStationPoint::NFmiStationPoint(const NFmiStation & theStation,
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiStationPoint::NFmiStationPoint(const NFmiStationPoint & theStation) 
-  : NFmiStation(*theStation.Station())
-  , NFmiDescription()
-  , itsPoint(theStation.Point())
-  , fIsBackup(theStation.fIsBackup)
-  , itsAlternatingSizeFactor(theStation.GetAlternatingSizeFactor())
+inline NFmiStationPoint::NFmiStationPoint(const NFmiStationPoint &theStation)
+    : NFmiStation(*theStation.Station()),
+      NFmiDescription(),
+      itsPoint(theStation.Point()),
+      fIsBackup(theStation.fIsBackup),
+      itsAlternatingSizeFactor(theStation.GetAlternatingSizeFactor())
 {
 }
-  
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -167,13 +150,10 @@ NFmiStationPoint::NFmiStationPoint(const NFmiStationPoint & theStation)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiStation * NFmiStationPoint::Station(void) const
+inline NFmiStation *NFmiStationPoint::Station(void) const
 {
-  return static_cast<NFmiStation *>(NFmiStation(GetIdent(),
-												GetName(),
-												GetLongitude(),
-												GetLatitude()).Clone());
+  return static_cast<NFmiStation *>(
+      NFmiStation(GetIdent(), GetName(), GetLongitude(), GetLatitude()).Clone());
 }
 
 // ----------------------------------------------------------------------
@@ -184,11 +164,7 @@ NFmiStation * NFmiStationPoint::Station(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPoint NFmiStationPoint::Point(void) const
-{
-  return itsPoint;
-} 
+inline NFmiPoint NFmiStationPoint::Point(void) const { return itsPoint; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -197,8 +173,7 @@ NFmiPoint NFmiStationPoint::Point(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiStationPoint::SetAlternatingSizeFactor(float theSizeFactor) 
+inline void NFmiStationPoint::SetAlternatingSizeFactor(float theSizeFactor)
 {
   itsAlternatingSizeFactor = theSizeFactor;
 }
@@ -211,8 +186,7 @@ void NFmiStationPoint::SetAlternatingSizeFactor(float theSizeFactor)
  */
 // ----------------------------------------------------------------------
 
-inline
-float NFmiStationPoint::GetAlternatingSizeFactor(void) const 
+inline float NFmiStationPoint::GetAlternatingSizeFactor(void) const
 {
   return itsAlternatingSizeFactor;
 }
@@ -224,12 +198,7 @@ float NFmiStationPoint::GetAlternatingSizeFactor(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiStationPoint::SetBackup(bool theStatus) 
-{
-  fIsBackup = theStatus;
-}
-
+inline void NFmiStationPoint::SetBackup(bool theStatus) { fIsBackup = theStatus; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -238,13 +207,7 @@ void NFmiStationPoint::SetBackup(bool theStatus)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiStationPoint::IsBackup(void) const 
-{
-  return fIsBackup;
-}
-
-
+inline bool NFmiStationPoint::IsBackup(void) const { return fIsBackup; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -253,12 +216,7 @@ bool NFmiStationPoint::IsBackup(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-double NFmiStationPoint::X(void) const
-{
-  return itsPoint.X();
-}
-
+inline double NFmiStationPoint::X(void) const { return itsPoint.X(); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -267,12 +225,7 @@ double NFmiStationPoint::X(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-double NFmiStationPoint::Y(void) const
-{
-  return itsPoint.Y();
-}
-
+inline double NFmiStationPoint::Y(void) const { return itsPoint.Y(); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -281,8 +234,7 @@ double NFmiStationPoint::Y(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiStationPoint::Station(NFmiStation theStation)
+inline void NFmiStationPoint::Station(NFmiStation theStation)
 {
   SetIdent(theStation.GetIdent());
   SetName(theStation.GetName());
@@ -298,8 +250,7 @@ void NFmiStationPoint::Station(NFmiStation theStation)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiStationPoint::Location(NFmiLocation theLocation)
+inline void NFmiStationPoint::Location(NFmiLocation theLocation)
 {
   SetLatitude(theLocation.GetLatitude());
   SetLongitude(theLocation.GetLongitude());
@@ -313,13 +264,7 @@ void NFmiStationPoint::Location(NFmiLocation theLocation)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiStationPoint::Point(NFmiPoint thePoint)
-{
-  itsPoint = thePoint;
-}
-
-#endif // NFMISTATIONPOINT_H
+inline void NFmiStationPoint::Point(NFmiPoint thePoint) { itsPoint = thePoint; }
+#endif  // NFMISTATIONPOINT_H
 
 // ======================================================================
-

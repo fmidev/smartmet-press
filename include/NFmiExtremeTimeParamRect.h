@@ -24,21 +24,18 @@
 //! Undocumented
 class _FMI_DLL NFmiExtremeTimeParamRect : public NFmiTimeParamRect
 {
-public:
-
+ public:
   virtual ~NFmiExtremeTimeParamRect();
   NFmiExtremeTimeParamRect(void);
-  NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect & theTimeParamRect); 
+  NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect& theTimeParamRect);
 
-  virtual NFmiParamRect * Clone(void) const; 
+  virtual NFmiParamRect* Clone(void) const;
 
-protected:
+ protected:
+  NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI);
 
-  NFmiTime TimeToWrite(NFmiFastQueryInfo * theQI);
-
-private:
-
-}; // class NFmiExtremeTimeParamRect
+ private:
+};  // class NFmiExtremeTimeParamRect
 
 // ----------------------------------------------------------------------
 /*!
@@ -46,14 +43,11 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(void)
-  : NFmiTimeParamRect()						
+inline NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(void) : NFmiTimeParamRect()
 {
-	fUseSelectLatinFont = true;
+  fUseSelectLatinFont = true;
 }
 
-
-#endif // NFMIEXTREMETIMEPARAMRECT_H
+#endif  // NFMIEXTREMETIMEPARAMRECT_H
 
 // ======================================================================

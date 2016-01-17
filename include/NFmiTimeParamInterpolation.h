@@ -19,21 +19,18 @@ class NFmiFastQueryInfo;
 class NFmiWeightTimeScale;
 
 //! Undocumented
-class NFmiTimeParamInterpolation 
+class NFmiTimeParamInterpolation
 {
-public:
-
+ public:
   virtual ~NFmiTimeParamInterpolation(void);
   NFmiTimeParamInterpolation(void);
-  NFmiTimeParamInterpolation(NFmiFastQueryInfo* theInfo
-							 ,NFmiWeightTimeScale *theWeights);
-protected:
+  NFmiTimeParamInterpolation(NFmiFastQueryInfo* theInfo, NFmiWeightTimeScale* theWeights);
 
-  NFmiFastQueryInfo * itsInfo;
-  NFmiWeightTimeScale * itsWeightScale;
+ protected:
+  NFmiFastQueryInfo* itsInfo;
+  NFmiWeightTimeScale* itsWeightScale;
 
-}; // class NFmiTimeParamInterpolation
-
+};  // class NFmiTimeParamInterpolation
 
 // ----------------------------------------------------------------------
 /*!
@@ -44,15 +41,12 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiTimeParamInterpolation::NFmiTimeParamInterpolation(NFmiFastQueryInfo * theInfo,
-													   NFmiWeightTimeScale * theWeights)
-  :	itsInfo(theInfo)
-  , itsWeightScale(theWeights)					
+inline NFmiTimeParamInterpolation::NFmiTimeParamInterpolation(NFmiFastQueryInfo* theInfo,
+                                                              NFmiWeightTimeScale* theWeights)
+    : itsInfo(theInfo), itsWeightScale(theWeights)
 {
 }
 
-#endif // NFMITIMEPARAMINTERPOLATION_H
+#endif  // NFMITIMEPARAMINTERPOLATION_H
 
 // ======================================================================
-

@@ -26,67 +26,60 @@
 
 //! Undocumented
 enum NFmiSymbolParamRectObjects
-  {
-	dSymbolDirectory = 100,
-	dMapping,
-	dScaleMapping,
-	dSymbolDefSize,
-	dRelSize,
-	dConstSymbolName,
-    dIncludeNightSymbols
-  };
-
+{
+  dSymbolDirectory = 100,
+  dMapping,
+  dScaleMapping,
+  dSymbolDefSize,
+  dRelSize,
+  dConstSymbolName,
+  dIncludeNightSymbols
+};
 
 //! Undocumented
 class _FMI_DLL NFmiSymbolParamRect : public NFmiParamRect
 {
-
-public:
-
+ public:
   virtual ~NFmiSymbolParamRect(void);
 
   NFmiSymbolParamRect(void);
-  NFmiSymbolParamRect(const NFmiSymbolParamRect & theSymbolRect);
-		
-  virtual int  ConvertDefText(NFmiString & object);
-  virtual bool ReadDescription(NFmiString & retString); 
-  virtual bool ReadRemaining(void);
-  virtual NFmiParamRect * Clone(void) const; 
+  NFmiSymbolParamRect(const NFmiSymbolParamRect& theSymbolRect);
 
-  virtual bool WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
-					   NFmiFastQueryInfo * theQI,
-					   std::ofstream & theDestinationFile,
-					   FmiPressOutputMode theOutput);
+  virtual int ConvertDefText(NFmiString& object);
+  virtual bool ReadDescription(NFmiString& retString);
+  virtual bool ReadRemaining(void);
+  virtual NFmiParamRect* Clone(void) const;
+
+  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+                       NFmiFastQueryInfo* theQI,
+                       std::ofstream& theDestinationFile,
+                       FmiPressOutputMode theOutput);
 
   void SetConstSymbol(bool boo);
 
-protected:
-
+ protected:
   virtual void DoPostReading(void);
-  virtual bool CopyShortSymbol2Dest(NFmiString * symbolFile,
-									std::ofstream & theDestinationFile
-									,float theRotating=kFloatMissing); 
-  virtual bool ConvertOrig2Short(NFmiString * symbolFile);
-  virtual bool ReadValues(NFmiFastQueryInfo * theQI, bool SetRelHour=true);
+  virtual bool CopyShortSymbol2Dest(NFmiString* symbolFile,
+                                    std::ofstream& theDestinationFile,
+                                    float theRotating = kFloatMissing);
+  virtual bool ConvertOrig2Short(NFmiString* symbolFile);
+  virtual bool ReadValues(NFmiFastQueryInfo* theQI, bool SetRelHour = true);
   virtual void ScaleByValue(void);
-  virtual void WriteMetaCode(NFmiString * symbolFile,
-							 NFmiPoint realPos,
-							 std::ofstream & os);
-  bool RawSymbolToBeConverted(NFmiString * symbolFil);
+  virtual void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream& os);
+  bool RawSymbolToBeConverted(NFmiString* symbolFil);
   void UseDayNightSymbols(void);
 
-protected:
-
-  NFmiString         itsConstSymbol;   // #VakioSymbolia varten
-  bool		         fIsConstSymbol;   // #VakioSymbolia varten
-  NFmiPoint          itsSizeFactor;		// RotParr tarttee
-  NFmiParamMapping * itsMapping;
-  NFmiString *       itsSubDir;	
-  NFmiString *       itsOrigDir;
-  NFmiString         itsSymbolSetName;
-  NFmiRectScale		 itsDefToProductScale;
-  bool				 fUseDayNightSymbols;
-}; // class NFmiSymbolParamRect
+ protected:
+  NFmiString itsConstSymbol;  // #VakioSymbolia varten
+  bool fIsConstSymbol;        // #VakioSymbolia varten
+  NFmiPoint itsSizeFactor;    // RotParr tarttee
+  NFmiParamMapping* itsMapping;
+  NFmiString* itsSubDir;
+  NFmiString* itsOrigDir;
+  NFmiString itsSymbolSetName;
+  NFmiRectScale itsDefToProductScale;
+  bool fUseDayNightSymbols;
+};  // class NFmiSymbolParamRect
 
 // ----------------------------------------------------------------------
 /*!
@@ -94,16 +87,15 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiSymbolParamRect::NFmiSymbolParamRect(void)
-  : NFmiParamRect()
-  , fIsConstSymbol(false)
-  , itsMapping(0)
-  , itsSubDir(0)	
-  , itsOrigDir(0)
-  , itsDefToProductScale(NFmiRect(0.,0.,140.,140.),  //sovittu koko
-						 NFmiRect(0.,0.,1.,1.))
-  , fUseDayNightSymbols(false)
+inline NFmiSymbolParamRect::NFmiSymbolParamRect(void)
+    : NFmiParamRect(),
+      fIsConstSymbol(false),
+      itsMapping(0),
+      itsSubDir(0),
+      itsOrigDir(0),
+      itsDefToProductScale(NFmiRect(0., 0., 140., 140.),  // sovittu koko
+                           NFmiRect(0., 0., 1., 1.)),
+      fUseDayNightSymbols(false)
 {
 }
 
@@ -115,11 +107,7 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiSymbolParamRect::UseDayNightSymbols(void)
-{
-  fUseDayNightSymbols = true;
-}
+inline void NFmiSymbolParamRect::UseDayNightSymbols(void) { fUseDayNightSymbols = true; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -128,34 +116,21 @@ void NFmiSymbolParamRect::UseDayNightSymbols(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiSymbolParamRect::SetConstSymbol(bool boo)
-{
-  fIsConstSymbol=boo;
-}
-
+inline void NFmiSymbolParamRect::SetConstSymbol(bool boo) { fIsConstSymbol = boo; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiSymbolParamRect::DoPostReading(void)
-{
-}
-
+inline void NFmiSymbolParamRect::DoPostReading(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiSymbolParamRect::ScaleByValue(void)
-{
-}
-
-#endif // NFMISYMBOLPARAMRECT_H
+inline void NFmiSymbolParamRect::ScaleByValue(void) {}
+#endif  // NFMISYMBOLPARAMRECT_H
 
 // ======================================================================

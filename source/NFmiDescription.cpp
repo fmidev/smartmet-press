@@ -18,7 +18,7 @@ using namespace std;
 //! Undocumented
 static unsigned char kSecondC = '\"';
 
- // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
 /*!
  * \param category W=Warning, E=Error, other->no prefix
  * \param finReport report in Finnish
@@ -26,43 +26,45 @@ static unsigned char kSecondC = '\"';
  * \param variable failing variable, optional
  */
 // ----------------------------------------------------------------------
-void NFmiDescription::OutputLog(const char category, const NFmiString & finReport,
-								const NFmiString & engReport, NFmiString * variable) 
+void NFmiDescription::OutputLog(const char category,
+                                const NFmiString &finReport,
+                                const NFmiString &engReport,
+                                NFmiString *variable)
 {
-	  bool finnish = false; //Latviaa varten //tee globaali muuttuja t‰lle
-	  NFmiFileString logString; //jotta ‰‰kkˆset saadaan pois
-	  if(category == 'W')
-		  logString = NFmiString("WARNING: ");
-	  else if(category == 'E')
-		  logString = NFmiString("*** ERROR: ");
+  bool finnish = false;  // Latviaa varten //tee globaali muuttuja t‰lle
+  NFmiFileString logString;  // jotta ‰‰kkˆset saadaan pois
+  if (category == 'W')
+    logString = NFmiString("WARNING: ");
+  else if (category == 'E')
+    logString = NFmiString("*** ERROR: ");
 
-	  if(finnish)
-		  logString.Add(finReport);
-	  else
-		  logString.Add(engReport);
+  if (finnish)
+    logString.Add(finReport);
+  else
+    logString.Add(engReport);
 
-	  if(variable)
-	  {
-			NFmiString shortString;
-			if(variable->GetLen() > 20)
-			{
-				shortString = variable->GetChars(1, 20);
-				logString.Add(shortString);
-				logString.Add(NFmiString("..."));
-			}
-			else
-			{
-				shortString = *variable;
-				logString.Add(shortString);
-			}
-	  }
-	  char* charString =  static_cast<char *>(logString);
-  	  *itsLogFile << charString << endl;
-	  if(category == 'W' || category == 'E')
-	  {
-		  logString.ChangeScandinavian();
-		  cout << static_cast<char *>(logString) << endl;
-	  }
+  if (variable)
+  {
+    NFmiString shortString;
+    if (variable->GetLen() > 20)
+    {
+      shortString = variable->GetChars(1, 20);
+      logString.Add(shortString);
+      logString.Add(NFmiString("..."));
+    }
+    else
+    {
+      shortString = *variable;
+      logString.Add(shortString);
+    }
+  }
+  char *charString = static_cast<char *>(logString);
+  *itsLogFile << charString << endl;
+  if (category == 'W' || category == 'E')
+  {
+    logString.ChangeScandinavian();
+    cout << static_cast<char *>(logString) << endl;
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -74,8 +76,7 @@ void NFmiDescription::OutputLog(const char category, const NFmiString & finRepor
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float & retValue1,
-												 float & retValue2)
+bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retValue2)
 {
   // false kun lˆytynyt muu stringi kuin pilkku eli tiedoston nimi,
   // jolloin kutsuva ohjelma lopettaa luupin
@@ -85,64 +86,63 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float & retValue1,
 
   *itsDescriptionFile >> itsObject;
   itsValueHelpString = itsObject;
-  if(itsValueHelpString.IsNumeric())
-	{
-	  retValue1 = static_cast<float>(itsValueHelpString);
-	}
-  else 
-	{
-	  if(itsValueHelpString == NFmiString(","))
-		return true;
-	  else if(itsValueHelpString == NFmiString("-,"))
-		{
-		  return true;
-		}
-	  else if(itsValueHelpString == NFmiString("-"))
-		{
-		  //floatmissing, on jo
-		  *itsDescriptionFile >> itsObject;
-		  itsString = itsObject;
-		  if(itsString == NFmiString(","))
-			return true;
-		  else
-			return false;
-		}
-	  else //tiedostonimi
-			return false;
-	}
-  
+  if (itsValueHelpString.IsNumeric())
+  {
+    retValue1 = static_cast<float>(itsValueHelpString);
+  }
+  else
+  {
+    if (itsValueHelpString == NFmiString(","))
+      return true;
+    else if (itsValueHelpString == NFmiString("-,"))
+    {
+      return true;
+    }
+    else if (itsValueHelpString == NFmiString("-"))
+    {
+      // floatmissing, on jo
+      *itsDescriptionFile >> itsObject;
+      itsString = itsObject;
+      if (itsString == NFmiString(","))
+        return true;
+      else
+        return false;
+    }
+    else  // tiedostonimi
+      return false;
+  }
+
   *itsDescriptionFile >> itsObject;
   itsValueHelpString = itsObject;
-  if(itsValueHelpString.IsNumeric())
-	{
-	  retValue2 = static_cast<float>(itsValueHelpString);
-	  // luetaan aina seuraava stringi itsObjektiin	  
-	  *itsDescriptionFile >> itsObject;
-	  itsString = itsObject;
-	  if(itsString == NFmiString(","))
-		return true;
-	  else
-		return false;
-	}
-  else if(itsValueHelpString == NFmiString("-,"))
-	{
-	  return true;
-	}
-  else if(itsObject == NFmiString("-"))
-	{
-	  //floatmissing, on jo
-	  *itsDescriptionFile >> itsObject;
-	  itsString = itsObject;
-	  if(itsString == NFmiString(","))
-		return true;
-	  else
-		return false;
-	}
-  else if(itsValueHelpString == NFmiString(","))
-	return true;
+  if (itsValueHelpString.IsNumeric())
+  {
+    retValue2 = static_cast<float>(itsValueHelpString);
+    // luetaan aina seuraava stringi itsObjektiin
+    *itsDescriptionFile >> itsObject;
+    itsString = itsObject;
+    if (itsString == NFmiString(","))
+      return true;
+    else
+      return false;
+  }
+  else if (itsValueHelpString == NFmiString("-,"))
+  {
+    return true;
+  }
+  else if (itsObject == NFmiString("-"))
+  {
+    // floatmissing, on jo
+    *itsDescriptionFile >> itsObject;
+    itsString = itsObject;
+    if (itsString == NFmiString(","))
+      return true;
+    else
+      return false;
+  }
+  else if (itsValueHelpString == NFmiString(","))
+    return true;
   else
-	return false;
-  
+    return false;
 }
 
 // ----------------------------------------------------------------------
@@ -154,19 +154,19 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float & retValue1,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::Set1Double(double & theMember)
+bool NFmiDescription::Set1Double(double &theMember)
 {
   bool ok = false;
   double aDouble;
-  if(ReadEqualChar())
-	{
-	  if(ReadDouble(aDouble))
-		{
-		  theMember = aDouble;
-		  ok = true;
-		}
-	  ReadNext();
-	}
+  if (ReadEqualChar())
+  {
+    if (ReadDouble(aDouble))
+    {
+      theMember = aDouble;
+      ok = true;
+    }
+    ReadNext();
+  }
   return ok;
 }
 
@@ -179,19 +179,19 @@ bool NFmiDescription::Set1Double(double & theMember)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::Set1Long(long & theMember)
+bool NFmiDescription::Set1Long(long &theMember)
 {
   bool ok = false;
   long aLong;
-  if(ReadEqualChar())
-	{
-	  if(ReadLong(aLong))
-		{
-		  theMember = aLong;
-		  ok = true;
-		}
-	  ReadNext();
-	}
+  if (ReadEqualChar())
+  {
+    if (ReadLong(aLong))
+    {
+      theMember = aLong;
+      ok = true;
+    }
+    ReadNext();
+  }
   return ok;
 }
 
@@ -204,19 +204,19 @@ bool NFmiDescription::Set1Long(long & theMember)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::Set1UnsignedLong(unsigned long & theMember)
+bool NFmiDescription::Set1UnsignedLong(unsigned long &theMember)
 {
   bool ok = false;
   unsigned long aLong;
-  if(ReadEqualChar())
-	{
-	  if(ReadUnsignedLong(aLong))
-		{
-		  theMember = aLong;
-		  ok = true;
-		}
-	  ReadNext();
-	}
+  if (ReadEqualChar())
+  {
+    if (ReadUnsignedLong(aLong))
+    {
+      theMember = aLong;
+      ok = true;
+    }
+    ReadNext();
+  }
   return ok;
 }
 
@@ -249,38 +249,37 @@ NFmiString NFmiDescription::ReadString(void)
   *itsDescriptionFile >> itsObject;
 
   // etsit‰‰n "-merkin pari, kaikki luettuun muuttujaan
-  if(itsObject[0] == kSecondC)
-	{
-	  char helpChar [255];
-	  NFmiString helpObject;
-	  
-	  helpObject = itsObject;
-	  helpObject = helpObject.GetChars(2, helpObject.GetLen()-1);
-	  short loop = 0;
+  if (itsObject[0] == kSecondC)
+  {
+    char helpChar[255];
+    NFmiString helpObject;
 
-	  // korkeintaan 10 (erillist‰)v‰lilyˆnti
-	  // tarkistus jotta ei jouduta luuppiin
+    helpObject = itsObject;
+    helpObject = helpObject.GetChars(2, helpObject.GetLen() - 1);
+    short loop = 0;
 
-	  while (helpObject.Search(&kSecondC) <=0 && loop < 11)
-		{
-		  *itsDescriptionFile >> helpChar;
-		  loop++;
-		  helpObject += NFmiString(" "); // HUOM vain yksi vˆlilyˆnti aina
-		  helpObject += helpChar;
-		}
+    // korkeintaan 10 (erillist‰)v‰lilyˆnti
+    // tarkistus jotta ei jouduta luuppiin
 
-	  if(loop >= 11)
-		{
-		  string msg = string("lainausmerkilt‰ puuttuu pari: ")+static_cast<char *>(helpObject);
-		  errors.push_back(msg);
-		  *itsLogFile << "*** ERROR: " << msg << endl;
-		}
+    while (helpObject.Search(&kSecondC) <= 0 && loop < 11)
+    {
+      *itsDescriptionFile >> helpChar;
+      loop++;
+      helpObject += NFmiString(" ");  // HUOM vain yksi vˆlilyˆnti aina
+      helpObject += helpChar;
+    }
 
-	  return helpObject.GetChars(1, helpObject.GetLen()-1);
+    if (loop >= 11)
+    {
+      string msg = string("lainausmerkilt‰ puuttuu pari: ") + static_cast<char *>(helpObject);
+      errors.push_back(msg);
+      *itsLogFile << "*** ERROR: " << msg << endl;
+    }
 
-	}
+    return helpObject.GetChars(1, helpObject.GetLen() - 1);
+  }
   else
-	return itsObject;
+    return itsObject;
 }
 
 // ----------------------------------------------------------------------
@@ -294,15 +293,15 @@ NFmiString NFmiDescription::ReadString(void)
 
 bool NFmiDescription::ReadEqualChar(void)
 {
-  //tarkistetaan ett‰ todella on annettu "=" -merkki
+  // tarkistetaan ett‰ todella on annettu "=" -merkki
   *itsDescriptionFile >> itsObject;
-  if(itsObject[0] == 61)
-	{
-	  return true;
-	}
+  if (itsObject[0] == 61)
+  {
+    return true;
+  }
   itsValueHelpString = itsObject;
 
-  string msg = string("Yht‰kuin-merkki (=) puuttuu: ")+static_cast<char *>(itsValueHelpString);
+  string msg = string("Yht‰kuin-merkki (=) puuttuu: ") + static_cast<char *>(itsValueHelpString);
   errors.push_back(msg);
   *itsLogFile << "*** ERROR: " << msg << endl;
   ReadNext();
@@ -319,23 +318,23 @@ bool NFmiDescription::ReadEqualChar(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::ReadUnsignedLong(unsigned long & retValue)
+bool NFmiDescription::ReadUnsignedLong(unsigned long &retValue)
 {
   *itsDescriptionFile >> itsObject;
   itsValueHelpString = itsObject;
-  if(itsValueHelpString.IsNumeric())
-	{
-	  retValue = static_cast<unsigned long>(static_cast<int>(itsValueHelpString));
-	  return true;
-	}
+  if (itsValueHelpString.IsNumeric())
+  {
+    retValue = static_cast<unsigned long>(static_cast<int>(itsValueHelpString));
+    return true;
+  }
   retValue = 0;
 
-  if(itsLogFile)
-	{
-	  string msg = string("Pit‰‰ olla luku: ")+static_cast<char *>(itsValueHelpString);
-	  errors.push_back(msg);
-	  *itsLogFile << "*** ERROR: " << msg << endl;
-	}
+  if (itsLogFile)
+  {
+    string msg = string("Pit‰‰ olla luku: ") + static_cast<char *>(itsValueHelpString);
+    errors.push_back(msg);
+    *itsLogFile << "*** ERROR: " << msg << endl;
+  }
 
   return false;
 }
@@ -352,23 +351,23 @@ bool NFmiDescription::ReadUnsignedLong(unsigned long & retValue)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::ReadLong(long & retValue, bool errorReport)
+bool NFmiDescription::ReadLong(long &retValue, bool errorReport)
 {
   *itsDescriptionFile >> itsObject;
   itsValueHelpString = itsObject;
-  if(itsValueHelpString.IsNumeric())
-	{
-	  retValue = static_cast<long>(static_cast<int>(itsValueHelpString));
-	  return true;
-	}
+  if (itsValueHelpString.IsNumeric())
+  {
+    retValue = static_cast<long>(static_cast<int>(itsValueHelpString));
+    return true;
+  }
   retValue = 0;
 
-  if(errorReport)
-	{
-	  string msg = string("Pit‰‰ olla luku: ")+static_cast<char *>(itsValueHelpString);
-	  errors.push_back(msg);
-	  *itsLogFile << "*** ERROR: " << msg << endl;
-	}
+  if (errorReport)
+  {
+    string msg = string("Pit‰‰ olla luku: ") + static_cast<char *>(itsValueHelpString);
+    errors.push_back(msg);
+    *itsLogFile << "*** ERROR: " << msg << endl;
+  }
 
   return false;
 }
@@ -382,23 +381,23 @@ bool NFmiDescription::ReadLong(long & retValue, bool errorReport)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::ReadDouble(double & retValue)
+bool NFmiDescription::ReadDouble(double &retValue)
 {
   *itsDescriptionFile >> itsObject;
   itsValueHelpString = itsObject;
-  if(itsValueHelpString.IsNumeric())
-	{
-	  retValue = static_cast<double>(itsValueHelpString);
-	  return true;
-	}
+  if (itsValueHelpString.IsNumeric())
+  {
+    retValue = static_cast<double>(itsValueHelpString);
+    return true;
+  }
   retValue = 0.;
-  
-  if(itsLogFile)
-	{
-	  string msg = string("Pit‰‰ olla luku: ")+static_cast<char *>(itsValueHelpString);
-	  errors.push_back(msg);
-	  *itsLogFile << "*** ERROR: " << msg << endl;
-	}
+
+  if (itsLogFile)
+  {
+    string msg = string("Pit‰‰ olla luku: ") + static_cast<char *>(itsValueHelpString);
+    errors.push_back(msg);
+    *itsLogFile << "*** ERROR: " << msg << endl;
+  }
 
   return false;
 }
@@ -417,20 +416,18 @@ bool NFmiDescription::ReadDouble(double & retValue)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::Read4Double(double & retValue1,
-								  double & retValue2,
-								  double & retValue3,
-								  double & retValue4)
+bool NFmiDescription::Read4Double(double &retValue1,
+                                  double &retValue2,
+                                  double &retValue3,
+                                  double &retValue4)
 {
   // Sulut ovat takaavinaan oikean j‰rjestyksen, mutta eikˆ se
   // ole kuitenkin vasemmalta oikealle standardin mukaan? (Mika)
-  if((((ReadDouble(retValue1)) &&
-	   ReadDouble(retValue2)) &&
-	  ReadDouble(retValue3)) &&
-	 ReadDouble(retValue4))
-	{
-	  return true;
-	}
+  if ((((ReadDouble(retValue1)) && ReadDouble(retValue2)) && ReadDouble(retValue3)) &&
+      ReadDouble(retValue4))
+  {
+    return true;
+  }
   return false;
 }
 
@@ -444,12 +441,12 @@ bool NFmiDescription::Read4Double(double & retValue1,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::Read2Double(double & retValue1, double & retValue2)
+bool NFmiDescription::Read2Double(double &retValue1, double &retValue2)
 {
-  if((ReadDouble(retValue1)) && ReadDouble(retValue2))
-	{
-	  return true;
-	}
+  if ((ReadDouble(retValue1)) && ReadDouble(retValue2))
+  {
+    return true;
+  }
   return false;
 }
 
@@ -462,36 +459,30 @@ bool NFmiDescription::Read2Double(double & retValue1, double & retValue2)
  */
 // ----------------------------------------------------------------------
 
-int NFmiDescription::ConvertDefText(NFmiString & object) 
+int NFmiDescription::ConvertDefText(NFmiString &object)
 {
-  unsigned long len = object.GetLen(); 
-  if(len >= 2 && 
-	 NFmiString(object.GetCharsPtr(1,2)) == NFmiString("/*"))
-	{
-	  if(NFmiString(object.GetCharsPtr(len-1,2)) != NFmiString("*/"))
-		itsCommentLevel++;
-	  return dComment;
-	}
-  else if(len >= 2 && 
-		  NFmiString(object.GetCharsPtr(len-1,2)) == NFmiString("*/"))
-	{
-	  itsCommentLevel--;
-	  return dEndComment;
-	}
-  else if(len >= 2 &&
-		  NFmiString(object.GetCharsPtr(1,2)) == NFmiString("//"))
-	return dComment; 
+  unsigned long len = object.GetLen();
+  if (len >= 2 && NFmiString(object.GetCharsPtr(1, 2)) == NFmiString("/*"))
+  {
+    if (NFmiString(object.GetCharsPtr(len - 1, 2)) != NFmiString("*/")) itsCommentLevel++;
+    return dComment;
+  }
+  else if (len >= 2 && NFmiString(object.GetCharsPtr(len - 1, 2)) == NFmiString("*/"))
+  {
+    itsCommentLevel--;
+    return dEndComment;
+  }
+  else if (len >= 2 && NFmiString(object.GetCharsPtr(1, 2)) == NFmiString("//"))
+    return dComment;
 
-  else if(len >= 1 && NFmiString(object.GetCharsPtr(1,1)) == NFmiString("#"))
-	{
-	  return dEnd;
-	}
+  else if (len >= 1 && NFmiString(object.GetCharsPtr(1, 1)) == NFmiString("#"))
+  {
+    return dEnd;
+  }
   else
-	{
-	  return dOther;
-	}
+  {
+    return dOther;
+  }
 }
 
 // ======================================================================
-
-

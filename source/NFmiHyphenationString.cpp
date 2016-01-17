@@ -16,10 +16,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::~NFmiHyphenationString(void)
-{
-}
-
+NFmiHyphenationString::~NFmiHyphenationString(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
@@ -41,8 +38,7 @@ NFmiHyphenationString::NFmiHyphenationString(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::NFmiHyphenationString(const char * theText)
-  : NFmiString(theText) 
+NFmiHyphenationString::NFmiHyphenationString(const char* theText) : NFmiString(theText)
 {
   ResetPosition();
   fIrregularHyphensInited = false;
@@ -57,8 +53,7 @@ NFmiHyphenationString::NFmiHyphenationString(const char * theText)
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::NFmiHyphenationString(const NFmiString & theText)
-  : NFmiString(theText) 
+NFmiHyphenationString::NFmiHyphenationString(const NFmiString& theText) : NFmiString(theText)
 {
   ResetPosition();
   fIrregularHyphensInited = false;
@@ -72,37 +67,33 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiString & theText)
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::NFmiHyphenationString(const NFmiHyphenationString & theText)
-  : NFmiString(theText) 
+NFmiHyphenationString::NFmiHyphenationString(const NFmiHyphenationString& theText)
+    : NFmiString(theText)
 {
-	fIrregularHyphensInited = theText.fIrregularHyphensInited;
-    itsIrregularHyphens = theText.itsIrregularHyphens;
-	fNarrowColumn = theText.fNarrowColumn;
+  fIrregularHyphensInited = theText.fIrregularHyphensInited;
+  itsIrregularHyphens = theText.itsIrregularHyphens;
+  fNarrowColumn = theText.fNarrowColumn;
 }
 // ----------------------------------------------------------------------
 /*!
  *
- * \param 
+ * \param
  */
 // ----------------------------------------------------------------------
 
-void NFmiHyphenationString::SetNarrowColumn(bool theStatus) 
-{
-	fNarrowColumn = theStatus;
-}
-
+void NFmiHyphenationString::SetNarrowColumn(bool theStatus) { fNarrowColumn = theStatus; }
 // ----------------------------------------------------------------------
 /*!
  *
  * upper case starting char need not be listed separately
- * 
+ *
  */
 // ----------------------------------------------------------------------
 
 bool NFmiHyphenationString::InitIrregularHyphens(void)
 {
   // # = not allowed to hyphenate, needed??
-  itsIrregularHyphens.push_back("pohjois-os"); //osa, osissa
+  itsIrregularHyphens.push_back("pohjois-os");  // osa, osissa
   itsIrregularHyphens.push_back("etelä-os");
   itsIrregularHyphens.push_back("itä-os");
   itsIrregularHyphens.push_back("länsi-os");
@@ -126,7 +117,7 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("halla-yö");
   itsIrregularHyphens.push_back("tai-yö");
   itsIrregularHyphens.push_back("tai-aamu");
-  itsIrregularHyphens.push_back("tai-il");  //ilta, illalla
+  itsIrregularHyphens.push_back("tai-il");  // ilta, illalla
   itsIrregularHyphens.push_back("huomis-aamu");
   itsIrregularHyphens.push_back("huomis-il");
   itsIrregularHyphens.push_back("huomis-yö");
@@ -135,13 +126,13 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("syd-östra");
   itsIrregularHyphens.push_back("nord-ost");
   itsIrregularHyphens.push_back("nord-östra");
-  itsIrregularHyphens.push_back("nord-sjö");  
-  itsIrregularHyphens.push_back("öster-sjö");  
-  itsIrregularHyphens.push_back("öster-i-från");  
-  itsIrregularHyphens.push_back("väster-i-från");  
-  itsIrregularHyphens.push_back("fin-ska "); 
-  itsIrregularHyphens.push_back("nor-ska "); 
-  itsIrregularHyphens.push_back("sven-ska "); 
+  itsIrregularHyphens.push_back("nord-sjö");
+  itsIrregularHyphens.push_back("öster-sjö");
+  itsIrregularHyphens.push_back("öster-i-från");
+  itsIrregularHyphens.push_back("väster-i-från");
+  itsIrregularHyphens.push_back("fin-ska ");
+  itsIrregularHyphens.push_back("nor-ska ");
+  itsIrregularHyphens.push_back("sven-ska ");
   itsIrregularHyphens.push_back("om-kring");
   itsIrregularHyphens.push_back("snö-blandat");
   itsIrregularHyphens.push_back("halv-klar");
@@ -166,7 +157,7 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
   itsIrregularHyphens.push_back("öst-gräns");
   itsIrregularHyphens.push_back("väst-gräns");
   itsIrregularHyphens.push_back("sol-sken");
-  //latvia; some cases from the paper received from Latvia
+  // latvia; some cases from the paper received from Latvia
   itsIrregularHyphens.push_back("ru-dzi");
   itsIrregularHyphens.push_back("kau-dze");
   itsIrregularHyphens.push_back("rk-st");
@@ -186,88 +177,89 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
  */
 // ----------------------------------------------------------------------
 
-//NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
-void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
+// NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
+void NFmiHyphenationString::CreateIrregularHyphens(const char* theHyphenationMark)
 {
-  if(!fIrregularHyphensInited)
-		InitIrregularHyphens();
+  if (!fIrregularHyphensInited) InitIrregularHyphens();
 
-  std::string stdString(*this); 
+  std::string stdString(*this);
   unsigned long posChar = 0;
   unsigned long posReturn = 0;
   unsigned long posLast = 0;
-  std::string hyphWord, word; 
+  std::string hyphWord, word;
   std::vector<std::string>::iterator posWord;
-  for(posWord=itsIrregularHyphens.begin(); posWord != itsIrregularHyphens.end(); ++posWord)
+  for (posWord = itsIrregularHyphens.begin(); posWord != itsIrregularHyphens.end(); ++posWord)
   {
-		hyphWord = *posWord;
-		word = hyphWord;
-		posChar = word.find("-");
-		int posDiff = 0;
-		while(posChar!= string::npos)
-		{
-            word.erase(posChar, 1);
-			//posCharNot = word.find("#"); //need this option??
-			//if(posCharNot!= string::npos)
-			//	word.erase(posCharNot, 1);
+    hyphWord = *posWord;
+    word = hyphWord;
+    posChar = word.find("-");
+    int posDiff = 0;
+    while (posChar != string::npos)
+    {
+      word.erase(posChar, 1);
+      // posCharNot = word.find("#"); //need this option??
+      // if(posCharNot!= string::npos)
+      //	word.erase(posCharNot, 1);
 
-			hyphWord.replace(posChar+posDiff, 1, theHyphenationMark); 
-			posChar = word.find("-");
-			posDiff++;
-		}
-  		posChar = stdString.find(word);
- 		while(posChar!= string::npos)
-		{
-			posLast = posChar;
-	//       avoid very short orphane text fragments  
-			posReturn = stdString.find('\r', posChar);
-			int len = stdString.length();
-			int len2 = word.length();
-			if (!(len-posChar-len2 < 6 || (posReturn != string::npos && posReturn-posChar-len2 < 6)))
-	//		if(posReturn != string::npos && posReturn-posChar > 11 
-	//			          && stdString.length()-posChar > 11)
-			{
-				stdString.replace(posChar,word.size(),hyphWord);
-			}
-			posChar = stdString.find(word, posLast+1);
-		}
-		//same for starting upper case
-		//toupper do not function with skandinavian chars
-		word[0] = toupper(word[0]);
- 		hyphWord[0] = toupper(hyphWord[0]);
-		if(word[0] == 'ö')
-		{
-			word[0] = 'Ö';
-			hyphWord[0] = 'Ö';
-		}
-		if(word[0] == 'ä')
-		{
-			word[0] = 'Ä';
-			hyphWord[0] = 'Ä';
-		}
- 		if(word[0] == 'å')
-		{
-			word[0] = 'Å';
-			hyphWord[0] = 'Å';
-		}
- 		posChar = stdString.find(word);
- 		while(posChar!= string::npos)
-		{
-			posLast = posChar;
-	//       avoid very short orphane text fragments  
- 			int len = stdString.length();
-			int len2 = word.length();
-			if (!(len-posChar-len2 < 6 || (posReturn != string::npos && posReturn-posChar-len2 < 6)))
-			{
-				stdString.replace(posChar,word.size(),hyphWord);
-				word[0] = toupper(word[0]);
- 				hyphWord[0] = toupper(hyphWord[0]);
-			}
-			posChar = stdString.find(word, posLast+1);
-		}
-	}
-    NFmiString fmiString(stdString);
-    Set(fmiString, fmiString.GetLen());
+      hyphWord.replace(posChar + posDiff, 1, theHyphenationMark);
+      posChar = word.find("-");
+      posDiff++;
+    }
+    posChar = stdString.find(word);
+    while (posChar != string::npos)
+    {
+      posLast = posChar;
+      //       avoid very short orphane text fragments
+      posReturn = stdString.find('\r', posChar);
+      int len = stdString.length();
+      int len2 = word.length();
+      if (!(len - posChar - len2 < 6 ||
+            (posReturn != string::npos && posReturn - posChar - len2 < 6)))
+      //		if(posReturn != string::npos && posReturn-posChar > 11
+      //			          && stdString.length()-posChar > 11)
+      {
+        stdString.replace(posChar, word.size(), hyphWord);
+      }
+      posChar = stdString.find(word, posLast + 1);
+    }
+    // same for starting upper case
+    // toupper do not function with skandinavian chars
+    word[0] = toupper(word[0]);
+    hyphWord[0] = toupper(hyphWord[0]);
+    if (word[0] == 'ö')
+    {
+      word[0] = 'Ö';
+      hyphWord[0] = 'Ö';
+    }
+    if (word[0] == 'ä')
+    {
+      word[0] = 'Ä';
+      hyphWord[0] = 'Ä';
+    }
+    if (word[0] == 'å')
+    {
+      word[0] = 'Å';
+      hyphWord[0] = 'Å';
+    }
+    posChar = stdString.find(word);
+    while (posChar != string::npos)
+    {
+      posLast = posChar;
+      //       avoid very short orphane text fragments
+      int len = stdString.length();
+      int len2 = word.length();
+      if (!(len - posChar - len2 < 6 ||
+            (posReturn != string::npos && posReturn - posChar - len2 < 6)))
+      {
+        stdString.replace(posChar, word.size(), hyphWord);
+        word[0] = toupper(word[0]);
+        hyphWord[0] = toupper(hyphWord[0]);
+      }
+      posChar = stdString.find(word, posLast + 1);
+    }
+  }
+  NFmiString fmiString(stdString);
+  Set(fmiString, fmiString.GetLen());
 }
 // ----------------------------------------------------------------------
 /*!
@@ -278,29 +270,28 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMa
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiHyphenationString::DeleteShortSyllables(const char * theHyphenationMark)
+NFmiString NFmiHyphenationString::DeleteShortSyllables(const char* theHyphenationMark)
 {
   NFmiString newString;
   ResetPosition();
-  while(NextChar(theHyphenationMark))
-	{
-	  newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
-      if(itsCurrentCharPos <= 4  ||
-		 IsPunctuation(itsCurrentCharPos-3) || IsPunctuation(itsCurrentCharPos-4) ||
-		 IsPunctuation(itsCurrentCharPos+3) || IsPunctuation(itsCurrentCharPos+4) ||
-		 GetLen()-itsCurrentCharPos <= 4)
-	  {
-         itsLastCharPosition = itsCurrentCharPos+1;	 	  
-	  }
-	  else
-	  {
-         itsLastCharPosition = itsCurrentCharPos;	 	  
-	  }
+  while (NextChar(theHyphenationMark))
+  {
+    newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
+    if (itsCurrentCharPos <= 4 || IsPunctuation(itsCurrentCharPos - 3) ||
+        IsPunctuation(itsCurrentCharPos - 4) || IsPunctuation(itsCurrentCharPos + 3) ||
+        IsPunctuation(itsCurrentCharPos + 4) || GetLen() - itsCurrentCharPos <= 4)
+    {
+      itsLastCharPosition = itsCurrentCharPos + 1;
+    }
+    else
+    {
+      itsLastCharPosition = itsCurrentCharPos;
+    }
   }
   if (GetLen() - itsLastCharPosition > 0)
-	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition+1);
+    newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition + 1);
 
-  return newString; 
+  return newString;
 }
 
 // ----------------------------------------------------------------------
@@ -314,11 +305,9 @@ NFmiString NFmiHyphenationString::DeleteShortSyllables(const char * theHyphenati
 
 bool NFmiHyphenationString::IsPunctuation(unsigned short theChar)
 {
-	return GetChars(theChar, 1) == NFmiString(" ") ||
-           GetChars(theChar, 1) == NFmiString(",") ||
-		   GetChars(theChar, 1) == NFmiString(".") ||
-		   GetChars(theChar, 1) == NFmiString("-") ||
-		   GetChars(theChar, 1) == NFmiString(":");
+  return GetChars(theChar, 1) == NFmiString(" ") || GetChars(theChar, 1) == NFmiString(",") ||
+         GetChars(theChar, 1) == NFmiString(".") || GetChars(theChar, 1) == NFmiString("-") ||
+         GetChars(theChar, 1) == NFmiString(":");
 }
 // ----------------------------------------------------------------------
 /*!
@@ -329,47 +318,46 @@ bool NFmiHyphenationString::IsPunctuation(unsigned short theChar)
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
+NFmiString NFmiHyphenationString::CreateHyphens(const char* theHyphenationMark)
 {
   NFmiString newString;
   CreateIrregularHyphens(theHyphenationMark);
   ResetPosition();
-  while(NextConsonant())
-	{
-	  newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
-	  itsCurrentCharPos++;
-  
-	  if(GetChars(itsCurrentCharPos-2, 1) != NFmiString(" ") &&  //ei sanan alkuun
-		 GetChars(itsCurrentCharPos-3, 1) != NFmiString(" ") &&  // eikä jätetä yksi kirjain alkuun
-		                                    // annetun epäsäännöllisen jälkeen väh. 2 merkkiä
-		 GetChars(itsCurrentCharPos-2, 1) != NFmiString(theHyphenationMark) && 
-		 GetChars(itsCurrentCharPos-3, 1) != NFmiString(theHyphenationMark) &&
-		
-		   !(GetChars(itsCurrentCharPos-4, 1) == NFmiString(" ") && // kolme kons. sanan alussa  
-			IsConsonant(GetChars(itsCurrentCharPos-3, 1)) &&        // esim ei "på dagen sp-ricker"
-			IsConsonant(GetChars(itsCurrentCharPos-2, 1)))
-		 &&		 
-		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("-") && //muuten tuplana jaettaessa
-		 EnoughOnRow() &&
-		/* GetChars(itsCurrentCharPos+3, 1) != NFmiString('\r') && //omalle riville väh. 8 merkki
-		 GetChars(itsCurrentCharPos+4, 1) != NFmiString('\r') && 
-		 GetChars(itsCurrentCharPos+5, 1) != NFmiString('\r') && 
-		 GetChars(itsCurrentCharPos+6, 1) != NFmiString('\r') && 
-		 GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r') &&
-		 */
-		 //itsCurrentCharPos < GetLen()-6   &&
+  while (NextConsonant())
+  {
+    newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
+    itsCurrentCharPos++;
 
-//		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki, tarvitaanko
-		 IsVowel(GetChars(itsCurrentCharPos, 1)))
-		{
-		  newString += NFmiString(theHyphenationMark);
-		}
-	  itsLastCharPosition = --itsCurrentCharPos;
-	  
-	}
+    if (GetChars(itsCurrentCharPos - 2, 1) != NFmiString(" ") &&  // ei sanan alkuun
+        GetChars(itsCurrentCharPos - 3, 1) != NFmiString(" ") &&  // eikä jätetä yksi kirjain alkuun
+        // annetun epäsäännöllisen jälkeen väh. 2 merkkiä
+        GetChars(itsCurrentCharPos - 2, 1) != NFmiString(theHyphenationMark) &&
+        GetChars(itsCurrentCharPos - 3, 1) != NFmiString(theHyphenationMark) &&
+
+        !(GetChars(itsCurrentCharPos - 4, 1) == NFmiString(" ") &&  // kolme kons. sanan alussa
+          IsConsonant(GetChars(itsCurrentCharPos - 3, 1)) &&        // esim ei "på dagen sp-ricker"
+          IsConsonant(GetChars(itsCurrentCharPos - 2, 1))) &&
+        GetChars(itsCurrentCharPos - 2, 1) != NFmiString("-") &&  // muuten tuplana jaettaessa
+        EnoughOnRow() &&
+        /* GetChars(itsCurrentCharPos+3, 1) != NFmiString('\r') && //omalle riville väh. 8 merkki
+         GetChars(itsCurrentCharPos+4, 1) != NFmiString('\r') &&
+         GetChars(itsCurrentCharPos+5, 1) != NFmiString('\r') &&
+         GetChars(itsCurrentCharPos+6, 1) != NFmiString('\r') &&
+         GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r') &&
+         */
+        // itsCurrentCharPos < GetLen()-6   &&
+
+        //		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki,
+        //tarvitaanko
+        IsVowel(GetChars(itsCurrentCharPos, 1)))
+    {
+      newString += NFmiString(theHyphenationMark);
+    }
+    itsLastCharPosition = --itsCurrentCharPos;
+  }
 
   if (GetLen() - itsLastCharPosition > 0)
-	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition);
+    newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition);
 
   return newString;
 }
@@ -383,17 +371,17 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char * theHyphenationMark)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::EnoughOnRow(void)const
+bool NFmiHyphenationString::EnoughOnRow(void) const
 {
-   if(fNarrowColumn)
-	   return true;
-   else
-	   return
-		 GetChars(itsCurrentCharPos+3, 1) != NFmiString('\r') && //omalle riville väh. 8 merkki
-		 GetChars(itsCurrentCharPos+4, 1) != NFmiString('\r') && 
-		 GetChars(itsCurrentCharPos+5, 1) != NFmiString('\r') && 
-		 GetChars(itsCurrentCharPos+6, 1) != NFmiString('\r') && 
-		 GetChars(itsCurrentCharPos+7, 1) != NFmiString('\r');		 
+  if (fNarrowColumn)
+    return true;
+  else
+    return GetChars(itsCurrentCharPos + 3, 1) !=
+               NFmiString('\r') &&  // omalle riville väh. 8 merkki
+           GetChars(itsCurrentCharPos + 4, 1) != NFmiString('\r') &&
+           GetChars(itsCurrentCharPos + 5, 1) != NFmiString('\r') &&
+           GetChars(itsCurrentCharPos + 6, 1) != NFmiString('\r') &&
+           GetChars(itsCurrentCharPos + 7, 1) != NFmiString('\r');
 }
 // ----------------------------------------------------------------------
 /*!
@@ -405,37 +393,34 @@ bool NFmiHyphenationString::EnoughOnRow(void)const
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiHyphenationString::ReplaceChar(const NFmiString & theChar,
-											  const NFmiString & withString)
+NFmiString NFmiHyphenationString::ReplaceChar(const NFmiString& theChar,
+                                              const NFmiString& withString)
 {
   // palvelee tavutusta, ei yleinen
   // lisää myös oct=136 kun ei saa jakaa
 
   NFmiString newString;
-  //ResetPosition();
+  // ResetPosition();
   SuperResetPosition();
-  while(NextChar(theChar))
-	{
-	  newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
+  while (NextChar(theChar))
+  {
+    newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
 
-	  // ei jaeta esim -5 mutta kyllä itä-uusimaa	  
-	  if(NextIsNumeric())
-		newString += NFmiString("\\136");
-	  
-	  newString += NFmiString(withString);
+    // ei jaeta esim -5 mutta kyllä itä-uusimaa
+    if (NextIsNumeric()) newString += NFmiString("\\136");
 
-	  // eikö pitäisi ynnätä enemmän jos += NFmiString("\\136")??
-	  //itsCurrentCharPos++;
-	  itsLastCharPosition = itsCurrentCharPos+1;
+    newString += NFmiString(withString);
 
-	  //itsLastCharPosition = itsCurrentCharPos-1;
+    // eikö pitäisi ynnätä enemmän jos += NFmiString("\\136")??
+    // itsCurrentCharPos++;
+    itsLastCharPosition = itsCurrentCharPos + 1;
 
-	}
-  if (GetLen() >= itsLastCharPosition )
-	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition+1);
+    // itsLastCharPosition = itsCurrentCharPos-1;
+  }
+  if (GetLen() >= itsLastCharPosition)
+    newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition + 1);
 
   return newString;
-
 }
 
 // ----------------------------------------------------------------------
@@ -447,23 +432,22 @@ NFmiString NFmiHyphenationString::ReplaceChar(const NFmiString & theChar,
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiHyphenationString::DropChar(const NFmiString & theChar)
-{ 
+NFmiString NFmiHyphenationString::DropChar(const NFmiString& theChar)
+{
   // nyt aloittaa ekasta ja muutenkin ok
 
   NFmiString newString;
   SuperResetPosition();
 
-  while(NextChar(theChar))
-	{
-	  newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
-                                  
-	  itsLastCharPosition = itsCurrentCharPos+1;
+  while (NextChar(theChar))
+  {
+    newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
 
-	}
+    itsLastCharPosition = itsCurrentCharPos + 1;
+  }
 
-  if (GetLen() >= itsLastCharPosition)            
-	newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition+1);
+  if (GetLen() >= itsLastCharPosition)
+    newString += GetChars(itsLastCharPosition, GetLen() - itsLastCharPosition + 1);
 
   return newString;
 }
@@ -479,11 +463,11 @@ NFmiString NFmiHyphenationString::DropChar(const NFmiString & theChar)
 bool NFmiHyphenationString::NextIsNumeric(void)
 {
   NextPosition();
-  if(IsNumeric(GetChars(itsCurrentCharPos, 1)))
-	{
-	  BackPosition();
-	  return isTrue;
-	}
+  if (IsNumeric(GetChars(itsCurrentCharPos, 1)))
+  {
+    BackPosition();
+    return isTrue;
+  }
   BackPosition();
   return isFalse;
 }
@@ -497,13 +481,12 @@ bool NFmiHyphenationString::NextIsNumeric(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::NextChar(const NFmiString & theChar)
+bool NFmiHyphenationString::NextChar(const NFmiString& theChar)
 {
-  while(NextPosition())
-	{
-	  if(GetChars(itsCurrentCharPos, 1) == theChar)
-		return true;
-	}
+  while (NextPosition())
+  {
+    if (GetChars(itsCurrentCharPos, 1) == theChar) return true;
+  }
   return false;
 }
 
@@ -519,10 +502,10 @@ bool NFmiHyphenationString::NextChar(const NFmiString & theChar)
 bool NFmiHyphenationString::PreviousChar(const NFmiString & theChar)
 {
   while(BackPosition())
-	{
-	  if(GetChars(itsCurrentCharPos, 1) == theChar)
-		return true;
-	}
+        {
+          if(GetChars(itsCurrentCharPos, 1) == theChar)
+                return true;
+        }
   return false;
 }
 */
@@ -536,11 +519,10 @@ bool NFmiHyphenationString::PreviousChar(const NFmiString & theChar)
 
 bool NFmiHyphenationString::NextConsonant(void)
 {
-  while(NextPosition())
-	{
-	  if(IsConsonant(GetChars(itsCurrentCharPos, 1)))
-		return true;
-	}
+  while (NextPosition())
+  {
+    if (IsConsonant(GetChars(itsCurrentCharPos, 1))) return true;
+  }
   return false;
 }
 
@@ -554,13 +536,13 @@ bool NFmiHyphenationString::NextConsonant(void)
 
 bool NFmiHyphenationString::BackPosition(void)
 {
-  if(itsCurrentCharPos == 0)
-	return false;
+  if (itsCurrentCharPos == 0)
+    return false;
   else
-	{
-	  --itsCurrentCharPos;
-	  return true;
-	}
+  {
+    --itsCurrentCharPos;
+    return true;
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -573,7 +555,7 @@ bool NFmiHyphenationString::BackPosition(void)
 
 bool NFmiHyphenationString::NextPosition(void)
 {
-  //return itsCurrentCharPos++ < fLength;
+  // return itsCurrentCharPos++ < fLength;
   return ++itsCurrentCharPos <= fLength;
 }
 
@@ -597,7 +579,7 @@ void NFmiHyphenationString::ResetPosition(void)
 
 void NFmiHyphenationString::SuperResetPosition(void)
 {
-  itsCurrentCharPos = 0;	// jotta Nextillä päästään luuppaamaan
+  itsCurrentCharPos = 0;  // jotta Nextillä päästään luuppaamaan
   itsLastCharPosition = 1;
 }
 
@@ -611,14 +593,13 @@ void NFmiHyphenationString::SuperResetPosition(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::IsConsonant(const NFmiString & theChar) const
+bool NFmiHyphenationString::IsConsonant(const NFmiString& theChar) const
 {
-  NFmiString consonants("bcdfghjklmnpqrstvwxzklžšBCDFGHJKLMNPQRSTVWXZ"); 
-  for(int i = 1; i <= static_cast<int>(consonants.GetLen()); i++)  
-	{
-	  if(!strcmp(consonants.GetCharsPtr(i,1), theChar))
-		return true;
-	}
+  NFmiString consonants("bcdfghjklmnpqrstvwxzklžšBCDFGHJKLMNPQRSTVWXZ");
+  for (int i = 1; i <= static_cast<int>(consonants.GetLen()); i++)
+  {
+    if (!strcmp(consonants.GetCharsPtr(i, 1), theChar)) return true;
+  }
   return false;
 }
 
@@ -632,14 +613,13 @@ bool NFmiHyphenationString::IsConsonant(const NFmiString & theChar) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::IsNumeric(const NFmiString & theChar) const
+bool NFmiHyphenationString::IsNumeric(const NFmiString& theChar) const
 {
-  NFmiString numerics("0123456789"); 
-  for(int i = 1; i <= static_cast<int>(numerics.GetLen()); i++)  
-	{
-	  if(!strcmp(numerics.GetCharsPtr(i,1), theChar))
-		return true;
-	}
+  NFmiString numerics("0123456789");
+  for (int i = 1; i <= static_cast<int>(numerics.GetLen()); i++)
+  {
+    if (!strcmp(numerics.GetCharsPtr(i, 1), theChar)) return true;
+  }
   return false;
 }
 
@@ -653,14 +633,13 @@ bool NFmiHyphenationString::IsNumeric(const NFmiString & theChar) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::IsVowel(const NFmiString & theChar) const
+bool NFmiHyphenationString::IsVowel(const NFmiString& theChar) const
 {
-  NFmiString vowels("aeiouyäöåAEIOUYÄÖÅ");  
-  for(int i = 1; i <= static_cast<int>(vowels.GetLen()); i++)
-	{
-	  if(!strcmp(vowels.GetCharsPtr(i,1), theChar))
-		return true;
-	}
+  NFmiString vowels("aeiouyäöåAEIOUYÄÖÅ");
+  for (int i = 1; i <= static_cast<int>(vowels.GetLen()); i++)
+  {
+    if (!strcmp(vowels.GetCharsPtr(i, 1), theChar)) return true;
+  }
   return false;
 }
 
@@ -672,11 +651,7 @@ bool NFmiHyphenationString::IsVowel(const NFmiString & theChar) const
  */
 // ----------------------------------------------------------------------
 
-unsigned long NFmiHyphenationString::CurrentCharPosition(void) const
-{
-  return itsCurrentCharPos;
-}
-
+unsigned long NFmiHyphenationString::CurrentCharPosition(void) const { return itsCurrentCharPos; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -685,11 +660,7 @@ unsigned long NFmiHyphenationString::CurrentCharPosition(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::IsLastCharPosition(void) const
-{
-  return itsCurrentCharPos >= GetLen();
-}
-
+bool NFmiHyphenationString::IsLastCharPosition(void) const { return itsCurrentCharPos >= GetLen(); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -700,25 +671,22 @@ bool NFmiHyphenationString::IsLastCharPosition(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::NextSubString(const NFmiString & toDelimiter,
-										  NFmiString & resString)
+bool NFmiHyphenationString::NextSubString(const NFmiString& toDelimiter, NFmiString& resString)
 {
-  //ei toimi ilman casteja vaikkei kääntäjä varoita
-  if(!IsValue() ||
-	 static_cast<int>(GetLen())-static_cast<int>(itsCurrentCharPos) <= -1)
-	{
-	  resString = NFmiString();
-	  return false;
-	}
-  
+  // ei toimi ilman casteja vaikkei kääntäjä varoita
+  if (!IsValue() || static_cast<int>(GetLen()) - static_cast<int>(itsCurrentCharPos) <= -1)
+  {
+    resString = NFmiString();
+    return false;
+  }
+
   unsigned long first = itsCurrentCharPos;
-  while(NextPosition())
-	{
-	  if(GetChars(itsCurrentCharPos, 1) == toDelimiter)
-		break;
-	}
-  resString = NFmiString(GetCharsPtr(first, itsCurrentCharPos-first));
-  NextPosition(); //erotin pois
+  while (NextPosition())
+  {
+    if (GetChars(itsCurrentCharPos, 1) == toDelimiter) break;
+  }
+  resString = NFmiString(GetCharsPtr(first, itsCurrentCharPos - first));
+  NextPosition();  // erotin pois
   return true;
 }
 
@@ -731,42 +699,35 @@ bool NFmiHyphenationString::NextSubString(const NFmiString & toDelimiter,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::NextSubString(NFmiString & resString)
+bool NFmiHyphenationString::NextSubString(NFmiString& resString)
 {
-  // seuraava välilyöntien erottama 
+  // seuraava välilyöntien erottama
   // ei toimi ilman casteja vaikkei kääntäjä varoita
 
-  if(!IsValue() ||
-	 static_cast<int>(GetLen())-static_cast<int>(itsCurrentCharPos) <= -1)
-	{
-	  resString = NFmiString();
-	  return false;
-	}
-  
-  //alkuvälilyönnit pois
-  while(GetChars(itsCurrentCharPos, 1) == NFmiString(" "))
-	{
-	  if(!NextPosition())
-		{
-		  resString = NFmiString();
-		  return false;
-		}
-	}
-  
+  if (!IsValue() || static_cast<int>(GetLen()) - static_cast<int>(itsCurrentCharPos) <= -1)
+  {
+    resString = NFmiString();
+    return false;
+  }
+
+  // alkuvälilyönnit pois
+  while (GetChars(itsCurrentCharPos, 1) == NFmiString(" "))
+  {
+    if (!NextPosition())
+    {
+      resString = NFmiString();
+      return false;
+    }
+  }
+
   unsigned long first = itsCurrentCharPos;
-  while(NextPosition())
-	{
-	  if(GetChars(itsCurrentCharPos, 1) == NFmiString(" "))
-		break;
-	}
-  resString = NFmiString(GetCharsPtr(first, itsCurrentCharPos-first));
+  while (NextPosition())
+  {
+    if (GetChars(itsCurrentCharPos, 1) == NFmiString(" ")) break;
+  }
+  resString = NFmiString(GetCharsPtr(first, itsCurrentCharPos - first));
   //  NextPosition(); //erotin pois
   return true;
 }
 
 // ======================================================================
-
-
-
-
-

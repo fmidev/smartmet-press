@@ -19,7 +19,6 @@
 #include "NFmiStationPoint.h"
 #include "NFmiTextParamRect.h"
 
-
 //! Undocumented
 enum NFmiTimeParamRectObjects
 {
@@ -28,31 +27,27 @@ enum NFmiTimeParamRectObjects
   dFinnishTimezone
 };
 
-
 //! Undocumented
 class _FMI_DLL NFmiTimeParamRect : public NFmiTextParamRect
 {
-
-public:
-
+ public:
   virtual ~NFmiTimeParamRect(void);
   NFmiTimeParamRect(void);
-  NFmiTimeParamRect(const NFmiTimeParamRect & theTimeParamRect); 
-  
-  virtual bool ReadDescription(NFmiString & retString);
-  virtual NFmiParamRect * Clone(void) const; 
-  virtual int ConvertDefText(NFmiString & object);
+  NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect);
+
+  virtual bool ReadDescription(NFmiString& retString);
+  virtual NFmiParamRect* Clone(void) const;
+  virtual int ConvertDefText(NFmiString& object);
   void SetLanguage(FmiLanguage theLanguage);
 
-  virtual bool WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
-					   NFmiFastQueryInfo * theQI,
-					   std::ofstream & theDestinationFile,
-					   FmiPressOutputMode theOutput);
+  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+                       NFmiFastQueryInfo* theQI,
+                       std::ofstream& theDestinationFile,
+                       FmiPressOutputMode theOutput);
 
-protected:
-
-  bool PointParam(NFmiFastQueryInfo * theQI);
-  virtual NFmiTime TimeToWrite(NFmiFastQueryInfo * theQI);
+ protected:
+  bool PointParam(NFmiFastQueryInfo* theQI);
+  virtual NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI);
 
   unsigned long itsFormat;
   unsigned long itsOrigFormat;
@@ -60,11 +55,10 @@ protected:
   NFmiStationPoint itsStationPoint;
   bool fIsValidTime;
 
-private:
-
+ private:
   FmiLanguage itsLanguage;
   bool fFinnishTimezone;
-}; // class NFmiTimeParamRect
+};  // class NFmiTimeParamRect
 
 // ----------------------------------------------------------------------
 /*!
@@ -72,16 +66,15 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiTimeParamRect::NFmiTimeParamRect(void)
-  :  NFmiTextParamRect()
-  , itsFormat(kHHdMM)
-  , fIsValidTime(true)
-  , itsLanguage(kFinnish)
-  , fFinnishTimezone(false)
+inline NFmiTimeParamRect::NFmiTimeParamRect(void)
+    : NFmiTextParamRect(),
+      itsFormat(kHHdMM),
+      fIsValidTime(true),
+      itsLanguage(kFinnish),
+      fFinnishTimezone(false)
 {
 }
 
-#endif // NFMITIMEPARAMRECT_H
+#endif  // NFMITIMEPARAMRECT_H
 
 // ======================================================================

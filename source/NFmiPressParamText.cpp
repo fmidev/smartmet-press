@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
 #include "NFmiPressParamText.h"
@@ -24,11 +24,10 @@
 bool NFmiPressParamText::WritePS(FmiPressOutputMode theOutput)
 {
   ScalePlotting();
-  
+
   SetText(itsData->Param().GetParamName());
-  
+
   return WriteString(NFmiString("PARAMETRITEKSTI"), theOutput);
 }
 
 // ======================================================================
-

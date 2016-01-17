@@ -27,11 +27,10 @@ struct FmiMappingInterval
   float highBorder;
 };
 
-const float FmiStartOfIncompleteValues = 31690.;	
+const float FmiStartOfIncompleteValues = 31690.;
 
 //! Undocumented
-const int FmiMaxNumOfMappingParams = 9; //pitääkö olla yksi enemmän kuin tarve	
-
+const int FmiMaxNumOfMappingParams = 9;  // pitääkö olla yksi enemmän kuin tarve
 
 //! Undocumented
 struct FmiMultiMapping
@@ -40,39 +39,36 @@ struct FmiMultiMapping
   NFmiString symbol;
 };
 
-
 //! Undocumented
 class _FMI_DLL NFmiMultiParamMapping : public NFmiSize
 {
-public:
-
+ public:
   virtual ~NFmiMultiParamMapping(void);
 
   NFmiMultiParamMapping(void);
-  NFmiMultiParamMapping(const NFmiMultiParamMapping & theParamMapping);
+  NFmiMultiParamMapping(const NFmiMultiParamMapping &theParamMapping);
 
-  FmiMultiMapping ReadOneMapping(std::ifstream * inFile);
-  
-  void AddMappingInterval(const FmiMultiMapping & theInterval);
-  
-  NFmiString * Map(const std::vector<float> & values, bool & missingFound);
-  void SetMissing (const NFmiString &theString);
-  NFmiString * GetMissing (void)const;
+  FmiMultiMapping ReadOneMapping(std::ifstream *inFile);
+
+  void AddMappingInterval(const FmiMultiMapping &theInterval);
+
+  NFmiString *Map(const std::vector<float> &values, bool &missingFound);
+  void SetMissing(const NFmiString &theString);
+  NFmiString *GetMissing(void) const;
 
   void NumOfParams(short num);
-  short NumOfParams(void); 
+  short NumOfParams(void);
   bool IsIncomplete(void) const;
   bool Complete(float theOldValue, float theNewValue);
   void SetComplete(void);
   short CheckIfIncomplete(void);
 
-private:
-
-  FmiMultiMapping * itsMappingIntervals;
+ private:
+  FmiMultiMapping *itsMappingIntervals;
   short itsNumOfParams;
   bool fIncomplete;
 
-}; // class NFmiMultiParamMapping
+};  // class NFmiMultiParamMapping
 
 // ----------------------------------------------------------------------
 /*!
@@ -80,12 +76,8 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiMultiParamMapping::NFmiMultiParamMapping(void)
-  : NFmiSize(0)
-  , itsMappingIntervals(0)
-  , itsNumOfParams(0)
-  , fIncomplete(false)
+inline NFmiMultiParamMapping::NFmiMultiParamMapping(void)
+    : NFmiSize(0), itsMappingIntervals(0), itsNumOfParams(0), fIncomplete(false)
 {
 }
 
@@ -97,11 +89,7 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiMultiParamMapping::IsIncomplete(void) const
-{
-  return fIncomplete;
-}
+inline bool NFmiMultiParamMapping::IsIncomplete(void) const { return fIncomplete; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -110,11 +98,7 @@ bool NFmiMultiParamMapping::IsIncomplete(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiMultiParamMapping::SetComplete(void)
-{
-  fIncomplete = false;
-}
+inline void NFmiMultiParamMapping::SetComplete(void) { fIncomplete = false; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -123,12 +107,7 @@ void NFmiMultiParamMapping::SetComplete(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiMultiParamMapping::NumOfParams(short num)
-{
-  itsNumOfParams=num;
-}
-
+inline void NFmiMultiParamMapping::NumOfParams(short num) { itsNumOfParams = num; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -137,14 +116,7 @@ void NFmiMultiParamMapping::NumOfParams(short num)
  */
 // ----------------------------------------------------------------------
 
-inline
-short NFmiMultiParamMapping::NumOfParams(void)
-{
-  return itsNumOfParams;
-}
-
-#endif // NFMIMULTIPARAMMAPPING_H
+inline short NFmiMultiParamMapping::NumOfParams(void) { return itsNumOfParams; }
+#endif  // NFMIMULTIPARAMMAPPING_H
 
 // ======================================================================
-
-

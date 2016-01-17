@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
 #include "NFmiPressNameDay.h"
@@ -20,10 +20,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressNameDay::~NFmiPressNameDay(void)
-{
-}
-
+NFmiPressNameDay::~NFmiPressNameDay(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -32,59 +29,56 @@ NFmiPressNameDay::~NFmiPressNameDay(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressNameDay::ReadRemaining(void)  
+bool NFmiPressNameDay::ReadRemaining(void)
 {
   unsigned long long1;
   FmiCounter counter;
-  switch(itsIntObject)
-	{	
-	case dMaxLength:   
-	  {
-		if (!ReadEqualChar())
-		  break;
-		
-		if (ReadOne(counter))
-		  {
-			itsMaxLength = counter;
-		  }
-		
-		ReadNext();
-		break;
-	  }
-	case dMaxNumber:    
-	  {
-		if (!ReadEqualChar())
-		  break;
-		
-		if (ReadOne(counter))
-		  {
-			itsMaxNumber = counter;
-		  }
-		
-		ReadNext();
-		break;
-	  }
-	case dRelDay:     
-	  {
-		if (!ReadEqualChar())
-		  break;
-		
-		if(ReadOne(long1))
-		  {			
-			itsFirstPlotTime = NFmiMetTime();
-			itsFirstPlotTime.ChangeByDays(long1+ itsEnvironment.GetDayAdvance());
-		  }
-		
-		ReadNext();
-		break;
-	  }
+  switch (itsIntObject)
+  {
+    case dMaxLength:
+    {
+      if (!ReadEqualChar()) break;
 
-	default:
-	  {
-		NFmiPressText::ReadRemaining();
-		break;
-	  }
-	}
+      if (ReadOne(counter))
+      {
+        itsMaxLength = counter;
+      }
+
+      ReadNext();
+      break;
+    }
+    case dMaxNumber:
+    {
+      if (!ReadEqualChar()) break;
+
+      if (ReadOne(counter))
+      {
+        itsMaxNumber = counter;
+      }
+
+      ReadNext();
+      break;
+    }
+    case dRelDay:
+    {
+      if (!ReadEqualChar()) break;
+
+      if (ReadOne(long1))
+      {
+        itsFirstPlotTime = NFmiMetTime();
+        itsFirstPlotTime.ChangeByDays(long1 + itsEnvironment.GetDayAdvance());
+      }
+
+      ReadNext();
+      break;
+    }
+
+    default:
+    {
+      NFmiPressText::ReadRemaining();
+      break;
+    }
+  }
   return true;
 }
 
@@ -97,17 +91,16 @@ bool NFmiPressNameDay::ReadRemaining(void)
  */
 // ----------------------------------------------------------------------
 
-int NFmiPressNameDay::ConvertDefText(NFmiString & object)
+int NFmiPressNameDay::ConvertDefText(NFmiString &object)
 {
   NFmiString lowChar = object;
   lowChar.LowerCase();
-  if(lowChar==NFmiString("maxnumber") || lowChar==NFmiString("maksimim‰‰r‰"))
-	return dMaxNumber;
-  else if(lowChar==NFmiString("maxlength") || lowChar==NFmiString("maksimipituus"))
-	return dMaxLength;
+  if (lowChar == NFmiString("maxnumber") || lowChar == NFmiString("maksimim‰‰r‰"))
+    return dMaxNumber;
+  else if (lowChar == NFmiString("maxlength") || lowChar == NFmiString("maksimipituus"))
+    return dMaxLength;
   else
-	return NFmiPressText::ConvertDefText(object);
-  
+    return NFmiPressText::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -121,63 +114,59 @@ int NFmiPressNameDay::ConvertDefText(NFmiString & object)
 
 bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 {
-  if(!itsNameDay)
-	{
-	  *itsLogFile << "*** ERROR: Nameday Object missing, must be program bug"
-				  << endl;
-	  return false;
-	}
+  if (!itsNameDay)
+  {
+    *itsLogFile << "*** ERROR: Nameday Object missing, must be program bug" << endl;
+    return false;
+  }
   ScalePlotting();
-  
+
   NFmiString str;
-  
-  if(!itsNameDay->IsRead())
-	{
+
+  if (!itsNameDay->IsRead())
+  {
 #ifndef UNIX
-	  NFmiString fileName = GetHome();
-	  fileName += kFmiDirectorySeparator;
-	  fileName += NFmiString("Muut");
-	  fileName += kFmiDirectorySeparator;
+    NFmiString fileName = GetHome();
+    fileName += kFmiDirectorySeparator;
+    fileName += NFmiString("Muut");
+    fileName += kFmiDirectorySeparator;
 #else
-	  NFmiString fileName = static_cast<NFmiString>(NFmiSettings::Require<string>("press::incpath"));
-	  fileName += "/";
+    NFmiString fileName = static_cast<NFmiString>(NFmiSettings::Require<string>("press::incpath"));
+    fileName += "/";
 #endif
-	  if(itsLanguage == kLatvian)
-		{
-		  fileName += NFmiString("namedays_lat.txt"); 
-		}
-	  else if(itsLanguage == kSwedish)
-		{
-		  fileName += NFmiString("nimip‰iv‰tRuotsi.txt"); 
-		}
-	  else
-		{
-		  fileName += NFmiString("nimip‰iv‰t.txt"); 
-		}
-	  if(!itsNameDay->ReadFile(fileName))
-		{
-		  *itsLogFile << "*** ERROR: Reading of nameday file failed" << endl;
-		  return false; 
-		}
-	}
-  
-  if(itsNameDay->IsValue())
-	{
-	  str = itsNameDay->GetName(itsFirstPlotTime, itsMaxNumber, itsMaxLength);
-	  SetText(str);
-      *itsLogFile << "  Nameday: " << static_cast<char *>(str) << endl;
+    if (itsLanguage == kLatvian)
+    {
+      fileName += NFmiString("namedays_lat.txt");
+    }
+    else if (itsLanguage == kSwedish)
+    {
+      fileName += NFmiString("nimip‰iv‰tRuotsi.txt");
+    }
+    else
+    {
+      fileName += NFmiString("nimip‰iv‰t.txt");
+    }
+    if (!itsNameDay->ReadFile(fileName))
+    {
+      *itsLogFile << "*** ERROR: Reading of nameday file failed" << endl;
+      return false;
+    }
+  }
 
-	  if(itsLanguage != kFinnish && str == "Karkausp‰iv‰")
-		  SetText("Leap day");
-	  
-	  if(itsLanguage == kSwedish && str == "Karkausp‰iv‰")
-		  SetText("Skottdag");
+  if (itsNameDay->IsValue())
+  {
+    str = itsNameDay->GetName(itsFirstPlotTime, itsMaxNumber, itsMaxLength);
+    SetText(str);
+    *itsLogFile << "  Nameday: " << static_cast<char *>(str) << endl;
 
-	  return WriteString(NFmiString("NameDay"), theOutput);
-	}
+    if (itsLanguage != kFinnish && str == "Karkausp‰iv‰") SetText("Leap day");
+
+    if (itsLanguage == kSwedish && str == "Karkausp‰iv‰") SetText("Skottdag");
+
+    return WriteString(NFmiString("NameDay"), theOutput);
+  }
   else
-	return false;
+    return false;
 }
 
 // ======================================================================
-

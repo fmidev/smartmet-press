@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
 // press
@@ -20,17 +20,13 @@
 
 using namespace std;
 
-
 // ----------------------------------------------------------------------
 /*!
  * The destructor does nothing special
  */
 // ----------------------------------------------------------------------
 
-NFmiPsSymbol::~NFmiPsSymbol(void)
-{
-}
-
+NFmiPsSymbol::~NFmiPsSymbol(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -39,10 +35,10 @@ NFmiPsSymbol::~NFmiPsSymbol(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol & thePsSymbol)
-  : NFmiPressScaling()
-  , itsShortDir(NFmiString(thePsSymbol.itsShortDir))
-  , itsOrigDir(NFmiString(thePsSymbol.itsOrigDir))
+NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol &thePsSymbol)
+    : NFmiPressScaling(),
+      itsShortDir(NFmiString(thePsSymbol.itsShortDir)),
+      itsOrigDir(NFmiString(thePsSymbol.itsOrigDir))
 {
 }
 
@@ -55,11 +51,7 @@ NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol & thePsSymbol)
  */
 // ----------------------------------------------------------------------
 
-NFmiPsSymbol * NFmiPsSymbol::Clone(void) const
-{
-  return new NFmiPsSymbol(*this);
-}
-
+NFmiPsSymbol *NFmiPsSymbol::Clone(void) const { return new NFmiPsSymbol(*this); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -83,23 +75,22 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
   fileName += itsSymbol;
   fileName += NFmiString(".ps");
 
-  if (itsInFile)
-	delete itsInFile;
+  if (itsInFile) delete itsInFile;
   itsInFile = new ifstream;
-  itsInFile->open(fileName, ios::in|ios::binary);
-//  itsInFile->open(fileName, ios::in|ios::in);
+  itsInFile->open(fileName, ios::in | ios::binary);
+  //  itsInFile->open(fileName, ios::in|ios::in);
 
-  if(itsInFile->good() && !itsInFile->eof())
-	{
-	  WritePSConcat();
-      CopyPsFile();	// for some reason the return value is ignored here
-	  WritePSEnd();
-	  itsInFile->close();
-	  itsInFile->clear();
-	  return isTrue;
-	}
+  if (itsInFile->good() && !itsInFile->eof())
+  {
+    WritePSConcat();
+    CopyPsFile();  // for some reason the return value is ignored here
+    WritePSEnd();
+    itsInFile->close();
+    itsInFile->clear();
+    return isTrue;
+  }
   else
-	itsInFile->close();
+    itsInFile->close();
   itsInFile->clear();
   return isFalse;
 }
@@ -114,8 +105,7 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 
 bool NFmiPsSymbol::ConvertOrig2Short(void)
 {
-
-  // VAIN WINDOWSILLA TEHDYILLE SYMBOLEILLE
+// VAIN WINDOWSILLA TEHDYILLE SYMBOLEILLE
 
 #ifdef UNIX
   string inputDir = NFmiSettings::Require<string>("press::path");
@@ -129,99 +119,94 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
   inputName += NFmiString(".ai");
 #else
   NFmiString inputName = itsOrigDir;
-  //inputName += NFmiString("/");
+  // inputName += NFmiString("/");
   inputName += itsSymbol;
   inputName += NFmiString(".ai");
 #endif
 
   ifstream input(inputName, ios::in);
 
-  if(input.good() && !input.eof())
-	{
+  if (input.good() && !input.eof())
+  {
 #ifdef UNIX
-	  string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
-	  tmpDir += kFmiDirectorySeparator;
-	  NFmiString outputName = static_cast<NFmiString>(tmpDir);
+    string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
+    tmpDir += kFmiDirectorySeparator;
+    NFmiString outputName = static_cast<NFmiString>(tmpDir);
 #else
-	  NFmiString outputName = itsShortDir;
+    NFmiString outputName = itsShortDir;
 #endif
- 	  outputName += NFmiFileString(itsOrigDir).Directory();
-      outputName += NFmiString("_");
-      outputName += itsSymbol;
-      outputName += NFmiString(".ps");
-      ofstream output(outputName, ios::out);
+    outputName += NFmiFileString(itsOrigDir).Directory();
+    outputName += NFmiString("_");
+    outputName += itsSymbol;
+    outputName += NFmiString(".ps");
+    ofstream output(outputName, ios::out);
 
-	  if(!output && itsLogFile)
-		*itsLogFile << "*** ERROR: Opening of '" << outputName << "' for output failed" << endl;
+    if (!output && itsLogFile)
+      *itsLogFile << "*** ERROR: Opening of '" << outputName << "' for output failed" << endl;
 
+    const short lineSize = 250;  // HUOM max rivipituus
+    char inBuf[lineSize];
+    bool copyOn = isFalse;
+    unsigned long copiedLines = 0;
+    NFmiString mess = NFmiString("%****** ");
+    mess += itsSymbol;
+    mess += NFmiString(" BEGINS ********************");
+    output.write(mess.CharPtr(), 40);
+    output.write(static_cast<char *>(NFmiString("\n")), 1);
+    short num;
+    char endLine = '\n';
+    while (input.getline(inBuf, lineSize, endLine))  // newline PC:lle
+    {
+      NFmiString apu = NFmiString(inBuf);
 
-      const short lineSize = 250;	// HUOM max rivipituus
-      char inBuf[lineSize];
-      bool copyOn = isFalse;
-      unsigned long copiedLines = 0;
-      NFmiString mess = NFmiString ("%****** ");
-      mess += itsSymbol;
-      mess += NFmiString (" BEGINS ********************");
-      output.write(mess.CharPtr(),40);
-      output.write(static_cast<char *>(NFmiString("\n")),1);
-      short num;
-      char endLine = '\n';
-      while (input.getline(inBuf, lineSize, endLine)) //newline PC:lle
-		{
-	      NFmiString apu = NFmiString(inBuf);
+      if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 && copyOn)
+      //	      if(NFmiString(inBuf) == NFmiString("%AI5_BeginLayer") && copyOn)
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Conversion of " << static_cast<char *>(itsSymbol)
+                      << " to short symbol failed, nested BeginLayers" << endl;
+        copyOn = isTrue;
+      }
+      else if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 &&
+               apu.Search(NFmiString("%AI5_EndLayer")) < 1)
+      {
+        copyOn = isTrue;
+      }
 
-	      if(apu.Search(NFmiString("%AI5_BeginLayer")) > 0 && copyOn)
-//	      if(NFmiString(inBuf) == NFmiString("%AI5_BeginLayer") && copyOn)
-			{
-		      if(itsLogFile)
-				*itsLogFile << "*** ERROR: Conversion of "
-							<< static_cast<char *>(itsSymbol)
-							<< " to short symbol failed, nested BeginLayers"
-							<< endl;
-		      copyOn = isTrue;
-			}
-	      else if(apu.Search(NFmiString("%AI5_BeginLayer")) > 0 &&
-				  apu.Search(NFmiString("%AI5_EndLayer")) < 1)
-			{
-			  copyOn = isTrue;
-			}
+      if (copyOn)
+      {
+        num = input.gcount();
+        output.write(inBuf, num - 1);
+        output.put('\x0A');  // jotta difference käytettävissä
+        copiedLines++;
+      }
+      if (apu.Search(NFmiString("%AI5_EndLayer")) > 0 && copyOn)
+      {
+        copyOn = isFalse;
+      }
+    }
+    mess = NFmiString("%****** ");
+    mess += itsSymbol;
+    mess += NFmiString(" ENDS ************************");
+    output.write(mess.CharPtr(), 40);
+    output.write(static_cast<char *>(NFmiString("\n")), 1);
 
+    if (itsLogFile) *itsLogFile << "  lines copied: " << copiedLines << endl;
 
-	      if(copyOn)
-			{
-			  num = input.gcount();
-			  output.write(inBuf, num-1);
-			  output.put('\x0A');		  //jotta difference käytettävissä
-			  copiedLines++;
-			}
-          if(apu.Search(NFmiString("%AI5_EndLayer")) > 0 && copyOn)
-			{
-			  copyOn = isFalse;
-			}
-		}
-      mess = NFmiString ("%****** ");
-      mess += itsSymbol;
-      mess += NFmiString (" ENDS ************************");
-      output.write(mess.CharPtr(),40);
-      output.write(static_cast<char *>(NFmiString("\n")),1);
+    output.close();
+    output.clear();
 
-      if(itsLogFile)
-		*itsLogFile << "  lines copied: " << copiedLines << endl;
+    // tämä tekee mahdolliseksi lukemisen saman ohjelman puitteissa ?????
+    // itsInFile.open(outputName, ios::in|ios::in);
+    // itsInFile.close();
 
-	  output.close();
-	  output.clear();
-
-	  // tämä tekee mahdolliseksi lukemisen saman ohjelman puitteissa ?????
-	  // itsInFile.open(outputName, ios::in|ios::in);
-      // itsInFile.close();
-
-	  itsInFile->open(outputName, ios::in|ios::in);
-      itsInFile->close();
-	  output.clear();
-	  return isTrue;
-	}
+    itsInFile->open(outputName, ios::in | ios::in);
+    itsInFile->close();
+    output.clear();
+    return isTrue;
+  }
   else
-	return isFalse;
+    return isFalse;
 }
 
 // ----------------------------------------------------------------------
@@ -233,17 +218,17 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
+bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
   NFmiPoint sizePoint1Size, sizePoint2Size;
   NFmiPoint sizePoint1NotSize, sizePoint2NotSize;
-  sizePoint1Size.Set(0,0);
-  sizePoint2Size.Set(c40,c40); //ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
-  double c20 = c40/2.;
-  sizePoint1NotSize.Set(-c20,-c20);
-  sizePoint2NotSize.Set(c20,c20); //ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
-  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize,sizePoint2NotSize));
+  sizePoint1Size.Set(0, 0);
+  sizePoint2Size.Set(c40, c40);  // ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
+  double c20 = c40 / 2.;
+  sizePoint1NotSize.Set(-c20, -c20);
+  sizePoint2NotSize.Set(c20, c20);  // ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
+  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize, sizePoint2NotSize));
 
   NFmiString inDir;
   inDir = GetHome();
@@ -266,172 +251,162 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
   itsOrigDir += kFmiDirectorySeparator;
 #endif
 
-  NFmiString subDir = NFmiString("Massa");  //oletus vaikka tämä
+  NFmiString subDir = NFmiString("Massa");  // oletus vaikka tämä
 
-  NFmiString  helpString;
+  NFmiString helpString;
   NFmiValueString helpValueString;
 
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
-  double r1,r2,r3,r4;
-  double xmin,xmax,ymin,ymax;
+  double r1, r2, r3, r4;
+  double xmin, xmax, ymin, ymax;
   double x, y;
   xmin = ymin = 0;
   xmax = ymax = 1;
 
-  while(itsIntObject != 9999 || itsCommentLevel)
-	{
-	  if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
-	  if(itsLoopNum > itsMaxLoopNum)
-		{
-		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: max file length exceeded in #FixedSymbol" << endl;
-		  retString = itsString;
-		  return isFalse;
-		}
-	  itsLoopNum++;
-	  switch(itsIntObject)
-		{
-		case dOther:
-		  {
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Unknown word in #FixedSymbol: "
-						  << static_cast<char *>(itsObject)
-						  << endl;
-			ReadNext();
-			break;
-		  }
-		case dComment:
-		  {
-			ReadNext();
-			break;
-		  }
-		case dEndComment:
-		  {
-			ReadNext();
-			break;
-		  }
+  while (itsIntObject != 9999 || itsCommentLevel)
+  {
+    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsLoopNum > itsMaxLoopNum)
+    {
+      if (itsLogFile) *itsLogFile << "*** ERROR: max file length exceeded in #FixedSymbol" << endl;
+      retString = itsString;
+      return isFalse;
+    }
+    itsLoopNum++;
+    switch (itsIntObject)
+    {
+      case dOther:
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Unknown word in #FixedSymbol: "
+                      << static_cast<char *>(itsObject) << endl;
+        ReadNext();
+        break;
+      }
+      case dComment:
+      {
+        ReadNext();
+        break;
+      }
+      case dEndComment:
+      {
+        ReadNext();
+        break;
+      }
 
-		case dPsRelSize:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadDouble(x))
-			  {
-				double xh,yh;
-				xh = yh = 1.;
-				if(x>0.)
-				  xh = c20/x;
-				*itsDescriptionFile >> itsObject;
-			   valueString = itsObject;
-			   if(valueString.IsNumeric())
-				 {
-				   y = static_cast<double>(valueString);
-				   if(y>0)
-					 yh = c20/y;
-				   *itsDescriptionFile >> itsObject;
-				   itsString = itsObject;
-				 }
-			   else
-				 {
-				   yh = xh;
-				   itsString = valueString;
-				 }
+      case dPsRelSize:
+      {
+        if (!ReadEqualChar()) break;
+        if (ReadDouble(x))
+        {
+          double xh, yh;
+          xh = yh = 1.;
+          if (x > 0.) xh = c20 / x;
+          *itsDescriptionFile >> itsObject;
+          valueString = itsObject;
+          if (valueString.IsNumeric())
+          {
+            y = static_cast<double>(valueString);
+            if (y > 0) yh = c20 / y;
+            *itsDescriptionFile >> itsObject;
+            itsString = itsObject;
+          }
+          else
+          {
+            yh = xh;
+            itsString = valueString;
+          }
 
-			   sizePoint2NotSize.Set(xh,yh);
-			   sizePoint1NotSize.Set(-xh,-yh);
-			  }
-			else
-			  {
-				*itsDescriptionFile >> itsObject;
-				itsString = itsObject;
-			  }
+          sizePoint2NotSize.Set(xh, yh);
+          sizePoint1NotSize.Set(-xh, -yh);
+        }
+        else
+        {
+          *itsDescriptionFile >> itsObject;
+          itsString = itsObject;
+        }
 
-			itsIntObject = ConvertDefText(itsString);
-			break;
-		  }
-		  
-		case dSymbolPlace: 
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(Read2Double(r1,r2))
-			  {
-				Place(NFmiPoint(r1,r2));
-			  }
-			ReadNext();
-			break;
-		  }
-		  
-		case dSymbolDir:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			subDir = ReadString();
-			ReadNext();
-			break;
-		  }
-		case dConstantSymbol:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			itsSymbol = ReadString();
+        itsIntObject = ConvertDefText(itsString);
+        break;
+      }
 
-			ReadNext();
-			break;
-		  }
-		case dSymbolSize: //vanhentunut
-		  {
-			if (!ReadEqualChar())
-			  break;
+      case dSymbolPlace:
+      {
+        if (!ReadEqualChar()) break;
+        if (Read2Double(r1, r2))
+        {
+          Place(NFmiPoint(r1, r2));
+        }
+        ReadNext();
+        break;
+      }
 
-			if(ReadDouble(x))
-			  {
-				*itsDescriptionFile >> itsObject;
-				valueString = itsObject;
-				if(valueString.IsNumeric())
-				  {
-					y = static_cast<double>(valueString);
-					*itsDescriptionFile >> itsObject;
-					itsString = itsObject;
-				  }
-				else
-				  {
-					y = x;
-					itsString = valueString;
-				  }
-				itsRectSize.Set(x,y);
-			  }
-			else
-			  {
-				*itsDescriptionFile >> itsObject;
-				itsString = itsObject;
-			  }
+      case dSymbolDir:
+      {
+        if (!ReadEqualChar()) break;
+        subDir = ReadString();
+        ReadNext();
+        break;
+      }
+      case dConstantSymbol:
+      {
+        if (!ReadEqualChar()) break;
+        itsSymbol = ReadString();
 
-			itsIntObject = ConvertDefText(itsString);
-			break;
-		  }
-		case dRelSymbolSize: //vanhentunut
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(Read4Double(xmin,ymin,xmax,ymax))
-			  {
-				itsRelArea.Set(NFmiPoint(xmin,ymin),NFmiPoint(xmax,ymax));
-			  }
+        ReadNext();
+        break;
+      }
+      case dSymbolSize:  // vanhentunut
+      {
+        if (!ReadEqualChar()) break;
 
-			ReadNext();
-			break;
-		  }
-		default:
-		  {
-			ReadRemaining();
-			break;
-		  }
-		}
-	} // while
-  itsShortDir = NFmiString(inDir);	//oikeastaan koko polku
+        if (ReadDouble(x))
+        {
+          *itsDescriptionFile >> itsObject;
+          valueString = itsObject;
+          if (valueString.IsNumeric())
+          {
+            y = static_cast<double>(valueString);
+            *itsDescriptionFile >> itsObject;
+            itsString = itsObject;
+          }
+          else
+          {
+            y = x;
+            itsString = valueString;
+          }
+          itsRectSize.Set(x, y);
+        }
+        else
+        {
+          *itsDescriptionFile >> itsObject;
+          itsString = itsObject;
+        }
+
+        itsIntObject = ConvertDefText(itsString);
+        break;
+      }
+      case dRelSymbolSize:  // vanhentunut
+      {
+        if (!ReadEqualChar()) break;
+        if (Read4Double(xmin, ymin, xmax, ymax))
+        {
+          itsRelArea.Set(NFmiPoint(xmin, ymin), NFmiPoint(xmax, ymax));
+        }
+
+        ReadNext();
+        break;
+      }
+      default:
+      {
+        ReadRemaining();
+        break;
+      }
+    }
+  }  // while
+  itsShortDir = NFmiString(inDir);  // oikeastaan koko polku
   itsOrigDir += subDir;
   itsOrigDir += kFmiDirectorySeparator;
 
@@ -440,43 +415,41 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
 
   NFmiString sizeFile = itsOrigDir;
   sizeFile += kFmiDirectorySeparator;
-  sizeFile += NFmiString("symbolikoko.txt");   //kokoa ei tarvita ellei eps-file
+  sizeFile += NFmiString("symbolikoko.txt");  // kokoa ei tarvita ellei eps-file
   ifstream input(sizeFile, ios::in);
 
   // OletusSkaala 1->1 jos kokotiedosto ei annettu
   // itsDefToProductScale.SetEndScales(itsDefToProductScale.GetStartScales());
   // skaala tuli potenssiin kaksi (13*13, 6*6)
 
-  if(input.good() && !input.eof())
+  if (input.good() && !input.eof())
+  {
+    if (Read4Double(r1, r2, r3, r4))
     {
-
-	  if(Read4Double(r1,r2,r3,r4))
-		{
-		  if(r1 == r3)     // yksinkertaistettu yhteen lukuun
-			               // PITÄISI TEHDÄ PAREMMIN
-			{
-			  sizePoint1Size.Set(0., 0.);
-			  sizePoint2Size.Set(r1,r1);
-			}
-		  else
-			{
-			  sizePoint1Size.Set(r1,r2);
-			  sizePoint2Size.Set(r3,r4);
-			}
-
-		}
-	  else
-		{
-		  if(itsLogFile)
-			//*itsLogFile << "*** ERROR: Ongelmia symbolikoko-tiedostossa"  << endl;
-			*itsLogFile << "*** ERROR: OBSOLETE, check reason"  << endl;
-		}
-	  itsWriteScale.SetStartScales(NFmiRect(sizePoint1Size,sizePoint2Size));
-	}
+      if (r1 == r3)  // yksinkertaistettu yhteen lukuun
+                     // PITÄISI TEHDÄ PAREMMIN
+      {
+        sizePoint1Size.Set(0., 0.);
+        sizePoint2Size.Set(r1, r1);
+      }
+      else
+      {
+        sizePoint1Size.Set(r1, r2);
+        sizePoint2Size.Set(r3, r4);
+      }
+    }
+    else
+    {
+      if (itsLogFile)
+        //*itsLogFile << "*** ERROR: Ongelmia symbolikoko-tiedostossa"  << endl;
+        *itsLogFile << "*** ERROR: OBSOLETE, check reason" << endl;
+    }
+    itsWriteScale.SetStartScales(NFmiRect(sizePoint1Size, sizePoint2Size));
+  }
   else
-	{
-	  itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize,sizePoint2NotSize));
-	}
+  {
+    itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize, sizePoint2NotSize));
+  }
 
   input.close();
 
@@ -493,29 +466,25 @@ bool NFmiPsSymbol::ReadDescription(NFmiString & retString)
  */
 // ----------------------------------------------------------------------
 
-int NFmiPsSymbol::ConvertDefText(NFmiString & object)
+int NFmiPsSymbol::ConvertDefText(NFmiString &object)
 {
-    NFmiString lowChar = object;
-    lowChar.LowerCase();
-	
-	if(lowChar==NFmiString("symbolset") ||
-	   lowChar==NFmiString("directory") ||
-	   lowChar==NFmiString("kuvakansio") ||
-	   lowChar==NFmiString("hakemisto"))
-	  return dSymbolDir;
+  NFmiString lowChar = object;
+  lowChar.LowerCase();
 
-	else if(lowChar==NFmiString("name") ||
-			lowChar==NFmiString("nimi") ||
-			lowChar==NFmiString("tiedosto"))
-	  return dConstantSymbol;
+  if (lowChar == NFmiString("symbolset") || lowChar == NFmiString("directory") ||
+      lowChar == NFmiString("kuvakansio") || lowChar == NFmiString("hakemisto"))
+    return dSymbolDir;
 
-	else if(lowChar==NFmiString("scale") ||
-		    lowChar==NFmiString("sizefactor") ||
-			lowChar==NFmiString("kokokerroin"))
-	  return dPsRelSize;
+  else if (lowChar == NFmiString("name") || lowChar == NFmiString("nimi") ||
+           lowChar == NFmiString("tiedosto"))
+    return dConstantSymbol;
 
-	else
-	  return NFmiPressScaling::ConvertDefText(object);
+  else if (lowChar == NFmiString("scale") || lowChar == NFmiString("sizefactor") ||
+           lowChar == NFmiString("kokokerroin"))
+    return dPsRelSize;
+
+  else
+    return NFmiPressScaling::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -532,41 +501,33 @@ bool NFmiPsSymbol::MakeAndWritePS(NFmiPoint place)
 {
   Place(place);
   ScalePlotting();
-  if (CopyShortSymbol2Dest()) //itsSymbol
-	{
-	  return isTrue;
-	}
+  if (CopyShortSymbol2Dest())  // itsSymbol
+  {
+    return isTrue;
+  }
   else
-	{
-	  if(ConvertOrig2Short()) //itsOrigDir
-		{
-		  if(itsLogFile)
-			*itsLogFile << "Symbol "
-						<< static_cast<char *>(itsSymbol)
-						<< " converted"
-						<< endl;
+  {
+    if (ConvertOrig2Short())  // itsOrigDir
+    {
+      if (itsLogFile)
+        *itsLogFile << "Symbol " << static_cast<char *>(itsSymbol) << " converted" << endl;
 
-		  if (CopyShortSymbol2Dest()) //itsShortDir
-			{
-			  return isTrue;
-			}
-		  else
-			{
-			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: Symbol not found after conversion: "
-							<< static_cast<char *>(itsSymbol)
-							<< endl;
-			  return isFalse;
-			}
-		}
-	  else
-		if(itsLogFile)
-		  *itsLogFile << "*** ERROR: Missing Symbol: "
-					  << static_cast<char *>(itsSymbol)
-					  << endl;
-	  return isFalse;
-	}
-
+      if (CopyShortSymbol2Dest())  // itsShortDir
+      {
+        return isTrue;
+      }
+      else
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Symbol not found after conversion: "
+                      << static_cast<char *>(itsSymbol) << endl;
+        return isFalse;
+      }
+    }
+    else if (itsLogFile)
+      *itsLogFile << "*** ERROR: Missing Symbol: " << static_cast<char *>(itsSymbol) << endl;
+    return isFalse;
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -578,8 +539,8 @@ bool NFmiPsSymbol::MakeAndWritePS(NFmiPoint place)
 // ----------------------------------------------------------------------
 bool NFmiPsSymbol::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 {
-	//onnistuuko Segmenttijäseniä varten näin 
-	return WritePS(theOutput);
+  // onnistuuko Segmenttijäseniä varten näin
+  return WritePS(theOutput);
 }
 
 // ----------------------------------------------------------------------
@@ -594,45 +555,37 @@ bool NFmiPsSymbol::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 bool NFmiPsSymbol::WritePS(FmiPressOutputMode theOutput)
 {
   ScalePlotting();
-  
-  if(theOutput == kPlainText)
-	  return true;
-  
-  if (CopyShortSymbol2Dest()) //itsSymbol
-	{
-	  return isTrue;
-	}
+
+  if (theOutput == kPlainText) return true;
+
+  if (CopyShortSymbol2Dest())  // itsSymbol
+  {
+    return isTrue;
+  }
 
   else
-	{
-	  if(ConvertOrig2Short()) //itsOrigDir
-		{
-		  if(itsLogFile)
-			*itsLogFile << "Symbol "
-						<< static_cast<char *>(itsSymbol)
-						<< " converted"
-						<< endl;
+  {
+    if (ConvertOrig2Short())  // itsOrigDir
+    {
+      if (itsLogFile)
+        *itsLogFile << "Symbol " << static_cast<char *>(itsSymbol) << " converted" << endl;
 
-		  if (CopyShortSymbol2Dest()) //itsShortDir
-			{
-			  return isTrue;
-			}
-		  else
-			{
-			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: Symbol not found after conversion: "
-							<< static_cast<char *>(itsSymbol)
-							<< endl;
-			  return isFalse;
-			}
-		}
-	  else
-		if(itsLogFile)
-		  *itsLogFile << "*** ERROR: Missing Symbol: "
-					  << static_cast<char *>(itsSymbol)
-					  << endl;
-	  return isFalse;
-	}
+      if (CopyShortSymbol2Dest())  // itsShortDir
+      {
+        return isTrue;
+      }
+      else
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Symbol not found after conversion: "
+                      << static_cast<char *>(itsSymbol) << endl;
+        return isFalse;
+      }
+    }
+    else if (itsLogFile)
+      *itsLogFile << "*** ERROR: Missing Symbol: " << static_cast<char *>(itsSymbol) << endl;
+    return isFalse;
+  }
 }
 
 // ======================================================================

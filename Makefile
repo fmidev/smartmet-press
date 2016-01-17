@@ -146,6 +146,9 @@ $(LIBFILE): objdir $(OBJS)
 clean:
 	rm -f $(PROG) $(OBJFILES) *~ source/*~ include/*~
 
+format:
+	clang-format -i -style=file include/*.h source/*.cpp *.cpp
+
 install:
 	mkdir -p $(bindir)
 	@list='$(PROG)'; \

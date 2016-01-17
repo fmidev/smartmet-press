@@ -9,7 +9,7 @@
  *
  * Kirjoittaa (current) parametrinimen ps-oliona output-tiedostoon.
  * Ainoastaan ylitetty PressText:n WritePs-metodi. Toinen emo on
- * NFmiPressDataObject, jossa parametri. 
+ * NFmiPressDataObject, jossa parametri.
  *
  */
 // ======================================================================
@@ -21,25 +21,23 @@
 #include "NFmiPressText.h"
 
 //! Undocumented
-class _FMI_DLL NFmiPressParamText : public NFmiPressText,
-									public NFmiPressDataObject
+class _FMI_DLL NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
 {
-public:
-
+ public:
   virtual ~NFmiPressParamText(void);
 
   NFmiPressParamText(void);
-  NFmiPressParamText(const NFmiPressText & theTextParamRect); 
+  NFmiPressParamText(const NFmiPressText& theTextParamRect);
 
 #ifdef OLD_MSC
   using NFmiPressText::WritePS;
 #else
   using NFmiPressScaling::WritePS;
 #endif
-  virtual bool WritePS(FmiPressOutputMode theOutput);  
+  virtual bool WritePS(FmiPressOutputMode theOutput);
   virtual bool IsDataObject(void);
-      
-}; // class NFmiPressParamText
+
+};  // class NFmiPressParamText
 
 // ----------------------------------------------------------------------
 /*!
@@ -47,24 +45,14 @@ public:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressParamText::~NFmiPressParamText(void)
-{
-}
-
+inline NFmiPressParamText::~NFmiPressParamText(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressParamText::NFmiPressParamText(void)
-  :  NFmiPressText()
-  , NFmiPressDataObject()
-{
-}
-
+inline NFmiPressParamText::NFmiPressParamText(void) : NFmiPressText(), NFmiPressDataObject() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -73,12 +61,7 @@ NFmiPressParamText::NFmiPressParamText(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressParamText::IsDataObject(void)
-{
-  return true;
-}
-
-#endif // NFMIPRESSPARAMTEXT_H
+inline bool NFmiPressParamText::IsDataObject(void) { return true; }
+#endif  // NFMIPRESSPARAMTEXT_H
 
 // ======================================================================

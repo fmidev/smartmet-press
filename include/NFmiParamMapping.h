@@ -21,7 +21,6 @@
 #include "NFmiSize.h"
 #include "NFmiString.h"
 
-
 //! Undocumented
 struct NFmiMappingInterval
 {
@@ -34,27 +33,23 @@ struct NFmiMappingInterval
 //! Undocumented
 class _FMI_DLL NFmiParamMapping : public NFmiSize
 {
-public:
-
+ public:
   virtual ~NFmiParamMapping(void);
   NFmiParamMapping(void);
-  NFmiParamMapping(const NFmiParamMapping & theParamMapping);
-  
-  void AddMappingInterval(const NFmiMappingInterval & theInterval);
-  void AddMappingInterval(double theBottomValue,
-						  double theTopValue,
-						  const NFmiString & theSymbol);
+  NFmiParamMapping(const NFmiParamMapping& theParamMapping);
+
+  void AddMappingInterval(const NFmiMappingInterval& theInterval);
+  void AddMappingInterval(double theBottomValue, double theTopValue, const NFmiString& theSymbol);
 
   bool IsInFirst(const double theValue);
-  
-  NFmiString * Map(const double theValue);	
-  NFmiString * Map(const double theValue, bool & outIsScaled);
-  
-private:
 
-  NFmiMappingInterval * itsMappingIntervals;
+  NFmiString* Map(const double theValue);
+  NFmiString* Map(const double theValue, bool& outIsScaled);
 
-}; // class NFmiParamMapping
+ private:
+  NFmiMappingInterval* itsMappingIntervals;
+
+};  // class NFmiParamMapping
 
 // ----------------------------------------------------------------------
 /*!
@@ -62,15 +57,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiParamMapping::NFmiParamMapping(void)
-  : NFmiSize(0)
-  , itsMappingIntervals(0)
-{
-}
-
-#endif // NFMIPARAMMAPPING_H
+inline NFmiParamMapping::NFmiParamMapping(void) : NFmiSize(0), itsMappingIntervals(0) {}
+#endif  // NFMIPARAMMAPPING_H
 
 // ======================================================================
-
-

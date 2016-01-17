@@ -25,26 +25,23 @@ class NFmiText;
 //! Undocumented
 class _FMI_DLL NFmiExtremePlaceParamRect : public NFmiTextParamRect
 {
-public:
-
+ public:
   virtual ~NFmiExtremePlaceParamRect();
   NFmiExtremePlaceParamRect(void);
-  NFmiExtremePlaceParamRect(const NFmiExtremePlaceParamRect & theTextParamRect); 
+  NFmiExtremePlaceParamRect(const NFmiExtremePlaceParamRect& theTextParamRect);
 
-  virtual NFmiParamRect * Clone(void) const; 
-  bool ReadDescription(NFmiString & retString);
-  bool WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
-			   NFmiFastQueryInfo * theQI,
-			   ofstream & theDestinationFile,
-			   FmiPressOutputMode theOutput);
+  virtual NFmiParamRect* Clone(void) const;
+  bool ReadDescription(NFmiString& retString);
+  bool WritePS(const NFmiRect& theAbsoluteRectOfSymbolGroup,
+               NFmiFastQueryInfo* theQI,
+               ofstream& theDestinationFile,
+               FmiPressOutputMode theOutput);
 
-protected:
+ protected:
+  NFmiText TextToWrite(void) const;
 
-  NFmiText TextToWrite(void) const; 
-
-private:
-
-}; 
+ private:
+};
 
 // ----------------------------------------------------------------------
 /*!
@@ -52,14 +49,11 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(void)
-  : NFmiTextParamRect()						
+inline NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(void) : NFmiTextParamRect()
 {
-	fUseSelectLatinFont = true;
+  fUseSelectLatinFont = true;
 }
 
-
-#endif // NFMIEXTREMEPLACEPARAMRECT_H
+#endif  // NFMIEXTREMEPLACEPARAMRECT_H
 
 // ======================================================================

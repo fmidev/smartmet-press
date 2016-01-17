@@ -21,10 +21,10 @@
 //! Representation of a CMYK color
 struct NFmiCmykColor
 {
-  double c;		//!< Cyan part of CMYK
-  double m;		//!< Magenta part of CMYK
-  double y;		//!< Yellow part of CMYK
-  double k;		//!< K part of CMYK
+  double c;  //!< Cyan part of CMYK
+  double m;  //!< Magenta part of CMYK
+  double y;  //!< Yellow part of CMYK
+  double k;  //!< K part of CMYK
 };
 
 //! Representation of a named CMYK color
@@ -41,20 +41,19 @@ struct NFmiNamedCmykColor
 //! Undocumented
 class _FMI_DLL NFmiCmykColorBag : public NFmiSize
 {
-public:
+ public:
   virtual ~NFmiCmykColorBag(void);
   NFmiCmykColorBag(void);
-  NFmiCmykColorBag(const NFmiCmykColorBag & theCmykColorBag);
+  NFmiCmykColorBag(const NFmiCmykColorBag& theCmykColorBag);
 
-  void AddColor(const NFmiNamedCmykColor & theColor);
-  NFmiCmykColor * GetColor(const NFmiString & theName) const;
-  NFmiString GetColorString(const NFmiString & theName) const;
+  void AddColor(const NFmiNamedCmykColor& theColor);
+  NFmiCmykColor* GetColor(const NFmiString& theName) const;
+  NFmiString GetColorString(const NFmiString& theName) const;
 
-private:
+ private:
+  NFmiNamedCmykColor* itsColors;
 
-  NFmiNamedCmykColor * itsColors;
-
-}; // class NFmiCmykColorBag
+};  // class NFmiCmykColorBag
 
 // ----------------------------------------------------------------------
 /*!
@@ -62,13 +61,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiCmykColorBag::NFmiCmykColorBag(void)
-  : NFmiSize(0)
-  , itsColors(0)
-{
-}
-
-#endif // NFMICMYKCOLORBAG_H
+inline NFmiCmykColorBag::NFmiCmykColorBag(void) : NFmiSize(0), itsColors(0) {}
+#endif  // NFMICMYKCOLORBAG_H
 
 // ======================================================================

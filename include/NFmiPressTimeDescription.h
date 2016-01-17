@@ -7,7 +7,7 @@
 /*!
  * \class NFmiPressTimeDescription
  *
- * Peritty yleisemm‰st‰ NFmiPressDescription-luokasta. T‰nne 
+ * Peritty yleisemm‰st‰ NFmiPressDescription-luokasta. T‰nne
  * lis‰tty ajank‰sittely m‰‰rittelytiedostoa luettaessa.
  *
  */
@@ -17,7 +17,7 @@
 #define NFMIPRESSTIMEDESCRIPTION_H
 
 #ifndef UNIX
-#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
 // press
@@ -28,7 +28,6 @@
 #include "NFmiPreProcessor.h"
 
 class NFmiFastQueryInfo;
-
 
 //! Undocumented
 enum NFmiPressTimeDescriptionObjects
@@ -47,15 +46,14 @@ enum NFmiPressTimeDescriptionObjects
   dBypassValue
 };
 
-
 //! Undocumented
 struct FmiLoopActivity
 {
   unsigned long startIndex;
   unsigned long step;
   unsigned long stopIndex;
-  bool bypassWithValue; 
-  float bypassValue;   
+  bool bypassWithValue;
+  float bypassValue;
 };
 
 //! Undocumented
@@ -74,86 +72,79 @@ struct FmiPressSeasons
   bool editdata;
   bool editdataOwn;
   bool allowRandom;
- // bool afternoon;
+  // bool afternoon;
 };
 
-
 //! Undocumented
-class _FMI_DLL NFmiPressTimeDescription : public NFmiPressDescription 
+class _FMI_DLL NFmiPressTimeDescription : public NFmiPressDescription
 {
-public:
-
+ public:
   virtual ~NFmiPressTimeDescription(void);
 
   NFmiPressTimeDescription(void);
   NFmiPressTimeDescription(short theFirstPlotMinutes,
-						   short theFirstPlotHours,
-						   short theFirstDeltaDays);
+                           short theFirstPlotHours,
+                           short theFirstDeltaDays);
 
-  bool ReadRemaining(void); 
-  virtual int ConvertDefText(NFmiString & object);
-  void SetTime(const NFmiMetTime & theTime);
+  bool ReadRemaining(void);
+  virtual int ConvertDefText(NFmiString& object);
+  void SetTime(const NFmiMetTime& theTime);
   void SetHourLoop(bool isHourLoop);
-  bool IsHourLoop (void) const;
+  bool IsHourLoop(void) const;
 
   void Set(short theFirstPlotMinutes,
-		   short theFirstPlotHours ,
-		   short theFirstDeltaDays  ,
-		   short theFirstOriginalDeltaDays,
-		   NFmiMetTime theFirstPlotTime);
+           short theFirstPlotHours,
+           short theFirstDeltaDays,
+           short theFirstOriginalDeltaDays,
+           NFmiMetTime theFirstPlotTime);
 
   short GetFirstPlotHours(void) const;
   short GetFirstPlotMinutes(void) const;
   short GetFirstDeltaDays(void) const;
   short GetFirstOriginalDeltaDays(void) const;
   NFmiMetTime GetFirstPlotTime(void) const;
-  bool SetDataHour(NFmiFastQueryInfo * data, const NFmiString & calledFrom);
-  unsigned long ReadTimeFormat(bool isSecond = false);  
+  bool SetDataHour(NFmiFastQueryInfo* data, const NFmiString& calledFrom);
+  unsigned long ReadTimeFormat(bool isSecond = false);
   NFmiMetTime NextUseTime(long relHours, long hourRes, long hourDelta);
   NFmiMetTime TimeToWrite(NFmiMetTime givenTime) const;
   bool ActiveTimeIndex(int currentInd) const;
   bool IsWriteAsUtc(void) const;
-  FmiPressSeasons* GetSeasonsStatus(void)const;
-  int Weekday2Num(const NFmiString& theWeekday)const;
+  FmiPressSeasons* GetSeasonsStatus(void) const;
+  int Weekday2Num(const NFmiString& theWeekday) const;
 
-protected:
-
-  long JustifyByLeaps(long dayDiff); 
-  void SetPreReadingTimes(void); 
+ protected:
+  long JustifyByLeaps(long dayDiff);
+  void SetPreReadingTimes(void);
   void SetPostReadingTimes(void);
   void SetSeasonsStatus(FmiPressSeasons* theSeasonsStatus);
 
-  bool PreProcessDefinition(const std::string & inFileName,
-							const std::string & outFileName);
-  bool WeekdayDirectiveActive(const std::string & theDefinition,
-							  const FmiPressSeasons* theSeasons) const;
-  bool PreProcessConditionally(NFmiPreProcessor & thePrepr,
-							   bool theCondValue,
-							   const std::string & theConditionalBeginDirective,
-							   const std::string & theConditionalNotBeginDirective,
-							   const std::string & theConditionalEndDirective,
-							   const std::string & theConditionalElseDirective);
+  bool PreProcessDefinition(const std::string& inFileName, const std::string& outFileName);
+  bool WeekdayDirectiveActive(const std::string& theDefinition,
+                              const FmiPressSeasons* theSeasons) const;
+  bool PreProcessConditionally(NFmiPreProcessor& thePrepr,
+                               bool theCondValue,
+                               const std::string& theConditionalBeginDirective,
+                               const std::string& theConditionalNotBeginDirective,
+                               const std::string& theConditionalEndDirective,
+                               const std::string& theConditionalElseDirective);
 
-protected:
-
+ protected:
   FmiLoopActivity itsLoopActivity;
-  bool fGivenHoursAreRelative;  
-  bool fIsHourLoop;  
-  short itsFirstPlotHours; 
-  short itsFirstPlotMinutes;  
-  short itsFirstDeltaDays;  
+  bool fGivenHoursAreRelative;
+  bool fIsHourLoop;
+  short itsFirstPlotHours;
+  short itsFirstPlotMinutes;
+  short itsFirstDeltaDays;
   short itsFirstOriginalDeltaDays;
-  NFmiMetTime itsFirstPlotTime;  
-  NFmiString itsStringNameTimeFormat; 
-  NFmiString itsSecondStringNameTimeFormat;     
+  NFmiMetTime itsFirstPlotTime;
+  NFmiString itsStringNameTimeFormat;
+  NFmiString itsSecondStringNameTimeFormat;
   bool fWriteAsUtc;
-  FmiPressSeasons* itsSeasonsStatus; //owner NFmiPressProduct
+  FmiPressSeasons* itsSeasonsStatus;  // owner NFmiPressProduct
   std::map<std::string, std::string> itsReplaceMap;
 
-private: 
-
-}; // class NFmiPressTimeDescription
-
+ private:
+};  // class NFmiPressTimeDescription
 
 // ----------------------------------------------------------------------
 /*!
@@ -161,26 +152,21 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressTimeDescription::~NFmiPressTimeDescription(void)
-{
-}
-
+inline NFmiPressTimeDescription::~NFmiPressTimeDescription(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressTimeDescription::NFmiPressTimeDescription(void)			   
-  : fGivenHoursAreRelative(false) 
-  , fIsHourLoop(false)   
-  , itsFirstPlotHours(12)
-  , itsFirstPlotMinutes(0)
-  , itsFirstDeltaDays(+1)
-  , fWriteAsUtc(false)
-  , itsSeasonsStatus(0)
+inline NFmiPressTimeDescription::NFmiPressTimeDescription(void)
+    : fGivenHoursAreRelative(false),
+      fIsHourLoop(false),
+      itsFirstPlotHours(12),
+      itsFirstPlotMinutes(0),
+      itsFirstDeltaDays(+1),
+      fWriteAsUtc(false),
+      itsSeasonsStatus(0)
 {
   itsLoopActivity.startIndex = 0;
   itsLoopActivity.bypassWithValue = false;
@@ -196,15 +182,14 @@ NFmiPressTimeDescription::NFmiPressTimeDescription(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressTimeDescription::NFmiPressTimeDescription(short theFirstPlotMinutes,
-												   short theFirstPlotHours,
-												   short theFirstDeltaDays)
+inline NFmiPressTimeDescription::NFmiPressTimeDescription(short theFirstPlotMinutes,
+                                                          short theFirstPlotHours,
+                                                          short theFirstDeltaDays)
 {
   itsFirstPlotMinutes = theFirstPlotMinutes;
   itsFirstPlotHours = theFirstPlotHours;
   itsFirstDeltaDays = theFirstDeltaDays;
-  fIsHourLoop = false;    
+  fIsHourLoop = false;
   fWriteAsUtc = false;
   itsLoopActivity.startIndex = 0;
   itsLoopActivity.bypassWithValue = false;
@@ -219,8 +204,7 @@ NFmiPressTimeDescription::NFmiPressTimeDescription(short theFirstPlotMinutes,
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressTimeDescription::SetTime(const NFmiMetTime & theTime)
+inline void NFmiPressTimeDescription::SetTime(const NFmiMetTime& theTime)
 {
   itsFirstPlotTime = theTime;
 }
@@ -233,12 +217,7 @@ void NFmiPressTimeDescription::SetTime(const NFmiMetTime & theTime)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressTimeDescription::SetHourLoop(bool isHourLoop)
-{
-  fIsHourLoop = isHourLoop;
-}
-
+inline void NFmiPressTimeDescription::SetHourLoop(bool isHourLoop) { fIsHourLoop = isHourLoop; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -247,12 +226,7 @@ void NFmiPressTimeDescription::SetHourLoop(bool isHourLoop)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressTimeDescription::IsHourLoop(void) const
-{
-  return fIsHourLoop;
-}
-
+inline bool NFmiPressTimeDescription::IsHourLoop(void) const { return fIsHourLoop; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -265,17 +239,16 @@ bool NFmiPressTimeDescription::IsHourLoop(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressTimeDescription::Set(short theFirstPlotMinutes,
-								   short theFirstPlotHours ,
-								   short theFirstDeltaDays  ,
-								   short theFirstOriginalDeltaDays,
-								   NFmiMetTime theFirstPlotTime)
+inline void NFmiPressTimeDescription::Set(short theFirstPlotMinutes,
+                                          short theFirstPlotHours,
+                                          short theFirstDeltaDays,
+                                          short theFirstOriginalDeltaDays,
+                                          NFmiMetTime theFirstPlotTime)
 {
   itsFirstPlotMinutes = theFirstPlotMinutes;
-  itsFirstPlotHours = theFirstPlotHours; 
-  itsFirstDeltaDays =theFirstDeltaDays;  
-  itsFirstOriginalDeltaDays= theFirstOriginalDeltaDays;
+  itsFirstPlotHours = theFirstPlotHours;
+  itsFirstDeltaDays = theFirstDeltaDays;
+  itsFirstOriginalDeltaDays = theFirstOriginalDeltaDays;
   itsFirstPlotTime = theFirstPlotTime;
 }
 
@@ -287,12 +260,7 @@ void NFmiPressTimeDescription::Set(short theFirstPlotMinutes,
  */
 // ----------------------------------------------------------------------
 
-inline
-short NFmiPressTimeDescription::GetFirstPlotHours(void) const
-{
-  return itsFirstPlotHours;
-}
-
+inline short NFmiPressTimeDescription::GetFirstPlotHours(void) const { return itsFirstPlotHours; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -301,8 +269,7 @@ short NFmiPressTimeDescription::GetFirstPlotHours(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-short NFmiPressTimeDescription::GetFirstPlotMinutes(void) const
+inline short NFmiPressTimeDescription::GetFirstPlotMinutes(void) const
 {
   return itsFirstPlotMinutes;
 }
@@ -315,12 +282,7 @@ short NFmiPressTimeDescription::GetFirstPlotMinutes(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-short NFmiPressTimeDescription::GetFirstDeltaDays(void) const
-{
-  return itsFirstDeltaDays;
-}
-
+inline short NFmiPressTimeDescription::GetFirstDeltaDays(void) const { return itsFirstDeltaDays; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -329,8 +291,7 @@ short NFmiPressTimeDescription::GetFirstDeltaDays(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-short NFmiPressTimeDescription::GetFirstOriginalDeltaDays(void) const
+inline short NFmiPressTimeDescription::GetFirstOriginalDeltaDays(void) const
 {
   return itsFirstOriginalDeltaDays;
 }
@@ -343,8 +304,7 @@ short NFmiPressTimeDescription::GetFirstOriginalDeltaDays(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiMetTime NFmiPressTimeDescription::GetFirstPlotTime(void) const
+inline NFmiMetTime NFmiPressTimeDescription::GetFirstPlotTime(void) const
 {
   return itsFirstPlotTime;
 }
@@ -357,12 +317,7 @@ NFmiMetTime NFmiPressTimeDescription::GetFirstPlotTime(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiPressTimeDescription::IsWriteAsUtc(void) const
-{
-  return fWriteAsUtc;
-}
-
+inline bool NFmiPressTimeDescription::IsWriteAsUtc(void) const { return fWriteAsUtc; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -371,8 +326,7 @@ bool NFmiPressTimeDescription::IsWriteAsUtc(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-FmiPressSeasons* NFmiPressTimeDescription::GetSeasonsStatus(void) const
+inline FmiPressSeasons* NFmiPressTimeDescription::GetSeasonsStatus(void) const
 {
   return itsSeasonsStatus;
 }
@@ -385,13 +339,11 @@ FmiPressSeasons* NFmiPressTimeDescription::GetSeasonsStatus(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressTimeDescription::SetSeasonsStatus(FmiPressSeasons* theSeasonsStatus) 
+inline void NFmiPressTimeDescription::SetSeasonsStatus(FmiPressSeasons* theSeasonsStatus)
 {
   itsSeasonsStatus = theSeasonsStatus;
 }
 
-#endif // NFMIPRESSTIMEDESCRIPTION_H
+#endif  // NFMIPRESSTIMEDESCRIPTION_H
 
 // ======================================================================
-

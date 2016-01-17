@@ -21,7 +21,7 @@ using namespace std;
 
 NFmiMultiParamMapping::~NFmiMultiParamMapping(void)
 {
-  delete [] static_cast<FmiMultiMapping *>(itsMappingIntervals);
+  delete[] static_cast<FmiMultiMapping *>(itsMappingIntervals);
 }
 
 // ----------------------------------------------------------------------
@@ -33,14 +33,14 @@ NFmiMultiParamMapping::~NFmiMultiParamMapping(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiMultiParamMapping::NFmiMultiParamMapping(const NFmiMultiParamMapping & theParamMapping)
-  : NFmiSize(theParamMapping.GetSize())
+NFmiMultiParamMapping::NFmiMultiParamMapping(const NFmiMultiParamMapping &theParamMapping)
+    : NFmiSize(theParamMapping.GetSize())
 {
   itsMappingIntervals = new FmiMultiMapping[itsSize];
-  for(int i=0; i< static_cast<int>(itsSize); i++)
-	{
-	  itsMappingIntervals[i] = theParamMapping.itsMappingIntervals[i];
-	}
+  for (int i = 0; i < static_cast<int>(itsSize); i++)
+  {
+    itsMappingIntervals[i] = theParamMapping.itsMappingIntervals[i];
+  }
   itsNumOfParams = theParamMapping.itsNumOfParams;
   fIncomplete = theParamMapping.fIncomplete;
 }
@@ -55,55 +55,54 @@ NFmiMultiParamMapping::NFmiMultiParamMapping(const NFmiMultiParamMapping & thePa
  */
 // ----------------------------------------------------------------------
 
-FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream * inFile)
+FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream *inFile)
 {
-  const short lineSize = 130;	//max rivipituus
+  const short lineSize = 130;  // max rivipituus
   char inBuf[lineSize];
   NFmiString comma(",");
 
   FmiMultiMapping mapping;
 
-  inFile->getline(inBuf, lineSize, '\n'); 
+  inFile->getline(inBuf, lineSize, '\n');
 
   NFmiHyphenationString row(inBuf);
   NFmiHyphenationString hyphOnePair;
   NFmiString onePair;
   NFmiValueString str;
   NFmiHyphenationString hyphSubString;
-  
-  for(int i=0; i<FmiMaxNumOfMappingParams; i++)
-	{
-	  mapping.mappingInterval[i].lowBorder = kFloatMissing;
-	  mapping.mappingInterval[i].highBorder = kFloatMissing;
-	}
-  
+
+  for (int i = 0; i < FmiMaxNumOfMappingParams; i++)
+  {
+    mapping.mappingInterval[i].lowBorder = kFloatMissing;
+    mapping.mappingInterval[i].highBorder = kFloatMissing;
+  }
+
   short ind = 0;
   row.ReplaceChars(NFmiString("\t"), NFmiString(" "));
   while (row.NextSubString(comma, onePair))
-	{ 
-	  hyphOnePair = onePair.CharPtr();
-	  hyphOnePair.NextSubString(str);
-	  
-	  if(str.IsNumeric())
-		{
-		  mapping.mappingInterval[ind].lowBorder = static_cast<float>(str);
-		  
-		  hyphOnePair.NextSubString(str);
-		  if(str.IsNumeric())
-			{
-			  mapping.mappingInterval[ind].highBorder = static_cast<float>(str);
-			  if(hyphOnePair.NextSubString(str)) //mahdollinen symboli
-				break;     //jotta mahdollinen kommentii pilkkuineen ei sotkisi
-			}
-		}
-	  ind++;
-	}
-  if(str == NFmiString("-"))   //loppuu: - symboli
-	hyphOnePair.NextSubString(str);
+  {
+    hyphOnePair = onePair.CharPtr();
+    hyphOnePair.NextSubString(str);
+
+    if (str.IsNumeric())
+    {
+      mapping.mappingInterval[ind].lowBorder = static_cast<float>(str);
+
+      hyphOnePair.NextSubString(str);
+      if (str.IsNumeric())
+      {
+        mapping.mappingInterval[ind].highBorder = static_cast<float>(str);
+        if (hyphOnePair.NextSubString(str))  // mahdollinen symboli
+          break;  // jotta mahdollinen kommentii pilkkuineen ei sotkisi
+      }
+    }
+    ind++;
+  }
+  if (str == NFmiString("-"))  // loppuu: - symboli
+    hyphOnePair.NextSubString(str);
   mapping.symbol = str;
   return mapping;
 }
-
 
 // ----------------------------------------------------------------------
 /*!
@@ -114,40 +113,37 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream * inFile)
  */
 // ----------------------------------------------------------------------
 
-void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping & theInterval)
+void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping &theInterval)
 {
-  FmiMultiMapping * tempIntervals;
+  FmiMultiMapping *tempIntervals;
   tempIntervals = new FmiMultiMapping[GetSize() + 1];
-  
+
   int j;
-  for(j=0; j<static_cast<int>(itsSize); j++)
-	{
-	  tempIntervals[j]= itsMappingIntervals[j];
-	}
-  
-  tempIntervals[j] = theInterval;
-  
-  for(int i=0; i<itsNumOfParams; i++)
-  {		
-	if((theInterval.mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&
-		theInterval.mappingInterval[i].lowBorder < kFloatMissing)
-	   ||
-	   (theInterval.mappingInterval[i].highBorder >= FmiStartOfIncompleteValues &&
-		theInterval.mappingInterval[i].highBorder < kFloatMissing)
-	   )
-		fIncomplete = true;
+  for (j = 0; j < static_cast<int>(itsSize); j++)
+  {
+    tempIntervals[j] = itsMappingIntervals[j];
   }
-  
-  if(itsMappingIntervals)
-	delete [] itsMappingIntervals;
-  
-  itsMappingIntervals = new FmiMultiMapping[GetSize()+1];
-  itsSize = GetSize()+1;
-  for(j=0; j< static_cast<int>(GetSize()); j++)
-	{
-	  itsMappingIntervals[j] = tempIntervals[j];
-	}
-  delete [] tempIntervals;
+
+  tempIntervals[j] = theInterval;
+
+  for (int i = 0; i < itsNumOfParams; i++)
+  {
+    if ((theInterval.mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&
+         theInterval.mappingInterval[i].lowBorder < kFloatMissing) ||
+        (theInterval.mappingInterval[i].highBorder >= FmiStartOfIncompleteValues &&
+         theInterval.mappingInterval[i].highBorder < kFloatMissing))
+      fIncomplete = true;
+  }
+
+  if (itsMappingIntervals) delete[] itsMappingIntervals;
+
+  itsMappingIntervals = new FmiMultiMapping[GetSize() + 1];
+  itsSize = GetSize() + 1;
+  for (j = 0; j < static_cast<int>(GetSize()); j++)
+  {
+    itsMappingIntervals[j] = tempIntervals[j];
+  }
+  delete[] tempIntervals;
 }
 
 // ----------------------------------------------------------------------
@@ -161,43 +157,41 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping & theInterv
  */
 // ----------------------------------------------------------------------
 
-NFmiString * NFmiMultiParamMapping::Map(const vector<float> & values, bool & missingFound)
+NFmiString *NFmiMultiParamMapping::Map(const vector<float> &values, bool &missingFound)
 {
   missingFound = false;
-  for(int j=0; j<static_cast<int>(itsSize); j++)
-	{
-	  int i;
-	  for(i=0; i<static_cast<int>(itsNumOfParams); i++)
-	  {  
-		if( (itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues 
-			 &&itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing )
-			||
-			(itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues
-			 &&itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing))
-		     break; 
-		   if(!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing ||
-			   (itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing &&
-			   values[i] == itsMappingIntervals[j].mappingInterval[i].lowBorder) ||
-			   (values[i] >= itsMappingIntervals[j].mappingInterval[i].lowBorder &&
-				values[i]  <= itsMappingIntervals[j].mappingInterval[i].highBorder &&
-				values[i]  != kFloatMissing &&
-				itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing)))
-			break;
-		  //}
-		}
-	  if(i >= static_cast<int>(itsNumOfParams)) 
-		return &itsMappingIntervals[j].symbol;
+  for (int j = 0; j < static_cast<int>(itsSize); j++)
+  {
+    int i;
+    for (i = 0; i < static_cast<int>(itsNumOfParams); i++)
+    {
+      if ((itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&
+           itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing) ||
+          (itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues &&
+           itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing))
+        break;
+      if (!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing ||
+            (itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing &&
+             values[i] == itsMappingIntervals[j].mappingInterval[i].lowBorder) ||
+            (values[i] >= itsMappingIntervals[j].mappingInterval[i].lowBorder &&
+             values[i] <= itsMappingIntervals[j].mappingInterval[i].highBorder &&
+             values[i] != kFloatMissing &&
+             itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing)))
+        break;
+      //}
+    }
+    if (i >= static_cast<int>(itsNumOfParams)) return &itsMappingIntervals[j].symbol;
 
-	  // moniparametrien puuttuva-testi t‰‰ll‰ eli
-	  // puuttuva vain jos jokin signifikantti puuttuu
-	  if( (i<static_cast<int>(itsNumOfParams) && values[i] == kFloatMissing)  ||
-		  (i==static_cast<int>(itsNumOfParams) && values[i-1] == kFloatMissing))
-		{											
-		  missingFound = true;
-		  //return itsMissingString;
-		  return 0;
-		}
-	}
+    // moniparametrien puuttuva-testi t‰‰ll‰ eli
+    // puuttuva vain jos jokin signifikantti puuttuu
+    if ((i < static_cast<int>(itsNumOfParams) && values[i] == kFloatMissing) ||
+        (i == static_cast<int>(itsNumOfParams) && values[i - 1] == kFloatMissing))
+    {
+      missingFound = true;
+      // return itsMissingString;
+      return 0;
+    }
+  }
   return 0;
 }
 // ----------------------------------------------------------------------
@@ -210,19 +204,19 @@ NFmiString * NFmiMultiParamMapping::Map(const vector<float> & values, bool & mis
 
 bool NFmiMultiParamMapping::Complete(float theOldValue, float theNewValue)
 {
-  for(int j=0; j<static_cast<int>(itsSize); j++)
+  for (int j = 0; j < static_cast<int>(itsSize); j++)
   {
-		int i;
-		for(i=0; i<static_cast<int>(itsNumOfParams); i++)
-		{  
-			if(itsMappingIntervals[j].mappingInterval[i].lowBorder == theOldValue)
-				itsMappingIntervals[j].mappingInterval[i].lowBorder = theNewValue;
-			if(itsMappingIntervals[j].mappingInterval[i].highBorder == theOldValue)
-				itsMappingIntervals[j].mappingInterval[i].highBorder = theNewValue;
-	    }
-	}
+    int i;
+    for (i = 0; i < static_cast<int>(itsNumOfParams); i++)
+    {
+      if (itsMappingIntervals[j].mappingInterval[i].lowBorder == theOldValue)
+        itsMappingIntervals[j].mappingInterval[i].lowBorder = theNewValue;
+      if (itsMappingIntervals[j].mappingInterval[i].highBorder == theOldValue)
+        itsMappingIntervals[j].mappingInterval[i].highBorder = theNewValue;
+    }
+  }
 
-	return true;
+  return true;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -234,20 +228,19 @@ bool NFmiMultiParamMapping::Complete(float theOldValue, float theNewValue)
 
 short NFmiMultiParamMapping::CheckIfIncomplete(void)
 {
-  for(int j=0; j<static_cast<int>(itsSize); j++)
+  for (int j = 0; j < static_cast<int>(itsSize); j++)
   {
-		int i;
-		for(i=0; i<static_cast<int>(itsNumOfParams); i++)
-		{  
-		   if(itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues 
-				&&itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing)
-				return static_cast<short>(itsMappingIntervals[j].mappingInterval[i].lowBorder);
-		   if(itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues
-				&&itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing) 
-				return static_cast<short>(itsMappingIntervals[j].mappingInterval[i].highBorder);
-	    }
-	}
-	return 0;
+    int i;
+    for (i = 0; i < static_cast<int>(itsNumOfParams); i++)
+    {
+      if (itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&
+          itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing)
+        return static_cast<short>(itsMappingIntervals[j].mappingInterval[i].lowBorder);
+      if (itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues &&
+          itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing)
+        return static_cast<short>(itsMappingIntervals[j].mappingInterval[i].highBorder);
+    }
+  }
+  return 0;
 }
 // ======================================================================
-

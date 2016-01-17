@@ -29,39 +29,33 @@ enum NFmiPsSymbolObjects
   dPsRelSize
 };
 
-
 //! Undocumented
-class _FMI_DLL NFmiPsSymbol : public NFmiPressScaling 
+class _FMI_DLL NFmiPsSymbol : public NFmiPressScaling
 {
-
-public:
-
+ public:
   virtual ~NFmiPsSymbol(void);
   NFmiPsSymbol(void);
-  NFmiPsSymbol(const NFmiPsSymbol & thePsSymbol);
-		
-  virtual int ConvertDefText(NFmiString & object);
-  virtual bool ReadDescription(NFmiString & retString); 
-  virtual NFmiPsSymbol * Clone(void) const; 
-  virtual bool MakeAndWritePS(NFmiPoint place); //tän voi sitten joskus hylätä
+  NFmiPsSymbol(const NFmiPsSymbol& thePsSymbol);
+
+  virtual int ConvertDefText(NFmiString& object);
+  virtual bool ReadDescription(NFmiString& retString);
+  virtual NFmiPsSymbol* Clone(void) const;
+  virtual bool MakeAndWritePS(NFmiPoint place);  // tän voi sitten joskus hylätä
   using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   NFmiString GetSymbol(void) const;
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
 
-protected:           
-
-  virtual bool CopyShortSymbol2Dest(void); 
+ protected:
+  virtual bool CopyShortSymbol2Dest(void);
   virtual bool ConvertOrig2Short(void);
 
-protected:
-
-  NFmiString itsShortDir;	
+ protected:
+  NFmiString itsShortDir;
   NFmiString itsOrigDir;
   NFmiString itsSymbol;
 
-}; // class NFmiPsSymbol
-
+};  // class NFmiPsSymbol
 
 // ----------------------------------------------------------------------
 /*!
@@ -69,12 +63,7 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPsSymbol::NFmiPsSymbol(void)
-  : NFmiPressScaling()
-{
-}
-
+inline NFmiPsSymbol::NFmiPsSymbol(void) : NFmiPressScaling() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -83,12 +72,7 @@ NFmiPsSymbol::NFmiPsSymbol(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiString NFmiPsSymbol::GetSymbol(void) const
-{
-  return itsSymbol;
-}
-
-#endif // NFMIPSSYMBOL_H
+inline NFmiString NFmiPsSymbol::GetSymbol(void) const { return itsSymbol; }
+#endif  // NFMIPSSYMBOL_H
 
 // ======================================================================

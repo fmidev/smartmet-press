@@ -8,7 +8,7 @@
  * \class NFmiPressComputerTimeText
  *
  * Luokka tuottaa koneen ajan ps-oliona output-
- * tiedostoon. Toistaiseksi k‰ytet‰‰n Suomen aikaa. 
+ * tiedostoon. Toistaiseksi k‰ytet‰‰n Suomen aikaa.
  * Emo on abstrakti NFmiPressTimeText ja sisaruksia ovat
  * NFmiPressDataTimeText ja NFmiPressComputerTimeText.
  *
@@ -23,8 +23,7 @@
 //! Undocumented
 class _FMI_DLL NFmiPressComputerTimeText : public NFmiPressTimeText
 {
-public:
-
+ public:
   virtual ~NFmiPressComputerTimeText(void);
   NFmiPressComputerTimeText(void);
 
@@ -32,7 +31,7 @@ public:
   virtual bool SetText(void);
 
   virtual void SetText(NFmiString theText);
-  int ConvertDefText(NFmiString & object);
+  int ConvertDefText(NFmiString& object);
 
 #ifdef OLD_MSC
   using NFmiPressTimeText::WritePS;
@@ -40,14 +39,12 @@ public:
   using NFmiPressScaling::WritePS;
 #endif
   virtual bool WritePS(FmiPressOutputMode theOutput);
-       
-protected:
 
+ protected:
   short itsDeltaDays;
   short itsDeltaHours;
 
-}; // class NFmiPressComputerTimeText
-
+};  // class NFmiPressComputerTimeText
 
 // ----------------------------------------------------------------------
 /*!
@@ -55,11 +52,8 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressComputerTimeText::NFmiPressComputerTimeText(void)
-  : NFmiPressTimeText()
-  , itsDeltaDays(0)
-  , itsDeltaHours(0)
+inline NFmiPressComputerTimeText::NFmiPressComputerTimeText(void)
+    : NFmiPressTimeText(), itsDeltaDays(0), itsDeltaHours(0)
 {
 }
 
@@ -71,12 +65,11 @@ NFmiPressComputerTimeText::NFmiPressComputerTimeText(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressComputerTimeText::SetText(NFmiString theText)
+inline void NFmiPressComputerTimeText::SetText(NFmiString theText)
 {
   NFmiPressTimeText::SetText(theText);
 }
 
-#endif // NFMIPRESSCOMPUTERTIMETEXT_H
+#endif  // NFMIPRESSCOMPUTERTIMETEXT_H
 
 // ======================================================================

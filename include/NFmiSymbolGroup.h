@@ -7,8 +7,8 @@
 /*!
  * \class NFmiSymbolGroup
  *
- * Luokka toimii datariippuvien olioiden (symbolit, numerot) 
- * listana yhden segmentin (NFmiPresParam) puitteissa. Skaalauksen 
+ * Luokka toimii datariippuvien olioiden (symbolit, numerot)
+ * listana yhden segmentin (NFmiPresParam) puitteissa. Skaalauksen
  * hoitaminen tätä kautta on vanhentunut.
  *
  */
@@ -25,60 +25,53 @@
 // newbase
 #include "NFmiSize.h"
 #include "NFmiQueryData.h"
-  
+
 class NFmiPressParam;
 class NFmiPsSymbol;
 
 //! Undocumented
-class _FMI_DLL NFmiSymbolGroup : public NFmiSize,
-								 public NFmiPressTimeDescription
+class _FMI_DLL NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
 {
-public:
-
+ public:
   ~NFmiSymbolGroup(void);
   NFmiSymbolGroup(void);
-  NFmiSymbolGroup(NFmiPressParam * pressParam,
-				  NFmiParamRect ** theSymbolList,
-				  int num);
-  
+  NFmiSymbolGroup(NFmiPressParam* pressParam, NFmiParamRect** theSymbolList, int num);
 
-  long NumOfMissing(void) const; 
+  long NumOfMissing(void) const;
   void InitMissing(void);
-  bool  ReadDescription(NFmiString & retString); 
+  bool ReadDescription(NFmiString& retString);
 
-  bool WritePS(NFmiStationPoint* theStationPoint,
-			   FmiPressOutputMode theOutput);
+  bool WritePS(NFmiStationPoint* theStationPoint, FmiPressOutputMode theOutput);
 
-  bool SetPressParam(NFmiPressParam * param);
+  bool SetPressParam(NFmiPressParam* param);
   bool SetProducer(unsigned int producer);
 
-  bool Set(NFmiRectScale & theRectScale,
-		   NFmiFastQueryInfo * theQueryDataIter ,
-		   std::ofstream & theDestinationFile);
+  bool Set(NFmiRectScale& theRectScale,
+           NFmiFastQueryInfo* theQueryDataIter,
+           std::ofstream& theDestinationFile);
 
-  bool Add(const NFmiParamRect & theParamRect);
-  int ConvertDefText(NFmiString & object);
-  bool SetAllTimes(const NFmiMetTime & theTime);
+  bool Add(const NFmiParamRect& theParamRect);
+  int ConvertDefText(NFmiString& object);
+  bool SetAllTimes(const NFmiMetTime& theTime);
   bool SetAllLanguages(FmiLanguage theLanguage);
 
-private:
+ private:
+  void SetScalingMode(void);
 
-  void SetScalingMode(void); 
+  NFmiPressParam* itsPressParam;
+  bool fNewScaling;
+  unsigned long itsProducer;
+  NFmiPsSymbol* itsPsSymbol;
+  NFmiVoidPtrList itsPressScalingObjects;
+  NFmiParamRect** itsParamRects;
+  NFmiPoint itsRectSize;
 
-  NFmiPressParam * itsPressParam; 
-  bool fNewScaling;  
-  unsigned long itsProducer;  
-  NFmiPsSymbol * itsPsSymbol; 
-  NFmiVoidPtrList itsPressScalingObjects; 
-  NFmiParamRect ** itsParamRects;
-  NFmiPoint itsRectSize; 
-  
-  NFmiRectScale * itsRectScale;
-  NFmiQueryData * itsQueryData;
-  NFmiFastQueryInfo *	itsQueryDataIter;
-  std::ofstream * itsOutFile;
+  NFmiRectScale* itsRectScale;
+  NFmiQueryData* itsQueryData;
+  NFmiFastQueryInfo* itsQueryDataIter;
+  std::ofstream* itsOutFile;
 
-}; // class NFmiSymbolGroup
+};  // class NFmiSymbolGroup
 
 // ----------------------------------------------------------------------
 /*!
@@ -86,16 +79,15 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiSymbolGroup::NFmiSymbolGroup(void)
-  : itsPressParam(0)
-  , itsProducer(230)   
-  , itsPsSymbol(0)
-  , itsParamRects(0)
-  , itsRectSize(40,40)  
-  , itsRectScale(0)
-  , itsQueryData(0)
-  , itsQueryDataIter(0)
+inline NFmiSymbolGroup::NFmiSymbolGroup(void)
+    : itsPressParam(0),
+      itsProducer(230),
+      itsPsSymbol(0),
+      itsParamRects(0),
+      itsRectSize(40, 40),
+      itsRectScale(0),
+      itsQueryData(0),
+      itsQueryDataIter(0)
 {
 }
 
@@ -107,8 +99,7 @@ NFmiSymbolGroup::NFmiSymbolGroup(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiSymbolGroup::SetPressParam(NFmiPressParam * param) 
+inline bool NFmiSymbolGroup::SetPressParam(NFmiPressParam* param)
 {
   itsPressParam = param;
   return isTrue;
@@ -122,14 +113,12 @@ bool NFmiSymbolGroup::SetPressParam(NFmiPressParam * param)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiSymbolGroup::SetProducer(unsigned int producer)
+inline bool NFmiSymbolGroup::SetProducer(unsigned int producer)
 {
   itsProducer = producer;
   return isTrue;
 }
 
-#endif // NFMISYMBOLGROUP_H
+#endif  // NFMISYMBOLGROUP_H
 
 // ======================================================================
-

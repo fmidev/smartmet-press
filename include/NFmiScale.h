@@ -21,39 +21,36 @@
 //! Undocumented
 class _FMI_DLL NFmiScale
 {
-
-public:
-
+ public:
   virtual ~NFmiScale(void);
   NFmiScale(void);
   NFmiScale(float theStartValue, float theEndValue);
-  NFmiScale(const NFmiScale & anOtherScale);
-  
-  NFmiScale & operator= (const NFmiScale & anOtherScale);
-  NFmiScale & operator+=(const NFmiScale & anOtherScale);
-  NFmiScale & operator-=(const NFmiScale & anOtherScale);
+  NFmiScale(const NFmiScale& anOtherScale);
+
+  NFmiScale& operator=(const NFmiScale& anOtherScale);
+  NFmiScale& operator+=(const NFmiScale& anOtherScale);
+  NFmiScale& operator-=(const NFmiScale& anOtherScale);
 
   float StartValue(void) const;
   float EndValue(void) const;
   double CenterValue(void) const;
-  void SetStartValue(float theValue);		  
+  void SetStartValue(float theValue);
   void SetEndValue(float theValue);
   void Set(float theStartValue, float theEndValue);
   float RelLocation(float theValue) const;
-  float Location(float theRelValue) const;	   
+  float Location(float theRelValue) const;
   bool Inside(float theValue) const;
-  virtual void StartFromZeroOptionally(float theFactor=1.);
-  virtual void ExpandIfNotZero(float theFactor=.05);
-  virtual void ExpandIfEqual(float theAdditionToBothEnds=1.);
-  virtual void Expand(float theAdditionToBothEnds=1.);
+  virtual void StartFromZeroOptionally(float theFactor = 1.);
+  virtual void ExpandIfNotZero(float theFactor = .05);
+  virtual void ExpandIfEqual(float theAdditionToBothEnds = 1.);
+  virtual void Expand(float theAdditionToBothEnds = 1.);
   void LimitCheck(bool theCheck);
   virtual void ExcludePositive(void);
   virtual void ExcludeNegative(void);
   bool Ok(void) const;
   float Difference(void) const;
 
-protected:
-
+ protected:
   void Check(void);
   bool IsMissing(void) const;
 
@@ -62,10 +59,9 @@ protected:
   float itsEpsilon;
   bool itsDataOk;
   bool itsLimitCheck;
-  
-private:
-  
-}; // class NFmiScale
+
+ private:
+};  // class NFmiScale
 
 // ----------------------------------------------------------------------
 /*!
@@ -75,12 +71,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-float NFmiScale::StartValue (void) const
-{
-  return itsStartValue;
-}
-
+inline float NFmiScale::StartValue(void) const { return itsStartValue; }
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -88,12 +79,7 @@ float NFmiScale::StartValue (void) const
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-inline
-float NFmiScale::EndValue (void) const
-{
-  return itsEndValue;
-}
-
+inline float NFmiScale::EndValue(void) const { return itsEndValue; }
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -102,8 +88,7 @@ float NFmiScale::EndValue (void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiScale::SetStartValue (float theValue)
+inline void NFmiScale::SetStartValue(float theValue)
 {
   itsStartValue = theValue;
   Check();
@@ -117,8 +102,7 @@ void NFmiScale::SetStartValue (float theValue)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiScale::SetEndValue (float theValue)
+inline void NFmiScale::SetEndValue(float theValue)
 {
   itsEndValue = theValue;
   Check();
@@ -133,8 +117,7 @@ void NFmiScale::SetEndValue (float theValue)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiScale::Set(float theStartValue, float theEndValue)
+inline void NFmiScale::Set(float theStartValue, float theEndValue)
 {
   itsStartValue = theStartValue;
   itsEndValue = theEndValue;
@@ -149,12 +132,7 @@ void NFmiScale::Set(float theStartValue, float theEndValue)
  */
 // ----------------------------------------------------------------------
 
-inline
-float NFmiScale::Difference(void) const
-{
-  return itsEndValue - itsStartValue;
-}
-
+inline float NFmiScale::Difference(void) const { return itsEndValue - itsStartValue; }
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -163,12 +141,7 @@ float NFmiScale::Difference(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-double NFmiScale::CenterValue(void) const
-{
-  return (itsStartValue+itsEndValue)/2.;
-}
-
+inline double NFmiScale::CenterValue(void) const { return (itsStartValue + itsEndValue) / 2.; }
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -177,12 +150,7 @@ double NFmiScale::CenterValue(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiScale::LimitCheck(bool theCheck)
-{
-  itsLimitCheck=theCheck;
-}
-
+inline void NFmiScale::LimitCheck(bool theCheck) { itsLimitCheck = theCheck; }
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -191,12 +159,7 @@ void NFmiScale::LimitCheck(bool theCheck)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiScale::Ok(void) const
-{
-  return itsDataOk;
-}
-
-#endif // NFMISCALE_H
+inline bool NFmiScale::Ok(void) const { return itsDataOk; }
+#endif  // NFMISCALE_H
 
 // ======================================================================

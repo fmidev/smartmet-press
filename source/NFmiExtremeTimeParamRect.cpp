@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
 #include "NFmiExtremeTimeParamRect.h"
@@ -18,10 +18,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void)
-{
-}
-
+NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -31,8 +28,9 @@ NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect & theExtremeTimeParamRect)
-  : NFmiTimeParamRect(theExtremeTimeParamRect)
+NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(
+    const NFmiExtremeTimeParamRect& theExtremeTimeParamRect)
+    : NFmiTimeParamRect(theExtremeTimeParamRect)
 {
 }
 
@@ -44,7 +42,7 @@ NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRec
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect * NFmiExtremeTimeParamRect::Clone(void) const
+NFmiParamRect* NFmiExtremeTimeParamRect::Clone(void) const
 {
   return new NFmiExtremeTimeParamRect(*this);
 }
@@ -58,7 +56,7 @@ NFmiParamRect * NFmiExtremeTimeParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiTime NFmiExtremeTimeParamRect::TimeToWrite(NFmiFastQueryInfo * theQI)
+NFmiTime NFmiExtremeTimeParamRect::TimeToWrite(NFmiFastQueryInfo* theQI)
 {
   return itsPressParam->GetOptionTime();
 }

@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
 #include "NFmiPressGivenTimeText.h"
@@ -20,10 +20,7 @@ using namespace std;
  */
 //----------------------------------------------------------------------
 
-NFmiPressGivenTimeText::~NFmiPressGivenTimeText(void)
-{
-}
-
+NFmiPressGivenTimeText::~NFmiPressGivenTimeText(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -32,42 +29,39 @@ NFmiPressGivenTimeText::~NFmiPressGivenTimeText(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressGivenTimeText::ReadRemaining(void)  
+bool NFmiPressGivenTimeText::ReadRemaining(void)
 {
   unsigned long long1;
-  switch(itsIntObject)
-	{	
-	case dRelDay:     
-	  {
-		if (!ReadEqualChar())
-		  break;
-		
-		if(ReadOne(long1))
-		  {			
-			itsFirstPlotTime = NFmiMetTime();
-			itsFirstPlotTime.ChangeByDays(long1+itsEnvironment.GetDayAdvance());
-		  }
-		
-		ReadNext();
-		break;
-	  }
-	case dHour:       
-	  {
-		if (!ReadEqualChar())
-		  break;
-		
-		if(ReadOne(long1))    
-		  itsFirstPlotTime.SetHour(static_cast<short>(long1));
-		
-		ReadNext();
-		break;
-	  }
-	default:
-	  {
-		NFmiPressTimeText:: ReadRemaining();
-		break;
-	  }
-	}
+  switch (itsIntObject)
+  {
+    case dRelDay:
+    {
+      if (!ReadEqualChar()) break;
+
+      if (ReadOne(long1))
+      {
+        itsFirstPlotTime = NFmiMetTime();
+        itsFirstPlotTime.ChangeByDays(long1 + itsEnvironment.GetDayAdvance());
+      }
+
+      ReadNext();
+      break;
+    }
+    case dHour:
+    {
+      if (!ReadEqualChar()) break;
+
+      if (ReadOne(long1)) itsFirstPlotTime.SetHour(static_cast<short>(long1));
+
+      ReadNext();
+      break;
+    }
+    default:
+    {
+      NFmiPressTimeText::ReadRemaining();
+      break;
+    }
+  }
   return true;
 }
 
@@ -82,7 +76,7 @@ bool NFmiPressGivenTimeText::ReadRemaining(void)
 
 bool NFmiPressGivenTimeText::WritePS(FmiPressOutputMode theOutput)
 {
-   ScalePlotting();
+  ScalePlotting();
 
   SetText();
   return WriteString(NFmiString("AnnettuAikaTeksti"), theOutput);
@@ -98,20 +92,23 @@ bool NFmiPressGivenTimeText::WritePS(FmiPressOutputMode theOutput)
 
 bool NFmiPressGivenTimeText::SetText(void)
 {
-  if(itsStringNameTimeFormat.IsValue())
-	{
-	  if(fWriteAsUtc)
-		SetText((static_cast<NFmiPressTime>(itsFirstPlotTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
-	  else
-		SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f))).InterpretToStr(itsStringNameTimeFormat,itsLanguage)); 
-	}
+  if (itsStringNameTimeFormat.IsValue())
+  {
+    if (fWriteAsUtc)
+      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime))
+                  .InterpretToStr(itsStringNameTimeFormat, itsLanguage));
+    else
+      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f)))
+                  .InterpretToStr(itsStringNameTimeFormat, itsLanguage));
+  }
   else
-	{
-	  if(fWriteAsUtc)
-		SetText((static_cast<NFmiPressTime>(itsFirstPlotTime)).ToStr(itsFormat,itsLanguage));
-	  else
-		SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f))).ToStr(itsFormat,itsLanguage));
-	}
+  {
+    if (fWriteAsUtc)
+      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime)).ToStr(itsFormat, itsLanguage));
+    else
+      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f)))
+                  .ToStr(itsFormat, itsLanguage));
+  }
   return true;
 }
 

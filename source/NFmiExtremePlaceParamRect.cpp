@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
 #include "NFmiExtremePlaceParamRect.h"
@@ -22,10 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void)
-{
-}
-
+NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -34,10 +31,11 @@ NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(const NFmiExtremePlaceParamRect & theExtremePlaceParamRect)
-  : NFmiTextParamRect(theExtremePlaceParamRect)
+NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(
+    const NFmiExtremePlaceParamRect& theExtremePlaceParamRect)
+    : NFmiTextParamRect(theExtremePlaceParamRect)
 {
-}                      
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -48,7 +46,7 @@ NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(const NFmiExtremePlaceParam
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect * NFmiExtremePlaceParamRect::Clone(void) const
+NFmiParamRect* NFmiExtremePlaceParamRect::Clone(void) const
 {
   return new NFmiExtremePlaceParamRect(*this);
 }
@@ -62,15 +60,14 @@ NFmiParamRect * NFmiExtremePlaceParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-
-bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
-{			 
+bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
+{
   NFmiString helpString;
   NFmiValueString helpValueString;
   long long1;
-  double r1,r2,r3,r4;
+  double r1, r2, r3, r4;
 
-  itsRelRect.Set(NFmiPoint(0.,0.), NFmiPoint(1.,1.));
+  itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
   itsMapping = new NFmiParamMapping;
 
   SetPreReadingTimes();
@@ -81,121 +78,109 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString & retString)
 
   itsRelRect -= NFmiPoint(1., 1.);
   ReadNext();
-	
-  while(itsIntObject != 9999 || itsCommentLevel) 
-	{
-	  if (itsIntObject != dEndComment && itsCommentLevel)
-		itsIntObject = dComment; 
 
-	  if(itsLoopNum > itsMaxLoopNum)  
-		{
-		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: Maximum length of product filename exceeded in #consttext" << endl;
-		  retString = itsString;
-		  return false;
-		}
-	  itsLoopNum++;
-	  switch(itsIntObject)
-		{
-		case dOther:	  
-		  {    
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Unknown keyword in #extremeplace: "
-						  << static_cast<char *>(itsObject)
-						  << endl;  
-			ReadNext();
-			break;
-		  }
-		case dComment:	  
-		  {
-			ReadNext();
-			break;
-		  }
-		case dEndComment:	  
-		  {
-			ReadNext();
-			break;
-		  }
-		case dPlaceMove:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			
-			if(Read2Double(r1,r2))
-			{ 
-			  itsRelRect += NFmiPoint(r1/c40, r2/c40);
-			}
-			
-			ReadNext();
-			break;
-		  }
-		case dRelPlace:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(Read4Double(r1,r2,r3,r4))
-			  {
-				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
-			  }
-			relPlace = true;
-			ReadNext();
-			break;
-		  }
+  while (itsIntObject != 9999 || itsCommentLevel)
+  {
+    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
 
-		case dColorValueDependent: 
-		  {	
-			ReadNext();
-			break;
-		  }
-		  
-		case dRelDay:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			ReadLong(long1);
-			//  itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance());
+    if (itsLoopNum > itsMaxLoopNum)
+    {
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: Maximum length of product filename exceeded in #consttext"
+                    << endl;
+      retString = itsString;
+      return false;
+    }
+    itsLoopNum++;
+    switch (itsIntObject)
+    {
+      case dOther:
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Unknown keyword in #extremeplace: "
+                      << static_cast<char*>(itsObject) << endl;
+        ReadNext();
+        break;
+      }
+      case dComment:
+      {
+        ReadNext();
+        break;
+      }
+      case dEndComment:
+      {
+        ReadNext();
+        break;
+      }
+      case dPlaceMove:
+      {
+        if (!ReadEqualChar()) break;
 
-			ReadNext();
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Cannot set date in #extremeplace"
-						  << endl;  
-			break;
-		  }
-		case dHour:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			ReadLong(long1);
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Cannot set hour in #extremeplace"
-						  << endl;  
-			
-			ReadNext();
-			break;
-		  }
+        if (Read2Double(r1, r2))
+        {
+          itsRelRect += NFmiPoint(r1 / c40, r2 / c40);
+        }
 
-		default:
-		  {
-			ReadRemaining();  
-			break;
-		  }
-		}
-	} //while
-	
-  //flush viimeinen takaisin streamiin! Miten?
+        ReadNext();
+        break;
+      }
+      case dRelPlace:
+      {
+        if (!ReadEqualChar()) break;
+        if (Read4Double(r1, r2, r3, r4))
+        {
+          itsRelRect.Set(NFmiPoint(r1, r2), NFmiPoint(r3, r4));
+        }
+        relPlace = true;
+        ReadNext();
+        break;
+      }
+
+      case dColorValueDependent:
+      {
+        ReadNext();
+        break;
+      }
+
+      case dRelDay:
+      {
+        if (!ReadEqualChar()) break;
+        ReadLong(long1);
+        //  itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance());
+
+        ReadNext();
+        if (itsLogFile) *itsLogFile << "*** ERROR: Cannot set date in #extremeplace" << endl;
+        break;
+      }
+      case dHour:
+      {
+        if (!ReadEqualChar()) break;
+        ReadLong(long1);
+        if (itsLogFile) *itsLogFile << "*** ERROR: Cannot set hour in #extremeplace" << endl;
+
+        ReadNext();
+        break;
+      }
+
+      default:
+      {
+        ReadRemaining();
+        break;
+      }
+    }
+  }  // while
+
+  // flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
-  if(!relPlace)
-	  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
-  
-  if(fNewScaling)
-	itsRelRect += NFmiPoint(1.,1.);
-  Set(NFmiDataIdent(NFmiParam(itsIdentPar),NFmiProducer(240)), NFmiRect(itsRelRect));
+  if (!relPlace) itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
+
+  if (fNewScaling) itsRelRect += NFmiPoint(1., 1.);
+  Set(NFmiDataIdent(NFmiParam(itsIdentPar), NFmiProducer(240)), NFmiRect(itsRelRect));
 
   retString = itsString;
   return true;
 }
-
 
 // ----------------------------------------------------------------------
 /*!
@@ -212,11 +197,11 @@ int NFmiExtremePlaceParamRect::ConvertDefText(NFmiString & object)
   NFmiString lowChar = object;
   lowChar.LowerCase();
   if    (lowChar == "#columntext"
-	  || lowChar == "#palstateksti")
-	  	return dColumnText;
+          || lowChar == "#palstateksti")
+                return dColumnText;
   else
-  
-		return NFmiTextParamRect::ConvertDefText(object);	
+
+                return NFmiTextParamRect::ConvertDefText(object);
 }
 */
 
@@ -232,35 +217,33 @@ int NFmiExtremePlaceParamRect::ConvertDefText(NFmiString & object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
-								  NFmiFastQueryInfo * theQI,
-								  ofstream & theDestinationFile,
-								  FmiPressOutputMode theOutput)
+bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect& theAbsoluteRectOfSymbolGroup,
+                                        NFmiFastQueryInfo* theQI,
+                                        ofstream& theDestinationFile,
+                                        FmiPressOutputMode theOutput)
 {
-	NFmiString str;     
-    NFmiLocation* location = itsPressParam->GetOptionLocation();
-	if(!location)
-	{
-		str = NFmiString("-");
-		    //esim jos ei miss‰‰n satanut on max-paikka: -
-		*itsLogFile << "   WARNING: location for extreme value is missing" << endl;
-	}
-	else
-		str = location->GetName();
+  NFmiString str;
+  NFmiLocation* location = itsPressParam->GetOptionLocation();
+  if (!location)
+  {
+    str = NFmiString("-");
+    // esim jos ei miss‰‰n satanut on max-paikka: -
+    *itsLogFile << "   WARNING: location for extreme value is missing" << endl;
+  }
+  else
+    str = location->GetName();
 
-    if(itsMaxLen > 0)
-		str = GetPressProduct()->CutOffString(str, itsMaxLen);
+  if (itsMaxLen > 0) str = GetPressProduct()->CutOffString(str, itsMaxLen);
 
-	if (fFillWithUnderscore)
-	{
-		unsigned long len = str.GetLen();
-		if(len < itsMaxLen)
-			str.FillR(itsMaxLen, '_');
-	}
+  if (fFillWithUnderscore)
+  {
+    unsigned long len = str.GetLen();
+    if (len < itsMaxLen) str.FillR(itsMaxLen, '_');
+  }
 
-	return WriteCode(Construct(&str),
-				theAbsoluteRectOfSymbolGroup, 
-				theDestinationFile,
-				NFmiString("ExtremePlace"),
-				theOutput); 	
+  return WriteCode(Construct(&str),
+                   theAbsoluteRectOfSymbolGroup,
+                   theDestinationFile,
+                   NFmiString("ExtremePlace"),
+                   theOutput);
 }

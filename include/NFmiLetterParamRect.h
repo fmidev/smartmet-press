@@ -31,49 +31,43 @@ enum NFmiLetterParamRectObjects
 //! Undocumented
 class _FMI_DLL NFmiLetterParamRect : public NFmiTextParamRect
 {
-
-public:
-
+ public:
   virtual ~NFmiLetterParamRect(void);
 
   NFmiLetterParamRect(void);
-  NFmiLetterParamRect(const NFmiLetterParamRect & theLetterParamRect); 
+  NFmiLetterParamRect(const NFmiLetterParamRect &theLetterParamRect);
 
-  virtual bool ReadDescription(NFmiString & retString);
-  virtual NFmiParamRect * Clone(void) const; 
-  int ConvertDefText(NFmiString & object);
+  virtual bool ReadDescription(NFmiString &retString);
+  virtual NFmiParamRect *Clone(void) const;
+  int ConvertDefText(NFmiString &object);
 
-  virtual bool WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
-					   NFmiFastQueryInfo * theQI,
-					   std::ofstream & theDestinationFile,
-					   FmiPressOutputMode theOutput);
+  virtual bool WritePS(const NFmiRect &AbsoluteRectOfSymbolGroup,
+                       NFmiFastQueryInfo *theQI,
+                       std::ofstream &theDestinationFile,
+                       FmiPressOutputMode theOutput);
 
   FmiGenericColor MapColor(void) const;
 
-protected:
+ protected:
+ private:
+  bool ModifyTextBySeason(NFmiString &theString);
+  NFmiPressText *itsColumnText;
 
-private:
-	bool ModifyTextBySeason(NFmiString & theString);
-	NFmiPressText *itsColumnText;
-
-}; // class NFmiLetterParamRect
+};  // class NFmiLetterParamRect
 
 // ----------------------------------------------------------------------
 /*!
- * Void constructor 
+ * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiLetterParamRect::NFmiLetterParamRect(void)
-  : NFmiTextParamRect()
+inline NFmiLetterParamRect::NFmiLetterParamRect(void) : NFmiTextParamRect()
 {
-  itsMapping=0;
-  fUseSelectLatinFont=true;
-  itsColumnText=0;
+  itsMapping = 0;
+  fUseSelectLatinFont = true;
+  itsColumnText = 0;
 }
 
-#endif // NFMILETTERPARAMRECT_H
+#endif  // NFMILETTERPARAMRECT_H
 
 // ======================================================================
-

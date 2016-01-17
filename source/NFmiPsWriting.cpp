@@ -20,8 +20,7 @@ using namespace std;
 
 NFmiPsWriting::~NFmiPsWriting(void)
 {
-	if(itsInFile)
-		delete itsInFile;
+  if (itsInFile) delete itsInFile;
 }
 
 // ----------------------------------------------------------------------
@@ -32,16 +31,16 @@ NFmiPsWriting::~NFmiPsWriting(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiPsWriting::NFmiPsWriting(const NFmiPsWriting & thePsWriting)
-  : fWriteAsLast(thePsWriting.fWriteAsLast)
-  , fRotBeforeScale(thePsWriting.fRotBeforeScale)   
-  , itsRotatingPoint(thePsWriting.itsRotatingPoint)  
-  , itsRotatingAngle(thePsWriting.itsRotatingAngle)  
-  , fOverPrint(thePsWriting.fOverPrint)
-  , itsInFile(thePsWriting.itsInFile)
-  , itsOutFile(thePsWriting.itsOutFile)
-  , itsWriteScale(thePsWriting.itsWriteScale)
-  , fLineFeed(thePsWriting.fLineFeed)
+NFmiPsWriting::NFmiPsWriting(const NFmiPsWriting &thePsWriting)
+    : fWriteAsLast(thePsWriting.fWriteAsLast),
+      fRotBeforeScale(thePsWriting.fRotBeforeScale),
+      itsRotatingPoint(thePsWriting.itsRotatingPoint),
+      itsRotatingAngle(thePsWriting.itsRotatingAngle),
+      fOverPrint(thePsWriting.fOverPrint),
+      itsInFile(thePsWriting.itsInFile),
+      itsOutFile(thePsWriting.itsOutFile),
+      itsWriteScale(thePsWriting.itsWriteScale),
+      fLineFeed(thePsWriting.fLineFeed)
 {
 }
 
@@ -54,7 +53,7 @@ NFmiPsWriting::NFmiPsWriting(const NFmiPsWriting & thePsWriting)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::WriteOutString(const NFmiString & outString)
+bool NFmiPsWriting::WriteOutString(const NFmiString &outString)
 {
   *itsOutFile << static_cast<char *>(outString) << endl;
   return isTrue;
@@ -84,15 +83,15 @@ bool NFmiPsWriting::WriteGRestore(void)
 
 bool NFmiPsWriting::CopyPsFile(void)
 {
-  const short lineSize = 520; //130; 1.6 Metview:n ps-driveri tuottaa 513 pitkiä riviä
-  char inBuf[lineSize];       //     vaikka standardi puhuu 256:sta
+  const short lineSize = 520;  // 130; 1.6 Metview:n ps-driveri tuottaa 513 pitkiä riviä
+  char inBuf[lineSize];  //     vaikka standardi puhuu 256:sta
 
   while (itsInFile->getline(inBuf, lineSize, '\n'))
-	{
-	  short num = itsInFile->gcount();
-	  itsOutFile->write(inBuf, num-1);	 
-	  itsOutFile->put('\x0A');		  //jotta difference käytettävissä
-	}
+  {
+    short num = itsInFile->gcount();
+    itsOutFile->write(inBuf, num - 1);
+    itsOutFile->put('\x0A');  // jotta difference käytettävissä
+  }
   return isTrue;
 }
 
@@ -106,7 +105,7 @@ bool NFmiPsWriting::CopyPsFile(void)
 
 bool NFmiPsWriting::CopyFileWithoutShowpage(void)
 {
-	return NFmiCopyFileWithoutShowpage(*itsInFile, *itsOutFile);
+  return NFmiCopyFileWithoutShowpage(*itsInFile, *itsOutFile);
 }
 
 // ----------------------------------------------------------------------
@@ -121,21 +120,20 @@ bool NFmiPsWriting::WritePSConcat(void)
 {
   double xScale = itsWriteScale.GetXScaling();
   double yScale = itsWriteScale.GetYScaling();
-  double xTrans = (itsWriteScale.GetEndStartPoint().X() / xScale
-				   - itsWriteScale.GetStartStartPoint().X());
-  double yTrans = (itsWriteScale.GetEndStartPoint().Y() / yScale
-				   - itsWriteScale.GetStartStartPoint().Y());
+  double xTrans =
+      (itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X());
+  double yTrans =
+      (itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y());
 
   *itsOutFile << "%********* WritePSConcat begins ******" << endl;
 
   *itsOutFile << "gsave" << endl;
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
-  *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
+  *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
   *itsOutFile << "%********* WritePSConcat done ******" << endl;
 
   return isTrue;
 }
-
 
 // ----------------------------------------------------------------------
 /*!
@@ -145,10 +143,9 @@ bool NFmiPsWriting::WritePSConcat(void)
 
 void NFmiPsWriting::Rotate(void)
 {
-  //tässä pitää edetä ikäänkuin käänteisessä järjestyksessä
+  // tässä pitää edetä ikäänkuin käänteisessä järjestyksessä
   NFmiPoint scaledRotP = itsWriteScale.Scale(itsRotatingPoint);
-  if(fRotBeforeScale)
-	scaledRotP = itsRotatingPoint;
+  if (fRotBeforeScale) scaledRotP = itsRotatingPoint;
   *itsOutFile << scaledRotP.X() << " " << scaledRotP.Y() << " translate" << endl;
   *itsOutFile << itsRotatingAngle << " rotate" << endl;
   *itsOutFile << -scaledRotP.X() << " " << -scaledRotP.Y() << " translate" << endl;
@@ -166,28 +163,28 @@ bool NFmiPsWriting::WriteEPSConcat(void)
 {
   double xScale = itsWriteScale.GetXScaling();
   double yScale = itsWriteScale.GetYScaling();
-  double xTrans = itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
-  double yTrans = itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
+  double xTrans =
+      itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
+  double yTrans =
+      itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
 
   *itsOutFile << "gsave" << endl;
   *itsOutFile << "BeginEPSF" << endl;
 
-  if(fRotBeforeScale)
-	{
-	  //näennäisesti väärässä järjestyksessä
-	  *itsOutFile << xScale << " " << yScale << " scale" << endl;
-	  *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
-	  if(itsRotatingAngle != 0.)  
-		Rotate();
-	}
+  if (fRotBeforeScale)
+  {
+    // näennäisesti väärässä järjestyksessä
+    *itsOutFile << xScale << " " << yScale << " scale" << endl;
+    *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
+    if (itsRotatingAngle != 0.) Rotate();
+  }
   else
-	{
-	  //näennäisesti väärässä järjestyksessä
-	  if(itsRotatingAngle != 0.)
-		Rotate();
-	  *itsOutFile << xScale << " " << yScale << " scale" << endl;
-	  *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
-	}
+  {
+    // näennäisesti väärässä järjestyksessä
+    if (itsRotatingAngle != 0.) Rotate();
+    *itsOutFile << xScale << " " << yScale << " scale" << endl;
+    *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
+  }
   *itsOutFile << "%%BeginDocument: XXX.EPS" << endl;
   *itsOutFile << "%********* WriteEPSConcat done ******" << endl;
   return isTrue;
@@ -206,40 +203,33 @@ bool NFmiPsWriting::WriteEPSConcatClipping(NFmiRect theClippingRect)
 {
   double xScale = itsWriteScale.GetXScaling();
   double yScale = itsWriteScale.GetYScaling();
-  double xTrans = itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
-  double yTrans = itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
+  double xTrans =
+      itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
+  double yTrans =
+      itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
 
   *itsOutFile << "%********* WriteEPSConcatClipping begins ******" << endl;
-  *itsOutFile << "gsave" << endl;  //5.7
-  
-  //miksei rectclip käy suoraan ??
-  *itsOutFile << theClippingRect.Left()
-			  << " " << theClippingRect.Top()
-			  << " " <<	"moveto"
-			  << endl; 
-  *itsOutFile << theClippingRect.Right()
-			  << " " << theClippingRect.Top()
-			  << " " << "lineto"
-			  << endl; 
-  *itsOutFile << theClippingRect.Right()
-			  << " " << theClippingRect.Bottom()
-			  << " " << "lineto"
-			  << endl; 
-  *itsOutFile << theClippingRect.Left()
-			  << " " << theClippingRect.Bottom()
-			  << " " << "lineto"
-			  << endl; 
-  
+  *itsOutFile << "gsave" << endl;  // 5.7
+
+  // miksei rectclip käy suoraan ??
+  *itsOutFile << theClippingRect.Left() << " " << theClippingRect.Top() << " "
+              << "moveto" << endl;
+  *itsOutFile << theClippingRect.Right() << " " << theClippingRect.Top() << " "
+              << "lineto" << endl;
+  *itsOutFile << theClippingRect.Right() << " " << theClippingRect.Bottom() << " "
+              << "lineto" << endl;
+  *itsOutFile << theClippingRect.Left() << " " << theClippingRect.Bottom() << " "
+              << "lineto" << endl;
+
   *itsOutFile << "clip" << endl;
   *itsOutFile << "newpath" << endl;
 
   *itsOutFile << "BeginEPSF" << endl;
 
-  if(itsRotatingAngle != 0.)
-	Rotate();
+  if (itsRotatingAngle != 0.) Rotate();
 
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
-  *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
+  *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
   *itsOutFile << "%%BeginDocument: XXX.EPS" << endl;
   *itsOutFile << "%********* WriteEPSConcatClipping done ******" << endl;
 
@@ -259,34 +249,32 @@ bool NFmiPsWriting::WriteEPSConcatClipping(std::vector<NFmiPoint> thePoints)
 {
   double xScale = itsWriteScale.GetXScaling();
   double yScale = itsWriteScale.GetYScaling();
-  double xTrans = itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
-  double yTrans = itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
+  double xTrans =
+      itsWriteScale.GetEndStartPoint().X() / xScale - itsWriteScale.GetStartStartPoint().X();
+  double yTrans =
+      itsWriteScale.GetEndStartPoint().Y() / yScale - itsWriteScale.GetStartStartPoint().Y();
 
   *itsOutFile << "%********* WriteEPSConcatClippingPath begins ******" << endl;
-  *itsOutFile << "gsave" << endl;  //5.7
+  *itsOutFile << "gsave" << endl;  // 5.7
 
-	std::vector<NFmiPoint>::iterator pos;
+  std::vector<NFmiPoint>::iterator pos;
 
-	NFmiString command("moveto");
-	for(pos= thePoints.begin(); pos != thePoints.end(); ++pos)
-	{
-		*itsOutFile << (*pos).X()
-			  << " " << (*pos).Y()
-			  << " " <<	static_cast<char *>(command)
-			  << endl;
-		command = "lineto";
-	}
+  NFmiString command("moveto");
+  for (pos = thePoints.begin(); pos != thePoints.end(); ++pos)
+  {
+    *itsOutFile << (*pos).X() << " " << (*pos).Y() << " " << static_cast<char *>(command) << endl;
+    command = "lineto";
+  }
 
   *itsOutFile << "clip" << endl;
   *itsOutFile << "newpath" << endl;
 
   *itsOutFile << "BeginEPSF" << endl;
 
-  if(itsRotatingAngle != 0.)
-	Rotate();
+  if (itsRotatingAngle != 0.) Rotate();
 
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
-  *itsOutFile << xTrans << " " << yTrans  << " translate" << endl;
+  *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
   *itsOutFile << "%%BeginDocument: XXX.EPS" << endl;
   *itsOutFile << "%********* WriteEPSConcatClippingPath done ******" << endl;
 
@@ -311,14 +299,8 @@ bool NFmiPsWriting::WritePSConcatRotating(float theDirection)
   *itsOutFile << "%********* WritePSConcatRotating begins ******" << endl;
 
   *itsOutFile << "gsave" << endl;
-  *itsOutFile << "[" << xScale
-			  << " " << 0
-			  << " " << 0
-			  << " " << yScale
-			  << " " << xTrans
-			  << " " << yTrans
-			  << "] concat"
-			  << endl;
+  *itsOutFile << "[" << xScale << " " << 0 << " " << 0 << " " << yScale << " " << xTrans << " "
+              << yTrans << "] concat" << endl;
 
   // määrittelysymboli näyttää länteen ja PS kiertää eri suuntaan kuin meteorologiassa
   *itsOutFile << (270.f - theDirection) << " rotate" << endl;
@@ -337,7 +319,7 @@ bool NFmiPsWriting::WritePSConcatRotating(float theDirection)
 // ----------------------------------------------------------------------
 
 bool NFmiPsWriting::WritePSEnd(void)
-{	   
+{
   *itsOutFile << "grestore" << endl;
   return isTrue;
 }
@@ -351,7 +333,7 @@ bool NFmiPsWriting::WritePSEnd(void)
 // ----------------------------------------------------------------------
 
 bool NFmiPsWriting::WriteEPSEnd(void)
-{	  
+{
   *itsOutFile << "%%EndDocument" << endl;
   *itsOutFile << "EndEPSF" << endl;
   *itsOutFile << "grestore" << endl;
@@ -367,31 +349,31 @@ bool NFmiPsWriting::WriteEPSEnd(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiPsWriting::AlignmentToMeta(const FmiDirection & thePressAlignment) const
+NFmiString NFmiPsWriting::AlignmentToMeta(const FmiDirection &thePressAlignment) const
 {
-  //HUOM eps:ssä keskiviiva ja magics:ssä alareuna
-  
+  // HUOM eps:ssä keskiviiva ja magics:ssä alareuna
+
   NFmiString retString;
   switch (thePressAlignment)
-	{
-	case kCenter:
-	  {
-		retString = NFmiString("South");
-		break;
-	  }
-	case kRight:
-	  {
-		retString = NFmiString("SouthEast");
-		break;
-	  }
-	case kLeft:
-	  {
-		retString = NFmiString("SouthWest");
-		break;
-	  }
-	default:
-	  break;
-	}
+  {
+    case kCenter:
+    {
+      retString = NFmiString("South");
+      break;
+    }
+    case kRight:
+    {
+      retString = NFmiString("SouthEast");
+      break;
+    }
+    case kLeft:
+    {
+      retString = NFmiString("SouthWest");
+      break;
+    }
+    default:
+      break;
+  }
   return retString;
 }
 
@@ -405,32 +387,28 @@ NFmiString NFmiPsWriting::AlignmentToMeta(const FmiDirection & thePressAlignment
  */
 // ----------------------------------------------------------------------
 
-void NFmiPsWriting::WriteColor (const FmiGenericColor & theColor,
-								FmiPressOutputMode mode,
-								ofstream & os) const
+void NFmiPsWriting::WriteColor(const FmiGenericColor &theColor,
+                               FmiPressOutputMode mode,
+                               ofstream &os) const
 {
-  if(mode == kPostScript)
-	{
-	  if(theColor.isRgb)  
-		{	
-		  os << theColor.color.rgb.red << " "
-			 << theColor.color.rgb.green << " "
-			 << theColor.color.rgb.blue << " setrgbcolor"
-			 << endl;
-		}
-	  else
-		{
-		  os << theColor.color.cmyk.cyan << " "
-			 << theColor.color.cmyk.magenta << " "
-			 << theColor.color.cmyk.yellow << " "
-			 << theColor.color.cmyk.black << " setcmykcolor"
-			 << endl;
-		}
-	}
+  if (mode == kPostScript)
+  {
+    if (theColor.isRgb)
+    {
+      os << theColor.color.rgb.red << " " << theColor.color.rgb.green << " "
+         << theColor.color.rgb.blue << " setrgbcolor" << endl;
+    }
+    else
+    {
+      os << theColor.color.cmyk.cyan << " " << theColor.color.cmyk.magenta << " "
+         << theColor.color.cmyk.yellow << " " << theColor.color.cmyk.black << " setcmykcolor"
+         << endl;
+    }
+  }
   else
-	{
-	  // METAA
-	}
+  {
+    // METAA
+  }
 }
 
 // ======================================================================

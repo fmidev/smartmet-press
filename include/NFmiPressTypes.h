@@ -22,7 +22,6 @@ struct FmiRGBColor
   FmiColorValue alpha;
 };
 
-
 //! Undocumented
 struct FmiCMYK
 {
@@ -32,33 +31,31 @@ struct FmiCMYK
   double black;
 };
 
-
 //! tämän mukaan aloitusromppeet; Universaali pyrkii kelpaamaan kaikkiin??
 enum FmiPageSize
-  {
-	kLetter = 1,
-	kA4,
-	kA4Maisema,
-	kA3,
-	kA3Maisema,
-	kUniversal
+{
+  kLetter = 1,
+  kA4,
+  kA4Maisema,
+  kA3,
+  kA3Maisema,
+  kUniversal
 };
 
 //! Undocumented
 union FmiUnionColor
 {
   FmiRGBColor rgb;
-  FmiCMYK cmyk;  
+  FmiCMYK cmyk;
 };
-
 
 //! Undocumented
 struct FmiGenericColor
 {
-  bool isRgb;   
+  bool isRgb;
   FmiUnionColor color;
 };
- 
-#endif // NFMIPRESSTYPES_H
+
+#endif  // NFMIPRESSTYPES_H
 
 // ======================================================================

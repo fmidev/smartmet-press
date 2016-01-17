@@ -21,7 +21,6 @@
 #include "NFmiPressTimeText.h"
 #include "NFmiStationPoint.h"
 
-
 //! Undocumented
 enum NFmiPressDataTimeTextObjects
 {
@@ -29,17 +28,15 @@ enum NFmiPressDataTimeTextObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressDataTimeText : public NFmiPressTimeText,
-									   public NFmiPressDataObject
+class _FMI_DLL NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObject
 {
-public:
-
+ public:
   virtual ~NFmiPressDataTimeText(void);
   NFmiPressDataTimeText(void);
 
   bool ReadRemaining(void);
-  int ConvertDefText(NFmiString & object);
-		
+  int ConvertDefText(NFmiString& object);
+
 #ifdef OLD_MSC
   using NFmiPressTimeText::WritePS;
 #else
@@ -49,11 +46,10 @@ public:
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
   virtual unsigned long ClassId(void);
 
-protected:
-
+ protected:
   bool fUseOriginTime;
-		
-}; // class NFmiPressDataTimeText
+
+};  // class NFmiPressDataTimeText
 
 // ----------------------------------------------------------------------
 /*!
@@ -61,11 +57,8 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressDataTimeText::NFmiPressDataTimeText(void)
-  :  NFmiPressTimeText()
-  , NFmiPressDataObject()
-  , fUseOriginTime(false)
+inline NFmiPressDataTimeText::NFmiPressDataTimeText(void)
+    : NFmiPressTimeText(), NFmiPressDataObject(), fUseOriginTime(false)
 {
 }
 
@@ -77,12 +70,7 @@ NFmiPressDataTimeText::NFmiPressDataTimeText(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-unsigned long NFmiPressDataTimeText::ClassId(void)
-{
-  return kNFmiPressDataTimeText;
-}
-
-#endif // NFMIPRESSDATATIMETEXT_H
+inline unsigned long NFmiPressDataTimeText::ClassId(void) { return kNFmiPressDataTimeText; }
+#endif  // NFMIPRESSDATATIMETEXT_H
 
 // ======================================================================

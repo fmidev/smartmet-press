@@ -19,25 +19,23 @@
 #include "NFmiRect.h"
 
 //! Undocumented
-class _FMI_DLL NFmiRectScale 
+class _FMI_DLL NFmiRectScale
 {
-
-public:
-
+ public:
   virtual ~NFmiRectScale(void);
   NFmiRectScale(void);
   NFmiRectScale(NFmiRect theStartRect, NFmiRect theEndRect);
 
   void SetStartScales(const NFmiRect& startRect);
-  void SetXStartScale(const NFmiScale & scale);
-  void SetYStartScale(const NFmiScale & scale);
-  void SetXEndScale(const NFmiScale & scale);
-  void SetYEndScale(const NFmiScale & scale);
-  void MoveEndScales (const NFmiPoint & theDiff);
-  void MoveXEndScale (double theDelta);
-  void SetEndScales(const NFmiRect & endRect);
+  void SetXStartScale(const NFmiScale& scale);
+  void SetYStartScale(const NFmiScale& scale);
+  void SetXEndScale(const NFmiScale& scale);
+  void SetYEndScale(const NFmiScale& scale);
+  void MoveEndScales(const NFmiPoint& theDiff);
+  void MoveXEndScale(double theDelta);
+  void SetEndScales(const NFmiRect& endRect);
   void RescaleEndScales(double withFactor);
-  void SetScales(const NFmiRect & startRect, const NFmiRect & endRect);
+  void SetScales(const NFmiRect& startRect, const NFmiRect& endRect);
   double GetXScaling(void) const;
   double GetYScaling(void) const;
   NFmiRect GetStartScales(void) const;
@@ -51,28 +49,25 @@ public:
   NFmiPoint GetStartCenter(void) const;
   NFmiPoint GetEndCenter(void) const;
   NFmiPoint GetScaling(void) const;
-  NFmiPoint Scale(const NFmiPoint & fromPoint) const;
-  NFmiRectScale Scale(const NFmiRectScale & rectScale) const;
-  NFmiRect ScaleRect (const NFmiRect & fromRect) const;
+  NFmiPoint Scale(const NFmiPoint& fromPoint) const;
+  NFmiRectScale Scale(const NFmiRectScale& rectScale) const;
+  NFmiRect ScaleRect(const NFmiRect& fromRect) const;
   double ScaleX(double fromValue) const;
   double ScaleY(double fromValue) const;
-  NFmiPoint UnScale(const NFmiPoint & fromPoint) const;
-  NFmiRect UnScaleRect (const NFmiRect & fromRect) const;
+  NFmiPoint UnScale(const NFmiPoint& fromPoint) const;
+  NFmiRect UnScaleRect(const NFmiRect& fromRect) const;
   double UnScaleX(double fromValue) const;
   double UnScaleY(double fromValue) const;
 
-protected:
+ protected:
+ private:
+  NFmiScale itsXStartScale;
+  NFmiScale itsYStartScale;
+  NFmiScale itsXEndScale;
+  NFmiScale itsYEndScale;
 
-private:
+};  // class NFmiRectScale
 
-  NFmiScale itsXStartScale; 
-  NFmiScale itsYStartScale; 
-  NFmiScale itsXEndScale; 
-  NFmiScale itsYEndScale; 
-  
-}; // class NFmiRectScale
-
-
-#endif // NFMIRECTSCALE_H
+#endif  // NFMIRECTSCALE_H
 
 // ======================================================================

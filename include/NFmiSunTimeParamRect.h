@@ -17,7 +17,6 @@
 
 #include "NFmiTimeParamRect.h"
 
-
 //! Undocumented
 enum NFmiSunTimeParamRectObjects
 {
@@ -26,29 +25,25 @@ enum NFmiSunTimeParamRectObjects
 
 };
 
-
 //! Undocumented
 class _FMI_DLL NFmiSunTimeParamRect : public NFmiTimeParamRect
 {
-
-public:
+ public:
   virtual ~NFmiSunTimeParamRect(void);
   NFmiSunTimeParamRect(void);
-  NFmiSunTimeParamRect(const NFmiSunTimeParamRect & theTimeParamRect); 
+  NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theTimeParamRect);
 
-  virtual bool ReadRemaining(void); 
-  virtual NFmiParamRect * Clone(void) const; 
-  int ConvertDefText(NFmiString & object);
+  virtual bool ReadRemaining(void);
+  virtual NFmiParamRect* Clone(void) const;
+  int ConvertDefText(NFmiString& object);
 
-protected:
+ protected:
+  NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI);
 
-  NFmiTime TimeToWrite(NFmiFastQueryInfo * theQI);
-
-private:
-
+ private:
   bool fIsSunRise;
 
-}; // class NFmiSunTimeParamRect
+};  // class NFmiSunTimeParamRect
 
 // ----------------------------------------------------------------------
 /*!
@@ -56,15 +51,11 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiSunTimeParamRect::NFmiSunTimeParamRect(void)
-  :  NFmiTimeParamRect()
-  , fIsSunRise(true)
+inline NFmiSunTimeParamRect::NFmiSunTimeParamRect(void) : NFmiTimeParamRect(), fIsSunRise(true)
 {
-  itsFormat=kHHdMM;
+  itsFormat = kHHdMM;
 }
 
-#endif // NFMISUNTIMEPARAMRECT_H
+#endif  // NFMISUNTIMEPARAMRECT_H
 
 // ======================================================================
-

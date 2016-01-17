@@ -26,7 +26,7 @@
  * itse nimi. Samalle p‰iv‰lle voi antaa 1-n kappaletta
  * nimi‰. Nimip‰iv‰ kysyt‰‰n oliolta MetTime:lla tuloksen ollessa
  * muotoa "Kari, Karri". Tuloksen voi rajoittaa nimien lukum‰‰r‰n tai
- * merkkim‰‰r‰n mukaan. Karkausp‰iv‰lle ei voi antaa arvoa. 
+ * merkkim‰‰r‰n mukaan. Karkausp‰iv‰lle ei voi antaa arvoa.
  *
  * Soveltuu myˆs muihin samankaltaisiin teht‰viin.
  *
@@ -42,30 +42,27 @@
 #include "NFmiString.h"
 
 //! Undocumented
-class _FMI_DLL NFmiNameDay 
+class _FMI_DLL NFmiNameDay
 {
-
-public:
-
+ public:
   virtual ~NFmiNameDay(void);
   NFmiNameDay(void);
 
   bool IsRead(void);
   bool IsValue(void);
 
-  bool ReadFile(const NFmiString & theFileName);  
+  bool ReadFile(const NFmiString& theFileName);
 
   NFmiString GetName(NFmiMetTime theTime,
-					 FmiCounter maxNumber=kShortMissing,
-					 FmiCounter maxLength=kShortMissing);
-  
-private:
+                     FmiCounter maxNumber = kShortMissing,
+                     FmiCounter maxLength = kShortMissing);
 
-  NFmiString itsNames[366]; // 0 ei k‰ytet‰
+ private:
+  NFmiString itsNames[366];  // 0 ei k‰ytet‰
   bool fRead;
   bool fValue;
 
-}; // class NFmiNameDay
+};  // class NFmiNameDay
 
 // ----------------------------------------------------------------------
 /*!
@@ -73,8 +70,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiNameDay::NFmiNameDay(void)
+inline NFmiNameDay::NFmiNameDay(void)
 {
   fRead = false;
   fValue = false;
@@ -88,12 +84,7 @@ NFmiNameDay::NFmiNameDay(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiNameDay::IsRead(void)
-{
-  return fRead;
-}
-
+inline bool NFmiNameDay::IsRead(void) { return fRead; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -102,12 +93,7 @@ bool NFmiNameDay::IsRead(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-bool NFmiNameDay::IsValue(void)
-{
-return fValue;
-}
-
-#endif // NFMINAMEDAY_H
+inline bool NFmiNameDay::IsValue(void) { return fValue; }
+#endif  // NFMINAMEDAY_H
 
 // ======================================================================

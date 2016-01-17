@@ -21,24 +21,22 @@
 class NFmiFastQueryInfo;
 
 //! Undocumented
-class _FMI_DLL NFmiPressDataObject 
+class _FMI_DLL NFmiPressDataObject
 {
-public:
-
+ public:
   virtual ~NFmiPressDataObject(void);
   NFmiPressDataObject(void);
-  
-  NFmiPressDataObject(NFmiFastQueryInfo * theData);
-  NFmiPressDataObject(const NFmiPressDataObject & theRect);
-  
-  void SetData(NFmiFastQueryInfo * theData);
-  NFmiFastQueryInfo * GetData(void) const;
 
-protected: 
+  NFmiPressDataObject(NFmiFastQueryInfo* theData);
+  NFmiPressDataObject(const NFmiPressDataObject& theRect);
 
-  NFmiFastQueryInfo * itsData;
+  void SetData(NFmiFastQueryInfo* theData);
+  NFmiFastQueryInfo* GetData(void) const;
 
-}; // class NFmiPressDataObject
+ protected:
+  NFmiFastQueryInfo* itsData;
+
+};  // class NFmiPressDataObject
 
 // ----------------------------------------------------------------------
 /*!
@@ -46,23 +44,14 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressDataObject::~NFmiPressDataObject(void)
-{
-}
-
+inline NFmiPressDataObject::~NFmiPressDataObject(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressDataObject::NFmiPressDataObject(void)
-  : itsData(0)
-{
-}
-
+inline NFmiPressDataObject::NFmiPressDataObject(void) : itsData(0) {}
 // ----------------------------------------------------------------------
 /*!
  * Constructor based on query info
@@ -71,12 +60,7 @@ NFmiPressDataObject::NFmiPressDataObject(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressDataObject::NFmiPressDataObject(NFmiFastQueryInfo * theData)
-  : itsData(theData)
-{
-}
-
+inline NFmiPressDataObject::NFmiPressDataObject(NFmiFastQueryInfo* theData) : itsData(theData) {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -85,12 +69,7 @@ NFmiPressDataObject::NFmiPressDataObject(NFmiFastQueryInfo * theData)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressDataObject::SetData(NFmiFastQueryInfo * theData)
-{
-  itsData = theData;
-}
-
+inline void NFmiPressDataObject::SetData(NFmiFastQueryInfo* theData) { itsData = theData; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -99,12 +78,7 @@ void NFmiPressDataObject::SetData(NFmiFastQueryInfo * theData)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiFastQueryInfo * NFmiPressDataObject::GetData(void) const
-{
-  return itsData;
-}
-
-#endif // NFMIPRESSDATAOBJECT_H
+inline NFmiFastQueryInfo* NFmiPressDataObject::GetData(void) const { return itsData; }
+#endif  // NFMIPRESSDATAOBJECT_H
 
 // ======================================================================

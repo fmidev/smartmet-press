@@ -25,25 +25,24 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFile(ifstream & inFile, ofstream & outFile)
+bool NFmiCopyFile(ifstream &inFile, ofstream &outFile)
 {
   // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivi‰
   // vaikka standardi puhuu 256:sta
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  while(inFile.getline(inBuf, lineSize, '\n'))
+  while (inFile.getline(inBuf, lineSize, '\n'))
   {
-	short numToWrite = inFile.gcount()-1;
+    short numToWrite = inFile.gcount() - 1;
 
-	// miten aikaisemmin j‰i itsest‰‰n pois???
-	if(inBuf[numToWrite-1] == '\x0D')
-	  numToWrite--;
+    // miten aikaisemmin j‰i itsest‰‰n pois???
+    if (inBuf[numToWrite - 1] == '\x0D') numToWrite--;
 
-	outFile.write(inBuf, numToWrite);	 
+    outFile.write(inBuf, numToWrite);
 
-	//jotta difference k‰ytett‰viss‰
-	outFile.put('\x0A');
+    // jotta difference k‰ytett‰viss‰
+    outFile.put('\x0A');
   }
 
   return true;
@@ -61,7 +60,7 @@ bool NFmiCopyFile(ifstream & inFile, ofstream & outFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, NFmiRect theRect)
+bool NFmiCopyFileCroppingWithoutShowpage(ifstream *inFile, ofstream *outFile, NFmiRect theRect)
 {
   // lis‰tty showpagen poisto koska itse tuotteessa on se varsinainen showpage
   // kaksi showpagea saa jotkut ohjelmat tekem‰‰n animaation
@@ -69,34 +68,34 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, 
   // 5.11.99 TARVITAANKO ENƒƒ KUN STARTEISSA AKTIVOITU SHOWPAGE{}
   // 6.2.07 Poistettu tuo edell‰ mainittu koska ongelmia Metview:n kanssa
 
-  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰	
+  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰
   const short lineSize = 2800;
 
   char inBuf[lineSize];
   unsigned short n, num;
-  //NFmiString notShowpage("gsave annotatepage grestore");
+  // NFmiString notShowpage("gsave annotatepage grestore");
   NFmiString bbZero("%%BoundingBox: 0 0 0 0");
   NFmiString str;
   while (inFile->getline(inBuf, lineSize, '\n'))
-	{
-	  num = inFile->gcount();
-	  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
-	  n = static_cast<short>(str.Search( NFmiString("showp")));
-	  if (n > 0 )
-		{
-		  outFile->write(inBuf, num-1);
-	      outFile->put('\x0A');
-		  continue;
-		}
-	  n = static_cast<short>(str.Search( NFmiString("%BoundingBox:")));
-	  if (n > 0 )
-		{
-            NFmiWriteBoundingBox(*outFile, theRect);
-			continue;
-		}
- 	  outFile->write(inBuf, num-1);
-	  outFile->put('\x0A');		  
-	}	
+  {
+    num = inFile->gcount();
+    str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+    n = static_cast<short>(str.Search(NFmiString("showp")));
+    if (n > 0)
+    {
+      outFile->write(inBuf, num - 1);
+      outFile->put('\x0A');
+      continue;
+    }
+    n = static_cast<short>(str.Search(NFmiString("%BoundingBox:")));
+    if (n > 0)
+    {
+      NFmiWriteBoundingBox(*outFile, theRect);
+      continue;
+    }
+    outFile->write(inBuf, num - 1);
+    outFile->put('\x0A');
+  }
   return true;
 }
 // ----------------------------------------------------------------------
@@ -109,43 +108,42 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream * inFile, ofstream * outFile, 
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileWithoutShowpage(ifstream & inFile, ofstream & outFile)
+bool NFmiCopyFileWithoutShowpage(ifstream &inFile, ofstream &outFile)
 {
-
   // lis‰tty showpagen poisto koska itse tuotteessa on se varsinainen showpage
   // kaksi showpagea saa jotkut ohjelmat tekem‰‰n animaation
 
   // 5.11.99 TARVITAANKO ENƒƒ KUN STARTEISSA AKTIVOITU SHOWPAGE{}
   // 6.2.07 Poistettu tuo edell‰ mainittu koska ongelmia Metview:n kanssa
 
-  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰	
+  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰
   const short lineSize = 2800;
   char inBuf[lineSize];
   unsigned short num;
-  //NFmiString notShowpage("gsave annotatepage grestore");
+  // NFmiString notShowpage("gsave annotatepage grestore");
   NFmiString str;
   while (inFile.getline(inBuf, lineSize, '\n'))
-	{
-	  num = inFile.gcount();
-	  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
-/*	  n = static_cast<short>(str.Search( NFmiString("showp")));
-	  if (n > 0 )
-		{
+  {
+    num = inFile.gcount();
+    str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+    /*	  n = static_cast<short>(str.Search( NFmiString("showp")));
+              if (n > 0 )
+                    {
 
-		  m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
-		  if(m > 0)
-			outFile.write(notShowpage.CharPtr(), notShowpage.GetLen());
-		  else
-		  
-			outFile.write(inBuf, num-1);
-		}
-	  else
-		{
-	*/
-		  outFile.write(inBuf, num-1);
-	//	}
-	  outFile.put('\x0A');		  
-	}
+                      m = static_cast<short>(str.Search( NFmiString("grestore showpage")));
+                      if(m > 0)
+                            outFile.write(notShowpage.CharPtr(), notShowpage.GetLen());
+                      else
+
+                            outFile.write(inBuf, num-1);
+                    }
+              else
+                    {
+            */
+    outFile.write(inBuf, num - 1);
+    //	}
+    outFile.put('\x0A');
+  }
   return true;
 }
 
@@ -161,9 +159,7 @@ bool NFmiCopyFileWithoutShowpage(ifstream & inFile, ofstream & outFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileColoring(ifstream & inFile,
-						  ofstream & outFile,
-						  NFmiCmykColorBag * colorBag)
+bool NFmiCopyFileColoring(ifstream &inFile, ofstream &outFile, NFmiCmykColorBag *colorBag)
 {
   // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivi‰
   // vaikka standardi puhuu 256:sta
@@ -177,35 +173,35 @@ bool NFmiCopyFileColoring(ifstream & inFile,
   NFmiString zeroX("0 x");
   NFmiString pc("Pc");
   NFmiString str;
-  short nProc2=0;
-  short nZeroX=0;
-  short nPc=0;
-  while(inFile.getline(inBuf, lineSize, '\n'))
-	{
-	  short num = inFile.gcount();
-	  nColor = static_cast<short>(str.Search(ownColor));
-	  if (nColor > 0)
-		{
-		  if(str.Search(proc2))
-			{
-			  nProc2++;
-			}
-		  if(str.Search(zeroX))
-			{
-			  nZeroX++;
-			}
-		  if(str.Search(pc))
-			{
-			  nPc++;
-			}
-		  outFile.write(inBuf, num-1);	 
-		}
-	  else
-		{
-		  outFile.write(inBuf, num-1);
-		}
-	  outFile.put('\x0A');		  //jotta difference k‰ytett‰viss‰
-	}
+  short nProc2 = 0;
+  short nZeroX = 0;
+  short nPc = 0;
+  while (inFile.getline(inBuf, lineSize, '\n'))
+  {
+    short num = inFile.gcount();
+    nColor = static_cast<short>(str.Search(ownColor));
+    if (nColor > 0)
+    {
+      if (str.Search(proc2))
+      {
+        nProc2++;
+      }
+      if (str.Search(zeroX))
+      {
+        nZeroX++;
+      }
+      if (str.Search(pc))
+      {
+        nPc++;
+      }
+      outFile.write(inBuf, num - 1);
+    }
+    else
+    {
+      outFile.write(inBuf, num - 1);
+    }
+    outFile.put('\x0A');  // jotta difference k‰ytett‰viss‰
+  }
   return true;
 }
 
@@ -222,12 +218,12 @@ bool NFmiCopyFileColoring(ifstream & inFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileCroppingAndColoring(ifstream & inFile,
-									 ofstream & outFile,
-									 NFmiRect theRect,
-									 NFmiCmykColorBag * colorBag)
+bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
+                                     ofstream &outFile,
+                                     NFmiRect theRect,
+                                     NFmiCmykColorBag *colorBag)
 {
-  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰	
+  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰
   const short lineSize = 2800;
   char inBuf[lineSize];
 
@@ -243,89 +239,87 @@ bool NFmiCopyFileCroppingAndColoring(ifstream & inFile,
   NFmiString pc("Pc");
   NFmiString f("f ");
   NFmiString str, str2, hString, colorName;
-  short nProc2=0;
-  short nZeroX=0;
-  short nPc=0;
-  
+  short nProc2 = 0;
+  short nZeroX = 0;
+  short nPc = 0;
+
   inFile.getline(inBuf, lineSize, '\n');
   num = inFile.gcount();
-  str.Set(reinterpret_cast<unsigned char *>(inBuf), num-1);
+  str.Set(reinterpret_cast<unsigned char *>(inBuf), num - 1);
   while (inFile.getline(inBuf, lineSize, '\n'))
-	{
-	  num = inFile.gcount();
-	  str2.Set(reinterpret_cast<unsigned char *>(inBuf), num-1);
+  {
+    num = inFile.gcount();
+    str2.Set(reinterpret_cast<unsigned char *>(inBuf), num - 1);
 
-	  //vain kerran startTiedostoon, epseihin pit‰‰ erikseen
-	  if(!BBFound)
-		{
-		  nSlash = static_cast<short>(str2.Search(bounding));
-		  if (nSlash > 0)
-			{
-			  BBFound = true;
-			  newBounding += NFmiValueString(long(theRect.Left()));
-			  newBounding += NFmiString(" ");
-			  newBounding += NFmiValueString(long(theRect.Top()));
-			  newBounding += NFmiString(" ");
-			  newBounding += NFmiValueString(long(theRect.Right()));
-			  newBounding += NFmiString(" ");
-			  newBounding += NFmiValueString(long(theRect.Bottom()));
-			  str2 = NFmiString(newBounding); 
-			}
-		}
-	  else  //riitt‰‰ kun aloitetaan vasta BoundBoxin j‰lkeen 
-		{
-		  nColor = static_cast<short>(str2.Search(ownColor));
-		  if (nColor > 0)
-		    {
-			  hString = NFmiString(str2);
-			  colorName = str2.GetChars(nColor, 13);
-			  if (str2.Search(proc2))
-				{ 
-				  if(!str2.Search(proc2par) && !str2.Search(customColors))
-					{
-					  nProc2++;
-					  if(str2.Search(customColors))
-						hString = NFmiString("%%CMYKCustomColor: ");
-					  else
-						hString = NFmiString("%%+ "); 
-					  hString += colorBag->GetColorString(colorName);
-					  hString += NFmiString("(");
-					  hString += colorName;
-					  hString += NFmiString(")");
-					}
-				  
-				}
-			  if (str2.Search(zeroX))
-				{
-				  nZeroX++;
-				  if(str2.Search(f))
-					hString = NFmiString("f "); // ON PELKƒLLƒ CR:LLƒ EROTETTU !!
-				  else
-					hString = NFmiString("");
-				  hString += colorBag->GetColorString(colorName);
-				  hString += NFmiString("(");
-				  hString += colorName;
-				  hString += NFmiString(") 0 x");
-				  
-				}
-			  if (str2.Search(pc))
-				{
-				  // \12 oli alkupaletissa ja iltiksess‰ v‰h‰n erilainen
-				  nPc++;
-				  str = colorBag->GetColorString(colorName); //HUOM ed. rivi
-				  str += NFmiString("k");
-				}
-			  str2 = NFmiString(hString);
-			}
-		}
+    // vain kerran startTiedostoon, epseihin pit‰‰ erikseen
+    if (!BBFound)
+    {
+      nSlash = static_cast<short>(str2.Search(bounding));
+      if (nSlash > 0)
+      {
+        BBFound = true;
+        newBounding += NFmiValueString(long(theRect.Left()));
+        newBounding += NFmiString(" ");
+        newBounding += NFmiValueString(long(theRect.Top()));
+        newBounding += NFmiString(" ");
+        newBounding += NFmiValueString(long(theRect.Right()));
+        newBounding += NFmiString(" ");
+        newBounding += NFmiValueString(long(theRect.Bottom()));
+        str2 = NFmiString(newBounding);
+      }
+    }
+    else  // riitt‰‰ kun aloitetaan vasta BoundBoxin j‰lkeen
+    {
+      nColor = static_cast<short>(str2.Search(ownColor));
+      if (nColor > 0)
+      {
+        hString = NFmiString(str2);
+        colorName = str2.GetChars(nColor, 13);
+        if (str2.Search(proc2))
+        {
+          if (!str2.Search(proc2par) && !str2.Search(customColors))
+          {
+            nProc2++;
+            if (str2.Search(customColors))
+              hString = NFmiString("%%CMYKCustomColor: ");
+            else
+              hString = NFmiString("%%+ ");
+            hString += colorBag->GetColorString(colorName);
+            hString += NFmiString("(");
+            hString += colorName;
+            hString += NFmiString(")");
+          }
+        }
+        if (str2.Search(zeroX))
+        {
+          nZeroX++;
+          if (str2.Search(f))
+            hString = NFmiString("f ");  // ON PELKƒLLƒ CR:LLƒ EROTETTU !!
+          else
+            hString = NFmiString("");
+          hString += colorBag->GetColorString(colorName);
+          hString += NFmiString("(");
+          hString += colorName;
+          hString += NFmiString(") 0 x");
+        }
+        if (str2.Search(pc))
+        {
+          // \12 oli alkupaletissa ja iltiksess‰ v‰h‰n erilainen
+          nPc++;
+          str = colorBag->GetColorString(colorName);  // HUOM ed. rivi
+          str += NFmiString("k");
+        }
+        str2 = NFmiString(hString);
+      }
+    }
 
-	  outFile.write(str.CharPtr(), str.GetLen());
-	  str = NFmiString(str2);
-	  outFile.put('\x0A');		  
+    outFile.write(str.CharPtr(), str.GetLen());
+    str = NFmiString(str2);
+    outFile.put('\x0A');
   }
 
-  outFile.write(str.CharPtr(), newBounding.GetLen()); //viel‰ viimeinen
-  outFile.put('\x0A');		  
+  outFile.write(str.CharPtr(), newBounding.GetLen());  // viel‰ viimeinen
+  outFile.put('\x0A');
   return true;
 }
 
@@ -339,9 +333,9 @@ bool NFmiCopyFileCroppingAndColoring(ifstream & inFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWriteBoundingBox(ofstream & outFile, NFmiRect theRect)
-{ 
-  outFile.put('\x0A');		  
+bool NFmiWriteBoundingBox(ofstream &outFile, NFmiRect theRect)
+{
+  outFile.put('\x0A');
   NFmiString newBounding("%%BoundingBox: ");
   newBounding += NFmiValueString(long(theRect.Left()));
   newBounding += NFmiString(" ");
@@ -350,9 +344,9 @@ bool NFmiWriteBoundingBox(ofstream & outFile, NFmiRect theRect)
   newBounding += NFmiValueString(long(theRect.Right()));
   newBounding += NFmiString(" ");
   newBounding += NFmiValueString(long(theRect.Bottom()));
-  outFile.write(newBounding.CharPtr(), newBounding.GetLen());	   
-  outFile.put('\x0A');		  
-  outFile.put('\x0A');		  
+  outFile.write(newBounding.CharPtr(), newBounding.GetLen());
+  outFile.put('\x0A');
+  outFile.put('\x0A');
   return true;
 }
 
@@ -367,47 +361,45 @@ bool NFmiWriteBoundingBox(ofstream & outFile, NFmiRect theRect)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileCropping(ifstream & inFile,
-						  ofstream & outFile,
-						  NFmiRect theRect)
-{ 
-  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰	
+bool NFmiCopyFileCropping(ifstream &inFile, ofstream &outFile, NFmiRect theRect)
+{
+  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰
   const short lineSize = 2800;
   char inBuf[lineSize];
-  
+
   unsigned short nSlash, num;
   bool BBFound = false;
   NFmiString newBounding("%%BoundingBox: ");
   NFmiString str;
-  while(inFile.getline(inBuf, lineSize, '\n'))
-	{
-	  num = inFile.gcount();
-	  // vain kerran startTiedostoon, epseihin pit‰‰ erikseen
-	  if(!BBFound)
-		{
-		  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
-		  nSlash = static_cast<short>(str.Search( NFmiString("%%BoundingBox:")));
-		  if (nSlash > 0)
-			{
-			  BBFound = true;
-			  newBounding += NFmiValueString(long(theRect.Left()));
-			  newBounding += NFmiString(" ");
-			  newBounding += NFmiValueString(long(theRect.Top()));
-			  newBounding += NFmiString(" ");
-			  newBounding += NFmiValueString(long(theRect.Right()));
-			  newBounding += NFmiString(" ");
-			  newBounding += NFmiValueString(long(theRect.Bottom()));
-			  outFile.write(newBounding.CharPtr(), newBounding.GetLen());
-			}
-		  else
-			outFile.write(inBuf, num-1);
-		}
-	  else
-		{
-		  outFile.write(inBuf, num-1);
-		}
-	  outFile.put('\x0A');		  
-	}
+  while (inFile.getline(inBuf, lineSize, '\n'))
+  {
+    num = inFile.gcount();
+    // vain kerran startTiedostoon, epseihin pit‰‰ erikseen
+    if (!BBFound)
+    {
+      str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+      nSlash = static_cast<short>(str.Search(NFmiString("%%BoundingBox:")));
+      if (nSlash > 0)
+      {
+        BBFound = true;
+        newBounding += NFmiValueString(long(theRect.Left()));
+        newBounding += NFmiString(" ");
+        newBounding += NFmiValueString(long(theRect.Top()));
+        newBounding += NFmiString(" ");
+        newBounding += NFmiValueString(long(theRect.Right()));
+        newBounding += NFmiString(" ");
+        newBounding += NFmiValueString(long(theRect.Bottom()));
+        outFile.write(newBounding.CharPtr(), newBounding.GetLen());
+      }
+      else
+        outFile.write(inBuf, num - 1);
+    }
+    else
+    {
+      outFile.write(inBuf, num - 1);
+    }
+    outFile.put('\x0A');
+  }
   return true;
 }
 // ----------------------------------------------------------------------
@@ -421,16 +413,16 @@ bool NFmiCopyFileCropping(ifstream & inFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
-						  ofstream & outFile,
-						  const NFmiRect& theRect,
-						  const NFmiString& theName,
-						  const NFmiString& theDate)
-{ 
-  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰	
+bool NFmiGenerateAndCopyUniversalSize(ifstream &inFile,
+                                      ofstream &outFile,
+                                      const NFmiRect &theRect,
+                                      const NFmiString &theName,
+                                      const NFmiString &theDate)
+{
+  // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰
   const short lineSize = 2800;
   char inBuf[lineSize];
-  
+
   unsigned short nSlash, num;
   bool PsFound = false;
   // bool BbFound = false;
@@ -453,49 +445,49 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
   NFmiWriteBoundingBox(outFile, theRect);
 
   NFmiString str;
-  while(inFile.getline(inBuf, lineSize, '\n'))
-	{
-	  num = inFile.gcount();
-	  // vain kerran startTiedostoon, epseihin pit‰‰ erikseen
-	  if(!PsFound)
-		{
-		  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
-		  nSlash = static_cast<short>(str.Search( NFmiString("PageSize [")));
-		  if (nSlash > 0)
-			{
-			  PsFound = true;
-			  line = NFmiString("	<</DeferredMediaSelection true /PageSize [");
-			  line += NFmiValueString(long(theRect.Left()));
-			  line += NFmiString(" ");
-			  line += NFmiValueString(long(theRect.Top()));
-			  line += NFmiString(" ");
-			  line += NFmiValueString(long(theRect.Right()));
-			  line += NFmiString(" ");
-			  line += NFmiValueString(long(theRect.Bottom()));
-			  line += NFmiString("] /ImagingBBox null>> setpagedevice");
-			  outFile.write(line.CharPtr(), line.GetLen());
-		      outFile.put('\x0A');		  
-			  continue;
-			}
-		}
-	/*
-	  if(!BbFound)
-		{
-		  str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
-		  nSlash = static_cast<short>(str.Search( NFmiString("%BoundingBox:")));
-		  if (nSlash > 0)
-			{
-			  BbFound = true;
-			  line = NFmiString("%%BoundingBox: 0 0 0 0");
-			  outFile.write(line.CharPtr(), line.GetLen());
-		      outFile.put('\x0A');		  
-			  continue;
-			}
-		}
-		*/
-		outFile.write(inBuf, num-1);
-		outFile.put('\x0A');		  
-	}
+  while (inFile.getline(inBuf, lineSize, '\n'))
+  {
+    num = inFile.gcount();
+    // vain kerran startTiedostoon, epseihin pit‰‰ erikseen
+    if (!PsFound)
+    {
+      str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+      nSlash = static_cast<short>(str.Search(NFmiString("PageSize [")));
+      if (nSlash > 0)
+      {
+        PsFound = true;
+        line = NFmiString("	<</DeferredMediaSelection true /PageSize [");
+        line += NFmiValueString(long(theRect.Left()));
+        line += NFmiString(" ");
+        line += NFmiValueString(long(theRect.Top()));
+        line += NFmiString(" ");
+        line += NFmiValueString(long(theRect.Right()));
+        line += NFmiString(" ");
+        line += NFmiValueString(long(theRect.Bottom()));
+        line += NFmiString("] /ImagingBBox null>> setpagedevice");
+        outFile.write(line.CharPtr(), line.GetLen());
+        outFile.put('\x0A');
+        continue;
+      }
+    }
+    /*
+      if(!BbFound)
+            {
+              str.Set(reinterpret_cast<unsigned char *>(inBuf), num);
+              nSlash = static_cast<short>(str.Search( NFmiString("%BoundingBox:")));
+              if (nSlash > 0)
+                    {
+                      BbFound = true;
+                      line = NFmiString("%%BoundingBox: 0 0 0 0");
+                      outFile.write(line.CharPtr(), line.GetLen());
+                  outFile.put('\x0A');
+                      continue;
+                    }
+            }
+            */
+    outFile.write(inBuf, num - 1);
+    outFile.put('\x0A');
+  }
   return true;
 }
 
@@ -509,7 +501,7 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream & inFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream & outFile, float theRotating)
+bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream &outFile, float theRotating)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
@@ -517,10 +509,9 @@ bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream & outFile, float theRota
   double yTrans = theScale.GetEndStartPoint().Y() / yScale;
   outFile << "gsave" << endl;
   outFile << xScale << " " << yScale << " scale" << endl;
-  outFile << xTrans << " " << yTrans  << " translate" << endl;
-  if(theRotating != kFloatMissing)
-		outFile << theRotating << " rotate" << endl;  
-return true;
+  outFile << xTrans << " " << yTrans << " translate" << endl;
+  if (theRotating != kFloatMissing) outFile << theRotating << " rotate" << endl;
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -533,18 +524,16 @@ return true;
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWriteEPSConcat(NFmiRectScale theScale, ofstream & outFile)
+bool NFmiWriteEPSConcat(NFmiRectScale theScale, ofstream &outFile)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
-  double xTrans = (theScale.GetEndStartPoint().X() / xScale
-				   - theScale.GetStartStartPoint().X());
-  double yTrans = (theScale.GetEndStartPoint().Y() / yScale
-				   - theScale.GetStartStartPoint().Y());
+  double xTrans = (theScale.GetEndStartPoint().X() / xScale - theScale.GetStartStartPoint().X());
+  double yTrans = (theScale.GetEndStartPoint().Y() / yScale - theScale.GetStartStartPoint().Y());
 
   outFile << "BeginEPSF" << endl;
   outFile << xScale << " " << yScale << " scale" << endl;
-  outFile << xTrans << " " << yTrans  << " translate" << endl;
+  outFile << xTrans << " " << yTrans << " translate" << endl;
   outFile << "%%BeginDocument: XXX.EPS" << endl;
   return true;
 }
@@ -560,62 +549,29 @@ bool NFmiWriteEPSConcat(NFmiRectScale theScale, ofstream & outFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale,
-								ofstream & outFile,
-								NFmiRect theClippingRect)
+bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale, ofstream &outFile, NFmiRect theClippingRect)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
-  double xTrans = (theScale.GetEndStartPoint().X() / xScale
-				   - theScale.GetStartStartPoint().X());
-  double yTrans = (theScale.GetEndStartPoint().Y() / yScale
-				   - theScale.GetStartStartPoint().Y());
+  double xTrans = (theScale.GetEndStartPoint().X() / xScale - theScale.GetStartStartPoint().X());
+  double yTrans = (theScale.GetEndStartPoint().Y() / yScale - theScale.GetStartStartPoint().Y());
 
   outFile << "newpath" << endl;
-  outFile << theClippingRect.Left()
-		  << " "
-		  << theClippingRect.Top()
-		  << " "
-		  << "moveto"
-		  << endl; 
-  outFile << theClippingRect.Right()
-		  << " "
-		  << theClippingRect.Top()
-		  << " "
-		  << "lineto"
-		  << endl; 
-  outFile << theClippingRect.Right()
-		  << " "
-		  << theClippingRect.Bottom()
-		  << " "
-		  << "lineto"
-		  << endl; 
-  outFile << theClippingRect.Left()
-		  << " "
-		  << theClippingRect.Bottom()
-		  << " "
-		  << "lineto"
-		  << endl; 
-  outFile << "closepath"
-		  << endl;
-  outFile << "clip"
-		  << endl;
-  outFile << "newpath"
-		  << endl;
-  outFile << "BeginEPSF"
-		  << endl;
-  outFile << xScale
-		  << " "
-		  << yScale
-		  << " scale"
-		  << endl;
-  outFile << xTrans
-		  << " "
-		  << yTrans
-		  << " translate"
-		  << endl;
-  outFile << "%%BeginDocument: XXX.EPS"
-		  << endl;
+  outFile << theClippingRect.Left() << " " << theClippingRect.Top() << " "
+          << "moveto" << endl;
+  outFile << theClippingRect.Right() << " " << theClippingRect.Top() << " "
+          << "lineto" << endl;
+  outFile << theClippingRect.Right() << " " << theClippingRect.Bottom() << " "
+          << "lineto" << endl;
+  outFile << theClippingRect.Left() << " " << theClippingRect.Bottom() << " "
+          << "lineto" << endl;
+  outFile << "closepath" << endl;
+  outFile << "clip" << endl;
+  outFile << "newpath" << endl;
+  outFile << "BeginEPSF" << endl;
+  outFile << xScale << " " << yScale << " scale" << endl;
+  outFile << xTrans << " " << yTrans << " translate" << endl;
+  outFile << "%%BeginDocument: XXX.EPS" << endl;
   return true;
 }
 
@@ -630,17 +586,15 @@ bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWritePSConcatRotating(NFmiRectScale theScale,
-							   float theDirection,
-							   ofstream & outFile)
+bool NFmiWritePSConcatRotating(NFmiRectScale theScale, float theDirection, ofstream &outFile)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
   double xTrans = theScale.GetEndCenter().X();
   double yTrans = theScale.GetEndCenter().Y();
   outFile << "gsave" << endl;
-  outFile << "[" << xScale << " " << 0 << " " << 0 << " " 
-		  << yScale << " " << xTrans << " " << yTrans << "] concat" << endl;
+  outFile << "[" << xScale << " " << 0 << " " << 0 << " " << yScale << " " << xTrans << " "
+          << yTrans << "] concat" << endl;
 
   // m‰‰rittelysymboli n‰ytt‰‰ l‰nteen
   // ja PS kiert‰‰ eri suuntaan kuin meteorologiassa
@@ -657,8 +611,8 @@ bool NFmiWritePSConcatRotating(NFmiRectScale theScale,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWritePSEnd(ofstream & outFile)
-{	  
+bool NFmiWritePSEnd(ofstream &outFile)
+{
   outFile << "grestore" << endl;
   return true;
 }
@@ -670,8 +624,8 @@ bool NFmiWritePSEnd(ofstream & outFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWriteEPSEnd(ofstream & outFile)
-{	  
+bool NFmiWriteEPSEnd(ofstream &outFile)
+{
   outFile << "%%EndDocument" << endl;
   outFile << "EndEPSF" << endl;
   return true;

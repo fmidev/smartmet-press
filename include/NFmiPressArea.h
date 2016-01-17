@@ -7,12 +7,12 @@
 /*!
  * \class NFmiPressArea
  *
- * Area-luokka, joka määriteltävissä. Voidaan käyttää asemien 
+ * Area-luokka, joka määriteltävissä. Voidaan käyttää asemien
  * sijoituksessa tuotteeseen. Kun area on annettu riittää pelkän
  * (x,y) paikan antaminen, jolloin ohjelmaa osaa ratkaista lon/latin.
  * Tai päinvastoin voidaan antaa lon/lat, jolloin ohjelma sijoittaa
  * oikealle paikalle tuotteessa. Myös paikan nimi kelpaa jos se on
- * asematLonLat-tiedostossa. 
+ * asematLonLat-tiedostossa.
  *
  * Areaa voidaan myös käyttää aluekeskiarvojen, summien ym
  * laskemisessa. Tällöin ei tarvitse antaa xy-mittoja (jos
@@ -21,14 +21,13 @@
  */
 // ======================================================================
 
-#ifndef NFMIPRESSAREA_H 
+#ifndef NFMIPRESSAREA_H
 #define NFMIPRESSAREA_H
 
 #include "NFmiPressDescription.h"
 #include "NFmiStereographicArea.h"
 #include "NFmiYKJArea.h"
-class NFmiPressProduct;  
-
+class NFmiPressProduct;
 
 //! Undocumented
 enum NFmiAreaObjects
@@ -41,33 +40,29 @@ enum NFmiAreaObjects
   dOrientation,
   dTrueLat
 };
- 
 
 //! Undocumented
-class _FMI_DLL NFmiPressArea : public NFmiPressDescription 
-{ 
-public: 
-
+class _FMI_DLL NFmiPressArea : public NFmiPressDescription
+{
+ public:
   ~NFmiPressArea(void);
   NFmiPressArea(void);
-  NFmiPressArea(const NFmiPressArea & anArea);
+  NFmiPressArea(const NFmiPressArea& anArea);
 
-  virtual int ConvertDefText(NFmiString & object);
-  virtual bool ReadDescription(NFmiString & retString);
+  virtual int ConvertDefText(NFmiString& object);
+  virtual bool ReadDescription(NFmiString& retString);
 
-  NFmiArea * GetArea(void) const;
+  NFmiArea* GetArea(void) const;
   void SetArea(NFmiArea* theArea);
   void SetProduct(NFmiPressProduct* theProduct);
   void SetXyRequest(bool value);
 
-private:
-  
-  NFmiArea * itsArea;
-  NFmiPressProduct* itsPressProduct; //ei omista
+ private:
+  NFmiArea* itsArea;
+  NFmiPressProduct* itsPressProduct;  // ei omista
   bool fIsXyRequest;
-  
-}; // class NFmiPressArea
 
+};  // class NFmiPressArea
 
 // ----------------------------------------------------------------------
 /*!
@@ -75,14 +70,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressArea::NFmiPressArea(void)
-  : itsArea(0)
-  , itsPressProduct(0)
-  , fIsXyRequest(true)
-{                         
-}
-
+inline NFmiPressArea::NFmiPressArea(void) : itsArea(0), itsPressProduct(0), fIsXyRequest(true) {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -91,12 +79,7 @@ NFmiPressArea::NFmiPressArea(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiArea * NFmiPressArea::GetArea(void) const
-{
-  return itsArea;
-}
-
+inline NFmiArea* NFmiPressArea::GetArea(void) const { return itsArea; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -105,12 +88,7 @@ NFmiArea * NFmiPressArea::GetArea(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressArea::SetArea(NFmiArea * theArea)
-{
-  itsArea = theArea;
-}
-
+inline void NFmiPressArea::SetArea(NFmiArea* theArea) { itsArea = theArea; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -119,8 +97,7 @@ void NFmiPressArea::SetArea(NFmiArea * theArea)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressArea::SetProduct(NFmiPressProduct * theProduct)
+inline void NFmiPressArea::SetProduct(NFmiPressProduct* theProduct)
 {
   itsPressProduct = theProduct;
 }
@@ -132,12 +109,7 @@ void NFmiPressArea::SetProduct(NFmiPressProduct * theProduct)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressArea::SetXyRequest(bool value)
-{
-  fIsXyRequest=value;
-}
-
-#endif // NFMIPRESSAREA_H 
+inline void NFmiPressArea::SetXyRequest(bool value) { fIsXyRequest = value; }
+#endif  // NFMIPRESSAREA_H
 
 // ======================================================================

@@ -16,7 +16,7 @@
 
 NFmiParamMapping::~NFmiParamMapping(void)
 {
-  delete [] static_cast<NFmiMappingInterval *>(itsMappingIntervals);
+  delete[] static_cast<NFmiMappingInterval *>(itsMappingIntervals);
 }
 
 // ----------------------------------------------------------------------
@@ -28,17 +28,17 @@ NFmiParamMapping::~NFmiParamMapping(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiParamMapping::NFmiParamMapping(const NFmiParamMapping & theParamMapping)
-  : NFmiSize(theParamMapping.GetSize())
+NFmiParamMapping::NFmiParamMapping(const NFmiParamMapping &theParamMapping)
+    : NFmiSize(theParamMapping.GetSize())
 {
   itsMappingIntervals = new NFmiMappingInterval[itsSize];
-  for(int i=0; i< static_cast<int>(itsSize); i++)
-	{
-	  itsMappingIntervals[i].itsBottomValue = theParamMapping.itsMappingIntervals[i].itsBottomValue;
-	  itsMappingIntervals[i].itsTopValue = theParamMapping.itsMappingIntervals[i].itsTopValue;
-	  itsMappingIntervals[i].itsSymbol = theParamMapping.itsMappingIntervals[i].itsSymbol;
-	  itsMappingIntervals[i].fIsScaled = theParamMapping.itsMappingIntervals[i].fIsScaled;
-	}
+  for (int i = 0; i < static_cast<int>(itsSize); i++)
+  {
+    itsMappingIntervals[i].itsBottomValue = theParamMapping.itsMappingIntervals[i].itsBottomValue;
+    itsMappingIntervals[i].itsTopValue = theParamMapping.itsMappingIntervals[i].itsTopValue;
+    itsMappingIntervals[i].itsSymbol = theParamMapping.itsMappingIntervals[i].itsSymbol;
+    itsMappingIntervals[i].fIsScaled = theParamMapping.itsMappingIntervals[i].fIsScaled;
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -50,44 +50,42 @@ NFmiParamMapping::NFmiParamMapping(const NFmiParamMapping & theParamMapping)
  */
 // ----------------------------------------------------------------------
 
-void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval & theInterval)
+void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval &theInterval)
 {
-  //Note: ei tarkista alkioiden j‰rjestyst‰ tai onko samoja alkioita jo ennest‰‰n.
+  // Note: ei tarkista alkioiden j‰rjestyst‰ tai onko samoja alkioita jo ennest‰‰n.
   //(lis‰‰ vain tyhm‰sti listan loppuun).
 
-	//NFmiString newStr = NFmiMultiParamMapping::ModifyTextBySeason(theInterval.itsSymbol);
+  // NFmiString newStr = NFmiMultiParamMapping::ModifyTextBySeason(theInterval.itsSymbol);
 
-  NFmiMappingInterval * tempIntervals;
+  NFmiMappingInterval *tempIntervals;
   tempIntervals = new NFmiMappingInterval[GetSize() + 1];
-  
+
   int j;
-  for(j=0; j<static_cast<int>(itsSize); j++)
-	{
-	  tempIntervals[j].itsBottomValue = itsMappingIntervals[j].itsBottomValue;
-	  tempIntervals[j].itsTopValue = itsMappingIntervals[j].itsTopValue;
-	  tempIntervals[j].itsSymbol = itsMappingIntervals[j].itsSymbol;
-	  tempIntervals[j].fIsScaled = itsMappingIntervals[j].fIsScaled;
-	}
-		
+  for (j = 0; j < static_cast<int>(itsSize); j++)
+  {
+    tempIntervals[j].itsBottomValue = itsMappingIntervals[j].itsBottomValue;
+    tempIntervals[j].itsTopValue = itsMappingIntervals[j].itsTopValue;
+    tempIntervals[j].itsSymbol = itsMappingIntervals[j].itsSymbol;
+    tempIntervals[j].fIsScaled = itsMappingIntervals[j].fIsScaled;
+  }
+
   tempIntervals[j].itsBottomValue = theInterval.itsBottomValue;
   tempIntervals[j].itsTopValue = theInterval.itsTopValue;
-  tempIntervals[j].itsSymbol = theInterval.itsSymbol;//newStr;
+  tempIntervals[j].itsSymbol = theInterval.itsSymbol;  // newStr;
   tempIntervals[j].fIsScaled = theInterval.fIsScaled;
-  
-  if(itsMappingIntervals)
-	delete [] itsMappingIntervals;
-  
-  itsMappingIntervals = new NFmiMappingInterval[GetSize()+1];
-  itsSize = GetSize()+1;
-  for(j=0; j< static_cast<int>(GetSize()); j++)
-	{
-	  itsMappingIntervals[j].itsBottomValue = tempIntervals[j].itsBottomValue;
-	  itsMappingIntervals[j].itsTopValue = tempIntervals[j].itsTopValue;
-	  itsMappingIntervals[j].itsSymbol = tempIntervals[j].itsSymbol;
-	  itsMappingIntervals[j].fIsScaled = tempIntervals[j].fIsScaled;
-	}
-  delete [] tempIntervals;
-  
+
+  if (itsMappingIntervals) delete[] itsMappingIntervals;
+
+  itsMappingIntervals = new NFmiMappingInterval[GetSize() + 1];
+  itsSize = GetSize() + 1;
+  for (j = 0; j < static_cast<int>(GetSize()); j++)
+  {
+    itsMappingIntervals[j].itsBottomValue = tempIntervals[j].itsBottomValue;
+    itsMappingIntervals[j].itsTopValue = tempIntervals[j].itsTopValue;
+    itsMappingIntervals[j].itsSymbol = tempIntervals[j].itsSymbol;
+    itsMappingIntervals[j].fIsScaled = tempIntervals[j].fIsScaled;
+  }
+  delete[] tempIntervals;
 }
 
 // ----------------------------------------------------------------------
@@ -101,8 +99,8 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval & theInterva
 // ----------------------------------------------------------------------
 
 void NFmiParamMapping::AddMappingInterval(double theBottomValue,
-										  double theTopValue,
-										  const NFmiString & theSymbol)
+                                          double theTopValue,
+                                          const NFmiString &theSymbol)
 {
   // skaalatieto pit‰isi lis‰t‰
   NFmiMappingInterval temp;
@@ -123,20 +121,20 @@ void NFmiParamMapping::AddMappingInterval(double theBottomValue,
  */
 // ----------------------------------------------------------------------
 
-NFmiString * NFmiParamMapping::Map(const double theValue)
+NFmiString *NFmiParamMapping::Map(const double theValue)
 {
-  // tarvitaanko en‰‰ 
+  // tarvitaanko en‰‰
   int j;
-  for(j=0; j<static_cast<int>(itsSize); j++)
-	{
-	  if(theValue >= itsMappingIntervals[j].itsBottomValue &&
-		 theValue <= itsMappingIntervals[j].itsTopValue)
-		break;
-	}
-  if(j == static_cast<int>(itsSize))
-	return 0;
+  for (j = 0; j < static_cast<int>(itsSize); j++)
+  {
+    if (theValue >= itsMappingIntervals[j].itsBottomValue &&
+        theValue <= itsMappingIntervals[j].itsTopValue)
+      break;
+  }
+  if (j == static_cast<int>(itsSize))
+    return 0;
   else
-	return &itsMappingIntervals[j].itsSymbol;
+    return &itsMappingIntervals[j].itsSymbol;
 }
 
 // ----------------------------------------------------------------------
@@ -150,9 +148,9 @@ NFmiString * NFmiParamMapping::Map(const double theValue)
 
 bool NFmiParamMapping::IsInFirst(const double theValue)
 {
-  // Ei-kiert‰v‰‰ tuulisymbolia varten, keinotekoinen  
+  // Ei-kiert‰v‰‰ tuulisymbolia varten, keinotekoinen
   return (theValue >= itsMappingIntervals[0].itsBottomValue &&
-		  theValue <= itsMappingIntervals[0].itsTopValue);			
+          theValue <= itsMappingIntervals[0].itsTopValue);
 }
 
 // ----------------------------------------------------------------------
@@ -167,19 +165,19 @@ bool NFmiParamMapping::IsInFirst(const double theValue)
  */
 // ----------------------------------------------------------------------
 
-NFmiString * NFmiParamMapping::Map(const double theValue, bool & outIsScaled)
+NFmiString *NFmiParamMapping::Map(const double theValue, bool &outIsScaled)
 {
   int j;
-  for(j=0; j<static_cast<int>(itsSize); j++)
-	{
-	  if(theValue >= itsMappingIntervals[j].itsBottomValue &&
-		 theValue <= itsMappingIntervals[j].itsTopValue)
-		break;
-	}
-  if(j == static_cast<int>(itsSize))
-	return 0;
+  for (j = 0; j < static_cast<int>(itsSize); j++)
+  {
+    if (theValue >= itsMappingIntervals[j].itsBottomValue &&
+        theValue <= itsMappingIntervals[j].itsTopValue)
+      break;
+  }
+  if (j == static_cast<int>(itsSize))
+    return 0;
   else
-	outIsScaled = itsMappingIntervals[j].fIsScaled;
+    outIsScaled = itsMappingIntervals[j].fIsScaled;
   return &itsMappingIntervals[j].itsSymbol;
 }
 

@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
 #include "NFmiPressDataTimeText.h"
@@ -18,10 +18,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmiPressDataTimeText::~NFmiPressDataTimeText(void)
-{
-}
-
+NFmiPressDataTimeText::~NFmiPressDataTimeText(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -34,21 +31,21 @@ bool NFmiPressDataTimeText::ReadRemaining(void)
 {
   NFmiString helpString;
   NFmiValueString valueString;
-  switch(itsIntObject)
-	{
-	case dUseOriginTime:
-	  {
-		fUseOriginTime = true;
+  switch (itsIntObject)
+  {
+    case dUseOriginTime:
+    {
+      fUseOriginTime = true;
 
-		ReadNext();
-		break;
-	  }
-	default:
-	  {
-		NFmiPressTimeText:: ReadRemaining();
-		break;
-	  }
-	}
+      ReadNext();
+      break;
+    }
+    default:
+    {
+      NFmiPressTimeText::ReadRemaining();
+      break;
+    }
+  }
   return true;
 }
 
@@ -61,20 +58,18 @@ bool NFmiPressDataTimeText::ReadRemaining(void)
  */
 // ----------------------------------------------------------------------
 
-int NFmiPressDataTimeText::ConvertDefText(NFmiString & object)
+int NFmiPressDataTimeText::ConvertDefText(NFmiString &object)
 {
   NFmiString lowChar = object;
-  lowChar.LowerCase(); // kaikille pit‰isi sallia vapaa isot/pienet kirj.
-  if(lowChar==NFmiString("hour") || lowChar==NFmiString("tunti")
-	     || lowChar==NFmiString("day") || lowChar==NFmiString("p‰iv‰"))
-	  *itsLogFile << "WARNING: Day or hour moved from #time to #pressparam level"
-	              << endl;
+  lowChar.LowerCase();  // kaikille pit‰isi sallia vapaa isot/pienet kirj.
+  if (lowChar == NFmiString("hour") || lowChar == NFmiString("tunti") ||
+      lowChar == NFmiString("day") || lowChar == NFmiString("p‰iv‰"))
+    *itsLogFile << "WARNING: Day or hour moved from #time to #pressparam level" << endl;
 
-  if(lowChar==NFmiString("analysistime") || lowChar==NFmiString("analyysiaika"))
-	return dUseOriginTime;
+  if (lowChar == NFmiString("analysistime") || lowChar == NFmiString("analyysiaika"))
+    return dUseOriginTime;
   else
-	return NFmiPressTimeText::ConvertDefText(object);
-
+    return NFmiPressTimeText::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -96,35 +91,36 @@ bool NFmiPressDataTimeText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
   NFmiMetTime utcTime;
   NFmiMetTime localTime;
 
-  if(fUseOriginTime)
-	{
-	  utcTime = (static_cast<NFmiMetTime>(itsData->OriginTime()));
-	  localTime = (static_cast<NFmiMetTime>(itsData->OriginTime())).LocalTime();
-	}
+  if (fUseOriginTime)
+  {
+    utcTime = (static_cast<NFmiMetTime>(itsData->OriginTime()));
+    localTime = (static_cast<NFmiMetTime>(itsData->OriginTime())).LocalTime();
+  }
   else
-	{
-	  utcTime = (static_cast<NFmiMetTime>((static_cast<NFmiQueryInfo *>(itsData))->Time()));
-	  localTime = (static_cast<NFmiMetTime>((static_cast<NFmiQueryInfo *>(itsData))->Time())).LocalTime();
-	}
+  {
+    utcTime = (static_cast<NFmiMetTime>((static_cast<NFmiQueryInfo *>(itsData))->Time()));
+    localTime =
+        (static_cast<NFmiMetTime>((static_cast<NFmiQueryInfo *>(itsData))->Time())).LocalTime();
+  }
 
-  if(itsStringNameTimeFormat.IsValue())
-	{
-	  if(fWriteAsUtc)
-		SetText((static_cast<NFmiPressTime>(utcTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage));
-	  else
-		SetText((static_cast<NFmiPressTime>(localTime)).InterpretToStr(itsStringNameTimeFormat,itsLanguage));
-
-	}
+  if (itsStringNameTimeFormat.IsValue())
+  {
+    if (fWriteAsUtc)
+      SetText((static_cast<NFmiPressTime>(utcTime))
+                  .InterpretToStr(itsStringNameTimeFormat, itsLanguage));
+    else
+      SetText((static_cast<NFmiPressTime>(localTime))
+                  .InterpretToStr(itsStringNameTimeFormat, itsLanguage));
+  }
   else
-	{
-	  if(fWriteAsUtc)
-		SetText((static_cast<NFmiPressTime>(utcTime)).ToStr(itsFormat,itsLanguage));
-	  else
-		SetText((static_cast<NFmiPressTime>(localTime)).ToStr(itsFormat,itsLanguage));
-	}
+  {
+    if (fWriteAsUtc)
+      SetText((static_cast<NFmiPressTime>(utcTime)).ToStr(itsFormat, itsLanguage));
+    else
+      SetText((static_cast<NFmiPressTime>(localTime)).ToStr(itsFormat, itsLanguage));
+  }
 
-  if(itsSubText)
-	itsSubText->SetTime(NFmiMetTime(utcTime));
+  if (itsSubText) itsSubText->SetTime(NFmiMetTime(utcTime));
 
   return WriteString(NFmiString("AIKATEKSTI"), theOutput);
 }
@@ -140,15 +136,15 @@ bool NFmiPressDataTimeText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
 
 bool NFmiPressDataTimeText::WritePS(FmiPressOutputMode theOutput)
 {
-   ScalePlotting();
+  ScalePlotting();
 
   // Mika suspects a bug in the reinterpret cast,
   // since the cast is from NFmiFastQueryInfo * to NFmiQueryData *
-  NFmiTime tim = (static_cast<NFmiMetTime>((reinterpret_cast<NFmiQueryData *>(itsData))->Time())).LocalTime(); //oletus Suomen aika
-  SetText((static_cast<NFmiPressTime>(tim)).ToStr(itsFormat,itsLanguage));
+  NFmiTime tim = (static_cast<NFmiMetTime>((reinterpret_cast<NFmiQueryData *>(itsData))->Time()))
+                     .LocalTime();  // oletus Suomen aika
+  SetText((static_cast<NFmiPressTime>(tim)).ToStr(itsFormat, itsLanguage));
 
   return WriteString(NFmiString("AIKATEKSTI"), theOutput);
 }
 
 // ----------------------------------------------------------------------
-

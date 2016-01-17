@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
 #include "NFmiLetterParamRect.h"
@@ -24,8 +24,7 @@ using namespace std;
 
 NFmiLetterParamRect::~NFmiLetterParamRect(void)
 {
-	if(itsColumnText)
-		delete itsColumnText;
+  if (itsColumnText) delete itsColumnText;
 }
 
 // ----------------------------------------------------------------------
@@ -36,11 +35,12 @@ NFmiLetterParamRect::~NFmiLetterParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect & theLetterParamRect)
-  : NFmiTextParamRect(theLetterParamRect)
-  , itsColumnText(theLetterParamRect.itsColumnText ? new NFmiPressText(*theLetterParamRect.itsColumnText) : 0)
-{  
-	
+NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect &theLetterParamRect)
+    : NFmiTextParamRect(theLetterParamRect),
+      itsColumnText(theLetterParamRect.itsColumnText
+                        ? new NFmiPressText(*theLetterParamRect.itsColumnText)
+                        : 0)
+{
 }
 
 // ----------------------------------------------------------------------
@@ -52,11 +52,7 @@ NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect & theLetterPa
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect * NFmiLetterParamRect::Clone(void) const
-{
-  return new NFmiLetterParamRect(*this);
-}
-
+NFmiParamRect *NFmiLetterParamRect::Clone(void) const { return new NFmiLetterParamRect(*this); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -66,14 +62,14 @@ NFmiParamRect * NFmiLetterParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
-{			 
+bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
+{
   NFmiString helpString;
   NFmiValueString helpValueString;
   long long1;
-  double r1,r2,r3,r4;
+  double r1, r2, r3, r4;
 
-  itsRelRect.Set(NFmiPoint(0.,0.), NFmiPoint(1.,1.));
+  itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
   itsMapping = new NFmiParamMapping;
 
   SetPreReadingTimes();
@@ -84,147 +80,137 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
 
   itsRelRect -= NFmiPoint(1., 1.);
   ReadNext();
-	
-  while(itsIntObject != 9999 || itsCommentLevel) 
-	{
-	  if (itsIntObject != dEndComment && itsCommentLevel)
-		itsIntObject = dComment; 
 
-	  if(itsLoopNum > itsMaxLoopNum)  
-		{
-		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: Maximum length of product filename exceeded in #consttext" << endl;
-		  retString = itsString;
-		  return false;
-		}
-	  itsLoopNum++;
-	  switch(itsIntObject)
-		{
-		case dOther:	  
-		  {    
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Unknown keyword in #consttext: "
-						  << static_cast<char *>(itsObject)
-						  << endl;  
-			ReadNext();
-			break;
-		  }
-		case dComment:	  
-		  {
-			ReadNext();
-			break;
-		  }
-		case dEndComment:	  
-		  {
-			ReadNext();
-			break;
-		  }
-		case dPlaceMove:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			
-			if(Read2Double(r1,r2))
-			{ 
-			  itsRelRect += NFmiPoint(r1/c40, r2/c40);
-			}
-			
-			ReadNext();
-			break;
-		  }
-		case dRelPlace:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(Read4Double(r1,r2,r3,r4))
-			  {
-				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
-			  }
-			relPlace = true;
-			ReadNext();
-			break;
-		  }
+  while (itsIntObject != 9999 || itsCommentLevel)
+  {
+    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
 
-		case dColorValueDependent: 
-		  {	
-			ReadNext();
-			break;
-		  }
-		  
-		case dRelDay:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadLong(long1))
-			  itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance());
+    if (itsLoopNum > itsMaxLoopNum)
+    {
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: Maximum length of product filename exceeded in #consttext"
+                    << endl;
+      retString = itsString;
+      return false;
+    }
+    itsLoopNum++;
+    switch (itsIntObject)
+    {
+      case dOther:
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Unknown keyword in #consttext: "
+                      << static_cast<char *>(itsObject) << endl;
+        ReadNext();
+        break;
+      }
+      case dComment:
+      {
+        ReadNext();
+        break;
+      }
+      case dEndComment:
+      {
+        ReadNext();
+        break;
+      }
+      case dPlaceMove:
+      {
+        if (!ReadEqualChar()) break;
 
-			ReadNext();
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Cannot set dates in #consttext"
-						  << endl;  
-			break;
-		  }
-		case dHour:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			if(ReadLong(long1))
-			  itsFirstPlotHours = static_cast<unsigned short>(long1);
-			
-			ReadNext();
-			break;
-		  }
-		case dColumnText:
-		  {
-			itsColumnText = new NFmiPressText;
-            itsColumnText->SetEnvironment(itsEnvironment);
-			itsColumnText->SetHome(GetHome());
-			itsColumnText->SetLogFile(itsLogFile);
-			itsColumnText->SetDescriptionFile(itsDescriptionFile);
-		    itsColumnText->SetFont(GetFont());
-			if(!itsColumnText->ReadDescription(itsString))
-			{
-			  delete itsColumnText;
-			  itsColumnText = 0;
-			}
-			
-			itsIntObject = ConvertDefText(itsString);
-			break;
-		  }
-		default:
-		  {
-			ReadRemaining();  
-			break;
-		  }
-		}
-	} //while
-	
-   if(itsPressParam->IsOptimizeGlobalObs())
-   {
-	  if(itsIdentPar == 4 && !itsMultiMapping)
-	  {
-		if(fModifierUsed)
-		{
-			*itsLogFile << "*** WARNING: sum after a similar definition (#consttext, optimizeglobalobs)"
-				          << endl;
-		}
-		SetRelModifierTimes(10, 18);
-		fModifierUsed = true;
-		itsModifier = kMaximum;
-		fAllowMissing = true;
-	  }
-	  else
-		fUseBackupTime = true;
-   }
-  //flush viimeinen takaisin streamiin! Miten?
+        if (Read2Double(r1, r2))
+        {
+          itsRelRect += NFmiPoint(r1 / c40, r2 / c40);
+        }
+
+        ReadNext();
+        break;
+      }
+      case dRelPlace:
+      {
+        if (!ReadEqualChar()) break;
+        if (Read4Double(r1, r2, r3, r4))
+        {
+          itsRelRect.Set(NFmiPoint(r1, r2), NFmiPoint(r3, r4));
+        }
+        relPlace = true;
+        ReadNext();
+        break;
+      }
+
+      case dColorValueDependent:
+      {
+        ReadNext();
+        break;
+      }
+
+      case dRelDay:
+      {
+        if (!ReadEqualChar()) break;
+        if (ReadLong(long1))
+          itsFirstDeltaDays = static_cast<unsigned short>(long1 + itsEnvironment.GetDayAdvance());
+
+        ReadNext();
+        if (itsLogFile) *itsLogFile << "*** ERROR: Cannot set dates in #consttext" << endl;
+        break;
+      }
+      case dHour:
+      {
+        if (!ReadEqualChar()) break;
+        if (ReadLong(long1)) itsFirstPlotHours = static_cast<unsigned short>(long1);
+
+        ReadNext();
+        break;
+      }
+      case dColumnText:
+      {
+        itsColumnText = new NFmiPressText;
+        itsColumnText->SetEnvironment(itsEnvironment);
+        itsColumnText->SetHome(GetHome());
+        itsColumnText->SetLogFile(itsLogFile);
+        itsColumnText->SetDescriptionFile(itsDescriptionFile);
+        itsColumnText->SetFont(GetFont());
+        if (!itsColumnText->ReadDescription(itsString))
+        {
+          delete itsColumnText;
+          itsColumnText = 0;
+        }
+
+        itsIntObject = ConvertDefText(itsString);
+        break;
+      }
+      default:
+      {
+        ReadRemaining();
+        break;
+      }
+    }
+  }  // while
+
+  if (itsPressParam->IsOptimizeGlobalObs())
+  {
+    if (itsIdentPar == 4 && !itsMultiMapping)
+    {
+      if (fModifierUsed)
+      {
+        *itsLogFile << "*** WARNING: sum after a similar definition (#consttext, optimizeglobalobs)"
+                    << endl;
+      }
+      SetRelModifierTimes(10, 18);
+      fModifierUsed = true;
+      itsModifier = kMaximum;
+      fAllowMissing = true;
+    }
+    else
+      fUseBackupTime = true;
+  }
+  // flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
-  if(!relPlace)
-	  itsRelRect.Inflate(-(c40 - GetTextSize())/(c40*2));
-  
-  if(fNewScaling)
-	itsRelRect += NFmiPoint(1.,1.);
-  Set(NFmiDataIdent(NFmiParam(itsIdentPar),NFmiProducer(240)), NFmiRect(itsRelRect));
+  if (!relPlace) itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
+
+  if (fNewScaling) itsRelRect += NFmiPoint(1., 1.);
+  Set(NFmiDataIdent(NFmiParam(itsIdentPar), NFmiProducer(240)), NFmiRect(itsRelRect));
 
   retString = itsString;
   return true;
@@ -239,15 +225,14 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString & retString)
  */
 // ----------------------------------------------------------------------
 
-int NFmiLetterParamRect::ConvertDefText(NFmiString & object)
+int NFmiLetterParamRect::ConvertDefText(NFmiString &object)
 {
   NFmiString lowChar = object;
   lowChar.LowerCase();
-  if    (lowChar == "#columntext"
-	  || lowChar == "#palstateksti")
-	  	return dColumnText;
+  if (lowChar == "#columntext" || lowChar == "#palstateksti")
+    return dColumnText;
   else
-		return NFmiTextParamRect::ConvertDefText(object);	
+    return NFmiTextParamRect::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -262,10 +247,10 @@ int NFmiLetterParamRect::ConvertDefText(NFmiString & object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
-								  NFmiFastQueryInfo * theQI,
-								  ofstream & theDestinationFile,
-								  FmiPressOutputMode theOutput)
+bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
+                                  NFmiFastQueryInfo *theQI,
+                                  ofstream &theDestinationFile,
+                                  FmiPressOutputMode theOutput)
 {
   // M/K-keskukset siirretään vähän oikeaan kohtaan
   fBackupReported = false;
@@ -274,171 +259,160 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
 
   bool lastElementStatus = GetPressProduct()->LastTextStatus();
   GetPressProduct()->SetLastTextStatus(true);
-  if(itsPressParam->IsBackupStation())
-	{
-	  if(lastElementStatus)
-		{
-		  *itsLogFile << "  backup station not needed for text element" << endl;
-		  return true;
-		}
-	  else
-		*itsLogFile << "  backup station used for text element" << endl;
-	}
-
-  bool isMax;
-  if(IsMaxMinPlotting())
+  if (itsPressParam->IsBackupStation())
   {
-	if(!PointOnParam(theQI, GetDataIdent().GetParam())) 
-		return false;
-
-	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
-    NFmiPoint correctedPoint;
-	if(!itsPressParam->IsMaxMin(isMax, correctedPoint))
-		return true;
-    correctedRect.Center(correctedPoint);
+    if (lastElementStatus)
+    {
+      *itsLogFile << "  backup station not needed for text element" << endl;
+      return true;
+    }
+    else
+      *itsLogFile << "  backup station used for text element" << endl;
   }
 
+  bool isMax;
+  if (IsMaxMinPlotting())
+  {
+    if (!PointOnParam(theQI, GetDataIdent().GetParam())) return false;
+
+    itsPressParam->SetMaxMinPoints();  // vain ekalla kerralla
+    NFmiPoint correctedPoint;
+    if (!itsPressParam->IsMaxMin(isMax, correctedPoint)) return true;
+    correctedRect.Center(correctedPoint);
+  }
 
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 
   NFmiString hString;
   float value = 0;
-  
-  if(!SetRelativeHour(theQI,NFmiString("#Teksti"))) 
-	return false;
-  
-  if(itsMultiMapping) 
-	{
-	  if(!ReadCurrentValueArray (theQI))
-		return false;
-	}
+
+  if (!SetRelativeHour(theQI, NFmiString("#Teksti"))) return false;
+
+  if (itsMultiMapping)
+  {
+    if (!ReadCurrentValueArray(theQI)) return false;
+  }
   else
-	{
-	  if(!PointOnParam(theQI, GetDataIdent().GetParam())) 
-		{
-		  return false;
-		}
-	  if(!ReadCurrentValue(theQI, itsCurrentParamValue))
-		{
-		  return false;        
-		}
-	  value = itsCurrentParamValue;
-	}
+  {
+    if (!PointOnParam(theQI, GetDataIdent().GetParam()))
+    {
+      return false;
+    }
+    if (!ReadCurrentValue(theQI, itsCurrentParamValue))
+    {
+      return false;
+    }
+    value = itsCurrentParamValue;
+  }
 
-  if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
-   {
-	 if(itsLoopActivity.bypassWithValue)
-	   value = itsLoopActivity.bypassValue;
-	 else
-	   return true;
-   }
-	if(value == kFloatMissing)
-	  itsPressParam->GetPressProduct()->SetLastTextStatus(false);
-	else
-	  itsPressParam->GetPressProduct()->SetLastTextStatus(true);
+  if (!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
+  {
+    if (itsLoopActivity.bypassWithValue)
+      value = itsLoopActivity.bypassValue;
+    else
+      return true;
+  }
+  if (value == kFloatMissing)
+    itsPressParam->GetPressProduct()->SetLastTextStatus(false);
+  else
+    itsPressParam->GetPressProduct()->SetLastTextStatus(true);
 
-  if(!fMarkingValue)
-	  return true;
+  if (!fMarkingValue) return true;
 
   MapColor();
-  NFmiString * mapString;
-  if(IsMaxMinPlotting())
+  NFmiString *mapString;
+  if (IsMaxMinPlotting())
   {
-	if(isMax)
-		mapString = &itsMaxText;
-	else
-		mapString = &itsMinText;
+    if (isMax)
+      mapString = &itsMaxText;
+    else
+      mapString = &itsMinText;
   }
   else if (itsMultiMapping)
-	{
-	  bool missingFound;
-	  CompleteMultiMapping();
+  {
+    bool missingFound;
+    CompleteMultiMapping();
 
-	  mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-	  if(mapString)
-		  ModifyTextBySeason(*mapString);
-	  if(missingFound)
-		{
-		  itsNumOfMissing++;
-		  if(!mapString)
-		  {
-			if(!itsMissingString)
-			{
-              GetPressProduct()->SetLastTextStatus(false);
-			  return false;
-			}
-			else
-				mapString = itsMissingString;
-		  }
-		}
-	}
+    mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
+    if (mapString) ModifyTextBySeason(*mapString);
+    if (missingFound)
+    {
+      itsNumOfMissing++;
+      if (!mapString)
+      {
+        if (!itsMissingString)
+        {
+          GetPressProduct()->SetLastTextStatus(false);
+          return false;
+        }
+        else
+          mapString = itsMissingString;
+      }
+    }
+  }
   else
   {
-	mapString = itsMapping->Map(value);
-    if(mapString)
-		ModifyTextBySeason(*mapString);
-	if(mapString == 0 && itsMissingString != 0)
-		mapString = itsMissingString;
+    mapString = itsMapping->Map(value);
+    if (mapString) ModifyTextBySeason(*mapString);
+    if (mapString == 0 && itsMissingString != 0) mapString = itsMissingString;
   }
 
   if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !IsMaxMinPlotting())
-	{
-	  float keyValue = itsCurrentParamValue;
-	  if(itsMultiMapping)
-		  keyValue = itsCurrentParamArray[0];
+  {
+    float keyValue = itsCurrentParamValue;
+    if (itsMultiMapping) keyValue = itsCurrentParamArray[0];
 
-		//if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(keyValue)), theAbsoluteRectOfSymbolGroup.Place()))
-		if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(keyValue)), correctedRect.Place()))
-			return false;
-	}
+    // if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(keyValue)),
+    // theAbsoluteRectOfSymbolGroup.Place()))
+    if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(keyValue)),
+                                            correctedRect.Place()))
+      return false;
+  }
 
-  if(mapString && !(*mapString == NFmiString("None"))) 
-	{
-	  NFmiString str;  
+  if (mapString && !(*mapString == NFmiString("None")))
+  {
+    NFmiString str;
 
-	  hString = NFmiString (*mapString);	// pitäisi olla yleisempi
-	  if(itsEnvironment.GetLongNumberMinus() && hString == NFmiString("-"))
-	  {
-		fUseSelectLatinFont = false;
-		hString = NFmiString("\\226");
-	  }
-	  str += hString;
+    hString = NFmiString(*mapString);  // pitäisi olla yleisempi
+    if (itsEnvironment.GetLongNumberMinus() && hString == NFmiString("-"))
+    {
+      fUseSelectLatinFont = false;
+      hString = NFmiString("\\226");
+    }
+    str += hString;
 
-	  if(itsColumnText)
-	  {
-		    itsColumnText->SetText(str);
-//		    itsColumnText->SetFont(GetFont());
-			//itsColumnText->SetRect(theAbsoluteRectOfSymbolGroup);
-//            itsColumnText->SetSize(itsRelativeRectOfSymbolGroup.Size());
-  //bool SetScale(const NFmiRectScale & theRectScale);
-			itsColumnText->SetFile(theDestinationFile);
-			// return itsColumnText->WritePS(theAbsoluteRectOfSymbolGroup.Place(),theOutput);
-			//return itsColumnText->WritePS(theOutput);
-			// OK return itsColumnText->WritePS(NFmiPoint(100,50), theOutput);
-		      return itsColumnText->WritePS(correctedRect.Place(), theOutput);
-
-	  }
-	  else
-			return WriteCode(Construct(&str),
-					   correctedRect, 
-					   theDestinationFile,
-					   NFmiString("TEXT from data"),
-					   theOutput); 
-	}
-  else if(!mapString)
-	{
-	  *itsLogFile << "WARNING: No transformation needed for value "
-				  << value 
-				  << " in #consttext data"
-				  << endl;
-      GetPressProduct()->SetLastTextStatus(false);
-	  return false;
-	}
+    if (itsColumnText)
+    {
+      itsColumnText->SetText(str);
+      //		    itsColumnText->SetFont(GetFont());
+      // itsColumnText->SetRect(theAbsoluteRectOfSymbolGroup);
+      //            itsColumnText->SetSize(itsRelativeRectOfSymbolGroup.Size());
+      // bool SetScale(const NFmiRectScale & theRectScale);
+      itsColumnText->SetFile(theDestinationFile);
+      // return itsColumnText->WritePS(theAbsoluteRectOfSymbolGroup.Place(),theOutput);
+      // return itsColumnText->WritePS(theOutput);
+      // OK return itsColumnText->WritePS(NFmiPoint(100,50), theOutput);
+      return itsColumnText->WritePS(correctedRect.Place(), theOutput);
+    }
+    else
+      return WriteCode(Construct(&str),
+                       correctedRect,
+                       theDestinationFile,
+                       NFmiString("TEXT from data"),
+                       theOutput);
+  }
+  else if (!mapString)
+  {
+    *itsLogFile << "WARNING: No transformation needed for value " << value << " in #consttext data"
+                << endl;
+    GetPressProduct()->SetLastTextStatus(false);
+    return false;
+  }
   else
-	{
-	  return false;
-	}
+  {
+    return false;
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -450,109 +424,105 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
+bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString &theString)
 {
-	NFmiStaticTime time;
-	short mon = time.GetMonth();
-	bool firstIsUpper = theString.FirstCharIsUpper();
-	NFmiString lowString(theString);
-    lowString.LowerCase();
-	string stdString(lowString);
-	string::size_type startInd;
-	bool changed = false;
+  NFmiStaticTime time;
+  short mon = time.GetMonth();
+  bool firstIsUpper = theString.FirstCharIsUpper();
+  NFmiString lowString(theString);
+  lowString.LowerCase();
+  string stdString(lowString);
+  string::size_type startInd;
+  bool changed = false;
 
-	startInd = stdString.find("lämmintä");
-    if(startInd != string::npos)
-	{
-		if(mon > 11 || mon <3)
-//		if(mon > 4)
-		{
-			stdString.replace(startInd, 8, "lauhaa");
-			changed = true;
-		}
-	}
+  startInd = stdString.find("lämmintä");
+  if (startInd != string::npos)
+  {
+    if (mon > 11 || mon < 3)
+    //		if(mon > 4)
+    {
+      stdString.replace(startInd, 8, "lauhaa");
+      changed = true;
+    }
+  }
 
-	startInd = stdString.find("varmt");
-    if(startInd != string::npos)
-	{
-		if(mon > 10 || mon <4)
-		{
-			stdString.replace(startInd, 5, "milt");
-			changed = true;
-		}
-	}
+  startInd = stdString.find("varmt");
+  if (startInd != string::npos)
+  {
+    if (mon > 10 || mon < 4)
+    {
+      stdString.replace(startInd, 5, "milt");
+      changed = true;
+    }
+  }
 
-	startInd = stdString.find("kylmää");
-    if(startInd != string::npos)
-	{
-		if(mon > 4 && mon <9)
-		{
-			stdString.replace(startInd, 6, "koleaa");
-			changed = true;
-		}
-	}
+  startInd = stdString.find("kylmää");
+  if (startInd != string::npos)
+  {
+    if (mon > 4 && mon < 9)
+    {
+      stdString.replace(startInd, 6, "koleaa");
+      changed = true;
+    }
+  }
 
-	startInd = stdString.find("kallt");
-    if(startInd != string::npos)
-	{
-		if(mon > 4 && mon <9)
-		{
-			stdString.replace(startInd, 5, "kyligt");
-			changed = true;
-		}
-	}
+  startInd = stdString.find("kallt");
+  if (startInd != string::npos)
+  {
+    if (mon > 4 && mon < 9)
+    {
+      stdString.replace(startInd, 5, "kyligt");
+      changed = true;
+    }
+  }
 
-	startInd = stdString.find("syyssäätä");
-    if(startInd != string::npos)
-	{
-		if(mon == 12 || mon <3)
-	//	if(mon >3)
-			stdString.replace(startInd, 4, "talvi");
-		else if(mon == 4)
-			stdString.replace(startInd, 4, "kevät");
-		else if(mon >=6 && mon <9)
-			stdString.replace(startInd, 4, "kesä");
-		else if(mon == 11 || mon == 3 || mon==5)
-			stdString.replace(startInd, 4, "pouta");
-		changed = true;
+  startInd = stdString.find("syyssäätä");
+  if (startInd != string::npos)
+  {
+    if (mon == 12 || mon < 3)
+      //	if(mon >3)
+      stdString.replace(startInd, 4, "talvi");
+    else if (mon == 4)
+      stdString.replace(startInd, 4, "kevät");
+    else if (mon >= 6 && mon < 9)
+      stdString.replace(startInd, 4, "kesä");
+    else if (mon == 11 || mon == 3 || mon == 5)
+      stdString.replace(startInd, 4, "pouta");
+    changed = true;
+  }
 
-	}
+  startInd = stdString.find("höstväder");
+  if (startInd != string::npos)
+  {
+    if (mon == 12 || mon < 3)
+      stdString.replace(startInd, 4, "vinter");
+    else if (mon == 4)
+      stdString.replace(startInd, 4, "vår");
+    else if (mon >= 6 && mon < 9)
+      stdString.replace(startInd, 4, "sommar");
+    else if (mon == 11 || mon == 3 || mon == 5)
+      stdString.replace(startInd, 4, "uppehålls");
+    changed = true;
+  }
+  startInd = stdString.find("kallt_för_årstiden");
+  if (startInd != string::npos)
+  {
+    if (mon == 12 || mon == 1 || mon == 2) stdString.replace(startInd, 18, "kallt");
+    changed = true;
+  }
+  startInd = stdString.find("varmt_för_årstiden");
+  if (startInd != string::npos)
+  {
+    if (mon >= 6 || mon <= 8) stdString.replace(startInd, 18, "varmt");
+    changed = true;
+  }
 
-	startInd = stdString.find("höstväder");
-    if(startInd != string::npos)
-	{
-		if(mon == 12 || mon <3)
-			stdString.replace(startInd, 4, "vinter");
-		else if(mon == 4)
-			stdString.replace(startInd, 4, "vår");
-		else if(mon >=6 && mon <9)
-			stdString.replace(startInd,4, "sommar");
-		else if(mon == 11 || mon == 3 || mon==5)
-			stdString.replace(startInd, 4, "uppehålls");
-		changed = true;
-	}
-	startInd = stdString.find("kallt_för_årstiden");
-    if(startInd != string::npos)
-	{
-		if(mon == 12 || mon == 1 || mon == 2)
-			stdString.replace(startInd, 18, "kallt");
-		changed = true;
-	}
-	startInd = stdString.find("varmt_för_årstiden");
-    if(startInd != string::npos)
-	{
-		if(mon >= 6 || mon <= 8)
-			stdString.replace(startInd, 18, "varmt");
-		changed = true;
-	}
-
-	if(changed)
-	{
-		theString = stdString;
-		if(firstIsUpper)
-			theString.FirstCharToUpper();
-	}
-	return true;
+  if (changed)
+  {
+    theString = stdString;
+    if (firstIsUpper) theString.FirstCharToUpper();
+  }
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -562,16 +532,16 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString & theString)
  * \result Undocumented
  */
 // ----------------------------------------------------------------------
-FmiGenericColor NFmiLetterParamRect::MapColor(void) const 
+FmiGenericColor NFmiLetterParamRect::MapColor(void) const
 {
-  for(unsigned long ind=0; ind < itsCurrentNumOfColMaps; ind++)
-	{
-	  if(itsCurrentParamValue >= itsColorMapping[ind].minValue &&
-		 itsCurrentParamValue <= itsColorMapping[ind].maxValue)
-		{
-		  return itsColorMapping[ind].color;
-		}
-	}
+  for (unsigned long ind = 0; ind < itsCurrentNumOfColMaps; ind++)
+  {
+    if (itsCurrentParamValue >= itsColorMapping[ind].minValue &&
+        itsCurrentParamValue <= itsColorMapping[ind].maxValue)
+    {
+      return itsColorMapping[ind].color;
+    }
+  }
   return GetColor();
 }
 

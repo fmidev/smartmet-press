@@ -22,23 +22,22 @@
 //! Undocumented
 class _FMI_DLL NFmiPressGivenTimeText : public NFmiPressTimeText
 {
-public:
-
+ public:
   virtual ~NFmiPressGivenTimeText(void);
   NFmiPressGivenTimeText(void);
 
-  virtual bool ReadRemaining(void);  
+  virtual bool ReadRemaining(void);
 #ifdef OLD_MSC
   using NFmiPressTimeText::WritePS;
 #else
   using NFmiPressScaling::WritePS;
 #endif
-  virtual bool WritePS(FmiPressOutputMode theOutput); 
+  virtual bool WritePS(FmiPressOutputMode theOutput);
   virtual bool SetText(void);
   virtual void SetText(NFmiString theText);
-  void SetTime(const NFmiMetTime & theTime);
+  void SetTime(const NFmiMetTime& theTime);
 
-}; // class NFmiPressGivenTimeText
+};  // class NFmiPressGivenTimeText
 
 // ----------------------------------------------------------------------
 /*!
@@ -46,12 +45,7 @@ public:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressGivenTimeText::NFmiPressGivenTimeText(void)
-  : NFmiPressTimeText()
-{
-}
-
+inline NFmiPressGivenTimeText::NFmiPressGivenTimeText(void) : NFmiPressTimeText() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -60,8 +54,7 @@ NFmiPressGivenTimeText::NFmiPressGivenTimeText(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressGivenTimeText::SetText(NFmiString theText)   
+inline void NFmiPressGivenTimeText::SetText(NFmiString theText)
 {
   NFmiPressTimeText::SetText(theText);
 }
@@ -74,12 +67,11 @@ void NFmiPressGivenTimeText::SetText(NFmiString theText)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressGivenTimeText::SetTime(const NFmiMetTime & theTime)
+inline void NFmiPressGivenTimeText::SetTime(const NFmiMetTime& theTime)
 {
-  itsFirstPlotTime=theTime;
+  itsFirstPlotTime = theTime;
 }
 
-#endif // NFMIPRESSGIVENTIMETEXT_H
+#endif  // NFMIPRESSGIVENTIMETEXT_H
 
 // ======================================================================

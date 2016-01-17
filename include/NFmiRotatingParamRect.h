@@ -11,7 +11,7 @@
  * m‰‰rittelytiedoston lukemisesta ps-tiedoston kirjoittamiseen.
  * Symboli k‰‰nnet‰‰n data-arvon mukaan, jonka oletetaan olevan tuulen-
  * suunta (0-360). Symbolin oletetaan lis‰ksi olevan kuvatiedostossa
- * k‰‰nnettyn‰ arvoon 270 (l‰nsi). Voidaan parametrisoida myˆhemmin 
+ * k‰‰nnettyn‰ arvoon 270 (l‰nsi). Voidaan parametrisoida myˆhemmin
  * jos tarvitaan.
  */
 // ======================================================================
@@ -21,7 +21,6 @@
 
 #include "NFmi2SymbolParamRect.h"
 
-
 //! Undocumented
 enum NFmiRotatingParamRectObjects
 {
@@ -29,47 +28,39 @@ enum NFmiRotatingParamRectObjects
   dVerticalLong
 };
 
-
 //! Undocumented
 class _FMI_DLL NFmiRotatingParamRect : public NFmi2SymbolParamRect
 {
-
-public:
-
+ public:
   virtual ~NFmiRotatingParamRect(void);
   NFmiRotatingParamRect(void);
-  NFmiRotatingParamRect(const NFmiRotatingParamRect & theSymbolRect);
-  
+  NFmiRotatingParamRect(const NFmiRotatingParamRect& theSymbolRect);
+
   virtual bool ReadRemaining(void);
-  virtual int ConvertDefText(NFmiString & object);
-  virtual NFmiParamRect * Clone(void) const;
+  virtual int ConvertDefText(NFmiString& object);
+  virtual NFmiParamRect* Clone(void) const;
   void SetNotRotatingMin(double notRotatingMin);
   void SetNotRotatingMax(double notRotatingMin);
 
-protected:
-
+ protected:
   bool Rotate(void) const;
   virtual void DoPostReading(void);
 
-private:
-
-  bool CopyShortSymbol2Dest(NFmiString * symbolFile,
-							std::ofstream & theDestinationFile,
-							float theRotating);
+ private:
+  bool CopyShortSymbol2Dest(NFmiString* symbolFile,
+                            std::ofstream& theDestinationFile,
+                            float theRotating);
 
   float AdjustToMap(float theDirection) const;
 
-  virtual void WriteMetaCode(NFmiString * symbolFile,
-							 NFmiPoint realPos,
-							 std::ofstream & os);
+  virtual void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream& os);
 
-private:
+ private:
+  double itsNotRotatingMinValue;
+  double itsNotRotatingMaxValue;
+  double itsVerticalLong;
 
-  double itsNotRotatingMinValue;         
-  double itsNotRotatingMaxValue;         
-  double itsVerticalLong;             
-  
-}; // class NFmiRotatingParamRect
+};  // class NFmiRotatingParamRect
 
 // ----------------------------------------------------------------------
 /*!
@@ -77,38 +68,33 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiRotatingParamRect::NFmiRotatingParamRect(void)
-  : NFmi2SymbolParamRect()
+inline NFmiRotatingParamRect::NFmiRotatingParamRect(void) : NFmi2SymbolParamRect()
 {
   itsNotRotatingMinValue = 10.;
-  itsNotRotatingMaxValue =-10.;
+  itsNotRotatingMaxValue = -10.;
   itsVerticalLong = kFloatMissing;
 }
 // ----------------------------------------------------------------------
 /*!
- * 
+ *
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiRotatingParamRect::SetNotRotatingMin(double notRotatingMin)
+inline void NFmiRotatingParamRect::SetNotRotatingMin(double notRotatingMin)
 {
   itsNotRotatingMinValue = notRotatingMin;
 }
 // ----------------------------------------------------------------------
 /*!
- * 
+ *
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiRotatingParamRect::SetNotRotatingMax(double notRotatingMax)
+inline void NFmiRotatingParamRect::SetNotRotatingMax(double notRotatingMax)
 {
   itsNotRotatingMaxValue = notRotatingMax;
 }
 
-#endif // NFMIROTATINGPARAMRECT_H
+#endif  // NFMIROTATINGPARAMRECT_H
 
 // ======================================================================
-

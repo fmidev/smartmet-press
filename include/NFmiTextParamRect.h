@@ -22,7 +22,6 @@
 #include "NFmiParamRect.h"
 #include "NFmiPressTypes.h"
 
-
 //! Undocumented
 enum NFmiTextParamRectObjects
 {
@@ -34,7 +33,7 @@ enum NFmiTextParamRectObjects
   dAddTextAfter,
   dAddTextInFront,
   dTextMapping,
-  dRGBMapping, 
+  dRGBMapping,
   dCMYKMapping,
   dRelCharWidth,
   dAddStationName = 1080,
@@ -44,7 +43,6 @@ enum NFmiTextParamRectObjects
   dPRMaxTextLength,
   dFillWithUnderscore
 };
-
 
 //! Undocumented
 struct FmiPressColorMapping
@@ -59,76 +57,69 @@ const unsigned long maxNumOfColMaps = 20;
 
 class _FMI_DLL NFmiTextParamRect : public NFmiParamRect
 {
-
-public:
-  
+ public:
   virtual ~NFmiTextParamRect(void);
 
   NFmiTextParamRect(void);
-  NFmiTextParamRect(const NFmiTextParamRect & theTextParamRect); 
+  NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect);
 
-  virtual bool ReadDescription(NFmiString & retString) = 0;
-  int ConvertDefText(NFmiString & object);
+  virtual bool ReadDescription(NFmiString& retString) = 0;
+  int ConvertDefText(NFmiString& object);
   virtual bool ReadRemaining(void);
 
-  virtual bool WritePS(const NFmiRect & AbsoluteRectOfSymbolGroup,
-					   NFmiFastQueryInfo * theQI  ,
-					   std::ofstream & theDestinationFile,
-					   FmiPressOutputMode theOutput) = 0;
+  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+                       NFmiFastQueryInfo* theQI,
+                       std::ofstream& theDestinationFile,
+                       FmiPressOutputMode theOutput) = 0;
 
   void SetValueDepending(float theValue);
 
-  NFmiString Construct(NFmiString * theString) const;
+  NFmiString Construct(NFmiString* theString) const;
 
-  virtual bool WriteCode(const NFmiString & theText,
-						 const NFmiRect & AbsoluteRectOfSymbolGroup,
-						 std::ofstream & theDestinationFile ,
-						 const NFmiString & theObjectName,
-						 FmiPressOutputMode theOutput);
+  virtual bool WriteCode(const NFmiString& theText,
+                         const NFmiRect& AbsoluteRectOfSymbolGroup,
+                         std::ofstream& theDestinationFile,
+                         const NFmiString& theObjectName,
+                         FmiPressOutputMode theOutput);
 
-protected:
-
+ protected:
   virtual FmiGenericColor MapColor(void) const;
 
-
-private:
-
+ private:
   bool WriteShowString(double x,
-					   double y,
-					   const NFmiString & theShowString,
-					   std::ofstream & os) const;
+                       double y,
+                       const NFmiString& theShowString,
+                       std::ofstream& os) const;
   bool WriteShowStringLongMinus(double x,
-					   double y,
-					   const NFmiString & theMinusString,
-					   const NFmiString & theWidthMinus,
-					   const NFmiString & theShowString,
-					   std::ofstream & os) const;
+                                double y,
+                                const NFmiString& theMinusString,
+                                const NFmiString& theWidthMinus,
+                                const NFmiString& theShowString,
+                                std::ofstream& os) const;
   bool WriteShowStringText(double x,
-					   double y,
-					   const NFmiString & theMinusString,
-					   const NFmiString & theWidthMinus,
-					   const NFmiString & theShowString,
-					   std::ofstream & os) const;
+                           double y,
+                           const NFmiString& theMinusString,
+                           const NFmiString& theWidthMinus,
+                           const NFmiString& theShowString,
+                           std::ofstream& os) const;
 
-protected:
-
+ protected:
   NFmiString itsAddInFront;
   NFmiString itsAddAfter;
   bool fUseSelectLatinFont;
   bool fParenthesis;
-  NFmiParamMapping * itsMapping;
+  NFmiParamMapping* itsMapping;
   FmiPressColorMapping itsColorMapping[maxNumOfColMaps];
   unsigned long itsCurrentNumOfColMaps;
   double itsRelCharWidth;
   double itsWidthFactor;
   bool fAddStationName;
-  bool fUpperCase;  
-  bool fLowerCase;   
-  bool fFirstUpperCase;  
+  bool fUpperCase;
+  bool fLowerCase;
+  bool fFirstUpperCase;
   unsigned long itsMaxLen;
   bool fFillWithUnderscore;
-}; 
-
+};
 
 // ----------------------------------------------------------------------
 /*!
@@ -136,24 +127,23 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiTextParamRect::NFmiTextParamRect(void)
-  : NFmiParamRect()
-  , fUseSelectLatinFont(false)
-  , fParenthesis(false)
-  , itsMapping(0)
-  , itsCurrentNumOfColMaps(0)
-  , itsRelCharWidth(0.)
-  , itsWidthFactor(1.)
-  , fAddStationName(false)
-  , fUpperCase(false)  
-  , fLowerCase(false)   
-  , fFirstUpperCase(false)
-  , itsMaxLen(0)
-  , fFillWithUnderscore(false)
+inline NFmiTextParamRect::NFmiTextParamRect(void)
+    : NFmiParamRect(),
+      fUseSelectLatinFont(false),
+      fParenthesis(false),
+      itsMapping(0),
+      itsCurrentNumOfColMaps(0),
+      itsRelCharWidth(0.),
+      itsWidthFactor(1.),
+      fAddStationName(false),
+      fUpperCase(false),
+      fLowerCase(false),
+      fFirstUpperCase(false),
+      itsMaxLen(0),
+      fFillWithUnderscore(false)
 {
 }
 
-#endif // NFMITEXTPARAMRECT_H
+#endif  // NFMITEXTPARAMRECT_H
 
 // ======================================================================

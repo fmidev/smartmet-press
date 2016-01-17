@@ -7,11 +7,11 @@
 /*!
  * \class NFmiPressSameSymbols
  *
- * Luokalla on tarkoitus tuottaa samaa vakio-"lyhytsymbolia" 
- * useampiin paikkoihin ilman datariippuvuutta. Paikat 
- * talletetaan voidPtrListaan. 
+ * Luokalla on tarkoitus tuottaa samaa vakio-"lyhytsymbolia"
+ * useampiin paikkoihin ilman datariippuvuutta. Paikat
+ * talletetaan voidPtrListaan.
  * Toimivuutta viimeisessä versiossa ei ole testattu.
- * Käyttötarve aika pientä, joten kannattaako viedä käyttöoppaaseen?  
+ * Käyttötarve aika pientä, joten kannattaako viedä käyttöoppaaseen?
  *
  */
 // ======================================================================
@@ -25,53 +25,49 @@
 // newbase
 #include "NFmiVoidPtrList.h"
 
-
 //! Undocumented
 enum NFmiPressSameSymbolsObjects
 {
   dPlace = 200,
   dPlaceSymbol,
-  dPlaceDefArea,              
-  dPlacePlotArea,              
+  dPlaceDefArea,
+  dPlacePlotArea,
   dPlaceSubViews,
-  dPlaceStepSize,               
+  dPlaceStepSize,
   dPlaceTable
 };
-
 
 //! Undocumented
 class _FMI_DLL NFmiPressSameSymbols : public NFmiPressDescription
 {
-public:
-
+ public:
   virtual ~NFmiPressSameSymbols(void);
 
   NFmiPressSameSymbols(void);
-  NFmiPressSameSymbols(const NFmiRectScale & scale);
+  NFmiPressSameSymbols(const NFmiRectScale& scale);
 
-  bool WritePS(std::ofstream & theOutFile);
-  
-  void SetScale(const NFmiRectScale & scale);        
-  virtual bool ReadDescription(NFmiString & retString); 
-  int ConvertDefText(NFmiString & object);
-  void SetOutFile(std::ofstream & outFile);
-  NFmiPsSymbol * GetPsSymbol(void);
+  bool WritePS(std::ofstream& theOutFile);
+
+  void SetScale(const NFmiRectScale& scale);
+  virtual bool ReadDescription(NFmiString& retString);
+  int ConvertDefText(NFmiString& object);
+  void SetOutFile(std::ofstream& outFile);
+  NFmiPsSymbol* GetPsSymbol(void);
   void SetPressProduct(NFmiPressProduct* thePressP);
-protected:
-  
+
+ protected:
   void NextPoint(void);
 
-private:
-
+ private:
   FmiCounter itsNumberOfSteps;
-  NFmiPoint itsStepSize;   
-  NFmiRectScale itsCurrentScale; 
+  NFmiPoint itsStepSize;
+  NFmiRectScale itsCurrentScale;
   NFmiRectScale itsScale;
   NFmiVoidPtrList itsPlaces;
   NFmiPsSymbol itsPsSymbol;
-  NFmiPressProduct* itsPressProduct; //no owner
+  NFmiPressProduct* itsPressProduct;  // no owner
 
-}; // class NFmiPressSameSymbols
+};  // class NFmiPressSameSymbols
 
 // ----------------------------------------------------------------------
 /*!
@@ -79,23 +75,14 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressSameSymbols::~NFmiPressSameSymbols (void)
-{
-}
-
+inline NFmiPressSameSymbols::~NFmiPressSameSymbols(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressSameSymbols::NFmiPressSameSymbols(void)
-  : itsNumberOfSteps(1)
-{
-}
-
+inline NFmiPressSameSymbols::NFmiPressSameSymbols(void) : itsNumberOfSteps(1) {}
 // ----------------------------------------------------------------------
 /*!
  * Constructor
@@ -104,10 +91,8 @@ NFmiPressSameSymbols::NFmiPressSameSymbols(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressSameSymbols::NFmiPressSameSymbols(const NFmiRectScale & scale)    
-  : itsNumberOfSteps(1)
-  , itsScale(scale)
+inline NFmiPressSameSymbols::NFmiPressSameSymbols(const NFmiRectScale& scale)
+    : itsNumberOfSteps(1), itsScale(scale)
 {
 }
 
@@ -119,8 +104,7 @@ NFmiPressSameSymbols::NFmiPressSameSymbols(const NFmiRectScale & scale)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressSameSymbols::SetOutFile(std::ofstream & outFile)
+inline void NFmiPressSameSymbols::SetOutFile(std::ofstream& outFile)
 {
   itsPsSymbol.SetFile(outFile);
 }
@@ -132,8 +116,7 @@ void NFmiPressSameSymbols::SetOutFile(std::ofstream & outFile)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressSameSymbols::SetPressProduct(NFmiPressProduct* thePressP)
+inline void NFmiPressSameSymbols::SetPressProduct(NFmiPressProduct* thePressP)
 {
   itsPressProduct = thePressP;
 }
@@ -146,12 +129,7 @@ void NFmiPressSameSymbols::SetPressProduct(NFmiPressProduct* thePressP)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPsSymbol * NFmiPressSameSymbols::GetPsSymbol(void)
-{
-  return &itsPsSymbol;
-}
-
-#endif // NFMIPRESSSAMESYMBOLS_H
+inline NFmiPsSymbol* NFmiPressSameSymbols::GetPsSymbol(void) { return &itsPsSymbol; }
+#endif  // NFMIPRESSSAMESYMBOLS_H
 
 // ======================================================================

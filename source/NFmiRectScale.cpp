@@ -13,10 +13,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmiRectScale::~NFmiRectScale(void)
-{
-}
-
+NFmiRectScale::~NFmiRectScale(void) {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
@@ -25,7 +22,7 @@ NFmiRectScale::~NFmiRectScale(void)
 
 NFmiRectScale::NFmiRectScale(void)
 {
-  SetScales(NFmiRect(0.,0.,1.,1.), NFmiRect(0.,0.,1.,1.));
+  SetScales(NFmiRect(0., 0., 1., 1.), NFmiRect(0., 0., 1., 1.));
 }
 
 // ----------------------------------------------------------------------
@@ -38,11 +35,13 @@ NFmiRectScale::NFmiRectScale(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiRectScale::NFmiRectScale (NFmiRect theStartRect, NFmiRect theEndRect)
-  : itsXStartScale (static_cast<float>(theStartRect.Left()),static_cast<float>(theStartRect.Right()))
-  , itsYStartScale (static_cast<float>(theStartRect.Top()),static_cast<float>(theStartRect.Bottom()))
-  , itsXEndScale (static_cast<float>(theEndRect.Left()),static_cast<float>(theEndRect.Right()))
-  , itsYEndScale (static_cast<float>(theEndRect.Top()),static_cast<float>(theEndRect.Bottom()))
+NFmiRectScale::NFmiRectScale(NFmiRect theStartRect, NFmiRect theEndRect)
+    : itsXStartScale(static_cast<float>(theStartRect.Left()),
+                     static_cast<float>(theStartRect.Right())),
+      itsYStartScale(static_cast<float>(theStartRect.Top()),
+                     static_cast<float>(theStartRect.Bottom())),
+      itsXEndScale(static_cast<float>(theEndRect.Left()), static_cast<float>(theEndRect.Right())),
+      itsYEndScale(static_cast<float>(theEndRect.Top()), static_cast<float>(theEndRect.Bottom()))
 {
 }
 
@@ -56,11 +55,11 @@ NFmiRectScale::NFmiRectScale (NFmiRect theStartRect, NFmiRect theEndRect)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetScales(const NFmiRect & theStartRect, const NFmiRect & theEndRect)
+void NFmiRectScale::SetScales(const NFmiRect& theStartRect, const NFmiRect& theEndRect)
 {
   SetStartScales(theStartRect);
   SetEndScales(theEndRect);
-}  
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -71,13 +70,13 @@ void NFmiRectScale::SetScales(const NFmiRect & theStartRect, const NFmiRect & th
 
 void NFmiRectScale::RescaleEndScales(double withFactor)
 {
-  double deltaX = withFactor*(itsXEndScale.Difference())/2.f;
-  double deltaY = withFactor*(itsYEndScale.Difference())/2.f;
-  
-  SetEndScales(NFmiRect(GetEndCenter().X() - deltaX
-	                   ,GetEndCenter().Y() + deltaY
-	                   ,GetEndCenter().X() + deltaX
-	                   ,GetEndCenter().Y() - deltaY));  
+  double deltaX = withFactor * (itsXEndScale.Difference()) / 2.f;
+  double deltaY = withFactor * (itsYEndScale.Difference()) / 2.f;
+
+  SetEndScales(NFmiRect(GetEndCenter().X() - deltaX,
+                        GetEndCenter().Y() + deltaY,
+                        GetEndCenter().X() + deltaX,
+                        GetEndCenter().Y() - deltaY));
 }
 
 // ----------------------------------------------------------------------
@@ -88,11 +87,7 @@ void NFmiRectScale::RescaleEndScales(double withFactor)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetXStartScale(const NFmiScale & theScale)
-{
-  itsXStartScale = theScale;
-}
-
+void NFmiRectScale::SetXStartScale(const NFmiScale& theScale) { itsXStartScale = theScale; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -101,11 +96,7 @@ void NFmiRectScale::SetXStartScale(const NFmiScale & theScale)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetYStartScale(const NFmiScale & theScale)
-{
-  itsYStartScale = theScale;
-}
-
+void NFmiRectScale::SetYStartScale(const NFmiScale& theScale) { itsYStartScale = theScale; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -114,11 +105,7 @@ void NFmiRectScale::SetYStartScale(const NFmiScale & theScale)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetXEndScale(const NFmiScale & theScale)
-{
-  itsXEndScale = theScale;
-}
-
+void NFmiRectScale::SetXEndScale(const NFmiScale& theScale) { itsXEndScale = theScale; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -127,9 +114,21 @@ void NFmiRectScale::SetXEndScale(const NFmiScale & theScale)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetYEndScale(const NFmiScale & theScale)
+void NFmiRectScale::SetYEndScale(const NFmiScale& theScale) { itsYEndScale = theScale; }
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \param theStartRect Undocumented
+ */
+// ----------------------------------------------------------------------
+
+void NFmiRectScale::SetStartScales(const NFmiRect& theStartRect)
 {
-  itsYEndScale = theScale;
+  itsXStartScale.Set(static_cast<float>(theStartRect.Left()),
+                     static_cast<float>(theStartRect.Right()));
+  itsYStartScale.Set(static_cast<float>(theStartRect.Top()),
+                     static_cast<float>(theStartRect.Bottom()));
 }
 
 // ----------------------------------------------------------------------
@@ -140,24 +139,12 @@ void NFmiRectScale::SetYEndScale(const NFmiScale & theScale)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetStartScales(const NFmiRect & theStartRect)
+void NFmiRectScale::SetEndScales(const NFmiRect& theStartRect)
 {
-  itsXStartScale.Set(static_cast<float>(theStartRect.Left()),static_cast<float>(theStartRect.Right()));
-  itsYStartScale.Set(static_cast<float>(theStartRect.Top()),static_cast<float>(theStartRect.Bottom()));
-}
-
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param theStartRect Undocumented
- */
-// ----------------------------------------------------------------------
-
-void NFmiRectScale::SetEndScales(const NFmiRect & theStartRect)
-{
-  itsXEndScale.Set(static_cast<float>(theStartRect.Left()),static_cast<float>(theStartRect.Right()));
-  itsYEndScale.Set(static_cast<float>(theStartRect.Top()),static_cast<float>(theStartRect.Bottom()));
+  itsXEndScale.Set(static_cast<float>(theStartRect.Left()),
+                   static_cast<float>(theStartRect.Right()));
+  itsYEndScale.Set(static_cast<float>(theStartRect.Top()),
+                   static_cast<float>(theStartRect.Bottom()));
 }
 
 // ----------------------------------------------------------------------
@@ -170,11 +157,9 @@ void NFmiRectScale::SetEndScales(const NFmiRect & theStartRect)
 
 void NFmiRectScale::MoveEndScales(const NFmiPoint& theDiff)
 {
-  SetEndScales
-	  (NFmiRect(NFmiPoint(itsXEndScale.StartValue()+ theDiff.X(),
-						 itsYEndScale.StartValue()+ theDiff.Y()),
-	            NFmiPoint(itsXEndScale.EndValue()+ theDiff.X(),
-						 itsYEndScale.EndValue()+ theDiff.Y())));
+  SetEndScales(NFmiRect(
+      NFmiPoint(itsXEndScale.StartValue() + theDiff.X(), itsYEndScale.StartValue() + theDiff.Y()),
+      NFmiPoint(itsXEndScale.EndValue() + theDiff.X(), itsYEndScale.EndValue() + theDiff.Y())));
 }
 // ----------------------------------------------------------------------
 /*!
@@ -186,8 +171,8 @@ void NFmiRectScale::MoveEndScales(const NFmiPoint& theDiff)
 
 void NFmiRectScale::MoveXEndScale(double theDelta)
 {
-  SetXEndScale(NFmiScale(itsXEndScale.StartValue()+ (float)theDelta,
-						 itsXEndScale.EndValue()+ (float)theDelta));
+  SetXEndScale(NFmiScale(itsXEndScale.StartValue() + (float)theDelta,
+                         itsXEndScale.EndValue() + (float)theDelta));
 }
 
 // ----------------------------------------------------------------------
@@ -200,8 +185,8 @@ void NFmiRectScale::MoveXEndScale(double theDelta)
 
 NFmiRect NFmiRectScale::GetStartScales(void) const
 {
-  return NFmiRect (NFmiPoint(itsXStartScale.StartValue(),itsYStartScale.StartValue()),
-				   NFmiPoint(itsXStartScale.EndValue(),itsYStartScale.EndValue()));	
+  return NFmiRect(NFmiPoint(itsXStartScale.StartValue(), itsYStartScale.StartValue()),
+                  NFmiPoint(itsXStartScale.EndValue(), itsYStartScale.EndValue()));
 }
 
 // ----------------------------------------------------------------------
@@ -214,8 +199,8 @@ NFmiRect NFmiRectScale::GetStartScales(void) const
 
 NFmiRect NFmiRectScale::GetEndScales(void) const
 {
-  return NFmiRect (NFmiPoint(itsXEndScale.StartValue(),itsYEndScale.StartValue()),
-				   NFmiPoint(itsXEndScale.EndValue(),itsYEndScale.EndValue()));	
+  return NFmiRect(NFmiPoint(itsXEndScale.StartValue(), itsYEndScale.StartValue()),
+                  NFmiPoint(itsXEndScale.EndValue(), itsYEndScale.EndValue()));
 }
 
 // ----------------------------------------------------------------------
@@ -226,11 +211,7 @@ NFmiRect NFmiRectScale::GetEndScales(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetXEndScale(void) const
-{
-  return itsXEndScale;	
-}
-
+NFmiScale NFmiRectScale::GetXEndScale(void) const { return itsXEndScale; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -239,11 +220,7 @@ NFmiScale NFmiRectScale::GetXEndScale(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetYEndScale(void) const
-{
-  return itsYEndScale;	
-}
-
+NFmiScale NFmiRectScale::GetYEndScale(void) const { return itsYEndScale; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -252,11 +229,7 @@ NFmiScale NFmiRectScale::GetYEndScale(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetXStartScale(void) const
-{
-  return itsXStartScale;	
-}
-
+NFmiScale NFmiRectScale::GetXStartScale(void) const { return itsXStartScale; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -265,11 +238,7 @@ NFmiScale NFmiRectScale::GetXStartScale(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetYStartScale(void) const
-{
-  return itsYStartScale;	
-}
-
+NFmiScale NFmiRectScale::GetYStartScale(void) const { return itsYStartScale; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -280,7 +249,7 @@ NFmiScale NFmiRectScale::GetYStartScale(void) const
 
 NFmiPoint NFmiRectScale::GetStartStartPoint(void) const
 {
-  return NFmiPoint(itsXStartScale.StartValue(),itsYStartScale.StartValue());	
+  return NFmiPoint(itsXStartScale.StartValue(), itsYStartScale.StartValue());
 }
 
 // ----------------------------------------------------------------------
@@ -293,7 +262,7 @@ NFmiPoint NFmiRectScale::GetStartStartPoint(void) const
 
 NFmiPoint NFmiRectScale::GetEndStartPoint(void) const
 {
-  return NFmiPoint(itsXEndScale.StartValue(),itsYEndScale.StartValue());	
+  return NFmiPoint(itsXEndScale.StartValue(), itsYEndScale.StartValue());
 }
 
 // ----------------------------------------------------------------------
@@ -306,7 +275,7 @@ NFmiPoint NFmiRectScale::GetEndStartPoint(void) const
 
 NFmiPoint NFmiRectScale::GetStartCenter(void) const
 {
-  return NFmiPoint(itsXStartScale.CenterValue(),itsYStartScale.CenterValue());	
+  return NFmiPoint(itsXStartScale.CenterValue(), itsYStartScale.CenterValue());
 }
 
 // ----------------------------------------------------------------------
@@ -319,7 +288,7 @@ NFmiPoint NFmiRectScale::GetStartCenter(void) const
 
 NFmiPoint NFmiRectScale::GetEndCenter(void) const
 {
-  return NFmiPoint(itsXEndScale.CenterValue(),itsYEndScale.CenterValue());	
+  return NFmiPoint(itsXEndScale.CenterValue(), itsYEndScale.CenterValue());
 }
 
 // ----------------------------------------------------------------------
@@ -332,7 +301,7 @@ NFmiPoint NFmiRectScale::GetEndCenter(void) const
 
 double NFmiRectScale::GetXScaling(void) const
 {
-  return itsXEndScale.Difference() / itsXStartScale.Difference();	
+  return itsXEndScale.Difference() / itsXStartScale.Difference();
 }
 
 // ----------------------------------------------------------------------
@@ -345,7 +314,7 @@ double NFmiRectScale::GetXScaling(void) const
 
 double NFmiRectScale::GetYScaling(void) const
 {
-  return itsYEndScale.Difference() / itsYStartScale.Difference();	
+  return itsYEndScale.Difference() / itsYStartScale.Difference();
 }
 
 // ----------------------------------------------------------------------
@@ -356,11 +325,7 @@ double NFmiRectScale::GetYScaling(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiPoint NFmiRectScale::GetScaling(void) const
-{
-  return NFmiPoint(GetXScaling(),GetYScaling());
-}
-
+NFmiPoint NFmiRectScale::GetScaling(void) const { return NFmiPoint(GetXScaling(), GetYScaling()); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -370,9 +335,9 @@ NFmiPoint NFmiRectScale::GetScaling(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiPoint NFmiRectScale::Scale(const NFmiPoint & thePoint) const
+NFmiPoint NFmiRectScale::Scale(const NFmiPoint& thePoint) const
 {
-  return  NFmiPoint(ScaleX(thePoint.X()),ScaleY(thePoint.Y()));
+  return NFmiPoint(ScaleX(thePoint.X()), ScaleY(thePoint.Y()));
 }
 
 // ----------------------------------------------------------------------
@@ -384,9 +349,9 @@ NFmiPoint NFmiRectScale::Scale(const NFmiPoint & thePoint) const
  */
 // ----------------------------------------------------------------------
 
-NFmiRect NFmiRectScale::ScaleRect(const NFmiRect & theRect) const
+NFmiRect NFmiRectScale::ScaleRect(const NFmiRect& theRect) const
 {
-  return  NFmiRect(Scale(theRect.TopLeft()), Scale(theRect.BottomRight()));
+  return NFmiRect(Scale(theRect.TopLeft()), Scale(theRect.BottomRight()));
 }
 
 // ----------------------------------------------------------------------
@@ -400,7 +365,7 @@ NFmiRect NFmiRectScale::ScaleRect(const NFmiRect & theRect) const
 
 double NFmiRectScale::ScaleX(double value) const
 {
-  return  itsXEndScale.Location(itsXStartScale.RelLocation(static_cast<float>(value)));
+  return itsXEndScale.Location(itsXStartScale.RelLocation(static_cast<float>(value)));
 }
 
 // ----------------------------------------------------------------------
@@ -414,7 +379,7 @@ double NFmiRectScale::ScaleX(double value) const
 
 double NFmiRectScale::ScaleY(double value) const
 {
-  return  itsYEndScale.Location(itsYStartScale.RelLocation(static_cast<float>(value)));
+  return itsYEndScale.Location(itsYStartScale.RelLocation(static_cast<float>(value)));
 }
 
 // ----------------------------------------------------------------------
@@ -428,7 +393,7 @@ double NFmiRectScale::ScaleY(double value) const
 
 double NFmiRectScale::UnScaleX(double value) const
 {
-  return  itsXStartScale.Location(itsXEndScale.RelLocation(static_cast<float>(value)));
+  return itsXStartScale.Location(itsXEndScale.RelLocation(static_cast<float>(value)));
 }
 
 // ----------------------------------------------------------------------
@@ -442,7 +407,7 @@ double NFmiRectScale::UnScaleX(double value) const
 
 double NFmiRectScale::UnScaleY(double value) const
 {
-  return  itsYStartScale.Location(itsYEndScale.RelLocation(static_cast<float>(value)));
+  return itsYStartScale.Location(itsYEndScale.RelLocation(static_cast<float>(value)));
 }
 
 // ----------------------------------------------------------------------
@@ -454,9 +419,9 @@ double NFmiRectScale::UnScaleY(double value) const
  */
 // ----------------------------------------------------------------------
 
-NFmiPoint NFmiRectScale::UnScale(const NFmiPoint & thePoint) const
+NFmiPoint NFmiRectScale::UnScale(const NFmiPoint& thePoint) const
 {
-  return  NFmiPoint(UnScaleX(thePoint.X()),UnScaleY(thePoint.Y()));
+  return NFmiPoint(UnScaleX(thePoint.X()), UnScaleY(thePoint.Y()));
 }
 
 // ----------------------------------------------------------------------
@@ -468,11 +433,10 @@ NFmiPoint NFmiRectScale::UnScale(const NFmiPoint & thePoint) const
  */
 // ----------------------------------------------------------------------
 
-NFmiRect NFmiRectScale::UnScaleRect(const NFmiRect & theRect) const
+NFmiRect NFmiRectScale::UnScaleRect(const NFmiRect& theRect) const
 {
-  return  NFmiRect(UnScale(theRect.TopLeft()), UnScale(theRect.BottomRight()));
+  return NFmiRect(UnScale(theRect.TopLeft()), UnScale(theRect.BottomRight()));
 }
-
 
 // ----------------------------------------------------------------------
 /*!
@@ -483,11 +447,10 @@ NFmiRect NFmiRectScale::UnScaleRect(const NFmiRect & theRect) const
  */
 // ----------------------------------------------------------------------
 
-NFmiRectScale NFmiRectScale::Scale(const NFmiRectScale & theScale) const
+NFmiRectScale NFmiRectScale::Scale(const NFmiRectScale& theScale) const
 {
-  //kaksi peräkkäistä rectskaalausta
-  return NFmiRectScale(GetStartScales(),
-					   theScale.ScaleRect(ScaleRect(GetStartScales())));
+  // kaksi peräkkäistä rectskaalausta
+  return NFmiRectScale(GetStartScales(), theScale.ScaleRect(ScaleRect(GetStartScales())));
 }
 
 // ======================================================================

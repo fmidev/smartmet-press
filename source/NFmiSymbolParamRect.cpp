@@ -6,7 +6,7 @@
 // ======================================================================
 
 #ifndef UNIX
- #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta
+#pragma warning(disable : 4786)  // poistaa n kpl VC++ kääntäjän varoitusta
 #endif
 
 #include "NFmiSymbolParamRect.h"
@@ -35,13 +35,9 @@ using namespace std;
 
 NFmiSymbolParamRect::~NFmiSymbolParamRect(void)
 {
-  if(itsSubDir)
-	delete static_cast<NFmiString *>(itsSubDir);
-  if(itsMapping)
-	delete static_cast<NFmiParamMapping *>(itsMapping);
-  if(itsOrigDir)
-	delete static_cast<NFmiString *>(itsOrigDir);
-
+  if (itsSubDir) delete static_cast<NFmiString *>(itsSubDir);
+  if (itsMapping) delete static_cast<NFmiParamMapping *>(itsMapping);
+  if (itsOrigDir) delete static_cast<NFmiString *>(itsOrigDir);
 }
 
 // ----------------------------------------------------------------------
@@ -52,16 +48,16 @@ NFmiSymbolParamRect::~NFmiSymbolParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect & theSymbolRect)
-  : NFmiParamRect(theSymbolRect)
-  , itsConstSymbol(theSymbolRect.itsConstSymbol)
-  , fIsConstSymbol(theSymbolRect.fIsConstSymbol)
-  , itsMapping(new NFmiParamMapping(*theSymbolRect.itsMapping))
-  , itsSubDir(new NFmiString(*theSymbolRect.itsSubDir))
-  , itsOrigDir(new NFmiString(*theSymbolRect.itsOrigDir))
-  , itsSymbolSetName(theSymbolRect.itsSymbolSetName)
-  , itsDefToProductScale(theSymbolRect.itsDefToProductScale)
-  , fUseDayNightSymbols(theSymbolRect.fUseDayNightSymbols)
+NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect &theSymbolRect)
+    : NFmiParamRect(theSymbolRect),
+      itsConstSymbol(theSymbolRect.itsConstSymbol),
+      fIsConstSymbol(theSymbolRect.fIsConstSymbol),
+      itsMapping(new NFmiParamMapping(*theSymbolRect.itsMapping)),
+      itsSubDir(new NFmiString(*theSymbolRect.itsSubDir)),
+      itsOrigDir(new NFmiString(*theSymbolRect.itsOrigDir)),
+      itsSymbolSetName(theSymbolRect.itsSymbolSetName),
+      itsDefToProductScale(theSymbolRect.itsDefToProductScale),
+      fUseDayNightSymbols(theSymbolRect.fUseDayNightSymbols)
 
 {
 }
@@ -76,7 +72,7 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect & theSymbolRe
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect * NFmiSymbolParamRect::Clone(void) const
+NFmiParamRect *NFmiSymbolParamRect::Clone(void) const
 {
   return static_cast<NFmiParamRect *>(new NFmiSymbolParamRect(*this));
 }
@@ -90,30 +86,30 @@ NFmiParamRect * NFmiSymbolParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
+bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
 {
-  double x,y;
+  double x, y;
   NFmiValueString valueString;
   if (itsOrigDir) delete itsOrigDir;
   NFmiString origDir;
   NFmiString inDir;
- 
+
   inDir = GetHome();
   inDir += kFmiDirectorySeparator;
   inDir += "LyhytSymbolit";
 #ifdef UNIX
   // Create the symbol cache directory if it doesn't exist already
   inDir = NFmiSettings::Require<string>("press::symbolcachepath");
-  try 
-    {
-      boost::filesystem::create_directory(static_cast<string>(inDir));
-    }
-  catch(exception e)
-    {
-      cout << "Creating the symbol cache directory failed." << endl;
-    }
+  try
+  {
+    boost::filesystem::create_directory(static_cast<string>(inDir));
+  }
+  catch (exception e)
+  {
+    cout << "Creating the symbol cache directory failed." << endl;
+  }
 #endif
-  
+
   inDir += kFmiDirectorySeparator;
 
 #ifndef UNIX
@@ -128,13 +124,13 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   origDir += kFmiDirectorySeparator;
 #endif
 
-   //NFmiString subDir = NFmiString("Kymi");  //oletus vaikka tämä
+  // NFmiString subDir = NFmiString("Kymi");  //oletus vaikka tämä
   NFmiString subDir = itsEnvironment.GetSymbolSet();
 
-  itsOrigDir = new NFmiString(origDir);	//oikeastaan koko polku
- 
-  NFmiString  helpString;
-  NFmiString* mappingName;
+  itsOrigDir = new NFmiString(origDir);  // oikeastaan koko polku
+
+  NFmiString helpString;
+  NFmiString *mappingName;
   NFmiValueString helpValueString;
   itsMapping = new NFmiParamMapping;
   itsModifier = kNoneModifier;
@@ -144,275 +140,264 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
 
-  long long1,long2;
-  double r1,r2,r3,r4;
+  long long1, long2;
+  double r1, r2, r3, r4;
   double intervalEps = 0.00001;
   NFmiPoint sizePoint1, sizePoint2;
-  sizePoint1.Set(0.,0.);
-  sizePoint2.Set(c40,c40); //ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
- 
-  itsRelRect.Set(NFmiPoint(0.,0.),NFmiPoint(1.,1.));
-  itsSizeFactor = NFmiPoint(1. ,1.);
+  sizePoint1.Set(0., 0.);
+  sizePoint2.Set(c40, c40);  // ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
+
+  itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
+  itsSizeFactor = NFmiPoint(1., 1.);
 
   // onko asetettu, entäs rotparr jossa oli sijoitusvirhe toimiiko vanha sijoitus
-  if(fNewScaling)
-	itsRelRect += NFmiPoint(-.5, -.5);
+  if (fNewScaling) itsRelRect += NFmiPoint(-.5, -.5);
 
   itsMultiMapping = 0;
   bool symbDirGiven = false;
   // bool symbSizeGiven = false;
-  double xh,yh;
+  double xh, yh;
   xh = yh = 1.;
 
-  while(itsIntObject != 9999 || itsCommentLevel)
-	{
-	  if (itsIntObject != dEndComment && itsCommentLevel)
-		itsIntObject = dComment;
-	  if(itsLoopNum > itsMaxLoopNum)
-		{
-		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: max output file length exceeded in #Symbol" << endl;
-		  retString = itsString;
-		  return false;
-		}
-	  itsLoopNum++;
-	  switch(itsIntObject)
-		{
-		case dOther:	  //tuntematon sana
-		  {
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: Unknown string in #Symbol: "
-						  << static_cast<char *>(itsObject)
-						  << endl;
-			ReadNext();
-			break;
-		  }
-		case dComment:
-		  {
-			ReadNext();
-			break;
-		  }
-		case dEndComment:
-		  {
-			ReadNext();
-			break;
-		  }
-		 
-		case dSymbolDirectory:
-		  {
-			if (!ReadEqualChar())
-			  break;
-		
-			subDir = ReadString();
-			NFmiString apu = subDir;
-			apu.LowerCase();
-			if (apu == "kuunvaiheet"  //pitäisi hoitaa komennolla
-			 || apu == "moon_phases")
-				SetMoonPhase();
-				
-			symbDirGiven = true;
-		
-			ReadNext();
-			break;
-		  }
-		case dConstSymbolName:
-		  {
-			if (!ReadEqualChar())
-			  break;
-			itsConstSymbol = ReadString();
-		
-			ReadNext();
-			break;
-		  }
-		case dMapping:
-		  {
-			NFmiMappingInterval interval;
-			if (!ReadEqualChar())
-			  break;
+  while (itsIntObject != 9999 || itsCommentLevel)
+  {
+    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsLoopNum > itsMaxLoopNum)
+    {
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: max output file length exceeded in #Symbol" << endl;
+      retString = itsString;
+      return false;
+    }
+    itsLoopNum++;
+    switch (itsIntObject)
+    {
+      case dOther:  // tuntematon sana
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Unknown string in #Symbol: " << static_cast<char *>(itsObject)
+                      << endl;
+        ReadNext();
+        break;
+      }
+      case dComment:
+      {
+        ReadNext();
+        break;
+      }
+      case dEndComment:
+      {
+        ReadNext();
+        break;
+      }
 
-			if(ReadDouble(r1))
-			  {
-            	*itsDescriptionFile >> itsObject;
-				helpValueString = NFmiValueString(itsObject);
-	            if(helpValueString.IsNumeric())
-				  {
-					r2 = static_cast<double>(helpValueString);
-                 	*itsDescriptionFile >> itsObject;
-				  }
-				else
-				  {
-					r2 = r1;
-				  }
-			
-				interval.itsBottomValue = r1 - intervalEps; //varmuuden vuoksi jotta vertailut oiken päin
-				interval.itsTopValue = r2 + intervalEps;
-			
-				mappingName = new NFmiString(itsObject);
-				interval.itsSymbol = *mappingName;
-				interval.fIsScaled = false;
-				itsMapping->AddMappingInterval(interval);
-			  }
-		
-			ReadNext();
-			break;
-		  }
-		case dScaleMapping:
-		  {
-			NFmiMappingInterval interval;
-			if (!ReadEqualChar())
-			  break;
-		
-			if(ReadTwo(long1, long2))
-			  {
-				interval.itsBottomValue = long1;
-				interval.itsTopValue = long2;
-			
-				mappingName = new NFmiString(itsObject);
-				interval.itsSymbol = *mappingName;
-				interval.fIsScaled = true;
-				itsMapping->AddMappingInterval(interval);
-			  }
-		
-			ReadNext();
-			break;
-		  }
-		case dRelSize:
-		  {
-			if (!ReadEqualChar())
-			  break;
+      case dSymbolDirectory:
+      {
+        if (!ReadEqualChar()) break;
 
-			if(ReadOne(x))
-			  {
-			    // symbSizeGiven = true;
-				//xh = yh = 1.;
-				if(x>0.)
-				  xh = x;
-			
-				*itsDescriptionFile >> itsObject;
-				valueString = itsObject;
-				if(valueString.IsNumeric())
-				  {
-					y = static_cast<double>(valueString);
-					if(y>0)
-					  yh = y;
-					*itsDescriptionFile >> itsObject;
-					itsString = itsObject;
-				  }
-				else
-				  {
-					yh = xh;
-					itsString = valueString;
-				  }
-				//itsRelRect.Inflate((xh-1.)/2., (yh-1)/2.);
-				//itsRelRect += NFmiPoint(-(2-xh)/2., -(2-yh)/2.);
-				//itsRelRect += NFmiPoint(.5, .5);
-			
-				//itsSizeFactor = NFmiPoint(xh,yh);
-			  }
-			else
-			  {
-				*itsDescriptionFile >> itsObject;
-				itsString = itsObject;
-			  }
+        subDir = ReadString();
+        NFmiString apu = subDir;
+        apu.LowerCase();
+        if (apu == "kuunvaiheet"  // pitäisi hoitaa komennolla
+            ||
+            apu == "moon_phases")
+          SetMoonPhase();
 
-			itsIntObject = ConvertDefText(itsString);
-			break;
-		  }
-		case dPlaceMove:
-		  {
-			if (!ReadEqualChar())
-			  break;
-		
-			if(ReadTwo(r1,r2))
-			  {
-				itsRelRect += NFmiPoint(r1/c40, r2/c40);
-			  }
-		
-			ReadNext();
-			break;
-		  }
-		case dRelPlace:
-		  {
-			if (!ReadEqualChar())
-			  break;
+        symbDirGiven = true;
 
-			if(Read4Double(r1,r2,r3,r4))
-			  {
-				itsRelRect.Set(NFmiPoint(r1,r2),NFmiPoint(r3,r4));
-			  }
-		
-			ReadNext();
-		
-			break;
-		  }
-		case dProducer:
-		  {
-			SetOne(long1); // luetaan vain pois
-			break;
-		  }
-		case dRelDay:
-		  {
-			SetOne(itsFirstDeltaDays);
-			if(itsLogFile)
-			  *itsLogFile << "*** ERROR: The day cannot be set in #Symbol"  << endl;
-			break;
-		}
-		case dHour:
-		  {
-			SetOne(itsFirstPlotHours);
-			break;
-		  }
-		case dIncludeNightSymbols:
-		  {
-			UseDayNightSymbols();
-			ReadNext();
-			break;
-		  }
-		default:
-		  {
-			ReadRemaining();
-			break;
-		  }
-		}
-	} //end while *************************************
-   
-	if(itsPressParam->IsOptimizeGlobalObs())
-   {
-	  if(itsIdentPar == 4 && !itsMultiMapping)
-	  {
-		if(fModifierUsed)
-		{
-			*itsLogFile << "*** WARNING: sum after other similar command (#Symbol, OptimizeWorldObservations)"
-				          << endl;
-		}
-		SetRelModifierTimes(10, 18);
-		fModifierUsed = true;
-		itsModifier = kMaximum;
-		fAllowMissing = true;
-	  }
-	  else
-		fUseBackupTime = true;
-   }
+        ReadNext();
+        break;
+      }
+      case dConstSymbolName:
+      {
+        if (!ReadEqualChar()) break;
+        itsConstSymbol = ReadString();
 
-	// jos symbolisetti annettu tässä, tässä annettu kokokerroin sellaisenaan,
-	//   muuten kerrotaan päätason kertoimella
-//    if(symbSizeGiven)
-//	{
-		if(!symbDirGiven)
-		{
-  			double sizeF = static_cast<double>(itsEnvironment.GetSymbolSizeFactor());
-			xh = sizeF*xh;
-			yh = sizeF*yh;
-		}
-		itsRelRect.Inflate((xh-1.)/2., (yh-1)/2.);
-		itsRelRect += NFmiPoint(-(2-xh)/2., -(2-yh)/2.);
-		itsRelRect += NFmiPoint(.5, .5);
-		itsSizeFactor = NFmiPoint(xh,yh);
-//	}
+        ReadNext();
+        break;
+      }
+      case dMapping:
+      {
+        NFmiMappingInterval interval;
+        if (!ReadEqualChar()) break;
 
-  if (itsSubDir)
-	delete itsSubDir;
-  itsSubDir = new NFmiString(inDir);	//oikeastaan koko polku
+        if (ReadDouble(r1))
+        {
+          *itsDescriptionFile >> itsObject;
+          helpValueString = NFmiValueString(itsObject);
+          if (helpValueString.IsNumeric())
+          {
+            r2 = static_cast<double>(helpValueString);
+            *itsDescriptionFile >> itsObject;
+          }
+          else
+          {
+            r2 = r1;
+          }
+
+          interval.itsBottomValue = r1 - intervalEps;  // varmuuden vuoksi jotta vertailut oiken
+                                                       // päin
+          interval.itsTopValue = r2 + intervalEps;
+
+          mappingName = new NFmiString(itsObject);
+          interval.itsSymbol = *mappingName;
+          interval.fIsScaled = false;
+          itsMapping->AddMappingInterval(interval);
+        }
+
+        ReadNext();
+        break;
+      }
+      case dScaleMapping:
+      {
+        NFmiMappingInterval interval;
+        if (!ReadEqualChar()) break;
+
+        if (ReadTwo(long1, long2))
+        {
+          interval.itsBottomValue = long1;
+          interval.itsTopValue = long2;
+
+          mappingName = new NFmiString(itsObject);
+          interval.itsSymbol = *mappingName;
+          interval.fIsScaled = true;
+          itsMapping->AddMappingInterval(interval);
+        }
+
+        ReadNext();
+        break;
+      }
+      case dRelSize:
+      {
+        if (!ReadEqualChar()) break;
+
+        if (ReadOne(x))
+        {
+          // symbSizeGiven = true;
+          // xh = yh = 1.;
+          if (x > 0.) xh = x;
+
+          *itsDescriptionFile >> itsObject;
+          valueString = itsObject;
+          if (valueString.IsNumeric())
+          {
+            y = static_cast<double>(valueString);
+            if (y > 0) yh = y;
+            *itsDescriptionFile >> itsObject;
+            itsString = itsObject;
+          }
+          else
+          {
+            yh = xh;
+            itsString = valueString;
+          }
+          // itsRelRect.Inflate((xh-1.)/2., (yh-1)/2.);
+          // itsRelRect += NFmiPoint(-(2-xh)/2., -(2-yh)/2.);
+          // itsRelRect += NFmiPoint(.5, .5);
+
+          // itsSizeFactor = NFmiPoint(xh,yh);
+        }
+        else
+        {
+          *itsDescriptionFile >> itsObject;
+          itsString = itsObject;
+        }
+
+        itsIntObject = ConvertDefText(itsString);
+        break;
+      }
+      case dPlaceMove:
+      {
+        if (!ReadEqualChar()) break;
+
+        if (ReadTwo(r1, r2))
+        {
+          itsRelRect += NFmiPoint(r1 / c40, r2 / c40);
+        }
+
+        ReadNext();
+        break;
+      }
+      case dRelPlace:
+      {
+        if (!ReadEqualChar()) break;
+
+        if (Read4Double(r1, r2, r3, r4))
+        {
+          itsRelRect.Set(NFmiPoint(r1, r2), NFmiPoint(r3, r4));
+        }
+
+        ReadNext();
+
+        break;
+      }
+      case dProducer:
+      {
+        SetOne(long1);  // luetaan vain pois
+        break;
+      }
+      case dRelDay:
+      {
+        SetOne(itsFirstDeltaDays);
+        if (itsLogFile) *itsLogFile << "*** ERROR: The day cannot be set in #Symbol" << endl;
+        break;
+      }
+      case dHour:
+      {
+        SetOne(itsFirstPlotHours);
+        break;
+      }
+      case dIncludeNightSymbols:
+      {
+        UseDayNightSymbols();
+        ReadNext();
+        break;
+      }
+      default:
+      {
+        ReadRemaining();
+        break;
+      }
+    }
+  }  // end while *************************************
+
+  if (itsPressParam->IsOptimizeGlobalObs())
+  {
+    if (itsIdentPar == 4 && !itsMultiMapping)
+    {
+      if (fModifierUsed)
+      {
+        *itsLogFile
+            << "*** WARNING: sum after other similar command (#Symbol, OptimizeWorldObservations)"
+            << endl;
+      }
+      SetRelModifierTimes(10, 18);
+      fModifierUsed = true;
+      itsModifier = kMaximum;
+      fAllowMissing = true;
+    }
+    else
+      fUseBackupTime = true;
+  }
+
+  // jos symbolisetti annettu tässä, tässä annettu kokokerroin sellaisenaan,
+  //   muuten kerrotaan päätason kertoimella
+  //    if(symbSizeGiven)
+  //	{
+  if (!symbDirGiven)
+  {
+    double sizeF = static_cast<double>(itsEnvironment.GetSymbolSizeFactor());
+    xh = sizeF * xh;
+    yh = sizeF * yh;
+  }
+  itsRelRect.Inflate((xh - 1.) / 2., (yh - 1) / 2.);
+  itsRelRect += NFmiPoint(-(2 - xh) / 2., -(2 - yh) / 2.);
+  itsRelRect += NFmiPoint(.5, .5);
+  itsSizeFactor = NFmiPoint(xh, yh);
+  //	}
+
+  if (itsSubDir) delete itsSubDir;
+  itsSubDir = new NFmiString(inDir);  // oikeastaan koko polku
   itsSymbolSetName = subDir;
 
   // SYMBOLIKOKO ON NYT OMASSA TIEDOSTOSSAAN JOKAISTA SETTIÄ VARTEN
@@ -423,60 +408,60 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
   sizeFile += itsSymbolSetName;
   sizeFile += NFmiString("/");
 
-  if(!NFmiFileSystem::DirectoryExists(sizeFile.CharPtr()))
-	{
-	  string msg = string("Symbolihakemisto ")+sizeFile.CharPtr()+" puuttuu!";
-	  errors.push_back(msg);
-	  if(itsLogFile)
-		* itsLogFile << "*** Error: " << msg << endl;
-	}
+  if (!NFmiFileSystem::DirectoryExists(sizeFile.CharPtr()))
+  {
+    string msg = string("Symbolihakemisto ") + sizeFile.CharPtr() + " puuttuu!";
+    errors.push_back(msg);
+    if (itsLogFile) *itsLogFile << "*** Error: " << msg << endl;
+  }
 
   sizeFile += NFmiString("symbolikoko.txt");
   ifstream input(sizeFile, ios::in);
-/*
-  if(input.good() && !input.eof())
-    {
-	  if(Read4Double(r1,r2,r3,r4))
-		{
-		  if(r1 == r3) // yksinkertaistettu yhteen lukuun, PITÄISI TEHDÄ PAREMMIN
-			{
-			  sizePoint1.Set(0., 0.);
-			  sizePoint2.Set(r1,r1);
-			}
-		  else
-			{
-			  sizePoint1.Set(r1,r2);
-			  sizePoint2.Set(r3,r4);
-			}
-		 
-		}
-	  else
-		{
-		  if(itsLogFile)
-			*itsLogFile << "*** ERROR: Ongelmia symbolikoko-tiedostossa"  << endl;
-		}
-	  fNewScaling = false;
-	}
-  else
-	{
-	*/
-	  fNewScaling = true;
-	//}
- 
-  itsDefToProductScale.SetStartScales(NFmiRect(sizePoint1,sizePoint2));
- 
+  /*
+    if(input.good() && !input.eof())
+      {
+            if(Read4Double(r1,r2,r3,r4))
+                  {
+                    if(r1 == r3) // yksinkertaistettu yhteen lukuun, PITÄISI TEHDÄ PAREMMIN
+                          {
+                            sizePoint1.Set(0., 0.);
+                            sizePoint2.Set(r1,r1);
+                          }
+                    else
+                          {
+                            sizePoint1.Set(r1,r2);
+                            sizePoint2.Set(r3,r4);
+                          }
+
+                  }
+            else
+                  {
+                    if(itsLogFile)
+                          *itsLogFile << "*** ERROR: Ongelmia symbolikoko-tiedostossa"  << endl;
+                  }
+            fNewScaling = false;
+          }
+    else
+          {
+          */
+  fNewScaling = true;
+  //}
+
+  itsDefToProductScale.SetStartScales(NFmiRect(sizePoint1, sizePoint2));
+
   input.close();
- 
+
   SetPostReadingTimes();
 
-  SetIdent(NFmiDataIdent(NFmiParam(itsIdentPar),NFmiProducer(240))); // joku NFmiProducer(itsProducer)
+  SetIdent(
+      NFmiDataIdent(NFmiParam(itsIdentPar), NFmiProducer(240)));  // joku NFmiProducer(itsProducer)
 
   DoPostReading();
 
-  if(fNewScaling)    // tämä DoPostReading:n jälkeen
-	itsRelRect += NFmiPoint(1.,1.);
+  if (fNewScaling)  // tämä DoPostReading:n jälkeen
+    itsRelRect += NFmiPoint(1., 1.);
 
-  SetRect(NFmiRect(itsRelRect)); // vain Rect tähän
+  SetRect(NFmiRect(itsRelRect));  // vain Rect tähän
 
   retString = itsString;
   return true;
@@ -491,11 +476,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString & retString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::ReadRemaining(void)
-{
-  return NFmiParamRect::ReadRemaining();
-}
-
+bool NFmiSymbolParamRect::ReadRemaining(void) { return NFmiParamRect::ReadRemaining(); }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -505,41 +486,35 @@ bool NFmiSymbolParamRect::ReadRemaining(void)
  */
 // ----------------------------------------------------------------------
 
-int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
+int NFmiSymbolParamRect::ConvertDefText(NFmiString &object)
 {
   NFmiString lowChar = object;
   lowChar.LowerCase();
 
-  if(lowChar==NFmiString("symboldirectory") ||
-	 lowChar==NFmiString("symbolset") ||
-	 lowChar==NFmiString("symbolitaulu") ||
-	 lowChar==NFmiString("kuvakansio"))
-	  return dSymbolDirectory;
+  if (lowChar == NFmiString("symboldirectory") || lowChar == NFmiString("symbolset") ||
+      lowChar == NFmiString("symbolitaulu") || lowChar == NFmiString("kuvakansio"))
+    return dSymbolDirectory;
 
-  else if(lowChar==NFmiString("scale") ||
-	      lowChar==NFmiString("sizefactor") ||
-		  lowChar==NFmiString("kokokerroin"))
-	return dRelSize;
+  else if (lowChar == NFmiString("scale") || lowChar == NFmiString("sizefactor") ||
+           lowChar == NFmiString("kokokerroin"))
+    return dRelSize;
 
-  else if(lowChar==NFmiString("mapping") ||
-		  lowChar==NFmiString("arvoistasymboli") ||
-		  lowChar==NFmiString("muunnos"))
-	return dMapping;
+  else if (lowChar == NFmiString("mapping") || lowChar == NFmiString("arvoistasymboli") ||
+           lowChar == NFmiString("muunnos"))
+    return dMapping;
 
-  else if(lowChar==NFmiString("scaledsymbol") ||
-		  lowChar==NFmiString("skaalamuunnos"))
-	return dScaleMapping;
+  else if (lowChar == NFmiString("scaledsymbol") || lowChar == NFmiString("skaalamuunnos"))
+    return dScaleMapping;
 
-  else if(lowChar==NFmiString("name") ||
-          lowChar==NFmiString("nimi"))
-	return dConstSymbolName;
+  else if (lowChar == NFmiString("name") || lowChar == NFmiString("nimi"))
+    return dConstSymbolName;
 
-  else if(lowChar==NFmiString("includenightsymbols") ||
-          lowChar==NFmiString("yösymbolitmukaan"))
-	return dIncludeNightSymbols;
+  else if (lowChar == NFmiString("includenightsymbols") ||
+           lowChar == NFmiString("yösymbolitmukaan"))
+    return dIncludeNightSymbols;
 
   else
-	return NFmiParamRect::ConvertDefText(object);
+    return NFmiParamRect::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -552,22 +527,20 @@ int NFmiSymbolParamRect::ConvertDefText(NFmiString & object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
-											   ofstream & theDestinationFile,
-											   float theRotating)
+bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString *symbolFile,
+                                               ofstream &theDestinationFile,
+                                               float theRotating)
 {
   double xScale = itsDefToProductScale.GetXScaling();
   double yScale = itsDefToProductScale.GetYScaling();
   double xTrans = itsDefToProductScale.GetEndStartPoint().X() / xScale;
   double yTrans = itsDefToProductScale.GetEndStartPoint().Y() / yScale;
   NFmiPoint currentPoint(xTrans, yTrans);
-  if(currentPoint == itsPreviousPoint)
+  if (currentPoint == itsPreviousPoint)
   {
-	  *itsLogFile << "  Covering symbol dropped: " << static_cast<char *>(*symbolFile)
-		          << " at "
-				  << static_cast<char *>(itsPressParam->GetCurrentStation().GetName())
-		          << endl;
-	  return true;  //false antaisi virheilmoituksen
+    *itsLogFile << "  Covering symbol dropped: " << static_cast<char *>(*symbolFile) << " at "
+                << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
+    return true;  // false antaisi virheilmoituksen
   }
 
   NFmiString fileName = *itsSubDir;
@@ -575,22 +548,22 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
   fileName += NFmiString("_");
   fileName += *symbolFile;
   fileName += NFmiString(".ps");
-  ifstream inFile(fileName, ios::in|ios::binary);
-  if(inFile.good() && !inFile.eof())
+  ifstream inFile(fileName, ios::in | ios::binary);
+  if (inFile.good() && !inFile.eof())
   {
-	  NFmiWritePSConcat(itsDefToProductScale, theDestinationFile, theRotating);
-	  NFmiCopyFile(inFile,theDestinationFile);
-	  NFmiWritePSEnd(theDestinationFile);
-	  itsPreviousPoint = currentPoint;
-	  return isTrue;
+    NFmiWritePSConcat(itsDefToProductScale, theDestinationFile, theRotating);
+    NFmiCopyFile(inFile, theDestinationFile);
+    NFmiWritePSEnd(theDestinationFile);
+    itsPreviousPoint = currentPoint;
+    return isTrue;
   }
   else
-	return false;
+    return false;
 }
 
 // ----------------------------------------------------------------------
 /*!
- * raw, uncompressed symbol code newer than compressed one; 
+ * raw, uncompressed symbol code newer than compressed one;
  * a new compressed one should be built
  *
  * \param symbolFile Undocumented
@@ -599,7 +572,7 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString * symbolFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::RawSymbolToBeConverted(NFmiString * symbolFile)
+bool NFmiSymbolParamRect::RawSymbolToBeConverted(NFmiString *symbolFile)
 {
   NFmiString fileName = *itsSubDir;
   fileName += itsSymbolSetName;
@@ -615,10 +588,8 @@ bool NFmiSymbolParamRect::RawSymbolToBeConverted(NFmiString * symbolFile)
   inputName += NFmiString(".ai");
   long unComprAge = NFmiFileSystem::FileAge(inputName.CharPtr());
 
-  return unComprAge >= 0 
-	  && (comprAge < 0 || unComprAge <= comprAge);
+  return unComprAge >= 0 && (comprAge < 0 || unComprAge <= comprAge);
 }
-
 
 // ----------------------------------------------------------------------
 /*!
@@ -629,9 +600,8 @@ bool NFmiSymbolParamRect::RawSymbolToBeConverted(NFmiString * symbolFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
+bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString *symbolFile)
 {
-
   // VAIN WINDOWSILLA TEHDYILLE SYMBOLEILLE
 
   NFmiString inputName = *itsOrigDir;
@@ -641,72 +611,69 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
   inputName += NFmiString(".ai");
   ifstream input(inputName, ios::in);
 
-  if(input.good() && !input.eof())
-	{
-	  NFmiString outputName = *itsSubDir;
-	  outputName +=  itsSymbolSetName;
-	  outputName += NFmiString("_");
-	  outputName += *symbolFile;
-	  outputName += NFmiString(".ps");
-	  ofstream output(outputName);
-	 
-	  const short lineSize = 250;	// HUOM max rivipituus
-	  char inBuf[lineSize];
-	  bool copyOn = false;
-	  unsigned long copiedLines = 0;
-	  NFmiString mess = NFmiString ("%*** ");
-	  mess += *symbolFile;
-	  mess += NFmiString (" BEGINS ***");
-	  unsigned long len = mess.GetLen();
-	  output.write(mess.CharPtr(),len);
-	  output.write(static_cast<char *>(NFmiString("\n")),1);
-	  short num;
-	  char endLine = '\n';
-	  while (input.getline(inBuf, lineSize, endLine)) //newline PC:lle
-		{
-		  NFmiString apu = NFmiString(inBuf);
-		 
-		  if(apu.Search(NFmiString("%AI5_BeginLayer")) > 0 && copyOn)
-			{
-			  if(itsLogFile)
-				*itsLogFile << "*** ERROR: Conversion of Symbol "
-							<< static_cast<char *>(*symbolFile)
-							<< " failed, BeginLayers inside each others"
-							<< endl;
-			  copyOn = isTrue;
-			}
-		  else if(apu.Search(NFmiString("%AI5_BeginLayer")) > 0 &&
-				  apu.Search(NFmiString("%AI5_EndLayer")) < 1)
-			{
-			  copyOn = isTrue;
-			}
-		 
-		  if(copyOn)
-			{
-			  num = input.gcount();
-			  output.write(inBuf, num-1);
-			  output.put('\x0A');		  //jotta difference käytettävissä
-			  copiedLines++;
-			}
-		  if(apu.Search(NFmiString("%AI5_EndLayer")) > 0 && copyOn)
-			{
-			  copyOn = false;
-			}
-		}
-	  mess = NFmiString ("%*** ");
-	  mess += *symbolFile;
-	  mess += NFmiString (" ENDS ***");
-	  len = mess.GetLen();
-	  output.write(mess.CharPtr(),len);
-	  output.write(static_cast<char *>(NFmiString("\n")),1);
-	 
-	  if(itsLogFile)
-		*itsLogFile << "lines copied: " << copiedLines << " as" << endl;
-	 
-	  return isTrue;
-	}
-   else
-	 return false;
+  if (input.good() && !input.eof())
+  {
+    NFmiString outputName = *itsSubDir;
+    outputName += itsSymbolSetName;
+    outputName += NFmiString("_");
+    outputName += *symbolFile;
+    outputName += NFmiString(".ps");
+    ofstream output(outputName);
+
+    const short lineSize = 250;  // HUOM max rivipituus
+    char inBuf[lineSize];
+    bool copyOn = false;
+    unsigned long copiedLines = 0;
+    NFmiString mess = NFmiString("%*** ");
+    mess += *symbolFile;
+    mess += NFmiString(" BEGINS ***");
+    unsigned long len = mess.GetLen();
+    output.write(mess.CharPtr(), len);
+    output.write(static_cast<char *>(NFmiString("\n")), 1);
+    short num;
+    char endLine = '\n';
+    while (input.getline(inBuf, lineSize, endLine))  // newline PC:lle
+    {
+      NFmiString apu = NFmiString(inBuf);
+
+      if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 && copyOn)
+      {
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Conversion of Symbol " << static_cast<char *>(*symbolFile)
+                      << " failed, BeginLayers inside each others" << endl;
+        copyOn = isTrue;
+      }
+      else if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 &&
+               apu.Search(NFmiString("%AI5_EndLayer")) < 1)
+      {
+        copyOn = isTrue;
+      }
+
+      if (copyOn)
+      {
+        num = input.gcount();
+        output.write(inBuf, num - 1);
+        output.put('\x0A');  // jotta difference käytettävissä
+        copiedLines++;
+      }
+      if (apu.Search(NFmiString("%AI5_EndLayer")) > 0 && copyOn)
+      {
+        copyOn = false;
+      }
+    }
+    mess = NFmiString("%*** ");
+    mess += *symbolFile;
+    mess += NFmiString(" ENDS ***");
+    len = mess.GetLen();
+    output.write(mess.CharPtr(), len);
+    output.write(static_cast<char *>(NFmiString("\n")), 1);
+
+    if (itsLogFile) *itsLogFile << "lines copied: " << copiedLines << " as" << endl;
+
+    return isTrue;
+  }
+  else
+    return false;
 }
 
 // ----------------------------------------------------------------------
@@ -721,250 +688,225 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString * symbolFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
-								  NFmiFastQueryInfo * theQI,
-								  ofstream & theDestinationFile,
-								  FmiPressOutputMode theOutput)
+bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
+                                  NFmiFastQueryInfo *theQI,
+                                  ofstream &theDestinationFile,
+                                  FmiPressOutputMode theOutput)
 {
   fBackupReported = false;
   fBackupDayForThisPar = false;
   bool lastElementStatus = GetPressProduct()->LastSymbolStatus();
   GetPressProduct()->SetLastSymbolStatus(true);
-  if(itsPressParam->IsBackupStation())
+  if (itsPressParam->IsBackupStation())
   {
-	  if(lastElementStatus)
-	  {
-			*itsLogFile << "  backup station not needed for Symbol" << endl;
-		    return true;
-	  }
-	  else
-			*itsLogFile << "  backup station used for Symbol" << endl;
+    if (lastElementStatus)
+    {
+      *itsLogFile << "  backup station not needed for Symbol" << endl;
+      return true;
+    }
+    else
+      *itsLogFile << "  backup station used for Symbol" << endl;
   }
 
-  if(!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
-    {
-	  return true;
-    }
-  
+  if (!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
+  {
+    return true;
+  }
+
   bool isMax;
   NFmiPoint correctedPoint;
 
-  if(IsMaxMinPlotting())
+  if (IsMaxMinPlotting())
   {
-	itsPressParam->SetMaxMinPoints(); //vain ekalla kerralla
-	if(!itsPressParam->IsMaxMin(isMax, correctedPoint))
-		return true;
+    itsPressParam->SetMaxMinPoints();  // vain ekalla kerralla
+    if (!itsPressParam->IsMaxMin(isMax, correctedPoint)) return true;
   }
 
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
   itsCurrentTime = itsCurrentSegmentTime;
 
-  itsDefToProductScale.SetEndScales(theAbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(),BottomRight())));
-  
-  float rescale = GetAlternatingSizeFactor();
-  if(rescale > 0.)
-		itsDefToProductScale.RescaleEndScales(rescale);
-  
-  if(itsPressParam->GetCurrentStationStep()%2 == 0)
-  {
-	    itsDefToProductScale.MoveEndScales(itsAlternating);
-  }
-  
-  if(!fIsConstSymbol)
-	{
-	  if(!ReadValues(theQI))
-		return false;
-	}
- 
-  if(IsEquiDistanceAndCorrMode())
-		itsDefToProductScale.MoveEndScales(itsCorrPoint);
+  itsDefToProductScale.SetEndScales(
+      theAbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(), BottomRight())));
 
-  if(!fMarkingValue)
-	  return true;
+  float rescale = GetAlternatingSizeFactor();
+  if (rescale > 0.) itsDefToProductScale.RescaleEndScales(rescale);
+
+  if (itsPressParam->GetCurrentStationStep() % 2 == 0)
+  {
+    itsDefToProductScale.MoveEndScales(itsAlternating);
+  }
+
+  if (!fIsConstSymbol)
+  {
+    if (!ReadValues(theQI)) return false;
+  }
+
+  if (IsEquiDistanceAndCorrMode()) itsDefToProductScale.MoveEndScales(itsCorrPoint);
+
+  if (!fMarkingValue) return true;
 
   bool isScaled;
-  NFmiString * symbolFile;
- 
-  if(fIsConstSymbol)
-	{
-	  symbolFile = &itsConstSymbol;
-	}
+  NFmiString *symbolFile;
+
+  if (fIsConstSymbol)
+  {
+    symbolFile = &itsConstSymbol;
+  }
   else
-	{
-	  if(IsMaxMinPlotting())
-		{
-			if(isMax)
-				symbolFile = &itsMaxText;
-			else
-				symbolFile = &itsMinText;
-		}
- 
-	  else if (itsMultiMapping)
-		{
-		  bool missingFound;
-		  CompleteMultiMapping();
+  {
+    if (IsMaxMinPlotting())
+    {
+      if (isMax)
+        symbolFile = &itsMaxText;
+      else
+        symbolFile = &itsMinText;
+    }
 
-	      symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-		  
-		  
-		  if(fUseDayNightSymbols && IsDayNightString(*symbolFile))
-		  {
-			//	*itsLogFile << "SYMBOL "
-			//				<< static_cast<char *>(*symbolFile)
-			//				<< endl;			 
-			float elev = SunElevation(theQI);
-			//*itsLogFile << "ELEV " << elev << endl;
-		    if(elev < -.83)
-				//if(itsLanguage == kLatvian)
-				//	*symbolFile += NFmiString("_night");
-				//else
-					//*symbolFile += NFmiString("yö");
-					*symbolFile += NFmiString("_night");
-		  }
-        
-		  if(symbolFile && symbolFile->IsEqual(NFmiString("ristiriita")))
-		  {
-			  *itsLogFile << "ERROR: conflict in selecting Symbol" << endl;
-		  }
-		  if(missingFound)
-			{
-			  itsNumOfMissing++;
-			  if(!symbolFile)
-			  {
-				if(!itsMissingString)
-				{
-				  GetPressProduct()->SetLastSymbolStatus(false);
-				  return false;
-				}
-				else
-					symbolFile = itsMissingString;
-			  }	
-			}
-		  isScaled = false;         //skaalaus vielä poissa
-	  }
-	  else
-	  {
-		  symbolFile = itsMapping->Map(itsCurrentParamValue, isScaled);
-		  if(!symbolFile && itsCurrentParamValue==kFloatMissing 
-			  && itsMissingString)
-		  {
-			GetPressProduct()->SetLastSymbolStatus(false);
+    else if (itsMultiMapping)
+    {
+      bool missingFound;
+      CompleteMultiMapping();
 
-			symbolFile = itsMissingString;
-		    isScaled = false;         
-		  }
-	  }
-	}
- 
- 
-  if(isScaled)
-	{
-	  double scaleFactor = ((static_cast<long>(itsCurrentParamValue)) % 1000)/100.; //tonni on nyt fixattu
-	  NFmiRect endScales = itsDefToProductScale.GetEndScales();
-	  endScales.Inflate(scaleFactor);
-	  itsDefToProductScale.SetEndScales(endScales);
-	}
-  
+      symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
+
+      if (fUseDayNightSymbols && IsDayNightString(*symbolFile))
+      {
+        //	*itsLogFile << "SYMBOL "
+        //				<< static_cast<char *>(*symbolFile)
+        //				<< endl;
+        float elev = SunElevation(theQI);
+        //*itsLogFile << "ELEV " << elev << endl;
+        if (elev < -.83)
+          // if(itsLanguage == kLatvian)
+          //	*symbolFile += NFmiString("_night");
+          // else
+          //*symbolFile += NFmiString("yö");
+          *symbolFile += NFmiString("_night");
+      }
+
+      if (symbolFile && symbolFile->IsEqual(NFmiString("ristiriita")))
+      {
+        *itsLogFile << "ERROR: conflict in selecting Symbol" << endl;
+      }
+      if (missingFound)
+      {
+        itsNumOfMissing++;
+        if (!symbolFile)
+        {
+          if (!itsMissingString)
+          {
+            GetPressProduct()->SetLastSymbolStatus(false);
+            return false;
+          }
+          else
+            symbolFile = itsMissingString;
+        }
+      }
+      isScaled = false;  // skaalaus vielä poissa
+    }
+    else
+    {
+      symbolFile = itsMapping->Map(itsCurrentParamValue, isScaled);
+      if (!symbolFile && itsCurrentParamValue == kFloatMissing && itsMissingString)
+      {
+        GetPressProduct()->SetLastSymbolStatus(false);
+
+        symbolFile = itsMissingString;
+        isScaled = false;
+      }
+    }
+  }
+
+  if (isScaled)
+  {
+    double scaleFactor =
+        ((static_cast<long>(itsCurrentParamValue)) % 1000) / 100.;  // tonni on nyt fixattu
+    NFmiRect endScales = itsDefToProductScale.GetEndScales();
+    endScales.Inflate(scaleFactor);
+    itsDefToProductScale.SetEndScales(endScales);
+  }
+
   ScaleByValue();
 
-  if(!symbolFile)
-	  itsPressParam->GetPressProduct()->SetLastSymbolStatus(false);
+  if (!symbolFile)
+    itsPressParam->GetPressProduct()->SetLastSymbolStatus(false);
   else
-	  itsPressParam->GetPressProduct()->SetLastSymbolStatus(true);
+    itsPressParam->GetPressProduct()->SetLastSymbolStatus(true);
 
-  if(!symbolFile)
-	{
-	  if(itsMultiMapping)
-		*itsLogFile << "WARNING: No symbol mapping for "
-					<< itsCurrentParamArray[0]
-					<< ", "
-					<< itsCurrentParamArray[1]
-					<< ", "
-					<< itsCurrentParamArray[2]
-					<< endl;
-	  else
-		*itsLogFile << "WARNING: No symbol mapping for value "
-					<< itsCurrentParamValue
-					<< endl;
-	}
-  else if(*symbolFile != NFmiString("None")  && theOutput == kPostScript)
-	{
-	  if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
-		{
-		  float value = itsCurrentParamValue;
-		  if(itsMultiMapping)
-			  value = itsCurrentParamArray[0];
+  if (!symbolFile)
+  {
+    if (itsMultiMapping)
+      *itsLogFile << "WARNING: No symbol mapping for " << itsCurrentParamArray[0] << ", "
+                  << itsCurrentParamArray[1] << ", " << itsCurrentParamArray[2] << endl;
+    else
+      *itsLogFile << "WARNING: No symbol mapping for value " << itsCurrentParamValue << endl;
+  }
+  else if (*symbolFile != NFmiString("None") && theOutput == kPostScript)
+  {
+    if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
+    {
+      float value = itsCurrentParamValue;
+      if (itsMultiMapping) value = itsCurrentParamArray[0];
 
-			if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(value)), theAbsoluteRectOfSymbolGroup.Place()))
-				return false;
-		}
+      if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(value)),
+                                              theAbsoluteRectOfSymbolGroup.Place()))
+        return false;
+    }
 
-      bool rawToBeConverted = RawSymbolToBeConverted(symbolFile);
+    bool rawToBeConverted = RawSymbolToBeConverted(symbolFile);
 
-	  if(rawToBeConverted)
-	  {
-		  if(ConvertOrig2Short(symbolFile))
-			{
-			  if(itsLogFile)
-				*itsLogFile << "Symbol "
-							<< static_cast<char *>(*symbolFile)
-							<< " converted"
-							<< endl;			 
-			}
-		  else
-			{
-			  string msg = string("Symbol missing from set: ")
-				+ static_cast<char *>(itsSymbolSetName)
-				+ ":" 
-				+ static_cast<char *>(*symbolFile);
+    if (rawToBeConverted)
+    {
+      if (ConvertOrig2Short(symbolFile))
+      {
+        if (itsLogFile)
+          *itsLogFile << "Symbol " << static_cast<char *>(*symbolFile) << " converted" << endl;
+      }
+      else
+      {
+        string msg = string("Symbol missing from set: ") + static_cast<char *>(itsSymbolSetName) +
+                     ":" + static_cast<char *>(*symbolFile);
 
-			  *itsLogFile << "*** ERROR: " << msg << endl;
-			  errors.push_back(msg);
-			}
-	  }
-	  if (CopyShortSymbol2Dest(symbolFile,theDestinationFile, itsRotatingAngle))
-		{
-    
-		}
-	  else
-		{
-		  if(itsLogFile)
-			{
-			  string msg = string("Short symbol not found: ")
-				+ static_cast<char *>(itsSymbolSetName)
-				+ ":"
-				+ static_cast<char *>(*symbolFile);
+        *itsLogFile << "*** ERROR: " << msg << endl;
+        errors.push_back(msg);
+      }
+    }
+    if (CopyShortSymbol2Dest(symbolFile, theDestinationFile, itsRotatingAngle))
+    {
+    }
+    else
+    {
+      if (itsLogFile)
+      {
+        string msg = string("Short symbol not found: ") + static_cast<char *>(itsSymbolSetName) +
+                     ":" + static_cast<char *>(*symbolFile);
 
+        *itsLogFile << "*** ERROR: " << msg << endl;
+        errors.push_back(msg);
 
-			  *itsLogFile << "*** ERROR: " << msg << endl;
-			  errors.push_back(msg);
+        if (rawToBeConverted) *itsLogFile << "       missing permission ?" << endl;
+      }
+    }
+  }
+  else if (*symbolFile != NFmiString("None") && theOutput == kMetaLanguage)
+  {
+    NFmiPoint realPos(theAbsoluteRectOfSymbolGroup.BottomLeft());
 
-			 if(rawToBeConverted)
-			  *itsLogFile << "       missing permission ?"
-						  << endl;
-			}
-		}
-	}
-  else if(*symbolFile != NFmiString("None") && theOutput == kMetaLanguage)
-	{
-	  NFmiPoint realPos(theAbsoluteRectOfSymbolGroup.BottomLeft());
+    // HUOM ??? otetaan takaisin tämä alunperin selittämätön siirto
+    realPos += NFmiPoint(20, -20);
 
-	  //HUOM ??? otetaan takaisin tämä alunperin selittämätön siirto
-	  realPos += NFmiPoint(20, -20);
+    WriteMetaCode(symbolFile, realPos, theDestinationFile);
+  }
 
-	  WriteMetaCode(symbolFile, realPos, theDestinationFile);
+  else if (*symbolFile != NFmiString("None") && theOutput == kPlainText)
+  {
+    theDestinationFile << static_cast<char *>(*symbolFile) << endl;
+  }
+  else if (*symbolFile != NFmiString("None") && theOutput == kXml)
+  {
+    theDestinationFile << "<Picture>" << endl;
+  }
 
-	}
-
-  else if(*symbolFile != NFmiString("None") && theOutput == kPlainText)
-	{
-	  theDestinationFile <<  static_cast<char *>(*symbolFile) << endl;
-	}
-  else if(*symbolFile != NFmiString("None") && theOutput == kXml)
-	{
-		theDestinationFile << "<Picture>" << endl;
-	}
- 
   return true;
 }
 
@@ -978,26 +920,13 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect & theAbsoluteRectOfSymbolGroup,
  */
 // ----------------------------------------------------------------------
 
-void NFmiSymbolParamRect::WriteMetaCode(NFmiString * symbolFile,
-										NFmiPoint realPos,
-										ofstream & os)
+void NFmiSymbolParamRect::WriteMetaCode(NFmiString *symbolFile, NFmiPoint realPos, ofstream &os)
 {
   os << endl
-	 << "SymbolPath /var/www/share/symbolit/"
-	 << static_cast<char *>(itsSymbolSetName)
-	 << endl;
-  os << "Symbol "
-	 << static_cast<char *>(*symbolFile)
-	 << ".gif "
-	 << realPos.X()
-	 << " "
-	 << realPos.Y()
-	 << " -scalex "
-	 << int(itsDefToProductScale.GetXScaling()*100.)
-	 << "%"
-	 << " -scaley "
-	 << int(itsDefToProductScale.GetYScaling()*100.)
-	 << "%";
+     << "SymbolPath /var/www/share/symbolit/" << static_cast<char *>(itsSymbolSetName) << endl;
+  os << "Symbol " << static_cast<char *>(*symbolFile) << ".gif " << realPos.X() << " "
+     << realPos.Y() << " -scalex " << int(itsDefToProductScale.GetXScaling() * 100.) << "%"
+     << " -scaley " << int(itsDefToProductScale.GetYScaling() * 100.) << "%";
   os << endl;
 }
 
@@ -1011,27 +940,25 @@ void NFmiSymbolParamRect::WriteMetaCode(NFmiString * symbolFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::ReadValues(NFmiFastQueryInfo * theQI, bool setRelHour)
+bool NFmiSymbolParamRect::ReadValues(NFmiFastQueryInfo *theQI, bool setRelHour)
 {
   //  Vain tunnit voi muuttaa tällä tasolla, segmentin aikaluuppi menee muuten sekaisin
 
-  if(setRelHour) // estetään 2SymbolParamRectiltä kahta aikamuutosta
-	{
-	  if(!SetRelativeHour(theQI,NFmiString("#Symboli")))
-		return isFalse;
-	}
+  if (setRelHour)  // estetään 2SymbolParamRectiltä kahta aikamuutosta
+  {
+    if (!SetRelativeHour(theQI, NFmiString("#Symboli"))) return isFalse;
+  }
 
-  if(itsMultiMapping)
-	{
-	  return ReadCurrentValueArray (theQI);
-	}
+  if (itsMultiMapping)
+  {
+    return ReadCurrentValueArray(theQI);
+  }
   else
-	{
-	  if(!PointOnParam(theQI, GetDataIdent().GetParam()) || !PointOnLevel(theQI))
-		return false;
-	 
-	  return ReadCurrentValue(theQI, itsCurrentParamValue);
-	}
+  {
+    if (!PointOnParam(theQI, GetDataIdent().GetParam()) || !PointOnLevel(theQI)) return false;
+
+    return ReadCurrentValue(theQI, itsCurrentParamValue);
+  }
 }
 
 // ======================================================================

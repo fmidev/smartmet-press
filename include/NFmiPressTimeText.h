@@ -7,8 +7,8 @@
 /*!
  * \class NFmiPressTimeText
  *
- * Ps-aikatekstien (tekstien erikoistapauksena (NFmiPressText)) 
- * abstrakti luokka. Aikaformaatti j‰senen‰. T‰st‰ perit‰‰n edelleen 
+ * Ps-aikatekstien (tekstien erikoistapauksena (NFmiPressText))
+ * abstrakti luokka. Aikaformaatti j‰senen‰. T‰st‰ perit‰‰n edelleen
  * datanAika, koneenAika ja annettuAika.
  *
  */
@@ -18,7 +18,7 @@
 #define NFMIPRESSTIMETEXT_H
 
 #include "NFmiPressText.h"
-#include "NFmiPressTime.h" 
+#include "NFmiPressTime.h"
 
 //! Undocumented
 enum NFmiTimeTextObjects
@@ -28,18 +28,16 @@ enum NFmiTimeTextObjects
   dTimeTextHours
 };
 
-
 //! Undocumented
 class _FMI_DLL NFmiPressTimeText : public NFmiPressText
 {
-public:
-
+ public:
   virtual ~NFmiPressTimeText(void);
   NFmiPressTimeText(void);
-  NFmiPressTimeText(const NFmiPressText & theTextParamRect); 
+  NFmiPressTimeText(const NFmiPressText& theTextParamRect);
 
-  virtual bool ReadDescription(NFmiString & retString); 
-  virtual int ConvertDefText(NFmiString & object);
+  virtual bool ReadDescription(NFmiString& retString);
+  virtual int ConvertDefText(NFmiString& object);
 
 #ifdef OLD_MSC
   using NFmiPressText::WritePS;
@@ -49,14 +47,13 @@ public:
   virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
 
   void SetLanguage(FmiLanguage newLanguage);
-       
-protected:               
-		
+
+ protected:
   unsigned long itsFormat;
   unsigned long itsOrigFormat;
   NFmiString itsOrigFont;
 
-}; // class NFmiPressTimeText
+};  // class NFmiPressTimeText
 
 // ----------------------------------------------------------------------
 /*!
@@ -64,14 +61,7 @@ protected:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressTimeText::NFmiPressTimeText(void)
-  :  NFmiPressText()
-  , itsFormat(kWwsHH)
-{
-}
-
-#endif // NFMIPRESSTIMETEXT_H
+inline NFmiPressTimeText::NFmiPressTimeText(void) : NFmiPressText(), itsFormat(kWwsHH) {}
+#endif  // NFMIPRESSTIMETEXT_H
 
 // ======================================================================
-

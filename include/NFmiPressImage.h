@@ -41,58 +41,53 @@ enum NFmiPressImageObjects
   dImageFileWithTimeStamp,
   dNewImageRelWithTimeStamp,
   dImagePlottingAndClipping,
-  dSummerWinterChoise         //almost = dSummerWinterImageFile
+  dSummerWinterChoise  // almost = dSummerWinterImageFile
 };
-
 
 //! Undocumented
 class _FMI_DLL NFmiPressImage : public NFmiPressScaling
 {
-public:
-
+ public:
   virtual ~NFmiPressImage(void);
   NFmiPressImage(void);
-  NFmiPressImage(const NFmiPressImage & theOtherImage); 
-  
-  virtual bool ReadDescription(NFmiString & retString); 
-  int ConvertDefText(NFmiString & object);
+  NFmiPressImage(const NFmiPressImage& theOtherImage);
+
+  virtual bool ReadDescription(NFmiString& retString);
+  int ConvertDefText(NFmiString& object);
 
   using NFmiPressScaling::WritePS;
   virtual bool WritePS(FmiPressOutputMode theOutput);
   void ScalePlotting(void);
-  void SetPath(const NFmiString & thePath);
+  void SetPath(const NFmiString& thePath);
   NFmiFileString GetPath(void) const;
   virtual unsigned long ClassId(void);
-  void SetPressProduct(NFmiPressProduct*  thePressProductOwner);
-  NFmiPressProduct* GetPressProduct(void)const;
+  void SetPressProduct(NFmiPressProduct* thePressProductOwner);
+  NFmiPressProduct* GetPressProduct(void) const;
   void SetRelHoursFromFirst(int theRelHoursFromFirst);
   int GetRelHoursFromFirst(void);
-	
-protected:               
-			 		
+
+ protected:
   NFmiFileString itsPath;
   NFmiRectScale itsImageScale;
   NFmiRect itsClippingRect;
   std::vector<NFmiPoint> itsClippingPoints;
-  //to be able to add recursively objects to the pressProducts object list: 
-  NFmiPressProduct* itsPressProduct; //not owner;
-  void SetTempImageFile (const NFmiString& theFile);
+  // to be able to add recursively objects to the pressProducts object list:
+  NFmiPressProduct* itsPressProduct;  // not owner;
+  void SetTempImageFile(const NFmiString& theFile);
   void SetImageScale(const NFmiRectScale& theScale);
   void SetClippingRect(const NFmiRect& theRect);
   void SetClippingPoints(const std::vector<NFmiPoint> thePoints);
-    
-private:
-	//tempit tarvitaan nyt rekursion takia
-  NFmiString  itsTempImageFile;
-  NFmiString  itsFileWithoutTimeStamp;
-  NFmiString  itsTempImagePath;
-  NFmiString  itsTempImageDir;
+
+ private:
+  // tempit tarvitaan nyt rekursion takia
+  NFmiString itsTempImageFile;
+  NFmiString itsFileWithoutTimeStamp;
+  NFmiString itsTempImagePath;
+  NFmiString itsTempImageDir;
   int itsRelHoursFromFirst;
   float itsShear;
 
-}; // class NFmiPressImage
-
-
+};  // class NFmiPressImage
 
 // ----------------------------------------------------------------------
 /*!
@@ -102,8 +97,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressImage::SetRelHoursFromFirst(int theRelHoursFromFirst)
+inline void NFmiPressImage::SetRelHoursFromFirst(int theRelHoursFromFirst)
 {
   itsRelHoursFromFirst = theRelHoursFromFirst;
 }
@@ -115,11 +109,7 @@ void NFmiPressImage::SetRelHoursFromFirst(int theRelHoursFromFirst)
  */
 // ----------------------------------------------------------------------
 
-inline
-int NFmiPressImage::GetRelHoursFromFirst(void)
-{
-  return itsRelHoursFromFirst;
-}
+inline int NFmiPressImage::GetRelHoursFromFirst(void) { return itsRelHoursFromFirst; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -128,10 +118,9 @@ int NFmiPressImage::GetRelHoursFromFirst(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressImage::SetPressProduct(NFmiPressProduct* thePressProductOwner)
+inline void NFmiPressImage::SetPressProduct(NFmiPressProduct* thePressProductOwner)
 {
-  itsPressProduct=thePressProductOwner;
+  itsPressProduct = thePressProductOwner;
 }
 
 // ----------------------------------------------------------------------
@@ -142,8 +131,7 @@ void NFmiPressImage::SetPressProduct(NFmiPressProduct* thePressProductOwner)
  */
 // ----------------------------------------------------------------------
 
-inline
-void  NFmiPressImage::SetTempImageFile (const NFmiString& theFile)
+inline void NFmiPressImage::SetTempImageFile(const NFmiString& theFile)
 {
   itsTempImageFile = theFile;
 }
@@ -155,8 +143,7 @@ void  NFmiPressImage::SetTempImageFile (const NFmiString& theFile)
  */
 // ----------------------------------------------------------------------
 
-inline
-void  NFmiPressImage::SetImageScale (const NFmiRectScale& theScale)
+inline void NFmiPressImage::SetImageScale(const NFmiRectScale& theScale)
 {
   itsImageScale = theScale;
 }
@@ -168,11 +155,7 @@ void  NFmiPressImage::SetImageScale (const NFmiRectScale& theScale)
  */
 // ----------------------------------------------------------------------
 
-inline
-void  NFmiPressImage::SetClippingRect (const NFmiRect& theRect)
-{
-  itsClippingRect = theRect;
-}
+inline void NFmiPressImage::SetClippingRect(const NFmiRect& theRect) { itsClippingRect = theRect; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -181,23 +164,18 @@ void  NFmiPressImage::SetClippingRect (const NFmiRect& theRect)
  */
 // ----------------------------------------------------------------------
 
-inline
-void  NFmiPressImage::SetClippingPoints (const std::vector<NFmiPoint> thePoints)
+inline void NFmiPressImage::SetClippingPoints(const std::vector<NFmiPoint> thePoints)
 {
   itsClippingPoints = thePoints;
-}// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \param thePath Undocumented
- */
+}  // ----------------------------------------------------------------------
+   /*!
+    * Undocumented
+    *
+    * \param thePath Undocumented
+    */
 // ----------------------------------------------------------------------
 
-inline
-NFmiPressProduct* NFmiPressImage::GetPressProduct(void)const
-{
-  return itsPressProduct;
-}
+inline NFmiPressProduct* NFmiPressImage::GetPressProduct(void) const { return itsPressProduct; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -206,12 +184,7 @@ NFmiPressProduct* NFmiPressImage::GetPressProduct(void)const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmiPressImage::SetPath(const NFmiString & thePath)
-{
-  itsPath=thePath;
-}
-
+inline void NFmiPressImage::SetPath(const NFmiString& thePath) { itsPath = thePath; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -220,12 +193,7 @@ void NFmiPressImage::SetPath(const NFmiString & thePath)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiFileString NFmiPressImage::GetPath(void) const
-{
-  return itsPath;
-}
-
+inline NFmiFileString NFmiPressImage::GetPath(void) const { return itsPath; }
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -234,12 +202,7 @@ NFmiFileString NFmiPressImage::GetPath(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-unsigned long NFmiPressImage::ClassId(void)
-{
-  return kNFmiPressImage;
-}
-
-#endif // NFMIPRESSIMAGE_H
+inline unsigned long NFmiPressImage::ClassId(void) { return kNFmiPressImage; }
+#endif  // NFMIPRESSIMAGE_H
 
 // ======================================================================

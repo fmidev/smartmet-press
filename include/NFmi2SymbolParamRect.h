@@ -7,8 +7,8 @@
 /*!
  * \class NFmi2SymbolParamRect
  *
- * T‰m‰ luokka tuo toisen parametrin Symboliparametreihi, jota 
- * lapsissa k‰ytet‰‰n symbolin k‰‰nt‰miseen(NFmiRotatingParamRect) tai 
+ * T‰m‰ luokka tuo toisen parametrin Symboliparametreihi, jota
+ * lapsissa k‰ytet‰‰n symbolin k‰‰nt‰miseen(NFmiRotatingParamRect) tai
  * skaalaamiseen(NFmiScalingParamRect)
  */
 // ======================================================================
@@ -22,36 +22,32 @@
 
 enum NFmi2SymbolParamRectObjects
 {
-	 dSecondPar = 107
+  dSecondPar = 107
 };
 
 //! Undocumented
 class _FMI_DLL NFmi2SymbolParamRect : public NFmiSymbolParamRect
 {
-
-public:
-
+ public:
   virtual ~NFmi2SymbolParamRect();
   NFmi2SymbolParamRect(void);
-  NFmi2SymbolParamRect(const NFmi2SymbolParamRect & theSymbolRect);
-  
-  virtual bool ReadRemaining(void); 
-  
-  virtual int ConvertDefText(NFmiString & object);
-  virtual NFmiParamRect * Clone(void) const;
+  NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbolRect);
+
+  virtual bool ReadRemaining(void);
+
+  virtual int ConvertDefText(NFmiString& object);
+  virtual NFmiParamRect* Clone(void) const;
   void SetSecondDataIdent(unsigned long theSecondPar);
 
-protected:
+ protected:
+  bool ReadValues(NFmiFastQueryInfo* theQI, bool SetRelHour = true);
+  NFmiDataIdent GetSecondDataIdent(void) const;
 
-  bool ReadValues( NFmiFastQueryInfo * theQI, bool SetRelHour=true); 
-  NFmiDataIdent GetSecondDataIdent(void) const; 
-
-  float itsSecondParamValue;              
+  float itsSecondParamValue;
   NFmiDataIdent itsSecondDataIdent;
-		
-private:
 
-}; // class NFmi2SymbolParamRect
+ private:
+};  // class NFmi2SymbolParamRect
 
 // ----------------------------------------------------------------------
 /*!
@@ -59,12 +55,7 @@ private:
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmi2SymbolParamRect::NFmi2SymbolParamRect(void)
-  : NFmiSymbolParamRect()
-{
-}
-
+inline NFmi2SymbolParamRect::NFmi2SymbolParamRect(void) : NFmiSymbolParamRect() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -73,8 +64,7 @@ NFmi2SymbolParamRect::NFmi2SymbolParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-inline
-NFmiDataIdent NFmi2SymbolParamRect::GetSecondDataIdent(void) const
+inline NFmiDataIdent NFmi2SymbolParamRect::GetSecondDataIdent(void) const
 {
   return itsSecondDataIdent;
 }
@@ -86,12 +76,10 @@ NFmiDataIdent NFmi2SymbolParamRect::GetSecondDataIdent(void) const
  */
 // ----------------------------------------------------------------------
 
-inline
-void NFmi2SymbolParamRect::SetSecondDataIdent(unsigned long theSecondPar)
+inline void NFmi2SymbolParamRect::SetSecondDataIdent(unsigned long theSecondPar)
 {
- 	itsSecondDataIdent.SetParam(NFmiParam(theSecondPar));
+  itsSecondDataIdent.SetParam(NFmiParam(theSecondPar));
 }
-#endif // NFMI2SYMBOLPARAMRECT_H
+#endif  // NFMI2SYMBOLPARAMRECT_H
 
 // ======================================================================
-
