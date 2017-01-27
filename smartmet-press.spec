@@ -2,15 +2,15 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 17.1.10
+Version: 17.1.27
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
 URL: https://github.com/fmidev/smartmet-press
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: smartmet-library-newbase-devel >= 15.11.26
-Requires: smartmet-library-newbase >= 15.11.26
+BuildRequires: smartmet-library-newbase-devel >= 17.1.26
+Requires: smartmet-library-newbase >= 17.1.26
 Provides: qdpress
 
 %description
@@ -22,7 +22,6 @@ rm -rf $RPM_BUILD_ROOT
 %setup -q -n %{BINNAME}
  
 %build
-make depend
 make %{_smp_mflags}
 
 %install
@@ -36,6 +35,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Fri Jan 27 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.1.27-1.fmi
+- Recompiled due to NFmiQueryData object size change
+
 * Wed Jan 11 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.1.10-1.fmi
 - Switched to FMI open source naming conventions
 
