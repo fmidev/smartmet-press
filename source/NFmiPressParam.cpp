@@ -1220,7 +1220,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       {
         //		if(!itsDataIter) // ilman data voi kai saada nimipäiviä
         //		  {
-        //			*itsLogFile << "*** ERROR: Nimipäivää yritetty ilman dataa segmentissä"
+        //			*itsLogFile << "*** ERROR: Nimipäivää yritetty ilman dataa
+        //segmentissä"
         //<< endl;
         //
         //			  }
@@ -1720,7 +1721,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationPlaceMatrixOnMap:
       {
-        float xStart, yStart, xStop, yStop, xIncr, yIncr;
+        float xStart = 0, yStart = 0, xStop = 0, yStop = 0, xIncr = 0, yIncr = 0;
         if (SetSix(xStart, yStart, xStop, yStop, xIncr, yIncr))
         {
           NFmiString name;
@@ -2023,7 +2024,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dSupplement:
       {
-        fSupplementary = true;  // tämä segmentti
+        fSupplementary = true;                     // tämä segmentti
         itsPressProduct->SetSupplementMode(true);  // muille segmenteille tiedoksi
 
         ReadNext();

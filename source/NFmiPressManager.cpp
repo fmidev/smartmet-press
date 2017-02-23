@@ -91,9 +91,9 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
                                                FmiPressOutputMode theOutMode)
 {
   theManagerReadFailed = false;
-  long long1, long2, statNum;
-  unsigned long uLong;
-  double lon, lat;
+  long long1 = 0, long2 = 0, statNum = 0;
+  unsigned long uLong = 0;
+  double lon = 0, lat = 0;
   NFmiString helpString;
 
   itsLogFile = thePressProduct.GetLogFile();

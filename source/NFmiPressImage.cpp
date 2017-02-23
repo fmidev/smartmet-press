@@ -80,11 +80,9 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
 {
   NFmiString tempString;
   NFmiValueString valueString;
-  double r1, r2, r3;
-  double x1, x2, x3, y1, y2, y3;
-  double xmin, xmax, ymin, ymax;
-  xmin = ymin = 0;
-  xmax = ymax = 1;
+  double r1 = 0, r2 = 0, r3 = 0;
+  double x1 = 0, x2 = 0, x3 = 0, y1 = 0, y2 = 0, y3 = 0;
+  double xmin = 0, xmax = 1, ymin = 0, ymax = 1;
   bool timeStamp = false;
   SetPreReadingTimes();
   NFmiString imageFileWithoutTimeStamp;

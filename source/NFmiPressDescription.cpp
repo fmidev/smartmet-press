@@ -55,7 +55,7 @@ FmiDirection NFmiPressDescription::String2FmiDirection(const NFmiString &theStri
 bool NFmiPressDescription::ReadRemaining(void)
 {
   // tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
-  FmiRGBColor rgb;
+  FmiRGBColor rgb = FmiRGBColor();
   double r1, r2, r3, r4;
   float f1;
   unsigned int i1;

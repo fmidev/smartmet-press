@@ -980,9 +980,9 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
   // y-koordinaatinkin saisi paikalleen samoin keinoin
   //*******************************************************************
 
-  double heightHalf = .147f * rect.Height();  // kokeellinen vakio
+  double heightHalf = .147f * rect.Height();   // kokeellinen vakio
   double heightHalfX = .345f * rect.Height();  // kokeellinen vakio
-  double heightHalfY = .5 * rect.Height();  // kokeellinen vakio, tämä sijoittaa samoin kuin
+  double heightHalfY = .5 * rect.Height();     // kokeellinen vakio, tämä sijoittaa samoin kuin
   // entinen itsRotatingPoint ainakin yhdellä koolla
 
   double x, y;
@@ -1056,8 +1056,8 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
     bool isHyphen = false;
     bool isLongMinus = text.Search(NFmiString("\\226")) != 0;
     NFmiString lastFont;
-    double lastHeight;
-    double lastLeading;
+    double lastHeight = 0;
+    double lastLeading = 0;
 
     if (fInArea || (!isHyphen && !isLongMinus))
     {
