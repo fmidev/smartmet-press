@@ -639,7 +639,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
   NFmiString string1, string2;
   NFmiPoint point0, point1, point2, scaledTimeLast, unscaledTimeLast, firstUnscaledPoint;
   NFmiPoint unscaledTableMove, scaledTableMove;
-  double tableX1 = 0, tableX2, tableY1 = 0, tableY2, x, y;
+  double tableX1 = 0, tableX2, tableY1 = 0, tableY2;
+  double x = 0, y = 0;
   double xmin, xmax, ymin, ymax;
   bool timeOrLevelTableSet = false;
   long statNum;
@@ -1221,7 +1222,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         //		if(!itsDataIter) // ilman data voi kai saada nimipäiviä
         //		  {
         //			*itsLogFile << "*** ERROR: Nimipäivää yritetty ilman dataa
-        //segmentissä"
+        // segmentissä"
         //<< endl;
         //
         //			  }

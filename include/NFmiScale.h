@@ -57,8 +57,8 @@ class _FMI_DLL NFmiScale
   float itsStartValue;
   float itsEndValue;
   float itsEpsilon;
-  bool itsDataOk;
-  bool itsLimitCheck;
+  bool itsDataOk = false;
+  bool itsLimitCheck = false;
 
  private:
 };  // class NFmiScale
