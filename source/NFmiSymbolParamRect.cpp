@@ -768,7 +768,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       CompleteMultiMapping();
 
       symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-
+      
       if (fUseDayNightSymbols && IsDayNightString(*symbolFile))
       {
         //	*itsLogFile << "SYMBOL "
@@ -798,8 +798,9 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
             GetPressProduct()->SetLastSymbolStatus(false);
             return false;
           }
-          else
+          else {
             symbolFile = itsMissingString;
+          }
         }
       }
       isScaled = false;  // skaalaus vielä poissa
@@ -835,11 +836,12 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
 
   if (!symbolFile)
   {
-    if (itsMultiMapping)
+    if (itsMultiMapping){
       *itsLogFile << "WARNING: No symbol mapping for " << itsCurrentParamArray[0] << ", "
                   << itsCurrentParamArray[1] << ", " << itsCurrentParamArray[2] << endl;
-    else
+    } else {
       *itsLogFile << "WARNING: No symbol mapping for value " << itsCurrentParamValue << endl;
+    }
   }
   else if (*symbolFile != NFmiString("None") && theOutput == kPostScript)
   {

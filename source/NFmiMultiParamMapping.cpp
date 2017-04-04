@@ -148,52 +148,101 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping &theInterva
 
 // ----------------------------------------------------------------------
 /*!
- * Undocumented
+ * Match data value to text in mapping configureation
+ * If value in data is within limits return the symbol name in the mapping
  *
- * \param values Undocumented
+ * Each mapping has defined limits for a number of parameters
+ * Each parameters value in data is checked against given limits. 
+ * If the value is within limis, another parameter is checked. 
+ * If the value is not within limits, the method moves on check the next mapping. 
+ *
+ * Should the limits be defind as missing values, they are not taken into account 
+ * and all data values are considered to being within limits.
+ *
+ * \param values Data parameter values
  * \param missingFound Undocumented
  * \return Undocumented
  * \todo Make loop indices i and j unsigned to avoid static_cast
  */
 // ----------------------------------------------------------------------
-
 NFmiString *NFmiMultiParamMapping::Map(const vector<float> &values, bool &missingFound)
 {
   missingFound = false;
+
+  // Iterate over mapping definitions (Rows in the multimapping configuration) 
   for (int j = 0; j < static_cast<int>(itsSize); j++)
   {
-    int i;
-    for (i = 0; i < static_cast<int>(itsNumOfParams); i++)
-    {
-      if ((itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&
-           itsMappingIntervals[j].mappingInterval[i].lowBorder != kFloatMissing) ||
-          (itsMappingIntervals[j].mappingInterval[i].highBorder >= FmiStartOfIncompleteValues &&
-           itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing))
-        break;
-      if (!(itsMappingIntervals[j].mappingInterval[i].lowBorder == kFloatMissing ||
-            (itsMappingIntervals[j].mappingInterval[i].highBorder == kFloatMissing &&
-             values[i] == itsMappingIntervals[j].mappingInterval[i].lowBorder) ||
-            (values[i] >= itsMappingIntervals[j].mappingInterval[i].lowBorder &&
-             values[i] <= itsMappingIntervals[j].mappingInterval[i].highBorder &&
-             values[i] != kFloatMissing &&
-             itsMappingIntervals[j].mappingInterval[i].highBorder != kFloatMissing)))
-        break;
-      //}
-    }
-    if (i >= static_cast<int>(itsNumOfParams)) return &itsMappingIntervals[j].symbol;
+    // Count all matching mappings
+    int numberOfMatchedValues = 0;
+    int numberOfParameters = static_cast<int>(itsNumOfParams);
 
-    // moniparametrien puuttuva-testi t‰‰ll‰ eli
-    // puuttuva vain jos jokin signifikantti puuttuu
-    if ((i < static_cast<int>(itsNumOfParams) && values[i] == kFloatMissing) ||
-        (i == static_cast<int>(itsNumOfParams) && values[i - 1] == kFloatMissing))
+    // std::cout << std::endl << itsMappingIntervals[j].symbol;
+    // Compare  over all defined parameter limits
+    for (int i = 0; i < numberOfParameters; i++)
     {
-      missingFound = true;
-      // return itsMissingString;
-      return 0;
+      // To avoid complex conditional expressions, introduce temporary variables
+      float lowBorder = itsMappingIntervals[j].mappingInterval[i].lowBorder;
+      float highBorder = itsMappingIntervals[j].mappingInterval[i].highBorder;
+      float valueToCheck = values[i]; 
+      bool valueIsMissing = valueToCheck == kFloatMissing;
+      bool lowBorderIsNotMissing = lowBorder != kFloatMissing; 
+      if (highBorder == kFloatMissing && lowBorderIsNotMissing){
+        // If only low limit is defined, it is used as a fixed limit
+        highBorder = lowBorder;
+      }
+      bool highBorderIsNotMissing = highBorder != kFloatMissing;     
+      bool lowBorderIsIncomplete = (lowBorder >= FmiStartOfIncompleteValues && lowBorderIsNotMissing);
+      bool highBorderIsIncomplete = (highBorder >= FmiStartOfIncompleteValues && highBorderIsNotMissing);
+      
+      // std::cout << lowBorder << " - " << valueToCheck << " - " << highBorder << std::endl; 
+      
+      if (valueIsMissing) {
+        // Set missing true, so it may be handled if no matching symbol mapping is found
+        missingFound = true;
+      }
+
+      if (lowBorderIsIncomplete || highBorderIsIncomplete){
+        // The mappings high and low settings are something above 31690 but not 32700
+        // Not sure why this is checked. Maybe something historical?
+        break;
+      }
+
+      if (lowBorderIsNotMissing && valueIsMissing){
+        // Cannot compare defined limit with missing value
+        break;
+      }
+      
+      if (lowBorderIsNotMissing && (valueToCheck < lowBorder)){
+        // Limits are defined and value is not within them
+        break;
+      }
+
+      if (highBorderIsNotMissing && (valueToCheck > highBorder)){
+        // Limits are defined and value is not within them
+        // highBorder may have the same value as lowBorder
+        break;
+      }       
+      // Currently evaluated parameter's value is within the given limits
+      // std::cout <<  "match" << std::endl; 
+      numberOfMatchedValues++;
     }
+
+    if (numberOfMatchedValues == numberOfParameters)
+    {
+      // All of the mappings have been checked and they pass.
+      // Set missing to false, because the data may have a missing value in purpose,
+      // for an example precipitation type can be missing when there is no rain.
+      missingFound = false;
+      // std::cout <<  "symbol in use " << std::endl; 
+      // Return the current symbol filename or text from multimapping setting
+      return &itsMappingIntervals[j].symbol;
+    } 
   }
+  // Return without a matching symbol
+  // std::cout <<  "NO SYMBOL FOUND " << std::endl; 
   return 0;
 }
+
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
