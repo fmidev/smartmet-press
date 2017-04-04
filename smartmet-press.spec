@@ -2,15 +2,15 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 17.3.16
+Version: 17.4.4
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
 URL: https://github.com/fmidev/smartmet-press
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: smartmet-library-newbase-devel >= 17.3.9
-Requires: smartmet-library-newbase >= 17.3.9
+BuildRequires: smartmet-library-newbase-devel >= 17.4.4
+Requires: smartmet-library-newbase >= 17.4.4
 Provides: qdpress
 
 %description
@@ -35,6 +35,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Tue Apr  4 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.4.4-1.fmi
+- Fix to weather symbol multimapping
+
 * Thu Mar 16 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.3.16-1.fmi
 - Fixed relative location values to be initialized to zero, otherwise locations could become random
 
