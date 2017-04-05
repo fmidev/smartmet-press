@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 17.4.4
+Version: 17.4.5
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -35,6 +35,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Apr  5 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.5-1.fmi
+- Allow relative paths to included eps-images
+
 * Tue Apr  4 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.4.4-1.fmi
 - Fix to weather symbol multimapping
 
