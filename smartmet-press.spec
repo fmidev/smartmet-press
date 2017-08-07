@@ -9,6 +9,7 @@ Group: Development/Tools
 URL: https://github.com/fmidev/smartmet-press
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
+BuildRequires: make
 BuildRequires: smartmet-library-newbase-devel >= 17.4.4
 Requires: smartmet-library-newbase >= 17.4.4
 Provides: qdpress
