@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 17.4.5
+Version: 17.8.28
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -11,8 +11,8 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 17.4.4
-Requires: smartmet-library-newbase >= 17.4.4
+BuildRequires: smartmet-library-newbase-devel >= 17.8.28
+Requires: smartmet-library-newbase >= 17.8.28
 Provides: qdpress
 
 %description
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Aug 27 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
+- Upgrade to boost 1.65
+
 * Wed Apr  5 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.5-1.fmi
 - Allow relative paths to included eps-images
 
