@@ -13,6 +13,9 @@ BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: smartmet-library-newbase-devel >= 17.8.28
 Requires: smartmet-library-newbase >= 17.8.28
+Requires: boost-iostreams
+Requires: boost-filesystem
+Requires: boost-system
 Provides: qdpress
 
 %description
