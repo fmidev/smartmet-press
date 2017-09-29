@@ -12,6 +12,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: smartmet-library-newbase-devel >= 17.8.28
+BuildRequires: boost-devel
 Requires: smartmet-library-newbase >= 17.8.28
 Requires: boost-iostreams
 Requires: boost-filesystem
