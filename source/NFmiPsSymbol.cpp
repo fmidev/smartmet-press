@@ -62,18 +62,23 @@ NFmiPsSymbol *NFmiPsSymbol::Clone(void) const { return new NFmiPsSymbol(*this); 
 
 bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 {
-#ifdef UNIX
+
   string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
   tmpDir += kFmiDirectorySeparator;
   NFmiString fileName = static_cast<NFmiString>(tmpDir);
-#else
-  NFmiString fileName = itsShortDir;
-#endif
 
-  fileName += NFmiFileString(itsOrigDir).Directory();
+  // Only add the "SymbolSet" value from itsOrigDir property
+  string patternToRemove = NFmiSettings::Require<string>("press::path");
+  patternToRemove += "/symbols/";
+  auto result = std::string(itsOrigDir.CharPtr()).substr(patternToRemove.size(), std::string::npos);
+  fileName += result;
+
+  //fileName += NFmiFileString(itsOrigDir).Directory();
   fileName += NFmiString("_");
   fileName += itsSymbol;
   fileName += NFmiString(".ps");
+
+  *itsLogFile << "*** INFO: Use " << fileName << endl;
 
   if (itsInFile) delete itsInFile;
   itsInFile = new ifstream;
@@ -105,24 +110,10 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 
 bool NFmiPsSymbol::ConvertOrig2Short(void)
 {
-// VAIN WINDOWSILLA TEHDYILLE SYMBOLEILLE
-
-#ifdef UNIX
-  string inputDir = NFmiSettings::Require<string>("press::path");
-  inputDir += kFmiDirectorySeparator;
-  inputDir += "symbols";
-  inputDir += kFmiDirectorySeparator;
-  NFmiString inputName = static_cast<NFmiString>(inputDir);
-  inputName += NFmiFileString(itsOrigDir).Directory();
-  inputName += kFmiDirectorySeparator;
-  inputName += itsSymbol;
-  inputName += NFmiString(".ai");
-#else
   NFmiString inputName = itsOrigDir;
-  // inputName += NFmiString("/");
+  inputName += NFmiString("/");
   inputName += itsSymbol;
   inputName += NFmiString(".ai");
-#endif
 
   ifstream input(inputName, ios::in);
 
@@ -135,10 +126,20 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
 #else
     NFmiString outputName = itsShortDir;
 #endif
-    outputName += NFmiFileString(itsOrigDir).Directory();
+
+    // Remove inputDir and 'symbols' from inputName and concat to outputName
+    string patternToRemove = NFmiSettings::Require<string>("press::path");
+    patternToRemove += "/symbols/";
+    auto result = std::string(itsOrigDir.CharPtr()).substr(patternToRemove.size(), std::string::npos);
+    outputName += result;
+
+    //outputName += kFmiDirectorySeparator;
     outputName += NFmiString("_");
     outputName += itsSymbol;
     outputName += NFmiString(".ps");
+    *itsLogFile << "*** INFO: From " << inputName << endl;
+    *itsLogFile << "*** INFO: To   " << outputName << endl;
+
     ofstream output(outputName, ios::out);
 
     if (!output && itsLogFile)
@@ -231,25 +232,13 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
   itsWriteScale.SetStartScales(NFmiRect(sizePoint1NotSize, sizePoint2NotSize));
 
   NFmiString inDir;
-  inDir = GetHome();
-  inDir += kFmiDirectorySeparator;
-  inDir += "LyhytSymbolit";
-#ifdef UNIX
   inDir = getSymbolCachePath();
-#endif
   inDir += kFmiDirectorySeparator;
 
-#ifndef UNIX
   itsOrigDir = GetHome();
-  itsOrigDir += kFmiDirectorySeparator;
-  itsOrigDir += "Symbolit";
-  itsOrigDir += kFmiDirectorySeparator;
-#else
-  itsOrigDir = getCnfPath();
   itsOrigDir += kFmiDirectorySeparator;
   itsOrigDir += "symbols";
   itsOrigDir += kFmiDirectorySeparator;
-#endif
 
   NFmiString subDir = NFmiString("Massa");  // oletus vaikka tämä
 
@@ -408,7 +397,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
   }  // while
   itsShortDir = NFmiString(inDir);  // oikeastaan koko polku
   itsOrigDir += subDir;
-  itsOrigDir += kFmiDirectorySeparator;
+  //itsOrigDir += kFmiDirectorySeparator;
 
   // SYMBOLIKOKO ON NYT OMASSA TIEDOSTOSSAAN JOKAISTA SETTIÄ VARTEN
   // ei anneta enää määrittelyissä

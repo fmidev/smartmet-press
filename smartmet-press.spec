@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 17.8.28
+Version: 18.1.23
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -11,9 +11,9 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 17.8.28
+BuildRequires: smartmet-library-newbase-devel >= 18.1.22
 BuildRequires: boost-devel
-Requires: smartmet-library-newbase >= 17.8.28
+Requires: smartmet-library-newbase >= 18.1.22
 Requires: boost-iostreams
 Requires: boost-filesystem
 Requires: boost-system
@@ -41,7 +41,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
-* Mon Aug 27 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
+* Tue Jan 23 2018 Teemu Sirviö <teemu.sirvio@fmi.fi> - 18.1.23-1.fmi
+- Allow #FixedSymbol to use subdirectory in SymbolSet value
+
+* Mon Aug 28 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
 - Upgrade to boost 1.65
 
 * Wed Apr  5 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.5-1.fmi
