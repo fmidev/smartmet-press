@@ -15,8 +15,8 @@
 #ifndef NFMICMYKCOLORBAG_H
 #define NFMICMYKCOLORBAG_H
 
-#include "NFmiValueString.h"
 #include "NFmiSize.h"
+#include "NFmiValueString.h"
 
 //! Representation of a CMYK color
 struct NFmiCmykColor

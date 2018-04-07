@@ -10,12 +10,12 @@
 #endif
 
 #include "NFmiPressText.h"
-#include "NFmiHyphenationString.h"
-#include "NFmiPressGivenTimeText.h"
-#include "NFmiPressComputerTimeText.h"
-#include "NFmiPressDataTimeText.h"
 #include "NFmiFileString.h"
 #include "NFmiFileSystem.h"
+#include "NFmiHyphenationString.h"
+#include "NFmiPressComputerTimeText.h"
+#include "NFmiPressDataTimeText.h"
+#include "NFmiPressGivenTimeText.h"
 #include <iostream>
 
 extern std::list<std::string> errors;

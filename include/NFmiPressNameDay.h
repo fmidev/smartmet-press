@@ -17,9 +17,9 @@
 #ifndef NFMIPRESSNAMEDAY_H
 #define NFMIPRESSNAMEDAY_H
 
-#include "NFmiPressText.h"
-#include "NFmiNameDay.h"
 #include "NFmiMetTime.h"
+#include "NFmiNameDay.h"
+#include "NFmiPressText.h"
 
 //! Undocumented
 enum NFmiPressNameDayObjects

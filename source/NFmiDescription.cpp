@@ -31,7 +31,7 @@ void NFmiDescription::OutputLog(const char category,
                                 const NFmiString &engReport,
                                 NFmiString *variable)
 {
-  bool finnish = false;  // Latviaa varten //tee globaali muuttuja tälle
+  bool finnish = false;      // Latviaa varten //tee globaali muuttuja tälle
   NFmiFileString logString;  // jotta ääkköset saadaan pois
   if (category == 'W')
     logString = NFmiString("WARNING: ");

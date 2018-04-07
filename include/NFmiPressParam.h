@@ -256,7 +256,7 @@ class _FMI_DLL NFmiPressParam : public NFmiPressTimeDescription
   NFmiString itsLogComment;
   NFmiPressArea itsArea;
   bool fIsAreaOperation;
-  NFmiTime itsOptionTime;  // max/min-olio tuo tänne NFmiExtremeTimeParamRectille
+  NFmiTime itsOptionTime;           // max/min-olio tuo tänne NFmiExtremeTimeParamRectille
   NFmiLocation* itsOptionLocation;  // max/min-olio tuo tänne NFmiExtremePlaceParamRectille
   NFmiPoint itsCheckDistance;
   vector<FmiValuePoint> itsCheckLocations;

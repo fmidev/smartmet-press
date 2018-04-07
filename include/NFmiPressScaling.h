@@ -25,10 +25,10 @@
 #define NFMIPRESSSCALING_H
 
 // press
+#include "NFmiPressTime.h"
 #include "NFmiPressTimeDescription.h"
 #include "NFmiPsWriting.h"
 #include "NFmiRectScale.h"
-#include "NFmiPressTime.h"
 // newbase
 #include "NFmiFileString.h"
 
@@ -104,8 +104,8 @@ class _FMI_DLL NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPs
   NFmiPoint itsRectSize;
   NFmiPoint itsPlace;
   NFmiPoint itsMovePlace;  // siirtymä
-  bool fPrintOnce;      // pakotettu kerran-vain-tulostus
-  bool fScaleNotPlace;  // DataAlkio-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
+  bool fPrintOnce;         // pakotettu kerran-vain-tulostus
+  bool fScaleNotPlace;     // DataAlkio-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
   int itsTimestampDayGap;
 
 };  // class NFmiPressScaling

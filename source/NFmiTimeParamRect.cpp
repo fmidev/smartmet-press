@@ -9,10 +9,10 @@
 #pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
-#include "NFmiPressProduct.h"
 #include "NFmiTimeParamRect.h"
-#include "NFmiPressParam.h"
 #include "NFmiLocationFinder.h"
+#include "NFmiPressParam.h"
+#include "NFmiPressProduct.h"
 #include <iostream>
 
 using namespace std;

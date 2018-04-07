@@ -20,9 +20,9 @@
 #ifndef NFMIPRESSTEXT_H
 #define NFMIPRESSTEXT_H
 
+#include "NFmiHyphenationString.h"
 #include "NFmiPressScaling.h"
 #include "NFmiPressTypes.h"
-#include "NFmiHyphenationString.h"
 #include "NFmiSettings.h"
 
 //! Undocumented

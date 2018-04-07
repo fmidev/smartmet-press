@@ -10,9 +10,9 @@
 #endif
 
 #include "NFmiPressImage.h"
+#include "NFmiCopyFile.h"
 #include "NFmiPressProduct.h"
 #include "NFmiSettings.h"
-#include "NFmiCopyFile.h"
 #include <cstdlib>
 #include <iostream>
 #include <list>
@@ -700,10 +700,9 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 
 #ifdef UNIX
   NFmiString imageFile;
-  if (
-    (static_cast<string>(itsTempImageFile).find("/") == string::npos) ||
-    (static_cast<string>(itsTempImageFile).find("../") == 0)
-  ){
+  if ((static_cast<string>(itsTempImageFile).find("/") == string::npos) ||
+      (static_cast<string>(itsTempImageFile).find("../") == 0))
+  {
     string path = NFmiSettings::Require<string>("press::cnfpath");
     string productName = NFmiSettings::Require<string>("press::product");
     NFmiString filename = itsPath;

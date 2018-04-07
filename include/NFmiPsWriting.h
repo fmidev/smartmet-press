@@ -17,8 +17,8 @@
 #define NFMIPSWRITING_H
 
 // press
-#include "NFmiRectScale.h"
 #include "NFmiPressTypes.h"
+#include "NFmiRectScale.h"
 // newbase
 #include "NFmiString.h"
 #include <vector>

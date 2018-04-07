@@ -28,7 +28,6 @@
 // namespace boost
 
 // press
-#include "NFmiValueCorrection.h"
 #include "NFmiCmykColorBag.h"
 #include "NFmiHyphenationString.h"
 #include "NFmiNamedQueryData.h"
@@ -39,15 +38,16 @@
 #include "NFmiPressStationText.h"
 #include "NFmiPressTimeDescription.h"
 #include "NFmiRectScale.h"
+#include "NFmiValueCorrection.h"
 // newbase
 #include "NFmiFileString.h"
 #include "NFmiVoidPtrList.h"
 // system
 #include <boost/shared_ptr.hpp>
+#include <locale>
+#include <map>
 #include <queue>
 #include <vector>
-#include <map>
-#include <locale>
 
 class NFmiLocationFinder;
 class NFmiNameDay;

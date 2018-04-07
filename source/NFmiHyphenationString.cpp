@@ -348,7 +348,7 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char* theHyphenationMark)
         // itsCurrentCharPos < GetLen()-6   &&
 
         //		 GetChars(itsCurrentCharPos-2, 1) != NFmiString("#") &&  //kieltomerkki,
-        //tarvitaanko
+        // tarvitaanko
         IsVowel(GetChars(itsCurrentCharPos, 1)))
     {
       newString += NFmiString(theHyphenationMark);

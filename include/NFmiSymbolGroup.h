@@ -19,12 +19,12 @@
 
 // press
 #include "NFmiParamRect.h"
+#include "NFmiPressTimeDescription.h"
 #include "NFmiRectScale.h"
 #include "NFmiStationPoint.h"
-#include "NFmiPressTimeDescription.h"
 // newbase
-#include "NFmiSize.h"
 #include "NFmiQueryData.h"
+#include "NFmiSize.h"
 
 class NFmiPressParam;
 class NFmiPsSymbol;

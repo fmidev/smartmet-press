@@ -19,9 +19,9 @@
 #define NFMIPRESSENVIRONMENT_H
 
 #include "NFmiGlobals.h"
+#include "NFmiPoint.h"
 #include "NFmiPressTypes.h"
 #include "NFmiString.h"
-#include "NFmiPoint.h"
 
 class NFmiPressArea;
 

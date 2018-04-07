@@ -18,8 +18,8 @@
 #ifndef NFMILETTERPARAMRECT_H
 #define NFMILETTERPARAMRECT_H
 
-#include "NFmiTextParamRect.h"
 #include "NFmiPressText.h"
+#include "NFmiTextParamRect.h"
 
 //! Undocumented
 enum NFmiLetterParamRectObjects

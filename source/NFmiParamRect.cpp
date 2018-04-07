@@ -19,9 +19,12 @@
 #include "NFmiDataModifierClasses.h"
 #include "NFmiDataModifierCombinedParam.h"
 #include "NFmiDataModifierDescriptor.h"
+#include "NFmiDataModifierMaxPlace.h"
+#include "NFmiDataModifierMinPlace.h"
 #include "NFmiDataModifierProb.h"
 #include "NFmiDataModifierVariance.h"
 #include "NFmiDataModifierWindChill.h"
+#include "NFmiEnumConverter.h"
 #include "NFmiInfoAreaMask.h"
 #include "NFmiMaskedDataIterator.h"
 #include "NFmiMetMath.h"
@@ -29,9 +32,6 @@
 #include "NFmiRelativeDataIterator.h"
 #include "NFmiRelativeTimeIntegrationIterator.h"
 #include "NFmiWeatherAndCloudiness.h"
-#include "NFmiEnumConverter.h"
-#include "NFmiDataModifierMinPlace.h"
-#include "NFmiDataModifierMaxPlace.h"
 
 #include <iostream>
 #include <math.h>
@@ -494,8 +494,8 @@ bool NFmiParamRect::ReadRemaining(void)
     {
       itsValueOption = kDegreeDays;
       itsIdentPar = kFmiTemperature;  // ei tartte erikseen kutsua
-      SetRelModifierTimes(-2, 22);  // -"-    SA-vrk
-      itsModifier = kMean;          //  -"-
+      SetRelModifierTimes(-2, 22);    // -"-    SA-vrk
+      itsModifier = kMean;            //  -"-
       ReadNext();
       break;
     }
@@ -1618,8 +1618,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   {
     NFmiSuperSmartInfo ssinfo(*theQueryInfo);
     ssinfo.AreaUnCertaintyStart(2);  // 0-> 0 tai 100; olivat 1 3
-    ssinfo.AreaUnCertaintyEnd(2);  // Nämä ovat vain kokeellisia arvoja, pitäisi tulla oikeasti
-                                   // datan mukana meteorologilta
+    ssinfo.AreaUnCertaintyEnd(2);    // Nämä ovat vain kokeellisia arvoja, pitäisi tulla oikeasti
+                                     // datan mukana meteorologilta
     NFmiDataModifierMin minvalue;
     NFmiDataModifierMax areaMax;
     NFmiDataModifierMax variationMax;
@@ -1865,7 +1865,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
           value = theQueryInfo->FloatValue();
       }
     }  // vanhat tavat loppu
-  }  // vanhat+uudet loppu
+  }    // vanhat+uudet loppu
 
   /* näin pitäisi olla mutta vaatisi muutoksia tiehallintoon
     if(fUseFromStorageConditionally)
@@ -1965,8 +1965,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   else if (itsValueOption == kDegreeDays)
     value = FmiDegreeDays(value, (theQueryInfo)->Time().GetMonth());
   if (itsRealPar == kFmiMinimumWind)  // minimituuli
-  {  // väliaikaisesti
-    if (value < 400)  // muuten 32700 tai 999
+  {                                   // väliaikaisesti
+    if (value < 400)                  // muuten 32700 tai 999
     {
       if (value <= 0.5)
         value += -0;

@@ -15,8 +15,8 @@
 #ifndef NFMIRECTSCALE_H
 #define NFMIRECTSCALE_H
 
-#include "NFmiScale.h"
 #include "NFmiRect.h"
+#include "NFmiScale.h"
 
 //! Undocumented
 class _FMI_DLL NFmiRectScale

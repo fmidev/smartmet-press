@@ -206,7 +206,7 @@ void NFmiScale::StartFromZeroOptionally(float theFactor)
     float fabsEnd = fabs(itsEndValue);
     float fabsStart = fabs(itsStartValue);
     //	  if ((itsEndValue-itsStartValue)*theFactor > std::min(fabs(itsEndValue),
-    //fabs(itsStartValue))
+    // fabs(itsStartValue))
     if ((itsEndValue - itsStartValue) * theFactor > std::min(fabsEnd, fabsStart) && !Inside(0.f))
     {
       if (itsStartValue > 0.)

@@ -62,7 +62,6 @@ NFmiPsSymbol *NFmiPsSymbol::Clone(void) const { return new NFmiPsSymbol(*this); 
 
 bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 {
-
   string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
   tmpDir += kFmiDirectorySeparator;
   NFmiString fileName = static_cast<NFmiString>(tmpDir);
@@ -73,7 +72,7 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
   auto result = std::string(itsOrigDir.CharPtr()).substr(patternToRemove.size(), std::string::npos);
   fileName += result;
 
-  //fileName += NFmiFileString(itsOrigDir).Directory();
+  // fileName += NFmiFileString(itsOrigDir).Directory();
   fileName += NFmiString("_");
   fileName += itsSymbol;
   fileName += NFmiString(".ps");
@@ -130,10 +129,11 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
     // Remove inputDir and 'symbols' from inputName and concat to outputName
     string patternToRemove = NFmiSettings::Require<string>("press::path");
     patternToRemove += "/symbols/";
-    auto result = std::string(itsOrigDir.CharPtr()).substr(patternToRemove.size(), std::string::npos);
+    auto result =
+        std::string(itsOrigDir.CharPtr()).substr(patternToRemove.size(), std::string::npos);
     outputName += result;
 
-    //outputName += kFmiDirectorySeparator;
+    // outputName += kFmiDirectorySeparator;
     outputName += NFmiString("_");
     outputName += itsSymbol;
     outputName += NFmiString(".ps");
@@ -394,10 +394,10 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
         break;
       }
     }
-  }  // while
+  }                                 // while
   itsShortDir = NFmiString(inDir);  // oikeastaan koko polku
   itsOrigDir += subDir;
-  //itsOrigDir += kFmiDirectorySeparator;
+  // itsOrigDir += kFmiDirectorySeparator;
 
   // SYMBOLIKOKO ON NYT OMASSA TIEDOSTOSSAAN JOKAISTA SETTIÄ VARTEN
   // ei anneta enää määrittelyissä

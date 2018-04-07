@@ -11,19 +11,19 @@
 
 // press
 #include "NFmiSymbolGroup.h"
-#include "NFmiSymbolParamRect.h"
-#include "NFmiNumberParamRect.h"
-#include "NFmiRotatingParamRect.h"
+#include "NFmiExtremePlaceParamRect.h"
+#include "NFmiExtremeTimeParamRect.h"
 #include "NFmiLetterParamRect.h"
-#include "NFmiTimeParamRect.h"
-#include "NFmiSubstituteParamRect.h"
+#include "NFmiNumberParamRect.h"
+#include "NFmiPressParam.h"
 #include "NFmiPressText.h"
 #include "NFmiPsSymbol.h"
-#include "NFmiSunTimeParamRect.h"
+#include "NFmiRotatingParamRect.h"
 #include "NFmiScalingParamRect.h"
-#include "NFmiPressParam.h"
-#include "NFmiExtremeTimeParamRect.h"
-#include "NFmiExtremePlaceParamRect.h"
+#include "NFmiSubstituteParamRect.h"
+#include "NFmiSunTimeParamRect.h"
+#include "NFmiSymbolParamRect.h"
+#include "NFmiTimeParamRect.h"
 // newbase
 #include "NFmiSuperSmartInfo.h"
 // system
@@ -581,8 +581,7 @@ int NFmiSymbolGroup::ConvertDefText(NFmiString &object)
 
   else if (lowChar == NFmiString("#letter") ||
            // lowChar==NFmiString("#text") || = #(constant)text
-           lowChar == NFmiString("#teksti") ||
-           lowChar == NFmiString("#kirjain"))
+           lowChar == NFmiString("#teksti") || lowChar == NFmiString("#kirjain"))
     return dLetter;
 
   else if (lowChar == NFmiString("#timetext") || lowChar == NFmiString("#time") ||

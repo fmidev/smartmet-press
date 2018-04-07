@@ -19,8 +19,8 @@
 #ifndef NFMIPRESSMANAGER_H
 #define NFMIPRESSMANAGER_H
 
-#include "NFmiPressProduct.h"
 #include "NFmiPressDescription.h"
+#include "NFmiPressProduct.h"
 
 //! Undocumented
 enum NFmiPressManagerObjects

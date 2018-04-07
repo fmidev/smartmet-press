@@ -10,8 +10,8 @@
 #endif
 
 #include "NFmiTextParamRect.h"
-#include "NFmiPressParam.h"
 #include "NFmiHyphenationString.h"
+#include "NFmiPressParam.h"
 #include <iostream>
 
 using namespace std;
@@ -492,9 +492,9 @@ bool NFmiTextParamRect::WriteCode(const NFmiString &theText,
 		  boldFont = true;
 #endif
 
-    bool secondIs226 = locText.GetLen() > 4 &&
-                       NFmiString(locText.GetCharsPtr(2, 4))
-                           .IsEqual(longMinus);  // suluissa pitkä miinus tai numeroväli
+    bool secondIs226 =
+        locText.GetLen() > 4 && NFmiString(locText.GetCharsPtr(2, 4))
+                                    .IsEqual(longMinus);  // suluissa pitkä miinus tai numeroväli
     // tyyppiä 6-10, kuitenkin vaikeuksia joten
     // poistettu alla -> käytä lyhyttä miinusta
     NFmiString restString, emptyString, widthString, minusWidth;

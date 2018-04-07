@@ -7,11 +7,11 @@
 
 #include "NFmiStationPoint.h"
 
-#include <cmath>
-#include <iostream>
-#include <fstream>
-#include <ctime>
 #include <sys/timeb.h>
+#include <cmath>
+#include <ctime>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -388,9 +388,9 @@ float NFmiStationPoint::GetWmoDifference(void) const
   {
     zoneDifferenceHour = 1;
   }
-  else if ((wmoCode >= 2800 && wmoCode < 3000) ||  // Suomi
+  else if ((wmoCode >= 2800 && wmoCode < 3000) ||    // Suomi
            (wmoCode >= 15000 && wmoCode < 16000) ||  // Romania,Bulgaria
-           (wmoCode >= 16600 && wmoCode < 17620))  // Kreikka,Turkki,Kypros
+           (wmoCode >= 16600 && wmoCode < 17620))    // Kreikka,Turkki,Kypros
   {
     zoneDifferenceHour = 2;
   }
@@ -418,9 +418,8 @@ float NFmiStationPoint::GetWmoDifference(void) const
   }
   //*****AASIA
   else if ((wmoCode == 54511) || (wmoCode == 45004) ||
-           (wmoCode == 98429)  // Peking , HongKong,Manila
-           ||
-           wmoCode == 48698)  // Singapore ?
+           (wmoCode == 98429)    // Peking , HongKong,Manila
+           || wmoCode == 48698)  // Singapore ?
   {
     zoneDifferenceHour = 8;
     useSummerTime = false;
@@ -491,9 +490,8 @@ float NFmiStationPoint::GetWmoDifference(void) const
   }
 
   else if ((wmoCode == 72503) || (wmoCode == 72202) || (wmoCode == 72203) ||
-           (wmoCode == 71624)  // New York,Miami,Toronto
-           ||
-           (wmoCode == 78073) || wmoCode == 71627)  // Nassau, Montreal
+           (wmoCode == 71624)                          // New York,Miami,Toronto
+           || (wmoCode == 78073) || wmoCode == 71627)  // Nassau, Montreal
   {
     zoneDifferenceHour = -5;
     useSummerTime = true;

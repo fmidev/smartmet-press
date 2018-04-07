@@ -19,8 +19,8 @@
 #ifndef NFMIPRESSSTATIONTEXT_H
 #define NFMIPRESSSTATIONTEXT_H
 
-#include "NFmiPressText.h"
 #include "NFmiPressDataObject.h"
+#include "NFmiPressText.h"
 
 //! Undocumented
 struct NFmiRenaming

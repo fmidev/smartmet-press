@@ -10,13 +10,13 @@
 #endif
 
 // press
+#include "NFmiPressProduct.h"
 #include "NFmiCopyFile.h"
 #include "NFmiHyphenationString.h"
 #include "NFmiPressArea.h"
 #include "NFmiPressComputerTimeText.h"
 #include "NFmiPressGivenTimeText.h"
 #include "NFmiPressNameDay.h"
-#include "NFmiPressProduct.h"
 #include "NFmiPressStationText.h"
 #include "NFmiPsSymbol.h"
 
@@ -34,8 +34,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <list>
-#include <string>
 #include <locale>
+#include <string>
 
 extern std::list<std::string> errors;
 
@@ -665,7 +665,7 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString &theCountryPart)
   {
     NFmiFastQueryInfo info = NFmiFastQueryInfo(FirstData());
     today.SetHour(12);
-    today.ChangeByDays(2);  // tuotteet keskim‰‰rin kahden p‰iv‰n p‰‰ss‰
+    today.ChangeByDays(2);       // tuotteet keskim‰‰rin kahden p‰iv‰n p‰‰ss‰
     NFmiPoint lonLat(99., 99.);  // not valid on earth
     NFmiString lowChar(theCountryPart);
     lowChar.LowerCase();
@@ -728,7 +728,7 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString &theCountryPart)
         }
       }
       if (lonLat.Y() < 98. && info.Location(lonLat))  // eka ehto pistetietokantoja varten
-      {  // jotka muuten aina menev‰t l‰himp‰‰n
+      {                                               // jotka muuten aina menev‰t l‰himp‰‰n
         if (info.Param(kFmiTemperature))
         {
           return info.FloatValue() > 2.;
@@ -896,9 +896,9 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   itsSeasonsStatus->day = today.GetDay();
   itsSeasonsStatus->month = today.GetMonth();
   itsSeasonsStatus->allowRandom = true;
-// itsSeasonsStatus->afternoon = false;
-// if (today.GetHour() >= 12)
-//  itsSeasonsStatus->afternoon = true;
+  // itsSeasonsStatus->afternoon = false;
+  // if (today.GetHour() >= 12)
+  //  itsSeasonsStatus->afternoon = true;
 
 #ifndef UNIX
   string includePath(itsHomePath);
@@ -1175,8 +1175,7 @@ bool NFmiPressProduct::PreProcessProduct(ifstream &origInput, ofstream &output)
         static_cast<unsigned short>(str.Search(NFmiString("#")));  // jotta lˆytyisi tabinkin takaa
 
     if ((nRisu > 0 && num - nRisu > 8) && (str.GetChars(nRisu, 8) == incString  // Huom string-bugi
-                                           ||
-                                           str.GetChars(nRisu, 6) == liitaString))
+                                           || str.GetChars(nRisu, 6) == liitaString))
     {
       if (str.GetChars(nRisu, 8) == incString)
         file = str.GetChars(nRisu + 9, num - 9 - nRisu);  // vois toki tehd‰ alykk‰‰mmin
@@ -1379,7 +1378,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   tempCorrFile += "Lampokorjaus.txt";
   itsTempCorrection->SetFiles(tempCorrFile, itsLogFile);
 
-  itsLogFileName = logFileName;  // jotta voidaan sulkea/avata jatkossa
+  itsLogFileName = logFileName;                        // jotta voidaan sulkea/avata jatkossa
   itsLogFile->open(logFileName, ios::out | ios::app);  // edellinen aloitti alusta
   NFmiTime time;
   *itsLogFile << endl << "** Log file opened " << time << " **" << endl;
@@ -1661,7 +1660,7 @@ bool NFmiPressProduct::ReadData(void)
     if (errorWarning)
     {
       //		  *itsLogFile << "  Editoridataa aletaan lukea, onnistuuhan, jollei, tuhoa
-      //se" << endl;
+      // se" << endl;
       errorWarning = false;
     }
     if (!ReadQueryData(*data, dataFile))

@@ -10,8 +10,8 @@
 #endif
 
 #include "NFmiPressStationText.h"
-#include "NFmiStationPoint.h"
 #include "NFmiPressParam.h"
+#include "NFmiStationPoint.h"
 #include <iostream>
 
 using namespace std;

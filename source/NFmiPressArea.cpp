@@ -5,9 +5,9 @@
  */
 // ======================================================================
 
-#include "NFmiPressProduct.h"
 #include "NFmiPressArea.h"
 #include "NFmiEquidistArea.h"
+#include "NFmiPressProduct.h"
 #include <iostream>
 
 using namespace std;

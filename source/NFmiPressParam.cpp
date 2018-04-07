@@ -14,10 +14,10 @@
 #include "NFmiMultiParamMapping.h"
 #include "NFmiPressArea.h"
 #include "NFmiPressDataTimeText.h"
+#include "NFmiPressNameDay.h"
 #include "NFmiPressProduct.h"
 #include "NFmiPressStationText.h"
 #include "NFmiPsSymbol.h"
-#include "NFmiPressNameDay.h"
 // newbase
 #include "NFmiEnumConverter.h"
 #include "NFmiEquidistArea.h"
@@ -310,10 +310,10 @@ bool NFmiPressParam::SetMaxMinPoints(void)
         value7 < kFloatMissing && value8 < kFloatMissing)
     {
       if (value > value1 && value > value2 && value >= value3 && value >= value4 &&
-          value >= value5 && value >= value6 && value > value7 && value > value8
+          value >= value5 && value >= value6 && value > value7 &&
+          value > value8
           // reuna voi olla kahden pisteen p‰‰ss‰
-          &&
-          (value > value9 || value9 == kFloatMissing) &&
+          && (value > value9 || value9 == kFloatMissing) &&
           (value >= value10 || value10 == kFloatMissing) &&
           (value >= value11 || value11 == kFloatMissing) &&
           (value > value12 || value12 == kFloatMissing))
@@ -382,11 +382,9 @@ bool NFmiPressParam::SetMaxMinPoints(void)
             abs((*pos).point.Y() - point.Y()) < allowedYDist)
         {
           // float mean = (value+(*pos).value)/2.f;
-          if ((isMax && (*pos).isMax && value > (*pos).value)  // uusi ‰‰rev‰mpi maximi
-              ||
-              (isMin && !(*pos).isMax && value < (*pos).value)  // uusi ‰‰rev‰mpi minimi
-              ||
-              significance > (*pos).significance)
+          if ((isMax && (*pos).isMax && value > (*pos).value)      // uusi ‰‰rev‰mpi maximi
+              || (isMin && !(*pos).isMax && value < (*pos).value)  // uusi ‰‰rev‰mpi minimi
+              || significance > (*pos).significance)
           //||  isMax && !(*pos).isMax && mean > meanOfGrid  //max korvaa minimin suurilla arvoilla
           //||  isMin && (*pos).isMax && mean  < meanOfGrid)) //min korvaa maximin pienill‰ arvoilla
           {
@@ -1447,7 +1445,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         }
         else
         {
-          statNum = itsLoopNum;  // toimii satunnaislukuna,n‰in saadaan bagiin useita samannimisi‰
+          statNum = itsLoopNum;   // toimii satunnaislukuna,n‰in saadaan bagiin useita samannimisi‰
           string1 = valueString;  // Object;
         }
         string2 = ReadString();

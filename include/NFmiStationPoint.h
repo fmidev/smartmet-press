@@ -21,9 +21,9 @@
 #ifndef NFMISTATIONPOINT_H
 #define NFMISTATIONPOINT_H
 
-#include "NFmiStation.h"
 #include "NFmiDescription.h"
 #include "NFmiMetTime.h"
+#include "NFmiStation.h"
 
 // perint‰ NFmiPoint:sta ei l‰htenyt toimimaan, debuggeri ei osannut n‰ytt‰‰
 // pointia kun sen perint‰ savebase:sta tehtiin virtuaaliseksi ja t‰ss‰

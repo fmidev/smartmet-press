@@ -411,12 +411,12 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   }
 
   fUseSelectLatinFont = (value >= 0.  // astemerkki edes positiivisille
-                         &&
-                         value != kFloatMissing) ||
+                         && value != kFloatMissing) ||
                         itsEnvironment.GetVersion() >= 30;  // CS:ssä vaaditaan
 
   /* || value == kFloatMissing       // pitkät miinukset näkyviin
-	&& itsEnvironment.GetLongNumberMinus()*/;
+        && itsEnvironment.GetLongNumberMinus()*/
+  ;
 
   if (mapString)  // mappingmahdollisuus myös numerolle
   {

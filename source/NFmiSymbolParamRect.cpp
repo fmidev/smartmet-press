@@ -10,12 +10,12 @@
 #endif
 
 #include "NFmiSymbolParamRect.h"
-#include "NFmiRectScale.h"
-#include "NFmiPsWriting.h"
+#include "NFmiFileSystem.h"
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
+#include "NFmiPsWriting.h"
+#include "NFmiRectScale.h"
 #include "NFmiSettings.h"
-#include "NFmiFileSystem.h"
 #include <iostream>
 #include <list>
 #include <string>
@@ -199,8 +199,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
         NFmiString apu = subDir;
         apu.LowerCase();
         if (apu == "kuunvaiheet"  // pitäisi hoitaa komennolla
-            ||
-            apu == "moon_phases")
+            || apu == "moon_phases")
           SetMoonPhase();
 
         symbDirGiven = true;
@@ -768,7 +767,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       CompleteMultiMapping();
 
       symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-      
+
       if (fUseDayNightSymbols && IsDayNightString(*symbolFile))
       {
         //	*itsLogFile << "SYMBOL "
@@ -798,7 +797,8 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
             GetPressProduct()->SetLastSymbolStatus(false);
             return false;
           }
-          else {
+          else
+          {
             symbolFile = itsMissingString;
           }
         }
@@ -836,10 +836,13 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
 
   if (!symbolFile)
   {
-    if (itsMultiMapping){
+    if (itsMultiMapping)
+    {
       *itsLogFile << "WARNING: No symbol mapping for " << itsCurrentParamArray[0] << ", "
                   << itsCurrentParamArray[1] << ", " << itsCurrentParamArray[2] << endl;
-    } else {
+    }
+    else
+    {
       *itsLogFile << "WARNING: No symbol mapping for value " << itsCurrentParamValue << endl;
     }
   }

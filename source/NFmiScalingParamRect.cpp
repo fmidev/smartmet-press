@@ -11,8 +11,8 @@
 
 #include "NFmiScalingParamRect.h"
 #include "NFmiPressParam.h"
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 

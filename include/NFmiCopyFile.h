@@ -13,8 +13,8 @@
 
 #include "NFmiCmykColorBag.h"
 #include "NFmiRectScale.h"
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 bool NFmiCopyFile(std::ifstream& inFile, std::ofstream& outFile);
 

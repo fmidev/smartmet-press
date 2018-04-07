@@ -329,7 +329,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
         conditionBody2 = condition.substr(4, condition.size() - 4);
         //	firstToLower = condition.substr(3, 1); //EI TOIMI YHTÄKKIÄ VAIKKA YLLÄ OK??
         //	transform (conditionBody.begin(), conditionBody.end(), firstToLower.begin(),
-        //tolower);
+        // tolower);
         notDir = "#ifNot" + conditionBody;  // ei kuitenkaan voi käyttää koska esittely ei onnistu
         firstToLower = "c";
         elseDir = "#" + firstToLower + conditionBody2 + "Else";

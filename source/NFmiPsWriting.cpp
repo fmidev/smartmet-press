@@ -6,8 +6,8 @@
 // ======================================================================
 
 #include "NFmiPsWriting.h"
-#include "NFmiString.h"
 #include "NFmiCopyFile.h"
+#include "NFmiString.h"
 #include <iostream>
 
 using namespace std;
@@ -84,7 +84,7 @@ bool NFmiPsWriting::WriteGRestore(void)
 bool NFmiPsWriting::CopyPsFile(void)
 {
   const short lineSize = 520;  // 130; 1.6 Metview:n ps-driveri tuottaa 513 pitkiä riviä
-  char inBuf[lineSize];  //     vaikka standardi puhuu 256:sta
+  char inBuf[lineSize];        //     vaikka standardi puhuu 256:sta
 
   while (itsInFile->getline(inBuf, lineSize, '\n'))
   {

@@ -24,8 +24,8 @@
 #include "NFmiPressDescription.h"
 // newbase
 #include "NFmiMetTime.h"
-#include "NFmiQueryData.h"
 #include "NFmiPreProcessor.h"
+#include "NFmiQueryData.h"
 
 class NFmiFastQueryInfo;
 

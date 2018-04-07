@@ -372,9 +372,9 @@ void NFmiPressScaling::ScalePlotting(void)
 
   double scaledXSizeHalf = itsRectSize.X() * sizeScaling.X() / 2.;
   double scaledYSizeHalf = itsRectSize.Y() * sizeScaling.Y() / 2.;
-  NFmiRect absRect(scaledPlace.X() - scaledXSizeHalf,  // left
-                   scaledPlace.Y() + scaledYSizeHalf,  // top
-                   scaledPlace.X() + scaledXSizeHalf,  // right
+  NFmiRect absRect(scaledPlace.X() - scaledXSizeHalf,   // left
+                   scaledPlace.Y() + scaledYSizeHalf,   // top
+                   scaledPlace.X() + scaledXSizeHalf,   // right
                    scaledPlace.Y() - scaledYSizeHalf);  // bottom
   NFmiRect absRelRect = absRect.ToAbs(itsRelArea);
   itsWriteScale.SetEndScales(absRelRect);
