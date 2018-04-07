@@ -44,7 +44,10 @@ rm -rf $RPM_BUILD_ROOT
 * Sat Apr  7 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.4.7-1.fmi
 - Upgrade to boost 1.66
 
-* Mon Aug 27 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
+* Tue Jan 23 2018 Teemu Sirviö <teemu.sirvio@fmi.fi> - 18.1.23-1.fmi
+- Allow #FixedSymbol to use subdirectory in SymbolSet value
+
+* Mon Aug 28 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
 - Upgrade to boost 1.65
 
 * Wed Apr  5 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.5-1.fmi
