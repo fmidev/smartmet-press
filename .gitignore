@@ -7,3 +7,4 @@ qdpress
 *.aps
 *.vcproj.*
 *.vcxproj.*
+compile_commands.json
