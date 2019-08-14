@@ -459,7 +459,10 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
     NFmiHyphenationString nextString;
 
-    if (GetTimestampDayGap() != kShortMissing) AddTimeStamp(textFile);
+    if (GetTimestampDayGap() != kShortMissing) {
+        NFmiString timeFormat("YYYYMMDDHH00");
+        AddValidTimeTimeStamp(textFile, timeFormat, itsFirstPlotTime);
+    }
 
 #ifndef UNIX
     NFmiFileString dataFile =
