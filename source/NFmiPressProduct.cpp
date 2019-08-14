@@ -2638,6 +2638,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         text->SetLogFile(itsLogFile);
         text->SetDescriptionFile(itsDescriptionFile);
         text->SetLanguage(itsLanguage);
+        text->SetTime(itsFirstPlotTime);
         if (text->ReadDescription(itsString))
           itsObjects.Add(text);
         else

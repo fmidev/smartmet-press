@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 19.7.16
+Version: 19.8.14
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Aug 14 2019 Teemu Sirviö <teemu.sirvio@fmi.fi> - 19.8.14-1.fmi
+- Allow adding text content from timestamped files
+
 * Tue Jul 16 2019 Teemu Sirviö <teemu.sirvio@fmi.fi> - 19.7.16-1.fmi
 - Include FileWithTimeStamp-images from any given directory
 

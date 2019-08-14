@@ -349,7 +349,11 @@ inline double NFmiPressText::GetLineStepFactor(void) const { return itsLineStepF
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressText::SetTime(const NFmiMetTime& theTime) {}
+inline void NFmiPressText::SetTime(const NFmiMetTime& theTime)
+{
+  itsFirstPlotTime = theTime;
+}
+
 #endif  // NFMIPRESSTEXT_H
 
 // ======================================================================
