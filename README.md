@@ -1,7 +1,10 @@
 # smartmet-press aka. qdpress
 
-Reads querydata and definiton file as input
-Outputs PostScript code or text
+`qdpress` is the name of the binary.
+
+`smartmet-press` is the name of the RPM-package and this repository
+
+The program reads querydata and a definiton file as input, and makes PostScript or ASCII text files as output.
 
 See [Wiki documentation](https://github.com/fmidev/smartmet-press/wiki) for help in usage
 
