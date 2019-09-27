@@ -58,7 +58,8 @@ LIBS = -L$(libdir) \
 	-lsmartmet-newbase \
 	-lboost_iostreams \
 	-lboost_filesystem \
-	-lboost_system
+	-lboost_system \
+	-lgdal
 
 # Common library compiling template
 

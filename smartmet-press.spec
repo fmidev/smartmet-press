@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 19.8.14
+Version: 19.9.27
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -12,9 +12,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 18.5.2
+BuildRequires: smartmet-library-newbase-devel >= 19.9.26
 BuildRequires: boost-devel
-Requires: smartmet-library-newbase >= 18.5.2
+Requires: smartmet-library-newbase >= 19.9.26
 Requires: boost-iostreams
 Requires: boost-filesystem
 Requires: boost-system
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Fri Sep 27 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.9.27-1.fmi
+- Repackaged due to ABI changes in newbase
+
 * Wed Aug 14 2019 Teemu Sirviö <teemu.sirvio@fmi.fi> - 19.8.14-1.fmi
 - Allow adding text content from timestamped files
 
