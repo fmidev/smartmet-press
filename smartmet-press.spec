@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 19.9.27
+Version: 19.9.30
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Sep 30 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.9.30-1.fmi
+- Repackaged from master instead of WGS84
+
 * Fri Sep 27 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.9.27-1.fmi
 - Repackaged due to ABI changes in newbase
 
