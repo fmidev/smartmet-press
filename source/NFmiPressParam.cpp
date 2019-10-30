@@ -1445,7 +1445,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         }
         else
         {
-          statNum = itsLoopNum;   // toimii satunnaislukuna,näin saadaan bagiin useita samannimisiä
+          statNum = itsLoopNum;  // toimii satunnaislukuna,näin saadaan bagiin useita samannimisiä
           string1 = valueString;  // Object;
         }
         string2 = ReadString();
@@ -2453,8 +2453,12 @@ bool NFmiPressParam::CreateAreaMask(void)
     //	  itsAreaMask = 0;
     //	  *itsLogFile << "  AREAMASK ON WINDOWS = 0, search Boost " << endl;
     //#else
-    itsAreaMask =
-        new NFmiInfoAreaMask(maskOperation, maskType, dataType, itsMaskIter, postBinaryOperator);
+    itsAreaMask = new NFmiInfoAreaMask(maskOperation,
+                                       maskType,
+                                       dataType,
+                                       itsMaskIter,
+                                       itsMaskIter->Param().GetParamIdent(),
+                                       postBinaryOperator);
     *itsLogFile << "  areamask created: " << maskNr << endl;
     //#endif
   }
