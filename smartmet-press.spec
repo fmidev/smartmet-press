@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 19.10.31
+Version: 19.11.20
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -12,9 +12,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 19.10.31
+BuildRequires: smartmet-library-newbase-devel >= 19.11.20
 BuildRequires: boost-devel
-Requires: smartmet-library-newbase >= 19.10.31
+Requires: smartmet-library-newbase >= 19.11.20
 Requires: boost-iostreams
 Requires: boost-filesystem
 Requires: boost-system
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed Nov 20 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.11.20-1.fmi
+- Repackaged due to newbase API changes
+
 * Thu Oct 31 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.10.31-1.fmi
 - Rebuild due to newbase API/ABI changes
 
