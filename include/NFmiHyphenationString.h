@@ -35,7 +35,7 @@ struct FmiPressHyphens
 */
 
 //! Undocumented
-class _FMI_DLL NFmiHyphenationString : public NFmiString
+class NFmiHyphenationString : public NFmiString
 {
  public:
   ~NFmiHyphenationString(void);

@@ -28,7 +28,7 @@ enum NFmiTimeParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiTimeParamRect : public NFmiTextParamRect
+class NFmiTimeParamRect : public NFmiTextParamRect
 {
  public:
   virtual ~NFmiTimeParamRect(void);

@@ -31,7 +31,7 @@ struct NFmiMappingInterval
 };
 
 //! Undocumented
-class _FMI_DLL NFmiParamMapping : public NFmiSize
+class NFmiParamMapping : public NFmiSize
 {
  public:
   virtual ~NFmiParamMapping(void);

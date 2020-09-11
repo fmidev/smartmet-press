@@ -65,7 +65,7 @@ enum NFmiPressTextObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressText : public NFmiPressScaling
+class NFmiPressText : public NFmiPressScaling
 {
  public:
   virtual ~NFmiPressText(void);

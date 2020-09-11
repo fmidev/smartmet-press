@@ -29,7 +29,7 @@ enum NFmiRotatingParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiRotatingParamRect : public NFmi2SymbolParamRect
+class NFmiRotatingParamRect : public NFmi2SymbolParamRect
 {
  public:
   virtual ~NFmiRotatingParamRect(void);

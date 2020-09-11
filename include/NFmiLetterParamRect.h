@@ -29,7 +29,7 @@ enum NFmiLetterParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiLetterParamRect : public NFmiTextParamRect
+class NFmiLetterParamRect : public NFmiTextParamRect
 {
  public:
   virtual ~NFmiLetterParamRect(void);

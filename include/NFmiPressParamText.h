@@ -21,7 +21,7 @@
 #include "NFmiPressText.h"
 
 //! Undocumented
-class _FMI_DLL NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
+class NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
 {
  public:
   virtual ~NFmiPressParamText(void);

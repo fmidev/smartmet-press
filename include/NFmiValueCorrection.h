@@ -49,7 +49,7 @@ struct FmiTempCorrections
   float nightCorr;
 };
 //! Undocumented
-class _FMI_DLL NFmiValueCorrection
+class NFmiValueCorrection
 {
  public:
   NFmiValueCorrection(void);

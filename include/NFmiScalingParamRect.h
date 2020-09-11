@@ -34,7 +34,7 @@ enum NFmiScalingParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiScalingParamRect : public NFmi2SymbolParamRect
+class NFmiScalingParamRect : public NFmi2SymbolParamRect
 {
  public:
   virtual ~NFmiScalingParamRect(void);

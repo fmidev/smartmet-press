@@ -28,7 +28,7 @@ enum NFmiPressDataTimeTextObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObject
+class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObject
 {
  public:
   virtual ~NFmiPressDataTimeText(void);

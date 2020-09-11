@@ -49,7 +49,7 @@ enum NFmiDescriptionObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiDescription
+class NFmiDescription
 {
  public:
   virtual ~NFmiDescription(void);

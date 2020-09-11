@@ -52,7 +52,7 @@ enum NFmiPressManagerObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressManager : public NFmiPressTimeDescription
+class NFmiPressManager : public NFmiPressTimeDescription
 {
  public:
   virtual ~NFmiPressManager(void);

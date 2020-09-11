@@ -33,7 +33,7 @@ enum FmiPressOutputMode
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPsWriting
+class NFmiPsWriting
 {
  public:
   ~NFmiPsWriting(void);

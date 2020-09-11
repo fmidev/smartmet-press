@@ -30,7 +30,7 @@ class NFmiPressParam;
 class NFmiPsSymbol;
 
 //! Undocumented
-class _FMI_DLL NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
+class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
 {
  public:
   ~NFmiSymbolGroup(void);

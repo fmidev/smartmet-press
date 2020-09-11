@@ -50,7 +50,7 @@ const unsigned long kHdMM = kShortHour + kDot + kMinute;
 const unsigned long kH = kShortHour;
 
 //! Undocumented
-class _FMI_DLL NFmiPressTime : public NFmiTime
+class NFmiPressTime : public NFmiTime
 {
  public:
   NFmiPressTime(void);

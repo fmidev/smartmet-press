@@ -21,7 +21,7 @@
 class NFmiFastQueryInfo;
 
 //! Undocumented
-class _FMI_DLL NFmiPressDataObject
+class NFmiPressDataObject
 {
  public:
   virtual ~NFmiPressDataObject(void);

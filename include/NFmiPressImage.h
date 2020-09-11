@@ -45,7 +45,7 @@ enum NFmiPressImageObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressImage : public NFmiPressScaling
+class NFmiPressImage : public NFmiPressScaling
 {
  public:
   virtual ~NFmiPressImage(void);

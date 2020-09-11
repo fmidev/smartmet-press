@@ -26,7 +26,7 @@ enum NFmi2SymbolParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmi2SymbolParamRect : public NFmiSymbolParamRect
+class NFmi2SymbolParamRect : public NFmiSymbolParamRect
 {
  public:
   virtual ~NFmi2SymbolParamRect();

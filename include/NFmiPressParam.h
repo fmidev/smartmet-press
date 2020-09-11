@@ -110,7 +110,7 @@ struct FmiMaxMinPoint
 const unsigned short kMaxNumOfTableElements = 25;
 
 //! Undocumented
-class _FMI_DLL NFmiPressParam : public NFmiPressTimeDescription
+class NFmiPressParam : public NFmiPressTimeDescription
 {
  public:
   virtual ~NFmiPressParam(void);

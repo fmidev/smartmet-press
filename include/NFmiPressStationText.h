@@ -32,7 +32,7 @@ struct NFmiRenaming
 class NFmiPressParam;
 
 //! Undocumented
-class _FMI_DLL NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
+class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
 {
  public:
   virtual ~NFmiPressStationText(void);

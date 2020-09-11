@@ -42,7 +42,7 @@ enum NFmiAreaObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressArea : public NFmiPressDescription
+class NFmiPressArea : public NFmiPressDescription
 {
  public:
   ~NFmiPressArea(void);

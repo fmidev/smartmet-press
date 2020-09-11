@@ -50,7 +50,7 @@ enum NFmiPressScalingObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
+class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
 {
  public:
   virtual ~NFmiPressScaling(void);

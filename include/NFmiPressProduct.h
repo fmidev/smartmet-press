@@ -122,7 +122,7 @@ struct FmiSubstituteMappingValue
 */
 
 //! Undocumented
-class _FMI_DLL NFmiPressProduct : public NFmiPressTimeDescription
+class NFmiPressProduct : public NFmiPressTimeDescription
 {
  public:
   virtual ~NFmiPressProduct(void);

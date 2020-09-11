@@ -19,7 +19,7 @@
 #include "NFmiGlobals.h"
 
 //! Undocumented
-class _FMI_DLL NFmiScale
+class NFmiScale
 {
  public:
   virtual ~NFmiScale(void);

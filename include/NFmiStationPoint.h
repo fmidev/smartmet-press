@@ -47,7 +47,7 @@ enum NFmiStationPointObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiStationPoint : public NFmiStation, public NFmiDescription
+class NFmiStationPoint : public NFmiStation, public NFmiDescription
 {
  public:
   virtual ~NFmiStationPoint(void);

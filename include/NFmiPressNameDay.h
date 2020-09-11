@@ -29,7 +29,7 @@ enum NFmiPressNameDayObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressNameDay : public NFmiPressText
+class NFmiPressNameDay : public NFmiPressText
 {
  public:
   virtual ~NFmiPressNameDay(void);

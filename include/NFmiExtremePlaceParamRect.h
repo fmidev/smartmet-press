@@ -23,7 +23,7 @@
 class NFmiText;
 
 //! Undocumented
-class _FMI_DLL NFmiExtremePlaceParamRect : public NFmiTextParamRect
+class NFmiExtremePlaceParamRect : public NFmiTextParamRect
 {
  public:
   virtual ~NFmiExtremePlaceParamRect();

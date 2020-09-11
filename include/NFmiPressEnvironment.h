@@ -35,7 +35,7 @@ struct FmiPressTextAttributes
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressEnvironment
+class NFmiPressEnvironment
 {
  public:
   ~NFmiPressEnvironment(void);

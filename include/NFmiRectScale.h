@@ -19,7 +19,7 @@
 #include "NFmiScale.h"
 
 //! Undocumented
-class _FMI_DLL NFmiRectScale
+class NFmiRectScale
 {
  public:
   virtual ~NFmiRectScale(void);

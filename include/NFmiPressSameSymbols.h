@@ -38,7 +38,7 @@ enum NFmiPressSameSymbolsObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressSameSymbols : public NFmiPressDescription
+class NFmiPressSameSymbols : public NFmiPressDescription
 {
  public:
   virtual ~NFmiPressSameSymbols(void);

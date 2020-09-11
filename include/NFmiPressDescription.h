@@ -62,7 +62,7 @@ enum NFmiPressDescriptionObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressDescription : public NFmiDescription
+class NFmiPressDescription : public NFmiDescription
 {
  public:
   virtual ~NFmiPressDescription(void);

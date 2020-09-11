@@ -20,7 +20,7 @@
 #include "NFmiPressTimeText.h"
 
 //! Undocumented
-class _FMI_DLL NFmiPressGivenTimeText : public NFmiPressTimeText
+class NFmiPressGivenTimeText : public NFmiPressTimeText
 {
  public:
   virtual ~NFmiPressGivenTimeText(void);

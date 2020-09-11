@@ -28,7 +28,7 @@ enum NFmiNumberParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiNumberParamRect : public NFmiTextParamRect
+class NFmiNumberParamRect : public NFmiTextParamRect
 {
  public:
   virtual ~NFmiNumberParamRect(void);

@@ -30,7 +30,7 @@ enum NFmiPsSymbolObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPsSymbol : public NFmiPressScaling
+class NFmiPsSymbol : public NFmiPressScaling
 {
  public:
   virtual ~NFmiPsSymbol(void);

@@ -39,7 +39,7 @@ struct NFmiNamedCmykColor
 // associated symbol.
 
 //! Undocumented
-class _FMI_DLL NFmiCmykColorBag : public NFmiSize
+class NFmiCmykColorBag : public NFmiSize
 {
  public:
   virtual ~NFmiCmykColorBag(void);

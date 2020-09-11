@@ -55,7 +55,7 @@ struct FmiPressColorMapping
 //! Undocumented
 const unsigned long maxNumOfColMaps = 20;
 
-class _FMI_DLL NFmiTextParamRect : public NFmiParamRect
+class NFmiTextParamRect : public NFmiParamRect
 {
  public:
   virtual ~NFmiTextParamRect(void);

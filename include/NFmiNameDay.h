@@ -42,7 +42,7 @@
 #include "NFmiString.h"
 
 //! Undocumented
-class _FMI_DLL NFmiNameDay
+class NFmiNameDay
 {
  public:
   virtual ~NFmiNameDay(void);

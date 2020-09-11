@@ -20,7 +20,7 @@
 #include "NFmiQueryData.h"
 
 //! Undocumented
-class _FMI_DLL NFmiNamedQueryData
+class NFmiNamedQueryData
 {
  public:
   ~NFmiNamedQueryData(void);

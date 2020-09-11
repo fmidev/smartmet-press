@@ -35,8 +35,8 @@
 // system
 #include <vector>
 
-class _FMI_DLL NFmiPressParam;
-class _FMI_DLL NFmiPressProduct;
+class NFmiPressParam;
+class NFmiPressProduct;
 
 //! Undocumented
 enum NFmiParamRectObjects

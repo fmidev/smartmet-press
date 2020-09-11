@@ -26,7 +26,7 @@ enum NFmiSunTimeParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiSunTimeParamRect : public NFmiTimeParamRect
+class NFmiSunTimeParamRect : public NFmiTimeParamRect
 {
  public:
   virtual ~NFmiSunTimeParamRect(void);

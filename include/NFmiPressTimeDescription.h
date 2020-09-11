@@ -76,7 +76,7 @@ struct FmiPressSeasons
 };
 
 //! Undocumented
-class _FMI_DLL NFmiPressTimeDescription : public NFmiPressDescription
+class NFmiPressTimeDescription : public NFmiPressDescription
 {
  public:
   virtual ~NFmiPressTimeDescription(void);

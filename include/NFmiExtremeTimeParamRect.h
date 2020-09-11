@@ -22,7 +22,7 @@
 #include "NFmiTimeParamRect.h"
 
 //! Undocumented
-class _FMI_DLL NFmiExtremeTimeParamRect : public NFmiTimeParamRect
+class NFmiExtremeTimeParamRect : public NFmiTimeParamRect
 {
  public:
   virtual ~NFmiExtremeTimeParamRect();

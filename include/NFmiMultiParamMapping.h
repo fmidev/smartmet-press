@@ -40,7 +40,7 @@ struct FmiMultiMapping
 };
 
 //! Undocumented
-class _FMI_DLL NFmiMultiParamMapping : public NFmiSize
+class NFmiMultiParamMapping : public NFmiSize
 {
  public:
   virtual ~NFmiMultiParamMapping(void);

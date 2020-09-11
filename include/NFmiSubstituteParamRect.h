@@ -26,7 +26,7 @@ enum NFmiSubstituteParamRectObjects
 };
 
 //! Undocumented
-class _FMI_DLL NFmiSubstituteParamRect : public NFmiTextParamRect
+class NFmiSubstituteParamRect : public NFmiTextParamRect
 {
  public:
   virtual ~NFmiSubstituteParamRect(void);
