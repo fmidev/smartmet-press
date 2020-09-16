@@ -1,7 +1,7 @@
 MODULE = press
 SPEC = smartmet-press
 
-MAINFLAGS = -MMD -Wall -W -Wno-unused-parameter
+MAINFLAGS = -MD -Wall -W -Wno-unused-parameter
 
 ifeq (6, $(RHEL_VERSION))
   MAINFLAGS += -std=c++0x
@@ -24,21 +24,19 @@ EXTRAFLAGS = \
 DIFFICULTFLAGS = \
 	-Wunreachable-code \
 	-Wconversion \
+	-Wnon-virtual-dtor \
 	-Wctor-dtor-privacy \
 	-Wredundant-decls \
-	-Wnon-virtual-dtor \
 	-Weffc++ \
 	-Wold-style-cast \
 	-pedantic \
 	-Wshadow
 
-CC = g++
-
 # Default compiler flags
 
 DEFINES = -DUNIX
 
-CFLAGS = $(DEFINES) -O2 -g -DNDEBUG $(MAINFLAGS)
+CFLAGS = $(DEFINES) -O2 -DNDEBUG $(MAINFLAGS)
 LDFLAGS = 
 
 # Special modes
@@ -52,26 +50,19 @@ LDFLAGS_PROFILE =
 # Boost 1.69
 
 ifneq "$(wildcard /usr/include/boost169)" ""
-  INCLUDES += -I/usr/include/boost169
+  INCLUDES += -isystem /usr/include/boost169
   LIBS += -L/usr/lib64/boost169
 endif
 
-ifneq "$(wildcard /usr/gdal30/include)" ""
-  INCLUDES += -I/usr/gdal30/include
-  LIBS += -L$(PREFIX)/gdal30/lib
-else
-  INCLUDES += -I/usr/include/gdal
-endif
 
-INCLUDES += -I$(includedir) \
+INCLUDES += \
 	-I$(includedir)/smartmet \
-	-I$(includedir)/smartmet/newbase 
-
+	-I$(includedir)/smartmet/newbase
 
 LIBS += -L$(libdir) \
 	-lsmartmet-newbase \
-	-lboost_iostreams \
 	-lboost_filesystem \
+	-lboost_iostreams \
 	-lboost_system
 
 # Common library compiling template
@@ -154,8 +145,8 @@ release: objdir $(MAINPROGS)
 profile: objdir $(MAINPROGS)
 
 .SECONDEXPANSION:
-$(MAINPROGS): % : obj/%.o $(OBJFILES)
-	$(CC) $(LDFLAGS) -o $@ obj/$@.o $(OBJFILES) $(LIBS)
+$(MAINPROGS): % : $(OBJFILES) $(MAINOBJFILES)
+	$(CXX) $(LDFLAGS) -o $@ obj/$@.o $(OBJFILES) $(LIBS)
 
 clean:
 	rm -f $(MAINPROGS) source/*~ include/*~
@@ -187,6 +178,6 @@ rpm: clean $(SPEC).spec
 .SUFFIXES: $(SUFFIXES) .cpp
 
 obj/%.o : %.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+	$(CXX) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 -include obj/*.d
