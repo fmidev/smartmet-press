@@ -1340,7 +1340,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   {
     boost::filesystem::create_directory(static_cast<string>(fmiString));
   }
-  catch (exception e)
+  catch (exception& e)
   {
     cout << "Creating the log directory failed." << endl;
   }
@@ -1405,7 +1405,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   {
     boost::filesystem::create_directory(static_cast<string>(tempInput));
   }
-  catch (exception e)
+  catch (exception& e)
   {
     cout << "Creating the tmp directory " << tempInput << " failed." << endl;
   }
@@ -3652,7 +3652,7 @@ bool NFmiPressProduct::ConstructOutFileName(void)
   {
     boost::filesystem::create_directory(static_cast<string>(itsOutFile));
   }
-  catch (exception e)
+  catch (exception& e)
   {
     cout << "Creating the output directory failed." << endl;
   }

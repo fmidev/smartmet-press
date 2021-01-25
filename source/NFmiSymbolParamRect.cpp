@@ -104,7 +104,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   {
     boost::filesystem::create_directory(static_cast<string>(inDir));
   }
-  catch (exception e)
+  catch (exception& e)
   {
     cout << "Creating the symbol cache directory failed." << endl;
   }
