@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 21.1.14
+Version: 21.1.21
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Jan 25 2021 Andris Pavenis <andris.pavenis2fmi.fi> - 21.1.25-1.fmi
+- Build update: use makefile.inc
+
 * Thu Jan 14 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.1.14-1.fmi
 - Repackaged smartmet to resolve debuginfo issues
 
