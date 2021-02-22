@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 21.1.21
+Version: 21.2.22
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -12,9 +12,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 21.1.14
+BuildRequires: smartmet-library-newbase-devel >= 21.2.20
 BuildRequires: boost169-devel
-Requires: smartmet-library-newbase >= 21.1.14
+Requires: smartmet-library-newbase >= 21.2.20
 Requires: boost169-iostreams
 Requires: boost169-filesystem
 Requires: boost169-system
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Mon Feb 22 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.2.22-1.fmi
+- Repackaged due to newbase ABI changes
+
 * Mon Jan 25 2021 Andris Pavenis <andris.pavenis2fmi.fi> - 21.1.25-1.fmi
 - Build update: use makefile.inc
 
