@@ -13,6 +13,7 @@ INCLUDES += \
 
 LIBS += -L$(libdir) \
 	-lsmartmet-newbase \
+	-lsmartmet-macgyver \
 	-lboost_filesystem \
 	-lboost_iostreams \
 	-lboost_system \
@@ -55,7 +56,7 @@ profile: objdir $(MAINPROGS)
 
 .SECONDEXPANSION:
 $(MAINPROGS): % : $(OBJFILES) $(MAINOBJFILES)
-	$(CC) $(LDFLAGS) -o $@ obj/$@.o $(OBJFILES) $(LIBS)
+	$(CXX) $(LDFLAGS) -o $@ obj/$@.o $(OBJFILES) $(LIBS)
 
 clean:
 	rm -f $(MAINPROGS) source/*~ include/*~
