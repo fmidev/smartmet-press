@@ -61,9 +61,11 @@ bool NFmiPressComputerTimeText::ReadRemaining(void)
   {
     case dTimeTextDays:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
-      if (ReadOne(long1)) itsDeltaDays = static_cast<short>(long1);
+      if (ReadOne(long1))
+        itsDeltaDays = static_cast<short>(long1);
 
       ReadNext();
       break;

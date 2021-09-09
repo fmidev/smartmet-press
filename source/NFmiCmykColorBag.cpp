@@ -17,7 +17,8 @@
 
 NFmiCmykColorBag::~NFmiCmykColorBag()
 {
-  if (itsColors) delete[] static_cast<NFmiNamedCmykColor *>(itsColors);
+  if (itsColors)
+    delete[] static_cast<NFmiNamedCmykColor *>(itsColors);
 }
 
 // ----------------------------------------------------------------------
@@ -69,7 +70,8 @@ void NFmiCmykColorBag::AddColor(const NFmiNamedCmykColor &theColor)
   tempColors[j].color = theColor.color;
   tempColors[j].name = theColor.name;
 
-  if (itsColors) delete[] static_cast<NFmiNamedCmykColor *>(itsColors);
+  if (itsColors)
+    delete[] static_cast<NFmiNamedCmykColor *>(itsColors);
 
   itsColors = new NFmiNamedCmykColor[GetSize() + 1];
   itsSize = GetSize() + 1;
@@ -99,7 +101,8 @@ NFmiCmykColor *NFmiCmykColorBag::GetColor(const NFmiString &theName) const
   int j;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
-    if (theName == itsColors[j].name) break;
+    if (theName == itsColors[j].name)
+      break;
   }
   if (j == static_cast<int>(itsSize))
     return 0;
@@ -125,7 +128,8 @@ NFmiString NFmiCmykColorBag::GetColorString(const NFmiString &theName) const
   int j;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
-    if (theName == itsColors[j].name) break;
+    if (theName == itsColors[j].name)
+      break;
   }
 
   NFmiString format = NFmiString("%.2f");  // HUOM hardkoodattu

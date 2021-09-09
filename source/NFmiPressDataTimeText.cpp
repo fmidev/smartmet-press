@@ -120,7 +120,8 @@ bool NFmiPressDataTimeText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
       SetText((static_cast<NFmiPressTime>(localTime)).ToStr(itsFormat, itsLanguage));
   }
 
-  if (itsSubText) itsSubText->SetTime(NFmiMetTime(utcTime));
+  if (itsSubText)
+    itsSubText->SetTime(NFmiMetTime(utcTime));
 
   return WriteString(NFmiString("AIKATEKSTI"), theOutput);
 }

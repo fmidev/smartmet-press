@@ -79,7 +79,10 @@ inline NFmiPressStationText::NFmiPressStationText(void)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressStationText::SetStationNumberMode(void) { fStationNumberMode = true; }
+inline void NFmiPressStationText::SetStationNumberMode(void)
+{
+  fStationNumberMode = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -88,7 +91,10 @@ inline void NFmiPressStationText::SetStationNumberMode(void) { fStationNumberMod
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressStationText::SetNewNames(NFmiVoidPtrList* theNames) { itsNewNames = theNames; }
+inline void NFmiPressStationText::SetNewNames(NFmiVoidPtrList* theNames)
+{
+  itsNewNames = theNames;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -110,7 +116,10 @@ inline void NFmiPressStationText::SetPressParam(NFmiPressParam* pressParam)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiPressStationText::ClassId(void) { return kNFmiPressStationText; }
+inline unsigned long NFmiPressStationText::ClassId(void)
+{
+  return kNFmiPressStationText;
+}
 #endif  // NFMIPRESSSTATIONTEXT_H
 
 // ======================================================================

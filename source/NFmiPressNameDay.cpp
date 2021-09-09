@@ -37,7 +37,8 @@ bool NFmiPressNameDay::ReadRemaining(void)
   {
     case dMaxLength:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (ReadOne(counter))
       {
@@ -49,7 +50,8 @@ bool NFmiPressNameDay::ReadRemaining(void)
     }
     case dMaxNumber:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (ReadOne(counter))
       {
@@ -61,7 +63,8 @@ bool NFmiPressNameDay::ReadRemaining(void)
     }
     case dRelDay:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (ReadOne(long1))
       {
@@ -159,9 +162,11 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
     SetText(str);
     *itsLogFile << "  Nameday: " << static_cast<char *>(str) << endl;
 
-    if (itsLanguage != kFinnish && str == "Karkauspäivä") SetText("Leap day");
+    if (itsLanguage != kFinnish && str == "Karkauspäivä")
+      SetText("Leap day");
 
-    if (itsLanguage == kSwedish && str == "Karkauspäivä") SetText("Skottdag");
+    if (itsLanguage == kSwedish && str == "Karkauspäivä")
+      SetText("Skottdag");
 
     return WriteString(NFmiString("NameDay"), theOutput);
   }

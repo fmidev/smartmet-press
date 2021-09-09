@@ -47,7 +47,10 @@ NFmiRotatingParamRect::NFmiRotatingParamRect(const NFmiRotatingParamRect &theSym
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiRotatingParamRect::Clone(void) const { return new NFmiRotatingParamRect(*this); }
+NFmiParamRect *NFmiRotatingParamRect::Clone(void) const
+{
+  return new NFmiRotatingParamRect(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -70,7 +73,8 @@ bool NFmiRotatingParamRect::ReadRemaining(void)
     }
     case dNotRotInterval:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (Read2Double(double1, double2))
       {
@@ -131,9 +135,11 @@ int NFmiRotatingParamRect::ConvertDefText(NFmiString &object)
 
 void NFmiRotatingParamRect::DoPostReading(void)
 {
-  if (fNewScaling) itsRelRect += NFmiPoint(-itsSizeFactor.X() / 2, -itsSizeFactor.Y() / 2);
+  if (fNewScaling)
+    itsRelRect += NFmiPoint(-itsSizeFactor.X() / 2, -itsSizeFactor.Y() / 2);
 
-  if (!itsSecondDataIdent.IsDataParam()) itsSecondDataIdent.SetParam(*GetDataIdent().GetParam());
+  if (!itsSecondDataIdent.IsDataParam())
+    itsSecondDataIdent.SetParam(*GetDataIdent().GetParam());
 
   itsSecondDataIdent.SetProducer(*GetDataIdent().GetProducer());
 }
@@ -164,7 +170,8 @@ bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString *symbolFile,
   {
     float direction = itsSecondParamValue;
     float adjustedDirection = AdjustToMap(direction);
-    if (!Rotate()) adjustedDirection = 270.;
+    if (!Rotate())
+      adjustedDirection = 270.;
     NFmiWritePSConcatRotating(itsDefToProductScale, adjustedDirection, theDestinationFile);
     NFmiCopyFile(inFile, theDestinationFile);
     NFmiWritePSEnd(theDestinationFile);

@@ -81,7 +81,10 @@ NFmiHyphenationString::NFmiHyphenationString(const NFmiHyphenationString& theTex
  */
 // ----------------------------------------------------------------------
 
-void NFmiHyphenationString::SetNarrowColumn(bool theStatus) { fNarrowColumn = theStatus; }
+void NFmiHyphenationString::SetNarrowColumn(bool theStatus)
+{
+  fNarrowColumn = theStatus;
+}
 // ----------------------------------------------------------------------
 /*!
  *
@@ -180,7 +183,8 @@ bool NFmiHyphenationString::InitIrregularHyphens(void)
 // NFmiString NFmiHyphenationString::CreateIrregularHyphens(const char * theHyphenationMark)
 void NFmiHyphenationString::CreateIrregularHyphens(const char* theHyphenationMark)
 {
-  if (!fIrregularHyphensInited) InitIrregularHyphens();
+  if (!fIrregularHyphensInited)
+    InitIrregularHyphens();
 
   std::string stdString(*this);
   unsigned long posChar = 0;
@@ -407,7 +411,8 @@ NFmiString NFmiHyphenationString::ReplaceChar(const NFmiString& theChar,
     newString += GetChars(itsLastCharPosition, itsCurrentCharPos - itsLastCharPosition);
 
     // ei jaeta esim -5 mutta kyllä itä-uusimaa
-    if (NextIsNumeric()) newString += NFmiString("\\136");
+    if (NextIsNumeric())
+      newString += NFmiString("\\136");
 
     newString += NFmiString(withString);
 
@@ -485,7 +490,8 @@ bool NFmiHyphenationString::NextChar(const NFmiString& theChar)
 {
   while (NextPosition())
   {
-    if (GetChars(itsCurrentCharPos, 1) == theChar) return true;
+    if (GetChars(itsCurrentCharPos, 1) == theChar)
+      return true;
   }
   return false;
 }
@@ -521,7 +527,8 @@ bool NFmiHyphenationString::NextConsonant(void)
 {
   while (NextPosition())
   {
-    if (IsConsonant(GetChars(itsCurrentCharPos, 1))) return true;
+    if (IsConsonant(GetChars(itsCurrentCharPos, 1)))
+      return true;
   }
   return false;
 }
@@ -598,7 +605,8 @@ bool NFmiHyphenationString::IsConsonant(const NFmiString& theChar) const
   NFmiString consonants("bcdfghjklmnpqrstvwxzklžšBCDFGHJKLMNPQRSTVWXZ");
   for (int i = 1; i <= static_cast<int>(consonants.GetLen()); i++)
   {
-    if (!strcmp(consonants.GetCharsPtr(i, 1), theChar)) return true;
+    if (!strcmp(consonants.GetCharsPtr(i, 1), theChar))
+      return true;
   }
   return false;
 }
@@ -618,7 +626,8 @@ bool NFmiHyphenationString::IsNumeric(const NFmiString& theChar) const
   NFmiString numerics("0123456789");
   for (int i = 1; i <= static_cast<int>(numerics.GetLen()); i++)
   {
-    if (!strcmp(numerics.GetCharsPtr(i, 1), theChar)) return true;
+    if (!strcmp(numerics.GetCharsPtr(i, 1), theChar))
+      return true;
   }
   return false;
 }
@@ -638,7 +647,8 @@ bool NFmiHyphenationString::IsVowel(const NFmiString& theChar) const
   NFmiString vowels("aeiouyäöåAEIOUYÄÖÅ");
   for (int i = 1; i <= static_cast<int>(vowels.GetLen()); i++)
   {
-    if (!strcmp(vowels.GetCharsPtr(i, 1), theChar)) return true;
+    if (!strcmp(vowels.GetCharsPtr(i, 1), theChar))
+      return true;
   }
   return false;
 }
@@ -651,7 +661,10 @@ bool NFmiHyphenationString::IsVowel(const NFmiString& theChar) const
  */
 // ----------------------------------------------------------------------
 
-unsigned long NFmiHyphenationString::CurrentCharPosition(void) const { return itsCurrentCharPos; }
+unsigned long NFmiHyphenationString::CurrentCharPosition(void) const
+{
+  return itsCurrentCharPos;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -660,7 +673,10 @@ unsigned long NFmiHyphenationString::CurrentCharPosition(void) const { return it
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::IsLastCharPosition(void) const { return itsCurrentCharPos >= GetLen(); }
+bool NFmiHyphenationString::IsLastCharPosition(void) const
+{
+  return itsCurrentCharPos >= GetLen();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -683,7 +699,8 @@ bool NFmiHyphenationString::NextSubString(const NFmiString& toDelimiter, NFmiStr
   unsigned long first = itsCurrentCharPos;
   while (NextPosition())
   {
-    if (GetChars(itsCurrentCharPos, 1) == toDelimiter) break;
+    if (GetChars(itsCurrentCharPos, 1) == toDelimiter)
+      break;
   }
   resString = NFmiString(GetCharsPtr(first, itsCurrentCharPos - first));
   NextPosition();  // erotin pois
@@ -723,7 +740,8 @@ bool NFmiHyphenationString::NextSubString(NFmiString& resString)
   unsigned long first = itsCurrentCharPos;
   while (NextPosition())
   {
-    if (GetChars(itsCurrentCharPos, 1) == NFmiString(" ")) break;
+    if (GetChars(itsCurrentCharPos, 1) == NFmiString(" "))
+      break;
   }
   resString = NFmiString(GetCharsPtr(first, itsCurrentCharPos - first));
   //  NextPosition(); //erotin pois

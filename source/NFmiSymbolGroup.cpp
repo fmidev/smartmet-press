@@ -60,9 +60,12 @@ enum NFmiSymbolGroupObjects
 
 NFmiSymbolGroup::~NFmiSymbolGroup(void)
 {
-  if (itsParamRects) delete[] static_cast<NFmiParamRect **>(itsParamRects);
-  if (itsRectScale) delete static_cast<NFmiRectScale *>(itsRectScale);
-  if (itsPsSymbol) delete itsPsSymbol;
+  if (itsParamRects)
+    delete[] static_cast<NFmiParamRect **>(itsParamRects);
+  if (itsRectScale)
+    delete static_cast<NFmiRectScale *>(itsRectScale);
+  if (itsPsSymbol)
+    delete itsPsSymbol;
   itsPressScalingObjects.Clear(isTrue);
 }
 
@@ -107,7 +110,8 @@ bool NFmiSymbolGroup::Set(NFmiRectScale &theRectScale,
                           NFmiFastQueryInfo *theQueryDataIter,
                           ofstream &theDestinationFile)
 {
-  if (itsRectScale) delete static_cast<NFmiRectScale *>(itsRectScale);
+  if (itsRectScale)
+    delete static_cast<NFmiRectScale *>(itsRectScale);
   itsRectScale = new NFmiRectScale(theRectScale);
   itsQueryDataIter = theQueryDataIter;
   itsOutFile = &theDestinationFile;
@@ -175,7 +179,8 @@ bool NFmiSymbolGroup::Add(const NFmiParamRect &theParamRect)
     tempRects[j] = itsParamRects[j];
   tempRects[j] = theParamRect.Clone();
 
-  if (itsParamRects) delete[] static_cast<NFmiParamRect **>(itsParamRects);
+  if (itsParamRects)
+    delete[] static_cast<NFmiParamRect **>(itsParamRects);
 
   itsParamRects = new NFmiParamRect *[itsSize + 1];
   itsSize = itsSize + 1;
@@ -242,12 +247,14 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
   {
     if (itsLoopNum > itsMaxLoopNum)
     {
-      if (itsLogFile) *itsLogFile << "*** ERROR: max file length exceeded in #Parameters" << endl;
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: max file length exceeded in #Parameters" << endl;
       retString = itsString;
       return isFalse;
     }
     itsLoopNum++;
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
 
     isWindSpeed = isWindDirection = false;
 
@@ -273,7 +280,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
       }
       case dGroupSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadDouble(x))
         {
@@ -314,7 +322,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempSPar.SetTime(itsFirstPlotTime);
         tempSPar.SetHourLoop(IsHourLoop());
         tempSPar.SetNewScaling(!sizeGiven);
-        if (tempSPar.ReadDescription(itsString)) Add(tempSPar);
+        if (tempSPar.ReadDescription(itsString))
+          Add(tempSPar);
 
         itsIntObject = ConvertDefText(itsString);
         break;
@@ -331,7 +340,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempCSPar.SetTime(itsFirstPlotTime);
         tempCSPar.SetHourLoop(IsHourLoop());
         tempCSPar.SetNewScaling(!sizeGiven);
-        if (tempCSPar.ReadDescription(itsString)) Add(tempCSPar);
+        if (tempCSPar.ReadDescription(itsString))
+          Add(tempCSPar);
 
         itsIntObject = ConvertDefText(itsString);
         break;
@@ -344,7 +354,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         psObject->SetLogFile(itsLogFile);
         psObject->SetDescriptionFile(itsDescriptionFile);
         psObject->SetSize(itsRectSize);
-        if (psObject->ReadDescription(itsString)) itsPressScalingObjects.Add(psObject);
+        if (psObject->ReadDescription(itsString))
+          itsPressScalingObjects.Add(psObject);
 
         itsIntObject = ConvertDefText(itsString);
         break;
@@ -370,7 +381,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempNPar.SetTime(itsFirstPlotTime);
         tempNPar.SetHourLoop(IsHourLoop());
         tempNPar.SetNewScaling(!sizeGiven);
-        if (tempNPar.ReadDescription(itsString)) Add(tempNPar);
+        if (tempNPar.ReadDescription(itsString))
+          Add(tempNPar);
         itsIntObject = ConvertDefText(itsString);
         break;
       }
@@ -386,7 +398,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempTPar.SetDescriptionFile(itsDescriptionFile);
         tempTPar.SetHourLoop(IsHourLoop());
         tempTPar.SetNewScaling(!sizeGiven);
-        if (tempTPar.ReadDescription(itsString)) Add(tempTPar);
+        if (tempTPar.ReadDescription(itsString))
+          Add(tempTPar);
         itsIntObject = ConvertDefText(itsString);
         break;
       }
@@ -402,7 +415,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempETPar.SetTime(itsFirstPlotTime);
         tempETPar.SetHourLoop(IsHourLoop());
         tempETPar.SetNewScaling(!sizeGiven);
-        if (tempETPar.ReadDescription(itsString)) Add(tempETPar);
+        if (tempETPar.ReadDescription(itsString))
+          Add(tempETPar);
         itsIntObject = ConvertDefText(itsString);
         break;
       }
@@ -418,7 +432,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempSTPar.SetTime(itsFirstPlotTime);
         tempSTPar.SetHourLoop(IsHourLoop());
         tempSTPar.SetNewScaling(!sizeGiven);
-        if (tempSTPar.ReadDescription(itsString)) Add(tempSTPar);
+        if (tempSTPar.ReadDescription(itsString))
+          Add(tempSTPar);
         itsIntObject = ConvertDefText(itsString);
         break;
       }
@@ -433,7 +448,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempLPar.SetTime(itsFirstPlotTime);
         tempLPar.SetHourLoop(IsHourLoop());
         tempLPar.SetNewScaling(!sizeGiven);
-        if (tempLPar.ReadDescription(itsString)) Add(tempLPar);
+        if (tempLPar.ReadDescription(itsString))
+          Add(tempLPar);
 
         itsIntObject = ConvertDefText(itsString);
         break;
@@ -470,7 +486,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempSPar.SetTime(itsFirstPlotTime);
         tempSPar.SetHourLoop(IsHourLoop());
         // tempSPar.SetNewScaling(!sizeGiven);
-        if (tempSPar.ReadDescription(itsString)) Add(tempSPar);
+        if (tempSPar.ReadDescription(itsString))
+          Add(tempSPar);
 
         itsIntObject = ConvertDefText(itsString);
         break;
@@ -495,7 +512,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempRPar.SetTime(itsFirstPlotTime);
         tempRPar.SetHourLoop(IsHourLoop());
         tempRPar.SetNewScaling(!sizeGiven);
-        if (tempRPar.ReadDescription(itsString)) Add(tempRPar);
+        if (tempRPar.ReadDescription(itsString))
+          Add(tempRPar);
 
         itsIntObject = ConvertDefText(itsString);
         break;
@@ -511,7 +529,8 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
         tempScPar.SetTime(itsFirstPlotTime);
         tempScPar.SetHourLoop(IsHourLoop());
         tempScPar.SetNewScaling(!sizeGiven);
-        if (tempScPar.ReadDescription(itsString)) Add(tempScPar);
+        if (tempScPar.ReadDescription(itsString))
+          Add(tempScPar);
 
         itsIntObject = ConvertDefText(itsString);
         break;
@@ -542,7 +561,8 @@ void NFmiSymbolGroup::SetScalingMode(void)
   fNewScaling = false;
   for (int i = 0; i < static_cast<int>(GetSize()); i++)
   {
-    if (itsParamRects[i]->IsNewScaling()) fNewScaling = true;
+    if (itsParamRects[i]->IsNewScaling())
+      fNewScaling = true;
   }
 }
 

@@ -53,7 +53,8 @@ bool NFmiNameDay::ReadFile(const NFmiString& theFileName)
         date = NFmiString(dateBuff);
         if (date == lastDate)
         {
-          if (julDay > 0) itsNames[julDay] += NFmiString(", ");
+          if (julDay > 0)
+            itsNames[julDay] += NFmiString(", ");
           itsNames[julDay] += name;
         }
         else

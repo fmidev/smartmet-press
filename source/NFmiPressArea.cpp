@@ -22,7 +22,8 @@ using namespace std;
 
 NFmiPressArea::~NFmiPressArea(void)
 {
-  if (itsArea) delete itsArea;
+  if (itsArea)
+    delete itsArea;
 }
 
 // ----------------------------------------------------------------------
@@ -76,7 +77,8 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
       if (itsLogFile)
@@ -107,7 +109,8 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
       }
       case dProjection:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         *itsDescriptionFile >> itsObject;
         helpString = itsObject;
         helpString.LowerCase();
@@ -141,7 +144,8 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
       }
       case dLonLatCornerNames:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         helpString = ReadString();
         helpString2 = ReadString();
 

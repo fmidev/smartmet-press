@@ -93,7 +93,10 @@ inline NFmiPressManager::NFmiPressManager(void) {}
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressManager::ReadDescription(NFmiString& retString) { return true; }
+inline bool NFmiPressManager::ReadDescription(NFmiString& retString)
+{
+  return true;
+}
 #endif  // NFMIPRESSMANAGER_H
 
 // ======================================================================

@@ -22,7 +22,10 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressSameSymbols::SetScale(const NFmiRectScale &scale) { itsScale = scale; }
+void NFmiPressSameSymbols::SetScale(const NFmiRectScale &scale)
+{
+  itsScale = scale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -64,7 +67,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
       return isFalse;
     }
     itsLoopNum++;
-    if (iobject != dEndComment && itsCommentLevel) iobject = dComment;
+    if (iobject != dEndComment && itsCommentLevel)
+      iobject = dComment;
     switch (iobject)
     {
       case dOther:
@@ -93,8 +97,10 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
       }
       case dPlaceSubViews:
       {
-        if (!ReadEqualChar()) break;
-        if (ReadLong(long1)) itsNumberOfSteps = static_cast<unsigned short>(long1);
+        if (!ReadEqualChar())
+          break;
+        if (ReadLong(long1))
+          itsNumberOfSteps = static_cast<unsigned short>(long1);
 
         *itsDescriptionFile >> object;
         str = object;
@@ -103,7 +109,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
       }
       case dPlaceStepSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(x, y))
         {
           point1.Set(x, y);
@@ -118,7 +125,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
       }
       case dPlaceTable:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(xmin, ymax))
         {
           if (ReadDouble(ymin))
@@ -141,7 +149,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
       }
       case dPlaceDefArea:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
           itsCurrentScale.SetStartScales(NFmiRect(NFmiPoint(xmin, ymin), NFmiPoint(xmax, ymax)));
@@ -153,7 +162,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
       }
       case dPlacePlotArea:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
           itsCurrentScale.SetEndScales(NFmiRect(NFmiPoint(xmin, ymin), NFmiPoint(xmax, ymax)));
@@ -166,7 +176,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
       case dPlace:
       {
         currentPlaceNum++;
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(x, y))
         {
           if (numOfTablePlaces > 1)

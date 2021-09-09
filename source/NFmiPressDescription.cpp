@@ -68,7 +68,8 @@ bool NFmiPressDescription::ReadRemaining(void)
       helpEnumSpace = kRoadRegions;
     case dPressMaskNumber:  // muut kuin tiealueet
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       NFmiString maskName = ReadString();
       string stdString(maskName);
@@ -98,7 +99,8 @@ bool NFmiPressDescription::ReadRemaining(void)
 
     case dLanguage:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       itsLanguage = ReadLanguage();
 
@@ -121,11 +123,13 @@ bool NFmiPressDescription::ReadRemaining(void)
     }
     case dRGBColor:
     {
-      if (SetThree(rgb.red, rgb.green, rgb.blue)) itsEnvironment.SetRGB(rgb);
+      if (SetThree(rgb.red, rgb.green, rgb.blue))
+        itsEnvironment.SetRGB(rgb);
       break;
       case dColor:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(r1, r2, r3, r4))
         {
           FmiGenericColor color;
@@ -141,7 +145,8 @@ bool NFmiPressDescription::ReadRemaining(void)
       }
       case dDescFont:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         // itsOutFileName = ReadString();
         itsEnvironment.SetFont(ReadString());
@@ -151,7 +156,8 @@ bool NFmiPressDescription::ReadRemaining(void)
       }
       case dDescSymbolSet:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsEnvironment.SetSymbolSet(ReadString());
 
@@ -160,7 +166,8 @@ bool NFmiPressDescription::ReadRemaining(void)
       }
       case dSymbolSizeFactor:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         ReadOne(f1);
         itsEnvironment.SetSymbolSizeFactor(f1);
@@ -170,23 +177,27 @@ bool NFmiPressDescription::ReadRemaining(void)
       }
       case dDescTextSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadOne(r1)) itsEnvironment.SetTextSize(r1);
+        if (ReadOne(r1))
+          itsEnvironment.SetTextSize(r1);
 
         ReadNext();
         break;
       }
       case dDescTextAlignment:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         *itsDescriptionFile >> itsObject;
         itsString = itsObject;
 
         FmiDirection dir = String2FmiDirection(itsString);
 
-        if (dir != kNoDirection) itsEnvironment.SetTextAlignment(dir);
+        if (dir != kNoDirection)
+          itsEnvironment.SetTextAlignment(dir);
         // itsAlignment = dir;
         else
           *itsLogFile << "*** ERROR: Unknown alignment: " << static_cast<char *>(itsObject) << endl;

@@ -72,7 +72,10 @@ inline NFmiPsSymbol::NFmiPsSymbol(void) : NFmiPressScaling() {}
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPsSymbol::GetSymbol(void) const { return itsSymbol; }
+inline NFmiString NFmiPsSymbol::GetSymbol(void) const
+{
+  return itsSymbol;
+}
 #endif  // NFMIPSSYMBOL_H
 
 // ======================================================================

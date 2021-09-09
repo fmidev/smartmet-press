@@ -464,7 +464,8 @@ int NFmiDescription::ConvertDefText(NFmiString &object)
   unsigned long len = object.GetLen();
   if (len >= 2 && NFmiString(object.GetCharsPtr(1, 2)) == NFmiString("/*"))
   {
-    if (NFmiString(object.GetCharsPtr(len - 1, 2)) != NFmiString("*/")) itsCommentLevel++;
+    if (NFmiString(object.GetCharsPtr(len - 1, 2)) != NFmiString("*/"))
+      itsCommentLevel++;
     return dComment;
   }
   else if (len >= 2 && NFmiString(object.GetCharsPtr(len - 1, 2)) == NFmiString("*/"))

@@ -35,9 +35,12 @@ using namespace std;
 
 NFmiSymbolParamRect::~NFmiSymbolParamRect(void)
 {
-  if (itsSubDir) delete static_cast<NFmiString *>(itsSubDir);
-  if (itsMapping) delete static_cast<NFmiParamMapping *>(itsMapping);
-  if (itsOrigDir) delete static_cast<NFmiString *>(itsOrigDir);
+  if (itsSubDir)
+    delete static_cast<NFmiString *>(itsSubDir);
+  if (itsMapping)
+    delete static_cast<NFmiParamMapping *>(itsMapping);
+  if (itsOrigDir)
+    delete static_cast<NFmiString *>(itsOrigDir);
 }
 
 // ----------------------------------------------------------------------
@@ -90,7 +93,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
 {
   double x, y;
   NFmiValueString valueString;
-  if (itsOrigDir) delete itsOrigDir;
+  if (itsOrigDir)
+    delete itsOrigDir;
   NFmiString origDir;
   NFmiString inDir;
 
@@ -104,7 +108,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   {
     boost::filesystem::create_directory(static_cast<string>(inDir));
   }
-  catch (exception& e)
+  catch (exception &e)
   {
     cout << "Creating the symbol cache directory failed." << endl;
   }
@@ -151,7 +155,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsSizeFactor = NFmiPoint(1., 1.);
 
   // onko asetettu, entäs rotparr jossa oli sijoitusvirhe toimiiko vanha sijoitus
-  if (fNewScaling) itsRelRect += NFmiPoint(-.5, -.5);
+  if (fNewScaling)
+    itsRelRect += NFmiPoint(-.5, -.5);
 
   itsMultiMapping = 0;
   bool symbDirGiven = false;
@@ -161,7 +166,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
       if (itsLogFile)
@@ -193,7 +199,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
 
       case dSymbolDirectory:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         subDir = ReadString();
         NFmiString apu = subDir;
@@ -209,7 +216,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
       }
       case dConstSymbolName:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         itsConstSymbol = ReadString();
 
         ReadNext();
@@ -218,7 +226,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
       case dMapping:
       {
         NFmiMappingInterval interval;
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadDouble(r1))
         {
@@ -250,7 +259,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
       case dScaleMapping:
       {
         NFmiMappingInterval interval;
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadTwo(long1, long2))
         {
@@ -268,20 +278,23 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
       }
       case dRelSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(x))
         {
           // symbSizeGiven = true;
           // xh = yh = 1.;
-          if (x > 0.) xh = x;
+          if (x > 0.)
+            xh = x;
 
           *itsDescriptionFile >> itsObject;
           valueString = itsObject;
           if (valueString.IsNumeric())
           {
             y = static_cast<double>(valueString);
-            if (y > 0) yh = y;
+            if (y > 0)
+              yh = y;
             *itsDescriptionFile >> itsObject;
             itsString = itsObject;
           }
@@ -307,7 +320,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
       }
       case dPlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadTwo(r1, r2))
         {
@@ -319,7 +333,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
       }
       case dRelPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(r1, r2, r3, r4))
         {
@@ -338,7 +353,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
       case dRelDay:
       {
         SetOne(itsFirstDeltaDays);
-        if (itsLogFile) *itsLogFile << "*** ERROR: The day cannot be set in #Symbol" << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: The day cannot be set in #Symbol" << endl;
         break;
       }
       case dHour:
@@ -395,7 +411,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsSizeFactor = NFmiPoint(xh, yh);
   //	}
 
-  if (itsSubDir) delete itsSubDir;
+  if (itsSubDir)
+    delete itsSubDir;
   itsSubDir = new NFmiString(inDir);  // oikeastaan koko polku
   itsSymbolSetName = subDir;
 
@@ -411,7 +428,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   {
     string msg = string("Symbolihakemisto ") + sizeFile.CharPtr() + " puuttuu!";
     errors.push_back(msg);
-    if (itsLogFile) *itsLogFile << "*** Error: " << msg << endl;
+    if (itsLogFile)
+      *itsLogFile << "*** Error: " << msg << endl;
   }
 
   sizeFile += NFmiString("symbolikoko.txt");
@@ -475,7 +493,10 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::ReadRemaining(void) { return NFmiParamRect::ReadRemaining(); }
+bool NFmiSymbolParamRect::ReadRemaining(void)
+{
+  return NFmiParamRect::ReadRemaining();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -667,7 +688,8 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString *symbolFile)
     output.write(mess.CharPtr(), len);
     output.write(static_cast<char *>(NFmiString("\n")), 1);
 
-    if (itsLogFile) *itsLogFile << "lines copied: " << copiedLines << " as" << endl;
+    if (itsLogFile)
+      *itsLogFile << "lines copied: " << copiedLines << " as" << endl;
 
     return isTrue;
   }
@@ -718,7 +740,8 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   if (IsMaxMinPlotting())
   {
     itsPressParam->SetMaxMinPoints();  // vain ekalla kerralla
-    if (!itsPressParam->IsMaxMin(isMax, correctedPoint)) return true;
+    if (!itsPressParam->IsMaxMin(isMax, correctedPoint))
+      return true;
   }
 
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();
@@ -728,7 +751,8 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       theAbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(), BottomRight())));
 
   float rescale = GetAlternatingSizeFactor();
-  if (rescale > 0.) itsDefToProductScale.RescaleEndScales(rescale);
+  if (rescale > 0.)
+    itsDefToProductScale.RescaleEndScales(rescale);
 
   if (itsPressParam->GetCurrentStationStep() % 2 == 0)
   {
@@ -737,12 +761,15 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
 
   if (!fIsConstSymbol)
   {
-    if (!ReadValues(theQI)) return false;
+    if (!ReadValues(theQI))
+      return false;
   }
 
-  if (IsEquiDistanceAndCorrMode()) itsDefToProductScale.MoveEndScales(itsCorrPoint);
+  if (IsEquiDistanceAndCorrMode())
+    itsDefToProductScale.MoveEndScales(itsCorrPoint);
 
-  if (!fMarkingValue) return true;
+  if (!fMarkingValue)
+    return true;
 
   bool isScaled = false;
   NFmiString *symbolFile;
@@ -851,7 +878,8 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1)
     {
       float value = itsCurrentParamValue;
-      if (itsMultiMapping) value = itsCurrentParamArray[0];
+      if (itsMultiMapping)
+        value = itsCurrentParamArray[0];
 
       if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(value)),
                                               theAbsoluteRectOfSymbolGroup.Place()))
@@ -889,7 +917,8 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
         *itsLogFile << "*** ERROR: " << msg << endl;
         errors.push_back(msg);
 
-        if (rawToBeConverted) *itsLogFile << "       missing permission ?" << endl;
+        if (rawToBeConverted)
+          *itsLogFile << "       missing permission ?" << endl;
       }
     }
   }
@@ -951,7 +980,8 @@ bool NFmiSymbolParamRect::ReadValues(NFmiFastQueryInfo *theQI, bool setRelHour)
 
   if (setRelHour)  // estetään 2SymbolParamRectiltä kahta aikamuutosta
   {
-    if (!SetRelativeHour(theQI, NFmiString("#Symboli"))) return isFalse;
+    if (!SetRelativeHour(theQI, NFmiString("#Symboli")))
+      return isFalse;
   }
 
   if (itsMultiMapping)
@@ -960,7 +990,8 @@ bool NFmiSymbolParamRect::ReadValues(NFmiFastQueryInfo *theQI, bool setRelHour)
   }
   else
   {
-    if (!PointOnParam(theQI, GetDataIdent().GetParam()) || !PointOnLevel(theQI)) return false;
+    if (!PointOnParam(theQI, GetDataIdent().GetParam()) || !PointOnLevel(theQI))
+      return false;
 
     return ReadCurrentValue(theQI, itsCurrentParamValue);
   }

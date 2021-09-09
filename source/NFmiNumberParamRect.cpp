@@ -83,7 +83,8 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
       if (itsLogFile)
@@ -114,7 +115,8 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
       }
       case dFormat:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         *itsDescriptionFile >> itsObject;
         itsFormat = itsObject;
 
@@ -123,7 +125,8 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
       }
       case dPlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(r1, r2))
         {
@@ -135,7 +138,8 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
       }
       case dRelPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(r1, r2, r3, r4))
         {
           itsRelRect.Set(NFmiPoint(r1, r2), NFmiPoint(r3, r4));
@@ -177,18 +181,22 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
       }
       case dRelDay:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadLong(long1))
           itsFirstDeltaDays = static_cast<unsigned short>(long1 + itsEnvironment.GetDayAdvance());
 
         ReadNext();
-        if (itsLogFile) *itsLogFile << "*** ERROR: Cannot set date in #number" << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Cannot set date in #number" << endl;
         break;
       }
       case dHour:
       {
-        if (!ReadEqualChar()) break;
-        if (ReadLong(long1)) itsFirstPlotHours = static_cast<unsigned short>(long1);
+        if (!ReadEqualChar())
+          break;
+        if (ReadLong(long1))
+          itsFirstPlotHours = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
@@ -225,9 +233,11 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
       fAllowMissing = true;
     }
   }
-  if (!relPlace) itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
+  if (!relPlace)
+    itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
 
-  if (fNewScaling) itsRelRect += NFmiPoint(1., 1.);
+  if (fNewScaling)
+    itsRelRect += NFmiPoint(1., 1.);
   Set(NFmiDataIdent(NFmiParam(itsIdentPar), NFmiProducer(240)), NFmiRect(itsRelRect));
 
   retString = itsString;
@@ -242,7 +252,10 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiNumberParamRect::ReadRemaining(void) { return NFmiTextParamRect::ReadRemaining(); }
+bool NFmiNumberParamRect::ReadRemaining(void)
+{
+  return NFmiTextParamRect::ReadRemaining();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -336,11 +349,14 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     }
     if (!primaryDataFound)
     {
-      if (!PointOnParam(theQI, GetDataIdent().GetParam())) return false;
+      if (!PointOnParam(theQI, GetDataIdent().GetParam()))
+        return false;
 
-      if (!SetRelativeHour(theQI, NFmiString("#Numero"))) return false;
+      if (!SetRelativeHour(theQI, NFmiString("#Numero")))
+        return false;
 
-      if (!ReadCurrentValue(theQI, itsCurrentParamValue)) return false;
+      if (!ReadCurrentValue(theQI, itsCurrentParamValue))
+        return false;
 
       value = itsCurrentParamValue;
     }
@@ -354,7 +370,8 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       return true;
   }
 
-  if (value == kFloatMissing) itsPressParam->GetPressProduct()->SetLastNumberStatus(false);
+  if (value == kFloatMissing)
+    itsPressParam->GetPressProduct()->SetLastNumberStatus(false);
 
   if (fPutInStorage)
   {
@@ -362,7 +379,8 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     return true;
   }
 
-  if (!fMarkingValue) return true;
+  if (!fMarkingValue)
+    return true;
 
   NFmiString format = itsFormat;
 
@@ -371,13 +389,15 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   // esim formaatti=%(+)1.f -> kaksinumeroiset ilman plussaa; pelkkä ( tai ) riittää
   if (itsFormat.Search(NFmiString("(+")) > 0 || itsFormat.Search(NFmiString("+)")) > 0)
   {
-    if (value >= 9.5) hypString = hypString.DropChar(NFmiString("+"));
+    if (value >= 9.5)
+      hypString = hypString.DropChar(NFmiString("+"));
     isParen = true;
   }
   // esim formaatti=%.(1)f -> alle yhden desimaalin kanssa, muuten ilman
   if (itsFormat.Search(NFmiString(".(")) > 0 || itsFormat.Search(NFmiString(")f")) > 0)
   {
-    if (fabs(value) >= .95) hypString = hypString.ReplaceChar(NFmiString("1"), (NFmiString("0")));
+    if (fabs(value) >= .95)
+      hypString = hypString.ReplaceChar(NFmiString("1"), (NFmiString("0")));
     isParen = true;
   }
 
@@ -391,7 +411,8 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   // tasan nolla pirretään ilman desimaaliosia
   // tehty maaseudun tulevaisuutta varten, häiritseeköhän jossain
 
-  if (value == 0.) format = NFmiString("%.0f");
+  if (value == 0.)
+    format = NFmiString("%.0f");
   NFmiValueString str;
   NFmiString *mapString = 0;
 
@@ -403,7 +424,8 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !IsMaxMinPlotting())
   {
     float keyValue = itsCurrentParamValue;
-    if (itsMultiMapping) keyValue = itsCurrentParamArray[0];
+    if (itsMultiMapping)
+      keyValue = itsCurrentParamArray[0];
 
     if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(keyValue)),
                                             theAbsoluteRectOfSymbolGroup.Place()))
@@ -420,7 +442,8 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
 
   if (mapString)  // mappingmahdollisuus myös numerolle
   {
-    if (*mapString == NFmiString("None")) return false;
+    if (*mapString == NFmiString("None"))
+      return false;
 
     NFmiString helpS(*mapString);  // mappauksessa olevat miinukset pitkinä haluttaessa
     if (helpS == NFmiString("-") && itsEnvironment.GetLongNumberMinus())

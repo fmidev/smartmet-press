@@ -61,9 +61,11 @@ bool NFmiValueCorrection::ReadFile(void)
     // Ignore the line if it is a comment line or too short
 
     line += " ";  // rivin lopetusmerkki
-    if (line.substr(0, 3) == "END" || line.substr(0, 5) == "LOPPU") break;
+    if (line.substr(0, 3) == "END" || line.substr(0, 5) == "LOPPU")
+      break;
 
-    if (line[0] == '#' || line.substr(0, 2) == "//" || line.size() < 6) continue;
+    if (line[0] == '#' || line.substr(0, 2) == "//" || line.size() < 6)
+      continue;
 
     start1 = line.find_first_not_of(delims);
     end1 = line.find_first_of(delims, start1);
@@ -106,9 +108,11 @@ bool NFmiValueCorrection::ReadFile(void)
 
 bool NFmiValueCorrection::CorrectValue(float& thevalue, const NFmiString& theStation, bool dayTime)
 {
-  if (!IsRead()) ReadFile();
+  if (!IsRead())
+    ReadFile();
 
-  if (IsMissing()) return false;
+  if (IsMissing())
+    return false;
 
   std::vector<FmiTempCorrections>::iterator pos;
 

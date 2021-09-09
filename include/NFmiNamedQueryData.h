@@ -99,7 +99,10 @@ inline NFmiNamedQueryData::NFmiNamedQueryData(const NFmiNamedQueryData& theNQD)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiNamedQueryData::SetData(NFmiQueryData* theData) { itsData = theData; }
+inline void NFmiNamedQueryData::SetData(NFmiQueryData* theData)
+{
+  itsData = theData;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -108,7 +111,10 @@ inline void NFmiNamedQueryData::SetData(NFmiQueryData* theData) { itsData = theD
  */
 // ----------------------------------------------------------------------
 
-inline NFmiQueryData* NFmiNamedQueryData::GetData(void) { return itsData; }
+inline NFmiQueryData* NFmiNamedQueryData::GetData(void)
+{
+  return itsData;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -117,7 +123,10 @@ inline NFmiQueryData* NFmiNamedQueryData::GetData(void) { return itsData; }
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiNamedQueryData::GetName(void) { return itsName; }
+inline NFmiString NFmiNamedQueryData::GetName(void)
+{
+  return itsName;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -126,7 +135,10 @@ inline NFmiString NFmiNamedQueryData::GetName(void) { return itsName; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsMandatory(void) { return fMandatory; }
+inline bool NFmiNamedQueryData::IsMandatory(void)
+{
+  return fMandatory;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -135,7 +147,10 @@ inline bool NFmiNamedQueryData::IsMandatory(void) { return fMandatory; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsNewest(void) { return fNewest; }
+inline bool NFmiNamedQueryData::IsNewest(void)
+{
+  return fNewest;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -144,7 +159,10 @@ inline bool NFmiNamedQueryData::IsNewest(void) { return fNewest; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsYearData(void) { return fYearData; }
+inline bool NFmiNamedQueryData::IsYearData(void)
+{
+  return fYearData;
+}
 #endif  // NFMINAMEDQUERYDATA_H
 
 // ======================================================================

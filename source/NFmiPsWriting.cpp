@@ -20,7 +20,8 @@ using namespace std;
 
 NFmiPsWriting::~NFmiPsWriting(void)
 {
-  if (itsInFile) delete itsInFile;
+  if (itsInFile)
+    delete itsInFile;
 }
 
 // ----------------------------------------------------------------------
@@ -145,7 +146,8 @@ void NFmiPsWriting::Rotate(void)
 {
   // t‰ss‰ pit‰‰ edet‰ ik‰‰nkuin k‰‰nteisess‰ j‰rjestyksess‰
   NFmiPoint scaledRotP = itsWriteScale.Scale(itsRotatingPoint);
-  if (fRotBeforeScale) scaledRotP = itsRotatingPoint;
+  if (fRotBeforeScale)
+    scaledRotP = itsRotatingPoint;
   *itsOutFile << scaledRotP.X() << " " << scaledRotP.Y() << " translate" << endl;
   *itsOutFile << itsRotatingAngle << " rotate" << endl;
   *itsOutFile << -scaledRotP.X() << " " << -scaledRotP.Y() << " translate" << endl;
@@ -176,12 +178,14 @@ bool NFmiPsWriting::WriteEPSConcat(void)
     // n‰enn‰isesti v‰‰r‰ss‰ j‰rjestyksess‰
     *itsOutFile << xScale << " " << yScale << " scale" << endl;
     *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
-    if (itsRotatingAngle != 0.) Rotate();
+    if (itsRotatingAngle != 0.)
+      Rotate();
   }
   else
   {
     // n‰enn‰isesti v‰‰r‰ss‰ j‰rjestyksess‰
-    if (itsRotatingAngle != 0.) Rotate();
+    if (itsRotatingAngle != 0.)
+      Rotate();
     *itsOutFile << xScale << " " << yScale << " scale" << endl;
     *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
   }
@@ -226,7 +230,8 @@ bool NFmiPsWriting::WriteEPSConcatClipping(NFmiRect theClippingRect)
 
   *itsOutFile << "BeginEPSF" << endl;
 
-  if (itsRotatingAngle != 0.) Rotate();
+  if (itsRotatingAngle != 0.)
+    Rotate();
 
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
   *itsOutFile << xTrans << " " << yTrans << " translate" << endl;
@@ -271,7 +276,8 @@ bool NFmiPsWriting::WriteEPSConcatClipping(std::vector<NFmiPoint> thePoints)
 
   *itsOutFile << "BeginEPSF" << endl;
 
-  if (itsRotatingAngle != 0.) Rotate();
+  if (itsRotatingAngle != 0.)
+    Rotate();
 
   *itsOutFile << xScale << " " << yScale << " scale" << endl;
   *itsOutFile << xTrans << " " << yTrans << " translate" << endl;

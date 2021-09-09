@@ -89,7 +89,10 @@ inline NFmiMultiParamMapping::NFmiMultiParamMapping(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiMultiParamMapping::IsIncomplete(void) const { return fIncomplete; }
+inline bool NFmiMultiParamMapping::IsIncomplete(void) const
+{
+  return fIncomplete;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -98,7 +101,10 @@ inline bool NFmiMultiParamMapping::IsIncomplete(void) const { return fIncomplete
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiMultiParamMapping::SetComplete(void) { fIncomplete = false; }
+inline void NFmiMultiParamMapping::SetComplete(void)
+{
+  fIncomplete = false;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -107,7 +113,10 @@ inline void NFmiMultiParamMapping::SetComplete(void) { fIncomplete = false; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiMultiParamMapping::NumOfParams(short num) { itsNumOfParams = num; }
+inline void NFmiMultiParamMapping::NumOfParams(short num)
+{
+  itsNumOfParams = num;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -116,7 +125,10 @@ inline void NFmiMultiParamMapping::NumOfParams(short num) { itsNumOfParams = num
  */
 // ----------------------------------------------------------------------
 
-inline short NFmiMultiParamMapping::NumOfParams(void) { return itsNumOfParams; }
+inline short NFmiMultiParamMapping::NumOfParams(void)
+{
+  return itsNumOfParams;
+}
 #endif  // NFMIMULTIPARAMMAPPING_H
 
 // ======================================================================

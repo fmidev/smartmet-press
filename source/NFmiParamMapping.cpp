@@ -74,7 +74,8 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval &theInterval
   tempIntervals[j].itsSymbol = theInterval.itsSymbol;  // newStr;
   tempIntervals[j].fIsScaled = theInterval.fIsScaled;
 
-  if (itsMappingIntervals) delete[] itsMappingIntervals;
+  if (itsMappingIntervals)
+    delete[] itsMappingIntervals;
 
   itsMappingIntervals = new NFmiMappingInterval[GetSize() + 1];
   itsSize = GetSize() + 1;

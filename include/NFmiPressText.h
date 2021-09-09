@@ -179,7 +179,10 @@ inline NFmiPressText::NFmiPressText()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressText::SetText(void) { return true; }
+inline bool NFmiPressText::SetText(void)
+{
+  return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -190,7 +193,8 @@ inline bool NFmiPressText::SetText(void) { return true; }
 
 inline void NFmiPressText::SetText(NFmiString theText)
 {
-  if (itsText) delete itsText;
+  if (itsText)
+    delete itsText;
   itsText = new NFmiString(theText);
 }
 
@@ -204,7 +208,8 @@ inline void NFmiPressText::SetText(NFmiString theText)
 
 inline void NFmiPressText::AddText(const NFmiString& theText)
 {
-  if (itsText) itsText->Add(theText);
+  if (itsText)
+    itsText->Add(theText);
 }
 
 // ----------------------------------------------------------------------
@@ -215,7 +220,10 @@ inline void NFmiPressText::AddText(const NFmiString& theText)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressText::SetPreText(const NFmiString& theText) { itsAddInFront = theText; }
+inline void NFmiPressText::SetPreText(const NFmiString& theText)
+{
+  itsAddInFront = theText;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -224,7 +232,10 @@ inline void NFmiPressText::SetPreText(const NFmiString& theText) { itsAddInFront
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressText::SetPostText(const NFmiString& theText) { itsAddAfter = theText; }
+inline void NFmiPressText::SetPostText(const NFmiString& theText)
+{
+  itsAddAfter = theText;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -234,7 +245,10 @@ inline void NFmiPressText::SetPostText(const NFmiString& theText) { itsAddAfter 
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressText* NFmiPressText::GetSubText(void) const { return itsSubText; }
+inline NFmiPressText* NFmiPressText::GetSubText(void) const
+{
+  return itsSubText;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -244,7 +258,10 @@ inline NFmiPressText* NFmiPressText::GetSubText(void) const { return itsSubText;
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressText::HasSubText(void) const { return itsSubText ? true : false; }
+inline bool NFmiPressText::HasSubText(void) const
+{
+  return itsSubText ? true : false;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -267,7 +284,10 @@ inline bool NFmiPressText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString* NFmiPressText::GetText(void) const { return itsText; }
+inline NFmiString* NFmiPressText::GetText(void) const
+{
+  return itsText;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -276,7 +296,10 @@ inline NFmiString* NFmiPressText::GetText(void) const { return itsText; }
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressText::GetWidthFactor(void) const { return itsWidthFactor; }
+inline double NFmiPressText::GetWidthFactor(void) const
+{
+  return itsWidthFactor;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -285,8 +308,14 @@ inline double NFmiPressText::GetWidthFactor(void) const { return itsWidthFactor;
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressText::SetLanguage(FmiLanguage theLanguage) { itsLanguage = theLanguage; }
-inline FmiLanguage NFmiPressText::GetLanguage(void) { return itsLanguage; }
+inline void NFmiPressText::SetLanguage(FmiLanguage theLanguage)
+{
+  itsLanguage = theLanguage;
+}
+inline FmiLanguage NFmiPressText::GetLanguage(void)
+{
+  return itsLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -295,7 +324,10 @@ inline FmiLanguage NFmiPressText::GetLanguage(void) { return itsLanguage; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressText::IsInParagraph(void) { return fInParagraph; }
+inline bool NFmiPressText::IsInParagraph(void)
+{
+  return fInParagraph;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -304,7 +336,10 @@ inline bool NFmiPressText::IsInParagraph(void) { return fInParagraph; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressText::SetLineStep(double lineStep) { itsLineStep = lineStep; }
+inline void NFmiPressText::SetLineStep(double lineStep)
+{
+  itsLineStep = lineStep;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -313,7 +348,10 @@ inline void NFmiPressText::SetLineStep(double lineStep) { itsLineStep = lineStep
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressText::GetLineStep(void) const { return itsLineStep; }
+inline double NFmiPressText::GetLineStep(void) const
+{
+  return itsLineStep;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -322,7 +360,10 @@ inline double NFmiPressText::GetLineStep(void) const { return itsLineStep; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressText::SetLastLineStep(double lineStep) { itsLastLineStep = lineStep; }
+inline void NFmiPressText::SetLastLineStep(double lineStep)
+{
+  itsLastLineStep = lineStep;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -331,7 +372,10 @@ inline void NFmiPressText::SetLastLineStep(double lineStep) { itsLastLineStep = 
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressText::SetLineStepFactor(double lineStep) { itsLineStepFactor = lineStep; }
+inline void NFmiPressText::SetLineStepFactor(double lineStep)
+{
+  itsLineStepFactor = lineStep;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -340,7 +384,10 @@ inline void NFmiPressText::SetLineStepFactor(double lineStep) { itsLineStepFacto
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressText::GetLineStepFactor(void) const { return itsLineStepFactor; }
+inline double NFmiPressText::GetLineStepFactor(void) const
+{
+  return itsLineStepFactor;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

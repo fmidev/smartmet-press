@@ -106,7 +106,8 @@ void NFmiPressParam::SetNewGeoArea(const NFmiPressArea &theArea)
 
 bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnumSpace)
 {
-  if (!itsStations.IsLocations()) return false;
+  if (!itsStations.IsLocations())
+    return false;
 
   itsEnvironment.ChangeMask(theMask, theEnumSpace);
 
@@ -132,7 +133,8 @@ bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnu
 // ----------------------------------------------------------------------
 bool NFmiPressParam::SetFirstStation(const NFmiLocation &theLocation)
 {
-  if (!itsStations.IsLocations()) return false;
+  if (!itsStations.IsLocations())
+    return false;
 
   itsStations.First();
   NFmiLocation *firstLocation = const_cast<NFmiLocation *>(itsStations.Location());
@@ -159,7 +161,8 @@ bool NFmiPressParam::SetFirstStation(const NFmiLocation &theLocation)
 
 bool NFmiPressParam::SetStationRename(const NFmiRenaming &theRenaming)
 {
-  if (!itsStations.IsLocations()) return false;
+  if (!itsStations.IsLocations())
+    return false;
 
   // ainoastaan asemanNimi‰
   //  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsStationDepObjects);
@@ -247,7 +250,8 @@ bool NFmiPressParam::IsMaxMin(bool &theIsMax, NFmiPoint &theCorrectedPoint)
 
 bool NFmiPressParam::SetMaxMinPoints(void)
 {
-  if (fMaxMinSearched) return true;
+  if (fMaxMinSearched)
+    return true;
 
   itsMaxMinLocations.clear();
   unsigned long index = 0;
@@ -289,7 +293,8 @@ bool NFmiPressParam::SetMaxMinPoints(void)
     }
 
     float value = info.FloatValue();
-    if (value == kFloatMissing) continue;
+    if (value == kFloatMissing)
+      continue;
     float value1 = info.PeekValue(0, 1, 0);
     float value2 = info.PeekValue(0, 1, -1);
     float value3 = info.PeekValue(0, 0, -1);
@@ -462,7 +467,8 @@ bool NFmiPressParam::CheckAndSetDistance(long theValue, const NFmiPoint &point)
 bool NFmiPressParam::SetData(const NFmiString &dataName)
 {
   // t‰nne eik‰ writeps:‰‰n koska tarvitaan pressScaling-objektien initialisoinnissa
-  if (itsDataIter) delete itsDataIter;
+  if (itsDataIter)
+    delete itsDataIter;
 
   bool yearData;
   fYearData = false;
@@ -529,7 +535,8 @@ bool NFmiPressParam::SetData(const NFmiString &dataName)
 
 bool NFmiPressParam::SetPrimaryData(const NFmiString &dataName)
 {
-  if (itsPrimaryDataIter) delete itsPrimaryDataIter;
+  if (itsPrimaryDataIter)
+    delete itsPrimaryDataIter;
 
   bool fYearData = false;
   NFmiQueryData *data = itsPressProduct->DataByName(dataName, fYearData);
@@ -604,7 +611,10 @@ bool NFmiPressParam::SetAllLanguages(FmiLanguage theLanguage)
  */
 // ----------------------------------------------------------------------
 
-unsigned long NFmiPressParam::GetCurrentStationStep(void) const { return itsCurrentStationIndex; }
+unsigned long NFmiPressParam::GetCurrentStationStep(void) const
+{
+  return itsCurrentStationIndex;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -677,7 +687,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       return false;
     }
     itsLoopNum++;
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     switch (itsIntObject)
     {
       case dOther:  // ylim‰‰r‰ist‰ roinaa,
@@ -700,7 +711,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }  // huom jatkuu seuraavaan
       case dLogText:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsLogComment = ReadString();
 
@@ -709,16 +721,19 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dParamSubViews:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadOne(long1)) numberOfTimeSteps = static_cast<unsigned short>(long1);
+        if (ReadOne(long1))
+          numberOfTimeSteps = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
       }
       case dParamStepSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(x))
         {
@@ -751,7 +766,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dLevelTable:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(xmax, ymax))
         {
@@ -776,7 +792,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         levelType = kFmiHybridLevel;
       case dSegmentLevel:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(long1))
         {
@@ -803,7 +820,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         levelType = kFmiHybridLevel;
       case dLevelPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(long1))
         {
@@ -833,7 +851,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dTimeTable:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(xmax, ymax))
         {
@@ -857,7 +876,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             {
               itsHourStep = static_cast<unsigned short>(long1);
               timeOrLevelTableSet = true;
-              if (itsHourStep < 24) SetHourLoop(true);
+              if (itsHourStep < 24)
+                SetHourLoop(true);
               currentTotalTimeDiff = (numberOfTimeSteps - 1) * itsHourStep;
               currentTimeInd = static_cast<short>(numberOfTimeSteps);
             }
@@ -869,7 +889,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dTimeTableRelative:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(xmax, ymax))
         {
@@ -899,7 +920,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             {
               itsHourStep = static_cast<unsigned short>(long1);
               timeOrLevelTableSet = true;
-              if (itsHourStep < 24) SetHourLoop(true);
+              if (itsHourStep < 24)
+                SetHourLoop(true);
               currentTotalTimeDiff = (numberOfTimeSteps - 1) * itsHourStep;
               currentTimeInd = static_cast<short>(numberOfTimeSteps);
             }
@@ -911,7 +933,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dTimePlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(long1))
         {
@@ -943,7 +966,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dTimePlaceRelative:  // EI VALMIS
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(long1))
         {
@@ -996,7 +1020,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationTable:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -1031,7 +1056,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dSegmentDataFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsDataName = ReadString();
         itsDataName.LowerCase();
@@ -1050,7 +1076,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dSegmentPrimaryDataFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsPrimaryDataName = ReadString();
         itsPrimaryDataName.LowerCase();
@@ -1085,7 +1112,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationDefArea:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -1101,7 +1129,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationPlotArea:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -1118,9 +1147,11 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dProducer:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadOne(long1)) itsProducer = long1;
+        if (ReadOne(long1))
+          itsProducer = long1;
 
         ReadNext();
         break;
@@ -1133,7 +1164,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           *itsLogFile << "*** ERROR: StationName used without a defined data source" << endl;
         }
         NFmiPressStationText *text = new NFmiPressStationText;
-        if (itsIntObject == dStationNumberObject) text->SetStationNumberMode();
+        if (itsIntObject == dStationNumberObject)
+          text->SetStationNumberMode();
         text->SetEnvironment(itsEnvironment);
         text->SetHome(GetHome());
         text->SetLogFile(itsLogFile);
@@ -1297,7 +1329,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dRelDay:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(long1))
           itsFirstDeltaDays =
@@ -1308,21 +1341,25 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dHour:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadOne(long1)) itsFirstPlotHours = static_cast<unsigned short>(long1);
+        if (ReadOne(long1))
+          itsFirstPlotHours = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
       }
       case dHourStep:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(long1))
         {
           itsHourStep = static_cast<unsigned short>(long1);
-          if (itsHourStep < 25) SetHourLoop(true);
+          if (itsHourStep < 25)
+            SetHourLoop(true);
         }
 
         ReadNext();
@@ -1376,7 +1413,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dRelHour:  // ei PressTimeDscr:iin koska ei dataelementeill‰
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         ReadTwo(long1, long2);
         itsFirstPlotTime = NFmiMetTime(60);  // huom tunnin res.
         itsFirstPlotTime.ChangeByHours(long1);
@@ -1429,7 +1467,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         lat = kFloatMissing;
         bool hasOwnPoint = false;  // talukkoEscapea varten
 
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         helpBool = true;
 
@@ -1445,7 +1484,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         }
         else
         {
-          statNum = itsLoopNum;  // toimii satunnaislukuna,n‰in saadaan bagiin useita samannimisi‰
+          statNum = itsLoopNum;   // toimii satunnaislukuna,n‰in saadaan bagiin useita samannimisi‰
           string1 = valueString;  // Object;
         }
         string2 = ReadString();
@@ -1462,8 +1501,9 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             if (valueString.IsNumeric())  // >= 3 lukua
             {
               x = static_cast<short>(valueString);
-              if (!ReadDouble(y)) helpBool = false;  // 3 lukua virhe
-              *itsDescriptionFile >> itsObject;      // 4 lukua
+              if (!ReadDouble(y))
+                helpBool = false;                // 3 lukua virhe
+              *itsDescriptionFile >> itsObject;  // 4 lukua
               itsString = itsObject;
               hasOwnPoint = true;
             }
@@ -1498,7 +1538,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         else  // 0 lukua
         {
           itsString = valueString;
-          if (numOfTableStations < 1) helpBool = false;
+          if (numOfTableStations < 1)
+            helpBool = false;
         }
 
         if (helpBool)
@@ -1515,7 +1556,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           NFmiStationPoint station =
               NFmiStationPoint(NFmiStation(statNum, string1, lon, lat), point2);
           station.SetAlternatingSizeFactor(alternatingSize);
-          if (fNextStationBackup) station.SetBackup(true);
+          if (fNextStationBackup)
+            station.SetBackup(true);
           itsStations.AddLocation(station, false);
           if (firstStation)
           {
@@ -1542,7 +1584,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         lat = kFloatMissing;
         bool hasOwnPoint = false;  // talukkoEscapea varten
 
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         helpBool = true;
 
@@ -1570,8 +1613,9 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             if (valueString.IsNumeric())  // >= 3 lukua
             {
               x = static_cast<double>(valueString);
-              if (!ReadOne(y)) helpBool = false;  // 3 lukua virhe
-              *itsDescriptionFile >> itsObject;   // 4 lukua
+              if (!ReadOne(y))
+                helpBool = false;                // 3 lukua virhe
+              *itsDescriptionFile >> itsObject;  // 4 lukua
               itsString = itsObject;
               hasOwnPoint = true;
             }
@@ -1626,7 +1670,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           // voidaan tallettaa point1:een kun kaikki periytyy NFmiPsSymbolista
           // lat/loniahan ei tarvita mihink‰‰n
           station.SetAlternatingSizeFactor(alternatingSize);
-          if (fNextStationBackup) station.SetBackup(true);
+          if (fNextStationBackup)
+            station.SetBackup(true);
           itsStations.AddLocation(station, false);
           if (firstStation)
           {
@@ -1641,7 +1686,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationPlaceOnMap:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString name;
         if (ReadOneStringAndTwoNumbers(name, x, y))
@@ -1690,7 +1736,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
 
             lon = lonlat.X();
             lat = lonlat.Y();
-            if (version < 20) point1 = itsCurrentStationScale.Scale(NFmiPoint(x, y));
+            if (version < 20)
+              point1 = itsCurrentStationScale.Scale(NFmiPoint(x, y));
             point2 = itsScale.Scale(point1);
 
             if (!name.IsValue())
@@ -1701,7 +1748,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             }
             NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
             station.SetAlternatingSizeFactor(alternatingSize);
-            if (fNextStationBackup) station.SetBackup(true);
+            if (fNextStationBackup)
+              station.SetBackup(true);
             itsStations.AddLocation(station, false);
             if (firstStation)
             {
@@ -1737,7 +1785,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
                   NFmiArea *ownArea = itsArea.GetArea();
                   if (!mainArea || !ownArea)
                   {
-                    if (!errReported) *itsLogFile << "*** ERROR: Main or own map missing" << endl;
+                    if (!errReported)
+                      *itsLogFile << "*** ERROR: Main or own map missing" << endl;
                     errReported = true;
                   }
                   else
@@ -1770,7 +1819,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
                 NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat),
                                          point2);
                 station.SetAlternatingSizeFactor(alternatingSize);
-                if (fNextStationBackup) station.SetBackup(true);
+                if (fNextStationBackup)
+                  station.SetBackup(true);
                 itsStations.AddLocation(station, false);
                 if (firstStation)
                 {
@@ -1794,7 +1844,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationNameOnMap:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString name = ReadString();
         {
@@ -1816,7 +1867,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
               NFmiStationPoint station(
                   NFmiStation(currentStationNumOnMap, name, kFloatMissing, kFloatMissing), point2);
               station.SetAlternatingSizeFactor(alternatingSize);
-              if (fNextStationBackup) station.SetBackup(true);
+              if (fNextStationBackup)
+                station.SetBackup(true);
               itsStations.AddLocation(station, false);
               if (firstStation)
               {
@@ -1840,7 +1892,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationLonLatOnMap:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString name;
         if (ReadOneStringAndTwoNumbers(name, lon, lat))
@@ -1865,7 +1918,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             }
             NFmiStationPoint station(NFmiStation(currentStationNumOnMap, name, lon, lat), point2);
             station.SetAlternatingSizeFactor(alternatingSize);
-            if (fNextStationBackup) station.SetBackup(true);
+            if (fNextStationBackup)
+              station.SetBackup(true);
             itsStations.AddLocation(station, false);
             if (firstStation)
             {
@@ -1986,7 +2040,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
               double y0 = point0.Y();
               point1 = NFmiPoint(point0.X(), bottom - (y0 - top));
               point2 = itsScale.Scale(point1);
-              if (!croppingRect.IsInside(point1)) continue;
+              if (!croppingRect.IsInside(point1))
+                continue;
               NFmiString name("As");
               name += NFmiValueString(
                   static_cast<int>(currentStationNumOnMap));  // uniikki nimi jokaiselle
@@ -2434,7 +2489,8 @@ int NFmiPressParam::ConvertDefText(NFmiString &object)
 
 bool NFmiPressParam::CreateAreaMask(void)
 {
-  if (itsAreaMask) delete itsAreaMask;
+  if (itsAreaMask)
+    delete itsAreaMask;
 
   if (itsMaskIter && itsEnvironment.GetMaskNumber() > 0)
   {
@@ -2506,7 +2562,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 {
   UnsetAllErrorReported();
 
-  if (fSupplementary) *itsLogFile << "  SUPPLEMENT ONLY" << endl;
+  if (fSupplementary)
+    *itsLogFile << "  SUPPLEMENT ONLY" << endl;
 
   if (!itsDataIter)
   {
@@ -2565,18 +2622,21 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
     fMaxMinSearched = false;
     itsPrimaryDataNum = 0;
 
-    if (!fSupplementary) itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, false);
+    if (!fSupplementary)
+      itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, false);
 
     if (!itsDataIter)
     {
-      if (itsLogFile) *itsLogFile << "  *** ERROR: Data missing" << endl;
+      if (itsLogFile)
+        *itsLogFile << "  *** ERROR: Data missing" << endl;
     }
     else
     {
       if (fIsLevelLoop)
       {
         bool ok = itsDataIter->Level(itsLevels[currentStepInd]);
-        if (itsPrimaryDataIter) ok = itsPrimaryDataIter->Level(itsLevels[currentStepInd]);
+        if (itsPrimaryDataIter)
+          ok = itsPrimaryDataIter->Level(itsLevels[currentStepInd]);
         if (!ok)
           *itsLogFile << "*** ERROR: missing level= "
                       << static_cast<unsigned long>(itsLevels[currentStepInd].LevelValue()) << endl;
@@ -2588,7 +2648,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
       // HUOM segmentin aika pit‰‰ olla datassa vaikka piirtoalkiossa muutettaisiin tuntia
       // ei prosessoida jos t‰ydennyssegmentti ja on jo tehty
       NFmiMetTime actTime(time);
-      if (fYearData) actTime.SetYear(itsDataIter->Time().GetYear());
+      if (fYearData)
+        actTime.SetYear(itsDataIter->Time().GetYear());
       bool timeFound = itsDataIter->Time(actTime);
       if (itsPrimaryDataIter)
       {
@@ -2628,7 +2689,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
           else if (writeLog)
             *itsLogFile << " utc" << endl;
         }
-        if (!fSupplementary) itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, true);
+        if (!fSupplementary)
+          itsPressProduct->SetSegmentTimeStatus(itsCurrentStep, true);
 
         if (fIsLevelLoop)
         {
@@ -2646,7 +2708,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
         //     ***AikaTeksti
         //     ***Nimip‰iv‰t
 
-        if (timeFound) DoTimeDependent(false, currentStepInd, theFile, theOutput, saveObject);
+        if (timeFound)
+          DoTimeDependent(false, currentStepInd, theFile, theOutput, saveObject);
         // ********** alun AikaSidotutObjektit loppu **************
 
         itsStations.Reset();
@@ -2667,7 +2730,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
           itsCurrentUnscaledPoint = stationPoint;
           // NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint
           // *>(itsStations.Location());
-          if (itsCurrentStationPoint) delete itsCurrentStationPoint;
+          if (itsCurrentStationPoint)
+            delete itsCurrentStationPoint;
           NFmiStationPoint *itsCurrentStationPoint =
               new NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location()));
 
@@ -2735,7 +2799,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
                                 << endl;
                   return false;
                 }
-                if (theOutput == kPostScript) object->WriteGRestore();
+                if (theOutput == kPostScript)
+                  object->WriteGRestore();
                 object->Place(savePlace);  // jotta toimisi seuraavalle writePs-k‰skylle
 
                 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
@@ -2755,7 +2820,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
             fInterruptSymbolGroup = false;  // l‰heisyystesti-optiota varten
             if (!(itsSymbols.WritePS(itsCurrentStationPoint, theOutput)))
             {
-              if (itsLogFile) *itsLogFile << "*** ERROR: Failed to draw station: " << endl;
+              if (itsLogFile)
+                *itsLogFile << "*** ERROR: Failed to draw station: " << endl;
               return false;
             }
 
@@ -2776,7 +2842,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
                 return false;
               }
 
-              if (theOutput == kPostScript) itsDayChangeText->WriteGRestore();
+              if (theOutput == kPostScript)
+                itsDayChangeText->WriteGRestore();
               // itsDayChangeText->Place(savePlace); // jotta toimisi seuraavalle writePs-k‰skylle
             }
 
@@ -2803,7 +2870,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
                                 << endl;
                   return false;
                 }
-                if (theOutput == kPostScript) object->WriteGRestore();
+                if (theOutput == kPostScript)
+                  object->WriteGRestore();
                 object->Place(savePlace);  // jotta toimisi seuraavalle writePs-k‰skylle
 
                 object = static_cast<NFmiPressScaling *>(stationObjectIter.Next());
@@ -2817,7 +2885,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
             {
               string msg = static_cast<char *>(statName);
               errors.push_back(msg);
-              if (itsLogFile) *itsLogFile << "  ***ERROR: " << msg << endl;
+              if (itsLogFile)
+                *itsLogFile << "  ***ERROR: " << msg << endl;
             }
           }
           fIsFirstStation = false;
@@ -2870,7 +2939,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
     else
     {
       long hourStep;
-      if (fIsPureRegTimeLoop) hourStep = itsHourStep;
+      if (fIsPureRegTimeLoop)
+        hourStep = itsHourStep;
       //		  time.ChangeByHours(itsHourStep);
       else
         hourStep = itsTimeSteps[currentStepInd];
@@ -3039,7 +3109,8 @@ NFmiString NFmiPressParam::MakeLogComment(void) const
 
 bool NFmiPressParam::FindQDStationName(const NFmiStationPoint &theStation)
 {
-  if (!itsDataIter) return false;
+  if (!itsDataIter)
+    return false;
 
   NFmiString dataName;
   NFmiString plotName = theStation.GetName();
@@ -3055,7 +3126,8 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint &theStation)
       dataName = itsDataIter->Location()->GetName();
       if (dataName.IsValue())
       {
-        if (plotName == dataName) return true;
+        if (plotName == dataName)
+          return true;
       }
       else
       {
@@ -3063,11 +3135,14 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint &theStation)
         if (plotWmo <= 0)
         {
           plotWmo = theStation.GetIdent();
-          if (plotWmo < 1000) plotWmo = itsPressProduct->FindWmoFromList(plotName);
-          if (plotWmo == 0) return false;
+          if (plotWmo < 1000)
+            plotWmo = itsPressProduct->FindWmoFromList(plotName);
+          if (plotWmo == 0)
+            return false;
         }
 
-        if (dataWmo > 0 && plotWmo > 0 && dataWmo == plotWmo) return true;
+        if (dataWmo > 0 && plotWmo > 0 && dataWmo == plotWmo)
+          return true;
       }
     }
   }
@@ -3137,7 +3212,10 @@ bool NFmiPressParam::SetLonLat(NFmiStationPoint &theStation)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressParam::SetStationScale(const NFmiRectScale &scale) { itsCurrentStationScale = scale; }
+void NFmiPressParam::SetStationScale(const NFmiRectScale &scale)
+{
+  itsCurrentStationScale = scale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -3147,5 +3225,8 @@ void NFmiPressParam::SetStationScale(const NFmiRectScale &scale) { itsCurrentSta
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressParam::SetScale(const NFmiRectScale &scale) { itsScale = scale; }
+void NFmiPressParam::SetScale(const NFmiRectScale &scale)
+{
+  itsScale = scale;
+}
 // ======================================================================

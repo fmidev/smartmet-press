@@ -107,7 +107,10 @@ inline NFmiSymbolParamRect::NFmiSymbolParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiSymbolParamRect::UseDayNightSymbols(void) { fUseDayNightSymbols = true; }
+inline void NFmiSymbolParamRect::UseDayNightSymbols(void)
+{
+  fUseDayNightSymbols = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -116,7 +119,10 @@ inline void NFmiSymbolParamRect::UseDayNightSymbols(void) { fUseDayNightSymbols 
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiSymbolParamRect::SetConstSymbol(bool boo) { fIsConstSymbol = boo; }
+inline void NFmiSymbolParamRect::SetConstSymbol(bool boo)
+{
+  fIsConstSymbol = boo;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

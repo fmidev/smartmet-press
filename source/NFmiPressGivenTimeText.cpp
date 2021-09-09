@@ -36,7 +36,8 @@ bool NFmiPressGivenTimeText::ReadRemaining(void)
   {
     case dRelDay:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (ReadOne(long1))
       {
@@ -49,9 +50,11 @@ bool NFmiPressGivenTimeText::ReadRemaining(void)
     }
     case dHour:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
-      if (ReadOne(long1)) itsFirstPlotTime.SetHour(static_cast<short>(long1));
+      if (ReadOne(long1))
+        itsFirstPlotTime.SetHour(static_cast<short>(long1));
 
       ReadNext();
       break;

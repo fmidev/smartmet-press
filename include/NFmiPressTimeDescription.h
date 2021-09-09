@@ -217,7 +217,10 @@ inline void NFmiPressTimeDescription::SetTime(const NFmiMetTime& theTime)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressTimeDescription::SetHourLoop(bool isHourLoop) { fIsHourLoop = isHourLoop; }
+inline void NFmiPressTimeDescription::SetHourLoop(bool isHourLoop)
+{
+  fIsHourLoop = isHourLoop;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -226,7 +229,10 @@ inline void NFmiPressTimeDescription::SetHourLoop(bool isHourLoop) { fIsHourLoop
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressTimeDescription::IsHourLoop(void) const { return fIsHourLoop; }
+inline bool NFmiPressTimeDescription::IsHourLoop(void) const
+{
+  return fIsHourLoop;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -260,7 +266,10 @@ inline void NFmiPressTimeDescription::Set(short theFirstPlotMinutes,
  */
 // ----------------------------------------------------------------------
 
-inline short NFmiPressTimeDescription::GetFirstPlotHours(void) const { return itsFirstPlotHours; }
+inline short NFmiPressTimeDescription::GetFirstPlotHours(void) const
+{
+  return itsFirstPlotHours;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -282,7 +291,10 @@ inline short NFmiPressTimeDescription::GetFirstPlotMinutes(void) const
  */
 // ----------------------------------------------------------------------
 
-inline short NFmiPressTimeDescription::GetFirstDeltaDays(void) const { return itsFirstDeltaDays; }
+inline short NFmiPressTimeDescription::GetFirstDeltaDays(void) const
+{
+  return itsFirstDeltaDays;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -317,7 +329,10 @@ inline NFmiMetTime NFmiPressTimeDescription::GetFirstPlotTime(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressTimeDescription::IsWriteAsUtc(void) const { return fWriteAsUtc; }
+inline bool NFmiPressTimeDescription::IsWriteAsUtc(void) const
+{
+  return fWriteAsUtc;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

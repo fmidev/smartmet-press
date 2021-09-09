@@ -292,12 +292,18 @@ inline NFmiPressParam::~NFmiPressParam(void)
   itsStations.Destroy();
   itsTimeDepObjects.Clear(isTrue);
   itsStationDepObjects.Clear(isTrue);
-  if (itsDataIter) delete itsDataIter;
-  if (itsPrimaryDataIter) delete itsDataIter;
-  if (itsAreaMask) delete itsAreaMask;
-  if (itsOptionLocation) delete itsOptionLocation;
-  if (itsDayChangeText) delete itsDayChangeText;
-  if (itsCurrentStationPoint) delete itsCurrentStationPoint;
+  if (itsDataIter)
+    delete itsDataIter;
+  if (itsPrimaryDataIter)
+    delete itsDataIter;
+  if (itsAreaMask)
+    delete itsAreaMask;
+  if (itsOptionLocation)
+    delete itsOptionLocation;
+  if (itsDayChangeText)
+    delete itsDayChangeText;
+  if (itsCurrentStationPoint)
+    delete itsCurrentStationPoint;
 }
 
 // ----------------------------------------------------------------------
@@ -425,49 +431,73 @@ inline void NFmiPressParam::SetReportProseccedNumber(bool theValue)
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiPressParam::SetBackupDayReported(void) { fBackupDayReported = true; }
+inline void NFmiPressParam::SetBackupDayReported(void)
+{
+  fBackupDayReported = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::IsBackupDayReported(void) const { return fBackupDayReported; }
+inline bool NFmiPressParam::IsBackupDayReported(void) const
+{
+  return fBackupDayReported;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::IsOptimizeGlobalObs(void) const { return fOptimizeGlobalObs; }
+inline bool NFmiPressParam::IsOptimizeGlobalObs(void) const
+{
+  return fOptimizeGlobalObs;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::IsDayChanged(void) const { return fDayChanged; }
+inline bool NFmiPressParam::IsDayChanged(void) const
+{
+  return fDayChanged;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiPressParam::SetDayChanged(void) { fDayChanged = true; }
+inline void NFmiPressParam::SetDayChanged(void)
+{
+  fDayChanged = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::PrimaryDataOk(void) const { return fPrimaryDataOk; }
+inline bool NFmiPressParam::PrimaryDataOk(void) const
+{
+  return fPrimaryDataOk;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline unsigned long NFmiPressParam::GetPrimaryDataNum(void) const { return itsPrimaryDataNum; }
+inline unsigned long NFmiPressParam::GetPrimaryDataNum(void) const
+{
+  return itsPrimaryDataNum;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiPressParam::AddPrimaryDataNum(void) { itsPrimaryDataNum++; }
+inline void NFmiPressParam::AddPrimaryDataNum(void)
+{
+  itsPrimaryDataNum++;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -539,7 +569,10 @@ inline bool NFmiPressParam::SetStationNotNeeded(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsBackupStation(void) const { return fCurrentStationBackup; }
+inline bool NFmiPressParam::IsBackupStation(void) const
+{
+  return fCurrentStationBackup;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -548,7 +581,10 @@ inline bool NFmiPressParam::IsBackupStation(void) const { return fCurrentStation
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsSupplementary(void) const { return fSupplementary; }
+inline bool NFmiPressParam::IsSupplementary(void) const
+{
+  return fSupplementary;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -557,7 +593,10 @@ inline bool NFmiPressParam::IsSupplementary(void) const { return fSupplementary;
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressProduct* NFmiPressParam::GetPressProduct(void) const { return itsPressProduct; }
+inline NFmiPressProduct* NFmiPressParam::GetPressProduct(void) const
+{
+  return itsPressProduct;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -566,7 +605,10 @@ inline NFmiPressProduct* NFmiPressParam::GetPressProduct(void) const { return it
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::InterruptSymbolGroup(void) const { return fInterruptSymbolGroup; }
+inline bool NFmiPressParam::InterruptSymbolGroup(void) const
+{
+  return fInterruptSymbolGroup;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -600,7 +642,10 @@ inline bool NFmiPressParam::IsDistanceCheck(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsActive(void) const { return fActivity; }
+inline bool NFmiPressParam::IsActive(void) const
+{
+  return fActivity;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -609,7 +654,10 @@ inline bool NFmiPressParam::IsActive(void) const { return fActivity; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetActivity(bool theActivity) { fActivity = theActivity; }
+inline void NFmiPressParam::SetActivity(bool theActivity)
+{
+  fActivity = theActivity;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -671,7 +719,10 @@ inline boost::shared_ptr<NFmiFastQueryInfo> NFmiPressParam::GetMaskIter(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiInfoAreaMask* NFmiPressParam::GetAreaMask(void) { return itsAreaMask; }
+inline NFmiInfoAreaMask* NFmiPressParam::GetAreaMask(void)
+{
+  return itsAreaMask;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -680,7 +731,10 @@ inline NFmiInfoAreaMask* NFmiPressParam::GetAreaMask(void) { return itsAreaMask;
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetDataName(NFmiString name) { itsDataName = name; }
+inline void NFmiPressParam::SetDataName(NFmiString name)
+{
+  itsDataName = name;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -689,7 +743,10 @@ inline void NFmiPressParam::SetDataName(NFmiString name) { itsDataName = name; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetPrimaryDataName(NFmiString name) { itsPrimaryDataName = name; }
+inline void NFmiPressParam::SetPrimaryDataName(NFmiString name)
+{
+  itsPrimaryDataName = name;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -711,7 +768,10 @@ inline bool NFmiPressParam::HasPrimaryData(void) const
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetLanguage(FmiLanguage theLanguage) { itsLanguage = theLanguage; }
+inline void NFmiPressParam::SetLanguage(FmiLanguage theLanguage)
+{
+  itsLanguage = theLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -720,7 +780,10 @@ inline void NFmiPressParam::SetLanguage(FmiLanguage theLanguage) { itsLanguage =
  */
 // ----------------------------------------------------------------------
 
-inline FmiLanguage NFmiPressParam::GetLanguage(void) { return itsLanguage; }
+inline FmiLanguage NFmiPressParam::GetLanguage(void)
+{
+  return itsLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -729,7 +792,10 @@ inline FmiLanguage NFmiPressParam::GetLanguage(void) { return itsLanguage; }
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressParam::GetName(void) { return itsName; }
+inline NFmiString NFmiPressParam::GetName(void)
+{
+  return itsName;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -738,7 +804,10 @@ inline NFmiString NFmiPressParam::GetName(void) { return itsName; }
  */
 // ----------------------------------------------------------------------
 
-inline NFmiStation NFmiPressParam::GetCurrentStation(void) const { return itsCurrentStation; }
+inline NFmiStation NFmiPressParam::GetCurrentStation(void) const
+{
+  return itsCurrentStation;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -747,7 +816,10 @@ inline NFmiStation NFmiPressParam::GetCurrentStation(void) const { return itsCur
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsStationLocalTimeMode(void) const { return fStationsAreLocalTime; }
+inline bool NFmiPressParam::IsStationLocalTimeMode(void) const
+{
+  return fStationsAreLocalTime;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -756,7 +828,10 @@ inline bool NFmiPressParam::IsStationLocalTimeMode(void) const { return fStation
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetYearData(bool theStatus) { fYearData = theStatus; }
+inline void NFmiPressParam::SetYearData(bool theStatus)
+{
+  fYearData = theStatus;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -765,7 +840,10 @@ inline void NFmiPressParam::SetYearData(bool theStatus) { fYearData = theStatus;
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsFirstStation(void) const { return fIsFirstStation; }
+inline bool NFmiPressParam::IsFirstStation(void) const
+{
+  return fIsFirstStation;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -774,7 +852,10 @@ inline bool NFmiPressParam::IsFirstStation(void) const { return fIsFirstStation;
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetErrorReported(unsigned short ind) { fErrorReported[ind - 1] = true; }
+inline void NFmiPressParam::SetErrorReported(unsigned short ind)
+{
+  fErrorReported[ind - 1] = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -784,7 +865,10 @@ inline void NFmiPressParam::SetErrorReported(unsigned short ind) { fErrorReporte
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::GetErrorReported(unsigned short ind) { return fErrorReported[ind - 1]; }
+inline bool NFmiPressParam::GetErrorReported(unsigned short ind)
+{
+  return fErrorReported[ind - 1];
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -793,7 +877,10 @@ inline bool NFmiPressParam::GetErrorReported(unsigned short ind) { return fError
  */
 // ----------------------------------------------------------------------
 
-inline NFmiTime NFmiPressParam::GetOptionTime(void) const { return itsOptionTime; }
+inline NFmiTime NFmiPressParam::GetOptionTime(void) const
+{
+  return itsOptionTime;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -802,7 +889,10 @@ inline NFmiTime NFmiPressParam::GetOptionTime(void) const { return itsOptionTime
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetOptionTime(NFmiTime theTime) { itsOptionTime = theTime; }
+inline void NFmiPressParam::SetOptionTime(NFmiTime theTime)
+{
+  itsOptionTime = theTime;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -811,7 +901,10 @@ inline void NFmiPressParam::SetOptionTime(NFmiTime theTime) { itsOptionTime = th
  */
 // ----------------------------------------------------------------------
 
-inline NFmiLocation* NFmiPressParam::GetOptionLocation(void) { return itsOptionLocation; }
+inline NFmiLocation* NFmiPressParam::GetOptionLocation(void)
+{
+  return itsOptionLocation;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -827,7 +920,8 @@ inline void NFmiPressParam::SetOptionLocation(NFmiLocation theLocation)
 
 inline void NFmiPressParam::DeleteOptionLocation(void)
 {
-  if (itsOptionLocation) delete itsOptionLocation;
+  if (itsOptionLocation)
+    delete itsOptionLocation;
   itsOptionLocation = 0;
 }
 // ----------------------------------------------------------------------
@@ -838,7 +932,10 @@ inline void NFmiPressParam::DeleteOptionLocation(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsAreaOperation(void) { return fIsAreaOperation; }
+inline bool NFmiPressParam::IsAreaOperation(void)
+{
+  return fIsAreaOperation;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -847,7 +944,10 @@ inline bool NFmiPressParam::IsAreaOperation(void) { return fIsAreaOperation; }
  */
 // ----------------------------------------------------------------------
 
-inline NFmiArea* NFmiPressParam::GetGeoArea(void) { return itsArea.GetArea(); }
+inline NFmiArea* NFmiPressParam::GetGeoArea(void)
+{
+  return itsArea.GetArea();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -856,7 +956,10 @@ inline NFmiArea* NFmiPressParam::GetGeoArea(void) { return itsArea.GetArea(); }
  */
 // ----------------------------------------------------------------------
 
-inline FmiCounter NFmiPressParam::GetCurrentStep(void) { return itsCurrentStep; }
+inline FmiCounter NFmiPressParam::GetCurrentStep(void)
+{
+  return itsCurrentStep;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

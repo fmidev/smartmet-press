@@ -137,7 +137,10 @@ inline NFmiPressScaling::NFmiPressScaling(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPoint NFmiPressScaling::GetMovePlace(void) const { return itsMovePlace; }
+inline NFmiPoint NFmiPressScaling::GetMovePlace(void) const
+{
+  return itsMovePlace;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -147,7 +150,10 @@ inline NFmiPoint NFmiPressScaling::GetMovePlace(void) const { return itsMovePlac
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressScaling::HasSubText(void) const { return false; }
+inline bool NFmiPressScaling::HasSubText(void) const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -157,7 +163,10 @@ inline bool NFmiPressScaling::HasSubText(void) const { return false; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput) { return true; }
+inline bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
+{
+  return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -176,7 +185,10 @@ inline void NFmiPressScaling::ChangeByHours(long hours) {}
  */
 // ---------------------------------------------------------------------
 
-inline double NFmiPressScaling::GetHeight(void) const { return itsRectSize.Y(); }
+inline double NFmiPressScaling::GetHeight(void) const
+{
+  return itsRectSize.Y();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -213,7 +225,10 @@ inline bool NFmiPressScaling::SetSize(const NFmiPoint& theSize)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressScaling::Place(const NFmiPoint& thePlace) { itsPlace = thePlace; }
+inline void NFmiPressScaling::Place(const NFmiPoint& thePlace)
+{
+  itsPlace = thePlace;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -222,7 +237,10 @@ inline void NFmiPressScaling::Place(const NFmiPoint& thePlace) { itsPlace = theP
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressScaling::Move(const NFmiPoint& addPlace) { itsPlace += addPlace; }
+inline void NFmiPressScaling::Move(const NFmiPoint& addPlace)
+{
+  itsPlace += addPlace;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -231,39 +249,30 @@ inline void NFmiPressScaling::Move(const NFmiPoint& addPlace) { itsPlace += addP
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPoint NFmiPressScaling::Place(void) { return itsPlace; }
+inline NFmiPoint NFmiPressScaling::Place(void)
+{
+  return itsPlace;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressScaling::SetPrintOnceOn(void) { fPrintOnce = true; }
+inline void NFmiPressScaling::SetPrintOnceOn(void)
+{
+  fPrintOnce = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressScaling::ScaleNotPlace(void) { fScaleNotPlace = true; }
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline bool NFmiPressScaling::GetPrintOnce(void) { return fPrintOnce; }
-// ----------------------------------------------------------------------
-/*!
- * Undocumented
- *
- * \return Undocumented
- */
-// ----------------------------------------------------------------------
-
-inline bool NFmiPressScaling::IsInParagraph(void) { return false; }
+inline void NFmiPressScaling::ScaleNotPlace(void)
+{
+  fScaleNotPlace = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -272,7 +281,34 @@ inline bool NFmiPressScaling::IsInParagraph(void) { return false; }
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressScaling::GetLineStep(void) const { return 0.; }
+inline bool NFmiPressScaling::GetPrintOnce(void)
+{
+  return fPrintOnce;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline bool NFmiPressScaling::IsInParagraph(void)
+{
+  return false;
+}
+// ----------------------------------------------------------------------
+/*!
+ * Undocumented
+ *
+ * \return Undocumented
+ */
+// ----------------------------------------------------------------------
+
+inline double NFmiPressScaling::GetLineStep(void) const
+{
+  return 0.;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

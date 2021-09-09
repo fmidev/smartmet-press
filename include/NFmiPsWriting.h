@@ -110,7 +110,10 @@ inline NFmiPsWriting::NFmiPsWriting(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPsWriting::IsLineFeed(void) { return fLineFeed; }
+inline bool NFmiPsWriting::IsLineFeed(void)
+{
+  return fLineFeed;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -119,7 +122,10 @@ inline bool NFmiPsWriting::IsLineFeed(void) { return fLineFeed; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPsWriting::SetLineFeed(bool theValue) { fLineFeed = theValue; }
+inline void NFmiPsWriting::SetLineFeed(bool theValue)
+{
+  fLineFeed = theValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -141,7 +147,10 @@ inline void NFmiPsWriting::SetRotatingPoint(const NFmiPoint& thePoint)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPsWriting::SetRotBeforeScale(const bool rBeforeS) { fRotBeforeScale = rBeforeS; }
+inline void NFmiPsWriting::SetRotBeforeScale(const bool rBeforeS)
+{
+  fRotBeforeScale = rBeforeS;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -163,7 +172,10 @@ inline void NFmiPsWriting::SetFile(std::ofstream& theDestinationFile)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPsWriting::IsActive(void) const { return fActivity; }
+inline bool NFmiPsWriting::IsActive(void) const
+{
+  return fActivity;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -172,7 +184,10 @@ inline bool NFmiPsWriting::IsActive(void) const { return fActivity; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPsWriting::SetActivity(bool theActivity) { fActivity = theActivity; }
+inline void NFmiPsWriting::SetActivity(bool theActivity)
+{
+  fActivity = theActivity;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -181,7 +196,10 @@ inline void NFmiPsWriting::SetActivity(bool theActivity) { fActivity = theActivi
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPsWriting::IsToWriteLast(void) const { return fWriteAsLast; }
+inline bool NFmiPsWriting::IsToWriteLast(void) const
+{
+  return fWriteAsLast;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -190,7 +208,10 @@ inline bool NFmiPsWriting::IsToWriteLast(void) const { return fWriteAsLast; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPsWriting::SetWriteLast(bool theWriteLat) { fWriteAsLast = theWriteLat; }
+inline void NFmiPsWriting::SetWriteLast(bool theWriteLat)
+{
+  fWriteAsLast = theWriteLat;
+}
 #endif  // NFMIPSWRITING_H
 
 // ======================================================================

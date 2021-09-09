@@ -152,7 +152,10 @@ inline NFmiPressDescription::~NFmiPressDescription(void) {}
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDescription::NFmiPressDescription(void) { fOnlyForMissingPrecedingElement = false; }
+inline NFmiPressDescription::NFmiPressDescription(void)
+{
+  fOnlyForMissingPrecedingElement = false;
+}
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -211,7 +214,10 @@ inline std::string NFmiPressDescription::GetEncoding(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::BlockLatinFont(const NFmiString& font) const { return true; }
+inline bool NFmiPressDescription::BlockLatinFont(const NFmiString& font) const
+{
+  return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -259,21 +265,30 @@ inline void NFmiPressDescription::SetTextAlignment(FmiDirection alignment)
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressDescription::GetTextSize(void) const { return itsEnvironment.GetTextSize(); }
+inline double NFmiPressDescription::GetTextSize(void) const
+{
+  return itsEnvironment.GetTextSize();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::SetTextSize(double size) { itsEnvironment.SetTextSize(size); }
+inline void NFmiPressDescription::SetTextSize(double size)
+{
+  itsEnvironment.SetTextSize(size);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::SetFont(const NFmiString& font) { itsEnvironment.SetFont(font); }
+inline void NFmiPressDescription::SetFont(const NFmiString& font)
+{
+  itsEnvironment.SetFont(font);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -291,7 +306,10 @@ inline NFmiString NFmiPressDescription::GetFont(void) const
     */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::GetHome(void) const { return itsHomePath; }
+inline NFmiString NFmiPressDescription::GetHome(void) const
+{
+  return itsHomePath;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -300,7 +318,10 @@ inline NFmiString NFmiPressDescription::GetHome(void) const { return itsHomePath
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::SetHome(const NFmiString& path) { itsHomePath = path; }
+inline void NFmiPressDescription::SetHome(const NFmiString& path)
+{
+  itsHomePath = path;
+}
 // ----------------------------------------------------------------------
 /*!
  * Gets the name of the product under process.
@@ -309,7 +330,10 @@ inline void NFmiPressDescription::SetHome(const NFmiString& path) { itsHomePath 
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getProductName(void) const { return itsProductName; }
+inline NFmiString NFmiPressDescription::getProductName(void) const
+{
+  return itsProductName;
+}
 // ----------------------------------------------------------------------
 /*!
  * Sets the name of the product under process.
@@ -331,7 +355,10 @@ inline void NFmiPressDescription::setProductName(const NFmiString& productName)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getCnfPath(void) const { return itsCnfPath; }
+inline NFmiString NFmiPressDescription::getCnfPath(void) const
+{
+  return itsCnfPath;
+}
 // ----------------------------------------------------------------------
 /*!
  * Sets the path to the configuration files.
@@ -340,7 +367,10 @@ inline NFmiString NFmiPressDescription::getCnfPath(void) const { return itsCnfPa
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::setCnfPath(const NFmiString& path) { itsCnfPath = path; }
+inline void NFmiPressDescription::setCnfPath(const NFmiString& path)
+{
+  itsCnfPath = path;
+}
 // ----------------------------------------------------------------------
 /*!
  * Gets the path to the temporary files
@@ -349,7 +379,10 @@ inline void NFmiPressDescription::setCnfPath(const NFmiString& path) { itsCnfPat
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getTmpPath(void) const { return itsTmpPath; }
+inline NFmiString NFmiPressDescription::getTmpPath(void) const
+{
+  return itsTmpPath;
+}
 // ----------------------------------------------------------------------
 /*!
  * Sets the path to the temporary files.
@@ -358,7 +391,10 @@ inline NFmiString NFmiPressDescription::getTmpPath(void) const { return itsTmpPa
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::setTmpPath(const NFmiString& path) { itsTmpPath = path; }
+inline void NFmiPressDescription::setTmpPath(const NFmiString& path)
+{
+  itsTmpPath = path;
+}
 // ----------------------------------------------------------------------
 /*!
  * Gets the path to the symbol cache files
@@ -393,7 +429,10 @@ inline void NFmiPressDescription::setSymbolCachePath(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getIncPath(void) const { return itsIncPath; }
+inline NFmiString NFmiPressDescription::getIncPath(void) const
+{
+  return itsIncPath;
+}
 // ----------------------------------------------------------------------
 /*!
  * Sets the path to the .inc files.
@@ -402,7 +441,10 @@ inline NFmiString NFmiPressDescription::getIncPath(void) const { return itsIncPa
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::setIncPath(const NFmiString& path) { itsIncPath = path; }
+inline void NFmiPressDescription::setIncPath(const NFmiString& path)
+{
+  itsIncPath = path;
+}
 // ----------------------------------------------------------------------
 /*!
  * Gets the path to the data files
@@ -411,7 +453,10 @@ inline void NFmiPressDescription::setIncPath(const NFmiString& path) { itsIncPat
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getDataPath(void) const { return itsDataPath; }
+inline NFmiString NFmiPressDescription::getDataPath(void) const
+{
+  return itsDataPath;
+}
 // ----------------------------------------------------------------------
 /*!
  * Sets the path to the data files.
@@ -420,7 +465,10 @@ inline NFmiString NFmiPressDescription::getDataPath(void) const { return itsData
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::setDataPath(const NFmiString& path) { itsDataPath = path; }
+inline void NFmiPressDescription::setDataPath(const NFmiString& path)
+{
+  itsDataPath = path;
+}
 // ----------------------------------------------------------------------
 /*!
  * Gets the path to the output files
@@ -429,7 +477,10 @@ inline void NFmiPressDescription::setDataPath(const NFmiString& path) { itsDataP
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getOutPath(void) const { return itsOutPath; }
+inline NFmiString NFmiPressDescription::getOutPath(void) const
+{
+  return itsOutPath;
+}
 // ----------------------------------------------------------------------
 /*!
  * Sets the path to the output files.
@@ -438,7 +489,10 @@ inline NFmiString NFmiPressDescription::getOutPath(void) const { return itsOutPa
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::setOutPath(const NFmiString& path) { itsOutPath = path; }
+inline void NFmiPressDescription::setOutPath(const NFmiString& path)
+{
+  itsOutPath = path;
+}
 // ----------------------------------------------------------------------
 /*!
  * Gets the path to the log files
@@ -447,7 +501,10 @@ inline void NFmiPressDescription::setOutPath(const NFmiString& path) { itsOutPat
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getLogPath(void) const { return itsLogPath; }
+inline NFmiString NFmiPressDescription::getLogPath(void) const
+{
+  return itsLogPath;
+}
 // ----------------------------------------------------------------------
 /*!
  * Sets the path to the log files.
@@ -456,7 +513,10 @@ inline NFmiString NFmiPressDescription::getLogPath(void) const { return itsLogPa
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDescription::setLogPath(const NFmiString& path) { itsLogPath = path; }
+inline void NFmiPressDescription::setLogPath(const NFmiString& path)
+{
+  itsLogPath = path;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -491,7 +551,10 @@ inline NFmiPressEnvironment NFmiPressDescription::GetEnvironment(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::IsRGB(void) const { return itsEnvironment.IsRGB(); }
+inline bool NFmiPressDescription::IsRGB(void) const
+{
+  return itsEnvironment.IsRGB();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -500,7 +563,10 @@ inline bool NFmiPressDescription::IsRGB(void) const { return itsEnvironment.IsRG
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::IsCMYK(void) const { return itsEnvironment.IsCMYK(); }
+inline bool NFmiPressDescription::IsCMYK(void) const
+{
+  return itsEnvironment.IsCMYK();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

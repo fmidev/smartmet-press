@@ -37,7 +37,8 @@ bool NFmiCopyFile(ifstream &inFile, ofstream &outFile)
     short numToWrite = inFile.gcount() - 1;
 
     // miten aikaisemmin j‰i itsest‰‰n pois???
-    if (inBuf[numToWrite - 1] == '\x0D') numToWrite--;
+    if (inBuf[numToWrite - 1] == '\x0D')
+      numToWrite--;
 
     outFile.write(inBuf, numToWrite);
 
@@ -510,7 +511,8 @@ bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream &outFile, float theRotat
   outFile << "gsave" << endl;
   outFile << xScale << " " << yScale << " scale" << endl;
   outFile << xTrans << " " << yTrans << " translate" << endl;
-  if (theRotating != kFloatMissing) outFile << theRotating << " rotate" << endl;
+  if (theRotating != kFloatMissing)
+    outFile << theRotating << " rotate" << endl;
   return true;
 }
 

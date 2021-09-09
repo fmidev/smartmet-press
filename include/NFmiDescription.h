@@ -535,7 +535,10 @@ inline void NFmiDescription::SetTrue(bool& theBool)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiDescription::SetLogFile(std::ofstream* logFile) { itsLogFile = logFile; }
+inline void NFmiDescription::SetLogFile(std::ofstream* logFile)
+{
+  itsLogFile = logFile;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -557,7 +560,10 @@ inline void NFmiDescription::SetDescriptionFile(std::ifstream* descFile)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned short NFmiDescription::GetMaxLoopNum(void) const { return itsMaxLoopNum; }
+inline unsigned short NFmiDescription::GetMaxLoopNum(void) const
+{
+  return itsMaxLoopNum;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -566,7 +572,10 @@ inline unsigned short NFmiDescription::GetMaxLoopNum(void) const { return itsMax
  */
 // ----------------------------------------------------------------------
 
-inline std::ofstream* NFmiDescription::GetLogFile(void) const { return itsLogFile; }
+inline std::ofstream* NFmiDescription::GetLogFile(void) const
+{
+  return itsLogFile;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -575,7 +584,10 @@ inline std::ofstream* NFmiDescription::GetLogFile(void) const { return itsLogFil
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiDescription::ClassId(void) { return kNFmiNone; }
+inline unsigned long NFmiDescription::ClassId(void)
+{
+  return kNFmiNone;
+}
 #endif  // NFMIDESCRIPTION_H
 
 // ======================================================================

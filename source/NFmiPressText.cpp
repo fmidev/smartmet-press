@@ -31,8 +31,10 @@ using namespace std;
 
 NFmiPressText::~NFmiPressText(void)
 {
-  if (itsText) delete itsText;
-  if (itsSubText) delete itsSubText;
+  if (itsText)
+    delete itsText;
+  if (itsSubText)
+    delete itsSubText;
 }
 
 // ----------------------------------------------------------------------
@@ -106,10 +108,12 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != dEnd || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
-      if (itsLogFile) *itsLogFile << "*** ERROR: max file length exceeded in #Text" << endl;
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: max file length exceeded in #Text" << endl;
       retString = itsString;
       return isFalse;
     }
@@ -143,7 +147,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dSymbolPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           Place(NFmiPoint(r1, r2));
@@ -154,7 +159,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dPsPlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           NFmiPoint point(r1, r2);
@@ -166,7 +172,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dCharSpace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
           itsCharSpace = r1;
@@ -176,7 +183,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dTextString:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         // itsText = new NFmiString(ReadString());
         *itsText = ReadString();
         // textGiven = true;
@@ -186,7 +194,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dSymbolSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadDouble(r1))
         {
@@ -219,7 +228,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dAddInFront:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         *itsDescriptionFile >> itsObject;
         itsAddInFront = itsObject;
 
@@ -228,7 +238,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dAddAfter:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         *itsDescriptionFile >> itsObject;
         itsAddAfter = itsObject;
 
@@ -237,7 +248,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dTopMargin:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
           itsTopMargin = r1;
@@ -249,10 +261,12 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dLeftMargin:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
-          if (oneMarginSet) fInParagraph = true;
+          if (oneMarginSet)
+            fInParagraph = true;
           oneMarginSet = true;
           fInFreeArea = false;
           itsLeftMargin = r1;
@@ -262,10 +276,12 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dRightMargin:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
-          if (oneMarginSet) fInParagraph = true;
+          if (oneMarginSet)
+            fInParagraph = true;
           oneMarginSet = true;
           fInFreeArea = false;
           itsRightMargin = r1;
@@ -275,7 +291,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dLineStep:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
           itsLineStep = r1;
@@ -285,7 +302,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dIndent:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
           itsIndent = r1;
@@ -295,7 +313,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dLF:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
           itsLineStep = r1;
@@ -305,7 +324,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dLFFactor:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
           itsLineStepFactor = r1;
@@ -315,7 +335,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dParagraphBorders:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(r1, r2) && ReadDouble(r3))
         {
@@ -338,7 +359,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dTextBorders:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (fInParagraph)
           *itsLogFile << "*** ERROR: Paragraph and AreaPath confusion in Text" << endl;
@@ -385,7 +407,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         textFile = ReadString();
         // textGiven = true;
 
@@ -394,7 +417,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dTextDir:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         textDir = ReadString();
         // textGiven = true;
@@ -405,7 +429,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
       case dTextPath:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         textPath = ReadString();
         // textGiven = true;
@@ -415,7 +440,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dHeaderFont:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         headerFont = ReadString();
         ReadNext();
@@ -428,7 +454,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
       }
       case dMainHeaderFont:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         mainHeaderFont = ReadString();
         ReadNext();
@@ -459,9 +486,10 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
     NFmiHyphenationString nextString;
 
-    if (GetTimestampDayGap() != kShortMissing) {
-        NFmiString timeFormat("YYYYMMDDHH00");
-        AddValidTimeTimeStamp(textFile, timeFormat, itsFirstPlotTime);
+    if (GetTimestampDayGap() != kShortMissing)
+    {
+      NFmiString timeFormat("YYYYMMDDHH00");
+      AddValidTimeTimeStamp(textFile, timeFormat, itsFirstPlotTime);
     }
 
 #ifndef UNIX
@@ -485,11 +513,15 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
     // int textNum = -1;
     // int numCR = 0;
-    if (headerFont == NFmiString("None")) headerFont = itsEnvironment.GetFont();
-    if (headerSize == 0.) headerSize = GetHeight();
+    if (headerFont == NFmiString("None"))
+      headerFont = itsEnvironment.GetFont();
+    if (headerSize == 0.)
+      headerSize = GetHeight();
 
-    if (mainHeaderFont == NFmiString("None")) mainHeaderFont = headerFont;
-    if (mainHeaderSize == 0.) mainHeaderSize = headerSize;
+    if (mainHeaderFont == NFmiString("None"))
+      mainHeaderFont = headerFont;
+    if (mainHeaderSize == 0.)
+      mainHeaderSize = headerSize;
 
     bool isHeader, isMainHeader;
     NFmiString baseFont = GetFont();
@@ -647,7 +679,8 @@ bool NFmiPressText::ReadRemaining(void)
   {
     case dTextLanguage:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       itsLanguage = ReadLanguage();
 
@@ -656,7 +689,8 @@ bool NFmiPressText::ReadRemaining(void)
     }
     case dParagraphMove:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       if (ReadDouble(r1))
       {
         fInParagraph = true;
@@ -708,7 +742,8 @@ bool NFmiPressText::ReadRemaining(void)
     }
     case dSubTimeTextObject:
     {
-      if (itsSubText) delete itsSubText;
+      if (itsSubText)
+        delete itsSubText;
       itsSubText = new NFmiPressGivenTimeText;
       itsSubText->SetHome(GetHome());
       itsSubText->SetEnvironment(itsEnvironment);
@@ -728,7 +763,8 @@ bool NFmiPressText::ReadRemaining(void)
 
     case dSubComputerTimeTextObject:
     {
-      if (itsSubText) delete itsSubText;
+      if (itsSubText)
+        delete itsSubText;
       itsSubText = new NFmiPressComputerTimeText;
       itsSubText->SetHome(GetHome());
       itsSubText->SetEnvironment(itsEnvironment);
@@ -969,13 +1005,16 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
 
   double lineStep = itsLineStep;
   double lineStepFactor = itsLineStepFactor;
-  if (lineStepFactor <= 0.) lineStepFactor = 1.2;
-  if (lineStep <= 0.) lineStep = rect.Height() * lineStepFactor;
+  if (lineStepFactor <= 0.)
+    lineStepFactor = 1.2;
+  if (lineStep <= 0.)
+    lineStep = rect.Height() * lineStepFactor;
 
   itsLineStep = lineStep;  // pressProduct kysyy
 
   double lineStepAdd = lineStep - itsLastLineStep;
-  if (firstParagraph || fInFreeArea) lineStepAdd = 0;
+  if (firstParagraph || fInFreeArea)
+    lineStepAdd = 0;
 
   //*******************************************************************
   // laskettu fontille LucideConsole 5.1.98
@@ -1031,8 +1070,10 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
     // ON 5.98 RATKAISTU MIKAN KANSSA
 
     // WritePSConcatText(!nParagraph, IsPureBlack());
-    if (!nParagraph) *itsOutFile << "gsave" << endl;
-    if (widthScaling) *itsOutFile << itsWidthFactor << " 1 scale" << endl;
+    if (!nParagraph)
+      *itsOutFile << "gsave" << endl;
+    if (widthScaling)
+      *itsOutFile << itsWidthFactor << " 1 scale" << endl;
     if (IsPureBlack())
       *itsOutFile << "true setoverprint" << endl;
     else
@@ -1046,7 +1087,8 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
       hypString = NFmiHyphenationString(text);
       hypString.SetNarrowColumn(fNarrowColumn);
       helpString = hypString.CreateHyphens("~");
-      if (itsEnvironment.AvoidOrphanSyllables()) helpString = helpString.DeleteShortSyllables("~");
+      if (itsEnvironment.AvoidOrphanSyllables())
+        helpString = helpString.DeleteShortSyllables("~");
 
       text = helpString.ReplaceChar(NFmiString("-"),
                                     NFmiString("\\255"));  // Illussa "-" ei mene läpi ??
@@ -1118,7 +1160,8 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
       *itsOutFile << "}" << endl;
       *itsOutFile << "/TextPath exch def" << endl;
       *itsOutFile << "/Indent " << itsIndent << " def" << endl;
-      if (!fRightJustification) *itsOutFile << "/Justification false def" << endl;
+      if (!fRightJustification)
+        *itsOutFile << "/Justification false def" << endl;
       *itsOutFile << "/Leading " << lineStep << " def" << endl;
       lastLeading = lineStep;
       *itsOutFile << "SetFirstText" << endl;
@@ -1139,7 +1182,8 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
       *itsOutFile << "}" << endl;
       *itsOutFile << "/TextPath exch def" << endl;
       *itsOutFile << "/Indent " << itsIndent << " def" << endl;
-      if (!fRightJustification) *itsOutFile << "/Justification false def" << endl;
+      if (!fRightJustification)
+        *itsOutFile << "/Justification false def" << endl;
       *itsOutFile << "/Leading " << lineStep << " def" << endl;
       lastLeading = lineStep;
       *itsOutFile << "SetFirstText" << endl;
@@ -1147,7 +1191,8 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
     if (!fInArea)
     {
       double xScaled = x;
-      if (widthScaling) xScaled = x / itsWidthFactor;
+      if (widthScaling)
+        xScaled = x / itsWidthFactor;
 
       *itsOutFile << xScaled << " " << y << " moveto" << endl;
       if (GetTextAlignment() == kRight)
@@ -1233,8 +1278,10 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
             }
             lineStep = (*pos).GetLineStep();
             lineStepFactor = (*pos).GetLineStepFactor();
-            if (lineStepFactor <= 0.) lineStepFactor = 1.2;
-            if (lineStep <= 0.) lineStep = (*pos).GetHeight() * lineStepFactor;
+            if (lineStepFactor <= 0.)
+              lineStepFactor = 1.2;
+            if (lineStep <= 0.)
+              lineStep = (*pos).GetHeight() * lineStepFactor;
 
             if (lineStep != lastLeading)
             {
@@ -1277,10 +1324,13 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
 NFmiString NFmiPressText::Construct(NFmiString *theString) const
 {
   NFmiString str = NFmiString(*theString);
-  if (fUpperCase) str.UpperCase();
-  if (fLowerCase) str.LowerCase();
+  if (fUpperCase)
+    str.UpperCase();
+  if (fLowerCase)
+    str.LowerCase();
   NFmiString retString;
-  if (itsAddInFront.IsValue()) retString += itsAddInFront;
+  if (itsAddInFront.IsValue())
+    retString += itsAddInFront;
   retString += str;
   if (itsAddAfter.IsValue())
   {

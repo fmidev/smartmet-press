@@ -71,10 +71,12 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != dEnd || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
-      if (itsLogFile) *itsLogFile << "*** ERROR: max file length exceeded in #TimeText" << endl;
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: max file length exceeded in #TimeText" << endl;
       retString = itsString;
       return isFalse;
     }
@@ -104,7 +106,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
       }
       case dSymbolPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           Place(NFmiPoint(r1, r2));
@@ -116,7 +119,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
       }
       case dPsPlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           Move(NFmiPoint(r1, r2));
@@ -126,7 +130,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
       }
       case dCharSpace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(r1))
         {
           itsCharSpace = r1;
@@ -136,7 +141,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
       }
       case dTimeTextFormat:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsFormat = ReadTimeFormat();
 
@@ -145,7 +151,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
       }
       case dSymbolSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadDouble(r1))
         {
@@ -171,7 +178,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
       }
       case dAddInFront:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         itsAddInFront = ReadString();
 
         ReadNext();
@@ -179,7 +187,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
       }
       case dAddAfter:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         itsAddAfter = ReadString();
 
         ReadNext();

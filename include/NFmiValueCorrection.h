@@ -92,7 +92,10 @@ inline NFmiValueCorrection::NFmiValueCorrection(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiValueCorrection::IsRead(void) { return fRead; }
+inline bool NFmiValueCorrection::IsRead(void)
+{
+  return fRead;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -101,7 +104,10 @@ inline bool NFmiValueCorrection::IsRead(void) { return fRead; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiValueCorrection::IsMissing(void) { return fMissing; }
+inline bool NFmiValueCorrection::IsMissing(void)
+{
+  return fMissing;
+}
 #endif  // NFMIVALUECORRECTION_H
 
 // ======================================================================

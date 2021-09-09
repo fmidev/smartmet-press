@@ -104,7 +104,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
 
   while ((iobject != 9999 || itsCommentLevel) && itsLoopNum < itsMaxLoopNum)
   {
-    if (iobject != dEndComment && itsCommentLevel) iobject = dComment;
+    if (iobject != dEndComment && itsCommentLevel)
+      iobject = dComment;
     itsLoopNum++;
 
     switch (iobject)
@@ -527,7 +528,8 @@ float NFmiStationPoint::GetWmoDifference(void) const
   }
 
   NFmiTime helpTime;
-  if (useSummerTime) zoneDifferenceHour += -(helpTime.GetZoneDifferenceHour() + 2);
+  if (useSummerTime)
+    zoneDifferenceHour += -(helpTime.GetZoneDifferenceHour() + 2);
 
   return zoneDifferenceHour;
 }

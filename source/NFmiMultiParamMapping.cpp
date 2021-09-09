@@ -135,7 +135,8 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping &theInterva
       fIncomplete = true;
   }
 
-  if (itsMappingIntervals) delete[] itsMappingIntervals;
+  if (itsMappingIntervals)
+    delete[] itsMappingIntervals;
 
   itsMappingIntervals = new FmiMultiMapping[GetSize() + 1];
   itsSize = GetSize() + 1;

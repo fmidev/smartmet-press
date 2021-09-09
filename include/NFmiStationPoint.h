@@ -164,7 +164,10 @@ inline NFmiStation *NFmiStationPoint::Station(void) const
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPoint NFmiStationPoint::Point(void) const { return itsPoint; }
+inline NFmiPoint NFmiStationPoint::Point(void) const
+{
+  return itsPoint;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -198,7 +201,10 @@ inline float NFmiStationPoint::GetAlternatingSizeFactor(void) const
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiStationPoint::SetBackup(bool theStatus) { fIsBackup = theStatus; }
+inline void NFmiStationPoint::SetBackup(bool theStatus)
+{
+  fIsBackup = theStatus;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -207,7 +213,10 @@ inline void NFmiStationPoint::SetBackup(bool theStatus) { fIsBackup = theStatus;
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiStationPoint::IsBackup(void) const { return fIsBackup; }
+inline bool NFmiStationPoint::IsBackup(void) const
+{
+  return fIsBackup;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -216,7 +225,10 @@ inline bool NFmiStationPoint::IsBackup(void) const { return fIsBackup; }
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiStationPoint::X(void) const { return itsPoint.X(); }
+inline double NFmiStationPoint::X(void) const
+{
+  return itsPoint.X();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -225,7 +237,10 @@ inline double NFmiStationPoint::X(void) const { return itsPoint.X(); }
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiStationPoint::Y(void) const { return itsPoint.Y(); }
+inline double NFmiStationPoint::Y(void) const
+{
+  return itsPoint.Y();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -264,7 +279,10 @@ inline void NFmiStationPoint::Location(NFmiLocation theLocation)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiStationPoint::Point(NFmiPoint thePoint) { itsPoint = thePoint; }
+inline void NFmiStationPoint::Point(NFmiPoint thePoint)
+{
+  itsPoint = thePoint;
+}
 #endif  // NFMISTATIONPOINT_H
 
 // ======================================================================

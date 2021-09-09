@@ -41,7 +41,10 @@ NFmi2SymbolParamRect::NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbol
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect* NFmi2SymbolParamRect::Clone(void) const { return new NFmi2SymbolParamRect(*this); }
+NFmiParamRect* NFmi2SymbolParamRect::Clone(void) const
+{
+  return new NFmi2SymbolParamRect(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -59,9 +62,11 @@ bool NFmi2SymbolParamRect::ReadRemaining(void)
   {
     case dSecondPar:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
-      if (ReadLong(long1)) itsSecondDataIdent.SetParam(NFmiParam(long1));
+      if (ReadLong(long1))
+        itsSecondDataIdent.SetParam(NFmiParam(long1));
 
       ReadNext();
       break;
@@ -110,12 +115,14 @@ int NFmi2SymbolParamRect::ConvertDefText(NFmiString& object)
 
 bool NFmi2SymbolParamRect::ReadValues(NFmiFastQueryInfo* theQI, bool hearDummy)
 {
-  if (!PointOnParam(theQI, GetSecondDataIdent().GetParam()) || !PointOnLevel(theQI)) return false;
+  if (!PointOnParam(theQI, GetSecondDataIdent().GetParam()) || !PointOnLevel(theQI))
+    return false;
 
   // Vain tunnit voi muuttaa t‰ll‰ tasolla, segmentin aikaluuppi
   // menee muuten sekaisin
 
-  if (!SetRelativeHour(theQI, NFmiString("K‰‰ntyv‰Symboli"))) return isFalse;
+  if (!SetRelativeHour(theQI, NFmiString("K‰‰ntyv‰Symboli")))
+    return isFalse;
 
   // vain itsCurrentTime muuttuu edellisess‰, theQI kuitenkin k‰ytet‰‰n
   // FloatValue():ss‰, ilmeisesti pit‰‰ kuitenkin s‰ilytt‰‰ seg.aikaa

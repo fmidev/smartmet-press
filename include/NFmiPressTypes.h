@@ -43,7 +43,8 @@ enum FmiPageSize
 };
 
 //! Undocumented
-union FmiUnionColor {
+union FmiUnionColor
+{
   FmiRGBColor rgb;
   FmiCMYK cmyk;
 };

@@ -145,11 +145,13 @@ bool NFmiPressTimeDescription::PreProcessConditionally(
   {
     *itsLogFile << "*** ERROR: Preprocessing failed: " << theConditionalBeginDirective << endl;
     string message = thePrepr.GetMessage();
-    if (!message.empty()) *itsLogFile << "*** " << message << endl;
+    if (!message.empty())
+      *itsLogFile << "*** " << message << endl;
     return false;
   }
   int num = thePrepr.NumOfReplacesDone();
-  if (num > 0) *itsLogFile << "  " << num << " variables substituted in include round" << endl;
+  if (num > 0)
+    *itsLogFile << "  " << num << " variables substituted in include round" << endl;
 
   /*
   unsigned long pos = oldString.find("$#");
@@ -259,15 +261,18 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
     {
       condition = *pos;
       string::size_type bad_character = condition.find("\t", 0);
-      if (bad_character != string::npos) condition = condition.substr(0, bad_character);
+      if (bad_character != string::npos)
+        condition = condition.substr(0, bad_character);
 #ifdef UNIX
       // For some reason, the Linux program sees \r characters in the ends
       // of some directives, e.g. #ifConditionDate. They must be removed.
       bad_character = condition.find("\r", 0);
-      if (bad_character != string::npos) condition = condition.substr(0, bad_character);
+      if (bad_character != string::npos)
+        condition = condition.substr(0, bad_character);
 #endif
 
-      if (firstLoop) *itsLogFile << "  freestyle directive: " << condition << endl;
+      if (firstLoop)
+        *itsLogFile << "  freestyle directive: " << condition << endl;
       conditionMode = condition.substr(12, 3);
       hourCondition = conditionMode == "Hou";
       multiDayCondition = conditionMode == "Day";
@@ -388,7 +393,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
     {
       *itsLogFile << "*** ERROR: Preprocessing failed to include file:" << endl;
       string message = prePr.GetMessage();
-      if (!message.empty()) *itsLogFile << "    " << message << endl;
+      if (!message.empty())
+        *itsLogFile << "    " << message << endl;
       return false;
     }
     firstLoop = false;
@@ -409,7 +415,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
         isTheDay && weekdayActive, ifDir, ifNotDir, endifDir, elseDir);
     res2 = prePr.Strip();
     string message = prePr.GetMessage();
-    if (!message.empty()) *itsLogFile << "*** ERROR: " << message << endl;
+    if (!message.empty())
+      *itsLogFile << "*** ERROR: " << message << endl;
     if (!res || !res2)
     {
       *itsLogFile << "*** ERROR: Preprocessing failed" << endl;
@@ -532,7 +539,8 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
   {
     case dDayAddition:  // toimii vain Segmentin päätasolla
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (ReadOne(long1))
       {
@@ -564,7 +572,8 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
     }
     case dTimeTableActive:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       long3 = 1000;
       if (ReadTwo(long1, long2))
@@ -608,7 +617,8 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
     // image osannee käyttää täältä Päivän ja Tunnin vaikka muilla oma
     case dRelDay:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       if (ReadLong(long1))
         itsFirstDeltaDays = static_cast<unsigned short>(long1 + itsEnvironment.GetDayAdvance());
 
@@ -617,8 +627,10 @@ bool NFmiPressTimeDescription::ReadRemaining(void)
     }
     case dHour:
     {
-      if (!ReadEqualChar()) break;
-      if (ReadLong(long1)) itsFirstPlotHours = static_cast<unsigned short>(long1);
+      if (!ReadEqualChar())
+        break;
+      if (ReadLong(long1))
+        itsFirstPlotHours = static_cast<unsigned short>(long1);
 
       ReadNext();
       break;
@@ -750,7 +762,8 @@ long NFmiPressTimeDescription::JustifyByLeaps(long dayDiff)
   NFmiTime now;
   NFmiTime compDate = now;
   short sign = +1;  // onko c:ssä
-  if (dayDiff < 0) sign = -1;
+  if (dayDiff < 0)
+    sign = -1;
   compDate.SetYear(now.GetYear() + sign);
   if (abs(abs(dayDiff) - 365) < 5)
     if (abs(now.DifferenceInDays(compDate)) == 365)

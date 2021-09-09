@@ -81,7 +81,8 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
 
     if (itsLoopNum > itsMaxLoopNum)
     {
@@ -114,7 +115,8 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
       }
       case dPlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(r1, r2))
         {
@@ -126,7 +128,8 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
       }
       case dRelPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(r1, r2, r3, r4))
         {
           itsRelRect.Set(NFmiPoint(r1, r2), NFmiPoint(r3, r4));
@@ -144,19 +147,23 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
 
       case dRelDay:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         ReadLong(long1);
         //  itsFirstDeltaDays = static_cast<unsigned short>(long1+ itsEnvironment.GetDayAdvance());
 
         ReadNext();
-        if (itsLogFile) *itsLogFile << "*** ERROR: Cannot set date in #extremeplace" << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Cannot set date in #extremeplace" << endl;
         break;
       }
       case dHour:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         ReadLong(long1);
-        if (itsLogFile) *itsLogFile << "*** ERROR: Cannot set hour in #extremeplace" << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Cannot set hour in #extremeplace" << endl;
 
         ReadNext();
         break;
@@ -173,9 +180,11 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
   // flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
-  if (!relPlace) itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
+  if (!relPlace)
+    itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
 
-  if (fNewScaling) itsRelRect += NFmiPoint(1., 1.);
+  if (fNewScaling)
+    itsRelRect += NFmiPoint(1., 1.);
   Set(NFmiDataIdent(NFmiParam(itsIdentPar), NFmiProducer(240)), NFmiRect(itsRelRect));
 
   retString = itsString;
@@ -233,12 +242,14 @@ bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect& theAbsoluteRectOfSymbolG
   else
     str = location->GetName();
 
-  if (itsMaxLen > 0) str = GetPressProduct()->CutOffString(str, itsMaxLen);
+  if (itsMaxLen > 0)
+    str = GetPressProduct()->CutOffString(str, itsMaxLen);
 
   if (fFillWithUnderscore)
   {
     unsigned long len = str.GetLen();
-    if (len < itsMaxLen) str.FillR(itsMaxLen, '_');
+    if (len < itsMaxLen)
+      str.FillR(itsMaxLen, '_');
   }
 
   return WriteCode(Construct(&str),

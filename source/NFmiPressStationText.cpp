@@ -71,7 +71,8 @@ bool NFmiPressStationText::SetNewName(const NFmiRenaming &theRename)
 
 bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
 {
-  if (!itsData) return isFalse;
+  if (!itsData)
+    return isFalse;
 
   ScalePlotting();
 
@@ -137,7 +138,8 @@ NFmiString NFmiPressStationText::StationName(void)
     NFmiRenaming *renaming = static_cast<NFmiRenaming *>(iter.Next());
     while (renaming)
     {
-      if (renaming->originalName == name) return renaming->newName;
+      if (renaming->originalName == name)
+        return renaming->newName;
 
       renaming = static_cast<NFmiRenaming *>(iter.Next());
     }

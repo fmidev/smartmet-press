@@ -61,7 +61,10 @@ inline NFmiPressParamText::NFmiPressParamText(void) : NFmiPressText(), NFmiPress
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParamText::IsDataObject(void) { return true; }
+inline bool NFmiPressParamText::IsDataObject(void)
+{
+  return true;
+}
 #endif  // NFMIPRESSPARAMTEXT_H
 
 // ======================================================================

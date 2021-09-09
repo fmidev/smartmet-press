@@ -93,7 +93,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
 
   while (itsIntObject != dEnd || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
       if (itsLogFile)
@@ -152,7 +153,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dNewImageName:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         tempString = ReadString();
         tempString += NFmiString(".eps");
@@ -181,7 +183,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
         timeStamp = true;
       case dNewImageRel:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (!timeStamp)
         {
@@ -261,7 +264,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
 
       case dSymbolPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           Place(NFmiPoint(r1, r2));
@@ -271,7 +275,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dSummerWinterChoise:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString summerFile(ReadString());
         NFmiString winterFile(ReadString());
@@ -289,7 +294,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dSummerWinterImageFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString summerFile(ReadString());
         NFmiString winterFile(ReadString());
@@ -309,10 +315,12 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
         timeStamp = true;
       case dImageFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsTempImageFile = ReadString();
-        if (itsTempImageFile.Search(NFmiString(".")) <= 0) itsTempImageFile += NFmiString(".eps");
+        if (itsTempImageFile.Search(NFmiString(".")) <= 0)
+          itsTempImageFile += NFmiString(".eps");
         itsFileWithoutTimeStamp = itsTempImageFile;
         if (timeStamp)
         {
@@ -327,7 +335,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImageDir:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsTempImageDir = ReadString();
 
@@ -336,7 +345,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImagePath:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsTempImagePath = ReadString();
 
@@ -345,7 +355,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImageSizeFactor:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           itsImageScale.SetStartScales(NFmiRect(NFmiPoint(0., 0.), NFmiPoint(100., 100.)));
@@ -356,7 +367,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImagePlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           itsImageScale.SetStartScales(NFmiRect(NFmiPoint(0., 0.), NFmiPoint(100., 100.)));
@@ -367,7 +379,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImageDefSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
           if (xmin == xmax || ymin == ymax)
@@ -384,7 +397,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImagePlottingView:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
           if (xmin == xmax || ymin == ymax)
@@ -401,7 +415,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImagePlottingAndClipping:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
           if (xmin == xmax || ymin == ymax)
@@ -422,7 +437,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImageClippingRectangle:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
           if (xmin == xmax || ymin == ymax)
@@ -442,7 +458,8 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImageClippingPath:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadFour(x1, y1, x2, y2) && ReadTwo(x3, y3))  // minimi 3 pistettä
         {
           itsClippingRect.Set(NFmiPoint(0., 0.), NFmiPoint(0., 0.));
@@ -678,7 +695,8 @@ int NFmiPressImage::ConvertDefText(NFmiString& object)
 
 bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 {
-  if (theOutput == kPlainText) return true;
+  if (theOutput == kPlainText)
+    return true;
 
 #ifdef UNIX
 // bool precedingElementMissing = false;
@@ -695,7 +713,8 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 
   ScalePlotting();
 
-  if (itsInFile) delete itsInFile;
+  if (itsInFile)
+    delete itsInFile;
   itsInFile = new ifstream;
 
 #ifdef UNIX
@@ -784,5 +803,8 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressImage::ScalePlotting(void) { itsWriteScale = itsRectScale.Scale(itsImageScale); }
+void NFmiPressImage::ScalePlotting(void)
+{
+  itsWriteScale = itsRectScale.Scale(itsImageScale);
+}
 // ----------------------------------------------------------------------

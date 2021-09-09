@@ -43,7 +43,10 @@ NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect &theSunTim
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiSunTimeParamRect::Clone(void) const { return new NFmiSunTimeParamRect(*this); }
+NFmiParamRect *NFmiSunTimeParamRect::Clone(void) const
+{
+  return new NFmiSunTimeParamRect(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

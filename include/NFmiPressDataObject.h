@@ -69,7 +69,10 @@ inline NFmiPressDataObject::NFmiPressDataObject(NFmiFastQueryInfo* theData) : it
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressDataObject::SetData(NFmiFastQueryInfo* theData) { itsData = theData; }
+inline void NFmiPressDataObject::SetData(NFmiFastQueryInfo* theData)
+{
+  itsData = theData;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -78,7 +81,10 @@ inline void NFmiPressDataObject::SetData(NFmiFastQueryInfo* theData) { itsData =
  */
 // ----------------------------------------------------------------------
 
-inline NFmiFastQueryInfo* NFmiPressDataObject::GetData(void) const { return itsData; }
+inline NFmiFastQueryInfo* NFmiPressDataObject::GetData(void) const
+{
+  return itsData;
+}
 #endif  // NFMIPRESSDATAOBJECT_H
 
 // ======================================================================

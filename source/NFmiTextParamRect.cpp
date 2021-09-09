@@ -25,7 +25,8 @@ using namespace std;
 
 NFmiTextParamRect::~NFmiTextParamRect(void)
 {
-  if (itsMapping) delete static_cast<NFmiParamMapping *>(itsMapping);
+  if (itsMapping)
+    delete static_cast<NFmiParamMapping *>(itsMapping);
 }
 
 // ----------------------------------------------------------------------
@@ -79,7 +80,8 @@ bool NFmiTextParamRect::ReadRemaining(void)
   {
     case dParamSize:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       if (ReadDouble(r1))
       {
         SetTextSize(r1);
@@ -90,7 +92,8 @@ bool NFmiTextParamRect::ReadRemaining(void)
     }
     case dAlignment:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       *itsDescriptionFile >> itsObject;
       itsString = itsObject;
@@ -109,7 +112,8 @@ bool NFmiTextParamRect::ReadRemaining(void)
     }
     case dFont:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       *itsDescriptionFile >> itsObject;
 
       SetFont(itsObject);
@@ -120,7 +124,8 @@ bool NFmiTextParamRect::ReadRemaining(void)
     case dTextMapping:
     {
       NFmiMappingInterval interval;
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       if (ReadDouble(r1))
       {
         *itsDescriptionFile >> itsObject;
@@ -149,9 +154,11 @@ bool NFmiTextParamRect::ReadRemaining(void)
     }
     case dRelCharWidth:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
-      if (ReadOne(r1)) itsRelCharWidth = r1;
+      if (ReadOne(r1))
+        itsRelCharWidth = r1;
 
       ReadNext();
       break;
@@ -163,7 +170,8 @@ bool NFmiTextParamRect::ReadRemaining(void)
     }
     case dAddTextInFront:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       *itsDescriptionFile >> itsObject;
       itsAddInFront = itsObject;
 
@@ -172,7 +180,8 @@ bool NFmiTextParamRect::ReadRemaining(void)
     }
     case dAddTextAfter:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       *itsDescriptionFile >> itsObject;
       itsAddAfter = itsObject;
 
@@ -387,7 +396,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString &theText,
   NFmiString locText(theText);
 
   NFmiRect numberRect = AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(), BottomRight()));
-  if (IsEquiDistanceAndCorrMode()) numberRect += itsCorrPoint;
+  if (IsEquiDistanceAndCorrMode())
+    numberRect += itsCorrPoint;
 
   NFmiPoint topLeft = numberRect.TopLeft();  // TopLeft on alaVasen! johtuuko RectScale:sta
   NFmiPoint bottomRight = numberRect.BottomRight();
@@ -550,7 +560,8 @@ bool NFmiTextParamRect::WriteCode(const NFmiString &theText,
     {
       minusWidth = NFmiString("B");
 
-      if (locText.GetLen() > 4) restString = locText.GetCharsPtr(5, locText.GetLen() - 4);
+      if (locText.GetLen() > 4)
+        restString = locText.GetCharsPtr(5, locText.GetLen() - 4);
       WriteShowStringLongMinus(x, y, longMinus, minusWidth, restString, theDestinationFile);
       WriteShowStringText(x, y, longMinus, minusWidth, restString, theDestinationFile);
     }
@@ -599,7 +610,10 @@ bool NFmiTextParamRect::WriteCode(const NFmiString &theText,
  */
 // ----------------------------------------------------------------------
 
-FmiGenericColor NFmiTextParamRect::MapColor(void) const { return GetColor(); }
+FmiGenericColor NFmiTextParamRect::MapColor(void) const
+{
+  return GetColor();
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -612,8 +626,10 @@ FmiGenericColor NFmiTextParamRect::MapColor(void) const { return GetColor(); }
 NFmiString NFmiTextParamRect::Construct(NFmiString *theString) const
 {
   NFmiString str = NFmiString(*theString);
-  if (fUpperCase) str.UpperCase();
-  if (fLowerCase) str.LowerCase();
+  if (fUpperCase)
+    str.UpperCase();
+  if (fLowerCase)
+    str.LowerCase();
   if (fFirstUpperCase)
   {
     // str.LowerCase();
@@ -622,9 +638,11 @@ NFmiString NFmiTextParamRect::Construct(NFmiString *theString) const
     // eka sana alkaa isolla
   }
   NFmiString retString;
-  if (itsAddInFront.IsValue()) retString += itsAddInFront;
+  if (itsAddInFront.IsValue())
+    retString += itsAddInFront;
   retString += str;
-  if (fAddStationName) retString += itsPressParam->GetCurrentStation().GetName();
+  if (fAddStationName)
+    retString += itsPressParam->GetCurrentStation().GetName();
 
   if (itsAddAfter.IsValue())
   {
@@ -646,7 +664,8 @@ NFmiString NFmiTextParamRect::Construct(NFmiString *theString) const
       retString += itsAddAfter;
   }
 
-  if (!fFillWithUnderscore) retString.ReplaceChars(NFmiString("_"), NFmiString(" "));
+  if (!fFillWithUnderscore)
+    retString.ReplaceChars(NFmiString("_"), NFmiString(" "));
 
   return retString;
 }

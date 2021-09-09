@@ -83,11 +83,13 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
 
     if (itsLoopNum > itsMaxLoopNum)
     {
-      if (itsLogFile) *itsLogFile << "*** ERROR: max file length exceeded in #Text" << endl;
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: max file length exceeded in #Text" << endl;
       retString = itsString;
       return isFalse;
     }
@@ -115,7 +117,8 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString &retString)
 
       case dRelDay:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadLong(long1))
           itsFirstDeltaDays = static_cast<unsigned short>(long1 + itsEnvironment.GetDayAdvance());
 
@@ -127,16 +130,20 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString &retString)
       }
       case dHour:
       {
-        if (!ReadEqualChar()) break;
-        if (ReadLong(long1)) itsFirstPlotHours = static_cast<unsigned short>(long1);
+        if (!ReadEqualChar())
+          break;
+        if (ReadLong(long1))
+          itsFirstPlotHours = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
       }
       case dMappingSubstituteValue:
       {
-        if (!ReadEqualChar()) break;
-        if (ReadOne(r1)) itsSubstituteMappingValue = static_cast<float>(r1);
+        if (!ReadEqualChar())
+          break;
+        if (ReadOne(r1))
+          itsSubstituteMappingValue = static_cast<float>(r1);
 
         ReadNext();
         break;
@@ -215,11 +222,13 @@ bool NFmiSubstituteParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGro
   NFmiString hString;
   float value = 0;
 
-  if (!SetRelativeHour(theQI, NFmiString("#Teksti"))) return isFalse;
+  if (!SetRelativeHour(theQI, NFmiString("#Teksti")))
+    return isFalse;
 
   if (itsMultiMapping)
   {
-    if (!ReadCurrentValueArray(theQI)) return false;
+    if (!ReadCurrentValueArray(theQI))
+      return false;
   }
   else
   {

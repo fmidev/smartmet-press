@@ -86,19 +86,25 @@ NFmiPressProduct::NFmiPressProduct(void)
 
 NFmiPressProduct::~NFmiPressProduct(void)
 {
-  if (itsNameDayFi) delete itsNameDayFi;
-  if (itsNameDaySw) delete itsNameDaySw;
-  if (itsCurrentDataIter) delete itsCurrentDataIter;
+  if (itsNameDayFi)
+    delete itsNameDayFi;
+  if (itsNameDaySw)
+    delete itsNameDaySw;
+  if (itsCurrentDataIter)
+    delete itsCurrentDataIter;
   delete itsNameToLonLat;
   itsParams.Clear(true);
   itsSameSymbols.Clear(true);
   itsEpsFileNames.Clear(true);
   itsDatas.Clear(true);
-  if (itsLogFile) delete itsLogFile;
-  if (itsPalette) delete itsPalette;
+  if (itsLogFile)
+    delete itsLogFile;
+  if (itsPalette)
+    delete itsPalette;
   if (itsDescriptionFile)  // owner of NFmiTimeDescription member
     delete itsDescriptionFile;
-  if (itsTempCorrection) delete itsTempCorrection;
+  if (itsTempCorrection)
+    delete itsTempCorrection;
 }
 
 // ----------------------------------------------------------------------
@@ -240,7 +246,8 @@ float NFmiPressProduct::UseFromStorage(int queueNum, bool errorReport)
     {
       string msg = "Use of empty Product storage 1";
       // errors.push_back(msg);
-      if (errorReport) *itsLogFile << "  ***ERROR: " << msg << endl;
+      if (errorReport)
+        *itsLogFile << "  ***ERROR: " << msg << endl;
       value = kFloatMissing;
     }
     else
@@ -255,7 +262,8 @@ float NFmiPressProduct::UseFromStorage(int queueNum, bool errorReport)
     {
       string msg = "Use of empty Product storage 2";
       // errors.push_back(msg);
-      if (errorReport) *itsLogFile << "  ***ERROR: " << msg << endl;
+      if (errorReport)
+        *itsLogFile << "  ***ERROR: " << msg << endl;
       value = kFloatMissing;
     }
     else
@@ -378,7 +386,8 @@ bool NFmiPressProduct::SetSegmentData(const NFmiString &theDataName)
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
   {
-    if (param->SetData(theDataName)) retCode = true;  // ainakin yhdess‰ vaihdettu
+    if (param->SetData(theDataName))
+      retCode = true;  // ainakin yhdess‰ vaihdettu
     param = static_cast<NFmiPressParam *>(paramIter.Next());
   }
   return retCode;
@@ -494,7 +503,8 @@ bool NFmiPressProduct::SetFirstStation(const NFmiLocation &theLocation)
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
   {
-    if (param->SetFirstStation(theLocation)) retCode = true;  // ainakin yhdess‰ vaihdettu
+    if (param->SetFirstStation(theLocation))
+      retCode = true;  // ainakin yhdess‰ vaihdettu
     param = static_cast<NFmiPressParam *>(paramIter.Next());
   }
   return retCode;
@@ -564,7 +574,8 @@ bool NFmiPressProduct::SetStationRename(const NFmiRenaming &theRename)
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
   {
-    if (param->SetStationRename(theRename)) retCode = true;  // ainakin yhdess‰ vaihdettu
+    if (param->SetStationRename(theRename))
+      retCode = true;  // ainakin yhdess‰ vaihdettu
     param = static_cast<NFmiPressParam *>(paramIter.Next());
   }
   return retCode;
@@ -591,7 +602,8 @@ bool NFmiPressProduct::SetAllTimes(const NFmiMetTime &theTime)
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
   {
-    if (param->SetAllTimes(theTime)) retCode = true;  // ainakin yhdess‰ vaihdettu
+    if (param->SetAllTimes(theTime))
+      retCode = true;  // ainakin yhdess‰ vaihdettu
     param = static_cast<NFmiPressParam *>(paramIter.Next());
   }
   // muut objektit, kaikissa ei tosin aikaa
@@ -635,7 +647,8 @@ bool NFmiPressProduct::SetAllLanguages(FmiLanguage theLanguage)
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
   {
-    if (param->SetAllLanguages(theLanguage)) retCode = true;  // ainakin yhdess‰ vaihdettu
+    if (param->SetAllLanguages(theLanguage))
+      retCode = true;  // ainakin yhdess‰ vaihdettu
     param = static_cast<NFmiPressParam *>(paramIter.Next());
   }
   // muut objektit, kaikissa ei tosin aikaa
@@ -927,9 +940,11 @@ bool NFmiPressProduct::ReadSeasonsStatus(void)
   {
     // Ignore the line if it is a comment line or "thrash" line
 
-    if (line.substr(0, 3) == "END" || line.substr(0, 5) == "LOPPU") break;
+    if (line.substr(0, 3) == "END" || line.substr(0, 5) == "LOPPU")
+      break;
 
-    if (line[0] == '#' || line.substr(0, 2) == "//" || line.size() < 6) continue;
+    if (line[0] == '#' || line.substr(0, 2) == "//" || line.size() < 6)
+      continue;
 
     start1 = line.find_first_not_of(delims);
     end1 = line.find_first_of(delims, start1);
@@ -1190,7 +1205,8 @@ bool NFmiPressProduct::PreProcessProduct(ifstream &origInput, ofstream &output)
       includeFileName += NFmiString("Include");
       includeFileName += kFmiDirectorySeparator;
       includeFileName += file;
-      if (!includeFileName.HasExtension()) includeFileName += NFmiString(".inc");
+      if (!includeFileName.HasExtension())
+        includeFileName += NFmiString(".inc");
 
       ifstream includeFile(includeFileName, ios::in);
       if (includeFile.good() && !includeFile.eof())
@@ -1201,7 +1217,8 @@ bool NFmiPressProduct::PreProcessProduct(ifstream &origInput, ofstream &output)
       {
         string msg = string("Missing file attachment: ") + static_cast<char *>(file);
         errors.push_back(msg);
-        if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: " << msg << endl;
       }
       includeFile.close();
       includeFile.clear();
@@ -1244,7 +1261,10 @@ bool NFmiPressProduct::DefinePar(const NFmiString &theString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::ReplacePar(NFmiString &theString) { return true; }
+bool NFmiPressProduct::ReplacePar(NFmiString &theString)
+{
+  return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -1340,7 +1360,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   {
     boost::filesystem::create_directory(static_cast<string>(fmiString));
   }
-  catch (exception& e)
+  catch (exception &e)
   {
     cout << "Creating the log directory failed." << endl;
   }
@@ -1393,7 +1413,8 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   tempInput += NFmiString("Temp");
 #ifndef UNIX
   char *env = getenv("lehtiTempDir");
-  if (env != 0) tempInput = static_cast<NFmiString>(env);
+  if (env != 0)
+    tempInput = static_cast<NFmiString>(env);
 #else
   tempInput = getTmpPath();
   tempInput += kFmiDirectorySeparator;
@@ -1405,7 +1426,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   {
     boost::filesystem::create_directory(static_cast<string>(tempInput));
   }
-  catch (exception& e)
+  catch (exception &e)
   {
     cout << "Creating the tmp directory " << tempInput << " failed." << endl;
   }
@@ -1448,22 +1469,27 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
     return false;
   }
 
-  if (itsDescriptionFile) delete itsDescriptionFile;
+  if (itsDescriptionFile)
+    delete itsDescriptionFile;
 
   itsDescriptionFile = new ifstream(tempInput, ios::in);
 
   fDataRead = false;
 
-  if (!ReadDescription(retString)) return false;
+  if (!ReadDescription(retString))
+    return false;
 
-  if (!FirstData()) itsCurrentDataIter = 0;
+  if (!FirstData())
+    itsCurrentDataIter = 0;
 
   itsDescriptionFile->close();
   itsDescriptionFile->clear();
 
-  if (!ReadData()) return false;
+  if (!ReadData())
+    return false;
 
-  if (itsLogFile) *itsLogFile << "NOW BUILDING PRODUCT" << endl;
+  if (itsLogFile)
+    *itsLogFile << "NOW BUILDING PRODUCT" << endl;
 
   return true;
 }
@@ -1478,9 +1504,11 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
 
 bool NFmiPressProduct::ReadData(void)
 {
-  if (fDataRead) return true;
+  if (fDataRead)
+    return true;
 
-  if (itsLogFile) *itsLogFile << "READING DATA FILES" << endl;
+  if (itsLogFile)
+    *itsLogFile << "READING DATA FILES" << endl;
 
   bool mandatoryNotFound = false;
 
@@ -1547,7 +1575,8 @@ bool NFmiPressProduct::ReadData(void)
   str.NextSubString(NFmiString(";"), dataPath);
   bool secondDir = false;
   bool twoOptinalTypes = true;
-  if (str.NextSubString(NFmiString(";"), dataPath2)) secondDir = true;
+  if (str.NextSubString(NFmiString(";"), dataPath2))
+    secondDir = true;
 
   NFmiQueryData **data;
   NFmiQueryData *dataPtr;
@@ -1580,16 +1609,20 @@ bool NFmiPressProduct::ReadData(void)
     {
       dataFile = dataPath;
       dataFile2 = dataPath2;
-      if (dataFile.IsValue()) dataFile += kFmiDirectorySeparator;
-      if (dataFile2.IsValue()) dataFile2 += kFmiDirectorySeparator;
+      if (dataFile.IsValue())
+        dataFile += kFmiDirectorySeparator;
+      if (dataFile2.IsValue())
+        dataFile2 += kFmiDirectorySeparator;
       dataFile += nData->GetName();
       dataFile2 += nData->GetName();
       dataFileSqd = dataFile;
       dataFileSqd2 = dataFile2;
       if (!dataFile.HasExtension())
       {
-        if (!NFmiFileSystem::DirectoryExists(dataFile.CharPtr())) dataFile += NFmiString(".fqd");
-        if (!NFmiFileSystem::DirectoryExists(dataFile2.CharPtr())) dataFile2 += NFmiString(".fqd");
+        if (!NFmiFileSystem::DirectoryExists(dataFile.CharPtr()))
+          dataFile += NFmiString(".fqd");
+        if (!NFmiFileSystem::DirectoryExists(dataFile2.CharPtr()))
+          dataFile2 += NFmiString(".fqd");
         if (!NFmiFileSystem::DirectoryExists(dataFileSqd.CharPtr()))
           dataFileSqd += NFmiString(".sqd");
         if (!NFmiFileSystem::DirectoryExists(dataFileSqd2.CharPtr()))
@@ -1677,7 +1710,8 @@ bool NFmiPressProduct::ReadData(void)
               *itsLogFile << "  *** ERROR: reading of data failed: "
                           << static_cast<char *>(nData->GetName()) << endl
                           << "      if mandatory, program is interrupted" << endl;
-              if (nData->IsMandatory()) mandatoryNotFound = true;
+              if (nData->IsMandatory())
+                mandatoryNotFound = true;
             }
             else
             {
@@ -1696,7 +1730,8 @@ bool NFmiPressProduct::ReadData(void)
                       << static_cast<char *>(nData->GetName()) << endl
                       << "      if mandatory, program is interrupted" << endl;
 
-          if (nData->IsMandatory()) mandatoryNotFound = true;
+          if (nData->IsMandatory())
+            mandatoryNotFound = true;
         }
       }
       else
@@ -1761,7 +1796,8 @@ bool NFmiPressProduct::ReadQueryData(NFmiQueryData *theQD, char *fileName)
   }
 
   // This prevents crashes
-  if (filename.empty()) return false;
+  if (filename.empty())
+    return false;
 
   // Use memory mapping to speed up processing
   try
@@ -1939,7 +1975,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
     }
     itsLoopNum++;  // jotta virhe ei aiheuttaisi ikuista luuppia
 
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     switch (itsIntObject)
     {
       case dOther:  // ylim‰‰r‰ist‰ roinaa, END lopettaa
@@ -1963,13 +2000,15 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dNumberAddingToName:
       {
-        if (SetOne(long1)) ActivateNumberToName(long1);
+        if (SetOne(long1))
+          ActivateNumberToName(long1);
 
         break;
       }
       case dOutputMode:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         *itsDescriptionFile >> itsObject;
         helpString = itsObject;
@@ -1989,7 +2028,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         {
           string msg = string("Unknown output mode: ") + static_cast<char *>(helpString);
           errors.push_back(msg);
-          if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+          if (itsLogFile)
+            *itsLogFile << "*** ERROR: " << msg << endl;
         }
 
         ReadNext();
@@ -1997,7 +2037,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dMagicSavePath:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsMagicSavePath = ReadString();
 
@@ -2006,7 +2047,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dProduct:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsOutFileName = ReadString();
 
@@ -2015,7 +2057,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dProductWithTimeStamp:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsOutFileName = ReadString();
 
@@ -2026,7 +2069,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dProductWithPressTimeStamp:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsProductNameFormat = NFmiString("DatanAikaleima/");
         itsProductNameFormat += ReadString();
@@ -2037,7 +2081,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dProductWithDataTimeStamp:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsOutFileName = ReadString();
 
@@ -2048,7 +2093,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dProductNameFormat:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsProductNameFormat = ReadString();
 
@@ -2057,7 +2103,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dMapFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString *epsName;
 
@@ -2070,7 +2117,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dPalette:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsPaletteName = ReadString();
 
@@ -2079,7 +2127,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dOutDir:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsOutDir = ReadString();
 
@@ -2088,7 +2137,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dMaskFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsMaskFileName = ReadString();
         itsMaskFileName.LowerCase();
@@ -2121,7 +2171,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         }
       case dDataFile:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsDataFileName = ReadString();
         itsDataFileName.LowerCase();
@@ -2168,7 +2219,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
 
       case dPageSize:  // Pysty/Vaaka nimitys
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         *itsDescriptionFile >> itsObject;
 
@@ -2206,34 +2258,41 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dSubViews:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadLong(long1)) itsNumberOfMaps = static_cast<unsigned short>(long1);
+        if (ReadLong(long1))
+          itsNumberOfMaps = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
       }
       case dMargin:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadDouble(xmin)) itsMargin = xmin;
+        if (ReadDouble(xmin))
+          itsMargin = xmin;
 
         ReadNext();
         break;
       }
       case dGap:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadDouble(xmin)) itsMapGap = xmin;
+        if (ReadDouble(xmin))
+          itsMapGap = xmin;
 
         ReadNext();
         break;
       }
       case dProductNameTimeFormat:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsNameTimeFormat = ReadTimeFormat();
         ReadNext();
@@ -2241,7 +2300,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dSecondProductNameTimeFormat:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         itsSecondNameTimeFormat = ReadTimeFormat(true);
         ReadNext();
@@ -2249,7 +2309,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dDate:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadLong(long1))
         {
@@ -2257,7 +2318,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
           {
             if (ReadLong(long3))
             {
-              if (long3 < 100) long3 += 2000;  // statictime l‰htee vuodesta 1900
+              if (long3 < 100)
+                long3 += 2000;  // statictime l‰htee vuodesta 1900
               NFmiTime tim = NFmiTime(
                   static_cast<short>(long3), static_cast<short>(long2), static_cast<short>(long1));
               itsFirstPlotTime = tim;
@@ -2271,7 +2333,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dDataTime:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiQueryData *firstData = FirstData();
         if (firstData)
@@ -2294,7 +2357,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dRelHour:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         ReadTwo(long1, long2);
         itsFirstPlotTime = NFmiMetTime(60);  // huom tunnin res.
         itsFirstPlotTime.ChangeByHours(long1);
@@ -2322,7 +2386,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       {
         SetOne(long1);
 
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiQueryData *firstData = FirstData();
         if (firstData)
@@ -2344,7 +2409,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dRelDay:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadLong(long1))
         {
@@ -2358,9 +2424,11 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
 
       case dHour:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadLong(long1)) firstPlotHours = static_cast<unsigned short>(long1);
+        if (ReadLong(long1))
+          firstPlotHours = static_cast<unsigned short>(long1);
         itsFirstPlotTime.SetTime(firstPlotHours);
 
         ReadNext();
@@ -2368,16 +2436,19 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dHourStep:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadLong(long1)) hourStep = static_cast<unsigned short>(long1);
+        if (ReadLong(long1))
+          hourStep = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
       }
       case dMapDefSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -2395,7 +2466,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dPlottingView:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -2413,7 +2485,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dProductSizeFactor:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadOne(xmin))
         {
@@ -2426,7 +2499,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dBoundingBorder:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -2447,7 +2521,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dUniBoundingBorder:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -2462,7 +2537,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
             itsBoundingBorder.Set(NFmiPoint(xmin, ymin), NFmiPoint(xmax, ymax));
             itsPageSize = kUniversal;
             uniBBset = true;
-            if (pageSet) *itsLogFile << "   WARNING: Turha ArkkiKoko" << endl;
+            if (pageSet)
+              *itsLogFile << "   WARNING: Turha ArkkiKoko" << endl;
           }
         }
 
@@ -2471,7 +2547,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dClippingRectangle:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
@@ -2489,16 +2566,19 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dProducer:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
-        if (ReadLong(long1)) producer = long1;
+        if (ReadLong(long1))
+          producer = long1;
 
         ReadNext();
         break;
       }
       case dPressParam:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         itsCurrentMap = 1;
         Scale();
@@ -2537,7 +2617,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dSymbolPlaces:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         itsCurrentMap = 1;
         Scale();
@@ -2559,7 +2640,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dImageObject:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiPsSymbol *image = new NFmiPsSymbol;
         image->SetWriteLast(fMakeElementsAfterSegments);
@@ -2577,7 +2659,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dSubImage:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiPressImage *image = new NFmiPressImage;
         image->SetScale(itsScale);
@@ -2596,7 +2679,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dNameDay:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiPressNameDay *text = new NFmiPressNameDay;
         text->SetWriteLast(fMakeElementsAfterSegments);
@@ -2611,12 +2695,14 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         {
           if (text->GetLanguage() == kFinnish)
           {
-            if (!itsNameDayFi) itsNameDayFi = new NFmiNameDay;
+            if (!itsNameDayFi)
+              itsNameDayFi = new NFmiNameDay;
             text->SetNameDay(itsNameDayFi);
           }
           else
           {
-            if (!itsNameDaySw) itsNameDaySw = new NFmiNameDay;
+            if (!itsNameDaySw)
+              itsNameDaySw = new NFmiNameDay;
             text->SetNameDay(itsNameDaySw);
           }
           itsObjects.Add(text);
@@ -2629,7 +2715,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dTextObject:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiPressText *text = new NFmiPressText;
         text->SetWriteLast(fMakeElementsAfterSegments);
@@ -2649,7 +2736,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dColumnTextObject:  // vanhentunut
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiPressText *text = new NFmiPressText;
         text->SetWriteLast(fMakeElementsAfterSegments);
@@ -2671,7 +2759,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         //  tehty uudelleen NFmiPressGivenTimeTextin‰
         // jotta riippumaton QD:sta ja sen ajoista
         {
-          if (!ReadData()) return false;
+          if (!ReadData())
+            return false;
 
           NFmiPressGivenTimeText *text = new NFmiPressGivenTimeText;
           text->SetWriteLast(fMakeElementsAfterSegments);
@@ -2691,7 +2780,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         }
       case dOrigTimeObject:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiPressGivenTimeText *text = new NFmiPressGivenTimeText;
         if (FirstData())
@@ -2721,7 +2811,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       }
       case dComputerTimeTextObject:
       {
-        if (!ReadData()) return false;
+        if (!ReadData())
+          return false;
 
         NFmiPressComputerTimeText *text = new NFmiPressComputerTimeText;
         text->SetWriteLast(fMakeElementsAfterSegments);
@@ -3021,7 +3112,8 @@ void NFmiPressProduct::ReadPalette(void)
     palFile >> color.color.k;
     palFile >> object;
     color.name = object;
-    if (color.color.c > -1.) itsPalette->AddColor(color);
+    if (color.color.c > -1.)
+      itsPalette->AddColor(color);
   }
   palFile.close();
   palFile.clear();
@@ -3045,9 +3137,11 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
   itsNumOfWritePS++;
   FmiPressOutputMode output = theGivenOutput;
-  if (itsOutputMode != kPostScript) output = itsOutputMode;
+  if (itsOutputMode != kPostScript)
+    output = itsOutputMode;
 
-  if (itsCurrentDataIter) delete itsCurrentDataIter;
+  if (itsCurrentDataIter)
+    delete itsCurrentDataIter;
   if (FirstData())
     itsCurrentDataIter = new NFmiSuperSmartInfo(FirstData());
   else
@@ -3102,7 +3196,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
     startFileName += NFmiString("startEpsUniversal.ps");
 
   // miksi kaksi pistett‰ kun raahataan ikonin p‰‰lle
-  if (!ConstructOutFileName()) return false;
+  if (!ConstructOutFileName())
+    return false;
 
   ifstream startFile(startFileName, ios::in | ios::in);
 
@@ -3114,33 +3209,39 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 
     if (output == kPostScript)
     {
-      if (notExt) itsOutFile += NFmiString(".eps");
+      if (notExt)
+        itsOutFile += NFmiString(".eps");
       outFile.open(itsOutFile, ios::out | ios::binary);
     }
     else if (output == kMetaLanguage)
     {
-      if (notExt) itsOutFile += NFmiString(".magic");
+      if (notExt)
+        itsOutFile += NFmiString(".magic");
       outFile.open(itsOutFile, ios::out | ios::binary);
     }
     else if (output == kPlainText)
     {
-      if (notExt) itsOutFile += NFmiString(".txt");
+      if (notExt)
+        itsOutFile += NFmiString(".txt");
       outFile.open(itsOutFile, ios::out);
     }
     else
     {
-      if (notExt) itsOutFile += NFmiString(".xml");
+      if (notExt)
+        itsOutFile += NFmiString(".xml");
       outFile.open(itsOutFile, ios::out | ios::binary);
     }
 
-    if (itsLogFile) *itsLogFile << "Output: " << static_cast<char *>(itsOutFile) << endl;
+    if (itsLogFile)
+      *itsLogFile << "Output: " << static_cast<char *>(itsOutFile) << endl;
   }
 
   if (!startFile)
   {
     string msg = string("StartPs file is bad: ") + static_cast<char *>(startFileName);
     errors.push_back(msg);
-    if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+    if (itsLogFile)
+      *itsLogFile << "*** ERROR: " << msg << endl;
     return false;
   }
 
@@ -3148,7 +3249,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   {
     string msg = string("EndPs file is bad vikaa: ") + static_cast<char *>(endFileName);
     errors.push_back(msg);
-    if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+    if (itsLogFile)
+      *itsLogFile << "*** ERROR: " << msg << endl;
     return false;
   }
 
@@ -3158,7 +3260,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
                   ", samanniminen saattaa olla tuhoamiselta estetty tai auki muualla? Yrit‰ tuhota "
                   "tai loggaa ulos");
     errors.push_back(msg);
-    if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+    if (itsLogFile)
+      *itsLogFile << "*** ERROR: " << msg << endl;
     return false;
   }
 
@@ -3218,7 +3321,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   ifstream mapFile;
 
   itsCurrentMap = 1;
-  if (itsCurrentDataIter) itsCurrentDataIter->First();
+  if (itsCurrentDataIter)
+    itsCurrentDataIter->First();
   Scale();
 
   while (itsCurrentMap <= itsNumberOfMaps)  // itsNumberOfMaps=koko tuote monistettu n kpl
@@ -3270,7 +3374,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
           string msg =
               string(string("Missing background: ") + static_cast<char *>(fullEpsFileName));
 
-          if (itsLogFile) *itsLogFile << "***Error: " << msg << endl;
+          if (itsLogFile)
+            *itsLogFile << "***Error: " << msg << endl;
           errors.push_back(msg);
         }
         else
@@ -3329,13 +3434,15 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
     // **************************************
     // norm. objektit (myˆs osakuvat) jotka ennen segmenttej‰
     // **************************************
-    if (!WriteScalingObjects(true, output)) return false;
+    if (!WriteScalingObjects(true, output))
+      return false;
 
     // **************************************
     // vakiopaikat, jotka ennen segmenttej‰
     // **************************************
     if (output != kPlainText)
-      if (!WriteSameSymbols(true, output)) return false;
+      if (!WriteSameSymbols(true, output))
+        return false;
 
     //	  if(itsCurrentDataIter) // kaatuu ilman dataa; 2.03 ei en‰‰ kaadukaan
     {
@@ -3362,7 +3469,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
             mapFile.clear();
             string msg = "param->WritePS() in NFmiPressProduct";
             errors.push_back(msg);
-            if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+            if (itsLogFile)
+              *itsLogFile << "*** ERROR: " << msg << endl;
             return false;
           }
         }
@@ -3380,7 +3488,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
     // **********************************************
 
     if (output != kPlainText)
-      if (!WriteSameSymbols(false, output)) return false;
+      if (!WriteSameSymbols(false, output))
+        return false;
 
     // *******************************************************
     // norm.objektit(myˆs osakuvat), jotka j‰lkeen segmenttej‰
@@ -3394,7 +3503,8 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   }
   if (output == kPostScript)
   {
-    if (!itsBoundingBorder.IsEmpty()) NFmiWriteBoundingBox(outFile, itsBoundingBorder);
+    if (!itsBoundingBorder.IsEmpty())
+      NFmiWriteBoundingBox(outFile, itsBoundingBorder);
     NFmiCopyFile(endFile, outFile);
     outFile.close();
     outFile.clear();
@@ -3515,7 +3625,8 @@ bool NFmiPressProduct::WriteSameSymbols(bool theDoPreSegments, FmiPressOutputMod
       {
         string msg = "sameSymbols->WritePS() in NFmiPressProduct";
         errors.push_back(msg);
-        if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: " << msg << endl;
         outFile.close();
         outFile.clear();
         return false;
@@ -3571,7 +3682,8 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
         {
           string msg = "(timeDep)object->WritePS() in NFmiPressProduct";
           errors.push_back(msg);
-          if (itsLogFile) *itsLogFile << "*** ERROR: " << msg << endl;
+          if (itsLogFile)
+            *itsLogFile << "*** ERROR: " << msg << endl;
           return false;
         }
       }
@@ -3652,7 +3764,7 @@ bool NFmiPressProduct::ConstructOutFileName(void)
   {
     boost::filesystem::create_directory(static_cast<string>(itsOutFile));
   }
-  catch (exception& e)
+  catch (exception &e)
   {
     cout << "Creating the output directory failed." << endl;
   }
@@ -3902,7 +4014,8 @@ NFmiStationPoint NFmiPressProduct::FirstParamLocation(void)
   NFmiPressParam *param;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
-  if (param) return param->GetFirstStationPoint();
+  if (param)
+    return param->GetFirstStationPoint();
 
   return NFmiStationPoint();
 }
@@ -3937,7 +4050,8 @@ void NFmiPressProduct::StepMap(void)
 {
   itsCurrentMap++;
   Scale();
-  if (itsCurrentDataIter) itsCurrentDataIter->NextTime();
+  if (itsCurrentDataIter)
+    itsCurrentDataIter->NextTime();
 }
 
 // ======================================================================

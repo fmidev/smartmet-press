@@ -51,7 +51,10 @@ NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol &thePsSymbol)
  */
 // ----------------------------------------------------------------------
 
-NFmiPsSymbol *NFmiPsSymbol::Clone(void) const { return new NFmiPsSymbol(*this); }
+NFmiPsSymbol *NFmiPsSymbol::Clone(void) const
+{
+  return new NFmiPsSymbol(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -79,7 +82,8 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
 
   *itsLogFile << "*** INFO: Use " << fileName << endl;
 
-  if (itsInFile) delete itsInFile;
+  if (itsInFile)
+    delete itsInFile;
   itsInFile = new ifstream;
   itsInFile->open(fileName, ios::in | ios::binary);
   //  itsInFile->open(fileName, ios::in|ios::in);
@@ -192,7 +196,8 @@ bool NFmiPsSymbol::ConvertOrig2Short(void)
     output.write(mess.CharPtr(), 40);
     output.write(static_cast<char *>(NFmiString("\n")), 1);
 
-    if (itsLogFile) *itsLogFile << "  lines copied: " << copiedLines << endl;
+    if (itsLogFile)
+      *itsLogFile << "  lines copied: " << copiedLines << endl;
 
     output.close();
     output.clear();
@@ -256,10 +261,12 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
-      if (itsLogFile) *itsLogFile << "*** ERROR: max file length exceeded in #FixedSymbol" << endl;
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: max file length exceeded in #FixedSymbol" << endl;
       retString = itsString;
       return isFalse;
     }
@@ -287,18 +294,21 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
 
       case dPsRelSize:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadDouble(x))
         {
           double xh, yh;
           xh = yh = 1.;
-          if (x > 0.) xh = c20 / x;
+          if (x > 0.)
+            xh = c20 / x;
           *itsDescriptionFile >> itsObject;
           valueString = itsObject;
           if (valueString.IsNumeric())
           {
             y = static_cast<double>(valueString);
-            if (y > 0) yh = c20 / y;
+            if (y > 0)
+              yh = c20 / y;
             *itsDescriptionFile >> itsObject;
             itsString = itsObject;
           }
@@ -323,7 +333,8 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
 
       case dSymbolPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read2Double(r1, r2))
         {
           Place(NFmiPoint(r1, r2));
@@ -334,14 +345,16 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
 
       case dSymbolDir:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         subDir = ReadString();
         ReadNext();
         break;
       }
       case dConstantSymbol:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         itsSymbol = ReadString();
 
         ReadNext();
@@ -349,7 +362,8 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
       }
       case dSymbolSize:  // vanhentunut
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (ReadDouble(x))
         {
@@ -379,7 +393,8 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
       }
       case dRelSymbolSize:  // vanhentunut
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(xmin, ymin, xmax, ymax))
         {
           itsRelArea.Set(NFmiPoint(xmin, ymin), NFmiPoint(xmax, ymax));
@@ -545,7 +560,8 @@ bool NFmiPsSymbol::WritePS(FmiPressOutputMode theOutput)
 {
   ScalePlotting();
 
-  if (theOutput == kPlainText) return true;
+  if (theOutput == kPlainText)
+    return true;
 
   if (CopyShortSymbol2Dest())  // itsSymbol
   {

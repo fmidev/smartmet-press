@@ -290,7 +290,10 @@ inline NFmiValueCorrection* NFmiPressProduct::GetTempCorrection(void) const
  */
 // ----------------------------------------------------------------------
 
-inline FmiPageSize NFmiPressProduct::GetPageSize(void) const { return itsPageSize; }
+inline FmiPageSize NFmiPressProduct::GetPageSize(void) const
+{
+  return itsPageSize;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -335,7 +338,10 @@ inline void NFmiPressProduct::SetLastTextStatus(bool theBool)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressProduct::LastSymbolStatus(void) const { return itsLastElementStatus.symbol; }
+inline bool NFmiPressProduct::LastSymbolStatus(void) const
+{
+  return itsLastElementStatus.symbol;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -344,7 +350,10 @@ inline bool NFmiPressProduct::LastSymbolStatus(void) const { return itsLastEleme
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressProduct::LastNumberStatus(void) const { return itsLastElementStatus.number; }
+inline bool NFmiPressProduct::LastNumberStatus(void) const
+{
+  return itsLastElementStatus.number;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -353,7 +362,10 @@ inline bool NFmiPressProduct::LastNumberStatus(void) const { return itsLastEleme
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressProduct::LastTextStatus(void) const { return itsLastElementStatus.text; }
+inline bool NFmiPressProduct::LastTextStatus(void) const
+{
+  return itsLastElementStatus.text;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -362,7 +374,10 @@ inline bool NFmiPressProduct::LastTextStatus(void) const { return itsLastElement
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressProduct::SetSupplementMode(bool theMode) { fSupplementMode = theMode; }
+inline void NFmiPressProduct::SetSupplementMode(bool theMode)
+{
+  fSupplementMode = theMode;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -371,7 +386,10 @@ inline void NFmiPressProduct::SetSupplementMode(bool theMode) { fSupplementMode 
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressProduct::GetSupplementMode(void) { return fSupplementMode; }
+inline bool NFmiPressProduct::GetSupplementMode(void)
+{
+  return fSupplementMode;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -423,7 +441,10 @@ inline void NFmiPressProduct::SetNameDay(NFmiNameDay* nameDay, FmiLanguage theLa
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressProduct::GetInFileName(void) const { return itsInFileName; }
+inline NFmiString NFmiPressProduct::GetInFileName(void) const
+{
+  return itsInFileName;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -43,7 +43,8 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString &inputFile)
   tempInput += kFmiDirectorySeparator;
   tempInput += NFmiString("Temp");
   char *env = getenv("lehtiTempDir");
-  if (env != 0) tempInput = static_cast<NFmiString>(env);
+  if (env != 0)
+    tempInput = static_cast<NFmiString>(env);
 #else
   tempInput = getTmpPath();
   tempInput += kFmiDirectorySeparator;
@@ -121,18 +122,21 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
 
   *itsLogFile << "the manager would be: " << static_cast<char *>(inputFileName) << endl;
 
-  if (itsDescriptionFile) delete itsDescriptionFile;
+  if (itsDescriptionFile)
+    delete itsDescriptionFile;
 
   itsDescriptionFile = new ifstream(inputFileName, ios::in);
   if (!itsDescriptionFile)
   {
-    if (itsLogFile) *itsLogFile << "Failed to open file: '" << inputFileName << "'" << endl;
+    if (itsLogFile)
+      *itsLogFile << "Failed to open file: '" << inputFileName << "'" << endl;
     return false;
   }
 
   if (!itsDescriptionFile->good() || itsDescriptionFile->eof())
   {
-    if (itsLogFile) *itsLogFile << "no manager found" << endl;
+    if (itsLogFile)
+      *itsLogFile << "no manager found" << endl;
     return false;
   }
   else if (itsLogFile)
@@ -157,11 +161,13 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
   {
     if (itsLoopNum > itsMaxLoopNum)
     {
-      if (itsLogFile) *itsLogFile << "*** ERROR: Max length exceeded in the Manager" << endl;
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: Max length exceeded in the Manager" << endl;
       return false;
     }
     itsLoopNum++;
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     switch (itsIntObject)
     {
       case dOther:  // ylimääräistä roinaa
@@ -206,7 +212,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         lat = kFloatMissing;
         statNum = 0;
 
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiValueString valueString = ReadString();
         if (valueString.IsNumeric())
@@ -239,7 +246,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
 
         thePressProduct.SetFirstStation(location);
 
-        if (isAlsoImages) thePressProduct.SetImagePreNames(location);
+        if (isAlsoImages)
+          thePressProduct.SetImagePreNames(location);
 
         changed = true;
 
@@ -252,7 +260,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         lat = kFloatMissing;
         statNum = 0;
 
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiValueString valueString = ReadString();
         if (valueString.IsNumeric())
@@ -301,7 +310,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         helpEnumSpace = kRoadRegions;
       case dManPressMaskNumber:  // muut kuin tiemaskit
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString maskName = ReadString();
         string stdString(maskName);
@@ -372,7 +382,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       }
       case dManNumberAddingToName:
       {
-        if (SetOne(long1)) thePressProduct.ActivateNumberToName(long1);
+        if (SetOne(long1))
+          thePressProduct.ActivateNumberToName(long1);
 
         changed = true;
 
@@ -388,7 +399,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       }
       case dManProduct:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         ReadNext();
         thePressProduct.SetProductName(itsString);
@@ -400,7 +412,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       }
       case dManProductFormat:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         ReadNext();
         thePressProduct.SetProductNameFormat(itsString);
@@ -428,7 +441,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       }
       case dManData:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         NFmiString str = ReadString();
         str.LowerCase();  // kaikkialla käsitellään pieninä
@@ -464,7 +478,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       }
       case dManLanguage:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         thePressProduct.SetAllLanguages(ReadLanguage());
 
@@ -476,7 +491,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       }
       case dManOutputMode:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         *itsDescriptionFile >> itsObject;
         helpString = itsObject;

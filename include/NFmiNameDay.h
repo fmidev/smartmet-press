@@ -84,7 +84,10 @@ inline NFmiNameDay::NFmiNameDay(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNameDay::IsRead(void) { return fRead; }
+inline bool NFmiNameDay::IsRead(void)
+{
+  return fRead;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -93,7 +96,10 @@ inline bool NFmiNameDay::IsRead(void) { return fRead; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNameDay::IsValue(void) { return fValue; }
+inline bool NFmiNameDay::IsValue(void)
+{
+  return fValue;
+}
 #endif  // NFMINAMEDAY_H
 
 // ======================================================================

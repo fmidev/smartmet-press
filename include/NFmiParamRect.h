@@ -443,25 +443,37 @@ inline float NFmiParamRect::GetAlternatingSizeFactor(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiParamRect::SetMoonPhase(void) { fMoonPhase = true; }
+inline void NFmiParamRect::SetMoonPhase(void)
+{
+  fMoonPhase = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiParamRect::IsMoonPhase(void) const { return fMoonPhase; }
+inline bool NFmiParamRect::IsMoonPhase(void) const
+{
+  return fMoonPhase;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiParamRect::SetMaxCorrection(void) { fTempMaxCorrection = true; }
+inline void NFmiParamRect::SetMaxCorrection(void)
+{
+  fTempMaxCorrection = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiParamRect::SetMinCorrection(void) { fTempMinCorrection = true; }
+inline void NFmiParamRect::SetMinCorrection(void)
+{
+  fTempMinCorrection = true;
+}
 // ----------------------------------------------------------------------
 /*!
  * Set processing order in SymbolGroup
@@ -470,7 +482,10 @@ inline void NFmiParamRect::SetMinCorrection(void) { fTempMinCorrection = true; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsMaxMinPlotting(void) const { return itsMaxText != NFmiString("None"); }
+inline bool NFmiParamRect::IsMaxMinPlotting(void) const
+{
+  return itsMaxText != NFmiString("None");
+}
 // ----------------------------------------------------------------------
 /*!
  * Set processing order in SymbolGroup
@@ -479,7 +494,10 @@ inline bool NFmiParamRect::IsMaxMinPlotting(void) const { return itsMaxText != N
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiParamRect::SetIdentPar(unsigned long theIdentPar) { itsIdentPar = theIdentPar; }
+inline void NFmiParamRect::SetIdentPar(unsigned long theIdentPar)
+{
+  itsIdentPar = theIdentPar;
+}
 // ----------------------------------------------------------------------
 /*!
  * Set processing order in SymbolGroup
@@ -488,7 +506,10 @@ inline void NFmiParamRect::SetIdentPar(unsigned long theIdentPar) { itsIdentPar 
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiParamRect::GetIdentPar(void) { return itsIdentPar; }
+inline unsigned long NFmiParamRect::GetIdentPar(void)
+{
+  return itsIdentPar;
+}
 // ----------------------------------------------------------------------
 /*!
  * Set processing order in SymbolGroup
@@ -497,7 +518,10 @@ inline unsigned long NFmiParamRect::GetIdentPar(void) { return itsIdentPar; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiParamRect::SetOrder(unsigned long theOrder) { itsSymbolGroupOrder = theOrder; }
+inline void NFmiParamRect::SetOrder(unsigned long theOrder)
+{
+  itsSymbolGroupOrder = theOrder;
+}
 // ----------------------------------------------------------------------
 /*!
  * Get processing order in SymbolGroup
@@ -506,7 +530,10 @@ inline void NFmiParamRect::SetOrder(unsigned long theOrder) { itsSymbolGroupOrde
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiParamRect::GetOrder(void) const { return itsSymbolGroupOrder; }
+inline unsigned long NFmiParamRect::GetOrder(void) const
+{
+  return itsSymbolGroupOrder;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -515,7 +542,10 @@ inline unsigned long NFmiParamRect::GetOrder(void) const { return itsSymbolGroup
  */
 // ----------------------------------------------------------------------
 
-inline NFmiDataIdent NFmiParamRect::GetDataIdent(void) const { return itsDataIdent; }
+inline NFmiDataIdent NFmiParamRect::GetDataIdent(void) const
+{
+  return itsDataIdent;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -539,7 +569,10 @@ inline bool NFmiParamRect::SetPressParam(NFmiPressParam* pressParam)
  */
 // ----------------------------------------------------------------------
 
-inline long NFmiParamRect::NumOfMissing(void) const { return itsNumOfMissing; }
+inline long NFmiParamRect::NumOfMissing(void) const
+{
+  return itsNumOfMissing;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -548,7 +581,10 @@ inline long NFmiParamRect::NumOfMissing(void) const { return itsNumOfMissing; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiParamRect::InitMissing(void) { itsNumOfMissing = 0; }
+inline void NFmiParamRect::InitMissing(void)
+{
+  itsNumOfMissing = 0;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -557,7 +593,10 @@ inline void NFmiParamRect::InitMissing(void) { itsNumOfMissing = 0; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsNewScaling(void) { return fNewScaling; }
+inline bool NFmiParamRect::IsNewScaling(void)
+{
+  return fNewScaling;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -566,7 +605,10 @@ inline bool NFmiParamRect::IsNewScaling(void) { return fNewScaling; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiParamRect::SetNewScaling(bool newScaling) { fNewScaling = newScaling; }
+inline void NFmiParamRect::SetNewScaling(bool newScaling)
+{
+  fNewScaling = newScaling;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -597,7 +639,10 @@ inline bool NFmiParamRect::IsEquiDistanceMode(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsEquiDistanceAndCorrMode(void) const { return itsEquiRadius > 0.; }
+inline bool NFmiParamRect::IsEquiDistanceAndCorrMode(void) const
+{
+  return itsEquiRadius > 0.;
+}
 #endif  // NFMIPARAMRECT_H
 
 // ======================================================================

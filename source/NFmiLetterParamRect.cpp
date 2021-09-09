@@ -24,7 +24,8 @@ using namespace std;
 
 NFmiLetterParamRect::~NFmiLetterParamRect(void)
 {
-  if (itsColumnText) delete itsColumnText;
+  if (itsColumnText)
+    delete itsColumnText;
 }
 
 // ----------------------------------------------------------------------
@@ -52,7 +53,10 @@ NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect &theLetterPar
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiLetterParamRect::Clone(void) const { return new NFmiLetterParamRect(*this); }
+NFmiParamRect *NFmiLetterParamRect::Clone(void) const
+{
+  return new NFmiLetterParamRect(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -83,7 +87,8 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
 
     if (itsLoopNum > itsMaxLoopNum)
     {
@@ -116,7 +121,8 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
       }
       case dPlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(r1, r2))
         {
@@ -128,7 +134,8 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
       }
       case dRelPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(r1, r2, r3, r4))
         {
           itsRelRect.Set(NFmiPoint(r1, r2), NFmiPoint(r3, r4));
@@ -146,18 +153,22 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
 
       case dRelDay:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadLong(long1))
           itsFirstDeltaDays = static_cast<unsigned short>(long1 + itsEnvironment.GetDayAdvance());
 
         ReadNext();
-        if (itsLogFile) *itsLogFile << "*** ERROR: Cannot set dates in #consttext" << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: Cannot set dates in #consttext" << endl;
         break;
       }
       case dHour:
       {
-        if (!ReadEqualChar()) break;
-        if (ReadLong(long1)) itsFirstPlotHours = static_cast<unsigned short>(long1);
+        if (!ReadEqualChar())
+          break;
+        if (ReadLong(long1))
+          itsFirstPlotHours = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
@@ -207,9 +218,11 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
   // flush viimeinen takaisin streamiin! Miten?
   SetPostReadingTimes();
 
-  if (!relPlace) itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
+  if (!relPlace)
+    itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
 
-  if (fNewScaling) itsRelRect += NFmiPoint(1., 1.);
+  if (fNewScaling)
+    itsRelRect += NFmiPoint(1., 1.);
   Set(NFmiDataIdent(NFmiParam(itsIdentPar), NFmiProducer(240)), NFmiRect(itsRelRect));
 
   retString = itsString;
@@ -273,11 +286,13 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   bool isMax;
   if (IsMaxMinPlotting())
   {
-    if (!PointOnParam(theQI, GetDataIdent().GetParam())) return false;
+    if (!PointOnParam(theQI, GetDataIdent().GetParam()))
+      return false;
 
     itsPressParam->SetMaxMinPoints();  // vain ekalla kerralla
     NFmiPoint correctedPoint;
-    if (!itsPressParam->IsMaxMin(isMax, correctedPoint)) return true;
+    if (!itsPressParam->IsMaxMin(isMax, correctedPoint))
+      return true;
     correctedRect.Center(correctedPoint);
   }
 
@@ -287,11 +302,13 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   NFmiString hString;
   float value = 0;
 
-  if (!SetRelativeHour(theQI, NFmiString("#Teksti"))) return false;
+  if (!SetRelativeHour(theQI, NFmiString("#Teksti")))
+    return false;
 
   if (itsMultiMapping)
   {
-    if (!ReadCurrentValueArray(theQI)) return false;
+    if (!ReadCurrentValueArray(theQI))
+      return false;
   }
   else
   {
@@ -318,7 +335,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   else
     itsPressParam->GetPressProduct()->SetLastTextStatus(true);
 
-  if (!fMarkingValue) return true;
+  if (!fMarkingValue)
+    return true;
 
   MapColor();
   NFmiString *mapString;
@@ -335,7 +353,8 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     CompleteMultiMapping();
 
     mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
-    if (mapString) ModifyTextBySeason(*mapString);
+    if (mapString)
+      ModifyTextBySeason(*mapString);
     if (missingFound)
     {
       itsNumOfMissing++;
@@ -354,14 +373,17 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   else
   {
     mapString = itsMapping->Map(value);
-    if (mapString) ModifyTextBySeason(*mapString);
-    if (mapString == 0 && itsMissingString != 0) mapString = itsMissingString;
+    if (mapString)
+      ModifyTextBySeason(*mapString);
+    if (mapString == 0 && itsMissingString != 0)
+      mapString = itsMissingString;
   }
 
   if (itsPressParam->IsDistanceCheck() && GetOrder() <= 1 && !IsMaxMinPlotting())
   {
     float keyValue = itsCurrentParamValue;
-    if (itsMultiMapping) keyValue = itsCurrentParamArray[0];
+    if (itsMultiMapping)
+      keyValue = itsCurrentParamArray[0];
 
     // if (!itsPressParam->CheckAndSetDistance(static_cast<long>(round(keyValue)),
     // theAbsoluteRectOfSymbolGroup.Place()))
@@ -507,20 +529,23 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString &theString)
   startInd = stdString.find("kallt_för_årstiden");
   if (startInd != string::npos)
   {
-    if (mon == 12 || mon == 1 || mon == 2) stdString.replace(startInd, 18, "kallt");
+    if (mon == 12 || mon == 1 || mon == 2)
+      stdString.replace(startInd, 18, "kallt");
     changed = true;
   }
   startInd = stdString.find("varmt_för_årstiden");
   if (startInd != string::npos)
   {
-    if (mon >= 6 || mon <= 8) stdString.replace(startInd, 18, "varmt");
+    if (mon >= 6 || mon <= 8)
+      stdString.replace(startInd, 18, "varmt");
     changed = true;
   }
 
   if (changed)
   {
     theString = stdString;
-    if (firstIsUpper) theString.FirstCharToUpper();
+    if (firstIsUpper)
+      theString.FirstCharToUpper();
   }
   return true;
 }

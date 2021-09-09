@@ -79,7 +79,10 @@ inline NFmiPressArea::NFmiPressArea(void) : itsArea(0), itsPressProduct(0), fIsX
  */
 // ----------------------------------------------------------------------
 
-inline NFmiArea* NFmiPressArea::GetArea(void) const { return itsArea; }
+inline NFmiArea* NFmiPressArea::GetArea(void) const
+{
+  return itsArea;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -88,7 +91,10 @@ inline NFmiArea* NFmiPressArea::GetArea(void) const { return itsArea; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressArea::SetArea(NFmiArea* theArea) { itsArea = theArea; }
+inline void NFmiPressArea::SetArea(NFmiArea* theArea)
+{
+  itsArea = theArea;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -109,7 +115,10 @@ inline void NFmiPressArea::SetProduct(NFmiPressProduct* theProduct)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressArea::SetXyRequest(bool value) { fIsXyRequest = value; }
+inline void NFmiPressArea::SetXyRequest(bool value)
+{
+  fIsXyRequest = value;
+}
 #endif  // NFMIPRESSAREA_H
 
 // ======================================================================

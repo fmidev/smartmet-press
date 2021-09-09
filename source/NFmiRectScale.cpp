@@ -87,7 +87,10 @@ void NFmiRectScale::RescaleEndScales(double withFactor)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetXStartScale(const NFmiScale& theScale) { itsXStartScale = theScale; }
+void NFmiRectScale::SetXStartScale(const NFmiScale& theScale)
+{
+  itsXStartScale = theScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -96,7 +99,10 @@ void NFmiRectScale::SetXStartScale(const NFmiScale& theScale) { itsXStartScale =
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetYStartScale(const NFmiScale& theScale) { itsYStartScale = theScale; }
+void NFmiRectScale::SetYStartScale(const NFmiScale& theScale)
+{
+  itsYStartScale = theScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -105,7 +111,10 @@ void NFmiRectScale::SetYStartScale(const NFmiScale& theScale) { itsYStartScale =
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetXEndScale(const NFmiScale& theScale) { itsXEndScale = theScale; }
+void NFmiRectScale::SetXEndScale(const NFmiScale& theScale)
+{
+  itsXEndScale = theScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -114,7 +123,10 @@ void NFmiRectScale::SetXEndScale(const NFmiScale& theScale) { itsXEndScale = the
  */
 // ----------------------------------------------------------------------
 
-void NFmiRectScale::SetYEndScale(const NFmiScale& theScale) { itsYEndScale = theScale; }
+void NFmiRectScale::SetYEndScale(const NFmiScale& theScale)
+{
+  itsYEndScale = theScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -211,7 +223,10 @@ NFmiRect NFmiRectScale::GetEndScales(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetXEndScale(void) const { return itsXEndScale; }
+NFmiScale NFmiRectScale::GetXEndScale(void) const
+{
+  return itsXEndScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -220,7 +235,10 @@ NFmiScale NFmiRectScale::GetXEndScale(void) const { return itsXEndScale; }
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetYEndScale(void) const { return itsYEndScale; }
+NFmiScale NFmiRectScale::GetYEndScale(void) const
+{
+  return itsYEndScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -229,7 +247,10 @@ NFmiScale NFmiRectScale::GetYEndScale(void) const { return itsYEndScale; }
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetXStartScale(void) const { return itsXStartScale; }
+NFmiScale NFmiRectScale::GetXStartScale(void) const
+{
+  return itsXStartScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -238,7 +259,10 @@ NFmiScale NFmiRectScale::GetXStartScale(void) const { return itsXStartScale; }
  */
 // ----------------------------------------------------------------------
 
-NFmiScale NFmiRectScale::GetYStartScale(void) const { return itsYStartScale; }
+NFmiScale NFmiRectScale::GetYStartScale(void) const
+{
+  return itsYStartScale;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -325,7 +349,10 @@ double NFmiRectScale::GetYScaling(void) const
  */
 // ----------------------------------------------------------------------
 
-NFmiPoint NFmiRectScale::GetScaling(void) const { return NFmiPoint(GetXScaling(), GetYScaling()); }
+NFmiPoint NFmiRectScale::GetScaling(void) const
+{
+  return NFmiPoint(GetXScaling(), GetYScaling());
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

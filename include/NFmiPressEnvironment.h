@@ -156,7 +156,10 @@ inline void NFmiPressEnvironment::SetEncoding(std::string theEncoding)
  * \param theEncoding The given encoding
  */
 // ----------------------------------------------------------------------
-inline std::string NFmiPressEnvironment::GetEncoding(void) const { return itsEncoding; }
+inline std::string NFmiPressEnvironment::GetEncoding(void) const
+{
+  return itsEncoding;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -172,7 +175,10 @@ inline void NFmiPressEnvironment::UseBackupPreviousDay(bool theMode)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressEnvironment::UseBackupPreviousDay(void) const { return fUseBackupPreviousDay; }
+inline bool NFmiPressEnvironment::UseBackupPreviousDay(void) const
+{
+  return fUseBackupPreviousDay;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -188,28 +194,40 @@ inline void NFmiPressEnvironment::AvoidOrphanSyllables(bool theMode)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressEnvironment::AvoidOrphanSyllables(void) const { return fAvoidOrphanSyllables; }
+inline bool NFmiPressEnvironment::AvoidOrphanSyllables(void) const
+{
+  return fAvoidOrphanSyllables;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressEnvironment::SetCV(bool theCV) { fCV = theCV; }
+inline void NFmiPressEnvironment::SetCV(bool theCV)
+{
+  fCV = theCV;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressEnvironment::GetCV(void) const { return fCV; }
+inline bool NFmiPressEnvironment::GetCV(void) const
+{
+  return fCV;
+}
 // ----------------------------------------------------------------------
 /*!
  *
  */
 // ----------------------------------------------------------------------
 
-inline int NFmiPressEnvironment::GetVersion(void) const { return itsVersion; }
+inline int NFmiPressEnvironment::GetVersion(void) const
+{
+  return itsVersion;
+}
 // ----------------------------------------------------------------------
 /*!
  * versio vaikuttaa:
@@ -219,14 +237,20 @@ inline int NFmiPressEnvironment::GetVersion(void) const { return itsVersion; }
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressEnvironment::SetVersion(int theVersion) { itsVersion = theVersion; }
+inline void NFmiPressEnvironment::SetVersion(int theVersion)
+{
+  itsVersion = theVersion;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressEnvironment::GetSymbolSet(void) const { return itsSymbolSet; }
+inline NFmiString NFmiPressEnvironment::GetSymbolSet(void) const
+{
+  return itsSymbolSet;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -244,7 +268,10 @@ inline void NFmiPressEnvironment::SetSymbolSet(const NFmiString& theSymbolSet)
  */
 // ----------------------------------------------------------------------
 
-inline float NFmiPressEnvironment::GetSymbolSizeFactor(void) const { return itsSymbolSizeFactor; }
+inline float NFmiPressEnvironment::GetSymbolSizeFactor(void) const
+{
+  return itsSymbolSizeFactor;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -284,28 +311,40 @@ inline void NFmiPressEnvironment::SetTextAlignment(FmiDirection alignment)
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressEnvironment::GetTextSize(void) const { return itsTextAttributes.size; }
+inline double NFmiPressEnvironment::GetTextSize(void) const
+{
+  return itsTextAttributes.size;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressEnvironment::SetTextSize(double size) { itsTextAttributes.size = size; }
+inline void NFmiPressEnvironment::SetTextSize(double size)
+{
+  itsTextAttributes.size = size;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressEnvironment::SetFont(const NFmiString& font) { itsTextAttributes.font = font; }
+inline void NFmiPressEnvironment::SetFont(const NFmiString& font)
+{
+  itsTextAttributes.font = font;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressEnvironment::GetFont(void) const { return itsTextAttributes.font; }
+inline NFmiString NFmiPressEnvironment::GetFont(void) const
+{
+  return itsTextAttributes.font;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -459,7 +498,10 @@ inline bool NFmiPressEnvironment::ChangeMaskNumber(unsigned long theMaskNumber)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiPressEnvironment::GetMaskNumber(void) const { return itsMaskNumber; }
+inline unsigned long NFmiPressEnvironment::GetMaskNumber(void) const
+{
+  return itsMaskNumber;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -468,7 +510,10 @@ inline unsigned long NFmiPressEnvironment::GetMaskNumber(void) const { return it
  */
 // ----------------------------------------------------------------------
 
-inline FmiEnumSpace NFmiPressEnvironment::GetEnumSpace(void) const { return itsEnumSpace; }
+inline FmiEnumSpace NFmiPressEnvironment::GetEnumSpace(void) const
+{
+  return itsEnumSpace;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -477,7 +522,10 @@ inline FmiEnumSpace NFmiPressEnvironment::GetEnumSpace(void) const { return itsE
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressEnvironment::IsRGB(void) const { return itsGenericColor.isRgb; }
+inline bool NFmiPressEnvironment::IsRGB(void) const
+{
+  return itsGenericColor.isRgb;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -486,7 +534,10 @@ inline bool NFmiPressEnvironment::IsRGB(void) const { return itsGenericColor.isR
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressEnvironment::IsCMYK(void) const { return !itsGenericColor.isRgb; }
+inline bool NFmiPressEnvironment::IsCMYK(void) const
+{
+  return !itsGenericColor.isRgb;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -495,7 +546,10 @@ inline bool NFmiPressEnvironment::IsCMYK(void) const { return !itsGenericColor.i
  */
 // ----------------------------------------------------------------------
 
-inline FmiGenericColor NFmiPressEnvironment::GetColor(void) const { return itsGenericColor; }
+inline FmiGenericColor NFmiPressEnvironment::GetColor(void) const
+{
+  return itsGenericColor;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -504,7 +558,10 @@ inline FmiGenericColor NFmiPressEnvironment::GetColor(void) const { return itsGe
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressEnvironment::GetLongNumberMinus(void) const { return fLongNumberMinus; }
+inline bool NFmiPressEnvironment::GetLongNumberMinus(void) const
+{
+  return fLongNumberMinus;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -526,7 +583,10 @@ inline void NFmiPressEnvironment::SetDayAdvance(long theDayAdvance)
  */
 // ----------------------------------------------------------------------
 
-inline long NFmiPressEnvironment::GetDayAdvance(void) { return itsAdditionalDayAdvance; }
+inline long NFmiPressEnvironment::GetDayAdvance(void)
+{
+  return itsAdditionalDayAdvance;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -547,7 +607,10 @@ inline void NFmiPressEnvironment::SetSegmentMove(const NFmiPoint& theMove)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPoint NFmiPressEnvironment::GetSegmentMove(void) const { return itsSegmentMove; }
+inline NFmiPoint NFmiPressEnvironment::GetSegmentMove(void) const
+{
+  return itsSegmentMove;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

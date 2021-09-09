@@ -109,10 +109,12 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
 
   while (itsIntObject != 9999 || itsCommentLevel)
   {
-    if (itsIntObject != dEndComment && itsCommentLevel) itsIntObject = dComment;
+    if (itsIntObject != dEndComment && itsCommentLevel)
+      itsIntObject = dComment;
     if (itsLoopNum > itsMaxLoopNum)
     {
-      if (itsLogFile) *itsLogFile << "*** ERROR: max file length exceeded in #Number" << endl;
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: max file length exceeded in #Number" << endl;
       retString = itsString;
       return isFalse;
     }
@@ -139,7 +141,8 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
       }
       case dParamRectLanguage:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         itsLanguage = ReadLanguage();
         ReadNext();
         break;
@@ -147,7 +150,8 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
 
       case dTimeFormat:
       {
-        if (!ReadEqualChar()) break;  // kI
+        if (!ReadEqualChar())
+          break;  // kI
 
         itsFormat = ReadTimeFormat();
 
@@ -157,7 +161,8 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
 
       case dPlaceMove:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
 
         if (Read2Double(r1, r2))
         {
@@ -169,7 +174,8 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
       }
       case dRelPlace:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (Read4Double(r1, r2, r3, r4))
         {
           itsRelRect.Set(NFmiPoint(r1, r2), NFmiPoint(r3, r4));
@@ -187,20 +193,24 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
 
       case dRelDay:
       {
-        if (!ReadEqualChar()) break;
+        if (!ReadEqualChar())
+          break;
         if (ReadLong(long1))
           itsFirstDeltaDays = static_cast<unsigned short>(long1 + itsEnvironment.GetDayAdvance());
 
         *itsDescriptionFile >> itsObject;
         itsString = itsObject;
         itsIntObject = ConvertDefText(itsString);
-        if (itsLogFile) *itsLogFile << "*** ERROR: You cannot set Day in #Parameters" << endl;
+        if (itsLogFile)
+          *itsLogFile << "*** ERROR: You cannot set Day in #Parameters" << endl;
         break;
       }
       case dHour:
       {
-        if (!ReadEqualChar()) break;
-        if (ReadLong(long1)) itsFirstPlotHours = static_cast<unsigned short>(long1);
+        if (!ReadEqualChar())
+          break;
+        if (ReadLong(long1))
+          itsFirstPlotHours = static_cast<unsigned short>(long1);
 
         ReadNext();
         break;
@@ -230,9 +240,11 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
 
   SetPostReadingTimes();
 
-  if (!relPlace) itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
+  if (!relPlace)
+    itsRelRect.Inflate(-(c40 - GetTextSize()) / (c40 * 2));
 
-  if (fNewScaling) itsRelRect += NFmiPoint(1., 1.);
+  if (fNewScaling)
+    itsRelRect += NFmiPoint(1., 1.);
   Set(NFmiDataIdent(NFmiParam(itsIdentPar), NFmiProducer(240) /*=dummy */), NFmiRect(itsRelRect));
 
   retString = itsString;
@@ -293,11 +305,14 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   // joita myös tarvitaan auringon lasku/nousuissa
   itsStationPoint = NFmiStationPoint(itsPressParam->GetCurrentStation(), NFmiPoint(0., 0.));
 
-  if (!PointParam(theQI)) return isFalse;
-  if (!SetRelativeHour(theQI, NFmiString("#TimeText"))) return isFalse;
+  if (!PointParam(theQI))
+    return isFalse;
+  if (!SetRelativeHour(theQI, NFmiString("#TimeText")))
+    return isFalse;
 
   NFmiPressTime pTime = TimeToWrite(theQI);
-  if (pTime.IsMissing()) return false;
+  if (pTime.IsMissing())
+    return false;
 
   NFmiString timeString;  // = pTime.ToStr(itsFormat,itsLanguage);
 
@@ -313,7 +328,8 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     tempStationPoint.SetIdent(wmo);
   }
 
-  if (fFinnishTimezone) tempStationPoint.SetLongitude(25.);
+  if (fFinnishTimezone)
+    tempStationPoint.SetLongitude(25.);
 
   tempStationPoint.LocalTime(pTime, errCode);
 

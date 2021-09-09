@@ -98,7 +98,8 @@ bool NFmiPressScaling::ReadRemaining(void)
     }
     case dRotate:  // VakioKuvalla oma
     {
-      if (!ReadEqualChar()) return false;
+      if (!ReadEqualChar())
+        return false;
 
       if (ReadDouble(r1))
       {

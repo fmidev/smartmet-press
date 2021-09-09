@@ -164,8 +164,10 @@ void NFmiScale::ExcludePositive(void)
   if (!IsMissing())
   {
     {
-      if (itsStartValue > 0.) itsStartValue = 0.f;
-      if (itsEndValue > 0.) itsStartValue = 0.f;
+      if (itsStartValue > 0.)
+        itsStartValue = 0.f;
+      if (itsEndValue > 0.)
+        itsStartValue = 0.f;
     }
     Check();
   }
@@ -182,8 +184,10 @@ void NFmiScale::ExcludeNegative(void)
   if (!IsMissing())
   {
     {
-      if (itsStartValue < 0.) itsStartValue = 0.f;
-      if (itsEndValue < 0.) itsStartValue = 0.f;
+      if (itsStartValue < 0.)
+        itsStartValue = 0.f;
+      if (itsEndValue < 0.)
+        itsStartValue = 0.f;
     }
     Check();
   }
@@ -258,8 +262,10 @@ void NFmiScale::ExpandIfNotZero(float theFactor)
   if (itsDataOk)
   {
     float expansion = (itsEndValue - itsStartValue) * theFactor;
-    if (itsStartValue != 0.) itsStartValue += -expansion;
-    if (itsEndValue != 0.) itsEndValue += expansion;
+    if (itsStartValue != 0.)
+      itsStartValue += -expansion;
+    if (itsEndValue != 0.)
+      itsEndValue += expansion;
   }
 }
 
@@ -273,7 +279,8 @@ void NFmiScale::ExpandIfNotZero(float theFactor)
 
 void NFmiScale::ExpandIfEqual(float theInterval)
 {
-  if (itsStartValue == itsEndValue) Expand(theInterval);
+  if (itsStartValue == itsEndValue)
+    Expand(theInterval);
 }
 
 // ----------------------------------------------------------------------

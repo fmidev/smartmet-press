@@ -70,7 +70,10 @@ inline NFmiPressDataTimeText::NFmiPressDataTimeText(void)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiPressDataTimeText::ClassId(void) { return kNFmiPressDataTimeText; }
+inline unsigned long NFmiPressDataTimeText::ClassId(void)
+{
+  return kNFmiPressDataTimeText;
+}
 #endif  // NFMIPRESSDATATIMETEXT_H
 
 // ======================================================================

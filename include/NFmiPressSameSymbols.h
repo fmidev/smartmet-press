@@ -129,7 +129,10 @@ inline void NFmiPressSameSymbols::SetPressProduct(NFmiPressProduct* thePressP)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPsSymbol* NFmiPressSameSymbols::GetPsSymbol(void) { return &itsPsSymbol; }
+inline NFmiPsSymbol* NFmiPressSameSymbols::GetPsSymbol(void)
+{
+  return &itsPsSymbol;
+}
 #endif  // NFMIPRESSSAMESYMBOLS_H
 
 // ======================================================================

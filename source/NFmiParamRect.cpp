@@ -50,7 +50,8 @@ NFmiParamRect::~NFmiParamRect(void)
     delete[] itsMultiParams;
     delete itsMultiMapping;
   }
-  if (itsMissingString) delete itsMissingString;
+  if (itsMissingString)
+    delete itsMissingString;
 }
 
 // ----------------------------------------------------------------------
@@ -252,12 +253,14 @@ bool NFmiParamRect::ActiveStationIndex(int currentInd) const
 
 int NFmiParamRect::NumOfMappingParams(void)
 {
-  if (!itsMultiMapping) return 0;
+  if (!itsMultiMapping)
+    return 0;
 
   int i;
   for (i = 0; i < FmiMaxNumOfMappingParams; i++)
   {
-    if (itsMultiParams[i] == kFmiLastParameter) break;
+    if (itsMultiParams[i] == kFmiLastParameter)
+      break;
   }
   return i;
 }
@@ -279,8 +282,10 @@ bool NFmiParamRect::ReadRemaining(void)
   {
     case dParam:
     {
-      if (!ReadEqualChar()) break;
-      if (ReadLong(long1)) itsIdentPar = long1;
+      if (!ReadEqualChar())
+        break;
+      if (ReadLong(long1))
+        itsIdentPar = long1;
 
       if (itsIdentPar == kFmiDegreeDays)
       {
@@ -301,7 +306,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dMultiParams:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (itsMultiMapping)
       {
@@ -336,7 +342,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dMultiMapping:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       if (itsMultiMapping)
         itsMultiMapping->AddMappingInterval(itsMultiMapping->ReadOneMapping(itsDescriptionFile));
       else
@@ -574,7 +581,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dLevel:  // ei toimi
     {
-      if (SetOne(long1)) itsLevel = NFmiLevel(kFmiPressureLevel, static_cast<float>(long1));
+      if (SetOne(long1))
+        itsLevel = NFmiLevel(kFmiPressureLevel, static_cast<float>(long1));
 
       break;
     }
@@ -586,7 +594,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dIntegrationPeriod:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (ReadOne(itsIntegrationPeriod.period))
       {
@@ -645,7 +654,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dRandomModifying:
     {
-      if (GetPressProduct()->GetSeasonsStatus()->allowRandom) fRandomModifying = true;
+      if (GetPressProduct()->GetSeasonsStatus()->allowRandom)
+        fRandomModifying = true;
       ReadNext();
       break;
     }
@@ -675,7 +685,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dMissingValueString:
     {  //**************
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
       ReadNext();
 
       itsMissingString = new NFmiString(itsObject);
@@ -686,7 +697,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dStationTableActive:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       long3 = 1000;
       if (ReadTwo(long1, long2))
@@ -722,7 +734,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dPlaceMoveAlternating:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       if (ReadFour(r1, r2, r3, r4))
       {
@@ -746,7 +759,8 @@ bool NFmiParamRect::ReadRemaining(void)
     }
     case dExtremePlotting:
     {
-      if (!ReadEqualChar()) break;
+      if (!ReadEqualChar())
+        break;
 
       itsMaxText = ReadString();
       itsMinText = ReadString();
@@ -1097,7 +1111,8 @@ bool NFmiParamRect::PointOnMultiParam(NFmiFastQueryInfo *theQI, short theNum)
 bool NFmiParamRect::PointOnLevel(NFmiFastQueryInfo *theQI)
 {
   // segmentillä voi myös olla level-taulukko, jolloin parametriin ei pidä laittaa mitään
-  if (itsLevel.LevelValue() == kFloatMissing) return true;
+  if (itsLevel.LevelValue() == kFloatMissing)
+    return true;
 
   // huonoa kun tämä aurinko-testi useammassa paikassa
   itsCurrentPar = GetDataIdent().GetParam()->GetIdent();
@@ -1238,7 +1253,8 @@ bool NFmiParamRect::ReadCurrentValue(NFmiFastQueryInfo *theQueryInfo,
 
   if (value == kFloatMissing)
   {
-    if (!itsMultiMapping && fMarkingValue && !itsPressParam->HasPrimaryData()) itsNumOfMissing++;
+    if (!itsMultiMapping && fMarkingValue && !itsPressParam->HasPrimaryData())
+      itsNumOfMissing++;
 
     //	  if(itsMultiMapping && itsIdentPar == kFmiFogIntensity)
     //		value = 100.;
@@ -1425,7 +1441,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
     return true;
   }
 
-  if (itsCurrentPar == kFmiChillFactor) par = kFmiChillFactor;
+  if (itsCurrentPar == kFmiChillFactor)
+    par = kFmiChillFactor;
 
   NFmiMetTime firstTime = (static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time();
   NFmiMetTime lastTime = firstTime;
@@ -1456,7 +1473,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
       (period > 0 && period != kUnsignedLongMissing) || actualModifier == kWeightedMean;
 
   //  bool fTempNotMean = true;
-  if (par == kFmiTemperature && fTempNotMean) actualModifier = kNoneModifier;
+  if (par == kFmiTemperature && fTempNotMean)
+    actualModifier = kNoneModifier;
 
   if (actualModifier != kNoneModifier)
   {
@@ -1553,8 +1571,10 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
       break;
   }
 
-  if (areaModif) areaModif->SetMissingAllowed(fAllowMissing);
-  if (placeModif) placeModif->SetMissingAllowed(true);
+  if (areaModif)
+    areaModif->SetMissingAllowed(fAllowMissing);
+  if (placeModif)
+    placeModif->SetMissingAllowed(true);
 
   if (areaModif && itsValueIntervalMin != kFloatMissing)
     areaModif->SetLimits(itsValueIntervalMin, itsValueIntervalMax);
@@ -1563,7 +1583,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
 
   //  HUOM: OLETUS ON HETKELLINEN EIKÄ JAKSO
 
-  if (period == kUnsignedLongMissing) period = 0;
+  if (period == kUnsignedLongMissing)
+    period = 0;
   if (period == kUnsignedLongMissing)  // jätetty ohjelman päätettäväksi
   {
     if (theQueryInfo->TimeDescriptor().Resolution() == 360)
@@ -1895,7 +1916,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
     newTime = theQueryInfo->Time();
     value = theQueryInfo->FloatValue();
     fUseBackupTimeForward ? theQueryInfo->PreviousTime() : theQueryInfo->NextTime();
-    if (value == kFloatMissing) status = (" still missing");
+    if (value == kFloatMissing)
+      status = (" still missing");
     if (!fBackupReported)
     {
       *itsLogFile << "  Backup time used: Station="
@@ -1959,7 +1981,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
       value = itsValueIntervalMax >= value || value >= itsValueIntervalMin ? value : kFloatMissing;
   }
 
-  if (itsCurrentPar == kFmiTemperature && (value > 58. || value < -90.)) value = kFloatMissing;
+  if (itsCurrentPar == kFmiTemperature && (value > 58. || value < -90.))
+    value = kFloatMissing;
   if (itsValueOption == kFahrenheit)
     value = FmiCelsius2Fahrenheit(value);
   else if (itsValueOption == kDegreeDays)
@@ -2003,7 +2026,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   if (itsRoundingNumber != kLongMissing)
     value = static_cast<float>(round(value / itsRoundingNumber) * itsRoundingNumber);
 
-  if (fMeanWindToMax && value != kFloatMissing) value += static_cast<float>(max(value * .25, 2.));
+  if (fMeanWindToMax && value != kFloatMissing)
+    value += static_cast<float>(max(value * .25, 2.));
 
   // ekassa käsittely poltettu koodiin, jälkimmäsessä ohjattavissa määrittelystä
   RandomModify(value, theQueryInfo->Param().GetParamIdent());
@@ -2031,8 +2055,10 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
       !(par == kFmiTemperature && itsMultiMapping && itsCurrentMultiParNum > 1))
     JustifyConturPlace(theQueryInfo, value);
 
-  if (modif) delete modif;
-  if (areaModif) delete areaModif;
+  if (modif)
+    delete modif;
+  if (areaModif)
+    delete areaModif;
 
   return true;
 }
@@ -2248,7 +2274,8 @@ bool NFmiParamRect::ReadCurrentValueArray(NFmiFastQueryInfo *theQI)
 
     itsCurrentParamArray[i] = value;
 
-    if (i == 0 && !fMarkingValue) tempMarkingValue = false;
+    if (i == 0 && !fMarkingValue)
+      tempMarkingValue = false;
 
     if (i > FmiMaxNumOfMappingParams)  // varmuuden vuoksi
     {
@@ -2281,13 +2308,15 @@ bool NFmiParamRect::RandomModify(float &theValue, unsigned long theParIdent) con
       case kFmiTotalCloudCover:
         // 35-> 50%:sta n. joka 7. muuta kuin puolipilvistä
         //      0%:sta n. joka 5. melk.selkeätä
-        if (theValue < 99.f) Randomize(theValue, 35.f, 0.f, 100.f);
+        if (theValue < 99.f)
+          Randomize(theValue, 35.f, 0.f, 100.f);
         break;
       case kFmiPrecipitation1h:
         RandomizeRelatively(theValue, .8f, 0.f, 100.f);
         break;
       case kFmiProbabilityThunderstorm:
-        if (theValue > 1.f) Randomize(theValue, 6.f, 0.f, 100.f);
+        if (theValue > 1.f)
+          Randomize(theValue, 6.f, 0.f, 100.f);
         break;
     }
   }
@@ -2341,7 +2370,8 @@ bool NFmiParamRect::RandomizeRelatively(float &theValue,
 FmiInterpolationMethod NFmiParamRect::InterpolationMethod(NFmiFastQueryInfo *theQueryInfo)
 {
   unsigned long ident = theQueryInfo->Param().GetParam()->GetIdent();
-  if (ident == 338 || ident == 20) return kNearestPoint;
+  if (ident == 338 || ident == 20)
+    return kNearestPoint;
   return kLinearly;
 }
 
@@ -2469,10 +2499,12 @@ bool NFmiParamRect::IsDayNightString(NFmiString &theSymbolName) const
   symbolName.LowerCase();
 
   unsigned long kuuroPos = symbolName.Search(NFmiString("kuuro"));
-  if (kuuroPos > 0) return true;
+  if (kuuroPos > 0)
+    return true;
 
   kuuroPos = symbolName.Search(NFmiString("shower"));
-  if (kuuroPos > 0) return true;
+  if (kuuroPos > 0)
+    return true;
 
   if (symbolName == NFmiString("melkeinpilvinen") || symbolName == NFmiString("puolipilvinen") ||
       symbolName == NFmiString("melkeinselkeä") || symbolName == NFmiString("selkeä"))

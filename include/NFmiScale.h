@@ -71,7 +71,10 @@ class NFmiScale
  */
 // ----------------------------------------------------------------------
 
-inline float NFmiScale::StartValue(void) const { return itsStartValue; }
+inline float NFmiScale::StartValue(void) const
+{
+  return itsStartValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -79,7 +82,10 @@ inline float NFmiScale::StartValue(void) const { return itsStartValue; }
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-inline float NFmiScale::EndValue(void) const { return itsEndValue; }
+inline float NFmiScale::EndValue(void) const
+{
+  return itsEndValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -132,7 +138,10 @@ inline void NFmiScale::Set(float theStartValue, float theEndValue)
  */
 // ----------------------------------------------------------------------
 
-inline float NFmiScale::Difference(void) const { return itsEndValue - itsStartValue; }
+inline float NFmiScale::Difference(void) const
+{
+  return itsEndValue - itsStartValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -141,7 +150,10 @@ inline float NFmiScale::Difference(void) const { return itsEndValue - itsStartVa
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiScale::CenterValue(void) const { return (itsStartValue + itsEndValue) / 2.; }
+inline double NFmiScale::CenterValue(void) const
+{
+  return (itsStartValue + itsEndValue) / 2.;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -150,7 +162,10 @@ inline double NFmiScale::CenterValue(void) const { return (itsStartValue + itsEn
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiScale::LimitCheck(bool theCheck) { itsLimitCheck = theCheck; }
+inline void NFmiScale::LimitCheck(bool theCheck)
+{
+  itsLimitCheck = theCheck;
+}
 // ----------------------------------------------------------------------
 /*!
  * Undcoumented
@@ -159,7 +174,10 @@ inline void NFmiScale::LimitCheck(bool theCheck) { itsLimitCheck = theCheck; }
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiScale::Ok(void) const { return itsDataOk; }
+inline bool NFmiScale::Ok(void) const
+{
+  return itsDataOk;
+}
 #endif  // NFMISCALE_H
 
 // ======================================================================
