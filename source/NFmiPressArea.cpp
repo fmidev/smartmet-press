@@ -61,7 +61,7 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
   double tlX, tlY, brX, brY;
 
   double tlwX, tlwY, brwX, brwY;  // world
-  double trueLat;
+  double trueLat = 0.0;
   trLat = brY = brwY = kFloatMissing;
   NFmiString helpString, helpString2;
   unsigned long proj = kNFmiYKJArea;

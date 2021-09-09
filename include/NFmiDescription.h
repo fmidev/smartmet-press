@@ -243,8 +243,8 @@ class NFmiDescription
     bool ok = false;
     if (ReadEqualChar())
     {
-      Type1 num1;
-      Type2 num2;
+      Type1 num1{};
+      Type2 num2{};
       // ei suoraan parametriin koska saatetaan lukea roskaa
       // ja parametriss‰ on ennest‰‰n j‰rkev‰ oletusarvo
       if (ReadTwo(num1, num2))
@@ -275,9 +275,9 @@ class NFmiDescription
     bool ok = false;
     if (ReadEqualChar())
     {
-      Type1 num1;
-      Type2 num2;
-      Type3 num3;
+      Type1 num1{};
+      Type2 num2{};
+      Type3 num3{};
       if (ReadTwo(num1, num2) && ReadOne(num3))
       {
         theMember1 = num1;
