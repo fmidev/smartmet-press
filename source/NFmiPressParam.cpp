@@ -20,10 +20,8 @@
 #include "NFmiPsSymbol.h"
 // newbase
 #include "NFmiEnumConverter.h"
-#include "NFmiEquidistArea.h"
 #include "NFmiLocationFinder.h"
 #include "NFmiTotalWind.h"
-#include "NFmiYKJArea.h"
 // system
 #include <algorithm>
 #include <fstream>
@@ -1484,7 +1482,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         }
         else
         {
-          statNum = itsLoopNum;   // toimii satunnaislukuna,näin saadaan bagiin useita samannimisiä
+          statNum = itsLoopNum;  // toimii satunnaislukuna,näin saadaan bagiin useita samannimisiä
           string1 = valueString;  // Object;
         }
         string2 = ReadString();

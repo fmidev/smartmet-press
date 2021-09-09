@@ -25,9 +25,8 @@
 #define NFMIPRESSAREA_H
 
 #include "NFmiPressDescription.h"
-#include "NFmiStereographicArea.h"
-#include "NFmiYKJArea.h"
 class NFmiPressProduct;
+class NFmiArea;
 
 //! Undocumented
 enum NFmiAreaObjects

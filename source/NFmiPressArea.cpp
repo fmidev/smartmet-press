@@ -8,6 +8,8 @@
 #include "NFmiPressArea.h"
 #include "NFmiEquidistArea.h"
 #include "NFmiPressProduct.h"
+#include "NFmiStereographicArea.h"
+#include "NFmiYKJArea.h"
 #include <iostream>
 
 using namespace std;
