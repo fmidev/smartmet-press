@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 21.7.1
+Version: 22.5.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -12,9 +12,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 21.5.6
+BuildRequires: smartmet-library-newbase-devel >= 22.5.18
 BuildRequires: boost169-devel
-Requires: smartmet-library-newbase >= 21.5.6
+Requires: smartmet-library-newbase >= 22.5.18
 Requires: boost169-iostreams
 Requires: boost169-filesystem
 Requires: boost169-system
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Wed May 18 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.18-1.fmi
+- Removed obsolete #ifdef WGS84 tests
+
 * Thu Jul  1 2021 Andris Pavēnis <andris.pavenis@fmi.fi> 21.7.1-1.fmi
 - Rebuild due to dependency change (Linking with libsmartmet-macgyver.so required)
 

@@ -7,15 +7,7 @@
 
 #include "NFmiPressArea.h"
 #include "NFmiPressProduct.h"
-
-#ifndef WGS84
-#include "NFmiEquidistArea.h"
-#include "NFmiStereographicArea.h"
-#include "NFmiYKJArea.h"
-#else
 #include "NFmiAreaTools.h"
-#endif
-
 #include <iostream>
 
 using namespace std;
@@ -214,7 +206,6 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
         itsArea = 0;
       }
 
-#ifdef WGS84
       if (proj == kNFmiYKJArea)
         itsArea =
             NFmiAreaTools::CreateLegacyYKJArea(NFmiPoint(blLon, blLat), NFmiPoint(trLon, trLat));
@@ -227,26 +218,6 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
 
       itsArea->SetXYArea(NFmiRect(NFmiPoint(tlX, tlY), NFmiPoint(brX, brY)));
 
-#else
-      if (proj == kNFmiYKJArea)
-        itsArea = new NFmiYKJArea(NFmiPoint(blLon, blLat),
-                                  NFmiPoint(trLon, trLat),
-                                  NFmiPoint(tlX, tlY),
-                                  NFmiPoint(brX, brY));
-      else if (proj == kNFmiStereographicArea)
-        itsArea = new NFmiStereographicArea(NFmiPoint(blLon, blLat),
-                                            NFmiPoint(trLon, trLat),
-                                            orientation,
-                                            NFmiPoint(tlX, tlY),
-                                            NFmiPoint(brX, brY));
-      else if (proj == kNFmiEquiDistArea)
-        itsArea = new NFmiEquidistArea(NFmiPoint(blLon, blLat),
-                                       NFmiPoint(trLon, trLat),
-                                       orientation,
-                                       NFmiPoint(tlX, tlY),
-                                       NFmiPoint(brX, brY),
-                                       trueLat);
-#endif
       return true;
     }
     else if (brwY != kFloatMissing)
@@ -257,16 +228,8 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
         itsArea = 0;
       }
 
-#ifdef WGS84
       itsArea = NFmiAreaTools::CreateLegacyYKJArea(NFmiPoint(tlwX, tlwY), NFmiPoint(brwX, brwY));
       itsArea->SetXYArea(NFmiRect(NFmiPoint(tlX, tlY), NFmiPoint(brX, brY)));
-#else
-      itsArea = new NFmiYKJArea(NFmiPoint(tlwX, tlwY),
-                                NFmiPoint(brwX, brwY),
-                                true,
-                                NFmiPoint(tlX, tlY),
-                                NFmiPoint(brX, brY));
-#endif
       return true;
     }
   }
