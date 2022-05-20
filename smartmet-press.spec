@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 22.5.18
+Version: 22.5.20
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -12,9 +12,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 22.5.18
+BuildRequires: smartmet-library-newbase-devel >= 22.5.20
 BuildRequires: boost169-devel
-Requires: smartmet-library-newbase >= 22.5.18
+Requires: smartmet-library-newbase >= 22.5.20
 Requires: boost169-iostreams
 Requires: boost169-filesystem
 Requires: boost169-system
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdpress
 
 %changelog
+* Fri May 20 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.20-1.fmi
+- Repackaged due to ABI changes in newbase LatLon methods
+
 * Wed May 18 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.18-1.fmi
 - Removed obsolete #ifdef WGS84 tests
 
