@@ -9,15 +9,22 @@ Group: Development/Tools
 URL: https://github.com/fmidev/smartmet-press
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
+
+%if 0%{?rhel} && 0%{rhel} < 9
+%define smartmet_boost boost169
+%else
+%define smartmet_boost boost
+%endif
+
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 22.5.24
-BuildRequires: boost169-devel
-Requires: smartmet-library-newbase >= 22.5.24
-Requires: boost169-iostreams
-Requires: boost169-filesystem
-Requires: boost169-system
+BuildRequires: smartmet-library-newbase-devel >= 22.6.16
+BuildRequires: %{smartmet_boost}-devel
+Requires: smartmet-library-newbase >= 22.6.16
+Requires: %{smartmet_boost}-iostreams
+Requires: %{smartmet_boost}-filesystem
+Requires: %{smartmet_boost}-system
 Provides: qdpress
 
 %description
