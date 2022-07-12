@@ -129,7 +129,7 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retVal
   {
     return true;
   }
-  else if (itsObject == NFmiString("-"))
+  else if (std::strcmp(itsObject, "-") == 0)
   {
     // floatmissing, on jo
     *itsDescriptionFile >> itsObject;
