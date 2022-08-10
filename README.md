@@ -6,7 +6,10 @@
 
 The program reads querydata and a definiton file as input, and makes PostScript or ASCII text files as output.
 
-See [Wiki documentation](https://github.com/fmidev/smartmet-press/wiki) for help in usage
+How a product definition file for qdpress should look like see:
+[Syntax for qdpress definition](docs/Syntax-for-qdpress-definition.md)
+
+What each part of the definition means see: [Qdpress Reference Manual](docs/Qdpress-Reference-Manual.md)
 
 ## Development (FMI internal)
 
