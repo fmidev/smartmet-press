@@ -19,9 +19,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 22.6.16
+BuildRequires: smartmet-library-newbase-devel >= 23.7.28
 BuildRequires: %{smartmet_boost}-devel
-Requires: smartmet-library-newbase >= 22.6.16
+Requires: smartmet-library-newbase >= 23.7.28
 Requires: %{smartmet_boost}-iostreams
 Requires: %{smartmet_boost}-filesystem
 Requires: %{smartmet_boost}-system
