@@ -1358,7 +1358,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   // Create the log directory if it doesn't exist already
   try
   {
-    boost::filesystem::create_directory(static_cast<string>(fmiString));
+    std::filesystem::create_directory(static_cast<string>(fmiString));
   }
   catch (exception &e)
   {
@@ -1424,7 +1424,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   // If the tmp dir isn't available, program will hang.
   try
   {
-    boost::filesystem::create_directory(static_cast<string>(tempInput));
+    std::filesystem::create_directory(static_cast<string>(tempInput));
   }
   catch (exception &e)
   {
@@ -1528,7 +1528,7 @@ bool NFmiPressProduct::ReadData(void)
   const string tmp = NFmiSettings::Require<string>("press::datapath");
   str = tmp.c_str();
   string path = NFmiSettings::Require<string>("press::datapath");
-  if (boost::filesystem::is_directory(path))
+  if (std::filesystem::is_directory(path))
   {
     NFmiVoidPtrIterator iter(itsDatas);
     NFmiNamedQueryData *nData;
@@ -3762,7 +3762,7 @@ bool NFmiPressProduct::ConstructOutFileName(void)
   // Create the output directory if it doesn't exist already
   try
   {
-    boost::filesystem::create_directory(static_cast<string>(itsOutFile));
+    std::filesystem::create_directory(static_cast<string>(itsOutFile));
   }
   catch (exception &e)
   {

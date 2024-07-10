@@ -106,7 +106,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   inDir = NFmiSettings::Require<string>("press::symbolcachepath");
   try
   {
-    boost::filesystem::create_directory(static_cast<string>(inDir));
+    std::filesystem::create_directory(static_cast<string>(inDir));
   }
   catch (exception &e)
   {
