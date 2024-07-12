@@ -30,7 +30,7 @@
 #include <list>
 #include <stdexcept>
 #include <string>
-//#include <boost/filesystem/path.hpp>
+//#include <filesystem>
 
 using namespace std;
 
@@ -105,7 +105,7 @@ int domain(int argc, const char** argv)
   else
   {
     string p = static_cast<string>(cmdLine.Parameter(1));
-    // boost::filesystem::path productPath(static_cast<string>(cmdLine.Parameter(1)));
+    // std::filesystem::path productPath(static_cast<string>(cmdLine.Parameter(1)));
   }
 #endif
 

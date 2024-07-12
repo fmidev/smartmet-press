@@ -23,7 +23,7 @@
 #ifndef NFMIPRESSPRODUCT_H
 #define NFMIPRESSPRODUCT_H
 
-// namespace fs = boost::filesystem;
+// namespace fs = std::filesystem;
 // using namespace boost;
 // namespace boost
 
@@ -43,7 +43,7 @@
 #include "NFmiFileString.h"
 #include "NFmiVoidPtrList.h"
 // system
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <locale>
 #include <map>
 #include <queue>
@@ -242,7 +242,7 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   NFmiRect itsClippingRect;
   NFmiRect itsBoundingBorder;
   NFmiFastQueryInfo* itsCurrentDataIter;
-  boost::shared_ptr<NFmiSuperSmartInfo> itsMaskIter;
+  std::shared_ptr<NFmiSuperSmartInfo> itsMaskIter;
   NFmiVoidPtrList itsDatas;
   NFmiVoidPtrList itsParams;
   NFmiVoidPtrList itsSameSymbols;
