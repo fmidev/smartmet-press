@@ -14,7 +14,6 @@ INCLUDES += \
 LIBS += -L$(libdir) \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
-	-lboost_filesystem \
 	-lboost_iostreams \
 	-lboost_system \
 	-lstdc++ -lm
