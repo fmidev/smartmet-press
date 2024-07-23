@@ -11,7 +11,7 @@ INCLUDES += \
 	-I$(includedir)/smartmet \
 	-I$(includedir)/smartmet/newbase
 
-LIBS += -L$(libdir) \
+LIBS += $(PREFIX_LDFLAGS) \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
 	-lboost_iostreams \
