@@ -15,7 +15,6 @@ LIBS += $(PREFIX_LDFLAGS) \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
 	-lboost_iostreams \
-	-lboost_system \
 	-lstdc++ -lm
 
 # Compilation directories
