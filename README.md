@@ -1,5 +1,7 @@
 # smartmet-press aka. qdpress
 
+Part of [SmartMet Server](https://github.com/fmidev/smartmet-library-spine). See the [SmartMet Server documentation](https://github.com/fmidev/smartmet-library-spine) for an overview of the ecosystem.
+
 `qdpress` is the name of the binary.
 
 `smartmet-press` is the name of the RPM-package and this repository
