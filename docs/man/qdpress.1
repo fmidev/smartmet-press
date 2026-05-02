@@ -1,0 +1,66 @@
+.TH QDPRESS 1 "2026-05-02" "smartmet-press" "SmartMet Tools"
+.SH NAME
+qdpress \- generate press products from querydata
+.SH SYNOPSIS
+.B qdpress
+.RI [ options ]
+.I prefile
+.SH DESCRIPTION
+.B qdpress
+reads querydata together with a product definition file
+.RI ( prefile )
+and produces PostScript or ASCII text output for press use. The format
+of the definition file is described in the qdpress reference manual
+shipped with this package.
+.PP
+Most input and output paths are read from the SmartMet configuration
+namespace
+.B press::*
+unless overridden on the command line. The product name argument is
+appended to the output directory by default; this behaviour can be
+disabled with
+.BR \-n .
+.SH OPTIONS
+.TP
+.BI \-c " conffile"
+Configuration file.
+.TP
+.BI \-p " productname"
+Product name. Used as a sub-directory under the output directory unless
+.B \-n
+is given.
+.TP
+.BI \-h " pressdir"
+Press product source directory. Defaults to
+.BR press::path .
+.TP
+.BI \-o " outdir"
+Output directory. Defaults to
+.BR press::outpath .
+.TP
+.B \-n
+Do not append the product name to the output directory.
+.TP
+.BI \-l " logdir"
+Log directory. Defaults to
+.BR press::logpath .
+.TP
+.BI \-L " logfile"
+Log filename.
+.TP
+.BI \-s " dayshift"
+Shift the reference day by the given number of days.
+.SH EXAMPLES
+Generate a product using a configuration file:
+.PP
+.RS 4
+qdpress \-c product.conf \-p morning prefile.txt
+.RE
+.SH SEE ALSO
+.BR qdtext (1),
+.BR qdcontour (1),
+.BR qdinfo (1)
+.SH AUTHOR
+Finnish Meteorological Institute
+.PP
+Report issues at <https://github.com/fmidev/smartmet-press/issues>.
