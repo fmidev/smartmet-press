@@ -22,8 +22,8 @@ class NFmiWeightTimeScale;
 class NFmiTimeParamInterpolation
 {
  public:
-  virtual ~NFmiTimeParamInterpolation(void);
-  NFmiTimeParamInterpolation(void);
+  virtual ~NFmiTimeParamInterpolation();
+  NFmiTimeParamInterpolation();
   NFmiTimeParamInterpolation(NFmiFastQueryInfo* theInfo, NFmiWeightTimeScale* theWeights);
 
  protected:

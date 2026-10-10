@@ -53,46 +53,46 @@ enum NFmiPressScalingObjects
 class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
 {
  public:
-  ~NFmiPressScaling(void) override;
-  NFmiPressScaling(void);
+  ~NFmiPressScaling() override;
+  NFmiPressScaling();
   NFmiPressScaling(const NFmiPressScaling& thePsSymbol);
 
   int ConvertDefText(NFmiString& object) override;
   bool ReadDescription(NFmiString& retString) override = 0;
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
   virtual bool WritePS(const NFmiPoint& thePoint, FmiPressOutputMode theOutput);
   virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
   bool SetSize(const NFmiPoint& theSize);
   bool SetHeight(double theHeight);
-  double GetHeight(void) const;
+  double GetHeight() const;
   bool Set(NFmiRectScale& theRectScale, std::ofstream& theDestinationFile);
   bool SetScale(const NFmiRectScale& theRectScale);
   void Place(const NFmiPoint& thePlace);
   virtual void Move(const NFmiPoint& addPlace);
-  NFmiPoint Place(void);
-  void SetPrintOnceOn(void);
-  void ScaleNotPlace(void);
-  bool GetPrintOnce(void);
-  virtual bool IsInParagraph(void);
-  virtual double GetLineStep(void) const;
+  NFmiPoint Place();
+  void SetPrintOnceOn();
+  void ScaleNotPlace();
+  bool GetPrintOnce();
+  virtual bool IsInParagraph();
+  virtual double GetLineStep() const;
   virtual void SetLastLineStep(double step);
   virtual void SetLanguage(FmiLanguage newLanguage);
   virtual void ChangeByHours(long hours);
-  virtual bool HasSubText(void) const;
+  virtual bool HasSubText() const;
   bool AddTimeStamp(NFmiString& theGivenFile,
                     const NFmiString& theTimeFormat = NFmiString("DDMM")) const;
-  NFmiPoint GetMovePlace(void) const;
+  NFmiPoint GetMovePlace() const;
 
  protected:
-  virtual void ScalePlotting(void);
+  virtual void ScalePlotting();
   NFmiFileString CreatePath(NFmiString defaultDir,
                             NFmiString givenPath,
                             NFmiString givenDir,
                             NFmiString givenFile,
                             NFmiString extension = NFmiString());
 
-  int GetTimestampDayGap(void) const { return itsTimestampDayGap; };
+  int GetTimestampDayGap() const { return itsTimestampDayGap; };
   bool AddValidTimeTimeStamp(NFmiString& theFile,
                              const NFmiString& theFormat,
                              const NFmiPressTime& theValidTime) const;
@@ -116,7 +116,7 @@ class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressScaling::NFmiPressScaling(void)
+inline NFmiPressScaling::NFmiPressScaling()
     : NFmiPressTimeDescription(),
       itsRelArea(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
       itsRectSize(40., 40.),
@@ -137,7 +137,7 @@ inline NFmiPressScaling::NFmiPressScaling(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPoint NFmiPressScaling::GetMovePlace(void) const
+inline NFmiPoint NFmiPressScaling::GetMovePlace() const
 {
   return itsMovePlace;
 }
@@ -150,7 +150,7 @@ inline NFmiPoint NFmiPressScaling::GetMovePlace(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressScaling::HasSubText(void) const
+inline bool NFmiPressScaling::HasSubText() const
 {
   return false;
 }
@@ -185,7 +185,7 @@ inline void NFmiPressScaling::ChangeByHours(long hours) {}
  */
 // ---------------------------------------------------------------------
 
-inline double NFmiPressScaling::GetHeight(void) const
+inline double NFmiPressScaling::GetHeight() const
 {
   return itsRectSize.Y();
 }
@@ -249,7 +249,7 @@ inline void NFmiPressScaling::Move(const NFmiPoint& addPlace)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPoint NFmiPressScaling::Place(void)
+inline NFmiPoint NFmiPressScaling::Place()
 {
   return itsPlace;
 }
@@ -259,7 +259,7 @@ inline NFmiPoint NFmiPressScaling::Place(void)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressScaling::SetPrintOnceOn(void)
+inline void NFmiPressScaling::SetPrintOnceOn()
 {
   fPrintOnce = true;
 }
@@ -269,7 +269,7 @@ inline void NFmiPressScaling::SetPrintOnceOn(void)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressScaling::ScaleNotPlace(void)
+inline void NFmiPressScaling::ScaleNotPlace()
 {
   fScaleNotPlace = true;
 }
@@ -281,7 +281,7 @@ inline void NFmiPressScaling::ScaleNotPlace(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressScaling::GetPrintOnce(void)
+inline bool NFmiPressScaling::GetPrintOnce()
 {
   return fPrintOnce;
 }
@@ -293,7 +293,7 @@ inline bool NFmiPressScaling::GetPrintOnce(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressScaling::IsInParagraph(void)
+inline bool NFmiPressScaling::IsInParagraph()
 {
   return false;
 }
@@ -305,7 +305,7 @@ inline bool NFmiPressScaling::IsInParagraph(void)
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressScaling::GetLineStep(void) const
+inline double NFmiPressScaling::GetLineStep() const
 {
   return 0.;
 }

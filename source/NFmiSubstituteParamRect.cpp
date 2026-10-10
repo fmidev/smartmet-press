@@ -45,7 +45,7 @@ NFmiSubstituteParamRect::NFmiSubstituteParamRect(
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiSubstituteParamRect::Clone(void) const
+NFmiParamRect* NFmiSubstituteParamRect::Clone() const
 {
   return new NFmiSubstituteParamRect(*this);
 }

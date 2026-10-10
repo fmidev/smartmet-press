@@ -24,11 +24,11 @@
 class NFmiPressComputerTimeText : public NFmiPressTimeText
 {
  public:
-  ~NFmiPressComputerTimeText(void) override;
-  NFmiPressComputerTimeText(void);
+  ~NFmiPressComputerTimeText() override;
+  NFmiPressComputerTimeText();
 
-  bool ReadRemaining(void) override;
-  bool SetText(void) override;
+  bool ReadRemaining() override;
+  bool SetText() override;
 
   void SetText(NFmiString theText) override;
   int ConvertDefText(NFmiString& object) override;
@@ -52,7 +52,7 @@ class NFmiPressComputerTimeText : public NFmiPressTimeText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressComputerTimeText::NFmiPressComputerTimeText(void)
+inline NFmiPressComputerTimeText::NFmiPressComputerTimeText()
     : NFmiPressTimeText(), itsDeltaDays(0), itsDeltaHours(0)
 {
 }

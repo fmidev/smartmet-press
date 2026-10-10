@@ -31,10 +31,10 @@ enum NFmiPressDataTimeTextObjects
 class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObject
 {
  public:
-  ~NFmiPressDataTimeText(void) override;
-  NFmiPressDataTimeText(void);
+  ~NFmiPressDataTimeText() override;
+  NFmiPressDataTimeText();
 
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
   int ConvertDefText(NFmiString& object) override;
 
 #ifdef OLD_MSC
@@ -44,7 +44,7 @@ class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObje
 #endif
   bool WritePS(FmiPressOutputMode theOutput) override;
   bool WritePSUpdatingSubText(FmiPressOutputMode theOutput) override;
-  unsigned long ClassId(void) override;
+  unsigned long ClassId() override;
 
  protected:
   bool fUseOriginTime;
@@ -57,7 +57,7 @@ class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObje
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDataTimeText::NFmiPressDataTimeText(void)
+inline NFmiPressDataTimeText::NFmiPressDataTimeText()
     : NFmiPressTimeText(), NFmiPressDataObject(), fUseOriginTime(false)
 {
 }
@@ -70,7 +70,7 @@ inline NFmiPressDataTimeText::NFmiPressDataTimeText(void)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiPressDataTimeText::ClassId(void)
+inline unsigned long NFmiPressDataTimeText::ClassId()
 {
   return kNFmiPressDataTimeText;
 }

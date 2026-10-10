@@ -27,10 +27,10 @@ class NFmiExtremePlaceParamRect : public NFmiTextParamRect
 {
  public:
   ~NFmiExtremePlaceParamRect() override;
-  NFmiExtremePlaceParamRect(void);
+  NFmiExtremePlaceParamRect();
   NFmiExtremePlaceParamRect(const NFmiExtremePlaceParamRect& theTextParamRect);
 
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
   bool ReadDescription(NFmiString& retString) override;
   bool WritePS(const NFmiRect& theAbsoluteRectOfSymbolGroup,
                NFmiFastQueryInfo* theQI,
@@ -38,7 +38,7 @@ class NFmiExtremePlaceParamRect : public NFmiTextParamRect
                FmiPressOutputMode theOutput) override;
 
  protected:
-  NFmiText TextToWrite(void) const;
+  NFmiText TextToWrite() const;
 
  private:
 };
@@ -49,7 +49,7 @@ class NFmiExtremePlaceParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(void) : NFmiTextParamRect()
+inline NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect() : NFmiTextParamRect()
 {
   fUseSelectLatinFont = true;
 }

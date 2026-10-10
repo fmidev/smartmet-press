@@ -53,7 +53,7 @@ const unsigned long kH = kShortHour;
 class NFmiPressTime : public NFmiTime
 {
  public:
-  NFmiPressTime(void);
+  NFmiPressTime();
   NFmiPressTime(const NFmiTime& theTime);
 
   using NFmiTime::ToStr;

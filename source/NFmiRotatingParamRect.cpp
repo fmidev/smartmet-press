@@ -47,7 +47,7 @@ NFmiRotatingParamRect::NFmiRotatingParamRect(const NFmiRotatingParamRect &theSym
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiRotatingParamRect::Clone(void) const
+NFmiParamRect* NFmiRotatingParamRect::Clone() const
 {
   return new NFmiRotatingParamRect(*this);
 }
@@ -59,7 +59,7 @@ NFmiParamRect *NFmiRotatingParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiRotatingParamRect::ReadRemaining(void)
+bool NFmiRotatingParamRect::ReadRemaining()
 {
   //	whar_t wideh L'\0';
   double double1, double2;
@@ -133,7 +133,7 @@ int NFmiRotatingParamRect::ConvertDefText(NFmiString &object)
  */
 // ----------------------------------------------------------------------
 
-void NFmiRotatingParamRect::DoPostReading(void)
+void NFmiRotatingParamRect::DoPostReading()
 {
   if (fNewScaling)
     itsRelRect += NFmiPoint(-itsSizeFactor.X() / 2, -itsSizeFactor.Y() / 2);
@@ -239,7 +239,7 @@ float NFmiRotatingParamRect::AdjustToMap(float theDirection) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiRotatingParamRect::Rotate(void) const
+bool NFmiRotatingParamRect::Rotate() const
 {
   return (itsCurrentParamValue < itsNotRotatingMinValue ||
           itsCurrentParamValue > itsNotRotatingMaxValue);

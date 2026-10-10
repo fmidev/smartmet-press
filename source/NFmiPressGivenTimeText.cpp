@@ -29,7 +29,7 @@ NFmiPressGivenTimeText::~NFmiPressGivenTimeText(void) = default;
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressGivenTimeText::ReadRemaining(void)
+bool NFmiPressGivenTimeText::ReadRemaining()
 {
   unsigned long long1;
   switch (itsIntObject)
@@ -93,7 +93,7 @@ bool NFmiPressGivenTimeText::WritePS(FmiPressOutputMode theOutput)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressGivenTimeText::SetText(void)
+bool NFmiPressGivenTimeText::SetText()
 {
   if (itsStringNameTimeFormat.IsValue())
   {

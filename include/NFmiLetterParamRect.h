@@ -32,13 +32,13 @@ enum NFmiLetterParamRectObjects
 class NFmiLetterParamRect : public NFmiTextParamRect
 {
  public:
-  ~NFmiLetterParamRect(void) override;
+  ~NFmiLetterParamRect() override;
 
-  NFmiLetterParamRect(void);
+  NFmiLetterParamRect();
   NFmiLetterParamRect(const NFmiLetterParamRect &theLetterParamRect);
 
   bool ReadDescription(NFmiString& retString) override;
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
   int ConvertDefText(NFmiString& object) override;
 
   bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
@@ -46,7 +46,7 @@ class NFmiLetterParamRect : public NFmiTextParamRect
                std::ofstream& theDestinationFile,
                FmiPressOutputMode theOutput) override;
 
-  FmiGenericColor MapColor(void) const override;
+  FmiGenericColor MapColor() const override;
 
  protected:
  private:
@@ -61,7 +61,7 @@ class NFmiLetterParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiLetterParamRect::NFmiLetterParamRect(void) : NFmiTextParamRect()
+inline NFmiLetterParamRect::NFmiLetterParamRect() : NFmiTextParamRect()
 {
   itsMapping = nullptr;
   fUseSelectLatinFont = true;

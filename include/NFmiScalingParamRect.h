@@ -37,17 +37,17 @@ enum NFmiScalingParamRectObjects
 class NFmiScalingParamRect : public NFmi2SymbolParamRect
 {
  public:
-  ~NFmiScalingParamRect(void) override;
-  NFmiScalingParamRect(void);
+  ~NFmiScalingParamRect() override;
+  NFmiScalingParamRect();
   NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect);
 
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
 
   int ConvertDefText(NFmiString& object) override;
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
 
  protected:
-  void DoPostReading(void) override;
+  void DoPostReading() override;
   bool ReadSymbolScale(FmiValueScaling& theScale);
   void ScaleByValue() override;
 
@@ -63,7 +63,7 @@ class NFmiScalingParamRect : public NFmi2SymbolParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiScalingParamRect::NFmiScalingParamRect(void) : NFmi2SymbolParamRect()
+inline NFmiScalingParamRect::NFmiScalingParamRect() : NFmi2SymbolParamRect()
 {
   itsXValueScaling.symbolValue = kFloatMissing;
   itsYValueScaling.symbolValue = kFloatMissing;

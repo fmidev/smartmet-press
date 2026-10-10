@@ -68,12 +68,12 @@ enum NFmiPressTextObjects
 class NFmiPressText : public NFmiPressScaling
 {
  public:
-  ~NFmiPressText(void) override;
+  ~NFmiPressText() override;
   NFmiPressText();
   NFmiPressText(const NFmiPressText& theTextParamRect);
 
   bool ReadDescription(NFmiString& retString) override;
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
 
   int ConvertDefText(NFmiString& object) override;
   NFmiString Construct(NFmiString* theString) const;
@@ -82,7 +82,7 @@ class NFmiPressText : public NFmiPressScaling
   bool WritePS(FmiPressOutputMode theOutput) override;
   void SetValueDepending(float theValue);
 
-  virtual bool SetText(void);
+  virtual bool SetText();
   virtual void SetText(NFmiString theText);
   virtual void AddText(const NFmiString& theText);
   virtual void SetPreText(const NFmiString& theText);
@@ -91,22 +91,22 @@ class NFmiPressText : public NFmiPressScaling
 
   bool WritePSUpdatingSubText(FmiPressOutputMode theOutput) override;
 
-  NFmiString* GetText(void) const;
+  NFmiString* GetText() const;
   void SetLanguage(FmiLanguage theLanguage) override;
   void SetEncoding(std::string theEncoding);
-  FmiLanguage GetLanguage(void);
-  bool IsInParagraph(void) override;
-  void ScalePlotting(void) override;
-  double GetLineStep(void) const override;
+  FmiLanguage GetLanguage();
+  bool IsInParagraph() override;
+  void ScalePlotting() override;
+  double GetLineStep() const override;
   void SetLineStep(double lineStep);
   void SetLastLineStep(double lineStep) override;
-  double GetLineStepFactor(void) const;
+  double GetLineStepFactor() const;
   void SetLineStepFactor(double stepFactor);
   virtual void SetTime(const NFmiMetTime& theTime);
-  double GetWidthFactor(void) const;
+  double GetWidthFactor() const;
   void Move(const NFmiPoint& addPlace) override;
-  bool HasSubText(void) const override;
-  NFmiPressText* GetSubText(void) const;
+  bool HasSubText() const override;
+  NFmiPressText* GetSubText() const;
 
  protected:
   double itsLastLineStep;  // tarvitaan jotta ei uusi kappale alkaisi kuin olisi vanha rivinväli
@@ -157,8 +157,8 @@ inline NFmiPressText::NFmiPressText()
       fLoopErrorReported(false),
       fInParagraph(false),
       fInFreeArea(false),
-      fUpperCase(0),
-      fLowerCase(0),
+      fUpperCase(false),
+      fLowerCase(false),
       fFirstUpperCase(false),
       fAddLocalTime(false),
       itsText(nullptr),
@@ -179,7 +179,7 @@ inline NFmiPressText::NFmiPressText()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressText::SetText(void)
+inline bool NFmiPressText::SetText()
 {
   return true;
 }
@@ -245,7 +245,7 @@ inline void NFmiPressText::SetPostText(const NFmiString& theText)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressText* NFmiPressText::GetSubText(void) const
+inline NFmiPressText* NFmiPressText::GetSubText() const
 {
   return itsSubText;
 }
@@ -258,7 +258,7 @@ inline NFmiPressText* NFmiPressText::GetSubText(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressText::HasSubText(void) const
+inline bool NFmiPressText::HasSubText() const
 {
   return itsSubText ? true : false;
 }
@@ -284,7 +284,7 @@ inline bool NFmiPressText::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString* NFmiPressText::GetText(void) const
+inline NFmiString* NFmiPressText::GetText() const
 {
   return itsText;
 }
@@ -296,7 +296,7 @@ inline NFmiString* NFmiPressText::GetText(void) const
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressText::GetWidthFactor(void) const
+inline double NFmiPressText::GetWidthFactor() const
 {
   return itsWidthFactor;
 }
@@ -312,7 +312,7 @@ inline void NFmiPressText::SetLanguage(FmiLanguage theLanguage)
 {
   itsLanguage = theLanguage;
 }
-inline FmiLanguage NFmiPressText::GetLanguage(void)
+inline FmiLanguage NFmiPressText::GetLanguage()
 {
   return itsLanguage;
 }
@@ -324,7 +324,7 @@ inline FmiLanguage NFmiPressText::GetLanguage(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressText::IsInParagraph(void)
+inline bool NFmiPressText::IsInParagraph()
 {
   return fInParagraph;
 }
@@ -348,7 +348,7 @@ inline void NFmiPressText::SetLineStep(double lineStep)
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressText::GetLineStep(void) const
+inline double NFmiPressText::GetLineStep() const
 {
   return itsLineStep;
 }
@@ -384,7 +384,7 @@ inline void NFmiPressText::SetLineStepFactor(double lineStep)
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressText::GetLineStepFactor(void) const
+inline double NFmiPressText::GetLineStepFactor() const
 {
   return itsLineStepFactor;
 }

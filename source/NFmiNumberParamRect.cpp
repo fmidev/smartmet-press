@@ -45,7 +45,7 @@ NFmiNumberParamRect::NFmiNumberParamRect(const NFmiNumberParamRect& theNumberPar
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiNumberParamRect::Clone(void) const
+NFmiParamRect* NFmiNumberParamRect::Clone() const
 {
   return static_cast<NFmiParamRect *>(new NFmiNumberParamRect(*this));
 }
@@ -247,7 +247,7 @@ bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiNumberParamRect::ReadRemaining(void)
+bool NFmiNumberParamRect::ReadRemaining()
 {
   return NFmiTextParamRect::ReadRemaining();
 }
@@ -580,7 +580,7 @@ NFmiString NFmiNumberParamRect::DetachSign(const NFmiString &theString, float th
  */
 // ----------------------------------------------------------------------
 
-FmiGenericColor NFmiNumberParamRect::MapColor(void) const
+FmiGenericColor NFmiNumberParamRect::MapColor() const
 {
   for (unsigned long ind = 0; ind < itsCurrentNumOfColMaps; ind++)
   {

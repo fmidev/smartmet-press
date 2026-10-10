@@ -42,8 +42,8 @@ struct NFmiNamedCmykColor
 class NFmiCmykColorBag : public NFmiSize
 {
  public:
-  ~NFmiCmykColorBag(void) override;
-  NFmiCmykColorBag(void);
+  ~NFmiCmykColorBag() override;
+  NFmiCmykColorBag();
   NFmiCmykColorBag(const NFmiCmykColorBag& theCmykColorBag);
 
   void AddColor(const NFmiNamedCmykColor& theColor);
@@ -61,7 +61,7 @@ class NFmiCmykColorBag : public NFmiSize
  */
 // ----------------------------------------------------------------------
 
-inline NFmiCmykColorBag::NFmiCmykColorBag(void) : NFmiSize(0), itsColors(nullptr) {}
+inline NFmiCmykColorBag::NFmiCmykColorBag() : NFmiSize(0), itsColors(nullptr) {}
 #endif  // NFMICMYKCOLORBAG_H
 
 // ======================================================================

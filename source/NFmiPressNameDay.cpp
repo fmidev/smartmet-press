@@ -29,7 +29,7 @@ NFmiPressNameDay::~NFmiPressNameDay(void) = default;
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressNameDay::ReadRemaining(void)
+bool NFmiPressNameDay::ReadRemaining()
 {
   unsigned long long1;
   FmiCounter counter;

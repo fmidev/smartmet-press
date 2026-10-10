@@ -43,7 +43,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect::~NFmiParamRect(void)
+NFmiParamRect::~NFmiParamRect()
 {
   if (itsMultiMapping)
   {
@@ -172,7 +172,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect &theRect)
  */
 // ----------------------------------------------------------------------
 
-NFmiPressProduct *NFmiParamRect::GetPressProduct(void) const
+NFmiPressProduct* NFmiParamRect::GetPressProduct() const
 {
   return itsPressParam->GetPressProduct();
 }
@@ -251,7 +251,7 @@ bool NFmiParamRect::ActiveStationIndex(int currentInd) const
  */
 // ----------------------------------------------------------------------
 
-int NFmiParamRect::NumOfMappingParams(void)
+int NFmiParamRect::NumOfMappingParams()
 {
   if (!itsMultiMapping)
     return 0;
@@ -273,7 +273,7 @@ int NFmiParamRect::NumOfMappingParams(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiParamRect::ReadRemaining(void)
+bool NFmiParamRect::ReadRemaining()
 {
   long long1, long2, long3;
   float r1, r2, r3, r4;
@@ -813,7 +813,7 @@ bool NFmiParamRect::ReadRemaining(void)
 
 // voidaan käyttää managerin kanssa myös
 
-bool NFmiParamRect::UpdateModifierTimes(void)
+bool NFmiParamRect::UpdateModifierTimes()
 {
   long firstPlotHours = itsFirstPlotTime.GetHour();
   if (fGivenHoursAreRelative)
@@ -2457,7 +2457,7 @@ bool NFmiParamRect::SetRelativeHour(NFmiFastQueryInfo *data, const NFmiString &c
 // tällä hoidetaan se että alle vuorokaudenkin aikaluupit
 // onnistuvat alkioiden omilla tunneilla
 
-long NFmiParamRect::RelativeHour(void) const
+long NFmiParamRect::RelativeHour() const
 {
   return itsFirstPlotHours - itsPressParam->GetFirstPlotHours();
 }
@@ -2468,7 +2468,7 @@ long NFmiParamRect::RelativeHour(void) const
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-bool NFmiParamRect::CompleteMultiMapping(void)
+bool NFmiParamRect::CompleteMultiMapping()
 {
   if (itsMultiMapping->IsIncomplete())
   {
@@ -2488,7 +2488,7 @@ bool NFmiParamRect::CompleteMultiMapping(void)
   return true;
 }
 // ----------------------------------------------------------------------
-bool NFmiParamRect::IsMissingLonLat(void)
+bool NFmiParamRect::IsMissingLonLat()
 {
   return itsPressParam->GetCurrentStation().GetLongitude() == kFloatMissing;
 }

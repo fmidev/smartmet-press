@@ -51,7 +51,7 @@ NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol &thePsSymbol)
  */
 // ----------------------------------------------------------------------
 
-NFmiPsSymbol *NFmiPsSymbol::Clone(void) const
+NFmiPsSymbol* NFmiPsSymbol::Clone() const
 {
   return new NFmiPsSymbol(*this);
 }
@@ -63,7 +63,7 @@ NFmiPsSymbol *NFmiPsSymbol::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
+bool NFmiPsSymbol::CopyShortSymbol2Dest()
 {
   string tmpDir = NFmiSettings::Require<string>("press::symbolcachepath");
   tmpDir += kFmiDirectorySeparator;
@@ -111,7 +111,7 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsSymbol::ConvertOrig2Short(void)
+bool NFmiPsSymbol::ConvertOrig2Short()
 {
   NFmiString inputName = itsOrigDir;
   inputName += NFmiString("/");

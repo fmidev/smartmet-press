@@ -44,7 +44,7 @@ NFmiStationPoint &NFmiStationPoint::operator=(const NFmiStationPoint &theStation
  */
 // ----------------------------------------------------------------------
 
-NFmiLocation *NFmiStationPoint::Clone(void) const
+NFmiLocation* NFmiStationPoint::Clone() const
 {
   return static_cast<NFmiLocation *>(new NFmiStationPoint(*this));
 }
@@ -356,7 +356,7 @@ NFmiString NFmiStationPoint::LocalWmoTime(int utc) const
  */
 // ----------------------------------------------------------------------
 
-float NFmiStationPoint::GetWmoDifference(void) const
+float NFmiStationPoint::GetWmoDifference() const
 {
   // valikoiva kesäaika, suljetaan eteläinen pallonpuolisko ulkopuolelle
 

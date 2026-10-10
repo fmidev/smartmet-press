@@ -38,9 +38,9 @@ struct FmiPressHyphens
 class NFmiHyphenationString : public NFmiString
 {
  public:
-  ~NFmiHyphenationString(void) override;
+  ~NFmiHyphenationString() override;
 
-  NFmiHyphenationString(void);
+  NFmiHyphenationString();
   NFmiHyphenationString(const char* theText);
   NFmiHyphenationString(const NFmiString& theText);
   NFmiHyphenationString(const NFmiHyphenationString& theText);
@@ -48,28 +48,28 @@ class NFmiHyphenationString : public NFmiString
   NFmiString CreateHyphens(const char* theHyphenationMark);
   NFmiString DeleteShortSyllables(const char* theHyphenationMark);
   bool NextChar(const NFmiString& theChar);
-  bool NextIsNumeric(void);
+  bool NextIsNumeric();
   NFmiString ReplaceChar(const NFmiString& theChar, const NFmiString& withString);
   NFmiString DropChar(const NFmiString& theChar);
-  bool NextConsonant(void);
-  bool NextPosition(void);
-  bool BackPosition(void);
-  void ResetPosition(void);
-  void SuperResetPosition(void);
+  bool NextConsonant();
+  bool NextPosition();
+  bool BackPosition();
+  void ResetPosition();
+  void SuperResetPosition();
   bool IsConsonant(const NFmiString& theChar) const;
   bool IsVowel(const NFmiString& theChar) const;
   bool IsNumeric(const NFmiString& theChar) const;
-  bool IsLastCharPosition(void) const;
-  unsigned long CurrentCharPosition(void) const;
+  bool IsLastCharPosition() const;
+  unsigned long CurrentCharPosition() const;
   bool NextSubString(const NFmiString& toDelimiter, NFmiString& resString);
   bool NextSubString(NFmiString& resString);
   void SetNarrowColumn(bool theStatus);
 
  private:
   bool IsPunctuation(unsigned short theChar);
-  bool InitIrregularHyphens(void);
+  bool InitIrregularHyphens();
   void CreateIrregularHyphens(const char* theHyphenationMark);
-  bool EnoughOnRow(void) const;
+  bool EnoughOnRow() const;
 
   unsigned short itsCurrentCharPos;
   unsigned short itsLastCharPosition;

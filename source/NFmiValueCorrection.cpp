@@ -36,7 +36,7 @@ NFmiValueCorrection::~NFmiValueCorrection(void) = default;
  */
 // ----------------------------------------------------------------------
 
-bool NFmiValueCorrection::ReadFile(void)
+bool NFmiValueCorrection::ReadFile()
 {
   fRead = true;
   // fValue = false;

@@ -23,17 +23,17 @@
 class NFmiPressGivenTimeText : public NFmiPressTimeText
 {
  public:
-  ~NFmiPressGivenTimeText(void) override;
-  NFmiPressGivenTimeText(void);
+  ~NFmiPressGivenTimeText() override;
+  NFmiPressGivenTimeText();
 
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
 #ifdef OLD_MSC
   using NFmiPressTimeText::WritePS;
 #else
   using NFmiPressScaling::WritePS;
 #endif
   bool WritePS(FmiPressOutputMode theOutput) override;
-  bool SetText(void) override;
+  bool SetText() override;
   void SetText(NFmiString theText) override;
   void SetTime(const NFmiMetTime& theTime) override;
 
@@ -45,7 +45,7 @@ class NFmiPressGivenTimeText : public NFmiPressTimeText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressGivenTimeText::NFmiPressGivenTimeText(void) : NFmiPressTimeText() {}
+inline NFmiPressGivenTimeText::NFmiPressGivenTimeText() : NFmiPressTimeText() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

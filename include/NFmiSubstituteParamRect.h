@@ -29,13 +29,13 @@ enum NFmiSubstituteParamRectObjects
 class NFmiSubstituteParamRect : public NFmiTextParamRect
 {
  public:
-  ~NFmiSubstituteParamRect(void) override;
+  ~NFmiSubstituteParamRect() override;
 
-  NFmiSubstituteParamRect(void);
+  NFmiSubstituteParamRect();
   NFmiSubstituteParamRect(const NFmiSubstituteParamRect& theSubstituteParamRect);
 
   bool ReadDescription(NFmiString& retString) override;
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
   int ConvertDefText(NFmiString& object) override;
 
   bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
@@ -55,7 +55,7 @@ class NFmiSubstituteParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiSubstituteParamRect::NFmiSubstituteParamRect(void) : NFmiTextParamRect()
+inline NFmiSubstituteParamRect::NFmiSubstituteParamRect() : NFmiTextParamRect()
 {
   itsMapping = nullptr;
   fUseSelectLatinFont = true;

@@ -27,7 +27,7 @@ NFmiPressDataTimeText::~NFmiPressDataTimeText(void) = default;
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressDataTimeText::ReadRemaining(void)
+bool NFmiPressDataTimeText::ReadRemaining()
 {
   NFmiString helpString;
   NFmiValueString valueString;

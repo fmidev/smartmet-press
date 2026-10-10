@@ -32,19 +32,19 @@ enum NFmiRotatingParamRectObjects
 class NFmiRotatingParamRect : public NFmi2SymbolParamRect
 {
  public:
-  ~NFmiRotatingParamRect(void) override;
-  NFmiRotatingParamRect(void);
+  ~NFmiRotatingParamRect() override;
+  NFmiRotatingParamRect();
   NFmiRotatingParamRect(const NFmiRotatingParamRect& theSymbolRect);
 
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
   int ConvertDefText(NFmiString& object) override;
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
   void SetNotRotatingMin(double notRotatingMin);
   void SetNotRotatingMax(double notRotatingMin);
 
  protected:
-  bool Rotate(void) const;
-  void DoPostReading(void) override;
+  bool Rotate() const;
+  void DoPostReading() override;
 
  private:
   bool CopyShortSymbol2Dest(NFmiString* symbolFile,
@@ -68,7 +68,7 @@ class NFmiRotatingParamRect : public NFmi2SymbolParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiRotatingParamRect::NFmiRotatingParamRect(void) : NFmi2SymbolParamRect()
+inline NFmiRotatingParamRect::NFmiRotatingParamRect() : NFmi2SymbolParamRect()
 {
   itsNotRotatingMinValue = 10.;
   itsNotRotatingMaxValue = -10.;

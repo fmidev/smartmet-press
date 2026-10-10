@@ -31,14 +31,14 @@ enum NFmiNumberParamRectObjects
 class NFmiNumberParamRect : public NFmiTextParamRect
 {
  public:
-  ~NFmiNumberParamRect(void) override;
+  ~NFmiNumberParamRect() override;
 
-  NFmiNumberParamRect(void);
+  NFmiNumberParamRect();
   NFmiNumberParamRect(const NFmiNumberParamRect& theNumberParamRect);
 
   bool ReadDescription(NFmiString& retString) override;
-  bool ReadRemaining(void) override;
-  NFmiParamRect* Clone(void) const override;
+  bool ReadRemaining() override;
+  NFmiParamRect* Clone() const override;
   int ConvertDefText(NFmiString& object) override;
 
   bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
@@ -50,7 +50,7 @@ class NFmiNumberParamRect : public NFmiTextParamRect
   NFmiString DetachSign(const NFmiString& theString, float theValue) const;
 
  protected:
-  FmiGenericColor MapColor(void) const override;
+  FmiGenericColor MapColor() const override;
 
  protected:
   NFmiString itsFormat;
@@ -66,7 +66,7 @@ class NFmiNumberParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiNumberParamRect::NFmiNumberParamRect(void)
+inline NFmiNumberParamRect::NFmiNumberParamRect()
     : NFmiTextParamRect(),
       itsFormat(NFmiString("%1.f")),
       fZeroMinus(false),

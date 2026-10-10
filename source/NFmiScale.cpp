@@ -27,7 +27,7 @@ NFmiScale::~NFmiScale(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiScale::NFmiScale(void)
+NFmiScale::NFmiScale()
     : itsStartValue(kFloatMissing),
       itsEndValue(kFloatMissing),
       itsEpsilon(0.f),
@@ -145,7 +145,7 @@ NFmiScale& NFmiScale::operator-=(const NFmiScale& anOtherScale)
  */
 // ----------------------------------------------------------------------
 
-void NFmiScale::ExcludePositive(void)
+void NFmiScale::ExcludePositive()
 {
   if (!IsMissing())
   {
@@ -165,7 +165,7 @@ void NFmiScale::ExcludePositive(void)
  */
 // ----------------------------------------------------------------------
 
-void NFmiScale::ExcludeNegative(void)
+void NFmiScale::ExcludeNegative()
 {
   if (!IsMissing())
   {
@@ -215,7 +215,7 @@ void NFmiScale::StartFromZeroOptionally(float theFactor)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiScale::IsMissing(void) const
+bool NFmiScale::IsMissing() const
 {
   return (itsStartValue == kFloatMissing || itsEndValue == kFloatMissing);
 }
@@ -226,7 +226,7 @@ bool NFmiScale::IsMissing(void) const
  */
 // ----------------------------------------------------------------------
 
-void NFmiScale::Check(void)
+void NFmiScale::Check()
 {
   itsDataOk = (itsStartValue != kFloatMissing && itsEndValue != kFloatMissing);
   if (itsDataOk)

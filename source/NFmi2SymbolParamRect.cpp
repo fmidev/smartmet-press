@@ -41,7 +41,7 @@ NFmi2SymbolParamRect::NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbol
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect* NFmi2SymbolParamRect::Clone(void) const
+NFmiParamRect* NFmi2SymbolParamRect::Clone() const
 {
   return new NFmi2SymbolParamRect(*this);
 }
@@ -54,7 +54,7 @@ NFmiParamRect* NFmi2SymbolParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmi2SymbolParamRect::ReadRemaining(void)
+bool NFmi2SymbolParamRect::ReadRemaining()
 {
   long long1;
 

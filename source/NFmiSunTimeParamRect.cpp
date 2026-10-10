@@ -42,7 +42,7 @@ NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theSunTim
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiSunTimeParamRect::Clone(void) const
+NFmiParamRect* NFmiSunTimeParamRect::Clone() const
 {
   return new NFmiSunTimeParamRect(*this);
 }
@@ -54,7 +54,7 @@ NFmiParamRect *NFmiSunTimeParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSunTimeParamRect::ReadRemaining(void)
+bool NFmiSunTimeParamRect::ReadRemaining()
 {
   switch (itsIntObject)
   {

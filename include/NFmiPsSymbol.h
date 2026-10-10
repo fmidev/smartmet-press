@@ -33,22 +33,22 @@ enum NFmiPsSymbolObjects
 class NFmiPsSymbol : public NFmiPressScaling
 {
  public:
-  ~NFmiPsSymbol(void) override;
-  NFmiPsSymbol(void);
+  ~NFmiPsSymbol() override;
+  NFmiPsSymbol();
   NFmiPsSymbol(const NFmiPsSymbol& thePsSymbol);
 
   int ConvertDefText(NFmiString& object) override;
   bool ReadDescription(NFmiString& retString) override;
-  virtual NFmiPsSymbol* Clone(void) const;
+  virtual NFmiPsSymbol* Clone() const;
   virtual bool MakeAndWritePS(NFmiPoint place);  // tän voi sitten joskus hylätä
   using NFmiPressScaling::WritePS;
   bool WritePS(FmiPressOutputMode theOutput) override;
-  NFmiString GetSymbol(void) const;
+  NFmiString GetSymbol() const;
   bool WritePSUpdatingSubText(FmiPressOutputMode theOutput) override;
 
  protected:
-  virtual bool CopyShortSymbol2Dest(void);
-  virtual bool ConvertOrig2Short(void);
+  virtual bool CopyShortSymbol2Dest();
+  virtual bool ConvertOrig2Short();
 
  protected:
   NFmiString itsShortDir;
@@ -63,7 +63,7 @@ class NFmiPsSymbol : public NFmiPressScaling
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPsSymbol::NFmiPsSymbol(void) : NFmiPressScaling() {}
+inline NFmiPsSymbol::NFmiPsSymbol() : NFmiPressScaling() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -72,7 +72,7 @@ inline NFmiPsSymbol::NFmiPsSymbol(void) : NFmiPressScaling() {}
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPsSymbol::GetSymbol(void) const
+inline NFmiString NFmiPsSymbol::GetSymbol() const
 {
   return itsSymbol;
 }

@@ -14,7 +14,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmiParamMapping::~NFmiParamMapping(void)
+NFmiParamMapping::~NFmiParamMapping()
 {
   delete[] static_cast<NFmiMappingInterval *>(itsMappingIntervals);
 }

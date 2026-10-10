@@ -52,7 +52,7 @@ FmiDirection NFmiPressDescription::String2FmiDirection(const NFmiString &theStri
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressDescription::ReadRemaining(void)
+bool NFmiPressDescription::ReadRemaining()
 {
   // tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
   FmiRGBColor rgb = FmiRGBColor();
@@ -252,7 +252,7 @@ bool NFmiPressDescription::ReadRemaining(void)
  */
 // ----------------------------------------------------------------------
 
-FmiLanguage NFmiPressDescription::ReadLanguage(void)
+FmiLanguage NFmiPressDescription::ReadLanguage()
 {
   // pitää vielä ylläpitää myös PressProduktissa(25.8.00)
   NFmiString helpString;
@@ -368,7 +368,7 @@ int NFmiPressDescription::ConvertDefText(NFmiString &object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressDescription::IsPureBlack(void)
+bool NFmiPressDescription::IsPureBlack()
 {
   return (GetColor().color.cmyk.cyan <= 0. && GetColor().color.cmyk.magenta <= 0. &&
           GetColor().color.cmyk.yellow <= 0. && GetColor().color.cmyk.black >= 1.);

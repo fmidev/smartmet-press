@@ -36,22 +36,22 @@ enum FmiPressOutputMode
 class NFmiPsWriting
 {
  public:
-  ~NFmiPsWriting(void);
-  NFmiPsWriting(void);
+  ~NFmiPsWriting();
+  NFmiPsWriting();
   NFmiPsWriting(const NFmiPsWriting& thePsWriting);
 
   bool WriteOutString(const NFmiString& outString);
-  bool CopyPsFile(void);
-  bool CopyFileWithoutShowpage(void);
-  bool WriteGRestore(void);
-  void Rotate(void);
-  bool WritePSConcat(void);
+  bool CopyPsFile();
+  bool CopyFileWithoutShowpage();
+  bool WriteGRestore();
+  void Rotate();
+  bool WritePSConcat();
   bool WritePSConcatRotating(float);
-  bool WritePSEnd(void);
+  bool WritePSEnd();
   bool WriteEPSConcatClipping(NFmiRect theClippingRect);
   bool WriteEPSConcatClipping(std::vector<NFmiPoint> points);
-  bool WriteEPSConcat(void);
-  bool WriteEPSEnd(void);
+  bool WriteEPSConcat();
+  bool WriteEPSEnd();
   void SetRotatingPoint(const NFmiPoint& thePoint);
   void SetRotBeforeScale(const bool rBeforeS);
   NFmiString AlignmentToMeta(const FmiDirection& pressAlignment) const;
@@ -61,12 +61,12 @@ class NFmiPsWriting
                   FmiPressOutputMode mode,
                   std::ofstream& os) const;
 
-  bool IsActive(void) const;
+  bool IsActive() const;
   void SetActivity(bool theActivity);
-  bool IsToWriteLast(void) const;
+  bool IsToWriteLast() const;
   void SetWriteLast(bool theWriteLat);
   void SetLineFeed(bool theValue);
-  bool IsLineFeed(void);
+  bool IsLineFeed();
 
  protected:
   bool fActivity;
@@ -88,7 +88,7 @@ class NFmiPsWriting
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPsWriting::NFmiPsWriting(void)
+inline NFmiPsWriting::NFmiPsWriting()
     : fActivity(true),
       fWriteAsLast(false),
       fRotBeforeScale(false),
@@ -110,7 +110,7 @@ inline NFmiPsWriting::NFmiPsWriting(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPsWriting::IsLineFeed(void)
+inline bool NFmiPsWriting::IsLineFeed()
 {
   return fLineFeed;
 }
@@ -172,7 +172,7 @@ inline void NFmiPsWriting::SetFile(std::ofstream& theDestinationFile)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPsWriting::IsActive(void) const
+inline bool NFmiPsWriting::IsActive() const
 {
   return fActivity;
 }
@@ -196,7 +196,7 @@ inline void NFmiPsWriting::SetActivity(bool theActivity)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPsWriting::IsToWriteLast(void) const
+inline bool NFmiPsWriting::IsToWriteLast() const
 {
   return fWriteAsLast;
 }

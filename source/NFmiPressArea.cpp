@@ -20,7 +20,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressArea::~NFmiPressArea(void)
+NFmiPressArea::~NFmiPressArea()
 {
   if (itsArea)
     delete itsArea;

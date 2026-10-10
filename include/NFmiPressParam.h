@@ -113,9 +113,9 @@ const unsigned short kMaxNumOfTableElements = 25;
 class NFmiPressParam : public NFmiPressTimeDescription
 {
  public:
-  ~NFmiPressParam(void) override;
+  ~NFmiPressParam() override;
 
-  NFmiPressParam(void);
+  NFmiPressParam();
 
   NFmiPressParam(const NFmiRectScale& scale,
                  const short firstDeltaDays,
@@ -136,74 +136,74 @@ class NFmiPressParam : public NFmiPressTimeDescription
   void SetData(NFmiQueryData* data);
   void SetPrimaryData(NFmiQueryData* data);
   void SetMaskIter(std::shared_ptr<NFmiFastQueryInfo> info);
-  std::shared_ptr<NFmiFastQueryInfo> GetMaskIter(void);
-  NFmiInfoAreaMask* GetAreaMask(void);
+  std::shared_ptr<NFmiFastQueryInfo> GetMaskIter();
+  NFmiInfoAreaMask* GetAreaMask();
   void SetDataName(NFmiString name);
   void SetPrimaryDataName(NFmiString name);
   void SetLanguage(FmiLanguage theLanguage);
-  FmiLanguage GetLanguage(void);
-  NFmiString GetName(void);
-  NFmiPoint GetFirstPoint(void);
-  NFmiStation GetCurrentStation(void) const;
-  NFmiStationPoint GetFirstStationPoint(void);
+  FmiLanguage GetLanguage();
+  NFmiString GetName();
+  NFmiPoint GetFirstPoint();
+  NFmiStation GetCurrentStation() const;
+  NFmiStationPoint GetFirstStationPoint();
   bool SetFirstStation(const NFmiLocation& theLocation);
   bool SetStationRename(const NFmiRenaming& theRenaming);
   bool SetAllTimes(const NFmiMetTime& theTime);
   bool SetAllLanguages(FmiLanguage theLanguage);
 
-  bool IsStationLocalTimeMode(void) const;
-  bool IsFirstStation(void) const;
+  bool IsStationLocalTimeMode() const;
+  bool IsFirstStation() const;
   void SetErrorReported(unsigned short ind);
   bool GetErrorReported(unsigned short ind);
-  NFmiString MakeLogComment(void) const;
+  NFmiString MakeLogComment() const;
   void SetNewGeoArea(const NFmiPressArea& theArea);
-  NFmiTime GetOptionTime(void) const;
+  NFmiTime GetOptionTime() const;
   void SetOptionTime(NFmiTime theTime);
-  NFmiLocation* GetOptionLocation(void);
+  NFmiLocation* GetOptionLocation();
   void SetOptionLocation(NFmiLocation theLocation);
   void SetEncoding(std::string theEncoding);
-  void DeleteOptionLocation(void);
-  bool IsAreaOperation(void);
-  NFmiArea* GetGeoArea(void);
+  void DeleteOptionLocation();
+  bool IsAreaOperation();
+  NFmiArea* GetGeoArea();
   bool ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnumSpace);
   void PutInStorage(const float value, int storageQueue);
   float UseFromStorage(int storageQueue);
-  FmiCounter GetCurrentStep(void);
-  bool IsActive(void) const;
+  FmiCounter GetCurrentStep();
+  bool IsActive() const;
   void SetActivity(bool theActivity);
-  bool IsDistanceCheck(void) const;
+  bool IsDistanceCheck() const;
   bool CheckAndSetDistance(long theValue, const NFmiPoint& point);
-  bool SetMaxMinPoints(void);
+  bool SetMaxMinPoints();
   bool IsMaxMin(bool& theIsMax, NFmiPoint& theCorrectedPoint);
-  bool InterruptSymbolGroup(void) const;
-  unsigned long GetCurrentStationStep(void) const;
-  NFmiPressProduct* GetPressProduct(void) const;
-  bool IsSupplementary(void) const;
+  bool InterruptSymbolGroup() const;
+  unsigned long GetCurrentStationStep() const;
+  NFmiPressProduct* GetPressProduct() const;
+  bool IsSupplementary() const;
   bool SetSegmentCurrentTimeStatus(bool theStatus);
   void SetYearData(bool theStatus);
-  bool IsBackupStation(void) const;
-  bool SetStationNotNeeded(void);
-  NFmiPoint GetCurrentUnscaledPoint(void) const;
+  bool IsBackupStation() const;
+  bool SetStationNotNeeded();
+  NFmiPoint GetCurrentUnscaledPoint() const;
   void SetCurrentStationLonLat(NFmiPoint& theLonLat);
   void SetStationNamesAfterParams(bool theStatus);
-  bool IsStationNamesAfterParams(void) const;
-  NFmiFastQueryInfo* GetPrimaryDataIter(void) const;
-  unsigned long GetPrimaryDataNum(void) const;
-  void AddPrimaryDataNum(void);
-  bool PrimaryDataOk(void) const;
-  bool HasPrimaryData(void) const;
-  bool AddNumberOfBackupTimeUsed(void);
-  void SetDayChanged(void);
-  bool IsDayChanged(void) const;
-  bool IsOptimizeGlobalObs(void) const;
-  void SetBackupDayReported(void);
-  bool IsBackupDayReported(void) const;
-  NFmiStationPoint* GetCurrentStationPoint(void) const;
+  bool IsStationNamesAfterParams() const;
+  NFmiFastQueryInfo* GetPrimaryDataIter() const;
+  unsigned long GetPrimaryDataNum() const;
+  void AddPrimaryDataNum();
+  bool PrimaryDataOk() const;
+  bool HasPrimaryData() const;
+  bool AddNumberOfBackupTimeUsed();
+  void SetDayChanged();
+  bool IsDayChanged() const;
+  bool IsOptimizeGlobalObs() const;
+  void SetBackupDayReported();
+  bool IsBackupDayReported() const;
+  NFmiStationPoint* GetCurrentStationPoint() const;
   void SetReportProseccedNumber(bool theValue);
 
  protected:
-  void UnsetAllErrorReported(void);
-  void NextStation(void);
+  void UnsetAllErrorReported();
+  void NextStation();
   bool SetLonLat(NFmiStationPoint& theStation);
   void SetDistanceCheck(const NFmiPoint& theDistances);
 
@@ -215,8 +215,8 @@ class NFmiPressParam : public NFmiPressTimeDescription
                        FmiPressOutputMode theOutput,
                        NFmiPressScaling*& theSaveObject);
   bool FindQDStationName(const NFmiStationPoint& theStation);
-  bool CreateAreaMask(void);
-  bool CreateStationFromAreaMask(void);
+  bool CreateAreaMask();
+  bool CreateStationFromAreaMask();
 
   bool fActivity;
   bool fStationNotNeeded;
@@ -287,7 +287,7 @@ class NFmiPressParam : public NFmiPressTimeDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressParam::~NFmiPressParam(void)
+inline NFmiPressParam::~NFmiPressParam()
 {
   itsStations.Destroy();
   itsTimeDepObjects.Clear(isTrue);
@@ -312,11 +312,11 @@ inline NFmiPressParam::~NFmiPressParam(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressParam::NFmiPressParam(void)
+inline NFmiPressParam::NFmiPressParam()
     : NFmiPressTimeDescription(),
       fActivity(true),
       fStationNotNeeded(false),
-      fStationsAreLocalTime(0),
+      fStationsAreLocalTime(false),
       fGridMode(false),
       itsPressProduct(nullptr),
       itsHourStep(24),
@@ -373,7 +373,7 @@ inline NFmiPressParam::NFmiPressParam(const NFmiRectScale& scale,
     : NFmiPressTimeDescription(firstDeltaDays, firstPlotHours, firstPlotMinutes),
       fActivity(true),
       fStationNotNeeded(false),
-      fStationsAreLocalTime(0),
+      fStationsAreLocalTime(false),
       fGridMode(false),
       itsPressProduct(pressProduct),
       itsProducer(producer),
@@ -413,7 +413,7 @@ inline NFmiPressParam::NFmiPressParam(const NFmiRectScale& scale,
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline NFmiStationPoint* NFmiPressParam::GetCurrentStationPoint(void) const
+inline NFmiStationPoint* NFmiPressParam::GetCurrentStationPoint() const
 {
   return itsCurrentStationPoint;
 }
@@ -431,7 +431,7 @@ inline void NFmiPressParam::SetReportProseccedNumber(bool theValue)
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiPressParam::SetBackupDayReported(void)
+inline void NFmiPressParam::SetBackupDayReported()
 {
   fBackupDayReported = true;
 }
@@ -440,7 +440,7 @@ inline void NFmiPressParam::SetBackupDayReported(void)
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::IsBackupDayReported(void) const
+inline bool NFmiPressParam::IsBackupDayReported() const
 {
   return fBackupDayReported;
 }
@@ -449,7 +449,7 @@ inline bool NFmiPressParam::IsBackupDayReported(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::IsOptimizeGlobalObs(void) const
+inline bool NFmiPressParam::IsOptimizeGlobalObs() const
 {
   return fOptimizeGlobalObs;
 }
@@ -458,7 +458,7 @@ inline bool NFmiPressParam::IsOptimizeGlobalObs(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::IsDayChanged(void) const
+inline bool NFmiPressParam::IsDayChanged() const
 {
   return fDayChanged;
 }
@@ -467,7 +467,7 @@ inline bool NFmiPressParam::IsDayChanged(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiPressParam::SetDayChanged(void)
+inline void NFmiPressParam::SetDayChanged()
 {
   fDayChanged = true;
 }
@@ -476,7 +476,7 @@ inline void NFmiPressParam::SetDayChanged(void)
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiPressParam::PrimaryDataOk(void) const
+inline bool NFmiPressParam::PrimaryDataOk() const
 {
   return fPrimaryDataOk;
 }
@@ -485,7 +485,7 @@ inline bool NFmiPressParam::PrimaryDataOk(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline unsigned long NFmiPressParam::GetPrimaryDataNum(void) const
+inline unsigned long NFmiPressParam::GetPrimaryDataNum() const
 {
   return itsPrimaryDataNum;
 }
@@ -494,7 +494,7 @@ inline unsigned long NFmiPressParam::GetPrimaryDataNum(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiPressParam::AddPrimaryDataNum(void)
+inline void NFmiPressParam::AddPrimaryDataNum()
 {
   itsPrimaryDataNum++;
 }
@@ -506,7 +506,7 @@ inline void NFmiPressParam::AddPrimaryDataNum(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiFastQueryInfo* NFmiPressParam::GetPrimaryDataIter(void) const
+inline NFmiFastQueryInfo* NFmiPressParam::GetPrimaryDataIter() const
 {
   return itsPrimaryDataIter;
 }
@@ -531,7 +531,7 @@ inline void NFmiPressParam::SetStationNamesAfterParams(bool theStatus)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsStationNamesAfterParams(void) const
+inline bool NFmiPressParam::IsStationNamesAfterParams() const
 {
   return fStationNamesAfterParams;
 }
@@ -544,7 +544,7 @@ inline bool NFmiPressParam::IsStationNamesAfterParams(void) const
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPoint NFmiPressParam::GetCurrentUnscaledPoint(void) const
+inline NFmiPoint NFmiPressParam::GetCurrentUnscaledPoint() const
 {
   return itsCurrentUnscaledPoint;
 }
@@ -556,7 +556,7 @@ inline NFmiPoint NFmiPressParam::GetCurrentUnscaledPoint(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::SetStationNotNeeded(void)
+inline bool NFmiPressParam::SetStationNotNeeded()
 {
   fStationNotNeeded = true;
   return true;
@@ -569,7 +569,7 @@ inline bool NFmiPressParam::SetStationNotNeeded(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsBackupStation(void) const
+inline bool NFmiPressParam::IsBackupStation() const
 {
   return fCurrentStationBackup;
 }
@@ -581,7 +581,7 @@ inline bool NFmiPressParam::IsBackupStation(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsSupplementary(void) const
+inline bool NFmiPressParam::IsSupplementary() const
 {
   return fSupplementary;
 }
@@ -593,7 +593,7 @@ inline bool NFmiPressParam::IsSupplementary(void) const
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressProduct* NFmiPressParam::GetPressProduct(void) const
+inline NFmiPressProduct* NFmiPressParam::GetPressProduct() const
 {
   return itsPressProduct;
 }
@@ -605,7 +605,7 @@ inline NFmiPressProduct* NFmiPressParam::GetPressProduct(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::InterruptSymbolGroup(void) const
+inline bool NFmiPressParam::InterruptSymbolGroup() const
 {
   return fInterruptSymbolGroup;
 }
@@ -629,7 +629,7 @@ inline void NFmiPressParam::SetDistanceCheck(const NFmiPoint& theDistances)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsDistanceCheck(void) const
+inline bool NFmiPressParam::IsDistanceCheck() const
 {
   return itsCheckDistance.X() > 0. || itsCheckDistance.Y() > 0.;
 }
@@ -642,7 +642,7 @@ inline bool NFmiPressParam::IsDistanceCheck(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsActive(void) const
+inline bool NFmiPressParam::IsActive() const
 {
   return fActivity;
 }
@@ -706,7 +706,7 @@ inline void NFmiPressParam::SetMaskIter(std::shared_ptr<NFmiFastQueryInfo> info)
  */
 // ----------------------------------------------------------------------
 
-inline std::shared_ptr<NFmiFastQueryInfo> NFmiPressParam::GetMaskIter(void)
+inline std::shared_ptr<NFmiFastQueryInfo> NFmiPressParam::GetMaskIter()
 {
   return itsMaskIter;
 }
@@ -719,7 +719,7 @@ inline std::shared_ptr<NFmiFastQueryInfo> NFmiPressParam::GetMaskIter(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiInfoAreaMask* NFmiPressParam::GetAreaMask(void)
+inline NFmiInfoAreaMask* NFmiPressParam::GetAreaMask()
 {
   return itsAreaMask;
 }
@@ -755,7 +755,7 @@ inline void NFmiPressParam::SetPrimaryDataName(NFmiString name)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::HasPrimaryData(void) const
+inline bool NFmiPressParam::HasPrimaryData() const
 {
   return itsPrimaryDataIter == nullptr ? false : true;
 }
@@ -780,7 +780,7 @@ inline void NFmiPressParam::SetLanguage(FmiLanguage theLanguage)
  */
 // ----------------------------------------------------------------------
 
-inline FmiLanguage NFmiPressParam::GetLanguage(void)
+inline FmiLanguage NFmiPressParam::GetLanguage()
 {
   return itsLanguage;
 }
@@ -792,7 +792,7 @@ inline FmiLanguage NFmiPressParam::GetLanguage(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressParam::GetName(void)
+inline NFmiString NFmiPressParam::GetName()
 {
   return itsName;
 }
@@ -804,7 +804,7 @@ inline NFmiString NFmiPressParam::GetName(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiStation NFmiPressParam::GetCurrentStation(void) const
+inline NFmiStation NFmiPressParam::GetCurrentStation() const
 {
   return itsCurrentStation;
 }
@@ -816,7 +816,7 @@ inline NFmiStation NFmiPressParam::GetCurrentStation(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsStationLocalTimeMode(void) const
+inline bool NFmiPressParam::IsStationLocalTimeMode() const
 {
   return fStationsAreLocalTime;
 }
@@ -840,7 +840,7 @@ inline void NFmiPressParam::SetYearData(bool theStatus)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsFirstStation(void) const
+inline bool NFmiPressParam::IsFirstStation() const
 {
   return fIsFirstStation;
 }
@@ -877,7 +877,7 @@ inline bool NFmiPressParam::GetErrorReported(unsigned short ind)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiTime NFmiPressParam::GetOptionTime(void) const
+inline NFmiTime NFmiPressParam::GetOptionTime() const
 {
   return itsOptionTime;
 }
@@ -901,7 +901,7 @@ inline void NFmiPressParam::SetOptionTime(NFmiTime theTime)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiLocation* NFmiPressParam::GetOptionLocation(void)
+inline NFmiLocation* NFmiPressParam::GetOptionLocation()
 {
   return itsOptionLocation;
 }
@@ -918,7 +918,7 @@ inline void NFmiPressParam::SetOptionLocation(NFmiLocation theLocation)
   itsOptionLocation = new NFmiLocation(theLocation);
 }
 
-inline void NFmiPressParam::DeleteOptionLocation(void)
+inline void NFmiPressParam::DeleteOptionLocation()
 {
   if (itsOptionLocation)
     delete itsOptionLocation;
@@ -932,7 +932,7 @@ inline void NFmiPressParam::DeleteOptionLocation(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsAreaOperation(void)
+inline bool NFmiPressParam::IsAreaOperation()
 {
   return fIsAreaOperation;
 }
@@ -944,7 +944,7 @@ inline bool NFmiPressParam::IsAreaOperation(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiArea* NFmiPressParam::GetGeoArea(void)
+inline NFmiArea* NFmiPressParam::GetGeoArea()
 {
   return itsArea.GetArea();
 }
@@ -956,7 +956,7 @@ inline NFmiArea* NFmiPressParam::GetGeoArea(void)
  */
 // ----------------------------------------------------------------------
 
-inline FmiCounter NFmiPressParam::GetCurrentStep(void)
+inline FmiCounter NFmiPressParam::GetCurrentStep()
 {
   return itsCurrentStep;
 }
@@ -966,7 +966,7 @@ inline FmiCounter NFmiPressParam::GetCurrentStep(void)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::UnsetAllErrorReported(void)
+inline void NFmiPressParam::UnsetAllErrorReported()
 {
   fErrorReported[0] = false;
   fErrorReported[1] = false;

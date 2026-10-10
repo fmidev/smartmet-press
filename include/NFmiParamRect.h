@@ -124,49 +124,49 @@ enum FmiPressValueOption
 class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
 {
  public:
-  ~NFmiParamRect(void) override;
+  ~NFmiParamRect() override;
 
-  NFmiParamRect(void);
+  NFmiParamRect();
   NFmiParamRect(const NFmiParamRect& theRect);
   NFmiParamRect(NFmiDataIdent theParam,
                 NFmiRect theRect,
                 std::ofstream* theLogFile,
                 unsigned short theMaxLoopNum);
 
-  virtual NFmiParamRect* Clone(void) const = 0;
+  virtual NFmiParamRect* Clone() const = 0;
 
   virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
                        NFmiFastQueryInfo* theQueryInfo,
                        std::ofstream& theDestinationFile,
                        FmiPressOutputMode theOutput) = 0;
 
-  int NumOfMappingParams(void);
-  NFmiDataIdent GetDataIdent(void) const;
+  int NumOfMappingParams();
+  NFmiDataIdent GetDataIdent() const;
 
   bool SetPressParam(NFmiPressParam* pressParam);
   virtual bool Set(NFmiDataIdent theParam, NFmiRect theRect);
   bool SetIdent(NFmiDataIdent theParam);
   bool SetRect(NFmiRect theRect);
-  long NumOfMissing(void) const;
-  void InitMissing(void);
+  long NumOfMissing() const;
+  void InitMissing();
   int ConvertDefText(NFmiString& object) override;
 
-  bool IsNewScaling(void);
+  bool IsNewScaling();
   void SetNewScaling(bool newScaling);
   virtual void SetLanguage(FmiLanguage language);
-  bool UpdateModifierTimes(void);
-  unsigned long GetOrder(void) const;
+  bool UpdateModifierTimes();
+  unsigned long GetOrder() const;
   void SetOrder(unsigned long theOrder);
-  void SetMaxCorrection(void);
-  void SetMinCorrection(void);
+  void SetMaxCorrection();
+  void SetMinCorrection();
   void SetIdentPar(unsigned long theIdentPar);
-  unsigned long GetIdentPar(void);
-  unsigned long GetPrimaryDataNum(void) const;
+  unsigned long GetIdentPar();
+  unsigned long GetPrimaryDataNum() const;
   void SetAlternatingSizeFactor(float theFactor);
 
  protected:
   bool SetRelModifierTimes(long startRelHour, long endRelHour);
-  long RelativeHour(void) const;
+  long RelativeHour() const;
   bool SetRelativeHour(NFmiFastQueryInfo* data, const NFmiString& calledFrom);
   NFmiMetTime CalculatePeriodTime(long theHour);
   bool SetStationLocalTime(NFmiFastQueryInfo* theQI);
@@ -174,24 +174,24 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   bool ReadCurrentValueArray(NFmiFastQueryInfo* theQueryInfo);
   bool ReadCurrentValue(NFmiFastQueryInfo* theQueryInfo, float& value, bool localTimeSet = false);
   bool FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value);
-  NFmiPressProduct* GetPressProduct(void) const;
+  NFmiPressProduct* GetPressProduct() const;
   virtual bool PointOnParam(NFmiFastQueryInfo* theQI, NFmiParam* theParam);
   virtual bool PointOnMultiParam(NFmiFastQueryInfo* theQI, short theNum);
   virtual bool PointOnLevel(NFmiFastQueryInfo* theQI);
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
   float SunElevation(NFmiFastQueryInfo* theQueryInfo);
-  float GetRandomInterval(void) const { return itsRandomInterval; };
-  bool IsRandom(void) const { return GetRandomInterval() > .00001f; };
-  bool IsEquiDistanceMode(void) const;
-  bool IsEquiDistanceAndCorrMode(void) const;
+  float GetRandomInterval() const { return itsRandomInterval; };
+  bool IsRandom() const { return GetRandomInterval() > .00001f; };
+  bool IsEquiDistanceMode() const;
+  bool IsEquiDistanceAndCorrMode() const;
   bool ActiveStationIndex(int currentInd) const;  // vain TimeParamRect toistaiseksi
-  bool CompleteMultiMapping(void);
-  bool IsMaxMinPlotting(void) const;
-  bool IsMissingLonLat(void);
-  bool IsMoonPhase(void) const;
-  void SetMoonPhase(void);
+  bool CompleteMultiMapping();
+  bool IsMaxMinPlotting() const;
+  bool IsMissingLonLat();
+  bool IsMoonPhase() const;
+  void SetMoonPhase();
   bool IsDayNightString(NFmiString& theSymbolName) const;
-  float GetAlternatingSizeFactor(void) const;
+  float GetAlternatingSizeFactor() const;
 
  private:
   int WaWa2PresentWeather(int value, NFmiFastQueryInfo* theData);
@@ -288,7 +288,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiParamRect::NFmiParamRect(void)
+inline NFmiParamRect::NFmiParamRect()
     : NFmiRect(),
       fModifierUsed(false),
       itsInterval2NumberMin(kFloatMissing),
@@ -333,7 +333,7 @@ inline NFmiParamRect::NFmiParamRect(void)
       itsMinText(NFmiString("None")),
       fTempMaxCorrection(false),
       fTempMinCorrection(false),
-      fUseBackupTime(0),
+      fUseBackupTime(false),
       fUseBackupTimeForward(false),
       fBackupReported(false),
       fBackupDayForThisPar(false),
@@ -434,7 +434,7 @@ inline void NFmiParamRect::SetAlternatingSizeFactor(float theFactor)
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline float NFmiParamRect::GetAlternatingSizeFactor(void) const
+inline float NFmiParamRect::GetAlternatingSizeFactor() const
 {
   return itsAlternatingSizeFactor;
 }
@@ -443,7 +443,7 @@ inline float NFmiParamRect::GetAlternatingSizeFactor(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiParamRect::SetMoonPhase(void)
+inline void NFmiParamRect::SetMoonPhase()
 {
   fMoonPhase = true;
 }
@@ -452,7 +452,7 @@ inline void NFmiParamRect::SetMoonPhase(void)
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline bool NFmiParamRect::IsMoonPhase(void) const
+inline bool NFmiParamRect::IsMoonPhase() const
 {
   return fMoonPhase;
 }
@@ -461,7 +461,7 @@ inline bool NFmiParamRect::IsMoonPhase(void) const
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiParamRect::SetMaxCorrection(void)
+inline void NFmiParamRect::SetMaxCorrection()
 {
   fTempMaxCorrection = true;
 }
@@ -470,7 +470,7 @@ inline void NFmiParamRect::SetMaxCorrection(void)
  * Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiParamRect::SetMinCorrection(void)
+inline void NFmiParamRect::SetMinCorrection()
 {
   fTempMinCorrection = true;
 }
@@ -482,7 +482,7 @@ inline void NFmiParamRect::SetMinCorrection(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsMaxMinPlotting(void) const
+inline bool NFmiParamRect::IsMaxMinPlotting() const
 {
   return itsMaxText != NFmiString("None");
 }
@@ -506,7 +506,7 @@ inline void NFmiParamRect::SetIdentPar(unsigned long theIdentPar)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiParamRect::GetIdentPar(void)
+inline unsigned long NFmiParamRect::GetIdentPar()
 {
   return itsIdentPar;
 }
@@ -530,7 +530,7 @@ inline void NFmiParamRect::SetOrder(unsigned long theOrder)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiParamRect::GetOrder(void) const
+inline unsigned long NFmiParamRect::GetOrder() const
 {
   return itsSymbolGroupOrder;
 }
@@ -542,7 +542,7 @@ inline unsigned long NFmiParamRect::GetOrder(void) const
  */
 // ----------------------------------------------------------------------
 
-inline NFmiDataIdent NFmiParamRect::GetDataIdent(void) const
+inline NFmiDataIdent NFmiParamRect::GetDataIdent() const
 {
   return itsDataIdent;
 }
@@ -569,7 +569,7 @@ inline bool NFmiParamRect::SetPressParam(NFmiPressParam* pressParam)
  */
 // ----------------------------------------------------------------------
 
-inline long NFmiParamRect::NumOfMissing(void) const
+inline long NFmiParamRect::NumOfMissing() const
 {
   return itsNumOfMissing;
 }
@@ -581,7 +581,7 @@ inline long NFmiParamRect::NumOfMissing(void) const
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiParamRect::InitMissing(void)
+inline void NFmiParamRect::InitMissing()
 {
   itsNumOfMissing = 0;
 }
@@ -593,7 +593,7 @@ inline void NFmiParamRect::InitMissing(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsNewScaling(void)
+inline bool NFmiParamRect::IsNewScaling()
 {
   return fNewScaling;
 }
@@ -626,7 +626,7 @@ inline void NFmiParamRect::SetLanguage(FmiLanguage newLanguage) {}
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsEquiDistanceMode(void) const
+inline bool NFmiParamRect::IsEquiDistanceMode() const
 {
   return itsEquiDistanceHalfInterval > 0.;
 }
@@ -639,7 +639,7 @@ inline bool NFmiParamRect::IsEquiDistanceMode(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsEquiDistanceAndCorrMode(void) const
+inline bool NFmiParamRect::IsEquiDistanceAndCorrMode() const
 {
   return itsEquiRadius > 0.;
 }

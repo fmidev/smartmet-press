@@ -22,7 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiLetterParamRect::~NFmiLetterParamRect(void)
+NFmiLetterParamRect::~NFmiLetterParamRect()
 {
   if (itsColumnText)
     delete itsColumnText;
@@ -53,7 +53,7 @@ NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect& theLetterPar
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiLetterParamRect::Clone(void) const
+NFmiParamRect* NFmiLetterParamRect::Clone() const
 {
   return new NFmiLetterParamRect(*this);
 }
@@ -557,7 +557,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString &theString)
  * \result Undocumented
  */
 // ----------------------------------------------------------------------
-FmiGenericColor NFmiLetterParamRect::MapColor(void) const
+FmiGenericColor NFmiLetterParamRect::MapColor() const
 {
   for (unsigned long ind = 0; ind < itsCurrentNumOfColMaps; ind++)
   {

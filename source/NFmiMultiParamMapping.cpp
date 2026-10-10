@@ -19,7 +19,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiMultiParamMapping::~NFmiMultiParamMapping(void)
+NFmiMultiParamMapping::~NFmiMultiParamMapping()
 {
   delete[] static_cast<FmiMultiMapping *>(itsMappingIntervals);
 }
@@ -284,7 +284,7 @@ bool NFmiMultiParamMapping::Complete(float theOldValue, float theNewValue)
  */
 // ----------------------------------------------------------------------
 
-short NFmiMultiParamMapping::CheckIfIncomplete(void)
+short NFmiMultiParamMapping::CheckIfIncomplete()
 {
   for (int j = 0; j < static_cast<int>(itsSize); j++)
   {

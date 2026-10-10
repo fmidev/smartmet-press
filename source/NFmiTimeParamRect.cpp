@@ -46,7 +46,7 @@ NFmiTimeParamRect::NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect)
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiTimeParamRect::Clone(void) const
+NFmiParamRect* NFmiTimeParamRect::Clone() const
 {
   return static_cast<NFmiParamRect *>(new NFmiTimeParamRect(*this));
 }

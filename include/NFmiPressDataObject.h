@@ -24,14 +24,14 @@ class NFmiFastQueryInfo;
 class NFmiPressDataObject
 {
  public:
-  virtual ~NFmiPressDataObject(void);
-  NFmiPressDataObject(void);
+  virtual ~NFmiPressDataObject();
+  NFmiPressDataObject();
 
   NFmiPressDataObject(NFmiFastQueryInfo* theData);
   NFmiPressDataObject(const NFmiPressDataObject& theRect);
 
   void SetData(NFmiFastQueryInfo* theData);
-  NFmiFastQueryInfo* GetData(void) const;
+  NFmiFastQueryInfo* GetData() const;
 
  protected:
   NFmiFastQueryInfo* itsData;
@@ -44,14 +44,14 @@ class NFmiPressDataObject
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDataObject::~NFmiPressDataObject(void) {}
+inline NFmiPressDataObject::~NFmiPressDataObject() {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDataObject::NFmiPressDataObject(void) : itsData(nullptr) {}
+inline NFmiPressDataObject::NFmiPressDataObject() : itsData(nullptr) {}
 // ----------------------------------------------------------------------
 /*!
  * Constructor based on query info
@@ -81,7 +81,7 @@ inline void NFmiPressDataObject::SetData(NFmiFastQueryInfo* theData)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiFastQueryInfo* NFmiPressDataObject::GetData(void) const
+inline NFmiFastQueryInfo* NFmiPressDataObject::GetData() const
 {
   return itsData;
 }

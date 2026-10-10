@@ -185,7 +185,7 @@ bool NFmiPressParam::SetStationRename(const NFmiRenaming &theRenaming)
  */
 // ----------------------------------------------------------------------
 
-NFmiStationPoint NFmiPressParam::GetFirstStationPoint(void)
+NFmiStationPoint NFmiPressParam::GetFirstStationPoint()
 {
   if (itsStations.First())
   {
@@ -203,7 +203,7 @@ NFmiStationPoint NFmiPressParam::GetFirstStationPoint(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiPoint NFmiPressParam::GetFirstPoint(void)
+NFmiPoint NFmiPressParam::GetFirstPoint()
 {
   if (itsStations.First())
   {
@@ -245,7 +245,7 @@ bool NFmiPressParam::IsMaxMin(bool &theIsMax, NFmiPoint &theCorrectedPoint)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressParam::SetMaxMinPoints(void)
+bool NFmiPressParam::SetMaxMinPoints()
 {
   if (fMaxMinSearched)
     return true;
@@ -608,7 +608,7 @@ bool NFmiPressParam::SetAllLanguages(FmiLanguage theLanguage)
  */
 // ----------------------------------------------------------------------
 
-unsigned long NFmiPressParam::GetCurrentStationStep(void) const
+unsigned long NFmiPressParam::GetCurrentStationStep() const
 {
   return itsCurrentStationIndex;
 }
@@ -2484,7 +2484,7 @@ int NFmiPressParam::ConvertDefText(NFmiString &object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressParam::CreateAreaMask(void)
+bool NFmiPressParam::CreateAreaMask()
 {
   if (itsAreaMask)
     delete itsAreaMask;
@@ -2526,7 +2526,7 @@ bool NFmiPressParam::CreateAreaMask(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressParam::CreateStationFromAreaMask(void)
+bool NFmiPressParam::CreateStationFromAreaMask()
 {
   // tarvitaan nimi vaikka tekstioutputiin
   if (itsMaskIter)
@@ -3076,7 +3076,7 @@ bool NFmiPressParam::DoTimeDependent(bool isLastLoop,
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiPressParam::MakeLogComment(void) const
+NFmiString NFmiPressParam::MakeLogComment() const
 {
   NFmiString res;
   if (fTwoPartLogComment)

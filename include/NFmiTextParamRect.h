@@ -58,14 +58,14 @@ const unsigned long maxNumOfColMaps = 20;
 class NFmiTextParamRect : public NFmiParamRect
 {
  public:
-  ~NFmiTextParamRect(void) override;
+  ~NFmiTextParamRect() override;
 
-  NFmiTextParamRect(void);
+  NFmiTextParamRect();
   NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect);
 
   bool ReadDescription(NFmiString& retString) override = 0;
   int ConvertDefText(NFmiString& object) override;
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
 
   bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
                NFmiFastQueryInfo* theQI,
@@ -83,7 +83,7 @@ class NFmiTextParamRect : public NFmiParamRect
                          FmiPressOutputMode theOutput);
 
  protected:
-  virtual FmiGenericColor MapColor(void) const;
+  virtual FmiGenericColor MapColor() const;
 
  private:
   bool WriteShowString(double x,
@@ -127,7 +127,7 @@ class NFmiTextParamRect : public NFmiParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiTextParamRect::NFmiTextParamRect(void)
+inline NFmiTextParamRect::NFmiTextParamRect()
     : NFmiParamRect(),
       fUseSelectLatinFont(false),
       fParenthesis(false),

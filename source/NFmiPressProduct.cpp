@@ -49,7 +49,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressProduct::NFmiPressProduct(void)
+NFmiPressProduct::NFmiPressProduct()
 {
   itsNameTimeFormat = kUndefined;
   itsSecondNameTimeFormat = kUndefined;
@@ -84,7 +84,7 @@ NFmiPressProduct::NFmiPressProduct(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiPressProduct::~NFmiPressProduct(void)
+NFmiPressProduct::~NFmiPressProduct()
 {
   if (itsNameDayFi)
     delete itsNameDayFi;
@@ -760,7 +760,7 @@ bool NFmiPressProduct::IsSummerWeather(const NFmiString &theCountryPart)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::ReadNameToLonLatList(void)
+bool NFmiPressProduct::ReadNameToLonLatList()
 {
   NFmiString fileName, fileName1;
 
@@ -872,7 +872,7 @@ unsigned long NFmiPressProduct::FindWmoFromList(const NFmiString &theStationName
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::ReadSeasonsStatus(void)
+bool NFmiPressProduct::ReadSeasonsStatus()
 {
   if (itsSeasonsStatus)
   {
@@ -1502,7 +1502,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::ReadData(void)
+bool NFmiPressProduct::ReadData()
 {
   if (fDataRead)
     return true;
@@ -1820,7 +1820,7 @@ bool NFmiPressProduct::ReadQueryData(NFmiQueryData *theQD, char *fileName)
  */
 // ----------------------------------------------------------------------
 
-NFmiQueryData *NFmiPressProduct::FirstData(void)
+NFmiQueryData* NFmiPressProduct::FirstData()
 {
   NFmiNamedQueryData *nData;
   NFmiVoidPtrIterator iter(itsDatas);
@@ -1838,7 +1838,7 @@ NFmiQueryData *NFmiPressProduct::FirstData(void)
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-NFmiNamedQueryData *NFmiPressProduct::FirstNamedData(void)
+NFmiNamedQueryData* NFmiPressProduct::FirstNamedData()
 {
   NFmiNamedQueryData *nData;
   NFmiVoidPtrIterator iter(itsDatas);
@@ -1858,7 +1858,7 @@ NFmiNamedQueryData *NFmiPressProduct::FirstNamedData(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiPressProduct::FirstDataName(void)
+NFmiString NFmiPressProduct::FirstDataName()
 {
   NFmiNamedQueryData *nData;
   NFmiVoidPtrIterator iter(itsDatas);
@@ -3086,7 +3086,7 @@ int NFmiPressProduct::ConvertDefText(NFmiString &object)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressProduct::ReadPalette(void)
+void NFmiPressProduct::ReadPalette()
 {
   itsPalette = new NFmiCmykColorBag;
   NFmiNamedCmykColor color;
@@ -3539,7 +3539,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::WriteMetaInit(void)
+bool NFmiPressProduct::WriteMetaInit()
 {
   if (itsNumOfWritePS < 2)
   {
@@ -3706,7 +3706,7 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::Close(void)
+bool NFmiPressProduct::Close()
 {
   if (itsLogFile)
   {
@@ -3727,7 +3727,7 @@ bool NFmiPressProduct::Close(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::ConstructOutFileName(void)
+bool NFmiPressProduct::ConstructOutFileName()
 {
   NFmiString str;
 
@@ -3985,7 +3985,7 @@ bool NFmiPressProduct::ConstructOutFileName(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiPressProduct::FirstSegmentName(void)
+NFmiString NFmiPressProduct::FirstSegmentName()
 {
   NFmiVoidPtrIterator paramIter(itsParams);
   NFmiPressParam *param;
@@ -4007,7 +4007,7 @@ NFmiString NFmiPressProduct::FirstSegmentName(void)
 // ----------------------------------------------------------------------
 
 // ekan segmentin eka asema
-NFmiStationPoint NFmiPressProduct::FirstParamLocation(void)
+NFmiStationPoint NFmiPressProduct::FirstParamLocation()
 {
   NFmiVoidPtrIterator paramIter(itsParams);
   NFmiPressParam *param;
@@ -4027,7 +4027,7 @@ NFmiStationPoint NFmiPressProduct::FirstParamLocation(void)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressProduct::Scale(void)
+void NFmiPressProduct::Scale()
 {
   double oneWidth = (itsPlottingRect.Width() - 2. * itsMargin - (itsNumberOfMaps - 1) * itsMapGap) /
                     itsNumberOfMaps;
@@ -4045,7 +4045,7 @@ void NFmiPressProduct::Scale(void)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressProduct::StepMap(void)
+void NFmiPressProduct::StepMap()
 {
   itsCurrentMap++;
   Scale();

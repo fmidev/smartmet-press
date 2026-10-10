@@ -58,7 +58,7 @@ enum NFmiSymbolGroupObjects
  */
 // ----------------------------------------------------------------------
 
-NFmiSymbolGroup::~NFmiSymbolGroup(void)
+NFmiSymbolGroup::~NFmiSymbolGroup()
 {
   if (itsParamRects)
     delete[] static_cast<NFmiParamRect **>(itsParamRects);
@@ -199,7 +199,7 @@ bool NFmiSymbolGroup::Add(const NFmiParamRect &theParamRect)
  */
 // ----------------------------------------------------------------------
 
-long NFmiSymbolGroup::NumOfMissing(void) const
+long NFmiSymbolGroup::NumOfMissing() const
 {
   long num = 0;
   for (int i = 0; i < static_cast<int>(GetSize()); i++)
@@ -216,7 +216,7 @@ long NFmiSymbolGroup::NumOfMissing(void) const
  */
 // ----------------------------------------------------------------------
 
-void NFmiSymbolGroup::InitMissing(void)
+void NFmiSymbolGroup::InitMissing()
 {
   for (int i = 0; i < static_cast<int>(GetSize()); i++)
   {
@@ -555,7 +555,7 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
  */
 // ----------------------------------------------------------------------
 
-void NFmiSymbolGroup::SetScalingMode(void)
+void NFmiSymbolGroup::SetScalingMode()
 {
   // pitäisi kai tarkistaa myös muut kuin datariippuvat
   fNewScaling = false;

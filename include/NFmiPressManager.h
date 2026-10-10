@@ -55,8 +55,8 @@ enum NFmiPressManagerObjects
 class NFmiPressManager : public NFmiPressTimeDescription
 {
  public:
-  ~NFmiPressManager(void) override;
-  NFmiPressManager(void);
+  ~NFmiPressManager() override;
+  NFmiPressManager();
 
   bool ReadDescription(NFmiString& retString) override;
   bool ReadDescriptionAndWrite(NFmiPressProduct& pressProduct,
@@ -77,7 +77,7 @@ class NFmiPressManager : public NFmiPressTimeDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressManager::~NFmiPressManager(void) {}
+inline NFmiPressManager::~NFmiPressManager() {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

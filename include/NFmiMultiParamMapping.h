@@ -43,9 +43,9 @@ struct FmiMultiMapping
 class NFmiMultiParamMapping : public NFmiSize
 {
  public:
-  ~NFmiMultiParamMapping(void) override;
+  ~NFmiMultiParamMapping() override;
 
-  NFmiMultiParamMapping(void);
+  NFmiMultiParamMapping();
   NFmiMultiParamMapping(const NFmiMultiParamMapping &theParamMapping);
 
   FmiMultiMapping ReadOneMapping(std::ifstream *inFile);
@@ -54,14 +54,14 @@ class NFmiMultiParamMapping : public NFmiSize
 
   NFmiString *Map(const std::vector<float> &values, bool &missingFound);
   void SetMissing(const NFmiString &theString);
-  NFmiString *GetMissing(void) const;
+  NFmiString* GetMissing() const;
 
   void NumOfParams(short num);
-  short NumOfParams(void);
-  bool IsIncomplete(void) const;
+  short NumOfParams();
+  bool IsIncomplete() const;
   bool Complete(float theOldValue, float theNewValue);
-  void SetComplete(void);
-  short CheckIfIncomplete(void);
+  void SetComplete();
+  short CheckIfIncomplete();
 
  private:
   FmiMultiMapping *itsMappingIntervals;
@@ -76,7 +76,7 @@ class NFmiMultiParamMapping : public NFmiSize
  */
 // ----------------------------------------------------------------------
 
-inline NFmiMultiParamMapping::NFmiMultiParamMapping(void)
+inline NFmiMultiParamMapping::NFmiMultiParamMapping()
     : NFmiSize(0), itsMappingIntervals(nullptr), itsNumOfParams(0), fIncomplete(false)
 {
 }
@@ -89,7 +89,7 @@ inline NFmiMultiParamMapping::NFmiMultiParamMapping(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiMultiParamMapping::IsIncomplete(void) const
+inline bool NFmiMultiParamMapping::IsIncomplete() const
 {
   return fIncomplete;
 }
@@ -101,7 +101,7 @@ inline bool NFmiMultiParamMapping::IsIncomplete(void) const
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiMultiParamMapping::SetComplete(void)
+inline void NFmiMultiParamMapping::SetComplete()
 {
   fIncomplete = false;
 }
@@ -125,7 +125,7 @@ inline void NFmiMultiParamMapping::NumOfParams(short num)
  */
 // ----------------------------------------------------------------------
 
-inline short NFmiMultiParamMapping::NumOfParams(void)
+inline short NFmiMultiParamMapping::NumOfParams()
 {
   return itsNumOfParams;
 }

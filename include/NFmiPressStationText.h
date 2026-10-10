@@ -35,8 +35,8 @@ class NFmiPressParam;
 class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
 {
  public:
-  ~NFmiPressStationText(void) override;
-  NFmiPressStationText(void);
+  ~NFmiPressStationText() override;
+  NFmiPressStationText();
 
   void SetNewNames(NFmiVoidPtrList* theNames);
   bool SetNewName(const NFmiRenaming& theNames);
@@ -47,9 +47,9 @@ class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
   using NFmiPressScaling::WritePS;
 #endif
   bool WritePS(FmiPressOutputMode theOutput) override;
-  NFmiString StationName(void);
-  unsigned long ClassId(void) override;
-  void SetStationNumberMode(void);
+  NFmiString StationName();
+  unsigned long ClassId() override;
+  void SetStationNumberMode();
 
  protected:
   NFmiVoidPtrList* itsNewNames;
@@ -66,7 +66,7 @@ class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressStationText::NFmiPressStationText(void)
+inline NFmiPressStationText::NFmiPressStationText()
     : NFmiPressText(), NFmiPressDataObject(), itsNewNames(nullptr), fStationNumberMode(false)
 {
 }
@@ -79,7 +79,7 @@ inline NFmiPressStationText::NFmiPressStationText(void)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressStationText::SetStationNumberMode(void)
+inline void NFmiPressStationText::SetStationNumberMode()
 {
   fStationNumberMode = true;
 }
@@ -116,7 +116,7 @@ inline void NFmiPressStationText::SetPressParam(NFmiPressParam* pressParam)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiPressStationText::ClassId(void)
+inline unsigned long NFmiPressStationText::ClassId()
 {
   return kNFmiPressStationText;
 }

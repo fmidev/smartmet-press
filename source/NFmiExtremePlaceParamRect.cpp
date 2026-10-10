@@ -45,7 +45,7 @@ NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect* NFmiExtremePlaceParamRect::Clone(void) const
+NFmiParamRect* NFmiExtremePlaceParamRect::Clone() const
 {
   return new NFmiExtremePlaceParamRect(*this);
 }

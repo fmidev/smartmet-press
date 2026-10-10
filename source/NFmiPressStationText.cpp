@@ -121,7 +121,7 @@ bool NFmiPressStationText::WritePS(FmiPressOutputMode theOutput)
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiPressStationText::StationName(void)
+NFmiString NFmiPressStationText::StationName()
 {
   NFmiString name;
   if (itsData->IsGrid())

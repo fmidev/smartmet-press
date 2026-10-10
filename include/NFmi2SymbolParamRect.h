@@ -30,18 +30,18 @@ class NFmi2SymbolParamRect : public NFmiSymbolParamRect
 {
  public:
   ~NFmi2SymbolParamRect() override;
-  NFmi2SymbolParamRect(void);
+  NFmi2SymbolParamRect();
   NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbolRect);
 
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
 
   int ConvertDefText(NFmiString& object) override;
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
   void SetSecondDataIdent(unsigned long theSecondPar);
 
  protected:
   bool ReadValues(NFmiFastQueryInfo* theQI, bool SetRelHour = true) override;
-  NFmiDataIdent GetSecondDataIdent(void) const;
+  NFmiDataIdent GetSecondDataIdent() const;
 
   float itsSecondParamValue;
   NFmiDataIdent itsSecondDataIdent;
@@ -55,7 +55,7 @@ class NFmi2SymbolParamRect : public NFmiSymbolParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmi2SymbolParamRect::NFmi2SymbolParamRect(void) : NFmiSymbolParamRect() {}
+inline NFmi2SymbolParamRect::NFmi2SymbolParamRect() : NFmiSymbolParamRect() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -64,7 +64,7 @@ inline NFmi2SymbolParamRect::NFmi2SymbolParamRect(void) : NFmiSymbolParamRect() 
  */
 // ----------------------------------------------------------------------
 
-inline NFmiDataIdent NFmi2SymbolParamRect::GetSecondDataIdent(void) const
+inline NFmiDataIdent NFmi2SymbolParamRect::GetSecondDataIdent() const
 {
   return itsSecondDataIdent;
 }

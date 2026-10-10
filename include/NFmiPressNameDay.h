@@ -32,10 +32,10 @@ enum NFmiPressNameDayObjects
 class NFmiPressNameDay : public NFmiPressText
 {
  public:
-  ~NFmiPressNameDay(void) override;
-  NFmiPressNameDay(void);
+  ~NFmiPressNameDay() override;
+  NFmiPressNameDay();
 
-  bool ReadRemaining(void) override;
+  bool ReadRemaining() override;
   int ConvertDefText(NFmiString& object) override;
 #ifdef OLD_MSC
   using NFmiPressText::WritePS;
@@ -62,7 +62,7 @@ class NFmiPressNameDay : public NFmiPressText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressNameDay::NFmiPressNameDay(void)
+inline NFmiPressNameDay::NFmiPressNameDay()
     : NFmiPressText(), itsNameDay(nullptr), itsMaxNumber(kShortMissing), itsMaxLength(kShortMissing)
 {
 }

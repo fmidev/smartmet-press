@@ -31,7 +31,7 @@ NFmiPressComputerTimeText::~NFmiPressComputerTimeText(void) = default;
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressComputerTimeText::SetText(void)
+bool NFmiPressComputerTimeText::SetText()
 {
   NFmiMetTime computerTime = NFmiMetTime(1);
   NFmiMetTime useTime = TimeToWrite(computerTime);
@@ -53,7 +53,7 @@ bool NFmiPressComputerTimeText::SetText(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressComputerTimeText::ReadRemaining(void)
+bool NFmiPressComputerTimeText::ReadRemaining()
 {
   long long1;
 

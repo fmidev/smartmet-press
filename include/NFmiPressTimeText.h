@@ -32,8 +32,8 @@ enum NFmiTimeTextObjects
 class NFmiPressTimeText : public NFmiPressText
 {
  public:
-  ~NFmiPressTimeText(void) override;
-  NFmiPressTimeText(void);
+  ~NFmiPressTimeText() override;
+  NFmiPressTimeText();
   NFmiPressTimeText(const NFmiPressText& theTextParamRect);
 
   bool ReadDescription(NFmiString& retString) override;
@@ -61,7 +61,7 @@ class NFmiPressTimeText : public NFmiPressText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressTimeText::NFmiPressTimeText(void) : NFmiPressText(), itsFormat(kWwsHH) {}
+inline NFmiPressTimeText::NFmiPressTimeText() : NFmiPressText(), itsFormat(kWwsHH) {}
 #endif  // NFMIPRESSTIMETEXT_H
 
 // ======================================================================

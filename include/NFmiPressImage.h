@@ -48,8 +48,8 @@ enum NFmiPressImageObjects
 class NFmiPressImage : public NFmiPressScaling
 {
  public:
-  ~NFmiPressImage(void) override;
-  NFmiPressImage(void);
+  ~NFmiPressImage() override;
+  NFmiPressImage();
   NFmiPressImage(const NFmiPressImage& theOtherImage);
 
   bool ReadDescription(NFmiString& retString) override;
@@ -57,14 +57,14 @@ class NFmiPressImage : public NFmiPressScaling
 
   using NFmiPressScaling::WritePS;
   bool WritePS(FmiPressOutputMode theOutput) override;
-  void ScalePlotting(void) override;
+  void ScalePlotting() override;
   void SetPath(const NFmiString& thePath);
-  NFmiFileString GetPath(void) const;
-  unsigned long ClassId(void) override;
+  NFmiFileString GetPath() const;
+  unsigned long ClassId() override;
   void SetPressProduct(NFmiPressProduct* thePressProductOwner);
-  NFmiPressProduct* GetPressProduct(void) const;
+  NFmiPressProduct* GetPressProduct() const;
   void SetRelHoursFromFirst(int theRelHoursFromFirst);
-  int GetRelHoursFromFirst(void);
+  int GetRelHoursFromFirst();
 
  protected:
   NFmiFileString itsPath;
@@ -109,7 +109,7 @@ inline void NFmiPressImage::SetRelHoursFromFirst(int theRelHoursFromFirst)
  */
 // ----------------------------------------------------------------------
 
-inline int NFmiPressImage::GetRelHoursFromFirst(void)
+inline int NFmiPressImage::GetRelHoursFromFirst()
 {
   return itsRelHoursFromFirst;
 }
@@ -181,7 +181,7 @@ inline void NFmiPressImage::SetClippingPoints(const std::vector<NFmiPoint> thePo
     */
 // ----------------------------------------------------------------------
 
-inline NFmiPressProduct* NFmiPressImage::GetPressProduct(void) const
+inline NFmiPressProduct* NFmiPressImage::GetPressProduct() const
 {
   return itsPressProduct;
 }
@@ -205,7 +205,7 @@ inline void NFmiPressImage::SetPath(const NFmiString& thePath)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiFileString NFmiPressImage::GetPath(void) const
+inline NFmiFileString NFmiPressImage::GetPath() const
 {
   return itsPath;
 }
@@ -217,7 +217,7 @@ inline NFmiFileString NFmiPressImage::GetPath(void) const
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiPressImage::ClassId(void)
+inline unsigned long NFmiPressImage::ClassId()
 {
   return kNFmiPressImage;
 }

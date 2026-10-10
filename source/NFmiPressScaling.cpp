@@ -74,7 +74,7 @@ bool NFmiPressScaling::SetScale(const NFmiRectScale &theScale)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressScaling::ReadRemaining(void)
+bool NFmiPressScaling::ReadRemaining()
 {
   double r1, r2, r3;
   NFmiValueString valueString;
@@ -352,7 +352,7 @@ bool NFmiPressScaling::WritePS(const NFmiPoint &place, FmiPressOutputMode theOut
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressScaling::ScalePlotting(void)
+void NFmiPressScaling::ScalePlotting()
 {
   NFmiPoint scaledPlace;
   NFmiPoint sizeScaling = itsRectScale.GetScaling();

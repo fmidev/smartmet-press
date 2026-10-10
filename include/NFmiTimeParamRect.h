@@ -31,12 +31,12 @@ enum NFmiTimeParamRectObjects
 class NFmiTimeParamRect : public NFmiTextParamRect
 {
  public:
-  ~NFmiTimeParamRect(void) override;
-  NFmiTimeParamRect(void);
+  ~NFmiTimeParamRect() override;
+  NFmiTimeParamRect();
   NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect);
 
   bool ReadDescription(NFmiString& retString) override;
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
   int ConvertDefText(NFmiString& object) override;
   void SetLanguage(FmiLanguage theLanguage) override;
 
@@ -66,7 +66,7 @@ class NFmiTimeParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiTimeParamRect::NFmiTimeParamRect(void)
+inline NFmiTimeParamRect::NFmiTimeParamRect()
     : NFmiTextParamRect(),
       itsFormat(kHHdMM),
       fIsValidTime(true),

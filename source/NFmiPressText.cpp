@@ -29,7 +29,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressText::~NFmiPressText(void)
+NFmiPressText::~NFmiPressText()
 {
   if (itsText)
     delete itsText;
@@ -670,7 +670,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressText::ReadRemaining(void)
+bool NFmiPressText::ReadRemaining()
 {
   double r1;
   NFmiString helpString;
@@ -1366,7 +1366,7 @@ NFmiString NFmiPressText::Construct(NFmiString *theString) const
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressText::ScalePlotting(void)
+void NFmiPressText::ScalePlotting()
 {
   itsRightMargin = itsRectScale.ScaleX(itsRightMargin);
   itsLeftMargin = itsRectScale.ScaleX(itsLeftMargin);

@@ -33,12 +33,12 @@ class NFmiPsSymbol;
 class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
 {
  public:
-  ~NFmiSymbolGroup(void) override;
-  NFmiSymbolGroup(void);
+  ~NFmiSymbolGroup() override;
+  NFmiSymbolGroup();
   NFmiSymbolGroup(NFmiPressParam* pressParam, NFmiParamRect** theSymbolList, int num);
 
-  long NumOfMissing(void) const;
-  void InitMissing(void);
+  long NumOfMissing() const;
+  void InitMissing();
   bool ReadDescription(NFmiString& retString) override;
 
   bool WritePS(NFmiStationPoint* theStationPoint, FmiPressOutputMode theOutput);
@@ -56,7 +56,7 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
   bool SetAllLanguages(FmiLanguage theLanguage);
 
  private:
-  void SetScalingMode(void);
+  void SetScalingMode();
 
   NFmiPressParam* itsPressParam;
   bool fNewScaling;
@@ -79,7 +79,7 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiSymbolGroup::NFmiSymbolGroup(void)
+inline NFmiSymbolGroup::NFmiSymbolGroup()
     : itsPressParam(nullptr),
       itsProducer(230),
       itsPsSymbol(nullptr),

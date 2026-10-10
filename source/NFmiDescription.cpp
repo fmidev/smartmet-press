@@ -226,7 +226,7 @@ bool NFmiDescription::Set1UnsignedLong(unsigned long &theMember)
  */
 // ----------------------------------------------------------------------
 
-void NFmiDescription::ReadNext(void)
+void NFmiDescription::ReadNext()
 {
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
@@ -244,7 +244,7 @@ void NFmiDescription::ReadNext(void)
 // mahdollistaa myös "-merkeillä ympäröidyn merkkijonon -> välilyönti
 // voi sisältyä
 
-NFmiString NFmiDescription::ReadString(void)
+NFmiString NFmiDescription::ReadString()
 {
   *itsDescriptionFile >> itsObject;
 
@@ -291,7 +291,7 @@ NFmiString NFmiDescription::ReadString(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiDescription::ReadEqualChar(void)
+bool NFmiDescription::ReadEqualChar()
 {
   // tarkistetaan että todella on annettu "=" -merkki
   *itsDescriptionFile >> itsObject;

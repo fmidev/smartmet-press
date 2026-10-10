@@ -22,8 +22,8 @@
 class NFmiRectScale
 {
  public:
-  virtual ~NFmiRectScale(void);
-  NFmiRectScale(void);
+  virtual ~NFmiRectScale();
+  NFmiRectScale();
   NFmiRectScale(NFmiRect theStartRect, NFmiRect theEndRect);
 
   void SetStartScales(const NFmiRect& startRect);
@@ -36,19 +36,19 @@ class NFmiRectScale
   void SetEndScales(const NFmiRect& endRect);
   void RescaleEndScales(double withFactor);
   void SetScales(const NFmiRect& startRect, const NFmiRect& endRect);
-  double GetXScaling(void) const;
-  double GetYScaling(void) const;
-  NFmiRect GetStartScales(void) const;
-  NFmiRect GetEndScales(void) const;
-  NFmiScale GetXStartScale(void) const;
-  NFmiScale GetYStartScale(void) const;
-  NFmiScale GetXEndScale(void) const;
-  NFmiScale GetYEndScale(void) const;
-  NFmiPoint GetEndStartPoint(void) const;
-  NFmiPoint GetStartStartPoint(void) const;
-  NFmiPoint GetStartCenter(void) const;
-  NFmiPoint GetEndCenter(void) const;
-  NFmiPoint GetScaling(void) const;
+  double GetXScaling() const;
+  double GetYScaling() const;
+  NFmiRect GetStartScales() const;
+  NFmiRect GetEndScales() const;
+  NFmiScale GetXStartScale() const;
+  NFmiScale GetYStartScale() const;
+  NFmiScale GetXEndScale() const;
+  NFmiScale GetYEndScale() const;
+  NFmiPoint GetEndStartPoint() const;
+  NFmiPoint GetStartStartPoint() const;
+  NFmiPoint GetStartCenter() const;
+  NFmiPoint GetEndCenter() const;
+  NFmiPoint GetScaling() const;
   NFmiPoint Scale(const NFmiPoint& fromPoint) const;
   NFmiRectScale Scale(const NFmiRectScale& rectScale) const;
   NFmiRect ScaleRect(const NFmiRect& fromRect) const;

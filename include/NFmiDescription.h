@@ -52,7 +52,7 @@ enum NFmiDescriptionObjects
 class NFmiDescription
 {
  public:
-  virtual ~NFmiDescription(void);
+  virtual ~NFmiDescription();
   NFmiDescription();
   NFmiDescription(std::ofstream* theLogFile, unsigned short theMaxLoopNum);
   NFmiDescription(const NFmiDescription& theD);
@@ -65,11 +65,11 @@ class NFmiDescription
   bool ReadDouble(double& retValue);
   bool Read4Double(double& retValue1, double& retValue2, double& retValue3, double& retValue4);
   bool Read2Double(double& retValue1, double& retValue2);
-  NFmiString ReadString(void);
+  NFmiString ReadString();
   bool ReadLong(long& retValue, bool errorReport = true);
   bool ReadUnsignedLong(unsigned long& retValue);
-  bool ReadEqualChar(void);
-  void ReadNext(void);
+  bool ReadEqualChar();
+  void ReadNext();
   bool Set1Double(double& theMember);
   bool Set1Long(long& theMember);
   bool Set1UnsignedLong(unsigned long& theMember);
@@ -79,12 +79,12 @@ class NFmiDescription
                  const NFmiString& engReport,
                  NFmiString* variable = nullptr);
 
-  unsigned short GetMaxLoopNum(void) const;
-  std::ofstream* GetLogFile(void) const;
+  unsigned short GetMaxLoopNum() const;
+  std::ofstream* GetLogFile() const;
 
   virtual int ConvertDefText(NFmiString& object);
 
-  virtual unsigned long ClassId(void);
+  virtual unsigned long ClassId();
 
   // template-funtioista joutuu laittamaan myös koodin tänne h-fileen,
   // muuten linkkeri ei tykkää
@@ -458,7 +458,7 @@ class NFmiDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiDescription::~NFmiDescription(void) {}
+inline NFmiDescription::~NFmiDescription() {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
@@ -560,7 +560,7 @@ inline void NFmiDescription::SetDescriptionFile(std::ifstream* descFile)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned short NFmiDescription::GetMaxLoopNum(void) const
+inline unsigned short NFmiDescription::GetMaxLoopNum() const
 {
   return itsMaxLoopNum;
 }
@@ -572,7 +572,7 @@ inline unsigned short NFmiDescription::GetMaxLoopNum(void) const
  */
 // ----------------------------------------------------------------------
 
-inline std::ofstream* NFmiDescription::GetLogFile(void) const
+inline std::ofstream* NFmiDescription::GetLogFile() const
 {
   return itsLogFile;
 }
@@ -584,7 +584,7 @@ inline std::ofstream* NFmiDescription::GetLogFile(void) const
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiDescription::ClassId(void)
+inline unsigned long NFmiDescription::ClassId()
 {
   return kNFmiNone;
 }

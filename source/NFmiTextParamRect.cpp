@@ -23,7 +23,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiTextParamRect::~NFmiTextParamRect(void)
+NFmiTextParamRect::~NFmiTextParamRect()
 {
   if (itsMapping)
     delete static_cast<NFmiParamMapping *>(itsMapping);
@@ -69,7 +69,7 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiTextParamRect::ReadRemaining(void)
+bool NFmiTextParamRect::ReadRemaining()
 {
   double r1, r2;
   NFmiValueString helpValueString;
@@ -610,7 +610,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString &theText,
  */
 // ----------------------------------------------------------------------
 
-FmiGenericColor NFmiTextParamRect::MapColor(void) const
+FmiGenericColor NFmiTextParamRect::MapColor() const
 {
   return GetColor();
 }

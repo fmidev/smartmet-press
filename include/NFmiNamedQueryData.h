@@ -23,8 +23,8 @@
 class NFmiNamedQueryData
 {
  public:
-  ~NFmiNamedQueryData(void);
-  NFmiNamedQueryData(void);
+  ~NFmiNamedQueryData();
+  NFmiNamedQueryData();
   NFmiNamedQueryData(NFmiQueryData* data,
                      NFmiString name,
                      bool mandatory = false,
@@ -33,11 +33,11 @@ class NFmiNamedQueryData
   NFmiNamedQueryData(const NFmiNamedQueryData& theNQD);
 
   void SetData(NFmiQueryData* theData);
-  NFmiQueryData* GetData(void);
-  NFmiString GetName(void);
-  bool IsMandatory(void);
-  bool IsNewest(void);
-  bool IsYearData(void);
+  NFmiQueryData* GetData();
+  NFmiString GetName();
+  bool IsMandatory();
+  bool IsNewest();
+  bool IsYearData();
 
  private:
   NFmiQueryData* itsData;
@@ -54,7 +54,7 @@ class NFmiNamedQueryData
  */
 // ----------------------------------------------------------------------
 
-inline NFmiNamedQueryData::NFmiNamedQueryData(void)
+inline NFmiNamedQueryData::NFmiNamedQueryData()
     : itsData(nullptr), fMandatory(false), fNewest(false), fYearData(false)
 {
 }
@@ -111,7 +111,7 @@ inline void NFmiNamedQueryData::SetData(NFmiQueryData* theData)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiQueryData* NFmiNamedQueryData::GetData(void)
+inline NFmiQueryData* NFmiNamedQueryData::GetData()
 {
   return itsData;
 }
@@ -123,7 +123,7 @@ inline NFmiQueryData* NFmiNamedQueryData::GetData(void)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiNamedQueryData::GetName(void)
+inline NFmiString NFmiNamedQueryData::GetName()
 {
   return itsName;
 }
@@ -135,7 +135,7 @@ inline NFmiString NFmiNamedQueryData::GetName(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsMandatory(void)
+inline bool NFmiNamedQueryData::IsMandatory()
 {
   return fMandatory;
 }
@@ -147,7 +147,7 @@ inline bool NFmiNamedQueryData::IsMandatory(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsNewest(void)
+inline bool NFmiNamedQueryData::IsNewest()
 {
   return fNewest;
 }
@@ -159,7 +159,7 @@ inline bool NFmiNamedQueryData::IsNewest(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsYearData(void)
+inline bool NFmiNamedQueryData::IsYearData()
 {
   return fYearData;
 }

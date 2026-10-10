@@ -44,7 +44,7 @@ NFmiScalingParamRect::NFmiScalingParamRect(const NFmiScalingParamRect& theSymbol
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect* NFmiScalingParamRect::Clone(void) const
+NFmiParamRect* NFmiScalingParamRect::Clone() const
 {
   return new NFmiScalingParamRect(*this);
 }
@@ -56,7 +56,7 @@ NFmiParamRect* NFmiScalingParamRect::Clone(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiScalingParamRect::ReadRemaining(void)
+bool NFmiScalingParamRect::ReadRemaining()
 {
   switch (itsIntObject)
   {
@@ -135,7 +135,7 @@ int NFmiScalingParamRect::ConvertDefText(NFmiString& object)
  */
 // ----------------------------------------------------------------------
 
-void NFmiScalingParamRect::DoPostReading(void)
+void NFmiScalingParamRect::DoPostReading()
 {
   if (!itsSecondDataIdent.IsDataParam())
     itsSecondDataIdent.SetParam(*GetDataIdent().GetParam());

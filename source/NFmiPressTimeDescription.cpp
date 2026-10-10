@@ -531,7 +531,7 @@ unsigned long NFmiPressTimeDescription::ReadTimeFormat(bool isSecond)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressTimeDescription::ReadRemaining(void)
+bool NFmiPressTimeDescription::ReadRemaining()
 {
   long long1, long2, long3;
   NFmiValueString valueString;
@@ -782,7 +782,7 @@ long NFmiPressTimeDescription::JustifyByLeaps(long dayDiff)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressTimeDescription::SetPreReadingTimes(void)
+void NFmiPressTimeDescription::SetPreReadingTimes()
 {
   NFmiTime curDate;
   curDate.SetHour(0);
@@ -803,7 +803,7 @@ void NFmiPressTimeDescription::SetPreReadingTimes(void)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressTimeDescription::SetPostReadingTimes(void)
+void NFmiPressTimeDescription::SetPostReadingTimes()
 {
   itsFirstPlotTime.ChangeByDays(itsFirstDeltaDays - itsFirstOriginalDeltaDays);
   itsFirstPlotTime.SetTime(itsFirstPlotHours);

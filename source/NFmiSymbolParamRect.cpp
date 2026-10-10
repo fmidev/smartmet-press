@@ -33,7 +33,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiSymbolParamRect::~NFmiSymbolParamRect(void)
+NFmiSymbolParamRect::~NFmiSymbolParamRect()
 {
   if (itsSubDir)
     delete static_cast<NFmiString *>(itsSubDir);
@@ -75,7 +75,7 @@ NFmiSymbolParamRect::NFmiSymbolParamRect(const NFmiSymbolParamRect &theSymbolRec
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect *NFmiSymbolParamRect::Clone(void) const
+NFmiParamRect* NFmiSymbolParamRect::Clone() const
 {
   return static_cast<NFmiParamRect *>(new NFmiSymbolParamRect(*this));
 }
@@ -493,7 +493,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolParamRect::ReadRemaining(void)
+bool NFmiSymbolParamRect::ReadRemaining()
 {
   return NFmiParamRect::ReadRemaining();
 }

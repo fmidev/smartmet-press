@@ -18,7 +18,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPsWriting::~NFmiPsWriting(void)
+NFmiPsWriting::~NFmiPsWriting()
 {
   if (itsInFile)
     delete itsInFile;
@@ -68,7 +68,7 @@ bool NFmiPsWriting::WriteOutString(const NFmiString &outString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::WriteGRestore(void)
+bool NFmiPsWriting::WriteGRestore()
 {
   *itsOutFile << "grestore " << endl;
   return isTrue;
@@ -82,7 +82,7 @@ bool NFmiPsWriting::WriteGRestore(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::CopyPsFile(void)
+bool NFmiPsWriting::CopyPsFile()
 {
   const short lineSize = 520;  // 130; 1.6 Metview:n ps-driveri tuottaa 513 pitkiä riviä
   char inBuf[lineSize];        //     vaikka standardi puhuu 256:sta
@@ -104,7 +104,7 @@ bool NFmiPsWriting::CopyPsFile(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::CopyFileWithoutShowpage(void)
+bool NFmiPsWriting::CopyFileWithoutShowpage()
 {
   return NFmiCopyFileWithoutShowpage(*itsInFile, *itsOutFile);
 }
@@ -117,7 +117,7 @@ bool NFmiPsWriting::CopyFileWithoutShowpage(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::WritePSConcat(void)
+bool NFmiPsWriting::WritePSConcat()
 {
   double xScale = itsWriteScale.GetXScaling();
   double yScale = itsWriteScale.GetYScaling();
@@ -142,7 +142,7 @@ bool NFmiPsWriting::WritePSConcat(void)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPsWriting::Rotate(void)
+void NFmiPsWriting::Rotate()
 {
   // tässä pitää edetä ikäänkuin käänteisessä järjestyksessä
   NFmiPoint scaledRotP = itsWriteScale.Scale(itsRotatingPoint);
@@ -161,7 +161,7 @@ void NFmiPsWriting::Rotate(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::WriteEPSConcat(void)
+bool NFmiPsWriting::WriteEPSConcat()
 {
   double xScale = itsWriteScale.GetXScaling();
   double yScale = itsWriteScale.GetYScaling();
@@ -324,7 +324,7 @@ bool NFmiPsWriting::WritePSConcatRotating(float theDirection)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::WritePSEnd(void)
+bool NFmiPsWriting::WritePSEnd()
 {
   *itsOutFile << "grestore" << endl;
   return isTrue;
@@ -338,7 +338,7 @@ bool NFmiPsWriting::WritePSEnd(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::WriteEPSEnd(void)
+bool NFmiPsWriting::WriteEPSEnd()
 {
   *itsOutFile << "%%EndDocument" << endl;
   *itsOutFile << "EndEPSF" << endl;

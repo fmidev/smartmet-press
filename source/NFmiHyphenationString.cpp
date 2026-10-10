@@ -23,7 +23,7 @@ NFmiHyphenationString::~NFmiHyphenationString(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::NFmiHyphenationString(void)
+NFmiHyphenationString::NFmiHyphenationString()
 {
   ResetPosition();
   fIrregularHyphensInited = false;
@@ -93,7 +93,7 @@ void NFmiHyphenationString::SetNarrowColumn(bool theStatus)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::InitIrregularHyphens(void)
+bool NFmiHyphenationString::InitIrregularHyphens()
 {
   // # = not allowed to hyphenate, needed??
   itsIrregularHyphens.push_back("pohjois-os");  // osa, osissa
@@ -375,7 +375,7 @@ NFmiString NFmiHyphenationString::CreateHyphens(const char* theHyphenationMark)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::EnoughOnRow(void) const
+bool NFmiHyphenationString::EnoughOnRow() const
 {
   if (fNarrowColumn)
     return true;
@@ -465,7 +465,7 @@ NFmiString NFmiHyphenationString::DropChar(const NFmiString& theChar)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::NextIsNumeric(void)
+bool NFmiHyphenationString::NextIsNumeric()
 {
   NextPosition();
   if (IsNumeric(GetChars(itsCurrentCharPos, 1)))
@@ -523,7 +523,7 @@ bool NFmiHyphenationString::PreviousChar(const NFmiString & theChar)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::NextConsonant(void)
+bool NFmiHyphenationString::NextConsonant()
 {
   while (NextPosition())
   {
@@ -541,7 +541,7 @@ bool NFmiHyphenationString::NextConsonant(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::BackPosition(void)
+bool NFmiHyphenationString::BackPosition()
 {
   if (itsCurrentCharPos == 0)
     return false;
@@ -560,7 +560,7 @@ bool NFmiHyphenationString::BackPosition(void)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::NextPosition(void)
+bool NFmiHyphenationString::NextPosition()
 {
   // return itsCurrentCharPos++ < fLength;
   return ++itsCurrentCharPos <= fLength;
@@ -572,7 +572,7 @@ bool NFmiHyphenationString::NextPosition(void)
  */
 // ----------------------------------------------------------------------
 
-void NFmiHyphenationString::ResetPosition(void)
+void NFmiHyphenationString::ResetPosition()
 {
   itsCurrentCharPos = 1;
   itsLastCharPosition = 1;
@@ -584,7 +584,7 @@ void NFmiHyphenationString::ResetPosition(void)
  */
 // ----------------------------------------------------------------------
 
-void NFmiHyphenationString::SuperResetPosition(void)
+void NFmiHyphenationString::SuperResetPosition()
 {
   itsCurrentCharPos = 0;  // jotta Nextillä päästään luuppaamaan
   itsLastCharPosition = 1;
@@ -661,7 +661,7 @@ bool NFmiHyphenationString::IsVowel(const NFmiString& theChar) const
  */
 // ----------------------------------------------------------------------
 
-unsigned long NFmiHyphenationString::CurrentCharPosition(void) const
+unsigned long NFmiHyphenationString::CurrentCharPosition() const
 {
   return itsCurrentCharPos;
 }
@@ -673,7 +673,7 @@ unsigned long NFmiHyphenationString::CurrentCharPosition(void) const
  */
 // ----------------------------------------------------------------------
 
-bool NFmiHyphenationString::IsLastCharPosition(void) const
+bool NFmiHyphenationString::IsLastCharPosition() const
 {
   return itsCurrentCharPos >= GetLen();
 }

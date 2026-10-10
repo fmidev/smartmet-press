@@ -52,16 +52,16 @@ struct FmiTempCorrections
 class NFmiValueCorrection
 {
  public:
-  NFmiValueCorrection(void);
-  virtual ~NFmiValueCorrection(void);
+  NFmiValueCorrection();
+  virtual ~NFmiValueCorrection();
   void SetFiles(const std::string& theFile, std::ofstream* theLogFile);
-  bool IsRead(void);
-  bool IsMissing(void);
+  bool IsRead();
+  bool IsMissing();
   bool CorrectValue(float& thevalue, const NFmiString& theStation, bool dayTime);
 
  private:
   // bool ReadFile(const NFmiString & theFileName);
-  bool ReadFile(void);
+  bool ReadFile();
 
  private:
   std::string itsFile;
@@ -78,7 +78,7 @@ class NFmiValueCorrection
  */
 // ----------------------------------------------------------------------
 
-inline NFmiValueCorrection::NFmiValueCorrection(void)
+inline NFmiValueCorrection::NFmiValueCorrection()
 {
   fRead = false;
   fMissing = false;
@@ -92,7 +92,7 @@ inline NFmiValueCorrection::NFmiValueCorrection(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiValueCorrection::IsRead(void)
+inline bool NFmiValueCorrection::IsRead()
 {
   return fRead;
 }
@@ -104,7 +104,7 @@ inline bool NFmiValueCorrection::IsRead(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiValueCorrection::IsMissing(void)
+inline bool NFmiValueCorrection::IsMissing()
 {
   return fMissing;
 }

@@ -26,10 +26,10 @@ class NFmiExtremeTimeParamRect : public NFmiTimeParamRect
 {
  public:
   ~NFmiExtremeTimeParamRect() override;
-  NFmiExtremeTimeParamRect(void);
+  NFmiExtremeTimeParamRect();
   NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect& theTimeParamRect);
 
-  NFmiParamRect* Clone(void) const override;
+  NFmiParamRect* Clone() const override;
 
  protected:
   NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI) override;
@@ -43,7 +43,7 @@ class NFmiExtremeTimeParamRect : public NFmiTimeParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(void) : NFmiTimeParamRect()
+inline NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect() : NFmiTimeParamRect()
 {
   fUseSelectLatinFont = true;
 }

@@ -24,9 +24,9 @@
 class NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
 {
  public:
-  ~NFmiPressParamText(void) override;
+  ~NFmiPressParamText() override;
 
-  NFmiPressParamText(void);
+  NFmiPressParamText();
   NFmiPressParamText(const NFmiPressText& theTextParamRect);
 
 #ifdef OLD_MSC
@@ -35,7 +35,7 @@ class NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
   using NFmiPressScaling::WritePS;
 #endif
   bool WritePS(FmiPressOutputMode theOutput) override;
-  virtual bool IsDataObject(void);
+  virtual bool IsDataObject();
 
 };  // class NFmiPressParamText
 
@@ -45,14 +45,14 @@ class NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressParamText::~NFmiPressParamText(void) {}
+inline NFmiPressParamText::~NFmiPressParamText() {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressParamText::NFmiPressParamText(void) : NFmiPressText(), NFmiPressDataObject() {}
+inline NFmiPressParamText::NFmiPressParamText() : NFmiPressText(), NFmiPressDataObject() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
@@ -61,7 +61,7 @@ inline NFmiPressParamText::NFmiPressParamText(void) : NFmiPressText(), NFmiPress
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParamText::IsDataObject(void)
+inline bool NFmiPressParamText::IsDataObject()
 {
   return true;
 }

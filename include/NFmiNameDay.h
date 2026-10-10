@@ -45,11 +45,11 @@
 class NFmiNameDay
 {
  public:
-  virtual ~NFmiNameDay(void);
-  NFmiNameDay(void);
+  virtual ~NFmiNameDay();
+  NFmiNameDay();
 
-  bool IsRead(void);
-  bool IsValue(void);
+  bool IsRead();
+  bool IsValue();
 
   bool ReadFile(const NFmiString& theFileName);
 
@@ -70,7 +70,7 @@ class NFmiNameDay
  */
 // ----------------------------------------------------------------------
 
-inline NFmiNameDay::NFmiNameDay(void)
+inline NFmiNameDay::NFmiNameDay()
 {
   fRead = false;
   fValue = false;
@@ -84,7 +84,7 @@ inline NFmiNameDay::NFmiNameDay(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNameDay::IsRead(void)
+inline bool NFmiNameDay::IsRead()
 {
   return fRead;
 }
@@ -96,7 +96,7 @@ inline bool NFmiNameDay::IsRead(void)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNameDay::IsValue(void)
+inline bool NFmiNameDay::IsValue()
 {
   return fValue;
 }

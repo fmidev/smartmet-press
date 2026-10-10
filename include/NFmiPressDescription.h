@@ -65,24 +65,24 @@ enum NFmiPressDescriptionObjects
 class NFmiPressDescription : public NFmiDescription
 {
  public:
-  ~NFmiPressDescription(void) override;
-  NFmiPressDescription(void);
+  ~NFmiPressDescription() override;
+  NFmiPressDescription();
   NFmiPressDescription(const NFmiPressDescription& theD);
   NFmiPressDescription(std::ofstream* theLogFile, unsigned short theMaxLoopNum);
 
   int ConvertDefText(NFmiString& object) override;
 
-  NFmiString GetHome(void) const;
+  NFmiString GetHome() const;
   void SetHome(const NFmiString& path);
 
-  NFmiString getCnfPath(void) const;
-  NFmiString getTmpPath(void) const;
-  NFmiString getSymbolCachePath(void) const;
-  NFmiString getIncPath(void) const;
-  NFmiString getDataPath(void) const;
-  NFmiString getOutPath(void) const;
-  NFmiString getLogPath(void) const;
-  NFmiString getProductName(void) const;
+  NFmiString getCnfPath() const;
+  NFmiString getTmpPath() const;
+  NFmiString getSymbolCachePath() const;
+  NFmiString getIncPath() const;
+  NFmiString getDataPath() const;
+  NFmiString getOutPath() const;
+  NFmiString getLogPath() const;
+  NFmiString getProductName() const;
 
   void setCnfPath(const NFmiString& path);
   void setTmpPath(const NFmiString& path);
@@ -94,30 +94,30 @@ class NFmiPressDescription : public NFmiDescription
   void setProductName(const NFmiString& productName);
 
   void SetEnvironment(const NFmiPressEnvironment& theEnvironment);
-  NFmiPressEnvironment GetEnvironment(void) const;
+  NFmiPressEnvironment GetEnvironment() const;
 
-  FmiLanguage ReadLanguage(void);
-  bool IsRGB(void) const;
-  bool IsCMYK(void) const;
+  FmiLanguage ReadLanguage();
+  bool IsRGB() const;
+  bool IsCMYK() const;
 
-  FmiGenericColor GetColor(void) const;
+  FmiGenericColor GetColor() const;
   void SetColor(const FmiGenericColor& theColor);
-  bool IsPureBlack(void);
-  NFmiString GetFont(void) const;
+  bool IsPureBlack();
+  NFmiString GetFont() const;
   void SetFont(const NFmiString& font);
-  double GetTextSize(void) const;
+  double GetTextSize() const;
   void SetTextSize(double size);
-  FmiDirection GetTextAlignment(void) const;
+  FmiDirection GetTextAlignment() const;
   void SetTextAlignment(FmiDirection alignment);
-  bool GetOnlyForMissingPrecedingElementFlag(void) const;
+  bool GetOnlyForMissingPrecedingElementFlag() const;
   void SetOnlyForMissingPrecedingElementFlag(bool theFlag);
-  bool IsSegmentMove(void) const;
+  bool IsSegmentMove() const;
   bool BlockLatinFont(const NFmiString& font) const;
-  std::string GetEncoding(void) const;
+  std::string GetEncoding() const;
 
  protected:
   FmiDirection String2FmiDirection(const NFmiString& theString) const;
-  virtual bool ReadRemaining(void);
+  virtual bool ReadRemaining();
 
   NFmiPressEnvironment itsEnvironment;
   NFmiString itsHomePath;
@@ -145,14 +145,14 @@ class NFmiPressDescription : public NFmiDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDescription::~NFmiPressDescription(void) {}
+inline NFmiPressDescription::~NFmiPressDescription() {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDescription::NFmiPressDescription(void)
+inline NFmiPressDescription::NFmiPressDescription()
 {
   fOnlyForMissingPrecedingElement = false;
 }
@@ -204,7 +204,7 @@ inline NFmiPressDescription::NFmiPressDescription(std::ofstream* theLogFile,
  * \param theEncoding The given encoding
  */
 // ----------------------------------------------------------------------
-inline std::string NFmiPressDescription::GetEncoding(void) const
+inline std::string NFmiPressDescription::GetEncoding() const
 {
   return itsEnvironment.GetEncoding();
 }
@@ -234,7 +234,7 @@ inline void NFmiPressDescription::SetOnlyForMissingPrecedingElementFlag(bool the
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::GetOnlyForMissingPrecedingElementFlag(void) const
+inline bool NFmiPressDescription::GetOnlyForMissingPrecedingElementFlag() const
 {
   return fOnlyForMissingPrecedingElement;
 }
@@ -244,7 +244,7 @@ inline bool NFmiPressDescription::GetOnlyForMissingPrecedingElementFlag(void) co
  */
 // ----------------------------------------------------------------------
 
-inline FmiDirection NFmiPressDescription::GetTextAlignment(void) const
+inline FmiDirection NFmiPressDescription::GetTextAlignment() const
 {
   return itsEnvironment.GetTextAlignment();
 }
@@ -265,7 +265,7 @@ inline void NFmiPressDescription::SetTextAlignment(FmiDirection alignment)
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiPressDescription::GetTextSize(void) const
+inline double NFmiPressDescription::GetTextSize() const
 {
   return itsEnvironment.GetTextSize();
 }
@@ -295,7 +295,7 @@ inline void NFmiPressDescription::SetFont(const NFmiString& font)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::GetFont(void) const
+inline NFmiString NFmiPressDescription::GetFont() const
 {
   return itsEnvironment.GetFont();
 }  // ----------------------------------------------------------------------
@@ -306,7 +306,7 @@ inline NFmiString NFmiPressDescription::GetFont(void) const
     */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::GetHome(void) const
+inline NFmiString NFmiPressDescription::GetHome() const
 {
   return itsHomePath;
 }
@@ -330,7 +330,7 @@ inline void NFmiPressDescription::SetHome(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getProductName(void) const
+inline NFmiString NFmiPressDescription::getProductName() const
 {
   return itsProductName;
 }
@@ -355,7 +355,7 @@ inline void NFmiPressDescription::setProductName(const NFmiString& productName)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getCnfPath(void) const
+inline NFmiString NFmiPressDescription::getCnfPath() const
 {
   return itsCnfPath;
 }
@@ -379,7 +379,7 @@ inline void NFmiPressDescription::setCnfPath(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getTmpPath(void) const
+inline NFmiString NFmiPressDescription::getTmpPath() const
 {
   return itsTmpPath;
 }
@@ -403,7 +403,7 @@ inline void NFmiPressDescription::setTmpPath(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getSymbolCachePath(void) const
+inline NFmiString NFmiPressDescription::getSymbolCachePath() const
 {
   return itsSymbolCachePath;
 }
@@ -429,7 +429,7 @@ inline void NFmiPressDescription::setSymbolCachePath(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getIncPath(void) const
+inline NFmiString NFmiPressDescription::getIncPath() const
 {
   return itsIncPath;
 }
@@ -453,7 +453,7 @@ inline void NFmiPressDescription::setIncPath(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getDataPath(void) const
+inline NFmiString NFmiPressDescription::getDataPath() const
 {
   return itsDataPath;
 }
@@ -477,7 +477,7 @@ inline void NFmiPressDescription::setDataPath(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getOutPath(void) const
+inline NFmiString NFmiPressDescription::getOutPath() const
 {
   return itsOutPath;
 }
@@ -501,7 +501,7 @@ inline void NFmiPressDescription::setOutPath(const NFmiString& path)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiString NFmiPressDescription::getLogPath(void) const
+inline NFmiString NFmiPressDescription::getLogPath() const
 {
   return itsLogPath;
 }
@@ -538,7 +538,7 @@ inline void NFmiPressDescription::SetEnvironment(const NFmiPressEnvironment& the
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressEnvironment NFmiPressDescription::GetEnvironment(void) const
+inline NFmiPressEnvironment NFmiPressDescription::GetEnvironment() const
 {
   return itsEnvironment;
 }
@@ -551,7 +551,7 @@ inline NFmiPressEnvironment NFmiPressDescription::GetEnvironment(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::IsRGB(void) const
+inline bool NFmiPressDescription::IsRGB() const
 {
   return itsEnvironment.IsRGB();
 }
@@ -563,7 +563,7 @@ inline bool NFmiPressDescription::IsRGB(void) const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::IsCMYK(void) const
+inline bool NFmiPressDescription::IsCMYK() const
 {
   return itsEnvironment.IsCMYK();
 }
@@ -575,7 +575,7 @@ inline bool NFmiPressDescription::IsCMYK(void) const
  */
 // ----------------------------------------------------------------------
 
-inline FmiGenericColor NFmiPressDescription::GetColor(void) const
+inline FmiGenericColor NFmiPressDescription::GetColor() const
 {
   return itsEnvironment.GetColor();
 }
@@ -601,7 +601,7 @@ inline void NFmiPressDescription::SetColor(const FmiGenericColor& theColor)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::IsSegmentMove(void) const
+inline bool NFmiPressDescription::IsSegmentMove() const
 {
   return itsEnvironment.IsSegmentMove();
 }

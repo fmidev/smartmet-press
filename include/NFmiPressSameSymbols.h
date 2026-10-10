@@ -41,9 +41,9 @@ enum NFmiPressSameSymbolsObjects
 class NFmiPressSameSymbols : public NFmiPressDescription
 {
  public:
-  ~NFmiPressSameSymbols(void) override;
+  ~NFmiPressSameSymbols() override;
 
-  NFmiPressSameSymbols(void);
+  NFmiPressSameSymbols();
   NFmiPressSameSymbols(const NFmiRectScale& scale);
 
   bool WritePS(std::ofstream& theOutFile);
@@ -52,11 +52,11 @@ class NFmiPressSameSymbols : public NFmiPressDescription
   bool ReadDescription(NFmiString& retString) override;
   int ConvertDefText(NFmiString& object) override;
   void SetOutFile(std::ofstream& outFile);
-  NFmiPsSymbol* GetPsSymbol(void);
+  NFmiPsSymbol* GetPsSymbol();
   void SetPressProduct(NFmiPressProduct* thePressP);
 
  protected:
-  void NextPoint(void);
+  void NextPoint();
 
  private:
   FmiCounter itsNumberOfSteps;
@@ -75,14 +75,14 @@ class NFmiPressSameSymbols : public NFmiPressDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressSameSymbols::~NFmiPressSameSymbols(void) {}
+inline NFmiPressSameSymbols::~NFmiPressSameSymbols() {}
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressSameSymbols::NFmiPressSameSymbols(void) : itsNumberOfSteps(1) {}
+inline NFmiPressSameSymbols::NFmiPressSameSymbols() : itsNumberOfSteps(1) {}
 // ----------------------------------------------------------------------
 /*!
  * Constructor
@@ -129,7 +129,7 @@ inline void NFmiPressSameSymbols::SetPressProduct(NFmiPressProduct* thePressP)
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPsSymbol* NFmiPressSameSymbols::GetPsSymbol(void)
+inline NFmiPsSymbol* NFmiPressSameSymbols::GetPsSymbol()
 {
   return &itsPsSymbol;
 }

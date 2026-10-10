@@ -28,7 +28,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressImage::NFmiPressImage(void)
+NFmiPressImage::NFmiPressImage()
     : NFmiPressScaling(), itsPressProduct(nullptr), itsRelHoursFromFirst(0), itsShear(0.)
 {
   NFmiPoint point1 = NFmiPoint(0., 0.);
@@ -803,7 +803,7 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
  */
 // ----------------------------------------------------------------------
 
-void NFmiPressImage::ScalePlotting(void)
+void NFmiPressImage::ScalePlotting()
 {
   itsWriteScale = itsRectScale.Scale(itsImageScale);
 }

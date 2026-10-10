@@ -22,8 +22,8 @@
 class NFmiScale
 {
  public:
-  virtual ~NFmiScale(void);
-  NFmiScale(void);
+  virtual ~NFmiScale();
+  NFmiScale();
   NFmiScale(float theStartValue, float theEndValue);
   NFmiScale(const NFmiScale& anOtherScale);
 
@@ -31,9 +31,9 @@ class NFmiScale
   NFmiScale& operator+=(const NFmiScale& anOtherScale);
   NFmiScale& operator-=(const NFmiScale& anOtherScale);
 
-  float StartValue(void) const;
-  float EndValue(void) const;
-  double CenterValue(void) const;
+  float StartValue() const;
+  float EndValue() const;
+  double CenterValue() const;
   void SetStartValue(float theValue);
   void SetEndValue(float theValue);
   void Set(float theStartValue, float theEndValue);
@@ -45,14 +45,14 @@ class NFmiScale
   virtual void ExpandIfEqual(float theAdditionToBothEnds = 1.);
   virtual void Expand(float theAdditionToBothEnds = 1.);
   void LimitCheck(bool theCheck);
-  virtual void ExcludePositive(void);
-  virtual void ExcludeNegative(void);
-  bool Ok(void) const;
-  float Difference(void) const;
+  virtual void ExcludePositive();
+  virtual void ExcludeNegative();
+  bool Ok() const;
+  float Difference() const;
 
  protected:
-  void Check(void);
-  bool IsMissing(void) const;
+  void Check();
+  bool IsMissing() const;
 
   float itsStartValue;
   float itsEndValue;
@@ -71,7 +71,7 @@ class NFmiScale
  */
 // ----------------------------------------------------------------------
 
-inline float NFmiScale::StartValue(void) const
+inline float NFmiScale::StartValue() const
 {
   return itsStartValue;
 }
@@ -82,7 +82,7 @@ inline float NFmiScale::StartValue(void) const
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-inline float NFmiScale::EndValue(void) const
+inline float NFmiScale::EndValue() const
 {
   return itsEndValue;
 }
@@ -138,7 +138,7 @@ inline void NFmiScale::Set(float theStartValue, float theEndValue)
  */
 // ----------------------------------------------------------------------
 
-inline float NFmiScale::Difference(void) const
+inline float NFmiScale::Difference() const
 {
   return itsEndValue - itsStartValue;
 }
@@ -150,7 +150,7 @@ inline float NFmiScale::Difference(void) const
  */
 // ----------------------------------------------------------------------
 
-inline double NFmiScale::CenterValue(void) const
+inline double NFmiScale::CenterValue() const
 {
   return (itsStartValue + itsEndValue) / 2.;
 }
@@ -174,7 +174,7 @@ inline void NFmiScale::LimitCheck(bool theCheck)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiScale::Ok(void) const
+inline bool NFmiScale::Ok() const
 {
   return itsDataOk;
 }

@@ -41,7 +41,7 @@ NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect* NFmiExtremeTimeParamRect::Clone(void) const
+NFmiParamRect* NFmiExtremeTimeParamRect::Clone() const
 {
   return new NFmiExtremeTimeParamRect(*this);
 }

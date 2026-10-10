@@ -40,15 +40,15 @@ enum NFmiSymbolParamRectObjects
 class NFmiSymbolParamRect : public NFmiParamRect
 {
  public:
-  ~NFmiSymbolParamRect(void) override;
+  ~NFmiSymbolParamRect() override;
 
-  NFmiSymbolParamRect(void);
+  NFmiSymbolParamRect();
   NFmiSymbolParamRect(const NFmiSymbolParamRect& theSymbolRect);
 
   int ConvertDefText(NFmiString& object) override;
   bool ReadDescription(NFmiString& retString) override;
-  bool ReadRemaining(void) override;
-  NFmiParamRect* Clone(void) const override;
+  bool ReadRemaining() override;
+  NFmiParamRect* Clone() const override;
 
   bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
                NFmiFastQueryInfo* theQI,
@@ -58,16 +58,16 @@ class NFmiSymbolParamRect : public NFmiParamRect
   void SetConstSymbol(bool boo);
 
  protected:
-  virtual void DoPostReading(void);
+  virtual void DoPostReading();
   virtual bool CopyShortSymbol2Dest(NFmiString* symbolFile,
                                     std::ofstream& theDestinationFile,
                                     float theRotating = kFloatMissing);
   virtual bool ConvertOrig2Short(NFmiString* symbolFile);
   virtual bool ReadValues(NFmiFastQueryInfo* theQI, bool SetRelHour = true);
-  virtual void ScaleByValue(void);
+  virtual void ScaleByValue();
   virtual void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream& os);
   bool RawSymbolToBeConverted(NFmiString* symbolFil);
-  void UseDayNightSymbols(void);
+  void UseDayNightSymbols();
 
  protected:
   NFmiString itsConstSymbol;  // #VakioSymbolia varten
@@ -87,7 +87,7 @@ class NFmiSymbolParamRect : public NFmiParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiSymbolParamRect::NFmiSymbolParamRect(void)
+inline NFmiSymbolParamRect::NFmiSymbolParamRect()
     : NFmiParamRect(),
       fIsConstSymbol(false),
       itsMapping(nullptr),
@@ -107,7 +107,7 @@ inline NFmiSymbolParamRect::NFmiSymbolParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiSymbolParamRect::UseDayNightSymbols(void)
+inline void NFmiSymbolParamRect::UseDayNightSymbols()
 {
   fUseDayNightSymbols = true;
 }
@@ -129,14 +129,14 @@ inline void NFmiSymbolParamRect::SetConstSymbol(bool boo)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiSymbolParamRect::DoPostReading(void) {}
+inline void NFmiSymbolParamRect::DoPostReading() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiSymbolParamRect::ScaleByValue(void) {}
+inline void NFmiSymbolParamRect::ScaleByValue() {}
 #endif  // NFMISYMBOLPARAMRECT_H
 
 // ======================================================================
