@@ -71,10 +71,10 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream *inFile)
   NFmiValueString str;
   NFmiHyphenationString hyphSubString;
 
-  for (int i = 0; i < FmiMaxNumOfMappingParams; i++)
+  for (auto& i : mapping.mappingInterval)
   {
-    mapping.mappingInterval[i].lowBorder = kFloatMissing;
-    mapping.mappingInterval[i].highBorder = kFloatMissing;
+    i.lowBorder = kFloatMissing;
+    i.highBorder = kFloatMissing;
   }
 
   short ind = 0;
