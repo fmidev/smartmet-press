@@ -20,7 +20,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiScale::~NFmiScale(void) {}
+NFmiScale::~NFmiScale(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
@@ -60,13 +60,8 @@ NFmiScale::NFmiScale(float theStartValue, float theEndValue)
 // ----------------------------------------------------------------------
 
 NFmiScale::NFmiScale(const NFmiScale& anOtherScale)
-    : itsStartValue(anOtherScale.itsStartValue),
-      itsEndValue(anOtherScale.itsEndValue),
-      itsEpsilon(anOtherScale.itsEpsilon),
-      itsDataOk(anOtherScale.itsDataOk),
-      itsLimitCheck(anOtherScale.itsLimitCheck)
-{
-}
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!
@@ -77,16 +72,7 @@ NFmiScale::NFmiScale(const NFmiScale& anOtherScale)
  */
 // ----------------------------------------------------------------------
 
-NFmiScale& NFmiScale::operator=(const NFmiScale& anOtherScale)
-{
-  itsStartValue = anOtherScale.itsStartValue;
-  itsEndValue = anOtherScale.itsEndValue;
-  itsDataOk = anOtherScale.itsDataOk;
-  itsLimitCheck = anOtherScale.itsLimitCheck;
-  itsEpsilon = anOtherScale.itsEpsilon;
-
-  return *this;
-}
+NFmiScale& NFmiScale::operator=(const NFmiScale& anOtherScale) = default;
 
 // ----------------------------------------------------------------------
 /*

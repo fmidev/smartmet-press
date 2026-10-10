@@ -18,7 +18,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void) {}
+NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -30,9 +30,8 @@ NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void) {}
 
 NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(
     const NFmiExtremeTimeParamRect& theExtremeTimeParamRect)
-    : NFmiTimeParamRect(theExtremeTimeParamRect)
-{
-}
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

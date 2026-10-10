@@ -17,7 +17,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiNameDay::~NFmiNameDay(void) {}
+NFmiNameDay::~NFmiNameDay(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

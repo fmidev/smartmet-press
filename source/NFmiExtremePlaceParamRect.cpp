@@ -22,7 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void) {}
+NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -33,9 +33,8 @@ NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void) {}
 
 NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(
     const NFmiExtremePlaceParamRect& theExtremePlaceParamRect)
-    : NFmiTextParamRect(theExtremePlaceParamRect)
-{
-}
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

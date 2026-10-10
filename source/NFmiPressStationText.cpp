@@ -22,7 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressStationText::~NFmiPressStationText(void) {}
+NFmiPressStationText::~NFmiPressStationText(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

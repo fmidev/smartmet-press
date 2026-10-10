@@ -21,7 +21,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiRotatingParamRect::~NFmiRotatingParamRect(void) {}
+NFmiRotatingParamRect::~NFmiRotatingParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor

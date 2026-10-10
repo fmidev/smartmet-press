@@ -27,7 +27,7 @@ void NFmiValueCorrection::SetFiles(const string& theFile, ofstream* theLogFile)
  */
 // ----------------------------------------------------------------------
 
-NFmiValueCorrection::~NFmiValueCorrection(void) {}
+NFmiValueCorrection::~NFmiValueCorrection(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

@@ -20,7 +20,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressTimeText::~NFmiPressTimeText(void) {}
+NFmiPressTimeText::~NFmiPressTimeText(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

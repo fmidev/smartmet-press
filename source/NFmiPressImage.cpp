@@ -42,7 +42,7 @@ NFmiPressImage::NFmiPressImage(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiPressImage::~NFmiPressImage(void) {}
+NFmiPressImage::~NFmiPressImage(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor

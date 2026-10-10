@@ -22,7 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiScalingParamRect::~NFmiScalingParamRect(void) {}
+NFmiScalingParamRect::~NFmiScalingParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -32,11 +32,8 @@ NFmiScalingParamRect::~NFmiScalingParamRect(void) {}
 // ----------------------------------------------------------------------
 
 NFmiScalingParamRect::NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect)
-    : NFmi2SymbolParamRect(theSymbolRect),
-      itsXValueScaling(theSymbolRect.itsXValueScaling),
-      itsYValueScaling(theSymbolRect.itsYValueScaling)
-{
-}
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

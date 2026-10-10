@@ -22,7 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiSubstituteParamRect::~NFmiSubstituteParamRect(void) {}
+NFmiSubstituteParamRect::~NFmiSubstituteParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -32,12 +32,9 @@ NFmiSubstituteParamRect::~NFmiSubstituteParamRect(void) {}
 // ----------------------------------------------------------------------
 
 NFmiSubstituteParamRect::NFmiSubstituteParamRect(
-    const NFmiSubstituteParamRect &theSubstituteParamRect)
-    : NFmiTextParamRect(theSubstituteParamRect),
-      itsSubstituteMappingValue(theSubstituteParamRect.itsSubstituteMappingValue)
+    const NFmiSubstituteParamRect& theSubstituteParamRect)
 
-{
-}
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

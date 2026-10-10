@@ -20,7 +20,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiSunTimeParamRect::~NFmiSunTimeParamRect(void) {}
+NFmiSunTimeParamRect::~NFmiSunTimeParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -29,10 +29,9 @@ NFmiSunTimeParamRect::~NFmiSunTimeParamRect(void) {}
  */
 // ----------------------------------------------------------------------
 
-NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect &theSunTimeParamRect)
-    : NFmiTimeParamRect(theSunTimeParamRect), fIsSunRise(theSunTimeParamRect.fIsSunRise)
-{
-}
+NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theSunTimeParamRect)
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

@@ -21,7 +21,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressScaling::~NFmiPressScaling(void) {}
+NFmiPressScaling::~NFmiPressScaling(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -30,19 +30,9 @@ NFmiPressScaling::~NFmiPressScaling(void) {}
  */
 // ----------------------------------------------------------------------
 
-NFmiPressScaling::NFmiPressScaling(const NFmiPressScaling &thePsSymbol)
-    : NFmiPressTimeDescription(thePsSymbol),
-      NFmiPsWriting(thePsSymbol),
-      itsRectScale(thePsSymbol.itsRectScale),
-      itsRelArea(thePsSymbol.itsRelArea),
-      itsRectSize(thePsSymbol.itsRectSize),
-      itsPlace(thePsSymbol.itsPlace),
-      itsMovePlace(thePsSymbol.itsMovePlace),
-      fPrintOnce(thePsSymbol.fPrintOnce),
-      fScaleNotPlace(thePsSymbol.fScaleNotPlace),
-      itsTimestampDayGap(thePsSymbol.itsTimestampDayGap)
-{
-}
+NFmiPressScaling::NFmiPressScaling(const NFmiPressScaling& thePsSymbol)
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

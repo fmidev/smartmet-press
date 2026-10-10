@@ -23,7 +23,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiTimeParamRect::~NFmiTimeParamRect(void) {}
+NFmiTimeParamRect::~NFmiTimeParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -32,17 +32,9 @@ NFmiTimeParamRect::~NFmiTimeParamRect(void) {}
  */
 // ----------------------------------------------------------------------
 
-NFmiTimeParamRect::NFmiTimeParamRect(const NFmiTimeParamRect &theTimeParamRect)
-    : NFmiTextParamRect(theTimeParamRect),
-      itsFormat(theTimeParamRect.itsFormat),
-      itsOrigFormat(theTimeParamRect.itsOrigFormat),
-      itsOrigFont(theTimeParamRect.itsOrigFont),
-      itsStationPoint(theTimeParamRect.itsStationPoint),
-      fIsValidTime(theTimeParamRect.fIsValidTime),
-      itsLanguage(theTimeParamRect.itsLanguage),
-      fFinnishTimezone(theTimeParamRect.fFinnishTimezone)
-{
-}
+NFmiTimeParamRect::NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect)
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

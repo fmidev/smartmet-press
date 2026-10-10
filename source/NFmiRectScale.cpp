@@ -13,7 +13,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmiRectScale::~NFmiRectScale(void) {}
+NFmiRectScale::~NFmiRectScale(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

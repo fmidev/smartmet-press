@@ -22,7 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiNumberParamRect::~NFmiNumberParamRect(void) {}
+NFmiNumberParamRect::~NFmiNumberParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
@@ -31,14 +31,9 @@ NFmiNumberParamRect::~NFmiNumberParamRect(void) {}
  */
 // ----------------------------------------------------------------------
 
-NFmiNumberParamRect::NFmiNumberParamRect(const NFmiNumberParamRect &theNumberParamRect)
-    : NFmiTextParamRect(theNumberParamRect),
-      itsFormat(theNumberParamRect.itsFormat),
-      fZeroMinus(theNumberParamRect.fZeroMinus),
-      fDetachSign(theNumberParamRect.fDetachSign),
-      fDotToComma(theNumberParamRect.fDotToComma)
-{
-}
+NFmiNumberParamRect::NFmiNumberParamRect(const NFmiNumberParamRect& theNumberParamRect)
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

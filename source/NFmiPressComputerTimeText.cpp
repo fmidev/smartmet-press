@@ -22,7 +22,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressComputerTimeText::~NFmiPressComputerTimeText(void) {}
+NFmiPressComputerTimeText::~NFmiPressComputerTimeText(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

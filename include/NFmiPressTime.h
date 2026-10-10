@@ -72,7 +72,7 @@ class NFmiPressTime : public NFmiTime
 };  // class NFmiPressTime
 
 //! Undocumented, should be removed
-typedef NFmiPressTime* PTFmiPressTime;
+using PTFmiPressTime = NFmiPressTime*;
 
 // ----------------------------------------------------------------------
 /*!
@@ -80,7 +80,7 @@ typedef NFmiPressTime* PTFmiPressTime;
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressTime::NFmiPressTime(void) {}
+inline NFmiPressTime::NFmiPressTime(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Constructor

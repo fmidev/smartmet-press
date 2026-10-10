@@ -17,7 +17,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmi2SymbolParamRect::~NFmi2SymbolParamRect(void) {}
+NFmi2SymbolParamRect::~NFmi2SymbolParamRect(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor

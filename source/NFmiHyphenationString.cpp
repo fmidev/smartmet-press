@@ -16,7 +16,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::~NFmiHyphenationString(void) {}
+NFmiHyphenationString::~NFmiHyphenationString(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

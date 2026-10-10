@@ -20,7 +20,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressNameDay::~NFmiPressNameDay(void) {}
+NFmiPressNameDay::~NFmiPressNameDay(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

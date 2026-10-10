@@ -18,7 +18,7 @@
  */
 // ----------------------------------------------------------------------
 
-NFmiPressDataTimeText::~NFmiPressDataTimeText(void) {}
+NFmiPressDataTimeText::~NFmiPressDataTimeText(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

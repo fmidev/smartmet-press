@@ -11,7 +11,7 @@
 // RGB kopiotu t‰nne fcoltyp.h:sta koska ei haluta
 // sekoittaa nViewt‰ pressiin mitenk‰‰n
 
-typedef double FmiColorValue;
+using FmiColorValue = double;
 
 //! Undocumented
 struct FmiRGBColor

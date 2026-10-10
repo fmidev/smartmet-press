@@ -84,7 +84,7 @@ inline NFmiPressManager::~NFmiPressManager(void) {}
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressManager::NFmiPressManager(void) {}
+inline NFmiPressManager::NFmiPressManager(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

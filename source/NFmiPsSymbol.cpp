@@ -26,7 +26,7 @@ using namespace std;
  */
 // ----------------------------------------------------------------------
 
-NFmiPsSymbol::~NFmiPsSymbol(void) {}
+NFmiPsSymbol::~NFmiPsSymbol(void) = default;
 // ----------------------------------------------------------------------
 /*!
  * Copy constructor
