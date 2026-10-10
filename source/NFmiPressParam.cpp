@@ -115,7 +115,7 @@ bool NFmiPressParam::ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnu
 
   itsStations.First();
 
-  NFmiLocation *firstLocation = const_cast<NFmiLocation *>(itsStations.Location());
+  auto* firstLocation = const_cast<NFmiLocation*>(itsStations.Location());
   firstLocation->SetName(itsName);
 
   return true;
@@ -135,7 +135,7 @@ bool NFmiPressParam::SetFirstStation(const NFmiLocation &theLocation)
     return false;
 
   itsStations.First();
-  NFmiLocation *firstLocation = const_cast<NFmiLocation *>(itsStations.Location());
+  auto* firstLocation = const_cast<NFmiLocation*>(itsStations.Location());
   firstLocation->SetLongitude(theLocation.GetLongitude());
   firstLocation->SetLatitude(theLocation.GetLatitude());
 
@@ -166,7 +166,7 @@ bool NFmiPressParam::SetStationRename(const NFmiRenaming &theRenaming)
   //  NFmiVoidPtrIterator objectIter = NFmiVoidPtrIterator(itsStationDepObjects);
   NFmiVoidPtrIterator objectIter(itsStationDepObjects);
   objectIter.Reset();
-  NFmiPressStationText *object = static_cast<NFmiPressStationText *>(objectIter.Next());
+  auto* object = static_cast<NFmiPressStationText*>(objectIter.Next());
   while (object)
   {
     object->SetNewName(theRenaming);
@@ -192,7 +192,7 @@ NFmiStationPoint NFmiPressParam::GetFirstStationPoint(void)
     return *static_cast<const NFmiStationPoint *>(itsStations.Location());
   }
   else
-    return NFmiStationPoint();
+    return {};
 }
 
 // ----------------------------------------------------------------------
@@ -207,12 +207,11 @@ NFmiPoint NFmiPressParam::GetFirstPoint(void)
 {
   if (itsStations.First())
   {
-    const NFmiStationPoint *statPoint =
-        static_cast<const NFmiStationPoint *>(itsStations.Location());
+    const auto* statPoint = static_cast<const NFmiStationPoint*>(itsStations.Location());
     return statPoint->Point();
   }
   else
-    return NFmiPoint();
+    return {};
 }
 // ----------------------------------------------------------------------
 /*!
@@ -343,8 +342,8 @@ bool NFmiPressParam::SetMaxMinPoints(void)
               significance = significance*0.2f;
 */
 
-      NFmiStationPoint *statPoint =
-          static_cast<NFmiStationPoint *>(const_cast<NFmiLocation *>(tempStations.Location()));
+      auto* statPoint =
+          static_cast<NFmiStationPoint*>(const_cast<NFmiLocation*>(tempStations.Location()));
       point = statPoint->Point();
 
       // s‰‰det‰‰n tarkkaan paikkaansa olettaen ett‰ kentt‰ paraabelin muotoinen molempiin suuntiin
@@ -653,7 +652,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
   double lat = kFloatMissing;
   double lon = kFloatMissing;
 
-  NFmiVoidPtrList *newNames = new NFmiVoidPtrList;
+  auto* newNames = new NFmiVoidPtrList;
 
   SetPreReadingTimes();
 
@@ -1161,7 +1160,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         {
           *itsLogFile << "*** ERROR: StationName used without a defined data source" << endl;
         }
-        NFmiPressStationText *text = new NFmiPressStationText;
+        auto* text = new NFmiPressStationText;
         if (itsIntObject == dStationNumberObject)
           text->SetStationNumberMode();
         text->SetEnvironment(itsEnvironment);
@@ -1192,7 +1191,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dImageObject:
       {
-        NFmiPsSymbol *image = new NFmiPsSymbol;
+        auto* image = new NFmiPsSymbol;
         image->SetHome(GetHome());
         image->SetLogFile(itsLogFile);
         image->SetDescriptionFile(itsDescriptionFile);
@@ -1206,7 +1205,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dTextObject:
       {
-        NFmiPressText *text = new NFmiPressText;
+        auto* text = new NFmiPressText;
         text->SetEnvironment(itsEnvironment);
         text->SetHome(GetHome());
         text->SetLogFile(itsLogFile);
@@ -1226,7 +1225,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         {
           *itsLogFile << "*** ERROR: TimeText used without a data source in the segment" << endl;
         }
-        NFmiPressDataTimeText *text = new NFmiPressDataTimeText;
+        auto* text = new NFmiPressDataTimeText;
         text->SetEnvironment(itsEnvironment);
         text->SetHome(GetHome());
         text->SetLogFile(itsLogFile);
@@ -1255,7 +1254,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         //
         //			  }
 
-        NFmiPressNameDay *text = new NFmiPressNameDay;
+        auto* text = new NFmiPressNameDay;
         /*	if(!itsPressProduct->GetNameDay())
                 {
                   NFmiNameDay *nameDay = new NFmiNameDay;
@@ -1277,7 +1276,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           text->ScalePlotting();
           if (!itsPressProduct->GetNameDay(text->GetLanguage()))
           {
-            NFmiNameDay *nameDay = new NFmiNameDay;
+            auto* nameDay = new NFmiNameDay;
             itsPressProduct->SetNameDay(nameDay, text->GetLanguage());  // omistaja
             text->SetNameDay(nameDay);
           }
@@ -1567,7 +1566,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
 
           // *** PrintName
 
-          NFmiRenaming *renaming = new NFmiRenaming;
+          auto* renaming = new NFmiRenaming;
           renaming->originalName = string1;
           renaming->newName = string2;
           newNames->Add(renaming);
@@ -2730,8 +2729,8 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
           // *>(itsStations.Location());
           if (itsCurrentStationPoint)
             delete itsCurrentStationPoint;
-          NFmiStationPoint *itsCurrentStationPoint =
-              new NFmiStationPoint(*static_cast<const NFmiStationPoint *>(itsStations.Location()));
+          auto* itsCurrentStationPoint =
+              new NFmiStationPoint(*static_cast<const NFmiStationPoint*>(itsStations.Location()));
 
           fCurrentStationBackup = itsCurrentStationPoint->IsBackup() ? true : false;
           NFmiPoint lonLat = itsCurrentStationPoint->GetLocation();

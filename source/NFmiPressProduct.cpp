@@ -1867,7 +1867,7 @@ NFmiString NFmiPressProduct::FirstDataName(void)
   if (nData)
     return nData->GetName();
   else
-    return NFmiString();
+    return {};
 }
 
 // ----------------------------------------------------------------------
@@ -2143,8 +2143,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         itsMaskFileName = ReadString();
         itsMaskFileName.LowerCase();
 
-        NFmiQueryData *newData = new NFmiQueryData();
-        NFmiNamedQueryData *newNData = new NFmiNamedQueryData(newData, itsMaskFileName);
+        auto* newData = new NFmiQueryData();
+        auto* newNData = new NFmiNamedQueryData(newData, itsMaskFileName);
         itsDatas.Add(newNData);
         ReadNext();
         break;
@@ -2187,13 +2187,12 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
           return false;
         }
 
-        NFmiQueryData *newData = new NFmiQueryData();
-        NFmiNamedQueryData *newNData =
-            new NFmiNamedQueryData(newData,
-                                   itsDataFileName,
-                                   allDataFilesCritical || thisDataFileCritical,
-                                   thisFileNewest,
-                                   yearData);
+        auto* newData = new NFmiQueryData();
+        auto* newNData = new NFmiNamedQueryData(newData,
+                                                itsDataFileName,
+                                                allDataFilesCritical || thisDataFileCritical,
+                                                thisFileNewest,
+                                                yearData);
         itsDatas.Add(newNData);
 
         thisDataFileCritical = false;
@@ -2582,13 +2581,13 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
 
         itsCurrentMap = 1;
         Scale();
-        NFmiPressParam *newParam = new NFmiPressParam(itsScale,
-                                                      static_cast<short>(firstDeltaDays),
-                                                      static_cast<short>(firstPlotHours),
-                                                      static_cast<short>(firstPlotMinutes),
-                                                      static_cast<short>(hourStep),
-                                                      producer,
-                                                      this);
+        auto* newParam = new NFmiPressParam(itsScale,
+                                            static_cast<short>(firstDeltaDays),
+                                            static_cast<short>(firstPlotHours),
+                                            static_cast<short>(firstPlotMinutes),
+                                            static_cast<short>(hourStep),
+                                            producer,
+                                            this);
         newParam->SetDataName(FirstDataName());
         newParam->SetEnvironment(itsEnvironment);
         newParam->SetHome(GetHome());
@@ -2622,7 +2621,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
 
         itsCurrentMap = 1;
         Scale();
-        NFmiPressSameSymbols *newSameSymbols = new NFmiPressSameSymbols(itsScale);
+        auto* newSameSymbols = new NFmiPressSameSymbols(itsScale);
         newSameSymbols->SetPressProduct(this);
         newSameSymbols->SetHome(GetHome());
         newSameSymbols->SetLogFile(itsLogFile);
@@ -2643,7 +2642,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadData())
           return false;
 
-        NFmiPsSymbol *image = new NFmiPsSymbol;
+        auto* image = new NFmiPsSymbol;
         image->SetWriteLast(fMakeElementsAfterSegments);
         image->SetHome(GetHome());
         image->SetLogFile(itsLogFile);
@@ -2662,7 +2661,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadData())
           return false;
 
-        NFmiPressImage *image = new NFmiPressImage;
+        auto* image = new NFmiPressImage;
         image->SetScale(itsScale);
         image->SetHome(GetHome());
         image->SetLogFile(itsLogFile);
@@ -2682,7 +2681,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadData())
           return false;
 
-        NFmiPressNameDay *text = new NFmiPressNameDay;
+        auto* text = new NFmiPressNameDay;
         text->SetWriteLast(fMakeElementsAfterSegments);
         text->SetEnvironment(itsEnvironment);
         // text->SetNameDay(itsNameDay);
@@ -2718,7 +2717,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadData())
           return false;
 
-        NFmiPressText *text = new NFmiPressText;
+        auto* text = new NFmiPressText;
         text->SetWriteLast(fMakeElementsAfterSegments);
         text->SetEnvironment(itsEnvironment);
         text->SetHome(GetHome());
@@ -2739,7 +2738,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadData())
           return false;
 
-        NFmiPressText *text = new NFmiPressText;
+        auto* text = new NFmiPressText;
         text->SetWriteLast(fMakeElementsAfterSegments);
         text->SetEnvironment(itsEnvironment);
         text->SetScale(itsScale);
@@ -2762,7 +2761,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
           if (!ReadData())
             return false;
 
-          NFmiPressGivenTimeText *text = new NFmiPressGivenTimeText;
+          auto* text = new NFmiPressGivenTimeText;
           text->SetWriteLast(fMakeElementsAfterSegments);
           text->SetEnvironment(itsEnvironment);
           text->SetHome(GetHome());
@@ -2783,7 +2782,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadData())
           return false;
 
-        NFmiPressGivenTimeText *text = new NFmiPressGivenTimeText;
+        auto* text = new NFmiPressGivenTimeText;
         if (FirstData())
           text->SetTime(FirstData()->OriginTime());
         else
@@ -2814,7 +2813,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadData())
           return false;
 
-        NFmiPressComputerTimeText *text = new NFmiPressComputerTimeText;
+        auto* text = new NFmiPressComputerTimeText;
         text->SetWriteLast(fMakeElementsAfterSegments);
         text->SetEnvironment(itsEnvironment);
         text->SetHome(GetHome());
@@ -4017,7 +4016,7 @@ NFmiStationPoint NFmiPressProduct::FirstParamLocation(void)
   if (param)
     return param->GetFirstStationPoint();
 
-  return NFmiStationPoint();
+  return {};
 }
 
 // ----------------------------------------------------------------------

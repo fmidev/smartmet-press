@@ -401,7 +401,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   //	{
   if (!symbDirGiven)
   {
-    double sizeF = static_cast<double>(itsEnvironment.GetSymbolSizeFactor());
+    auto sizeF = static_cast<double>(itsEnvironment.GetSymbolSizeFactor());
     xh = sizeF * xh;
     yh = sizeF * yh;
   }

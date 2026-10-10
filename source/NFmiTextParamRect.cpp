@@ -144,7 +144,7 @@ bool NFmiTextParamRect::ReadRemaining(void)
         interval.itsBottomValue = r1 - intervalEps;
         interval.itsTopValue = r2 + intervalEps;
 
-        NFmiString *mappingName = new NFmiString(itsObject);
+        auto* mappingName = new NFmiString(itsObject);
         interval.itsSymbol = *mappingName;
         itsMapping->AddMappingInterval(interval);
       }
@@ -689,7 +689,7 @@ bool NFmiTextParamRect::WriteShowString(double x,
                                         ofstream &os) const
 {
   bool widthScaling = itsWidthFactor != 1.;
-  float xScaled = static_cast<float>(x);
+  auto xScaled = static_cast<float>(x);
   if (widthScaling)
   {
     os << itsWidthFactor << " 1 scale" << endl;

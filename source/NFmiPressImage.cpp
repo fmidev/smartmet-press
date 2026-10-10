@@ -132,7 +132,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dNewImage:
       {
-        NFmiPressImage* image = new NFmiPressImage;  // owner pressProduct
+        auto* image = new NFmiPressImage;  // owner pressProduct
         *image = *this;
         if (image->ReadDescription(itsString))
         {
@@ -159,7 +159,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
         tempString = ReadString();
         tempString += NFmiString(".eps");
 
-        NFmiPressImage* image = new NFmiPressImage;  // owner pressProduct
+        auto* image = new NFmiPressImage;  // owner pressProduct
         *image = *this;
         image->SetTempImageFile(tempString);
         if (image->ReadDescription(itsString))
@@ -201,7 +201,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
         {
           NFmiRectScale tempScale(itsImageScale);
           tempScale.MoveEndScales(NFmiPoint(r1, r2));
-          NFmiPressImage* image = new NFmiPressImage;  // owner pressProduct
+          auto* image = new NFmiPressImage;  // owner pressProduct
           *image = *this;
           if (timeStamp)
           {
