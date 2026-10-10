@@ -35,6 +35,7 @@
 #include <iostream>
 #include <list>
 #include <locale>
+#include <memory>
 #include <string>
 
 extern std::list<std::string> errors;
@@ -1560,7 +1561,7 @@ bool NFmiPressProduct::ReadData()
     bool dummy;
     if (DataByName(itsMaskFileName, dummy))
     {
-      itsMaskIter.reset(new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy)));
+      itsMaskIter = std::make_shared<NFmiSuperSmartInfo>(DataByName(itsMaskFileName, dummy));
     }
     else
       itsMaskIter.reset();
@@ -1659,7 +1660,7 @@ bool NFmiPressProduct::ReadData()
           dir += "PAL_Scand15km_Local.sqd";
           fileTime = NFmiFileSystem::FindFile(dir, true, &theFoundFileName);
 
-          dirRemote = "O:\\data\\in\\";
+          dirRemote = R"(O:\data\in\)";
           pathRemote = dirRemote;
           pathRemote += "PAL_Scand15km_*DB*.sqd";
           fileTimeRemote = NFmiFileSystem::FindFile(pathRemote, true, &theFoundFileNameRemote);
@@ -1755,7 +1756,7 @@ bool NFmiPressProduct::ReadData()
   bool dummy;
   if (DataByName(itsMaskFileName, dummy))
   {
-    itsMaskIter.reset(new NFmiSuperSmartInfo(DataByName(itsMaskFileName, dummy)));
+    itsMaskIter = std::make_shared<NFmiSuperSmartInfo>(DataByName(itsMaskFileName, dummy));
   }
   else
     itsMaskIter.reset();
@@ -3287,7 +3288,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   else if (output == kXml)
   {
     // tästä se lähtee
-    outFile << "$<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standlone=\"yes\"?>" << endl;
+    outFile << R"($<?xml version="1.0" encoding="ISO-8859-1" standlone="yes"?>)" << endl;
 
     outFile << "<Name>" << static_cast<char *>(itsOutFile.Header()) << endl;
   }
