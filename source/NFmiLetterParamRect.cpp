@@ -36,11 +36,11 @@ NFmiLetterParamRect::~NFmiLetterParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect &theLetterParamRect)
+NFmiLetterParamRect::NFmiLetterParamRect(const NFmiLetterParamRect& theLetterParamRect)
     : NFmiTextParamRect(theLetterParamRect),
       itsColumnText(theLetterParamRect.itsColumnText
                         ? new NFmiPressText(*theLetterParamRect.itsColumnText)
-                        : 0)
+                        : nullptr)
 {
 }
 
@@ -78,7 +78,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
 
   SetPreReadingTimes();
 
-  itsMultiMapping = 0;
+  itsMultiMapping = nullptr;
   itsModifier = kNoneModifier;
   bool relPlace = false;
 
@@ -184,7 +184,7 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
         if (!itsColumnText->ReadDescription(itsString))
         {
           delete itsColumnText;
-          itsColumnText = 0;
+          itsColumnText = nullptr;
         }
 
         itsIntObject = ConvertDefText(itsString);
@@ -375,7 +375,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     mapString = itsMapping->Map(value);
     if (mapString)
       ModifyTextBySeason(*mapString);
-    if (mapString == 0 && itsMissingString != 0)
+    if (mapString == nullptr && itsMissingString != nullptr)
       mapString = itsMissingString;
   }
 

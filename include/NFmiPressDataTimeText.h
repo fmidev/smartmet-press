@@ -31,20 +31,20 @@ enum NFmiPressDataTimeTextObjects
 class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObject
 {
  public:
-  virtual ~NFmiPressDataTimeText(void);
+  ~NFmiPressDataTimeText(void) override;
   NFmiPressDataTimeText(void);
 
-  bool ReadRemaining(void);
-  int ConvertDefText(NFmiString& object);
+  bool ReadRemaining(void) override;
+  int ConvertDefText(NFmiString& object) override;
 
 #ifdef OLD_MSC
   using NFmiPressTimeText::WritePS;
 #else
   using NFmiPressScaling::WritePS;
 #endif
-  virtual bool WritePS(FmiPressOutputMode theOutput);
-  virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
-  virtual unsigned long ClassId(void);
+  bool WritePS(FmiPressOutputMode theOutput) override;
+  bool WritePSUpdatingSubText(FmiPressOutputMode theOutput) override;
+  unsigned long ClassId(void) override;
 
  protected:
   bool fUseOriginTime;

@@ -31,19 +31,19 @@ enum NFmiTimeParamRectObjects
 class NFmiTimeParamRect : public NFmiTextParamRect
 {
  public:
-  virtual ~NFmiTimeParamRect(void);
+  ~NFmiTimeParamRect(void) override;
   NFmiTimeParamRect(void);
   NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect);
 
-  virtual bool ReadDescription(NFmiString& retString);
-  virtual NFmiParamRect* Clone(void) const;
-  virtual int ConvertDefText(NFmiString& object);
-  void SetLanguage(FmiLanguage theLanguage);
+  bool ReadDescription(NFmiString& retString) override;
+  NFmiParamRect* Clone(void) const override;
+  int ConvertDefText(NFmiString& object) override;
+  void SetLanguage(FmiLanguage theLanguage) override;
 
-  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
-                       NFmiFastQueryInfo* theQI,
-                       std::ofstream& theDestinationFile,
-                       FmiPressOutputMode theOutput);
+  bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+               NFmiFastQueryInfo* theQI,
+               std::ofstream& theDestinationFile,
+               FmiPressOutputMode theOutput) override;
 
  protected:
   bool PointParam(NFmiFastQueryInfo* theQI);

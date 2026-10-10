@@ -43,7 +43,7 @@ struct FmiMultiMapping
 class NFmiMultiParamMapping : public NFmiSize
 {
  public:
-  virtual ~NFmiMultiParamMapping(void);
+  ~NFmiMultiParamMapping(void) override;
 
   NFmiMultiParamMapping(void);
   NFmiMultiParamMapping(const NFmiMultiParamMapping &theParamMapping);
@@ -77,7 +77,7 @@ class NFmiMultiParamMapping : public NFmiSize
 // ----------------------------------------------------------------------
 
 inline NFmiMultiParamMapping::NFmiMultiParamMapping(void)
-    : NFmiSize(0), itsMappingIntervals(0), itsNumOfParams(0), fIncomplete(false)
+    : NFmiSize(0), itsMappingIntervals(nullptr), itsNumOfParams(0), fIncomplete(false)
 {
 }
 

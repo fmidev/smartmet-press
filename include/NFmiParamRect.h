@@ -124,7 +124,7 @@ enum FmiPressValueOption
 class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
 {
  public:
-  virtual ~NFmiParamRect(void);
+  ~NFmiParamRect(void) override;
 
   NFmiParamRect(void);
   NFmiParamRect(const NFmiParamRect& theRect);
@@ -149,7 +149,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   bool SetRect(NFmiRect theRect);
   long NumOfMissing(void) const;
   void InitMissing(void);
-  int ConvertDefText(NFmiString& object);
+  int ConvertDefText(NFmiString& object) override;
 
   bool IsNewScaling(void);
   void SetNewScaling(bool newScaling);
@@ -178,7 +178,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   virtual bool PointOnParam(NFmiFastQueryInfo* theQI, NFmiParam* theParam);
   virtual bool PointOnMultiParam(NFmiFastQueryInfo* theQI, short theNum);
   virtual bool PointOnLevel(NFmiFastQueryInfo* theQI);
-  virtual bool ReadRemaining(void);
+  bool ReadRemaining(void) override;
   float SunElevation(NFmiFastQueryInfo* theQueryInfo);
   float GetRandomInterval(void) const { return itsRandomInterval; };
   bool IsRandom(void) const { return GetRandomInterval() > .00001f; };
@@ -306,9 +306,9 @@ inline NFmiParamRect::NFmiParamRect(void)
       fLevelErrorReported(false),
       fTimeErrorReported(false),
       itsNumOfMissing(0),
-      itsMultiMapping(0),
+      itsMultiMapping(nullptr),
       itsCurrentParamArray(0),
-      itsMultiParams(0),
+      itsMultiParams(nullptr),
       itsFirstExtremRelHour(kLongMissing),
       itsFirstExtremYear(kLongMissing),
       itsModifier(kNoneModifier),
@@ -325,7 +325,7 @@ inline NFmiParamRect::NFmiParamRect(void)
       fMeanWindToMax(false),
       itsRoundingNumber(kLongMissing),
       fSupplementForMissing(false),
-      itsMissingString(0),
+      itsMissingString(nullptr),
       itsAlternating(NFmiPoint(0., 0.)),
       fTempNotMean(false),
       itsRotatingAngle(kFloatMissing),
@@ -379,9 +379,9 @@ inline NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
       fLevelErrorReported(false),
       fTimeErrorReported(false),
       itsNumOfMissing(0),
-      itsMultiMapping(0),
+      itsMultiMapping(nullptr),
       itsCurrentParamArray(0),
-      itsMultiParams(0),
+      itsMultiParams(nullptr),
       itsFirstExtremYear(kLongMissing),
       itsModifier(kNoneModifier),
       itsAreaModifier(kNoneModifier),
@@ -397,7 +397,7 @@ inline NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
       fMeanWindToMax(false),
       itsRoundingNumber(kLongMissing),
       fSupplementForMissing(false),
-      itsMissingString(0),
+      itsMissingString(nullptr),
       itsAlternating(NFmiPoint(0., 0.)),
       fTempNotMean(false),
       itsRotatingAngle(kFloatMissing),

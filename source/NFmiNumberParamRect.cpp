@@ -414,7 +414,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   if (value == 0.)
     format = NFmiString("%.0f");
   NFmiValueString str;
-  NFmiString *mapString = 0;
+  NFmiString* mapString = nullptr;
 
   if (itsMapping)  // on aina luotu vaikkei mapattu, mapString==0 ilmaisee puuttuvaa mappausta
   {

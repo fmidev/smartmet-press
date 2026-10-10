@@ -158,7 +158,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   if (fNewScaling)
     itsRelRect += NFmiPoint(-.5, -.5);
 
-  itsMultiMapping = 0;
+  itsMultiMapping = nullptr;
   bool symbDirGiven = false;
   // bool symbSizeGiven = false;
   double xh, yh;

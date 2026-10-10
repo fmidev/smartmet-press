@@ -26,16 +26,16 @@ class NFmiText;
 class NFmiExtremePlaceParamRect : public NFmiTextParamRect
 {
  public:
-  virtual ~NFmiExtremePlaceParamRect();
+  ~NFmiExtremePlaceParamRect() override;
   NFmiExtremePlaceParamRect(void);
   NFmiExtremePlaceParamRect(const NFmiExtremePlaceParamRect& theTextParamRect);
 
-  virtual NFmiParamRect* Clone(void) const;
-  bool ReadDescription(NFmiString& retString);
+  NFmiParamRect* Clone(void) const override;
+  bool ReadDescription(NFmiString& retString) override;
   bool WritePS(const NFmiRect& theAbsoluteRectOfSymbolGroup,
                NFmiFastQueryInfo* theQI,
                ofstream& theDestinationFile,
-               FmiPressOutputMode theOutput);
+               FmiPressOutputMode theOutput) override;
 
  protected:
   NFmiText TextToWrite(void) const;

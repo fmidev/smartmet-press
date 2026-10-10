@@ -29,7 +29,7 @@ using namespace std;
 // ----------------------------------------------------------------------
 
 NFmiPressImage::NFmiPressImage(void)
-    : NFmiPressScaling(), itsPressProduct(0), itsRelHoursFromFirst(0), itsShear(0.)
+    : NFmiPressScaling(), itsPressProduct(nullptr), itsRelHoursFromFirst(0), itsShear(0.)
 {
   NFmiPoint point1 = NFmiPoint(0., 0.);
   NFmiPoint point2 = NFmiPoint(600., 750.);

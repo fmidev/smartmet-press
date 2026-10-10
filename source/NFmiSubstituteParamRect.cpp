@@ -74,7 +74,7 @@ bool NFmiSubstituteParamRect::ReadDescription(NFmiString &retString)
 
   SetPreReadingTimes();
 
-  itsMultiMapping = 0;
+  itsMultiMapping = nullptr;
   itsModifier = kNoneModifier;
   // bool relPlace = false;
 

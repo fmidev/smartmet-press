@@ -113,7 +113,7 @@ const unsigned short kMaxNumOfTableElements = 25;
 class NFmiPressParam : public NFmiPressTimeDescription
 {
  public:
-  virtual ~NFmiPressParam(void);
+  ~NFmiPressParam(void) override;
 
   NFmiPressParam(void);
 
@@ -131,8 +131,8 @@ class NFmiPressParam : public NFmiPressTimeDescription
   bool SetPrimaryData(const NFmiString& dataName);
   void SetStationScale(const NFmiRectScale& scale);
   void SetScale(const NFmiRectScale& scale);
-  virtual bool ReadDescription(NFmiString& retString);
-  int ConvertDefText(NFmiString& object);
+  bool ReadDescription(NFmiString& retString) override;
+  int ConvertDefText(NFmiString& object) override;
   void SetData(NFmiQueryData* data);
   void SetPrimaryData(NFmiQueryData* data);
   void SetMaskIter(std::shared_ptr<NFmiFastQueryInfo> info);
@@ -318,15 +318,15 @@ inline NFmiPressParam::NFmiPressParam(void)
       fStationNotNeeded(false),
       fStationsAreLocalTime(0),
       fGridMode(false),
-      itsPressProduct(0),
+      itsPressProduct(nullptr),
       itsHourStep(24),
-      itsDataIter(0),
-      itsPrimaryDataIter(0),
-      itsAreaMask(0),
+      itsDataIter(nullptr),
+      itsPrimaryDataIter(nullptr),
+      itsAreaMask(nullptr),
       itsNumberOfSteps(1),
       fIsPureRegTimeLoop(true),
       fIsAreaOperation(false),
-      itsOptionLocation(0),
+      itsOptionLocation(nullptr),
       itsCheckDistance(NFmiPoint()),
       fInterruptSymbolGroup(false),
       fSupplementary(false),
@@ -338,11 +338,11 @@ inline NFmiPressParam::NFmiPressParam(void)
       fStationNamesAfterParams(false),
       itsPrimaryDataNum(0),
       fPrimaryDataOk(true),
-      itsDayChangeText(0),
+      itsDayChangeText(nullptr),
       fDayChanged(false),
       fOptimizeGlobalObs(false),
       fBackupDayReported(false),
-      itsCurrentStationPoint(0),
+      itsCurrentStationPoint(nullptr),
       fReportProseccedNumber(true)
 {
   itsLanguage = kFinnish;
@@ -378,14 +378,14 @@ inline NFmiPressParam::NFmiPressParam(const NFmiRectScale& scale,
       itsPressProduct(pressProduct),
       itsProducer(producer),
       itsHourStep(hourStep),
-      itsDataIter(0),
-      itsPrimaryDataIter(0),
-      itsAreaMask(0),
+      itsDataIter(nullptr),
+      itsPrimaryDataIter(nullptr),
+      itsAreaMask(nullptr),
       itsNumberOfSteps(1),
       fIsPureRegTimeLoop(true),
       itsScale(scale),
       fIsAreaOperation(false),
-      itsOptionLocation(0),
+      itsOptionLocation(nullptr),
       itsCheckDistance(NFmiPoint()),
       fInterruptSymbolGroup(false),
       fSupplementary(false),
@@ -397,11 +397,11 @@ inline NFmiPressParam::NFmiPressParam(const NFmiRectScale& scale,
       fStationNamesAfterParams(false),
       itsPrimaryDataNum(0),
       fPrimaryDataOk(true),
-      itsDayChangeText(0),
+      itsDayChangeText(nullptr),
       fDayChanged(false),
       fOptimizeGlobalObs(false),
       fBackupDayReported(false),
-      itsCurrentStationPoint(0),
+      itsCurrentStationPoint(nullptr),
       fReportProseccedNumber(true)
 {
   itsLanguage = kFinnish;
@@ -669,7 +669,7 @@ inline void NFmiPressParam::SetActivity(bool theActivity)
 
 inline void NFmiPressParam::SetData(NFmiQueryData* data)
 {
-  data ? itsDataIter = new NFmiSuperSmartInfo(data) : 0;
+  data ? itsDataIter = new NFmiSuperSmartInfo(data) : nullptr;
 }
 
 // ----------------------------------------------------------------------
@@ -683,7 +683,7 @@ inline void NFmiPressParam::SetData(NFmiQueryData* data)
 
 inline void NFmiPressParam::SetPrimaryData(NFmiQueryData* data)
 {
-  data ? itsPrimaryDataIter = new NFmiSuperSmartInfo(data) : 0;
+  data ? itsPrimaryDataIter = new NFmiSuperSmartInfo(data) : nullptr;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -757,7 +757,7 @@ inline void NFmiPressParam::SetPrimaryDataName(NFmiString name)
 
 inline bool NFmiPressParam::HasPrimaryData(void) const
 {
-  return itsPrimaryDataIter == 0 ? false : true;
+  return itsPrimaryDataIter == nullptr ? false : true;
 }
 
 // ----------------------------------------------------------------------
@@ -922,7 +922,7 @@ inline void NFmiPressParam::DeleteOptionLocation(void)
 {
   if (itsOptionLocation)
     delete itsOptionLocation;
-  itsOptionLocation = 0;
+  itsOptionLocation = nullptr;
 }
 // ----------------------------------------------------------------------
 /*!

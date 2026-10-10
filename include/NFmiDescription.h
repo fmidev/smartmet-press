@@ -77,7 +77,7 @@ class NFmiDescription
   void OutputLog(const char cat,
                  const NFmiString& finReport,
                  const NFmiString& engReport,
-                 NFmiString* variable = 0);
+                 NFmiString* variable = nullptr);
 
   unsigned short GetMaxLoopNum(void) const;
   std::ofstream* GetLogFile(void) const;
@@ -466,8 +466,8 @@ inline NFmiDescription::~NFmiDescription(void) {}
 // ----------------------------------------------------------------------
 
 inline NFmiDescription::NFmiDescription()
-    : itsLogFile(0),
-      itsDescriptionFile(0),
+    : itsLogFile(nullptr),
+      itsDescriptionFile(nullptr),
       itsLoopNum(0),
       itsMaxLoopNum(4000),
       itsIntObject(0),
@@ -491,7 +491,7 @@ inline NFmiDescription::NFmiDescription(std::ofstream* theLogFile, unsigned shor
 {
   itsMaxLoopNum = theMaxLoopNum;
   itsLogFile = theLogFile;
-  itsDescriptionFile = 0;
+  itsDescriptionFile = nullptr;
   itsLoopNum = 0;
   itsCommentLevel = 0;
 }

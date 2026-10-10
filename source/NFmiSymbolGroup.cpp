@@ -79,16 +79,16 @@ NFmiSymbolGroup::~NFmiSymbolGroup(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiSymbolGroup::NFmiSymbolGroup(NFmiPressParam *pressParam,
-                                 NFmiParamRect **theItemList,
+NFmiSymbolGroup::NFmiSymbolGroup(NFmiPressParam* pressParam,
+                                 NFmiParamRect** theItemList,
                                  int numOfItems)
     : NFmiSize(numOfItems),
       itsPressParam(pressParam),
-      itsPsSymbol(0),
+      itsPsSymbol(nullptr),
       itsRectSize(NFmiPoint(40, 40)),
-      itsRectScale(0),
-      itsQueryData(0),
-      itsQueryDataIter(0)
+      itsRectScale(nullptr),
+      itsQueryData(nullptr),
+      itsQueryDataIter(nullptr)
 {
   itsParamRects = new NFmiParamRect *[numOfItems];
   for (int i = 0; i < static_cast<int>(GetSize()); i++)

@@ -29,18 +29,18 @@ enum NFmi2SymbolParamRectObjects
 class NFmi2SymbolParamRect : public NFmiSymbolParamRect
 {
  public:
-  virtual ~NFmi2SymbolParamRect();
+  ~NFmi2SymbolParamRect() override;
   NFmi2SymbolParamRect(void);
   NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbolRect);
 
-  virtual bool ReadRemaining(void);
+  bool ReadRemaining(void) override;
 
-  virtual int ConvertDefText(NFmiString& object);
-  virtual NFmiParamRect* Clone(void) const;
+  int ConvertDefText(NFmiString& object) override;
+  NFmiParamRect* Clone(void) const override;
   void SetSecondDataIdent(unsigned long theSecondPar);
 
  protected:
-  bool ReadValues(NFmiFastQueryInfo* theQI, bool SetRelHour = true);
+  bool ReadValues(NFmiFastQueryInfo* theQI, bool SetRelHour = true) override;
   NFmiDataIdent GetSecondDataIdent(void) const;
 
   float itsSecondParamValue;

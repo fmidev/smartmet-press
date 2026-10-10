@@ -58,19 +58,19 @@ const unsigned long maxNumOfColMaps = 20;
 class NFmiTextParamRect : public NFmiParamRect
 {
  public:
-  virtual ~NFmiTextParamRect(void);
+  ~NFmiTextParamRect(void) override;
 
   NFmiTextParamRect(void);
   NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect);
 
-  virtual bool ReadDescription(NFmiString& retString) = 0;
-  int ConvertDefText(NFmiString& object);
-  virtual bool ReadRemaining(void);
+  bool ReadDescription(NFmiString& retString) override = 0;
+  int ConvertDefText(NFmiString& object) override;
+  bool ReadRemaining(void) override;
 
-  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
-                       NFmiFastQueryInfo* theQI,
-                       std::ofstream& theDestinationFile,
-                       FmiPressOutputMode theOutput) = 0;
+  bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+               NFmiFastQueryInfo* theQI,
+               std::ofstream& theDestinationFile,
+               FmiPressOutputMode theOutput) override = 0;
 
   void SetValueDepending(float theValue);
 
@@ -131,7 +131,7 @@ inline NFmiTextParamRect::NFmiTextParamRect(void)
     : NFmiParamRect(),
       fUseSelectLatinFont(false),
       fParenthesis(false),
-      itsMapping(0),
+      itsMapping(nullptr),
       itsCurrentNumOfColMaps(0),
       itsRelCharWidth(0.),
       itsWidthFactor(1.),

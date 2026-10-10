@@ -84,7 +84,7 @@ float NFmiPressParam::UseFromStorage(int storageQueue)
 void NFmiPressParam::SetNewGeoArea(const NFmiPressArea &theArea)
 {
   // HUOM GeoArea on NFmiArea joka PressArean jäsen
-  NFmiArea *newArea = 0;
+  NFmiArea* newArea = nullptr;
   if (theArea.GetArea())
   {
     newArea = theArea.GetArea()->Clone();
@@ -485,7 +485,7 @@ bool NFmiPressParam::SetData(const NFmiString &dataName)
     itsDataName = dataName;
   }
   else
-    itsDataIter = 0;
+    itsDataIter = nullptr;
 
   // vain PressDataTimeText näistä datariippuvainen
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
@@ -546,7 +546,7 @@ bool NFmiPressParam::SetPrimaryData(const NFmiString &dataName)
   }
   else
   {
-    itsPrimaryDataIter = 0;
+    itsPrimaryDataIter = nullptr;
     *itsLogFile << "  *** ERROR: Primary data lost: " << static_cast<char *>(itsPrimaryDataName)
                 << endl;
   }
@@ -2229,7 +2229,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
 
   if (takeToMainArea)
   {
-    if (itsArea.GetArea() == 0)
+    if (itsArea.GetArea() == nullptr)
       *itsLogFile << "*** ERROR: Cannot use a missing map as the main map" << endl;
     else
       itsPressProduct->itsMainArea = itsArea.GetArea();
@@ -2595,7 +2595,7 @@ bool NFmiPressParam::WritePS(NFmiRectScale theScale,
 
   // jotta voidaan tehdä aika vasta asemannimen jälkeen (tiedostomuoto)
   NFmiPressScaling *saveObject;
-  saveObject = 0;
+  saveObject = nullptr;
 
   NFmiVoidPtrIterator stationObjectIter(itsStationDepObjects);
 

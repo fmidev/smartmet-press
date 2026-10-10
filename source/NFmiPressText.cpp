@@ -72,8 +72,8 @@ NFmiPressText::NFmiPressText(const NFmiPressText &thePressText)
       itsNextTexts(thePressText.itsNextTexts),
       fNarrowColumn(thePressText.fNarrowColumn)
 {
-  itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : 0;
-  itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : 0;
+  itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : nullptr;
+  itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : nullptr;
 }
 
 // ----------------------------------------------------------------------
@@ -735,7 +735,7 @@ bool NFmiPressText::ReadRemaining(void)
       if (!itsSubText->ReadDescription(itsString))
       {
         delete itsSubText;
-        itsSubText = 0;
+        itsSubText = nullptr;
       }
       itsIntObject = ConvertDefText(itsString);
       break;
@@ -754,7 +754,7 @@ bool NFmiPressText::ReadRemaining(void)
       if (!itsSubText->ReadDescription(itsString))
       {
         delete itsSubText;
-        itsSubText = 0;
+        itsSubText = nullptr;
       }
 
       itsIntObject = ConvertDefText(itsString);
@@ -774,7 +774,7 @@ bool NFmiPressText::ReadRemaining(void)
       if (!itsSubText->ReadDescription(itsString))
       {
         delete itsSubText;
-        itsSubText = 0;
+        itsSubText = nullptr;
       }
 
       itsIntObject = ConvertDefText(itsString);

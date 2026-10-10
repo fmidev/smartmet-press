@@ -48,19 +48,19 @@ enum NFmiPressImageObjects
 class NFmiPressImage : public NFmiPressScaling
 {
  public:
-  virtual ~NFmiPressImage(void);
+  ~NFmiPressImage(void) override;
   NFmiPressImage(void);
   NFmiPressImage(const NFmiPressImage& theOtherImage);
 
-  virtual bool ReadDescription(NFmiString& retString);
-  int ConvertDefText(NFmiString& object);
+  bool ReadDescription(NFmiString& retString) override;
+  int ConvertDefText(NFmiString& object) override;
 
   using NFmiPressScaling::WritePS;
-  virtual bool WritePS(FmiPressOutputMode theOutput);
-  void ScalePlotting(void);
+  bool WritePS(FmiPressOutputMode theOutput) override;
+  void ScalePlotting(void) override;
   void SetPath(const NFmiString& thePath);
   NFmiFileString GetPath(void) const;
-  virtual unsigned long ClassId(void);
+  unsigned long ClassId(void) override;
   void SetPressProduct(NFmiPressProduct* thePressProductOwner);
   NFmiPressProduct* GetPressProduct(void) const;
   void SetRelHoursFromFirst(int theRelHoursFromFirst);

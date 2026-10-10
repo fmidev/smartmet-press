@@ -68,18 +68,18 @@ enum NFmiPressTextObjects
 class NFmiPressText : public NFmiPressScaling
 {
  public:
-  virtual ~NFmiPressText(void);
+  ~NFmiPressText(void) override;
   NFmiPressText();
   NFmiPressText(const NFmiPressText& theTextParamRect);
 
-  virtual bool ReadDescription(NFmiString& retString);
-  virtual bool ReadRemaining(void);
+  bool ReadDescription(NFmiString& retString) override;
+  bool ReadRemaining(void) override;
 
-  int ConvertDefText(NFmiString& object);
+  int ConvertDefText(NFmiString& object) override;
   NFmiString Construct(NFmiString* theString) const;
 
   using NFmiPressScaling::WritePS;
-  virtual bool WritePS(FmiPressOutputMode theOutput);
+  bool WritePS(FmiPressOutputMode theOutput) override;
   void SetValueDepending(float theValue);
 
   virtual bool SetText(void);
@@ -89,23 +89,23 @@ class NFmiPressText : public NFmiPressScaling
   virtual void SetPostText(const NFmiString& theText);
   bool WriteString(const NFmiString& commentString, FmiPressOutputMode theOutput);
 
-  virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
+  bool WritePSUpdatingSubText(FmiPressOutputMode theOutput) override;
 
   NFmiString* GetText(void) const;
-  void SetLanguage(FmiLanguage theLanguage);
+  void SetLanguage(FmiLanguage theLanguage) override;
   void SetEncoding(std::string theEncoding);
   FmiLanguage GetLanguage(void);
-  virtual bool IsInParagraph(void);
-  virtual void ScalePlotting(void);
-  double GetLineStep(void) const;
+  bool IsInParagraph(void) override;
+  void ScalePlotting(void) override;
+  double GetLineStep(void) const override;
   void SetLineStep(double lineStep);
-  void SetLastLineStep(double lineStep);
+  void SetLastLineStep(double lineStep) override;
   double GetLineStepFactor(void) const;
   void SetLineStepFactor(double stepFactor);
   virtual void SetTime(const NFmiMetTime& theTime);
   double GetWidthFactor(void) const;
-  void Move(const NFmiPoint& addPlace);
-  virtual bool HasSubText(void) const;
+  void Move(const NFmiPoint& addPlace) override;
+  bool HasSubText(void) const override;
   NFmiPressText* GetSubText(void) const;
 
  protected:
@@ -161,13 +161,13 @@ inline NFmiPressText::NFmiPressText()
       fLowerCase(0),
       fFirstUpperCase(false),
       fAddLocalTime(false),
-      itsText(0),
+      itsText(nullptr),
       itsCharSpace(0.),
       itsMaxLen(kUnsignedLongMissing),
       itsWidthFactor(1.),
       fNarrowColumn(false)
 {
-  itsSubText = 0;
+  itsSubText = nullptr;
   itsLanguage = kFinnish;
 }
 

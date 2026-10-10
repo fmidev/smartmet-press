@@ -33,13 +33,13 @@ class NFmiPsSymbol;
 class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
 {
  public:
-  ~NFmiSymbolGroup(void);
+  ~NFmiSymbolGroup(void) override;
   NFmiSymbolGroup(void);
   NFmiSymbolGroup(NFmiPressParam* pressParam, NFmiParamRect** theSymbolList, int num);
 
   long NumOfMissing(void) const;
   void InitMissing(void);
-  bool ReadDescription(NFmiString& retString);
+  bool ReadDescription(NFmiString& retString) override;
 
   bool WritePS(NFmiStationPoint* theStationPoint, FmiPressOutputMode theOutput);
 
@@ -51,7 +51,7 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
            std::ofstream& theDestinationFile);
 
   bool Add(const NFmiParamRect& theParamRect);
-  int ConvertDefText(NFmiString& object);
+  int ConvertDefText(NFmiString& object) override;
   bool SetAllTimes(const NFmiMetTime& theTime);
   bool SetAllLanguages(FmiLanguage theLanguage);
 
@@ -80,14 +80,14 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
 // ----------------------------------------------------------------------
 
 inline NFmiSymbolGroup::NFmiSymbolGroup(void)
-    : itsPressParam(0),
+    : itsPressParam(nullptr),
       itsProducer(230),
-      itsPsSymbol(0),
-      itsParamRects(0),
+      itsPsSymbol(nullptr),
+      itsParamRects(nullptr),
       itsRectSize(40, 40),
-      itsRectScale(0),
-      itsQueryData(0),
-      itsQueryDataIter(0)
+      itsRectScale(nullptr),
+      itsQueryData(nullptr),
+      itsQueryDataIter(nullptr)
 {
 }
 

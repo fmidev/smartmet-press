@@ -53,13 +53,13 @@ NFmiPressProduct::NFmiPressProduct(void)
 {
   itsNameTimeFormat = kUndefined;
   itsSecondNameTimeFormat = kUndefined;
-  itsNameDayFi = 0;
-  itsNameDaySw = 0;
+  itsNameDayFi = nullptr;
+  itsNameDaySw = nullptr;
   itsLogFile = new ofstream;
-  itsCurrentDataIter = 0;
+  itsCurrentDataIter = nullptr;
   itsNameToLonLat = new NFmiLocationFinder();
   itsLanguage = kFinnish;
-  itsPalette = 0;
+  itsPalette = nullptr;
   itsPageSize = kLetter;  //*****HUOM määrittelyihin A4- jne arkki,
   // tämän muuttaminen tn. vaikuttaisi joihinkin vanhoihin
   fChangeScandinavian = false;
@@ -69,7 +69,7 @@ NFmiPressProduct::NFmiPressProduct(void)
   itsMaskIter.reset();
   fNewestDataMode = false;
   fSupplementMode = false;
-  itsMainArea = 0;
+  itsMainArea = nullptr;
   itsLastElementStatus.symbol = true;
   itsLastElementStatus.number = true;
   itsLastElementStatus.text = true;
@@ -1480,7 +1480,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
     return false;
 
   if (!FirstData())
-    itsCurrentDataIter = 0;
+    itsCurrentDataIter = nullptr;
 
   itsDescriptionFile->close();
   itsDescriptionFile->clear();
@@ -1706,7 +1706,7 @@ bool NFmiPressProduct::ReadData(void)
           {
             if (!twoOptinalTypes || !ReadQueryData(*data, dataFileSqd2))
             {
-              nData->SetData(0);
+              nData->SetData(nullptr);
               *itsLogFile << "  *** ERROR: reading of data failed: "
                           << static_cast<char *>(nData->GetName()) << endl
                           << "      if mandatory, program is interrupted" << endl;
@@ -1725,7 +1725,7 @@ bool NFmiPressProduct::ReadData(void)
         }
         else
         {
-          nData->SetData(0);
+          nData->SetData(nullptr);
           *itsLogFile << "  *** ERROR: reading of data failed: "
                       << static_cast<char *>(nData->GetName()) << endl
                       << "      if mandatory, program is interrupted" << endl;
@@ -1829,7 +1829,7 @@ NFmiQueryData *NFmiPressProduct::FirstData(void)
   if (nData)
     return nData->GetData();
   else
-    return 0;
+    return nullptr;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -1847,7 +1847,7 @@ NFmiNamedQueryData *NFmiPressProduct::FirstNamedData(void)
   if (nData)
     return nData;
   else
-    return 0;
+    return nullptr;
 }
 
 // ----------------------------------------------------------------------
@@ -1900,7 +1900,7 @@ NFmiQueryData *NFmiPressProduct::DataByName(NFmiString givenName, bool &isYearDa
     }
     nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   }
-  return 0;
+  return nullptr;
 }
 
 // ----------------------------------------------------------------------
@@ -3132,7 +3132,7 @@ void NFmiPressProduct::ReadPalette(void)
 bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 {
   // kutsutaan aina vaikka harvoin tarvitaan
-  srand(static_cast<unsigned int>(time(NULL)));
+  srand(static_cast<unsigned int>(time(nullptr)));
 
   itsNumOfWritePS++;
   FmiPressOutputMode output = theGivenOutput;
@@ -3144,7 +3144,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   if (FirstData())
     itsCurrentDataIter = new NFmiSuperSmartInfo(FirstData());
   else
-    itsCurrentDataIter = 0;
+    itsCurrentDataIter = nullptr;
 
   NFmiString endFileName;  // = NFmiString("..\\Muut\\");
 
@@ -3661,7 +3661,7 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
   NFmiVoidPtrIterator objectIter(itsObjects);
   NFmiPressScaling *object;
 
-  NFmiPressScaling *lastObject = 0;
+  NFmiPressScaling* lastObject = nullptr;
   double lastLineStep = 0.;
   double lineStep;
   objectIter.Reset();

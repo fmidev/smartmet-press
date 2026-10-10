@@ -34,7 +34,7 @@ struct NFmiMappingInterval
 class NFmiParamMapping : public NFmiSize
 {
  public:
-  virtual ~NFmiParamMapping(void);
+  ~NFmiParamMapping(void) override;
   NFmiParamMapping(void);
   NFmiParamMapping(const NFmiParamMapping& theParamMapping);
 
@@ -57,7 +57,7 @@ class NFmiParamMapping : public NFmiSize
  */
 // ----------------------------------------------------------------------
 
-inline NFmiParamMapping::NFmiParamMapping(void) : NFmiSize(0), itsMappingIntervals(0) {}
+inline NFmiParamMapping::NFmiParamMapping(void) : NFmiSize(0), itsMappingIntervals(nullptr) {}
 #endif  // NFMIPARAMMAPPING_H
 
 // ======================================================================

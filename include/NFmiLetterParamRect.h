@@ -32,21 +32,21 @@ enum NFmiLetterParamRectObjects
 class NFmiLetterParamRect : public NFmiTextParamRect
 {
  public:
-  virtual ~NFmiLetterParamRect(void);
+  ~NFmiLetterParamRect(void) override;
 
   NFmiLetterParamRect(void);
   NFmiLetterParamRect(const NFmiLetterParamRect &theLetterParamRect);
 
-  virtual bool ReadDescription(NFmiString &retString);
-  virtual NFmiParamRect *Clone(void) const;
-  int ConvertDefText(NFmiString &object);
+  bool ReadDescription(NFmiString& retString) override;
+  NFmiParamRect* Clone(void) const override;
+  int ConvertDefText(NFmiString& object) override;
 
-  virtual bool WritePS(const NFmiRect &AbsoluteRectOfSymbolGroup,
-                       NFmiFastQueryInfo *theQI,
-                       std::ofstream &theDestinationFile,
-                       FmiPressOutputMode theOutput);
+  bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+               NFmiFastQueryInfo* theQI,
+               std::ofstream& theDestinationFile,
+               FmiPressOutputMode theOutput) override;
 
-  FmiGenericColor MapColor(void) const;
+  FmiGenericColor MapColor(void) const override;
 
  protected:
  private:
@@ -63,9 +63,9 @@ class NFmiLetterParamRect : public NFmiTextParamRect
 
 inline NFmiLetterParamRect::NFmiLetterParamRect(void) : NFmiTextParamRect()
 {
-  itsMapping = 0;
+  itsMapping = nullptr;
   fUseSelectLatinFont = true;
-  itsColumnText = 0;
+  itsColumnText = nullptr;
 }
 
 #endif  // NFMILETTERPARAMRECT_H

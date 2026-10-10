@@ -55,7 +55,7 @@ class NFmiNamedQueryData
 // ----------------------------------------------------------------------
 
 inline NFmiNamedQueryData::NFmiNamedQueryData(void)
-    : itsData(0), fMandatory(false), fNewest(false), fYearData(false)
+    : itsData(nullptr), fMandatory(false), fNewest(false), fYearData(false)
 {
 }
 

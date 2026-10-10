@@ -50,16 +50,16 @@ enum NFmiStationPointObjects
 class NFmiStationPoint : public NFmiStation, public NFmiDescription
 {
  public:
-  virtual ~NFmiStationPoint(void);
+  ~NFmiStationPoint(void) override;
   NFmiStationPoint(void);
   NFmiStationPoint(const NFmiStation &theStation, const NFmiPoint &thePoint);
   NFmiStationPoint(const NFmiStationPoint &theStation);
 
   NFmiStationPoint &operator=(const NFmiStationPoint &theStation);
-  virtual bool ReadDescription(NFmiString &retString);
-  int ConvertDefText(NFmiString &object);
+  bool ReadDescription(NFmiString& retString) override;
+  int ConvertDefText(NFmiString& object) override;
 
-  virtual NFmiLocation *Clone(void) const;
+  NFmiLocation* Clone(void) const override;
   NFmiString LocalWmoTime(int utc) const;
   bool LocalWmoTime(NFmiTime &utc) const;
   bool LocalTime(NFmiTime &utc, int &errorCode);
@@ -76,8 +76,8 @@ class NFmiStationPoint : public NFmiStation, public NFmiDescription
   bool IsBackup(void) const;
   void SetBackup(bool theStatus);
 
-  virtual std::ostream &Write(std::ostream &file) const;
-  virtual std::istream &Read(std::istream &file);
+  std::ostream& Write(std::ostream& file) const override;
+  std::istream& Read(std::istream& file) override;
   void SetAlternatingSizeFactor(float theSizeFactor);
   float GetAlternatingSizeFactor(void) const;
 

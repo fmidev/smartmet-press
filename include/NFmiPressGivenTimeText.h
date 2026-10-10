@@ -23,19 +23,19 @@
 class NFmiPressGivenTimeText : public NFmiPressTimeText
 {
  public:
-  virtual ~NFmiPressGivenTimeText(void);
+  ~NFmiPressGivenTimeText(void) override;
   NFmiPressGivenTimeText(void);
 
-  virtual bool ReadRemaining(void);
+  bool ReadRemaining(void) override;
 #ifdef OLD_MSC
   using NFmiPressTimeText::WritePS;
 #else
   using NFmiPressScaling::WritePS;
 #endif
-  virtual bool WritePS(FmiPressOutputMode theOutput);
-  virtual bool SetText(void);
-  virtual void SetText(NFmiString theText);
-  void SetTime(const NFmiMetTime& theTime);
+  bool WritePS(FmiPressOutputMode theOutput) override;
+  bool SetText(void) override;
+  void SetText(NFmiString theText) override;
+  void SetTime(const NFmiMetTime& theTime) override;
 
 };  // class NFmiPressGivenTimeText
 

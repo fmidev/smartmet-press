@@ -44,12 +44,12 @@ enum NFmiAreaObjects
 class NFmiPressArea : public NFmiPressDescription
 {
  public:
-  ~NFmiPressArea(void);
+  ~NFmiPressArea(void) override;
   NFmiPressArea(void);
   NFmiPressArea(const NFmiPressArea& anArea);
 
-  virtual int ConvertDefText(NFmiString& object);
-  virtual bool ReadDescription(NFmiString& retString);
+  int ConvertDefText(NFmiString& object) override;
+  bool ReadDescription(NFmiString& retString) override;
 
   NFmiArea* GetArea(void) const;
   void SetArea(NFmiArea* theArea);
@@ -69,7 +69,10 @@ class NFmiPressArea : public NFmiPressDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressArea::NFmiPressArea(void) : itsArea(0), itsPressProduct(0), fIsXyRequest(true) {}
+inline NFmiPressArea::NFmiPressArea(void)
+    : itsArea(nullptr), itsPressProduct(nullptr), fIsXyRequest(true)
+{
+}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

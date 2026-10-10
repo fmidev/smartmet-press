@@ -79,15 +79,15 @@ struct FmiPressSeasons
 class NFmiPressTimeDescription : public NFmiPressDescription
 {
  public:
-  virtual ~NFmiPressTimeDescription(void);
+  ~NFmiPressTimeDescription(void) override;
 
   NFmiPressTimeDescription(void);
   NFmiPressTimeDescription(short theFirstPlotMinutes,
                            short theFirstPlotHours,
                            short theFirstDeltaDays);
 
-  bool ReadRemaining(void);
-  virtual int ConvertDefText(NFmiString& object);
+  bool ReadRemaining(void) override;
+  int ConvertDefText(NFmiString& object) override;
   void SetTime(const NFmiMetTime& theTime);
   void SetHourLoop(bool isHourLoop);
   bool IsHourLoop(void) const;
@@ -166,7 +166,7 @@ inline NFmiPressTimeDescription::NFmiPressTimeDescription(void)
       itsFirstPlotMinutes(0),
       itsFirstDeltaDays(+1),
       fWriteAsUtc(false),
-      itsSeasonsStatus(0)
+      itsSeasonsStatus(nullptr)
 {
   itsLoopActivity.startIndex = 0;
   itsLoopActivity.bypassWithValue = false;
@@ -193,7 +193,7 @@ inline NFmiPressTimeDescription::NFmiPressTimeDescription(short theFirstPlotMinu
   fWriteAsUtc = false;
   itsLoopActivity.startIndex = 0;
   itsLoopActivity.bypassWithValue = false;
-  itsSeasonsStatus = 0;
+  itsSeasonsStatus = nullptr;
 }
 
 // ----------------------------------------------------------------------

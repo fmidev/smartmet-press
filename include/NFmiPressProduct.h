@@ -125,15 +125,15 @@ struct FmiSubstituteMappingValue
 class NFmiPressProduct : public NFmiPressTimeDescription
 {
  public:
-  virtual ~NFmiPressProduct(void);
+  ~NFmiPressProduct(void) override;
   NFmiPressProduct(void);
 
   bool WritePS(FmiPressOutputMode = kPostScript);
 
   void ReadPalette(void);
   virtual bool ReadDescriptionFile(NFmiString inputFileName);
-  virtual bool ReadDescription(NFmiString& retString);
-  int ConvertDefText(NFmiString& object);
+  bool ReadDescription(NFmiString& retString) override;
+  int ConvertDefText(NFmiString& object) override;
   bool SetSegmentData(const NFmiString& theDataName);
   bool PreProcessProduct(std::ifstream& origInput, std::ofstream& output);
   bool SetAllLanguages(FmiLanguage theLanguage);

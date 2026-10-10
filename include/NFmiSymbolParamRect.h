@@ -40,20 +40,20 @@ enum NFmiSymbolParamRectObjects
 class NFmiSymbolParamRect : public NFmiParamRect
 {
  public:
-  virtual ~NFmiSymbolParamRect(void);
+  ~NFmiSymbolParamRect(void) override;
 
   NFmiSymbolParamRect(void);
   NFmiSymbolParamRect(const NFmiSymbolParamRect& theSymbolRect);
 
-  virtual int ConvertDefText(NFmiString& object);
-  virtual bool ReadDescription(NFmiString& retString);
-  virtual bool ReadRemaining(void);
-  virtual NFmiParamRect* Clone(void) const;
+  int ConvertDefText(NFmiString& object) override;
+  bool ReadDescription(NFmiString& retString) override;
+  bool ReadRemaining(void) override;
+  NFmiParamRect* Clone(void) const override;
 
-  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
-                       NFmiFastQueryInfo* theQI,
-                       std::ofstream& theDestinationFile,
-                       FmiPressOutputMode theOutput);
+  bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+               NFmiFastQueryInfo* theQI,
+               std::ofstream& theDestinationFile,
+               FmiPressOutputMode theOutput) override;
 
   void SetConstSymbol(bool boo);
 
@@ -90,9 +90,9 @@ class NFmiSymbolParamRect : public NFmiParamRect
 inline NFmiSymbolParamRect::NFmiSymbolParamRect(void)
     : NFmiParamRect(),
       fIsConstSymbol(false),
-      itsMapping(0),
-      itsSubDir(0),
-      itsOrigDir(0),
+      itsMapping(nullptr),
+      itsSubDir(nullptr),
+      itsOrigDir(nullptr),
       itsDefToProductScale(NFmiRect(0., 0., 140., 140.),  // sovittu koko
                            NFmiRect(0., 0., 1., 1.)),
       fUseDayNightSymbols(false)

@@ -24,7 +24,7 @@
 class NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
 {
  public:
-  virtual ~NFmiPressParamText(void);
+  ~NFmiPressParamText(void) override;
 
   NFmiPressParamText(void);
   NFmiPressParamText(const NFmiPressText& theTextParamRect);
@@ -34,7 +34,7 @@ class NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
 #else
   using NFmiPressScaling::WritePS;
 #endif
-  virtual bool WritePS(FmiPressOutputMode theOutput);
+  bool WritePS(FmiPressOutputMode theOutput) override;
   virtual bool IsDataObject(void);
 
 };  // class NFmiPressParamText

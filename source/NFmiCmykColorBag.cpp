@@ -105,7 +105,7 @@ NFmiCmykColor *NFmiCmykColorBag::GetColor(const NFmiString &theName) const
       break;
   }
   if (j == static_cast<int>(itsSize))
-    return 0;
+    return nullptr;
   else
     return &itsColors[j].color;
 }

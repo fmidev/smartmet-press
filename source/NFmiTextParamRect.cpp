@@ -37,14 +37,14 @@ NFmiTextParamRect::~NFmiTextParamRect(void)
  */
 // ----------------------------------------------------------------------
 
-NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect &theTextParamRect)
+NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect)
     : NFmiParamRect(theTextParamRect),
       itsAddInFront(theTextParamRect.itsAddInFront),
       itsAddAfter(theTextParamRect.itsAddAfter),
       fUseSelectLatinFont(theTextParamRect.fUseSelectLatinFont),
       fParenthesis(theTextParamRect.fParenthesis),
       itsMapping(theTextParamRect.itsMapping ? new NFmiParamMapping(*theTextParamRect.itsMapping)
-                                             : 0),
+                                             : nullptr),
       itsCurrentNumOfColMaps(theTextParamRect.itsCurrentNumOfColMaps),
       itsRelCharWidth(theTextParamRect.itsRelCharWidth),
       itsWidthFactor(theTextParamRect.itsWidthFactor),

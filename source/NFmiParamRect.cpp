@@ -146,7 +146,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect &theRect)
     }
   }
   else
-    itsMultiMapping = 0;
+    itsMultiMapping = nullptr;
 
   // nämä perityt jäsenet kun eivät ole emon copykonstruktorissa niin olkoon tässä
   itsLogFile = theRect.GetLogFile();
@@ -161,7 +161,7 @@ NFmiParamRect::NFmiParamRect(const NFmiParamRect &theRect)
   if (theRect.itsMissingString)
     itsMissingString = new NFmiString(*theRect.itsMissingString);
   else
-    itsMissingString = 0;
+    itsMissingString = nullptr;
 }
 
 // ----------------------------------------------------------------------
@@ -1446,9 +1446,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
 
   NFmiMetTime firstTime = (static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time();
   NFmiMetTime lastTime = firstTime;
-  NFmiDataModifier *modif = 0;
-  NFmiDataModifier *areaModif = 0;
-  NFmiDataModifierExtremePlace *placeModif = 0;  // pistedataan
+  NFmiDataModifier* modif = nullptr;
+  NFmiDataModifier* areaModif = nullptr;
+  NFmiDataModifierExtremePlace* placeModif = nullptr;  // pistedataan
   bool isExtremeModifier = false;
   unsigned long period = itsIntegrationPeriod.period;
   float startWeight;

@@ -133,7 +133,7 @@ NFmiString *NFmiParamMapping::Map(const double theValue)
       break;
   }
   if (j == static_cast<int>(itsSize))
-    return 0;
+    return nullptr;
   else
     return &itsMappingIntervals[j].itsSymbol;
 }
@@ -176,7 +176,7 @@ NFmiString *NFmiParamMapping::Map(const double theValue, bool &outIsScaled)
       break;
   }
   if (j == static_cast<int>(itsSize))
-    return 0;
+    return nullptr;
   else
     outIsScaled = itsMappingIntervals[j].fIsScaled;
   return &itsMappingIntervals[j].itsSymbol;

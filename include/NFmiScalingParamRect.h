@@ -37,19 +37,19 @@ enum NFmiScalingParamRectObjects
 class NFmiScalingParamRect : public NFmi2SymbolParamRect
 {
  public:
-  virtual ~NFmiScalingParamRect(void);
+  ~NFmiScalingParamRect(void) override;
   NFmiScalingParamRect(void);
   NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect);
 
-  virtual bool ReadRemaining(void);
+  bool ReadRemaining(void) override;
 
-  virtual int ConvertDefText(NFmiString& object);
-  virtual NFmiParamRect* Clone(void) const;
+  int ConvertDefText(NFmiString& object) override;
+  NFmiParamRect* Clone(void) const override;
 
  protected:
-  virtual void DoPostReading(void);
+  void DoPostReading(void) override;
   bool ReadSymbolScale(FmiValueScaling& theScale);
-  void ScaleByValue();
+  void ScaleByValue() override;
 
   FmiValueScaling itsXValueScaling;
   FmiValueScaling itsYValueScaling;

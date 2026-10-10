@@ -24,21 +24,21 @@
 class NFmiPressComputerTimeText : public NFmiPressTimeText
 {
  public:
-  virtual ~NFmiPressComputerTimeText(void);
+  ~NFmiPressComputerTimeText(void) override;
   NFmiPressComputerTimeText(void);
 
-  virtual bool ReadRemaining(void);
-  virtual bool SetText(void);
+  bool ReadRemaining(void) override;
+  bool SetText(void) override;
 
-  virtual void SetText(NFmiString theText);
-  int ConvertDefText(NFmiString& object);
+  void SetText(NFmiString theText) override;
+  int ConvertDefText(NFmiString& object) override;
 
 #ifdef OLD_MSC
   using NFmiPressTimeText::WritePS;
 #else
   using NFmiPressScaling::WritePS;
 #endif
-  virtual bool WritePS(FmiPressOutputMode theOutput);
+  bool WritePS(FmiPressOutputMode theOutput) override;
 
  protected:
   short itsDeltaDays;

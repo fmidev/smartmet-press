@@ -33,18 +33,18 @@ enum NFmiPsSymbolObjects
 class NFmiPsSymbol : public NFmiPressScaling
 {
  public:
-  virtual ~NFmiPsSymbol(void);
+  ~NFmiPsSymbol(void) override;
   NFmiPsSymbol(void);
   NFmiPsSymbol(const NFmiPsSymbol& thePsSymbol);
 
-  virtual int ConvertDefText(NFmiString& object);
-  virtual bool ReadDescription(NFmiString& retString);
+  int ConvertDefText(NFmiString& object) override;
+  bool ReadDescription(NFmiString& retString) override;
   virtual NFmiPsSymbol* Clone(void) const;
   virtual bool MakeAndWritePS(NFmiPoint place);  // tän voi sitten joskus hylätä
   using NFmiPressScaling::WritePS;
-  virtual bool WritePS(FmiPressOutputMode theOutput);
+  bool WritePS(FmiPressOutputMode theOutput) override;
   NFmiString GetSymbol(void) const;
-  virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);
+  bool WritePSUpdatingSubText(FmiPressOutputMode theOutput) override;
 
  protected:
   virtual bool CopyShortSymbol2Dest(void);

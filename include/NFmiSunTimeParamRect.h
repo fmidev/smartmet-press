@@ -29,16 +29,16 @@ enum NFmiSunTimeParamRectObjects
 class NFmiSunTimeParamRect : public NFmiTimeParamRect
 {
  public:
-  virtual ~NFmiSunTimeParamRect(void);
+  ~NFmiSunTimeParamRect(void) override;
   NFmiSunTimeParamRect(void);
   NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theTimeParamRect);
 
-  virtual bool ReadRemaining(void);
-  virtual NFmiParamRect* Clone(void) const;
-  int ConvertDefText(NFmiString& object);
+  bool ReadRemaining(void) override;
+  NFmiParamRect* Clone(void) const override;
+  int ConvertDefText(NFmiString& object) override;
 
  protected:
-  NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI);
+  NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI) override;
 
  private:
   bool fIsSunRise;

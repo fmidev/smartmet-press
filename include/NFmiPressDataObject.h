@@ -51,7 +51,7 @@ inline NFmiPressDataObject::~NFmiPressDataObject(void) {}
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDataObject::NFmiPressDataObject(void) : itsData(0) {}
+inline NFmiPressDataObject::NFmiPressDataObject(void) : itsData(nullptr) {}
 // ----------------------------------------------------------------------
 /*!
  * Constructor based on query info

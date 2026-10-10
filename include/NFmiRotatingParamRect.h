@@ -32,28 +32,28 @@ enum NFmiRotatingParamRectObjects
 class NFmiRotatingParamRect : public NFmi2SymbolParamRect
 {
  public:
-  virtual ~NFmiRotatingParamRect(void);
+  ~NFmiRotatingParamRect(void) override;
   NFmiRotatingParamRect(void);
   NFmiRotatingParamRect(const NFmiRotatingParamRect& theSymbolRect);
 
-  virtual bool ReadRemaining(void);
-  virtual int ConvertDefText(NFmiString& object);
-  virtual NFmiParamRect* Clone(void) const;
+  bool ReadRemaining(void) override;
+  int ConvertDefText(NFmiString& object) override;
+  NFmiParamRect* Clone(void) const override;
   void SetNotRotatingMin(double notRotatingMin);
   void SetNotRotatingMax(double notRotatingMin);
 
  protected:
   bool Rotate(void) const;
-  virtual void DoPostReading(void);
+  void DoPostReading(void) override;
 
  private:
   bool CopyShortSymbol2Dest(NFmiString* symbolFile,
                             std::ofstream& theDestinationFile,
-                            float theRotating);
+                            float theRotating) override;
 
   float AdjustToMap(float theDirection) const;
 
-  virtual void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream& os);
+  void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream& os) override;
 
  private:
   double itsNotRotatingMinValue;

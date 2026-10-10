@@ -249,7 +249,7 @@ NFmiString *NFmiMultiParamMapping::Map(const vector<float> &values, bool &missin
   }
   // Return without a matching symbol
   // std::cout <<  "NO SYMBOL FOUND " << std::endl;
-  return 0;
+  return nullptr;
 }
 
 // ----------------------------------------------------------------------

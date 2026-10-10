@@ -38,7 +38,7 @@ struct FmiPressHyphens
 class NFmiHyphenationString : public NFmiString
 {
  public:
-  ~NFmiHyphenationString(void);
+  ~NFmiHyphenationString(void) override;
 
   NFmiHyphenationString(void);
   NFmiHyphenationString(const char* theText);

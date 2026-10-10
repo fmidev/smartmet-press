@@ -94,8 +94,8 @@ inline NFmiPsWriting::NFmiPsWriting(void)
       fRotBeforeScale(false),
       itsRotatingAngle(0.),
       fOverPrint(false),
-      itsInFile(0),
-      itsOutFile(0),
+      itsInFile(nullptr),
+      itsOutFile(nullptr),
       itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
                                   NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.)))),
       fLineFeed(true)

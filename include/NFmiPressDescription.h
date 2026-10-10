@@ -65,12 +65,12 @@ enum NFmiPressDescriptionObjects
 class NFmiPressDescription : public NFmiDescription
 {
  public:
-  virtual ~NFmiPressDescription(void);
+  ~NFmiPressDescription(void) override;
   NFmiPressDescription(void);
   NFmiPressDescription(const NFmiPressDescription& theD);
   NFmiPressDescription(std::ofstream* theLogFile, unsigned short theMaxLoopNum);
 
-  virtual int ConvertDefText(NFmiString& object);
+  int ConvertDefText(NFmiString& object) override;
 
   NFmiString GetHome(void) const;
   void SetHome(const NFmiString& path);

@@ -29,19 +29,19 @@ enum NFmiSubstituteParamRectObjects
 class NFmiSubstituteParamRect : public NFmiTextParamRect
 {
  public:
-  virtual ~NFmiSubstituteParamRect(void);
+  ~NFmiSubstituteParamRect(void) override;
 
   NFmiSubstituteParamRect(void);
   NFmiSubstituteParamRect(const NFmiSubstituteParamRect& theSubstituteParamRect);
 
-  virtual bool ReadDescription(NFmiString& retString);
-  virtual NFmiParamRect* Clone(void) const;
-  int ConvertDefText(NFmiString& object);
+  bool ReadDescription(NFmiString& retString) override;
+  NFmiParamRect* Clone(void) const override;
+  int ConvertDefText(NFmiString& object) override;
 
-  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
-                       NFmiFastQueryInfo* theQI,
-                       std::ofstream& theDestinationFile,
-                       FmiPressOutputMode theOutput);
+  bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+               NFmiFastQueryInfo* theQI,
+               std::ofstream& theDestinationFile,
+               FmiPressOutputMode theOutput) override;
 
  protected:
  private:
@@ -57,7 +57,7 @@ class NFmiSubstituteParamRect : public NFmiTextParamRect
 
 inline NFmiSubstituteParamRect::NFmiSubstituteParamRect(void) : NFmiTextParamRect()
 {
-  itsMapping = 0;
+  itsMapping = nullptr;
   fUseSelectLatinFont = true;
   itsSubstituteMappingValue = 0.;
   itsIdentPar = 0;

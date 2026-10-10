@@ -25,14 +25,14 @@
 class NFmiExtremeTimeParamRect : public NFmiTimeParamRect
 {
  public:
-  virtual ~NFmiExtremeTimeParamRect();
+  ~NFmiExtremeTimeParamRect() override;
   NFmiExtremeTimeParamRect(void);
   NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect& theTimeParamRect);
 
-  virtual NFmiParamRect* Clone(void) const;
+  NFmiParamRect* Clone(void) const override;
 
  protected:
-  NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI);
+  NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI) override;
 
  private:
 };  // class NFmiExtremeTimeParamRect

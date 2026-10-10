@@ -53,13 +53,13 @@ enum NFmiPressScalingObjects
 class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
 {
  public:
-  virtual ~NFmiPressScaling(void);
+  ~NFmiPressScaling(void) override;
   NFmiPressScaling(void);
   NFmiPressScaling(const NFmiPressScaling& thePsSymbol);
 
-  virtual int ConvertDefText(NFmiString& object);
-  virtual bool ReadDescription(NFmiString& retString) = 0;
-  virtual bool ReadRemaining(void);
+  int ConvertDefText(NFmiString& object) override;
+  bool ReadDescription(NFmiString& retString) override = 0;
+  bool ReadRemaining(void) override;
   virtual bool WritePS(const NFmiPoint& thePoint, FmiPressOutputMode theOutput);
   virtual bool WritePS(FmiPressOutputMode theOutput) = 0;
   virtual bool WritePSUpdatingSubText(FmiPressOutputMode theOutput);

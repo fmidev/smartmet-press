@@ -203,7 +203,7 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
       if (itsArea)
       {
         delete itsArea;
-        itsArea = 0;
+        itsArea = nullptr;
       }
 
       if (proj == kNFmiYKJArea)
@@ -225,7 +225,7 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
       if (itsArea)
       {
         delete itsArea;
-        itsArea = 0;
+        itsArea = nullptr;
       }
 
       itsArea = NFmiAreaTools::CreateLegacyYKJArea(NFmiPoint(tlwX, tlwY), NFmiPoint(brwX, brwY));

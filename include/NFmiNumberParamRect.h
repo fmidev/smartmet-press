@@ -31,26 +31,26 @@ enum NFmiNumberParamRectObjects
 class NFmiNumberParamRect : public NFmiTextParamRect
 {
  public:
-  virtual ~NFmiNumberParamRect(void);
+  ~NFmiNumberParamRect(void) override;
 
   NFmiNumberParamRect(void);
   NFmiNumberParamRect(const NFmiNumberParamRect& theNumberParamRect);
 
-  virtual bool ReadDescription(NFmiString& retString);
-  virtual bool ReadRemaining(void);
-  virtual NFmiParamRect* Clone(void) const;
-  int ConvertDefText(NFmiString& object);
+  bool ReadDescription(NFmiString& retString) override;
+  bool ReadRemaining(void) override;
+  NFmiParamRect* Clone(void) const override;
+  int ConvertDefText(NFmiString& object) override;
 
-  virtual bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
-                       NFmiFastQueryInfo* theQI,
-                       std::ofstream& theDestinationFile,
-                       FmiPressOutputMode theOutput);
+  bool WritePS(const NFmiRect& AbsoluteRectOfSymbolGroup,
+               NFmiFastQueryInfo* theQI,
+               std::ofstream& theDestinationFile,
+               FmiPressOutputMode theOutput) override;
 
  private:
   NFmiString DetachSign(const NFmiString& theString, float theValue) const;
 
  protected:
-  FmiGenericColor MapColor(void) const;
+  FmiGenericColor MapColor(void) const override;
 
  protected:
   NFmiString itsFormat;

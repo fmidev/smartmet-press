@@ -41,7 +41,7 @@ enum NFmiPressSameSymbolsObjects
 class NFmiPressSameSymbols : public NFmiPressDescription
 {
  public:
-  virtual ~NFmiPressSameSymbols(void);
+  ~NFmiPressSameSymbols(void) override;
 
   NFmiPressSameSymbols(void);
   NFmiPressSameSymbols(const NFmiRectScale& scale);
@@ -49,8 +49,8 @@ class NFmiPressSameSymbols : public NFmiPressDescription
   bool WritePS(std::ofstream& theOutFile);
 
   void SetScale(const NFmiRectScale& scale);
-  virtual bool ReadDescription(NFmiString& retString);
-  int ConvertDefText(NFmiString& object);
+  bool ReadDescription(NFmiString& retString) override;
+  int ConvertDefText(NFmiString& object) override;
   void SetOutFile(std::ofstream& outFile);
   NFmiPsSymbol* GetPsSymbol(void);
   void SetPressProduct(NFmiPressProduct* thePressP);
