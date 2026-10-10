@@ -404,11 +404,6 @@ float NFmiStationPoint::GetWmoDifference() const
     zoneDifferenceHour = 2;
     useSummerTime = false;  // 17.3.2000, ensi kesänä baltia ei enää kesäajassa ENTÄ 2002??
   }
-  else if (wmoCode == 26629)  // Tallinna,Riika,Vilna?
-  {
-    zoneDifferenceHour = 2;
-    useSummerTime = false;  // 17.3.2000, ensi kesänä baltia ei enää kesäajassa ENTÄ 2002??
-  }
   else if ((wmoCode == 26063) || (wmoCode == 27612))  // Pietari, Moskova
   {
     zoneDifferenceHour = 3;
