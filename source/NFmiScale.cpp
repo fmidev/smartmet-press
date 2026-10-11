@@ -59,9 +59,7 @@ NFmiScale::NFmiScale(float theStartValue, float theEndValue)
  */
 // ----------------------------------------------------------------------
 
-NFmiScale::NFmiScale(const NFmiScale& anOtherScale)
-
-    = default;
+NFmiScale::NFmiScale(const NFmiScale& anOtherScale) = default;
 
 // ----------------------------------------------------------------------
 /*!

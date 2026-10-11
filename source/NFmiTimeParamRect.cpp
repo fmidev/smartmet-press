@@ -32,9 +32,7 @@ NFmiTimeParamRect::~NFmiTimeParamRect(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiTimeParamRect::NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect)
-
-    = default;
+NFmiTimeParamRect::NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect) = default;
 
 // ----------------------------------------------------------------------
 /*!

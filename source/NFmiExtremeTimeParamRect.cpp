@@ -29,9 +29,7 @@ NFmiExtremeTimeParamRect::~NFmiExtremeTimeParamRect(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect(
-    const NFmiExtremeTimeParamRect& theExtremeTimeParamRect)
-
-    = default;
+    const NFmiExtremeTimeParamRect& theExtremeTimeParamRect) = default;
 
 // ----------------------------------------------------------------------
 /*!

@@ -32,9 +32,7 @@ NFmiSubstituteParamRect::~NFmiSubstituteParamRect(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiSubstituteParamRect::NFmiSubstituteParamRect(
-    const NFmiSubstituteParamRect& theSubstituteParamRect)
-
-    = default;
+    const NFmiSubstituteParamRect& theSubstituteParamRect) = default;
 
 // ----------------------------------------------------------------------
 /*!

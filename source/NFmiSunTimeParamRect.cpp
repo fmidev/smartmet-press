@@ -29,9 +29,8 @@ NFmiSunTimeParamRect::~NFmiSunTimeParamRect(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theSunTimeParamRect)
-
-    = default;
+NFmiSunTimeParamRect::NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theSunTimeParamRect) =
+    default;
 
 // ----------------------------------------------------------------------
 /*!

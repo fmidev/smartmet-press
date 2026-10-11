@@ -31,9 +31,7 @@ NFmiScalingParamRect::~NFmiScalingParamRect(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiScalingParamRect::NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect)
-
-    = default;
+NFmiScalingParamRect::NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect) = default;
 
 // ----------------------------------------------------------------------
 /*!

@@ -23,8 +23,7 @@ NFmiPressEnvironment::~NFmiPressEnvironment(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment& theOtherEnvironment)
-
-    = default;
+NFmiPressEnvironment::NFmiPressEnvironment(const NFmiPressEnvironment& theOtherEnvironment) =
+    default;
 
 // ======================================================================

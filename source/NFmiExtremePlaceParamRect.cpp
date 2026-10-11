@@ -32,9 +32,7 @@ NFmiExtremePlaceParamRect::~NFmiExtremePlaceParamRect(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect(
-    const NFmiExtremePlaceParamRect& theExtremePlaceParamRect)
-
-    = default;
+    const NFmiExtremePlaceParamRect& theExtremePlaceParamRect) = default;
 
 // ----------------------------------------------------------------------
 /*!

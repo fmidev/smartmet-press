@@ -30,9 +30,7 @@ NFmiPressScaling::~NFmiPressScaling(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiPressScaling::NFmiPressScaling(const NFmiPressScaling& thePsSymbol)
-
-    = default;
+NFmiPressScaling::NFmiPressScaling(const NFmiPressScaling& thePsSymbol) = default;
 
 // ----------------------------------------------------------------------
 /*!

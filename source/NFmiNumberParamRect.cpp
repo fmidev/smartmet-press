@@ -31,9 +31,7 @@ NFmiNumberParamRect::~NFmiNumberParamRect(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiNumberParamRect::NFmiNumberParamRect(const NFmiNumberParamRect& theNumberParamRect)
-
-    = default;
+NFmiNumberParamRect::NFmiNumberParamRect(const NFmiNumberParamRect& theNumberParamRect) = default;
 
 // ----------------------------------------------------------------------
 /*!
