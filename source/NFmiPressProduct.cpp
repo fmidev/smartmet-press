@@ -37,6 +37,7 @@
 #include <locale>
 #include <memory>
 #include <string>
+#include <macgyver/StringConversion.h>
 
 extern std::list<std::string> errors;
 
@@ -1043,7 +1044,7 @@ bool NFmiPressProduct::ReadSeasonsStatus()
       {
         if (!undef)
         {
-          int hour = atoi(fmiShortStr2);
+          int hour = Fmi::stoi(fmiShortStr2.CharPtr());
           itsSeasonsStatus->hour = hour;
           *itsLogFile << "  Hour forced: " << hour << endl;
         }
@@ -1053,7 +1054,7 @@ bool NFmiPressProduct::ReadSeasonsStatus()
       {
         if (!undef)
         {
-          int day = atoi(fmiShortStr2);
+          int day = Fmi::stoi(fmiShortStr2.CharPtr());
           itsSeasonsStatus->day = day;
           *itsLogFile << "  Day forced: " << day << endl;
         }
@@ -1062,7 +1063,7 @@ bool NFmiPressProduct::ReadSeasonsStatus()
       {
         if (!undef)
         {
-          int month = atoi(fmiShortStr2);
+          int month = Fmi::stoi(fmiShortStr2.CharPtr());
           itsSeasonsStatus->month = month;
           *itsLogFile << "  Month forced: " << month << endl;
         }
@@ -1102,7 +1103,7 @@ bool NFmiPressProduct::ReadSeasonsStatus()
       {
         if (!undef)
         {
-          itsSeasonsStatus->dayAdvance = atoi(str2.c_str());  // tarvitaanko missään tässä
+          itsSeasonsStatus->dayAdvance = Fmi::stoi(str2);  // tarvitaanko missään tässä
           itsEnvironment.SetDayAdvance(itsSeasonsStatus->dayAdvance);
           *itsLogFile << "  Advance in use: " << str2 << endl;
         }
@@ -1121,7 +1122,7 @@ bool NFmiPressProduct::ReadSeasonsStatus()
                               {
                                 if(!undef)
                                       {
-                                        int givenHour = atoi(str2.c_str());
+                                        int givenHour = Fmi::stoi(str2);
                                         bool afternoon = givenHour < today.GetHour();
                                         itsSeasonsStatus->afternoon = afternoon;
                                         *itsLogFile << "  Kausitilanne pakotettu: iltapäivä alkaa "

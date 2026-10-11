@@ -18,6 +18,7 @@
 // system
 #include <iostream>
 #include <list>
+#include <macgyver/StringConversion.h>
 
 using namespace std;
 extern std::list<std::string> errors;
@@ -295,7 +296,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
             continue;
           }
         }
-        int dirHour = atoi(numStr.c_str());
+        int dirHour = Fmi::stoi(numStr);
         if (!PreProcessConditionally(
                 prePr, GetSeasonsStatus()->hour >= dirHour, condition, notDir, endDir, elseDir))
           return false;
@@ -354,10 +355,10 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
           continue;
         }
 
-        int day1 = atoi(numStr1.c_str());
-        int month1 = atoi(numStr2.c_str());
-        int day2 = atoi(numStr3.c_str());
-        int month2 = atoi(numStr4.c_str());
+        int day1 = Fmi::stoi(numStr1);
+        int month1 = Fmi::stoi(numStr2);
+        int day2 = Fmi::stoi(numStr3);
+        int month2 = Fmi::stoi(numStr4);
         if (day1 < 1 || day1 > 31 || day2 < 1 || day2 > 31 || month1 < 1 || month1 > 12 ||
             month2 < 1 || month2 > 12)
         {

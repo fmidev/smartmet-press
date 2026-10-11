@@ -8,6 +8,7 @@
 #include "NFmiValueCorrection.h"
 #include <cstdlib>
 #include <fstream>
+#include <macgyver/StringConversion.h>
 
 using namespace std;
 
@@ -87,8 +88,8 @@ bool NFmiValueCorrection::ReadFile()
       str2 = line.substr(start2, end2 - start2);
       str3 = line.substr(start3, end3 - start3);
       tempCorrection.stationName = str1;
-      tempCorrection.dayCorr = static_cast<float>(atof(str2.c_str()));
-      tempCorrection.nightCorr = static_cast<float>(atof(str3.c_str()));
+      tempCorrection.dayCorr = static_cast<float>(Fmi::stod(str2));
+      tempCorrection.nightCorr = static_cast<float>(Fmi::stod(str3));
       itsTempCorrections.push_back(tempCorrection);
     }
   }
