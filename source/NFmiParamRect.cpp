@@ -33,8 +33,8 @@
 #include "NFmiRelativeTimeIntegrationIterator.h"
 #include "NFmiWeatherAndCloudiness.h"
 
+#include <cmath>
 #include <iostream>
-#include <math.h>
 using namespace std;
 
 // ----------------------------------------------------------------------
