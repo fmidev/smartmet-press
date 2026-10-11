@@ -26,6 +26,8 @@ using namespace std;
 
 NFmiStationPoint &NFmiStationPoint::operator=(const NFmiStationPoint &theStationPoint)
 {
+  if (&theStationPoint == this)
+    return *this;
   Station(*theStationPoint.Station());
   Point(theStationPoint.Point());
   fIsBackup = theStationPoint.IsBackup();

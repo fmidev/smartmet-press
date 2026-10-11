@@ -2035,6 +2035,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   {
     // srand(static_cast<unsigned int>(value)); PressProduktiin
     value += static_cast<float>(GetRandomInterval()) *
+             // NOLINTNEXTLINE(cert-msc50-cpp): rand() is not used for security here
              static_cast<float>((static_cast<float>(rand()) / RAND_MAX - 0.5));
     // value += static_cast<float>(GetRandomInterval() * (rand()/RAND_MAX -0.5)); //ei toimi?
   }
@@ -2334,6 +2335,7 @@ bool NFmiParamRect::RandomModify(float &theValue, unsigned long theParIdent) con
 bool NFmiParamRect::Randomize(float &theValue, float theInterval, float theMin, float theMax) const
 {
   // theValue += theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+  // NOLINTNEXTLINE(cert-msc50-cpp): rand() is not used for security here
   theValue += static_cast<float>(theInterval * (static_cast<float>(rand()) / RAND_MAX - 0.5));
   theValue = max(theMin, min(theMax, theValue));
   return true;
@@ -2353,6 +2355,7 @@ bool NFmiParamRect::RandomizeRelatively(float &theValue,
                                         float theMax) const
 {
   // theValue *= 1. + theInterval * (static_cast<float>(rand())/RAND_MAX - 0.5);
+  // NOLINTNEXTLINE(cert-msc50-cpp): rand() is not used for security here
   theValue *= static_cast<float>(1. + theInterval * (static_cast<float>(rand()) / RAND_MAX - 0.5));
   theValue = max(theMin, min(theMax, theValue));
   return true;

@@ -3134,6 +3134,7 @@ void NFmiPressProduct::ReadPalette()
 bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 {
   // kutsutaan aina vaikka harvoin tarvitaan
+  // NOLINTNEXTLINE(cert-msc32-c,cert-msc51-cpp): the seed is not used for security
   srand(static_cast<unsigned int>(time(nullptr)));
 
   itsNumOfWritePS++;

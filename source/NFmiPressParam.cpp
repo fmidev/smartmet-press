@@ -1772,10 +1772,14 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           if (itsArea.GetArea())
           {
             bool errReported = false;
-            for (x = xStart; x <= xStop; x += xIncr)
+            // The coordinates are computed from the indexes: the body converts
+            // x and y in place, which used to corrupt the accumulated loop values
+            for (int nx = 0; xStart + nx * xIncr <= xStop; nx++)
             {
-              for (y = yStart; y <= yStop; y += yIncr)
+              for (int ny = 0; yStart + ny * yIncr <= yStop; ny++)
               {
+                x = xStart + nx * xIncr;
+                y = yStart + ny * yIncr;
                 if (fCoordinatesFromMainMap)
                 {
                   NFmiArea *mainArea = itsPressProduct->itsMainArea;
