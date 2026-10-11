@@ -44,7 +44,7 @@ class NFmiPressDataObject
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDataObject::~NFmiPressDataObject() {}
+inline NFmiPressDataObject::~NFmiPressDataObject() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

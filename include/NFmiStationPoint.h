@@ -97,7 +97,7 @@ class NFmiStationPoint : public NFmiStation, public NFmiDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiStationPoint::~NFmiStationPoint() {}
+inline NFmiStationPoint::~NFmiStationPoint() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

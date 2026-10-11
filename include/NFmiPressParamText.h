@@ -45,7 +45,7 @@ class NFmiPressParamText : public NFmiPressText, public NFmiPressDataObject
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressParamText::~NFmiPressParamText() {}
+inline NFmiPressParamText::~NFmiPressParamText() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

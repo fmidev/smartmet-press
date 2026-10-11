@@ -77,7 +77,7 @@ class NFmiPressManager : public NFmiPressTimeDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressManager::~NFmiPressManager() {}
+inline NFmiPressManager::~NFmiPressManager() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

@@ -145,7 +145,7 @@ class NFmiPressDescription : public NFmiDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDescription::~NFmiPressDescription() {}
+inline NFmiPressDescription::~NFmiPressDescription() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

@@ -458,7 +458,7 @@ class NFmiDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiDescription::~NFmiDescription() {}
+inline NFmiDescription::~NFmiDescription() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

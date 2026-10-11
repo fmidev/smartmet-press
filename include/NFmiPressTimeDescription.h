@@ -152,7 +152,7 @@ class NFmiPressTimeDescription : public NFmiPressDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressTimeDescription::~NFmiPressTimeDescription() {}
+inline NFmiPressTimeDescription::~NFmiPressTimeDescription() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor

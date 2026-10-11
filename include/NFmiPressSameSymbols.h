@@ -75,7 +75,7 @@ class NFmiPressSameSymbols : public NFmiPressDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressSameSymbols::~NFmiPressSameSymbols() {}
+inline NFmiPressSameSymbols::~NFmiPressSameSymbols() = default;
 // ----------------------------------------------------------------------
 /*!
  * Void constructor
