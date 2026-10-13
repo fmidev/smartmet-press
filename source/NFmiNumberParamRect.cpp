@@ -308,7 +308,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       *itsLogFile << "  backup station used for #Number" << endl;
   }
 
-  float value;
+  float value = kFloatMissing;
 
   if (!ActiveStationIndex(itsPressParam->GetCurrentStationStep()))
   {

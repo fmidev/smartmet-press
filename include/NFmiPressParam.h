@@ -295,7 +295,7 @@ inline NFmiPressParam::~NFmiPressParam()
   if (itsDataIter)
     delete itsDataIter;
   if (itsPrimaryDataIter)
-    delete itsDataIter;
+    delete itsPrimaryDataIter;
   if (itsAreaMask)
     delete itsAreaMask;
   if (itsOptionLocation)

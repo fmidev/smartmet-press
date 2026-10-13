@@ -53,12 +53,12 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
 {
   // toistaiseksi vain ykj-projektio
 
-  double blLon, blLat, trLon, trLat;
+  double blLon = 0, blLat = 0, trLon = 0, trLat = 0;
 
   // HUOM lonLat on alavasen ja yläoikea mutta xy:t ylävasen ja alaoikea
-  double tlX, tlY, brX, brY;
+  double tlX = 0, tlY = 0, brX = 0, brY = 0;
 
-  double tlwX, tlwY, brwX, brwY;  // world
+  double tlwX = 0, tlwY = 0, brwX = 0, brwY = 0;  // world
   double trueLat = 0.0;
   trLat = brY = brwY = kFloatMissing;
   NFmiString helpString, helpString2;

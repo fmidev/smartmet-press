@@ -144,8 +144,7 @@ bool NFmiTextParamRect::ReadRemaining()
         interval.itsBottomValue = r1 - intervalEps;
         interval.itsTopValue = r2 + intervalEps;
 
-        auto* mappingName = new NFmiString(itsObject);
-        interval.itsSymbol = *mappingName;
+        interval.itsSymbol = NFmiString(itsObject);
         itsMapping->AddMappingInterval(interval);
       }
 

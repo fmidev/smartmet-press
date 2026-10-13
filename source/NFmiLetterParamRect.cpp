@@ -283,7 +283,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       *itsLogFile << "  backup station used for text element" << endl;
   }
 
-  bool isMax;
+  bool isMax = false;
   if (IsMaxMinPlotting())
   {
     if (!PointOnParam(theQI, GetDataIdent().GetParam()))

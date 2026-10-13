@@ -56,7 +56,7 @@ bool NFmiPressDescription::ReadRemaining()
 {
   // tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
   FmiRGBColor rgb = FmiRGBColor();
-  double r1, r2, r3, r4;
+  double r1 = 0, r2 = 0, r3 = 0, r4 = 0;
   float f1;
   unsigned int i1 = 0;
   unsigned long helpLong = 0;

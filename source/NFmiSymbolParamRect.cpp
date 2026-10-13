@@ -734,7 +734,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     return true;
   }
 
-  bool isMax;
+  bool isMax = false;
   NFmiPoint correctedPoint;
 
   if (IsMaxMinPlotting())
