@@ -380,7 +380,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   {
     if (itsIdentPar == 4 && !itsMultiMapping)
     {
-      if (fModifierUsed)
+      if (fModifierUsed && itsLogFile)
       {
         *itsLogFile
             << "*** WARNING: sum after other similar command (#Symbol, OptimizeWorldObservations)"

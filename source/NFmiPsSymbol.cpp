@@ -80,7 +80,8 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest()
   fileName += itsSymbol;
   fileName += NFmiString(".ps");
 
-  *itsLogFile << "*** INFO: Use " << fileName << endl;
+  if (itsLogFile)
+    *itsLogFile << "*** INFO: Use " << fileName << endl;
 
   if (itsInFile)
     delete itsInFile;

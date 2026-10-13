@@ -54,6 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 - Declare member functions and parameters const where nothing is modified (const correctness), no functional changes
 - Requires 26.10.13 versions of newbase due to their ABI changes
 - Fixed a double delete of the data iterator and a leak of mapping names, initialize values that could be used uninitialized
+- Do not write to the log file when none has been set
 
 * Sun Oct 11 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.11-1.fmi
 - Invalid numbers are now detected instead of silently becoming 0 or a numeric prefix

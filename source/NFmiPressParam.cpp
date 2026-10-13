@@ -2591,7 +2591,7 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
       *itsLogFile << "  data: first one defined in the product" << endl;
   }
 
-  if (itsPrimaryDataName.IsValue())
+  if (itsLogFile && itsPrimaryDataName.IsValue())
     *itsLogFile << "  primary data: " << static_cast<char *>(itsPrimaryDataName) << endl;
 
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
