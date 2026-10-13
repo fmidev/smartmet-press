@@ -2557,7 +2557,7 @@ bool NFmiPressParam::CreateStationFromAreaMask()
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressParam::WritePS(NFmiRectScale theScale,
+bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
                              ofstream &theFile,
                              FmiPressOutputMode theOutput)
 {

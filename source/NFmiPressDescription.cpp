@@ -368,7 +368,7 @@ int NFmiPressDescription::ConvertDefText(NFmiString &object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressDescription::IsPureBlack()
+bool NFmiPressDescription::IsPureBlack() const
 {
   return (GetColor().color.cmyk.cyan <= 0. && GetColor().color.cmyk.magenta <= 0. &&
           GetColor().color.cmyk.yellow <= 0. && GetColor().color.cmyk.black >= 1.);

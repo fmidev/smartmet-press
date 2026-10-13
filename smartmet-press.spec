@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 26.10.11
+Version: 26.10.13
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -19,9 +19,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 26.10.11
+BuildRequires: smartmet-library-newbase-devel >= 26.10.13
 BuildRequires: %{smartmet_boost}-devel
-Requires: smartmet-library-newbase >= 26.10.11
+Requires: smartmet-library-newbase >= 26.10.13
 Requires: %{smartmet_boost}-iostreams
 Requires: %{smartmet_boost}-filesystem
 Requires: %{smartmet_boost}-system
@@ -50,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/qdpress.1.gz
 
 %changelog
+* Tue Oct 13 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.13-1.fmi
+- Declare member functions and parameters const where nothing is modified (const correctness), no functional changes
+- Requires 26.10.13 versions of newbase due to their ABI changes
+
 * Sun Oct 11 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.11-1.fmi
 - Invalid numbers are now detected instead of silently becoming 0 or a numeric prefix
 - Floating point loops use integer counters, so rounding no longer drops or adds iterations

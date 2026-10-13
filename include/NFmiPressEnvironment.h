@@ -56,7 +56,7 @@ class NFmiPressEnvironment
   FmiGenericColor GetColor() const;
   bool GetLongNumberMinus() const;
   void SetDayAdvance(long theDayAdvance);
-  long GetDayAdvance();
+  long GetDayAdvance() const;
   int GetVersion() const;
   NFmiString GetSymbolSet() const;
   void SetSymbolSet(const NFmiString& symbolSet);
@@ -583,7 +583,7 @@ inline void NFmiPressEnvironment::SetDayAdvance(long theDayAdvance)
  */
 // ----------------------------------------------------------------------
 
-inline long NFmiPressEnvironment::GetDayAdvance()
+inline long NFmiPressEnvironment::GetDayAdvance() const
 {
   return itsAdditionalDayAdvance;
 }

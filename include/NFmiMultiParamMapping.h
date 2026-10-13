@@ -57,7 +57,7 @@ class NFmiMultiParamMapping : public NFmiSize
   NFmiString* GetMissing() const;
 
   void NumOfParams(short num);
-  short NumOfParams();
+  short NumOfParams() const;
   bool IsIncomplete() const;
   bool Complete(float theOldValue, float theNewValue);
   void SetComplete();
@@ -125,7 +125,7 @@ inline void NFmiMultiParamMapping::NumOfParams(short num)
  */
 // ----------------------------------------------------------------------
 
-inline short NFmiMultiParamMapping::NumOfParams()
+inline short NFmiMultiParamMapping::NumOfParams() const
 {
   return itsNumOfParams;
 }

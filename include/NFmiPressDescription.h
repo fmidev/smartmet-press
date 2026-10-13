@@ -102,7 +102,7 @@ class NFmiPressDescription : public NFmiDescription
 
   FmiGenericColor GetColor() const;
   void SetColor(const FmiGenericColor& theColor);
-  bool IsPureBlack();
+  bool IsPureBlack() const;
   NFmiString GetFont() const;
   void SetFont(const NFmiString& font);
   double GetTextSize() const;

@@ -106,7 +106,7 @@ NFmiSymbolGroup::NFmiSymbolGroup(NFmiPressParam* pressParam,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiSymbolGroup::Set(NFmiRectScale &theRectScale,
+bool NFmiSymbolGroup::Set(const NFmiRectScale& theRectScale,
                           NFmiFastQueryInfo *theQueryDataIter,
                           ofstream &theDestinationFile)
 {

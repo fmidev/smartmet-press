@@ -125,7 +125,7 @@ class NFmiPressParam : public NFmiPressTimeDescription
                  const unsigned long producer,
                  NFmiPressProduct* pressProduct);
 
-  bool WritePS(NFmiRectScale theScale, std::ofstream& theFile, FmiPressOutputMode theOutput);
+  bool WritePS(const NFmiRectScale& theScale, std::ofstream& theFile, FmiPressOutputMode theOutput);
 
   bool SetData(const NFmiString& dataName);
   bool SetPrimaryData(const NFmiString& dataName);
@@ -163,12 +163,12 @@ class NFmiPressParam : public NFmiPressTimeDescription
   void SetOptionLocation(NFmiLocation theLocation);
   void SetEncoding(std::string theEncoding);
   void DeleteOptionLocation();
-  bool IsAreaOperation();
+  bool IsAreaOperation() const;
   NFmiArea* GetGeoArea();
   bool ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnumSpace);
   void PutInStorage(const float value, int storageQueue);
   float UseFromStorage(int storageQueue);
-  FmiCounter GetCurrentStep();
+  FmiCounter GetCurrentStep() const;
   bool IsActive() const;
   void SetActivity(bool theActivity);
   bool IsDistanceCheck() const;
@@ -184,7 +184,7 @@ class NFmiPressParam : public NFmiPressTimeDescription
   bool IsBackupStation() const;
   bool SetStationNotNeeded();
   NFmiPoint GetCurrentUnscaledPoint() const;
-  void SetCurrentStationLonLat(NFmiPoint& theLonLat);
+  void SetCurrentStationLonLat(const NFmiPoint& theLonLat);
   void SetStationNamesAfterParams(bool theStatus);
   bool IsStationNamesAfterParams() const;
   NFmiFastQueryInfo* GetPrimaryDataIter() const;
@@ -932,7 +932,7 @@ inline void NFmiPressParam::DeleteOptionLocation()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressParam::IsAreaOperation()
+inline bool NFmiPressParam::IsAreaOperation() const
 {
   return fIsAreaOperation;
 }
@@ -956,7 +956,7 @@ inline NFmiArea* NFmiPressParam::GetGeoArea()
  */
 // ----------------------------------------------------------------------
 
-inline FmiCounter NFmiPressParam::GetCurrentStep()
+inline FmiCounter NFmiPressParam::GetCurrentStep() const
 {
   return itsCurrentStep;
 }
@@ -981,7 +981,7 @@ inline void NFmiPressParam::UnsetAllErrorReported()
  * \return Undocumented
  */
 // ----------------------------------------------------------------------
-inline void NFmiPressParam::SetCurrentStationLonLat(NFmiPoint& theLonLat)
+inline void NFmiPressParam::SetCurrentStationLonLat(const NFmiPoint& theLonLat)
 {
   itsCurrentStation.SetLatitude(theLonLat.Y());
   itsCurrentStation.SetLongitude(theLonLat.X());

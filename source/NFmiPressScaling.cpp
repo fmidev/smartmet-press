@@ -42,7 +42,7 @@ NFmiPressScaling::NFmiPressScaling(const NFmiPressScaling& thePsSymbol) = defaul
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressScaling::Set(NFmiRectScale &theScale, ofstream &theDestinationFile)
+bool NFmiPressScaling::Set(const NFmiRectScale& theScale, ofstream& theDestinationFile)
 {
   itsRectScale = theScale;
   itsOutFile = &theDestinationFile;

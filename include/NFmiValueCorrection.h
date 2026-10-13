@@ -55,8 +55,8 @@ class NFmiValueCorrection
   NFmiValueCorrection();
   virtual ~NFmiValueCorrection();
   void SetFiles(const std::string& theFile, std::ofstream* theLogFile);
-  bool IsRead();
-  bool IsMissing();
+  bool IsRead() const;
+  bool IsMissing() const;
   bool CorrectValue(float& thevalue, const NFmiString& theStation, bool dayTime);
 
  private:
@@ -92,7 +92,7 @@ inline NFmiValueCorrection::NFmiValueCorrection()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiValueCorrection::IsRead()
+inline bool NFmiValueCorrection::IsRead() const
 {
   return fRead;
 }
@@ -104,7 +104,7 @@ inline bool NFmiValueCorrection::IsRead()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiValueCorrection::IsMissing()
+inline bool NFmiValueCorrection::IsMissing() const
 {
   return fMissing;
 }

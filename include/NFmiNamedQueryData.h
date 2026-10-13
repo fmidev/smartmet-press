@@ -35,9 +35,9 @@ class NFmiNamedQueryData
   void SetData(NFmiQueryData* theData);
   NFmiQueryData* GetData();
   NFmiString GetName();
-  bool IsMandatory();
-  bool IsNewest();
-  bool IsYearData();
+  bool IsMandatory() const;
+  bool IsNewest() const;
+  bool IsYearData() const;
 
  private:
   NFmiQueryData* itsData;
@@ -135,7 +135,7 @@ inline NFmiString NFmiNamedQueryData::GetName()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsMandatory()
+inline bool NFmiNamedQueryData::IsMandatory() const
 {
   return fMandatory;
 }
@@ -147,7 +147,7 @@ inline bool NFmiNamedQueryData::IsMandatory()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsNewest()
+inline bool NFmiNamedQueryData::IsNewest() const
 {
   return fNewest;
 }
@@ -159,7 +159,7 @@ inline bool NFmiNamedQueryData::IsNewest()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiNamedQueryData::IsYearData()
+inline bool NFmiNamedQueryData::IsYearData() const
 {
   return fYearData;
 }

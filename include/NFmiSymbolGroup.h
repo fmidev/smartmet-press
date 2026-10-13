@@ -46,7 +46,7 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
   bool SetPressParam(NFmiPressParam* param);
   bool SetProducer(unsigned int producer);
 
-  bool Set(NFmiRectScale& theRectScale,
+  bool Set(const NFmiRectScale& theRectScale,
            NFmiFastQueryInfo* theQueryDataIter,
            std::ofstream& theDestinationFile);
 

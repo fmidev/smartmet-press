@@ -2496,7 +2496,7 @@ bool NFmiParamRect::IsMissingLonLat()
   return itsPressParam->GetCurrentStation().GetLongitude() == kFloatMissing;
 }
 // ----------------------------------------------------------------------
-bool NFmiParamRect::IsDayNightString(NFmiString &theSymbolName) const
+bool NFmiParamRect::IsDayNightString(const NFmiString& theSymbolName) const
 {
   NFmiString symbolName(theSymbolName);
   symbolName.LowerCase();

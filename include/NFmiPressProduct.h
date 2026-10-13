@@ -154,7 +154,7 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   bool DefinePar(const NFmiString& theString);
   bool ReplacePar(NFmiString& theString);
   bool ReadNameToLonLatList();
-  bool FindLonLatFromList(NFmiString& theStationName, NFmiPoint& theLonLat);
+  bool FindLonLatFromList(const NFmiString& theStationName, NFmiPoint& theLonLat);
   unsigned long FindWmoFromList(const NFmiString& theStationName);
   bool Close();
   NFmiString GetInFileName() const;
@@ -171,9 +171,9 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   bool SetSegmentTimeStatus(int theSegmentNum, bool theStatus);
   bool GetSegmentTimeStatus(int theSegmentNum) const;
   void SetSupplementMode(bool theMode);
-  bool GetSupplementMode();
+  bool GetSupplementMode() const;
   bool AddSubstituteMappingValue(float theOldValue, float theNewValue);
-  NFmiString CutOffString(NFmiString& theString, int toMaxChars) const;
+  NFmiString CutOffString(const NFmiString& theString, int toMaxChars) const;
 
  protected:
   void StepMap();
@@ -386,7 +386,7 @@ inline void NFmiPressProduct::SetSupplementMode(bool theMode)
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressProduct::GetSupplementMode()
+inline bool NFmiPressProduct::GetSupplementMode() const
 {
   return fSupplementMode;
 }

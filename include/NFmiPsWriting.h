@@ -66,7 +66,7 @@ class NFmiPsWriting
   bool IsToWriteLast() const;
   void SetWriteLast(bool theWriteLat);
   void SetLineFeed(bool theValue);
-  bool IsLineFeed();
+  bool IsLineFeed() const;
 
  protected:
   bool fActivity;
@@ -110,7 +110,7 @@ inline NFmiPsWriting::NFmiPsWriting()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPsWriting::IsLineFeed()
+inline bool NFmiPsWriting::IsLineFeed() const
 {
   return fLineFeed;
 }

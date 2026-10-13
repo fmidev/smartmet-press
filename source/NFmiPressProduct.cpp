@@ -119,7 +119,7 @@ NFmiPressProduct::~NFmiPressProduct()
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiPressProduct::CutOffString(NFmiString &theString, int toMaxChars) const
+NFmiString NFmiPressProduct::CutOffString(const NFmiString& theString, int toMaxChars) const
 {
   NFmiString outString(theString);
   unsigned long lastPos1, lastPos2, lastPos;
@@ -807,7 +807,7 @@ bool NFmiPressProduct::ReadNameToLonLatList()
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::FindLonLatFromList(NFmiString &theStationName, NFmiPoint &theLonLat)
+bool NFmiPressProduct::FindLonLatFromList(const NFmiString& theStationName, NFmiPoint& theLonLat)
 {
   if (itsNameToLonLat->Empty())
   {

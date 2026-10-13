@@ -64,7 +64,7 @@ class NFmiPressImage : public NFmiPressScaling
   void SetPressProduct(NFmiPressProduct* thePressProductOwner);
   NFmiPressProduct* GetPressProduct() const;
   void SetRelHoursFromFirst(int theRelHoursFromFirst);
-  int GetRelHoursFromFirst();
+  int GetRelHoursFromFirst() const;
 
  protected:
   NFmiFileString itsPath;
@@ -109,7 +109,7 @@ inline void NFmiPressImage::SetRelHoursFromFirst(int theRelHoursFromFirst)
  */
 // ----------------------------------------------------------------------
 
-inline int NFmiPressImage::GetRelHoursFromFirst()
+inline int NFmiPressImage::GetRelHoursFromFirst() const
 {
   return itsRelHoursFromFirst;
 }

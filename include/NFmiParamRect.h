@@ -151,7 +151,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   void InitMissing();
   int ConvertDefText(NFmiString& object) override;
 
-  bool IsNewScaling();
+  bool IsNewScaling() const;
   void SetNewScaling(bool newScaling);
   virtual void SetLanguage(FmiLanguage language);
   bool UpdateModifierTimes();
@@ -160,7 +160,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   void SetMaxCorrection();
   void SetMinCorrection();
   void SetIdentPar(unsigned long theIdentPar);
-  unsigned long GetIdentPar();
+  unsigned long GetIdentPar() const;
   unsigned long GetPrimaryDataNum() const;
   void SetAlternatingSizeFactor(float theFactor);
 
@@ -190,7 +190,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   bool IsMissingLonLat();
   bool IsMoonPhase() const;
   void SetMoonPhase();
-  bool IsDayNightString(NFmiString& theSymbolName) const;
+  bool IsDayNightString(const NFmiString& theSymbolName) const;
   float GetAlternatingSizeFactor() const;
 
  private:
@@ -506,7 +506,7 @@ inline void NFmiParamRect::SetIdentPar(unsigned long theIdentPar)
  */
 // ----------------------------------------------------------------------
 
-inline unsigned long NFmiParamRect::GetIdentPar()
+inline unsigned long NFmiParamRect::GetIdentPar() const
 {
   return itsIdentPar;
 }
@@ -593,7 +593,7 @@ inline void NFmiParamRect::InitMissing()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiParamRect::IsNewScaling()
+inline bool NFmiParamRect::IsNewScaling() const
 {
   return fNewScaling;
 }

@@ -66,14 +66,14 @@ class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
   bool SetSize(const NFmiPoint& theSize);
   bool SetHeight(double theHeight);
   double GetHeight() const;
-  bool Set(NFmiRectScale& theRectScale, std::ofstream& theDestinationFile);
+  bool Set(const NFmiRectScale& theRectScale, std::ofstream& theDestinationFile);
   bool SetScale(const NFmiRectScale& theRectScale);
   void Place(const NFmiPoint& thePlace);
   virtual void Move(const NFmiPoint& addPlace);
   NFmiPoint Place();
   void SetPrintOnceOn();
   void ScaleNotPlace();
-  bool GetPrintOnce();
+  bool GetPrintOnce() const;
   virtual bool IsInParagraph();
   virtual double GetLineStep() const;
   virtual void SetLastLineStep(double step);
@@ -281,7 +281,7 @@ inline void NFmiPressScaling::ScaleNotPlace()
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressScaling::GetPrintOnce()
+inline bool NFmiPressScaling::GetPrintOnce() const
 {
   return fPrintOnce;
 }
