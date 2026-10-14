@@ -10,8 +10,10 @@
 #endif
 
 #include "NFmiPressScaling.h"
+
 #include "NFmiPressTime.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -74,7 +76,7 @@ bool NFmiPressScaling::SetScale(const NFmiRectScale &theScale)
 
 bool NFmiPressScaling::ReadRemaining()
 {
-  double r1, r2, r3;
+  double r1 = NAN, r2 = NAN, r3 = NAN;
   NFmiValueString valueString;
   switch (itsIntObject)
   {

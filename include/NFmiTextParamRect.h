@@ -106,19 +106,19 @@ class NFmiTextParamRect : public NFmiParamRect
  protected:
   NFmiString itsAddInFront;
   NFmiString itsAddAfter;
-  bool fUseSelectLatinFont;
-  bool fParenthesis;
-  NFmiParamMapping* itsMapping;
+  bool fUseSelectLatinFont = false;
+  bool fParenthesis = false;
+  NFmiParamMapping* itsMapping = nullptr;
   FmiPressColorMapping itsColorMapping[maxNumOfColMaps];
-  unsigned long itsCurrentNumOfColMaps;
-  double itsRelCharWidth;
-  double itsWidthFactor;
-  bool fAddStationName;
-  bool fUpperCase;
-  bool fLowerCase;
-  bool fFirstUpperCase;
-  unsigned long itsMaxLen;
-  bool fFillWithUnderscore;
+  unsigned long itsCurrentNumOfColMaps = 0;
+  double itsRelCharWidth = 0.;
+  double itsWidthFactor = 1.;
+  bool fAddStationName = false;
+  bool fUpperCase = false;
+  bool fLowerCase = false;
+  bool fFirstUpperCase = false;
+  unsigned long itsMaxLen = 0;
+  bool fFillWithUnderscore = false;
 };
 
 // ----------------------------------------------------------------------
@@ -127,22 +127,7 @@ class NFmiTextParamRect : public NFmiParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiTextParamRect::NFmiTextParamRect()
-    : NFmiParamRect(),
-      fUseSelectLatinFont(false),
-      fParenthesis(false),
-      itsMapping(nullptr),
-      itsCurrentNumOfColMaps(0),
-      itsRelCharWidth(0.),
-      itsWidthFactor(1.),
-      fAddStationName(false),
-      fUpperCase(false),
-      fLowerCase(false),
-      fFirstUpperCase(false),
-      itsMaxLen(0),
-      fFillWithUnderscore(false)
-{
-}
+inline NFmiTextParamRect::NFmiTextParamRect() {}
 
 #endif  // NFMITEXTPARAMRECT_H
 

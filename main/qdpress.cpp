@@ -17,6 +17,7 @@
 #endif
 
 // press
+#include "NFmiPressErrors.h"
 #include "NFmiPressManager.h"
 // newbase
 #include "NFmiCmdLine.h"
@@ -39,6 +40,8 @@ using namespace std;
 
 list<string> errors;
 
+namespace
+{
 void usage()
 {
   cout << "Usage: qdpress [options] prefile" << endl
@@ -170,8 +173,8 @@ int domain(int argc, const char** argv)
 
   NFmiFileString descriptionFile(cmdLine.Parameter(1));
 
-  bool ok;
-  bool managerReadFailed;
+  bool ok = false;
+  bool managerReadFailed = false;
 
   if (descriptionFile.Extension() == dataExt[0] || descriptionFile.Extension() == dataExt[1] ||
       descriptionFile.Extension() == dataExt[2] || descriptionFile.Extension() == dataExt[3])
@@ -205,6 +208,7 @@ int domain(int argc, const char** argv)
 
   throw runtime_error("Tuntematon tiedostotyyppi");
 }
+}  // namespace
 
 int main(int argc, const char** argv)
 {

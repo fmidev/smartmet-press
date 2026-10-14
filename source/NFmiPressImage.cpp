@@ -18,7 +18,7 @@
 #include <list>
 #include <string>
 
-extern std::list<std::string> errors;
+#include "NFmiPressErrors.h"
 
 using namespace std;
 
@@ -29,7 +29,6 @@ using namespace std;
 // ----------------------------------------------------------------------
 
 NFmiPressImage::NFmiPressImage()
-    : NFmiPressScaling(), itsPressProduct(nullptr), itsRelHoursFromFirst(0), itsShear(0.)
 {
   NFmiPoint point1 = NFmiPoint(0., 0.);
   NFmiPoint point2 = NFmiPoint(600., 750.);
@@ -52,8 +51,7 @@ NFmiPressImage::~NFmiPressImage(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiPressImage::NFmiPressImage(const NFmiPressImage& thePressImage)
-    : NFmiPressScaling(),
-      itsPath(thePressImage.itsPath),
+    : itsPath(thePressImage.itsPath),
       itsImageScale(thePressImage.itsImageScale),
       itsClippingRect(thePressImage.itsClippingRect),
       itsClippingPoints(thePressImage.itsClippingPoints),
@@ -206,7 +204,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
           if (timeStamp)
           {
             timeStamp = false;
-            int relHour;
+            int relHour = 0;
             if (ReadOne(relHour))
             {  // HUOM imagea käsitellään eikä this
               NFmiMetTime firstTime = image->GetFirstPlotTime();
@@ -232,7 +230,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
             tempRect += NFmiPoint(r1, r2);
             image->SetClippingRect(tempRect);
           }
-          if (itsClippingPoints.size() > 0)
+          if (!itsClippingPoints.empty())
           {
             std::vector<NFmiPoint> tempVector(itsClippingPoints);
 
@@ -713,7 +711,6 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 
   ScalePlotting();
 
-  if (itsInFile)
     delete itsInFile;
   itsInFile = new ifstream;
 
@@ -772,7 +769,7 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 
     if (!itsClippingRect.IsEmpty())
       WriteEPSConcatClipping(itsClippingRect);
-    else if (itsClippingPoints.size() > 0)
+    else if (!itsClippingPoints.empty())
       WriteEPSConcatClipping(itsClippingPoints);
     else
       WriteEPSConcat();

@@ -10,6 +10,7 @@
 #endif
 
 #include "NFmiParamRect.h"
+
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
 
@@ -50,7 +51,7 @@ NFmiParamRect::~NFmiParamRect()
     delete[] itsMultiParams;
     delete itsMultiMapping;
   }
-  if (itsMissingString)
+
     delete itsMissingString;
 }
 
@@ -62,9 +63,8 @@ NFmiParamRect::~NFmiParamRect()
  */
 // ----------------------------------------------------------------------
 
-NFmiParamRect::NFmiParamRect(const NFmiParamRect &theRect)
+NFmiParamRect::NFmiParamRect(const NFmiParamRect& theRect)
     : NFmiRect(NFmiRect(theRect.TopLeft(), theRect.BottomRight())),
-      NFmiPressTimeDescription(),
       fModifierUsed(theRect.fModifierUsed),
       itsInterval2NumberMin(theRect.itsInterval2NumberMin),
       itsInterval2NumberMax(theRect.itsInterval2NumberMax),
@@ -236,12 +236,10 @@ bool NFmiParamRect::ActiveStationIndex(int currentInd) const
 {
   // vain TimeParamRectin käytössä toistaiseksi
 
-  if (itsStationLoopActivity.startIndex < 1 ||
-      ((currentInd - itsStationLoopActivity.startIndex) % itsStationLoopActivity.step == 0 &&
-       currentInd >= static_cast<int>(itsStationLoopActivity.startIndex) &&
-       currentInd <= static_cast<int>(itsStationLoopActivity.stopIndex)))
-    return true;
-  return false;
+  return itsStationLoopActivity.startIndex < 1 ||
+         ((currentInd - itsStationLoopActivity.startIndex) % itsStationLoopActivity.step == 0 &&
+          currentInd >= static_cast<int>(itsStationLoopActivity.startIndex) &&
+          currentInd <= static_cast<int>(itsStationLoopActivity.stopIndex));
 }
 // ----------------------------------------------------------------------
 /*!
@@ -256,7 +254,7 @@ int NFmiParamRect::NumOfMappingParams()
   if (!itsMultiMapping)
     return 0;
 
-  int i;
+  int i = 0;
   for (i = 0; i < FmiMaxNumOfMappingParams; i++)
   {
     if (itsMultiParams[i] == kFmiLastParameter)
@@ -275,8 +273,8 @@ int NFmiParamRect::NumOfMappingParams()
 
 bool NFmiParamRect::ReadRemaining()
 {
-  long long1, long2, long3;
-  float r1, r2, r3, r4;
+  long long1 = 0, long2 = 0, long3 = 0;
+  float r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
   NFmiValueString valueString;
   switch (itsIntObject)
   {
@@ -319,7 +317,7 @@ bool NFmiParamRect::ReadRemaining()
       itsMultiParams = new FmiParameterName[FmiMaxNumOfMappingParams + 1];
       itsCurrentParamArray.resize(FmiMaxNumOfMappingParams + 1, 0);
 
-      int i;
+      int i = 0;
       for (i = 0; i <= FmiMaxNumOfMappingParams; i++)
       {
         itsMultiParams[i] = kFmiLastParameter;
@@ -1209,7 +1207,7 @@ bool NFmiParamRect::ReadCurrentValue(NFmiFastQueryInfo *theQueryInfo,
   long timeDiff = newTime.DifferenceInHours(oldTime);
   fUseBackupTimeForward = timeDiff < 0;  // save in case of using backup times for missing values
 
-  if (itsPressParam->IsFirstStation() && !(itsMultiMapping && itsCurrentMultiParNum > 1) &&
+  if (itsPressParam->IsFirstStation() && (!itsMultiMapping || itsCurrentMultiParNum <= 1) &&
       itsPressParam->IsStationLocalTimeMode())
   {
     if (itsMultiMapping)
@@ -1225,11 +1223,9 @@ bool NFmiParamRect::ReadCurrentValue(NFmiFastQueryInfo *theQueryInfo,
                   << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
                   << " utc; par=" << par << endl;
     }
-    *itsLogFile
-        << "      -> nearest data-time= "
-        << static_cast<char *>(
-               (static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time().ToStr("DD.MM.YYYY HH"))
-        << " utc" << endl;
+    *itsLogFile << "      -> nearest data-time= "
+                << static_cast<char*>((theQueryInfo)->Time().ToStr("DD.MM.YYYY HH")) << " utc"
+                << endl;
   }
 
   if (IsMoonPhase())
@@ -1400,7 +1396,7 @@ int NFmiParamRect::WaWa2PresentWeather(int value, NFmiFastQueryInfo *theData)
 int NFmiParamRect::PreWeaWithPrecForm(int value, NFmiFastQueryInfo *theData)
 {
   // WaWa koodia varten lämpötila
-  int newValue;
+  int newValue = 0;
   if (!theData->Param(kFmiTemperature))
   {
     *itsLogFile << "  WARNING: No temperature for calculating WaWa" << endl;
@@ -1444,16 +1440,16 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   if (itsCurrentPar == kFmiChillFactor)
     par = kFmiChillFactor;
 
-  NFmiMetTime firstTime = (static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time();
+  NFmiMetTime firstTime = (theQueryInfo)->Time();
   NFmiMetTime lastTime = firstTime;
   NFmiDataModifier* modif = nullptr;
   NFmiDataModifier* areaModif = nullptr;
   NFmiDataModifierExtremePlace* placeModif = nullptr;  // pistedataan
   bool isExtremeModifier = false;
   unsigned long period = itsIntegrationPeriod.period;
-  float startWeight;
-  float centreWeight;
-  float endWeight;
+  float startWeight = NAN;
+  float centreWeight = NAN;
+  float endWeight = NAN;
 
   // tuulelle ei saa keskiarvoja; jos on moniparametri pitää modifieri kuitenkaan
   // taas olla voimassa seuraaville parametreille
@@ -1494,7 +1490,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
       // periodilla ei pitäisi olla väliä ??
     }
 
-    if (itsPressParam->IsFirstStation() && !(itsMultiMapping && itsCurrentMultiParNum > 1))
+    if (itsPressParam->IsFirstStation() && (!itsMultiMapping || itsCurrentMultiParNum <= 1))
     {
       *itsLogFile << "      ->time period= "
                   << static_cast<char *>(firstTime.ToStr("DD.MM.YYYY HH")) << " - "
@@ -1738,13 +1734,13 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
             par == kFmiPrecipitationForm || par == kFmiPrecipitation1h || par == 375) &&
            (actualModifier == kNoneModifier || actualModifier == kMean)))
       {
-        value = static_cast<float>(theQueryInfo->InterpolatedTimePeriodFloatValue(
+        value = theQueryInfo->InterpolatedTimePeriodFloatValue(
             itsPressParam->GetCurrentStation().GetLocation(),
             firstTime,
             lastTime,
             startWeight,
             centreWeight,
-            endWeight));
+            endWeight);
       }
       else  // ei painotettu aikakeskiarvo
       {
@@ -1875,11 +1871,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
         }
         else if (isExtremeModifier != kNoneModifier)  // pistedatasta ääriarvo
         {
-          theQueryInfo->CalcLocationDataWithExtremePlace(
-              static_cast<NFmiDataModifierExtremePlace *>(placeModif));
+          theQueryInfo->CalcLocationDataWithExtremePlace(placeModif);
           value = placeModif->CalculationResult();
-          if (!((itsCurrentPar == kFmiPrecipitationAmount && value <= 0.) ||
-                value == kFloatMissing))
+          if ((itsCurrentPar != kFmiPrecipitationAmount || value > 0.) && value != kFloatMissing)
             itsPressParam->SetOptionLocation(placeModif->GetLocation());
         }
         else
@@ -1973,7 +1967,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
                 : value;
 
   if (itsValueIntervalMin != kFloatMissing &&
-      (!(itsInterval2NumberMin != kFloatMissing && value == itsInterval2NumberValue)))
+      (itsInterval2NumberMin == kFloatMissing || value != itsInterval2NumberValue))
   {
     if (itsValueIntervalMin < itsValueIntervalMax)
       value = itsValueIntervalMin <= value && value <= itsValueIntervalMax ? value : kFloatMissing;
@@ -2034,7 +2028,7 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   if (IsRandom())
   {
     // srand(static_cast<unsigned int>(value)); PressProduktiin
-    value += static_cast<float>(GetRandomInterval()) *
+    value += GetRandomInterval() *
              // NOLINTNEXTLINE(cert-msc50-cpp): rand() is not used for security here
              static_cast<float>((static_cast<float>(rand()) / RAND_MAX - 0.5));
     // value += static_cast<float>(GetRandomInterval() * (rand()/RAND_MAX -0.5)); //ei toimi?
@@ -2053,12 +2047,11 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   }
   // tarkempi
   if (IsEquiDistanceAndCorrMode() &&
-      !(par == kFmiTemperature && itsMultiMapping && itsCurrentMultiParNum > 1))
+      (par != kFmiTemperature || !itsMultiMapping || itsCurrentMultiParNum <= 1))
     JustifyConturPlace(theQueryInfo, value);
 
-  if (modif)
     delete modif;
-  if (areaModif)
+
     delete areaModif;
 
   return true;
@@ -2100,7 +2093,7 @@ void NFmiParamRect::JustifyConturPlace(NFmiFastQueryInfo *theQueryInfo, float &v
       gradienPoint = ySwitched + NFmiPoint(-itsEquiRadius, 0.);
       gradientPoints[3] = itsPressParam->GetGeoArea()->ToLatLon(gradienPoint);
       float minDist = kFloatMissing;
-      float distValue, curDist;
+      float distValue = NAN, curDist = NAN;
       long help = static_cast<long>((value + (itsEquiDistance / 2.)) / itsEquiDistance);
       float plotValue = static_cast<float>(help) * itsEquiDistance;
       int dirInd = -1;
@@ -2176,8 +2169,7 @@ float NFmiParamRect::SunElevation(NFmiFastQueryInfo *theQueryInfo)
   else
     location = *(theQueryInfo->Location());
 
-  return static_cast<float>(
-      location.ElevationAngle((static_cast<NFmiFastQueryInfo *>(theQueryInfo))->Time()));
+  return static_cast<float>(location.ElevationAngle((theQueryInfo)->Time()));
 }
 
 // ----------------------------------------------------------------------
@@ -2252,7 +2244,7 @@ bool NFmiParamRect::ReadCurrentValueArray(NFmiFastQueryInfo *theQI)
       return false;
     }
 
-    float value;
+    float value = NAN;
 
     // osaparametrit saavat puuttua
     // jos signifikantti puuttuu multiMapping ilmoittaa
@@ -2387,14 +2379,14 @@ FmiInterpolationMethod NFmiParamRect::InterpolationMethod(NFmiFastQueryInfo *the
  */
 // ----------------------------------------------------------------------
 
-bool NFmiParamRect::SetStationLocalTime(NFmiFastQueryInfo *theQI)
+bool NFmiParamRect::SetStationLocalTime(NFmiFastQueryInfo* /*theQI*/)
 {
   // optio
   if (itsPressParam->IsStationLocalTimeMode())
   {
     // HUOM sama koodi ylläpidettävä NFmiTimeParamRect:ssä
 
-    double longitude;  // latitude;
+    double longitude = NAN;  // latitude;
     if (IsMissingLonLat())
     {
       *itsLogFile << "IsMissingLonLat() first" << endl;  // HUOM
@@ -2431,7 +2423,7 @@ bool NFmiParamRect::SetStationLocalTime(NFmiFastQueryInfo *theQI)
 // tällä hoidetaan se että alle vuorokaudenkin aikaluupit onnistuvat
 // alkioiden omilla tunneilla
 
-bool NFmiParamRect::SetRelativeHour(NFmiFastQueryInfo *data, const NFmiString &calledFrom)
+bool NFmiParamRect::SetRelativeHour(NFmiFastQueryInfo* /*data*/, const NFmiString& calledFrom)
 {
   if (RelativeHour() != 0)
   {
@@ -2475,7 +2467,7 @@ bool NFmiParamRect::CompleteMultiMapping()
 {
   if (itsMultiMapping->IsIncomplete())
   {
-    std::map<float, float> *mapping;
+    std::map<float, float>* mapping = nullptr;
     mapping = &(itsPressParam->GetPressProduct()->itsSubstituteMappingValues);
     std::map<float, float>::iterator pos;
     for (pos = mapping->begin(); pos != mapping->end(); ++pos)

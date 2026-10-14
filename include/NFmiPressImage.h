@@ -72,7 +72,7 @@ class NFmiPressImage : public NFmiPressScaling
   NFmiRect itsClippingRect;
   std::vector<NFmiPoint> itsClippingPoints;
   // to be able to add recursively objects to the pressProducts object list:
-  NFmiPressProduct* itsPressProduct;  // not owner;
+  NFmiPressProduct* itsPressProduct = nullptr;  // not owner;
   void SetTempImageFile(const NFmiString& theFile);
   void SetImageScale(const NFmiRectScale& theScale);
   void SetClippingRect(const NFmiRect& theRect);
@@ -84,8 +84,8 @@ class NFmiPressImage : public NFmiPressScaling
   NFmiString itsFileWithoutTimeStamp;
   NFmiString itsTempImagePath;
   NFmiString itsTempImageDir;
-  int itsRelHoursFromFirst;
-  float itsShear;
+  int itsRelHoursFromFirst = 0;
+  float itsShear = 0.;
 
 };  // class NFmiPressImage
 

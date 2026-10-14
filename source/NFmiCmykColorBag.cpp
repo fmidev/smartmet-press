@@ -18,7 +18,7 @@
 NFmiCmykColorBag::~NFmiCmykColorBag()
 {
   if (itsColors)
-    delete[] static_cast<NFmiNamedCmykColor *>(itsColors);
+    delete[] itsColors;
 }
 
 // ----------------------------------------------------------------------
@@ -57,10 +57,10 @@ void NFmiCmykColorBag::AddColor(const NFmiNamedCmykColor &theColor)
   // Huom: ei tarkista alkioiden j‰rjestyst‰ tai onko samoja
   // alkioita jo ennest‰‰n. (lis‰‰ vain tyhm‰sti listan loppuun).
 
-  NFmiNamedCmykColor *tempColors;
+  NFmiNamedCmykColor* tempColors = nullptr;
   tempColors = new NFmiNamedCmykColor[GetSize() + 1];
 
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
     tempColors[j].color = itsColors[j].color;
@@ -71,7 +71,7 @@ void NFmiCmykColorBag::AddColor(const NFmiNamedCmykColor &theColor)
   tempColors[j].name = theColor.name;
 
   if (itsColors)
-    delete[] static_cast<NFmiNamedCmykColor *>(itsColors);
+    delete[] itsColors;
 
   itsColors = new NFmiNamedCmykColor[GetSize() + 1];
   itsSize = GetSize() + 1;
@@ -80,7 +80,7 @@ void NFmiCmykColorBag::AddColor(const NFmiNamedCmykColor &theColor)
     itsColors[j].color = tempColors[j].color;
     itsColors[j].name = tempColors[j].name;
   }
-  delete[] static_cast<NFmiNamedCmykColor *>(tempColors);
+  delete[] tempColors;
 }
 
 // ----------------------------------------------------------------------
@@ -98,7 +98,7 @@ void NFmiCmykColorBag::AddColor(const NFmiNamedCmykColor &theColor)
 
 NFmiCmykColor *NFmiCmykColorBag::GetColor(const NFmiString &theName) const
 {
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
     if (theName == itsColors[j].name)
@@ -125,7 +125,7 @@ NFmiCmykColor *NFmiCmykColorBag::GetColor(const NFmiString &theName) const
 
 NFmiString NFmiCmykColorBag::GetColorString(const NFmiString &theName) const
 {
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
     if (theName == itsColors[j].name)

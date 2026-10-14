@@ -43,7 +43,7 @@ class NFmiExtremeTimeParamRect : public NFmiTimeParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect() : NFmiTimeParamRect()
+inline NFmiExtremeTimeParamRect::NFmiExtremeTimeParamRect()
 {
   fUseSelectLatinFont = true;
 }

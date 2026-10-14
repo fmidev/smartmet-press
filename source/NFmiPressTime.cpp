@@ -176,7 +176,7 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
   int len = theTimeCode.GetLen();
   NFmiString str6, str4, str3, str2, str1, strh;
   NFmiValueString theString;
-  int plusInd, subPlusInd;
+  int plusInd = 0, subPlusInd = 0;
 
   while (ind <= len)
   {
@@ -324,7 +324,9 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
  */
 // ----------------------------------------------------------------------
 
-static const char *reldays[] = {"alivuoto",
+namespace
+{
+const char *reldays[] = {"alivuoto",
                                 "Toissapäivänä",
                                 "Eilen",
                                 "Tänään",
@@ -384,6 +386,7 @@ static const char *reldays[] = {"alivuoto",
                                 "Rit",
                                 "Parit",
                                 "ylivuoto"};
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!
@@ -412,7 +415,7 @@ NFmiString NFmiPressTime::RelativeDay(FmiLanguage theLanguage,
 
   if (theStr6.GetChars(5, 1) == NFmiString("+") || theStr6.GetChars(5, 1) == NFmiString("-"))
   {
-    int addDiff;
+    int addDiff = 0;
     NFmiValueString vString = NFmiValueString(theStr6);
     vString.ConvertToInt(addDiff, 5, 2);
     diff += -addDiff;

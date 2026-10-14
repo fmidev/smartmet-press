@@ -52,11 +52,10 @@ class NFmiNumberParamRect : public NFmiTextParamRect
  protected:
   FmiGenericColor MapColor() const override;
 
- protected:
   NFmiString itsFormat;
-  bool fZeroMinus;
-  bool fDetachSign;
-  bool fDotToComma;
+  bool fZeroMinus = false;
+  bool fDetachSign = false;
+  bool fDotToComma = false;
 
 };  // class NFmiNumberParamRect
 
@@ -66,14 +65,7 @@ class NFmiNumberParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiNumberParamRect::NFmiNumberParamRect()
-    : NFmiTextParamRect(),
-      itsFormat(NFmiString("%1.f")),
-      fZeroMinus(false),
-      fDetachSign(false),
-      fDotToComma(false)
-{
-}
+inline NFmiNumberParamRect::NFmiNumberParamRect() : itsFormat(NFmiString("%1.f")) {}
 
 #endif  // NFMINUMBERPARAMRECT_H
 

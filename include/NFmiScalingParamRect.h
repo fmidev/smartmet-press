@@ -63,7 +63,7 @@ class NFmiScalingParamRect : public NFmi2SymbolParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiScalingParamRect::NFmiScalingParamRect() : NFmi2SymbolParamRect()
+inline NFmiScalingParamRect::NFmiScalingParamRect()
 {
   itsXValueScaling.symbolValue = kFloatMissing;
   itsYValueScaling.symbolValue = kFloatMissing;

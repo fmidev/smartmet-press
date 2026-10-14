@@ -31,8 +31,8 @@ NFmiPressNameDay::~NFmiPressNameDay(void) = default;
 
 bool NFmiPressNameDay::ReadRemaining()
 {
-  unsigned long long1;
-  FmiCounter counter;
+  unsigned long long1 = 0;
+  FmiCounter counter = 0;
   switch (itsIntObject)
   {
     case dMaxLength:

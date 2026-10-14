@@ -10,7 +10,9 @@
 #endif
 
 #include "NFmiPressSameSymbols.h"
+
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -40,14 +42,14 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
   NFmiString dataFileName;
   NFmiString str;
   NFmiValueString valueString;
-  NFmiPoint *place;
+  NFmiPoint* place = nullptr;
   char object[255];
-  long long1;
-  unsigned short numOfTablePlaces, currentPlaceNum = 0;
+  long long1 = 0;
+  unsigned short numOfTablePlaces = 0, currentPlaceNum = 0;
   NFmiString string1;
   NFmiPoint point1;
-  double tableX = 0, tableY1 = 0, tableY2 = 0, x, y;
-  double xmin, xmax, ymin, ymax;
+  double tableX = 0, tableY1 = 0, tableY2 = 0, x = NAN, y = NAN;
+  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
 
   *itsDescriptionFile >> object;
   str = object;
@@ -266,7 +268,7 @@ bool NFmiPressSameSymbols::WritePS(ofstream &theOutFile)
 {
   itsPsSymbol.Set(itsScale, theOutFile);
   NFmiVoidPtrIterator placeIter(itsPlaces);
-  void *item;
+  void* item = nullptr;
   NFmiPoint place;
   NFmiPoint placeMovement;
 

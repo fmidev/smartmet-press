@@ -69,16 +69,15 @@ class NFmiSymbolParamRect : public NFmiParamRect
   bool RawSymbolToBeConverted(NFmiString* symbolFil);
   void UseDayNightSymbols();
 
- protected:
   NFmiString itsConstSymbol;  // #VakioSymbolia varten
-  bool fIsConstSymbol;        // #VakioSymbolia varten
+  bool fIsConstSymbol = false;  // #VakioSymbolia varten
   NFmiPoint itsSizeFactor;    // RotParr tarttee
-  NFmiParamMapping* itsMapping;
-  NFmiString* itsSubDir;
-  NFmiString* itsOrigDir;
+  NFmiParamMapping* itsMapping = nullptr;
+  NFmiString* itsSubDir = nullptr;
+  NFmiString* itsOrigDir = nullptr;
   NFmiString itsSymbolSetName;
   NFmiRectScale itsDefToProductScale;
-  bool fUseDayNightSymbols;
+  bool fUseDayNightSymbols = false;
 };  // class NFmiSymbolParamRect
 
 // ----------------------------------------------------------------------
@@ -88,14 +87,8 @@ class NFmiSymbolParamRect : public NFmiParamRect
 // ----------------------------------------------------------------------
 
 inline NFmiSymbolParamRect::NFmiSymbolParamRect()
-    : NFmiParamRect(),
-      fIsConstSymbol(false),
-      itsMapping(nullptr),
-      itsSubDir(nullptr),
-      itsOrigDir(nullptr),
-      itsDefToProductScale(NFmiRect(0., 0., 140., 140.),  // sovittu koko
-                           NFmiRect(0., 0., 1., 1.)),
-      fUseDayNightSymbols(false)
+    : itsDefToProductScale(NFmiRect(0., 0., 140., 140.),  // sovittu koko
+                           NFmiRect(0., 0., 1., 1.))
 {
 }
 

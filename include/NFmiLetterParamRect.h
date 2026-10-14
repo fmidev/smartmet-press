@@ -61,7 +61,7 @@ class NFmiLetterParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiLetterParamRect::NFmiLetterParamRect() : NFmiTextParamRect()
+inline NFmiLetterParamRect::NFmiLetterParamRect()
 {
   itsMapping = nullptr;
   fUseSelectLatinFont = true;

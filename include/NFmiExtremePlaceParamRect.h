@@ -49,7 +49,7 @@ class NFmiExtremePlaceParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect() : NFmiTextParamRect()
+inline NFmiExtremePlaceParamRect::NFmiExtremePlaceParamRect()
 {
   fUseSelectLatinFont = true;
 }

@@ -27,12 +27,7 @@ NFmiScale::~NFmiScale(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiScale::NFmiScale()
-    : itsStartValue(kFloatMissing),
-      itsEndValue(kFloatMissing),
-      itsEpsilon(0.f),
-      itsDataOk(false),
-      itsLimitCheck(false)
+NFmiScale::NFmiScale() : itsStartValue(kFloatMissing), itsEndValue(kFloatMissing), itsEpsilon(0.f)
 {
 }
 
@@ -46,7 +41,7 @@ NFmiScale::NFmiScale()
 // ----------------------------------------------------------------------
 
 NFmiScale::NFmiScale(float theStartValue, float theEndValue)
-    : itsStartValue(theStartValue), itsEndValue(theEndValue), itsEpsilon(0.f), itsLimitCheck(false)
+    : itsStartValue(theStartValue), itsEndValue(theEndValue), itsEpsilon(0.f)
 {
   Check();
 }

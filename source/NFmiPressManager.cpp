@@ -122,7 +122,6 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
 
   *itsLogFile << "the manager would be: " << static_cast<char *>(inputFileName) << endl;
 
-  if (itsDescriptionFile)
     delete itsDescriptionFile;
 
   itsDescriptionFile = new ifstream(inputFileName, ios::in);

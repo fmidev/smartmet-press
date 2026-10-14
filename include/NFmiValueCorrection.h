@@ -63,7 +63,6 @@ class NFmiValueCorrection
   // bool ReadFile(const NFmiString & theFileName);
   bool ReadFile();
 
- private:
   std::string itsFile;
   std::ofstream* itsLogFile;
   std::vector<FmiTempCorrections> itsTempCorrections;

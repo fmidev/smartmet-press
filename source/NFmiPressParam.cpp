@@ -11,6 +11,7 @@
 
 // press
 #include "NFmiPressParam.h"
+
 #include "NFmiMultiParamMapping.h"
 #include "NFmiPressArea.h"
 #include "NFmiPressDataTimeText.h"
@@ -18,6 +19,7 @@
 #include "NFmiPressProduct.h"
 #include "NFmiPressStationText.h"
 #include "NFmiPsSymbol.h"
+#include <cmath>
 // newbase
 #include "NFmiEnumConverter.h"
 #include "NFmiLocationFinder.h"
@@ -28,7 +30,7 @@
 #include <iostream>
 
 using namespace std;
-extern std::list<std::string> errors;
+#include "NFmiPressErrors.h"
 
 // ----------------------------------------------------------------------
 /*!
@@ -252,8 +254,8 @@ bool NFmiPressParam::SetMaxMinPoints()
 
   itsMaxMinLocations.clear();
   unsigned long index = 0;
-  bool isMax, isMin;
-  float allowedXDist, allowedYDist;
+  bool isMax = false, isMin = false;
+  float allowedXDist = NAN, allowedYDist = NAN;
   NFmiSuperSmartInfo info(*itsDataIter);
   NFmiLocationBag tempStations(itsStations);
   tempStations.Reset();
@@ -329,7 +331,7 @@ bool NFmiPressParam::SetMaxMinPoints()
 
     if (isMax || isMin)
     {
-      float significance;
+      float significance = NAN;
       if (isMax)
         significance = value - maxMinSeparator;
       else
@@ -464,10 +466,10 @@ bool NFmiPressParam::CheckAndSetDistance(long theValue, const NFmiPoint &point)
 bool NFmiPressParam::SetData(const NFmiString &dataName)
 {
   // tänne eikä writeps:ään koska tarvitaan pressScaling-objektien initialisoinnissa
-  if (itsDataIter)
+
     delete itsDataIter;
 
-  bool yearData;
+  bool yearData = false;
   fYearData = false;
   NFmiQueryData *data = itsPressProduct->DataByName(dataName, yearData);
 
@@ -489,7 +491,7 @@ bool NFmiPressParam::SetData(const NFmiString &dataName)
 
   // vain PressDataTimeText näistä datariippuvainen
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
-  NFmiPressScaling *scaleObject;
+  NFmiPressScaling* scaleObject = nullptr;
   objectIter.Reset();
   scaleObject = static_cast<NFmiPressScaling *>(objectIter.Next());
 
@@ -510,7 +512,7 @@ bool NFmiPressParam::SetData(const NFmiString &dataName)
   }
 
   // ainoastaan asemanNimiä
-  NFmiPressStationText *object;
+  NFmiPressStationText* object = nullptr;
   NFmiVoidPtrIterator objectIter2(itsStationDepObjects);
   objectIter2.Reset();
   object = static_cast<NFmiPressStationText *>(objectIter2.Next());
@@ -532,7 +534,6 @@ bool NFmiPressParam::SetData(const NFmiString &dataName)
 
 bool NFmiPressParam::SetPrimaryData(const NFmiString &dataName)
 {
-  if (itsPrimaryDataIter)
     delete itsPrimaryDataIter;
 
   bool fYearData = false;
@@ -565,7 +566,7 @@ bool NFmiPressParam::SetPrimaryData(const NFmiString &dataName)
 bool NFmiPressParam::SetAllTimes(const NFmiMetTime &theTime)
 {
   SetTime(theTime);
-  bool retCode;
+  bool retCode = false;
 
   retCode = itsSymbols.SetAllTimes(theTime);
 
@@ -586,7 +587,7 @@ bool NFmiPressParam::SetAllLanguages(FmiLanguage theLanguage)
   SetLanguage(theLanguage);  // ensin oma
 
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
   while (object)
@@ -631,24 +632,24 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
 
   bool symbolGroupCalled = false;
   bool fNextStationBackup = false;
-  bool helpBool;
+  bool helpBool = false;
   bool firstStation = true;
   fIsTimeLoop = false;
   fIsLevelLoop = false;
   NFmiPoint stationStepSize;
   NFmiString dataFileName;
   NFmiValueString valueString;
-  long long1, long2, long3;
-  unsigned short numOfTableStations, currentStationNum = 0;  // taulukoissa
+  long long1 = 0, long2 = 0, long3 = 0;
+  unsigned short numOfTableStations = 0, currentStationNum = 0;  // taulukoissa
   unsigned short currentStationNumOnMap = 0;
   NFmiString string1, string2;
   NFmiPoint point0, point1, point2, scaledTimeLast, unscaledTimeLast, firstUnscaledPoint;
   NFmiPoint unscaledTableMove, scaledTableMove;
-  double tableX1 = 0, tableX2, tableY1 = 0, tableY2;
+  double tableX1 = 0, tableX2 = NAN, tableY1 = 0, tableY2 = NAN;
   double x = 0, y = 0;
-  double xmin, xmax, ymin, ymax;
+  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
   bool timeOrLevelTableSet = false;
-  long statNum;
+  long statNum = 0;
   double lat = kFloatMissing;
   double lon = kFloatMissing;
 
@@ -2015,7 +2016,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
 
       case dStationsFromDataCropping:
       {
-        float x1, y1, x2, y2;
+        float x1 = NAN, y1 = NAN, x2 = NAN, y2 = NAN;
         if (SetFour(x1, y1, x2, y2))
         {
           NFmiRect croppingRect(NFmiPoint(x1, y1), NFmiPoint(x2, y2));
@@ -2490,7 +2491,6 @@ int NFmiPressParam::ConvertDefText(NFmiString &object)
 
 bool NFmiPressParam::CreateAreaMask()
 {
-  if (itsAreaMask)
     delete itsAreaMask;
 
   if (itsMaskIter && itsEnvironment.GetMaskNumber() > 0)
@@ -2595,10 +2595,10 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
     *itsLogFile << "  primary data: " << static_cast<char *>(itsPrimaryDataName) << endl;
 
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
 
   // jotta voidaan tehdä aika vasta asemannimen jälkeen (tiedostomuoto)
-  NFmiPressScaling *saveObject;
+  NFmiPressScaling* saveObject = nullptr;
   saveObject = nullptr;
 
   NFmiVoidPtrIterator stationObjectIter(itsStationDepObjects);
@@ -2611,7 +2611,7 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
   stationPointMovement.Set(0., 0.);
   itsCurrentStationIndex = 0;
   FmiCounter statAll = 0;
-  bool done, supplementLater;
+  bool done = false, supplementLater = false;
   fPrimaryDataOk = true;
   bool primaryDataTimeOk = true;
 
@@ -2654,10 +2654,7 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
       bool timeFound = itsDataIter->Time(actTime);
       if (itsPrimaryDataIter)
       {
-        if (itsPrimaryDataIter->Time(actTime))
-          primaryDataTimeOk = true;
-        else
-          primaryDataTimeOk = false;
+        primaryDataTimeOk = itsPrimaryDataIter->Time(actTime);
       }
 
       // if((itsDataIter->Time(actTime) || fStationNotNeeded) && !done)
@@ -2731,12 +2728,12 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
           itsCurrentUnscaledPoint = stationPoint;
           // NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint
           // *>(itsStations.Location());
-          if (itsCurrentStationPoint)
+
             delete itsCurrentStationPoint;
           auto* itsCurrentStationPoint =
               new NFmiStationPoint(*static_cast<const NFmiStationPoint*>(itsStations.Location()));
 
-          fCurrentStationBackup = itsCurrentStationPoint->IsBackup() ? true : false;
+          fCurrentStationBackup = itsCurrentStationPoint->IsBackup();
           NFmiPoint lonLat = itsCurrentStationPoint->GetLocation();
 
           if (lonLat.X() == kFloatMissing)
@@ -2766,11 +2763,8 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
 
           if (itsPrimaryDataIter && primaryDataTimeOk)
           {
-            if (!itsPrimaryDataIter->Location(
-                    NFmiStation(*itsCurrentStationPoint->Station()).GetName()))
-              fPrimaryDataOk = false;
-            else
-              fPrimaryDataOk = true;
+            fPrimaryDataOk = itsPrimaryDataIter->Location(
+                NFmiStation(*itsCurrentStationPoint->Station()).GetName());
           }
           else
             fPrimaryDataOk = false;
@@ -2939,7 +2933,7 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
     }
     else
     {
-      long hourStep;
+      long hourStep = 0;
       if (fIsPureRegTimeLoop)
         hourStep = itsHourStep;
       //		  time.ChangeByHours(itsHourStep);
@@ -3011,7 +3005,7 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
 void NFmiPressParam::StepTimeDependent(long theHourStep)
 {
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
 
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
@@ -3035,7 +3029,7 @@ bool NFmiPressParam::DoTimeDependent(bool isLastLoop,
                                      NFmiPressScaling *&theSaveObject)
 {
   NFmiVoidPtrIterator objectIter(itsTimeDepObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
 
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
@@ -3120,7 +3114,7 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint &theStation)
   {
     NFmiStation station;
     itsDataIter->ResetLocation();
-    unsigned long dataWmo;
+    unsigned long dataWmo = 0;
     unsigned long plotWmo = 0;
     while (itsDataIter->NextLocation())
     {

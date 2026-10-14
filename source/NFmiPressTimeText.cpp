@@ -10,7 +10,9 @@
 #endif
 
 #include "NFmiPressTimeText.h"
+
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -59,7 +61,7 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
   NFmiString helpString;
-  double r1, r2;
+  double r1 = NAN, r2 = NAN;
 
   // itsFont = NFmiString("Times-Roman");
 

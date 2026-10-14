@@ -10,6 +10,7 @@
 #endif
 
 #include "NFmiSymbolParamRect.h"
+
 #include "NFmiFileSystem.h"
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
@@ -18,9 +19,10 @@
 #include "NFmiSettings.h"
 #include <iostream>
 #include <list>
+#include <cmath>
 #include <string>
 
-extern std::list<std::string> errors;
+#include "NFmiPressErrors.h"
 
 // Boost
 #include <boost/filesystem/operations.hpp>
@@ -36,11 +38,11 @@ using namespace std;
 NFmiSymbolParamRect::~NFmiSymbolParamRect()
 {
   if (itsSubDir)
-    delete static_cast<NFmiString *>(itsSubDir);
+    delete itsSubDir;
   if (itsMapping)
-    delete static_cast<NFmiParamMapping *>(itsMapping);
+    delete itsMapping;
   if (itsOrigDir)
-    delete static_cast<NFmiString *>(itsOrigDir);
+    delete itsOrigDir;
 }
 
 // ----------------------------------------------------------------------
@@ -91,9 +93,9 @@ NFmiParamRect* NFmiSymbolParamRect::Clone() const
 
 bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
 {
-  double x, y;
+  double x = NAN, y = NAN;
   NFmiValueString valueString;
-  if (itsOrigDir)
+
     delete itsOrigDir;
   NFmiString origDir;
   NFmiString inDir;
@@ -134,7 +136,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsOrigDir = new NFmiString(origDir);  // oikeastaan koko polku
 
   NFmiString helpString;
-  NFmiString *mappingName;
+  NFmiString* mappingName = nullptr;
   NFmiValueString helpValueString;
   itsMapping = new NFmiParamMapping;
   itsModifier = kNoneModifier;
@@ -144,8 +146,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
 
-  long long1, long2;
-  double r1, r2, r3, r4;
+  long long1 = 0, long2 = 0;
+  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
   double intervalEps = 0.00001;
   NFmiPoint sizePoint1, sizePoint2;
   sizePoint1.Set(0., 0.);
@@ -161,7 +163,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsMultiMapping = nullptr;
   bool symbDirGiven = false;
   // bool symbSizeGiven = false;
-  double xh, yh;
+  double xh = NAN, yh = NAN;
   xh = yh = 1.;
 
   while (itsIntObject != 9999 || itsCommentLevel)
@@ -411,7 +413,6 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsSizeFactor = NFmiPoint(xh, yh);
   //	}
 
-  if (itsSubDir)
     delete itsSubDir;
   itsSubDir = new NFmiString(inDir);  // oikeastaan koko polku
   itsSymbolSetName = subDir;
@@ -650,7 +651,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString *symbolFile)
     unsigned long len = mess.GetLen();
     output.write(mess.CharPtr(), len);
     output.write(static_cast<char *>(NFmiString("\n")), 1);
-    short num;
+    short num = 0;
     char endLine = '\n';
     while (input.getline(inBuf, lineSize, endLine))  // newline PC:lle
     {
@@ -772,7 +773,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     return true;
 
   bool isScaled = false;
-  NFmiString *symbolFile;
+  NFmiString* symbolFile = nullptr;
 
   if (fIsConstSymbol)
   {
@@ -790,7 +791,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
 
     else if (itsMultiMapping)
     {
-      bool missingFound;
+      bool missingFound = false;
       CompleteMultiMapping();
 
       symbolFile = itsMultiMapping->Map(itsCurrentParamArray, missingFound);

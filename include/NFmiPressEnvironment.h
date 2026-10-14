@@ -89,17 +89,17 @@ class NFmiPressEnvironment
   std::string GetEncoding() const;
 
  private:
-  unsigned long itsMaskNumber;
-  FmiEnumSpace itsEnumSpace;
-  bool fLongNumberMinus;
+  unsigned long itsMaskNumber = 0;
+  FmiEnumSpace itsEnumSpace = kNoneEnumSpace;
+  bool fLongNumberMinus = false;
   FmiGenericColor itsGenericColor;
-  long itsAdditionalDayAdvance;
+  long itsAdditionalDayAdvance = 0;
   FmiPressTextAttributes itsTextAttributes;
   int itsVersion;
   NFmiPoint itsSegmentMove;
   NFmiString itsSymbolSet;
   float itsSymbolSizeFactor;
-  bool fCV;
+  bool fCV = false;
   bool fAvoidOrphanSyllables;
   bool fUseBackupPreviousDay;
   std::string itsEncoding;
@@ -111,13 +111,7 @@ class NFmiPressEnvironment
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressEnvironment::NFmiPressEnvironment()
-    : itsMaskNumber(0),
-      itsEnumSpace(kNoneEnumSpace),
-      fLongNumberMinus(false),
-      itsAdditionalDayAdvance(0),
-      fCV(false),
-      itsEncoding("latin")
+inline NFmiPressEnvironment::NFmiPressEnvironment() : itsEncoding("latin")
 {
   // HUOM vain jompikumpi värijärjestelmä
   itsGenericColor.color.cmyk.cyan = 0.;

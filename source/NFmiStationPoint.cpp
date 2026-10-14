@@ -96,9 +96,9 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
 {
   NFmiString str;
   NFmiString name;
-  char object[255], ch;
-  int iobject;
-  double value;
+  char object[255], ch = 0;
+  int iobject = 0;
+  double value = NAN;
 
   *itsDescriptionFile >> object;
   str = object;
@@ -147,7 +147,7 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
       }
       case dLonLat:
       {
-        double lon, lat;
+        double lon = NAN, lat = NAN;
         *itsDescriptionFile >> ch;
         *itsDescriptionFile >> lon >> lat;
         SetLongitude(lon);
@@ -160,7 +160,7 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
       }
       case dLatitude:
       {
-        double lat;
+        double lat = NAN;
         *itsDescriptionFile >> ch;
         *itsDescriptionFile >> lat;
         SetLatitude(lat);
@@ -172,7 +172,7 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
       }
       case dLongitude:
       {
-        double lon;
+        double lon = NAN;
         *itsDescriptionFile >> ch;
         *itsDescriptionFile >> lon;
         SetLongitude(lon);
@@ -311,7 +311,7 @@ bool NFmiStationPoint::LocalWmoTime(NFmiTime &utc) const
   }
   else
   {
-    double min, hour;
+    double min = NAN, hour = NAN;
     min = modf(diffHour, &hour) * 60.;
     utc.ChangeByHours(static_cast<long>(hour));
     utc.ChangeByMinutes(static_cast<long>(min));
@@ -343,7 +343,7 @@ NFmiString NFmiStationPoint::LocalWmoTime(int utc) const
   {
     int hour = static_cast<int>(diffHour);
     float corrDiffHour = static_cast<float>(hour) + (diffHour - hour) * 0.6f;
-    retString.SetValue(static_cast<float>(corrDiffHour), NFmiString("%05.2f"));
+    retString.SetValue(corrDiffHour, NFmiString("%05.2f"));
   }
 
   return retString;

@@ -52,11 +52,11 @@ class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
   void SetStationNumberMode();
 
  protected:
-  NFmiVoidPtrList* itsNewNames;
+  NFmiVoidPtrList* itsNewNames = nullptr;
   NFmiPressParam* itsPressParam;
 
  private:
-  bool fStationNumberMode;
+  bool fStationNumberMode = false;
 
 };  // class NFmiPressStationText
 
@@ -66,10 +66,7 @@ class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressStationText::NFmiPressStationText()
-    : NFmiPressText(), NFmiPressDataObject(), itsNewNames(nullptr), fStationNumberMode(false)
-{
-}
+inline NFmiPressStationText::NFmiPressStationText() {}
 
 // ----------------------------------------------------------------------
 /*!

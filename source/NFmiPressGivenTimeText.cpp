@@ -31,7 +31,7 @@ NFmiPressGivenTimeText::~NFmiPressGivenTimeText(void) = default;
 
 bool NFmiPressGivenTimeText::ReadRemaining()
 {
-  unsigned long long1;
+  unsigned long long1 = 0;
   switch (itsIntObject)
   {
     case dRelDay:

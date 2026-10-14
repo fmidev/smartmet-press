@@ -10,10 +10,12 @@
 #endif
 
 #include "NFmiNumberParamRect.h"
+
 #include "NFmiHyphenationString.h"
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 // ----------------------------------------------------------------------
@@ -59,8 +61,8 @@ NFmiParamRect* NFmiNumberParamRect::Clone() const
 
 bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
 {
-  long long1;
-  double r1, r2, r3, r4;
+  long long1 = 0;
+  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
   itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
 
   itsFormat = NFmiString("%.f");
@@ -492,7 +494,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
         NFmiHyphenationString helpFormat = format;
         NFmiString hFormat = helpFormat.DropChar("+");
         // tähän välilyönti
-        str += NFmiValueString(static_cast<float>(fabs(value)), hFormat);
+        str += NFmiValueString(fabs(value), hFormat);
       }
     else  // PUUTTUVA
     {

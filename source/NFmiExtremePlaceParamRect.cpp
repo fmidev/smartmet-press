@@ -10,9 +10,11 @@
 #endif
 
 #include "NFmiExtremePlaceParamRect.h"
+
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -61,8 +63,8 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
 {
   NFmiString helpString;
   NFmiValueString helpValueString;
-  long long1;
-  double r1, r2, r3, r4;
+  long long1 = 0;
+  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
 
   itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
   itsMapping = new NFmiParamMapping;
@@ -224,7 +226,7 @@ int NFmiExtremePlaceParamRect::ConvertDefText(NFmiString & object)
 // ----------------------------------------------------------------------
 
 bool NFmiExtremePlaceParamRect::WritePS(const NFmiRect& theAbsoluteRectOfSymbolGroup,
-                                        NFmiFastQueryInfo* theQI,
+                                        NFmiFastQueryInfo* /*theQI*/,
                                         ofstream& theDestinationFile,
                                         FmiPressOutputMode theOutput)
 {

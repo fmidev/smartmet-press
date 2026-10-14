@@ -10,10 +10,12 @@
 #endif
 
 #include "NFmiTimeParamRect.h"
+
 #include "NFmiLocationFinder.h"
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -85,8 +87,8 @@ bool NFmiTimeParamRect::ReadDescription(NFmiString &retString)
 {
   NFmiString helpString;
   NFmiValueString helpValueString;
-  long long1;
-  double r1, r2, r3, r4;
+  long long1 = 0;
+  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
   itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
 
   SetPreReadingTimes();
@@ -306,7 +308,7 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
 
   NFmiString timeString;  // = pTime.ToStr(itsFormat,itsLanguage);
 
-  int errCode;
+  int errCode = 0;
 
   NFmiStationPoint tempStationPoint(itsStationPoint);
 
@@ -326,8 +328,7 @@ bool NFmiTimeParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   if (!fFinnishTimezone && errCode > 0 && !itsPressParam->GetErrorReported(errCode))
   {
     *itsLogFile << "  WARNING: possible problems to calculate local time, first: "
-                << static_cast<char *>(static_cast<const NFmiString &>(itsStationPoint.GetName()))
-                << endl;
+                << static_cast<char*>(itsStationPoint.GetName()) << endl;
 
     if (errCode == 1)
       *itsLogFile << "  ->no Wmo-number or longitude" << endl;
@@ -387,7 +388,7 @@ NFmiTime NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo *theQI)
   if (itsPressParam->IsStationLocalTimeMode())
   {
     // HUOM tämä koodi ylläpidettävä samanlaisena myös NFmiParamRectissä
-    double longitude;
+    double longitude = NAN;
     if (IsMissingLonLat())
     {
       NFmiPoint lonLat;
@@ -420,7 +421,7 @@ NFmiTime NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo *theQI)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiTimeParamRect::PointParam(NFmiFastQueryInfo *theQI)
+bool NFmiTimeParamRect::PointParam(NFmiFastQueryInfo* /*theQI*/)
 {
   // aika ei tarvitse parametriä
   fParamErrorReported = false;

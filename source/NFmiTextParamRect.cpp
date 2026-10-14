@@ -10,9 +10,11 @@
 #endif
 
 #include "NFmiTextParamRect.h"
+
 #include "NFmiHyphenationString.h"
 #include "NFmiPressParam.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -26,7 +28,7 @@ using namespace std;
 NFmiTextParamRect::~NFmiTextParamRect()
 {
   if (itsMapping)
-    delete static_cast<NFmiParamMapping *>(itsMapping);
+    delete itsMapping;
 }
 
 // ----------------------------------------------------------------------
@@ -71,7 +73,7 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect)
 
 bool NFmiTextParamRect::ReadRemaining()
 {
-  double r1, r2;
+  double r1 = NAN, r2 = NAN;
   NFmiValueString helpValueString;
   NFmiString helpString;
   double intervalEps = 0.00001;
@@ -780,10 +782,10 @@ bool NFmiTextParamRect::WriteShowStringLongMinus(double x,
 
 bool NFmiTextParamRect::WriteShowStringText(double x,
                                             double y,
-                                            const NFmiString &theMinusString,
-                                            const NFmiString &theWidthMinus,
-                                            const NFmiString &theShowString,
-                                            ofstream &os) const
+                                            const NFmiString& /*theMinusString*/,
+                                            const NFmiString& theWidthMinus,
+                                            const NFmiString& theShowString,
+                                            ofstream& os) const
 {
   os << x << " " << y << " moveto" << endl;
   if (GetTextAlignment() == kRight)

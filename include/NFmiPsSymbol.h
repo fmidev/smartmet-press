@@ -50,7 +50,6 @@ class NFmiPsSymbol : public NFmiPressScaling
   virtual bool CopyShortSymbol2Dest();
   virtual bool ConvertOrig2Short();
 
- protected:
   NFmiString itsShortDir;
   NFmiString itsOrigDir;
   NFmiString itsSymbol;
@@ -63,7 +62,7 @@ class NFmiPsSymbol : public NFmiPressScaling
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPsSymbol::NFmiPsSymbol() : NFmiPressScaling() {}
+inline NFmiPsSymbol::NFmiPsSymbol() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

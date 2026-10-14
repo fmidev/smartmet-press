@@ -31,15 +31,16 @@
 #include <boost/filesystem/operations.hpp>
 
 // system
+#include <macgyver/StringConversion.h>
 #include <cstdlib>
 #include <iostream>
 #include <list>
 #include <locale>
+#include <cmath>
 #include <memory>
 #include <string>
-#include <macgyver/StringConversion.h>
 
-extern std::list<std::string> errors;
+#include "NFmiPressErrors.h"
 
 using namespace std;
 
@@ -88,24 +89,23 @@ NFmiPressProduct::NFmiPressProduct()
 
 NFmiPressProduct::~NFmiPressProduct()
 {
-  if (itsNameDayFi)
     delete itsNameDayFi;
-  if (itsNameDaySw)
+
     delete itsNameDaySw;
-  if (itsCurrentDataIter)
+
     delete itsCurrentDataIter;
   delete itsNameToLonLat;
   itsParams.Clear(true);
   itsSameSymbols.Clear(true);
   itsEpsFileNames.Clear(true);
   itsDatas.Clear(true);
-  if (itsLogFile)
+
     delete itsLogFile;
-  if (itsPalette)
+
     delete itsPalette;
-  if (itsDescriptionFile)  // owner of NFmiTimeDescription member
+    // owner of NFmiTimeDescription member
     delete itsDescriptionFile;
-  if (itsTempCorrection)
+
     delete itsTempCorrection;
 }
 
@@ -122,7 +122,7 @@ NFmiPressProduct::~NFmiPressProduct()
 NFmiString NFmiPressProduct::CutOffString(const NFmiString& theString, int toMaxChars) const
 {
   NFmiString outString(theString);
-  unsigned long lastPos1, lastPos2, lastPos;
+  unsigned long lastPos1 = 0, lastPos2 = 0, lastPos = 0;
   unsigned char sep1(',');
   unsigned char sep2(' ');
   while (static_cast<int>(outString.GetLen()) > toMaxChars)
@@ -241,10 +241,10 @@ void NFmiPressProduct::PutInStorage(const float value, int queueNum)
 
 float NFmiPressProduct::UseFromStorage(int queueNum, bool errorReport)
 {
-  float value;
+  float value = NAN;
   if (queueNum == 1)
   {
-    if (itsFloatQueue.size() < 1)
+    if (itsFloatQueue.empty())
     {
       string msg = "Use of empty Product storage 1";
       // errors.push_back(msg);
@@ -260,7 +260,7 @@ float NFmiPressProduct::UseFromStorage(int queueNum, bool errorReport)
   }
   else
   {
-    if (itsFloatQueue2.size() < 1)
+    if (itsFloatQueue2.empty())
     {
       string msg = "Use of empty Product storage 2";
       // errors.push_back(msg);
@@ -358,7 +358,7 @@ bool NFmiPressProduct::SetMaskNumber(unsigned long theNumber, FmiEnumSpace theEn
   if (GetEnvironment().ChangeMask(theNumber, theEnumSpace))  // muutetaan vain asetettua
     retCode = true;
   NFmiVoidPtrIterator paramIter(itsParams);
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
@@ -383,7 +383,7 @@ bool NFmiPressProduct::SetSegmentData(const NFmiString &theDataName)
 {
   bool retCode = false;
   NFmiVoidPtrIterator paramIter(itsParams);
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
@@ -409,7 +409,7 @@ bool NFmiPressProduct::SetFirstSegmentActivity(bool theActivity)
   // on eri kuin theActivity, niin alusta voisi (de)aktivoida n kpl
 
   NFmiVoidPtrIterator objectIter(itsParams);
-  NFmiPressParam *object;  // PsWriting kaataa, ent‰ NFmiPressScaling
+  NFmiPressParam* object = nullptr;  // PsWriting kaataa, ent‰ NFmiPressScaling
   objectIter.Reset();
   object = static_cast<NFmiPressParam *>(objectIter.Next());
   if (object)
@@ -437,7 +437,7 @@ bool NFmiPressProduct::SetFirstSegmentActivity(bool theActivity)
 bool NFmiPressProduct::SetFirstObjectActivity(bool theActivity)
 {
   NFmiVoidPtrIterator objectIter(itsObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
   if (object)
@@ -467,7 +467,7 @@ bool NFmiPressProduct::ChangeFirstPossibleObject(bool toNewActivity)
   // alusta voi vuoronper‰‰n (de)aktivoida n kpl
 
   NFmiVoidPtrIterator objectIter(itsObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
   while (object)
@@ -500,7 +500,7 @@ bool NFmiPressProduct::SetFirstStation(const NFmiLocation &theLocation)
 {
   bool retCode = false;
   NFmiVoidPtrIterator paramIter(itsParams);
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
@@ -525,7 +525,7 @@ bool NFmiPressProduct::SetImagePreNames(const NFmiLocation &theLocation)
 {
   bool retCode = false;
   NFmiVoidPtrIterator objectIter(itsObjects);
-  NFmiPressImage *image;
+  NFmiPressImage* image = nullptr;
   objectIter.Reset();
   NFmiHyphenationString oldFile;
   NFmiFileString path, newFile;
@@ -571,7 +571,7 @@ bool NFmiPressProduct::SetStationRename(const NFmiRenaming &theRename)
 {
   bool retCode = false;
   NFmiVoidPtrIterator paramIter(itsParams);
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
@@ -599,7 +599,7 @@ bool NFmiPressProduct::SetAllTimes(const NFmiMetTime &theTime)
   bool retCode = false;
 
   NFmiVoidPtrIterator paramIter(itsParams);  // segmentit
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
@@ -610,7 +610,7 @@ bool NFmiPressProduct::SetAllTimes(const NFmiMetTime &theTime)
   }
   // muut objektit, kaikissa ei tosin aikaa
   NFmiVoidPtrIterator objectIter(itsObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
   while (object)
@@ -644,7 +644,7 @@ bool NFmiPressProduct::SetAllLanguages(FmiLanguage theLanguage)
   bool retCode = true;  // HUOM
 
   NFmiVoidPtrIterator paramIter(itsParams);  // segmentit
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   while (param)
@@ -655,7 +655,7 @@ bool NFmiPressProduct::SetAllLanguages(FmiLanguage theLanguage)
   }
   // muut objektit, kaikissa ei tosin aikaa
   NFmiVoidPtrIterator objectIter(itsObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
   while (object)
@@ -935,7 +935,7 @@ bool NFmiPressProduct::ReadSeasonsStatus()
     return true;
   }
 
-  string::size_type start1, end1, start2, end2, start3, end3;
+  string::size_type start1 = 0, end1 = 0, start2 = 0, end2 = 0, start3 = 0, end3 = 0;
   const string delims(" \t");
   string line;
   while (getline(in, line))
@@ -1263,7 +1263,7 @@ bool NFmiPressProduct::DefinePar(const NFmiString &theString)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPressProduct::ReplacePar(NFmiString &theString)
+bool NFmiPressProduct::ReplacePar(NFmiString& /*theString*/)
 {
   return true;
 }
@@ -1471,7 +1471,6 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
     return false;
   }
 
-  if (itsDescriptionFile)
     delete itsDescriptionFile;
 
   itsDescriptionFile = new ifstream(tempInput, ios::in);
@@ -1533,13 +1532,13 @@ bool NFmiPressProduct::ReadData()
   if (std::filesystem::is_directory(path))
   {
     NFmiVoidPtrIterator iter(itsDatas);
-    NFmiNamedQueryData *nData;
+    NFmiNamedQueryData* nData = nullptr;
     iter.Reset();
     nData = static_cast<NFmiNamedQueryData *>(iter.Next());
     string path;
     string newestfile;
-    NFmiQueryData **data;
-    NFmiQueryData *dataPtr;
+    NFmiQueryData** data = nullptr;
+    NFmiQueryData* dataPtr = nullptr;
 
     while (nData)
     {
@@ -1559,7 +1558,7 @@ bool NFmiPressProduct::ReadData()
 
     fDataRead = true;
 
-    bool dummy;
+    bool dummy = false;
     if (DataByName(itsMaskFileName, dummy))
     {
       itsMaskIter = std::make_shared<NFmiSuperSmartInfo>(DataByName(itsMaskFileName, dummy));
@@ -1580,9 +1579,9 @@ bool NFmiPressProduct::ReadData()
   if (str.NextSubString(NFmiString(";"), dataPath2))
     secondDir = true;
 
-  NFmiQueryData **data;
-  NFmiQueryData *dataPtr;
-  NFmiNamedQueryData *nData;
+  NFmiQueryData** data = nullptr;
+  NFmiQueryData* dataPtr = nullptr;
+  NFmiNamedQueryData* nData = nullptr;
   NFmiVoidPtrIterator iter(itsDatas);
   NFmiString name;
   NFmiFileString dataFile, dataFile2;
@@ -1641,7 +1640,7 @@ bool NFmiPressProduct::ReadData()
           itsSeasonsStatus->editdata)
       {
         errorWarning = true;
-        time_t fileTime, fileTimeRemote;
+        time_t fileTime = 0, fileTimeRemote = 0;
         std::string theFoundFileName, theFoundFileNameRemote;
         std::string path, pathRemote;
         std::string dir, dirRemote;
@@ -1668,7 +1667,7 @@ bool NFmiPressProduct::ReadData()
           dirRemote += theFoundFileNameRemote;
           if (fileTime < fileTimeRemote)
           {
-            bool copyOk;
+            bool copyOk = false;
 
             copyOk = NFmiFileSystem::CopyFile(dirRemote, dir);
             if (copyOk)
@@ -1754,7 +1753,7 @@ bool NFmiPressProduct::ReadData()
   NFmiTime time;
   *itsLogFile << "  AFTER READ " << time << " **" << endl;
 
-  bool dummy;
+  bool dummy = false;
   if (DataByName(itsMaskFileName, dummy))
   {
     itsMaskIter = std::make_shared<NFmiSuperSmartInfo>(DataByName(itsMaskFileName, dummy));
@@ -1824,7 +1823,7 @@ bool NFmiPressProduct::ReadQueryData(NFmiQueryData *theQD, char *fileName)
 
 NFmiQueryData* NFmiPressProduct::FirstData()
 {
-  NFmiNamedQueryData *nData;
+  NFmiNamedQueryData* nData = nullptr;
   NFmiVoidPtrIterator iter(itsDatas);
   iter.Reset();
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
@@ -1842,7 +1841,7 @@ NFmiQueryData* NFmiPressProduct::FirstData()
 // ----------------------------------------------------------------------
 NFmiNamedQueryData* NFmiPressProduct::FirstNamedData()
 {
-  NFmiNamedQueryData *nData;
+  NFmiNamedQueryData* nData = nullptr;
   NFmiVoidPtrIterator iter(itsDatas);
   iter.Reset();
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
@@ -1862,7 +1861,7 @@ NFmiNamedQueryData* NFmiPressProduct::FirstNamedData()
 
 NFmiString NFmiPressProduct::FirstDataName()
 {
-  NFmiNamedQueryData *nData;
+  NFmiNamedQueryData* nData = nullptr;
   NFmiVoidPtrIterator iter(itsDatas);
   iter.Reset();
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
@@ -1883,7 +1882,7 @@ NFmiString NFmiPressProduct::FirstDataName()
 
 NFmiQueryData *NFmiPressProduct::DataByName(NFmiString givenName, bool &isYearData)
 {
-  NFmiNamedQueryData *nData;
+  NFmiNamedQueryData* nData = nullptr;
   NFmiVoidPtrIterator iter(itsDatas);
   NFmiString name;
   iter.Reset();
@@ -1931,8 +1930,8 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
   bool thisFileNewest = false;
   bool yearData = false;
   itsLanguage = kFinnish;
-  double xmin, xmax, ymin, ymax;
-  long long1, long2, long3;
+  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
+  long long1 = 0, long2 = 0, long3 = 0;
 
   long firstDeltaDays = 1 + itsEnvironment.GetDayAdvance();
   long origFirstDeltaDays = firstDeltaDays;
@@ -2108,7 +2107,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         if (!ReadEqualChar())
           break;
 
-        NFmiString *epsName;
+        NFmiString* epsName = nullptr;
 
         epsName = new NFmiString(ReadString());
 
@@ -2585,9 +2584,9 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
         Scale();
         auto* newParam = new NFmiPressParam(itsScale,
                                             static_cast<short>(firstDeltaDays),
-                                            static_cast<short>(firstPlotHours),
-                                            static_cast<short>(firstPlotMinutes),
-                                            static_cast<short>(hourStep),
+                                            firstPlotHours,
+                                            firstPlotMinutes,
+                                            hourStep,
                                             producer,
                                             this);
         newParam->SetDataName(FirstDataName());
@@ -3142,7 +3141,6 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   if (itsOutputMode != kPostScript)
     output = itsOutputMode;
 
-  if (itsCurrentDataIter)
     delete itsCurrentDataIter;
   if (FirstData())
     itsCurrentDataIter = new NFmiSuperSmartInfo(FirstData());
@@ -3332,7 +3330,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
     // luuppi, voi olla useampia EPSeja
     NFmiVoidPtrIterator epsIter(itsEpsFileNames);
     epsIter.Reset();
-    NFmiString *epsFileName;
+    NFmiString* epsFileName = nullptr;
     epsFileName = static_cast<NFmiString *>(epsIter.Next());
     short numOfEps = 0;
 
@@ -3452,7 +3450,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
       //               SEGMENTIT
       // ****************************************
       NFmiVoidPtrIterator paramIter(itsParams);
-      NFmiPressParam *param;
+      NFmiPressParam* param = nullptr;
       paramIter.Reset();
       param = static_cast<NFmiPressParam *>(paramIter.Next());
       short segNum = 1;
@@ -3610,12 +3608,12 @@ bool NFmiPressProduct::WriteMetaInit()
 // ----------------------------------------------------------------------
 
 // otherwise postSegments
-bool NFmiPressProduct::WriteSameSymbols(bool theDoPreSegments, FmiPressOutputMode theOutput)
+bool NFmiPressProduct::WriteSameSymbols(bool theDoPreSegments, FmiPressOutputMode /*theOutput*/)
 {
   // kutsutaan kahteen kertaan: ennen ja j‰lkeen segmenttien
 
   NFmiVoidPtrIterator constIter(itsSameSymbols);
-  NFmiPressSameSymbols *sameSymbols;
+  NFmiPressSameSymbols* sameSymbols = nullptr;
   constIter.Reset();
   sameSymbols = static_cast<NFmiPressSameSymbols *>(constIter.Next());
   while (sameSymbols)
@@ -3662,11 +3660,11 @@ bool NFmiPressProduct::WriteScalingObjects(bool theDoPreSegments, FmiPressOutput
 #endif
 
   NFmiVoidPtrIterator objectIter(itsObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
 
   NFmiPressScaling* lastObject = nullptr;
   double lastLineStep = 0.;
-  double lineStep;
+  double lineStep = NAN;
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());
   while (object)
@@ -3991,7 +3989,7 @@ bool NFmiPressProduct::ConstructOutFileName()
 NFmiString NFmiPressProduct::FirstSegmentName()
 {
   NFmiVoidPtrIterator paramIter(itsParams);
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   if (param)
@@ -4013,7 +4011,7 @@ NFmiString NFmiPressProduct::FirstSegmentName()
 NFmiStationPoint NFmiPressProduct::FirstParamLocation()
 {
   NFmiVoidPtrIterator paramIter(itsParams);
-  NFmiPressParam *param;
+  NFmiPressParam* param = nullptr;
   paramIter.Reset();
   param = static_cast<NFmiPressParam *>(paramIter.Next());
   if (param)

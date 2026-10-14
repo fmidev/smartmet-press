@@ -21,7 +21,7 @@ using namespace std;
 
 NFmiMultiParamMapping::~NFmiMultiParamMapping()
 {
-  delete[] static_cast<FmiMultiMapping *>(itsMappingIntervals);
+  delete[] itsMappingIntervals;
 }
 
 // ----------------------------------------------------------------------
@@ -115,10 +115,10 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream *inFile)
 
 void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping &theInterval)
 {
-  FmiMultiMapping *tempIntervals;
+  FmiMultiMapping* tempIntervals = nullptr;
   tempIntervals = new FmiMultiMapping[GetSize() + 1];
 
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
     tempIntervals[j] = itsMappingIntervals[j];
@@ -135,7 +135,6 @@ void NFmiMultiParamMapping::AddMappingInterval(const FmiMultiMapping &theInterva
       fIncomplete = true;
   }
 
-  if (itsMappingIntervals)
     delete[] itsMappingIntervals;
 
   itsMappingIntervals = new FmiMultiMapping[GetSize() + 1];
@@ -264,7 +263,7 @@ bool NFmiMultiParamMapping::Complete(float theOldValue, float theNewValue)
 {
   for (int j = 0; j < static_cast<int>(itsSize); j++)
   {
-    int i;
+    int i = 0;
     for (i = 0; i < static_cast<int>(itsNumOfParams); i++)
     {
       if (itsMappingIntervals[j].mappingInterval[i].lowBorder == theOldValue)
@@ -288,7 +287,7 @@ short NFmiMultiParamMapping::CheckIfIncomplete()
 {
   for (int j = 0; j < static_cast<int>(itsSize); j++)
   {
-    int i;
+    int i = 0;
     for (i = 0; i < static_cast<int>(itsNumOfParams); i++)
     {
       if (itsMappingIntervals[j].mappingInterval[i].lowBorder >= FmiStartOfIncompleteValues &&

@@ -56,7 +56,7 @@ NFmiParamRect* NFmi2SymbolParamRect::Clone() const
 
 bool NFmi2SymbolParamRect::ReadRemaining()
 {
-  long long1;
+  long long1 = 0;
 
   switch (itsIntObject)
   {
@@ -113,7 +113,7 @@ int NFmi2SymbolParamRect::ConvertDefText(NFmiString& object)
  */
 // ----------------------------------------------------------------------
 
-bool NFmi2SymbolParamRect::ReadValues(NFmiFastQueryInfo* theQI, bool hearDummy)
+bool NFmi2SymbolParamRect::ReadValues(NFmiFastQueryInfo* theQI, bool /*hearDummy*/)
 {
   if (!PointOnParam(theQI, GetSecondDataIdent().GetParam()) || !PointOnLevel(theQI))
     return false;

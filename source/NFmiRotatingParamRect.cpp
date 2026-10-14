@@ -10,8 +10,10 @@
 #endif
 
 #include "NFmiRotatingParamRect.h"
+
 #include "NFmiPressParam.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -62,7 +64,7 @@ NFmiParamRect* NFmiRotatingParamRect::Clone() const
 bool NFmiRotatingParamRect::ReadRemaining()
 {
   //	whar_t wideh L'\0';
-  double double1, double2;
+  double double1 = NAN, double2 = NAN;
 
   switch (itsIntObject)
   {
@@ -155,9 +157,9 @@ void NFmiRotatingParamRect::DoPostReading()
  */
 // ----------------------------------------------------------------------
 
-bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString *symbolFile,
-                                                 ofstream &theDestinationFile,
-                                                 float theRotating)  // turha t‰ss‰ mutta pit‰‰
+bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString* symbolFile,
+                                                 ofstream& theDestinationFile,
+                                                 float /*theRotating*/)  // turha t‰ss‰ mutta pit‰‰
 // olla samoin kuin emossa
 {
   NFmiString fileName = *itsSubDir;

@@ -127,7 +127,7 @@ NFmiString NFmiPressStationText::StationName()
   if (itsData->IsGrid())
     name = itsPressParam->GetCurrentStation().GetName();
   else if (fStationNumberMode)
-    name = NFmiValueString(static_cast<long>(itsData->Location()->GetIdent()));
+    name = NFmiValueString(itsData->Location()->GetIdent());
   else
     name = itsData->Location()->GetName();
 

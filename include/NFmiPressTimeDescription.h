@@ -128,7 +128,6 @@ class NFmiPressTimeDescription : public NFmiPressDescription
                                const std::string& theConditionalEndDirective,
                                const std::string& theConditionalElseDirective);
 
- protected:
   FmiLoopActivity itsLoopActivity;
   bool fGivenHoursAreRelative;
   bool fIsHourLoop;

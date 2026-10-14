@@ -22,7 +22,6 @@ using namespace std;
 
 NFmiPressArea::~NFmiPressArea()
 {
-  if (itsArea)
     delete itsArea;
 }
 
@@ -34,7 +33,7 @@ NFmiPressArea::~NFmiPressArea()
  */
 // ----------------------------------------------------------------------
 
-NFmiPressArea::NFmiPressArea(const NFmiPressArea &theOtherArea) : NFmiPressDescription()
+NFmiPressArea::NFmiPressArea(const NFmiPressArea &theOtherArea)
 {
   itsArea = theOtherArea.GetArea()->Clone();
   fIsXyRequest = theOtherArea.fIsXyRequest;

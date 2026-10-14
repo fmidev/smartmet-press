@@ -51,7 +51,7 @@ class NFmiCmykColorBag : public NFmiSize
   NFmiString GetColorString(const NFmiString& theName) const;
 
  private:
-  NFmiNamedCmykColor* itsColors;
+  NFmiNamedCmykColor* itsColors = nullptr;
 
 };  // class NFmiCmykColorBag
 
@@ -61,7 +61,7 @@ class NFmiCmykColorBag : public NFmiSize
  */
 // ----------------------------------------------------------------------
 
-inline NFmiCmykColorBag::NFmiCmykColorBag() : NFmiSize(0), itsColors(nullptr) {}
+inline NFmiCmykColorBag::NFmiCmykColorBag() : NFmiSize(0) {}
 #endif  // NFMICMYKCOLORBAG_H
 
 // ======================================================================

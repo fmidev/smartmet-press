@@ -16,7 +16,7 @@
 
 NFmiParamMapping::~NFmiParamMapping()
 {
-  delete[] static_cast<NFmiMappingInterval *>(itsMappingIntervals);
+  delete[] itsMappingIntervals;
 }
 
 // ----------------------------------------------------------------------
@@ -57,10 +57,10 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval &theInterval
 
   // NFmiString newStr = NFmiMultiParamMapping::ModifyTextBySeason(theInterval.itsSymbol);
 
-  NFmiMappingInterval *tempIntervals;
+  NFmiMappingInterval* tempIntervals = nullptr;
   tempIntervals = new NFmiMappingInterval[GetSize() + 1];
 
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
     tempIntervals[j].itsBottomValue = itsMappingIntervals[j].itsBottomValue;
@@ -74,7 +74,6 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval &theInterval
   tempIntervals[j].itsSymbol = theInterval.itsSymbol;  // newStr;
   tempIntervals[j].fIsScaled = theInterval.fIsScaled;
 
-  if (itsMappingIntervals)
     delete[] itsMappingIntervals;
 
   itsMappingIntervals = new NFmiMappingInterval[GetSize() + 1];
@@ -125,7 +124,7 @@ void NFmiParamMapping::AddMappingInterval(double theBottomValue,
 NFmiString *NFmiParamMapping::Map(const double theValue)
 {
   // tarvitaanko en‰‰
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
     if (theValue >= itsMappingIntervals[j].itsBottomValue &&
@@ -168,7 +167,7 @@ bool NFmiParamMapping::IsInFirst(const double theValue)
 
 NFmiString *NFmiParamMapping::Map(const double theValue, bool &outIsScaled)
 {
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
   {
     if (theValue >= itsMappingIntervals[j].itsBottomValue &&

@@ -57,9 +57,9 @@ class NFmiPressArea : public NFmiPressDescription
   void SetXyRequest(bool value);
 
  private:
-  NFmiArea* itsArea;
-  NFmiPressProduct* itsPressProduct;  // ei omista
-  bool fIsXyRequest;
+  NFmiArea* itsArea = nullptr;
+  NFmiPressProduct* itsPressProduct = nullptr;  // ei omista
+  bool fIsXyRequest = true;
 
 };  // class NFmiPressArea
 
@@ -69,10 +69,7 @@ class NFmiPressArea : public NFmiPressDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressArea::NFmiPressArea()
-    : itsArea(nullptr), itsPressProduct(nullptr), fIsXyRequest(true)
-{
-}
+inline NFmiPressArea::NFmiPressArea() {}
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

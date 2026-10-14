@@ -115,7 +115,7 @@ int NFmiSunTimeParamRect::ConvertDefText(NFmiString &object)
 //----------------------------------------------------------------------
 
 // aina local time piirtoalkioissa (vrt segmentti ja tuote miss‰ ei)
-NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo *theQI)
+NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo* /*theQI*/)
 {
   NFmiMetTime tim = itsCurrentSegmentTime;
 
@@ -129,11 +129,11 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo *theQI)
   if (fIsSunRise)  // toimii marraskuussa 2011 eli korjaus pois
   {
     // fIsValidTime; false jos ei laske/nouse
-    return itsStationPoint.TimeOfSunrise(tim, static_cast<bool &>(fIsValidTime));
+    return itsStationPoint.TimeOfSunrise(tim, fIsValidTime);
   }
   else
   {
-    return itsStationPoint.TimeOfSunset(tim, static_cast<bool &>(fIsValidTime));
+    return itsStationPoint.TimeOfSunset(tim, fIsValidTime);
   }
   /*
     // auringonnousu/lasku ei toimi, vaan ainakin nyt kev‰‰ll‰ antaa eilisen nousun t‰m‰n

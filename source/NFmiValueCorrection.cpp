@@ -54,7 +54,7 @@ bool NFmiValueCorrection::ReadFile()
     return false;
   }
 
-  string::size_type start1, end1, start2, end2, start3, end3;
+  string::size_type start1 = 0, end1 = 0, start2 = 0, end2 = 0, start3 = 0, end3 = 0;
   const string delims(" \t");
   string line;
   while (getline(in, line))

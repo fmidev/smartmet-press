@@ -41,7 +41,7 @@ class NFmiSunTimeParamRect : public NFmiTimeParamRect
   NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI) override;
 
  private:
-  bool fIsSunRise;
+  bool fIsSunRise = true;
 
 };  // class NFmiSunTimeParamRect
 
@@ -51,7 +51,7 @@ class NFmiSunTimeParamRect : public NFmiTimeParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiSunTimeParamRect::NFmiSunTimeParamRect() : NFmiTimeParamRect(), fIsSunRise(true)
+inline NFmiSunTimeParamRect::NFmiSunTimeParamRect()
 {
   itsFormat = kHHdMM;
 }

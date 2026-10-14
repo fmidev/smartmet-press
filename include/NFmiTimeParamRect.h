@@ -53,11 +53,11 @@ class NFmiTimeParamRect : public NFmiTextParamRect
   unsigned long itsOrigFormat;
   NFmiString itsOrigFont;
   NFmiStationPoint itsStationPoint;
-  bool fIsValidTime;
+  bool fIsValidTime = true;
 
  private:
-  FmiLanguage itsLanguage;
-  bool fFinnishTimezone;
+  FmiLanguage itsLanguage = kFinnish;
+  bool fFinnishTimezone = false;
 };  // class NFmiTimeParamRect
 
 // ----------------------------------------------------------------------
@@ -66,14 +66,7 @@ class NFmiTimeParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiTimeParamRect::NFmiTimeParamRect()
-    : NFmiTextParamRect(),
-      itsFormat(kHHdMM),
-      fIsValidTime(true),
-      itsLanguage(kFinnish),
-      fFinnishTimezone(false)
-{
-}
+inline NFmiTimeParamRect::NFmiTimeParamRect() : itsFormat(kHHdMM) {}
 
 #endif  // NFMITIMEPARAMRECT_H
 

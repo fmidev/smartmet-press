@@ -292,17 +292,17 @@ inline NFmiPressParam::~NFmiPressParam()
   itsStations.Destroy();
   itsTimeDepObjects.Clear(isTrue);
   itsStationDepObjects.Clear(isTrue);
-  if (itsDataIter)
+
     delete itsDataIter;
-  if (itsPrimaryDataIter)
+
     delete itsPrimaryDataIter;
-  if (itsAreaMask)
+
     delete itsAreaMask;
-  if (itsOptionLocation)
+
     delete itsOptionLocation;
-  if (itsDayChangeText)
+
     delete itsDayChangeText;
-  if (itsCurrentStationPoint)
+
     delete itsCurrentStationPoint;
 }
 
@@ -313,8 +313,7 @@ inline NFmiPressParam::~NFmiPressParam()
 // ----------------------------------------------------------------------
 
 inline NFmiPressParam::NFmiPressParam()
-    : NFmiPressTimeDescription(),
-      fActivity(true),
+    : fActivity(true),
       fStationNotNeeded(false),
       fStationsAreLocalTime(false),
       fGridMode(false),
@@ -327,7 +326,6 @@ inline NFmiPressParam::NFmiPressParam()
       fIsPureRegTimeLoop(true),
       fIsAreaOperation(false),
       itsOptionLocation(nullptr),
-      itsCheckDistance(NFmiPoint()),
       fInterruptSymbolGroup(false),
       fSupplementary(false),
       fCoordinatesFromMainMap(false),
@@ -386,7 +384,6 @@ inline NFmiPressParam::NFmiPressParam(const NFmiRectScale& scale,
       itsScale(scale),
       fIsAreaOperation(false),
       itsOptionLocation(nullptr),
-      itsCheckDistance(NFmiPoint()),
       fInterruptSymbolGroup(false),
       fSupplementary(false),
       fCoordinatesFromMainMap(false),
@@ -757,7 +754,7 @@ inline void NFmiPressParam::SetPrimaryDataName(NFmiString name)
 
 inline bool NFmiPressParam::HasPrimaryData() const
 {
-  return itsPrimaryDataIter == nullptr ? false : true;
+  return itsPrimaryDataIter != nullptr;
 }
 
 // ----------------------------------------------------------------------
@@ -920,7 +917,6 @@ inline void NFmiPressParam::SetOptionLocation(NFmiLocation theLocation)
 
 inline void NFmiPressParam::DeleteOptionLocation()
 {
-  if (itsOptionLocation)
     delete itsOptionLocation;
   itsOptionLocation = nullptr;
 }

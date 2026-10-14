@@ -10,8 +10,10 @@
 #endif
 
 #include "NFmiPressDescription.h"
+
 #include "NFmiEnumConverter.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -57,7 +59,7 @@ bool NFmiPressDescription::ReadRemaining()
   // tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
   FmiRGBColor rgb = FmiRGBColor();
   double r1 = 0, r2 = 0, r3 = 0, r4 = 0;
-  float f1;
+  float f1 = NAN;
   unsigned int i1 = 0;
   unsigned long helpLong = 0;
   FmiEnumSpace helpEnumSpace = kPressRegions;

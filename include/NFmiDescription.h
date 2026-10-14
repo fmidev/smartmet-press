@@ -130,11 +130,7 @@ class NFmiDescription
   template <class Type1, class Type2>
   bool ReadTwo(Type1& retValue1, Type2& retValue2)
   {
-    if ((ReadOne(retValue1)) && ReadOne(retValue2))
-    {
-      return true;
-    }
-    return false;
+    return static_cast<bool>((ReadOne(retValue1)) && ReadOne(retValue2));
   }
   // ----------------------------------------------------------------------
   /*!
@@ -149,11 +145,7 @@ class NFmiDescription
   template <class Type1, class Type2, class Type3>
   bool ReadThree(Type1& retValue1, Type2& retValue2, Type3& retValue3)
   {
-    if ((ReadTwo(retValue1, retValue2)) && ReadOne(retValue3))
-    {
-      return true;
-    }
-    return false;
+    return static_cast<bool>((ReadTwo(retValue1, retValue2)) && ReadOne(retValue3));
   }  // ----------------------------------------------------------------------
      /*!
       * Undocumented
@@ -167,11 +159,7 @@ class NFmiDescription
   template <class Type1, class Type2, class Type3, class Type4>
   bool ReadFour(Type1& retValue1, Type2& retValue2, Type3& retValue3, Type4& retValue4)
   {
-    if ((ReadTwo(retValue1, retValue2)) && ReadTwo(retValue3, retValue4))
-    {
-      return true;
-    }
-    return false;
+    return static_cast<bool>((ReadTwo(retValue1, retValue2)) && ReadTwo(retValue3, retValue4));
   }  // ----------------------------------------------------------------------
      /*!
       * Undocumented
@@ -471,8 +459,6 @@ inline NFmiDescription::NFmiDescription()
       itsLoopNum(0),
       itsMaxLoopNum(4000),
       itsIntObject(0),
-      itsValueHelpString(),
-      itsString(),
       itsCommentLevel(0)
 {
   itsObject[0] = '\0';

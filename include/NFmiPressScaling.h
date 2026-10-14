@@ -104,8 +104,8 @@ class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
   NFmiPoint itsRectSize;
   NFmiPoint itsPlace;
   NFmiPoint itsMovePlace;  // siirtymä
-  bool fPrintOnce;         // pakotettu kerran-vain-tulostus
-  bool fScaleNotPlace;     // DataAlkio-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
+  bool fPrintOnce = false;  // pakotettu kerran-vain-tulostus
+  bool fScaleNotPlace = false;  // DataAlkio-jäsenet tarvii jotta ei kahteen kertaan siirrettäisi
   int itsTimestampDayGap;
 
 };  // class NFmiPressScaling
@@ -117,13 +117,10 @@ class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
 // ----------------------------------------------------------------------
 
 inline NFmiPressScaling::NFmiPressScaling()
-    : NFmiPressTimeDescription(),
-      itsRelArea(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
+    : itsRelArea(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
       itsRectSize(40., 40.),
       itsPlace(NFmiPoint(0., 0.)),
       itsMovePlace(NFmiPoint(0., 0.)),
-      fPrintOnce(false),
-      fScaleNotPlace(false),
       itsTimestampDayGap(kShortMissing)
 {
 }
@@ -163,7 +160,7 @@ inline bool NFmiPressScaling::HasSubText() const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode theOutput)
+inline bool NFmiPressScaling::WritePSUpdatingSubText(FmiPressOutputMode /*theOutput*/)
 {
   return true;
 }

@@ -20,7 +20,6 @@ using namespace std;
 
 NFmiPsWriting::~NFmiPsWriting()
 {
-  if (itsInFile)
     delete itsInFile;
 }
 

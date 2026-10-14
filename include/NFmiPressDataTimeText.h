@@ -47,7 +47,7 @@ class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObje
   unsigned long ClassId() override;
 
  protected:
-  bool fUseOriginTime;
+  bool fUseOriginTime = false;
 
 };  // class NFmiPressDataTimeText
 
@@ -57,10 +57,7 @@ class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObje
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDataTimeText::NFmiPressDataTimeText()
-    : NFmiPressTimeText(), NFmiPressDataObject(), fUseOriginTime(false)
-{
-}
+inline NFmiPressDataTimeText::NFmiPressDataTimeText() {}
 
 // ----------------------------------------------------------------------
 /*!

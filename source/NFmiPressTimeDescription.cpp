@@ -21,7 +21,7 @@
 #include <macgyver/StringConversion.h>
 
 using namespace std;
-extern std::list<std::string> errors;
+#include "NFmiPressErrors.h"
 
 // ----------------------------------------------------------------------
 /*!
@@ -38,7 +38,7 @@ extern std::list<std::string> errors;
 bool NFmiPressTimeDescription::WeekdayDirectiveActive(const string& theDefinition,
                                                       const FmiPressSeasons* theSeasons) const
 {
-  string::size_type start1, end1, start2, end2, pos;
+  string::size_type start1 = 0, end1 = 0, start2 = 0, end2 = 0, pos = 0;
   const string delims(" \t\n");
   pos = theDefinition.find("#Viikonpäivä");
   if (pos == string::npos)
@@ -62,7 +62,7 @@ bool NFmiPressTimeDescription::WeekdayDirectiveActive(const string& theDefinitio
     end2 = theDefinition.find_first_of(delims, start2);
     string str1 = theDefinition.substr(start1, end1 - start1);
     string str2 = theDefinition.substr(start2, end2 - start2);
-    bool in;
+    bool in = false;
     NFmiString str = str1;
     str.LowerCase();
     if (str == "onlyin" || str == "vainkun")
@@ -134,7 +134,7 @@ bool NFmiPressTimeDescription::PreProcessConditionally(
     const string& theConditionalEndDirective,
     const string& theConditionalElseDirective)
 {
-  bool res1, res2, res3;
+  bool res1 = false, res2 = false, res3 = false;
   res1 = thePrepr.SetConditionalStripping(theCondValue,
                                           theConditionalBeginDirective,
                                           theConditionalNotBeginDirective,
@@ -186,9 +186,9 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
 
 {
   NFmiPreProcessor prePr;
-  bool res, res2;
+  bool res = false, res2 = false;
   NFmiTime tim;
-  bool isUnix;
+  bool isUnix = false;
 
 #ifndef UNIX
   string includePath(itsHomePath);
@@ -255,7 +255,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
     string conditionMode;
     string notDir, elseDir, endDir, numStr;
     string numStr1, numStr2, numStr3, numStr4, dayStr, todayStr;
-    bool hourCondition, multiDayCondition;
+    bool hourCondition = false, multiDayCondition = false;
     NFmiMetTime now;
     // int hour = now.GetHour();
     for (pos = optinalDirectives.begin(); pos != optinalDirectives.end(); ++pos)
@@ -379,7 +379,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
         int julToday = today.GetJulianDay();
         int jul1 = dirTime1.GetJulianDay();
         int jul2 = dirTime2.GetJulianDay();
-        bool julCond;
+        bool julCond = false;
         if (jul2 > jul1)
           julCond = julToday >= jul1 && julToday <= jul2;
         else
@@ -402,7 +402,7 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
   }
 
   // jokaisen viikonpäivän direktiivit tarkastetaan
-  bool isTheDay;  //= true;
+  bool isTheDay = false;  //= true;
   bool weekdayActive = WeekdayDirectiveActive(prePr.GetString(), GetSeasonsStatus());
   for (int day = 1; day <= 7; day++)
   {
@@ -534,7 +534,7 @@ unsigned long NFmiPressTimeDescription::ReadTimeFormat(bool isSecond)
 
 bool NFmiPressTimeDescription::ReadRemaining()
 {
-  long long1, long2, long3;
+  long long1 = 0, long2 = 0, long3 = 0;
   NFmiValueString valueString;
   switch (itsIntObject)
   {
@@ -703,12 +703,10 @@ bool NFmiPressTimeDescription::ActiveTimeIndex(int currentInd) const
 {
   // halutessa olioita voidaan piirtää esim joka n:teen aika-askeleeseen
   // Mika: Kannattaisikohan laittaa sulkuja?
-  if (itsLoopActivity.startIndex < 1 ||
-      ((currentInd - itsLoopActivity.startIndex) % itsLoopActivity.step == 0 &&
-       currentInd >= static_cast<int>(itsLoopActivity.startIndex) &&
-       currentInd <= static_cast<int>(itsLoopActivity.stopIndex)))
-    return true;
-  return false;
+  return itsLoopActivity.startIndex < 1 ||
+         ((currentInd - itsLoopActivity.startIndex) % itsLoopActivity.step == 0 &&
+          currentInd >= static_cast<int>(itsLoopActivity.startIndex) &&
+          currentInd <= static_cast<int>(itsLoopActivity.stopIndex));
 }
 
 // ----------------------------------------------------------------------
@@ -759,7 +757,7 @@ long NFmiPressTimeDescription::JustifyByLeaps(long dayDiff)
 {
   // ei kyllä ihan tarkka, ja toimii vain yhdelle vuodelle toistaiseksi
   long ret = dayDiff;
-  short add;
+  short add = 0;
   NFmiTime now;
   NFmiTime compDate = now;
   short sign = +1;  // onko c:ssä

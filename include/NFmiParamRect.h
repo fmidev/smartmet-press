@@ -289,8 +289,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
 // ----------------------------------------------------------------------
 
 inline NFmiParamRect::NFmiParamRect()
-    : NFmiRect(),
-      fModifierUsed(false),
+    : fModifierUsed(false),
       itsInterval2NumberMin(kFloatMissing),
       itsValueIntervalMin(kFloatMissing),
       fAllowMissing(false),

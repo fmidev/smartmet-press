@@ -10,9 +10,11 @@
 #endif
 
 #include "NFmiLetterParamRect.h"
+
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -24,7 +26,6 @@ using namespace std;
 
 NFmiLetterParamRect::~NFmiLetterParamRect()
 {
-  if (itsColumnText)
     delete itsColumnText;
 }
 
@@ -70,8 +71,8 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
 {
   NFmiString helpString;
   NFmiValueString helpValueString;
-  long long1;
-  double r1, r2, r3, r4;
+  long long1 = 0;
+  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
 
   itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
   itsMapping = new NFmiParamMapping;
@@ -339,7 +340,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
     return true;
 
   MapColor();
-  NFmiString *mapString;
+  NFmiString* mapString = nullptr;
   if (IsMaxMinPlotting())
   {
     if (isMax)
@@ -349,7 +350,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   }
   else if (itsMultiMapping)
   {
-    bool missingFound;
+    bool missingFound = false;
     CompleteMultiMapping();
 
     mapString = itsMultiMapping->Map(itsCurrentParamArray, missingFound);
@@ -454,7 +455,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString &theString)
   NFmiString lowString(theString);
   lowString.LowerCase();
   string stdString(lowString);
-  string::size_type startInd;
+  string::size_type startInd = 0;
   bool changed = false;
 
   startInd = stdString.find("lämmintä");

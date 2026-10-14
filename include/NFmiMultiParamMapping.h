@@ -64,9 +64,9 @@ class NFmiMultiParamMapping : public NFmiSize
   short CheckIfIncomplete();
 
  private:
-  FmiMultiMapping *itsMappingIntervals;
-  short itsNumOfParams;
-  bool fIncomplete;
+  FmiMultiMapping* itsMappingIntervals = nullptr;
+  short itsNumOfParams = 0;
+  bool fIncomplete = false;
 
 };  // class NFmiMultiParamMapping
 
@@ -76,10 +76,7 @@ class NFmiMultiParamMapping : public NFmiSize
  */
 // ----------------------------------------------------------------------
 
-inline NFmiMultiParamMapping::NFmiMultiParamMapping()
-    : NFmiSize(0), itsMappingIntervals(nullptr), itsNumOfParams(0), fIncomplete(false)
-{
-}
+inline NFmiMultiParamMapping::NFmiMultiParamMapping() : NFmiSize(0) {}
 
 // ----------------------------------------------------------------------
 /*!

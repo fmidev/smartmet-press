@@ -69,16 +69,16 @@ class NFmiPsWriting
   bool IsLineFeed() const;
 
  protected:
-  bool fActivity;
-  bool fWriteAsLast;
-  bool fRotBeforeScale;
+  bool fActivity = true;
+  bool fWriteAsLast = false;
+  bool fRotBeforeScale = false;
   NFmiPoint itsRotatingPoint;
-  double itsRotatingAngle;
-  bool fOverPrint;
-  std::ifstream* itsInFile;
-  std::ofstream* itsOutFile;  // does not own, does not destroy
+  double itsRotatingAngle = 0.;
+  bool fOverPrint = false;
+  std::ifstream* itsInFile = nullptr;
+  std::ofstream* itsOutFile = nullptr;  // does not own, does not destroy
   NFmiRectScale itsWriteScale;
-  bool fLineFeed;
+  bool fLineFeed = true;
 
 };  // class NFmiPsWriting
 
@@ -89,16 +89,8 @@ class NFmiPsWriting
 // ----------------------------------------------------------------------
 
 inline NFmiPsWriting::NFmiPsWriting()
-    : fActivity(true),
-      fWriteAsLast(false),
-      fRotBeforeScale(false),
-      itsRotatingAngle(0.),
-      fOverPrint(false),
-      itsInFile(nullptr),
-      itsOutFile(nullptr),
-      itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
-                                  NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.)))),
-      fLineFeed(true)
+    : itsWriteScale(NFmiRectScale(NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.)),
+                                  NFmiRect(NFmiPoint(0., 0.), NFmiPoint(1., 1.))))
 {
 }
 

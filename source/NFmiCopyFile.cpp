@@ -73,7 +73,7 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream *inFile, ofstream *outFile, NF
   const short lineSize = 2800;
 
   char inBuf[lineSize];
-  unsigned short n, num;
+  unsigned short n = 0, num = 0;
   // NFmiString notShowpage("gsave annotatepage grestore");
   NFmiString bbZero("%%BoundingBox: 0 0 0 0");
   NFmiString str;
@@ -120,7 +120,7 @@ bool NFmiCopyFileWithoutShowpage(ifstream &inFile, ofstream &outFile)
   // 1.6 Metview:n ps-driveri tuottaa 513 pitkiä rivejä
   const short lineSize = 2800;
   char inBuf[lineSize];
-  unsigned short num;
+  unsigned short num = 0;
   // NFmiString notShowpage("gsave annotatepage grestore");
   NFmiString str;
   while (inFile.getline(inBuf, lineSize, '\n'))
@@ -160,7 +160,7 @@ bool NFmiCopyFileWithoutShowpage(ifstream &inFile, ofstream &outFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileColoring(ifstream &inFile, ofstream &outFile, NFmiCmykColorBag *colorBag)
+bool NFmiCopyFileColoring(ifstream& inFile, ofstream& outFile, NFmiCmykColorBag* /*colorBag*/)
 {
   // 1.6 Metview:n ps-driveri tuottaa 513 pitkiä riviä
   // vaikka standardi puhuu 256:sta
@@ -168,7 +168,7 @@ bool NFmiCopyFileColoring(ifstream &inFile, ofstream &outFile, NFmiCmykColorBag 
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  short nColor;
+  short nColor = 0;
   NFmiString ownColor("LampoVari");
   NFmiString proc2("%%");
   NFmiString zeroX("0 x");
@@ -228,7 +228,7 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  unsigned short nSlash, num, nColor;
+  unsigned short nSlash = 0, num = 0, nColor = 0;
   bool BBFound = false;
   NFmiString newBounding("%%BoundingBox: ");
   NFmiString bounding("%%BoundingBox:");
@@ -368,7 +368,7 @@ bool NFmiCopyFileCropping(ifstream &inFile, ofstream &outFile, NFmiRect theRect)
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  unsigned short nSlash, num;
+  unsigned short nSlash = 0, num = 0;
   bool BBFound = false;
   NFmiString newBounding("%%BoundingBox: ");
   NFmiString str;
@@ -424,7 +424,7 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream &inFile,
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  unsigned short nSlash, num;
+  unsigned short nSlash = 0, num = 0;
   bool PsFound = false;
   // bool BbFound = false;
   NFmiString line("%!PS-Adobe-3.0 EPSF-3.0\n");

@@ -214,7 +214,7 @@ inline std::string NFmiPressDescription::GetEncoding() const
  */
 // ----------------------------------------------------------------------
 
-inline bool NFmiPressDescription::BlockLatinFont(const NFmiString& font) const
+inline bool NFmiPressDescription::BlockLatinFont(const NFmiString& /*font*/) const
 {
   return true;
 }

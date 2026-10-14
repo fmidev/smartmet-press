@@ -11,6 +11,7 @@
 
 // press
 #include "NFmiSymbolGroup.h"
+
 #include "NFmiExtremePlaceParamRect.h"
 #include "NFmiExtremeTimeParamRect.h"
 #include "NFmiLetterParamRect.h"
@@ -24,6 +25,7 @@
 #include "NFmiSunTimeParamRect.h"
 #include "NFmiSymbolParamRect.h"
 #include "NFmiTimeParamRect.h"
+#include <cmath>
 // newbase
 #include "NFmiSuperSmartInfo.h"
 // system
@@ -61,10 +63,10 @@ enum NFmiSymbolGroupObjects
 NFmiSymbolGroup::~NFmiSymbolGroup()
 {
   if (itsParamRects)
-    delete[] static_cast<NFmiParamRect **>(itsParamRects);
+    delete[] itsParamRects;
   if (itsRectScale)
-    delete static_cast<NFmiRectScale *>(itsRectScale);
-  if (itsPsSymbol)
+    delete itsRectScale;
+
     delete itsPsSymbol;
   itsPressScalingObjects.Clear(isTrue);
 }
@@ -111,7 +113,7 @@ bool NFmiSymbolGroup::Set(const NFmiRectScale& theRectScale,
                           ofstream &theDestinationFile)
 {
   if (itsRectScale)
-    delete static_cast<NFmiRectScale *>(itsRectScale);
+    delete itsRectScale;
   itsRectScale = new NFmiRectScale(theRectScale);
   itsQueryDataIter = theQueryDataIter;
   itsOutFile = &theDestinationFile;
@@ -172,22 +174,22 @@ bool NFmiSymbolGroup::SetAllLanguages(FmiLanguage theLanguage)
 
 bool NFmiSymbolGroup::Add(const NFmiParamRect &theParamRect)
 {
-  NFmiParamRect **tempRects;
+  NFmiParamRect** tempRects = nullptr;
   tempRects = new NFmiParamRect *[itsSize + 1];
-  int j;
+  int j = 0;
   for (j = 0; j < static_cast<int>(itsSize); j++)
     tempRects[j] = itsParamRects[j];
   tempRects[j] = theParamRect.Clone();
 
   if (itsParamRects)
-    delete[] static_cast<NFmiParamRect **>(itsParamRects);
+    delete[] itsParamRects;
 
   itsParamRects = new NFmiParamRect *[itsSize + 1];
   itsSize = itsSize + 1;
   for (j = 0; j < static_cast<int>(itsSize); j++)
     itsParamRects[j] = tempRects[j];
 
-  delete[] static_cast<NFmiParamRect **>(tempRects);
+  delete[] tempRects;
   return true;  // doesn't compare if already in the list ->true is returned as a default.
 }
 
@@ -236,11 +238,11 @@ void NFmiSymbolGroup::InitMissing()
 bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
-  double x, y;
+  double x = NAN, y = NAN;
 
-  NFmiPressScaling *psObject;
+  NFmiPressScaling* psObject = nullptr;
   bool sizeGiven = false;
-  bool isWindSpeed, isWindDirection;
+  bool isWindSpeed = false, isWindDirection = false;
 
   ReadNext();
   while (itsIntObject != 9999 || itsCommentLevel)
@@ -661,7 +663,7 @@ bool NFmiSymbolGroup::WritePS(NFmiStationPoint *theStationPoint, FmiPressOutputM
                             theStationPoint->Y() - scaledYSize / 2);  // bottom
 
   NFmiVoidPtrIterator objectIter(itsPressScalingObjects);
-  NFmiPressScaling *object;
+  NFmiPressScaling* object = nullptr;
 
   objectIter.Reset();
   object = static_cast<NFmiPressScaling *>(objectIter.Next());

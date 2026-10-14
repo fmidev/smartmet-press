@@ -61,7 +61,7 @@ class NFmiPressTimeText : public NFmiPressText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressTimeText::NFmiPressTimeText() : NFmiPressText(), itsFormat(kWwsHH) {}
+inline NFmiPressTimeText::NFmiPressTimeText() : itsFormat(kWwsHH) {}
 #endif  // NFMIPRESSTIMETEXT_H
 
 // ======================================================================

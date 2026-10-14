@@ -6,17 +6,22 @@
 // ======================================================================
 
 #include "NFmiDescription.h"
+
 #include "NFmiFileString.h"
 #include <iostream>
 #include <list>
+#include <cmath>
 #include <string>
 
-extern std::list<std::string> errors;
+#include "NFmiPressErrors.h"
 
 using namespace std;
 
+namespace
+{
 //! Undocumented
-static unsigned char kSecondC = '\"';
+unsigned char kSecondC = '\"';
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!
@@ -103,10 +108,7 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retVal
       // floatmissing, on jo
       *itsDescriptionFile >> itsObject;
       itsString = itsObject;
-      if (itsString == NFmiString(","))
-        return true;
-      else
-        return false;
+      return itsString == NFmiString(",");
     }
     else  // tiedostonimi
       return false;
@@ -120,10 +122,7 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retVal
     // luetaan aina seuraava stringi itsObjektiin
     *itsDescriptionFile >> itsObject;
     itsString = itsObject;
-    if (itsString == NFmiString(","))
-      return true;
-    else
-      return false;
+    return itsString == NFmiString(",");
   }
   else if (itsValueHelpString == NFmiString("-,"))
   {
@@ -134,10 +133,7 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retVal
     // floatmissing, on jo
     *itsDescriptionFile >> itsObject;
     itsString = itsObject;
-    if (itsString == NFmiString(","))
-      return true;
-    else
-      return false;
+    return itsString == NFmiString(",");
   }
   else if (itsValueHelpString == NFmiString(","))
     return true;
@@ -157,7 +153,7 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retVal
 bool NFmiDescription::Set1Double(double &theMember)
 {
   bool ok = false;
-  double aDouble;
+  double aDouble = NAN;
   if (ReadEqualChar())
   {
     if (ReadDouble(aDouble))
@@ -182,7 +178,7 @@ bool NFmiDescription::Set1Double(double &theMember)
 bool NFmiDescription::Set1Long(long &theMember)
 {
   bool ok = false;
-  long aLong;
+  long aLong = 0;
   if (ReadEqualChar())
   {
     if (ReadLong(aLong))
@@ -207,7 +203,7 @@ bool NFmiDescription::Set1Long(long &theMember)
 bool NFmiDescription::Set1UnsignedLong(unsigned long &theMember)
 {
   bool ok = false;
-  unsigned long aLong;
+  unsigned long aLong = 0;
   if (ReadEqualChar())
   {
     if (ReadUnsignedLong(aLong))
@@ -423,12 +419,8 @@ bool NFmiDescription::Read4Double(double &retValue1,
 {
   // Sulut ovat takaavinaan oikean järjestyksen, mutta eikö se
   // ole kuitenkin vasemmalta oikealle standardin mukaan? (Mika)
-  if ((((ReadDouble(retValue1)) && ReadDouble(retValue2)) && ReadDouble(retValue3)) &&
-      ReadDouble(retValue4))
-  {
-    return true;
-  }
-  return false;
+  return (((ReadDouble(retValue1)) && ReadDouble(retValue2)) && ReadDouble(retValue3)) &&
+         ReadDouble(retValue4);
 }
 
 // ----------------------------------------------------------------------
@@ -443,11 +435,7 @@ bool NFmiDescription::Read4Double(double &retValue1,
 
 bool NFmiDescription::Read2Double(double &retValue1, double &retValue2)
 {
-  if ((ReadDouble(retValue1)) && ReadDouble(retValue2))
-  {
-    return true;
-  }
-  return false;
+  return (ReadDouble(retValue1)) && ReadDouble(retValue2);
 }
 
 // ----------------------------------------------------------------------

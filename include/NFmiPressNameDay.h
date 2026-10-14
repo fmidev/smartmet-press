@@ -50,7 +50,7 @@ class NFmiPressNameDay : public NFmiPressText
   void ChangeByHours(long hours) override;
 
  protected:
-  NFmiNameDay* itsNameDay;
+  NFmiNameDay* itsNameDay = nullptr;
   FmiCounter itsMaxNumber;
   FmiCounter itsMaxLength;  // voisi olla textillä
 
@@ -63,7 +63,7 @@ class NFmiPressNameDay : public NFmiPressText
 // ----------------------------------------------------------------------
 
 inline NFmiPressNameDay::NFmiPressNameDay()
-    : NFmiPressText(), itsNameDay(nullptr), itsMaxNumber(kShortMissing), itsMaxLength(kShortMissing)
+    : itsMaxNumber(kShortMissing), itsMaxLength(kShortMissing)
 {
 }
 

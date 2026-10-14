@@ -11,6 +11,8 @@
 
 // press
 #include "NFmiPsSymbol.h"
+
+#include <cmath>
 //#include "NFmiPsWriting.h"
 #include "NFmiFileString.h"
 // newbase
@@ -35,9 +37,8 @@ NFmiPsSymbol::~NFmiPsSymbol(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol &thePsSymbol)
-    : NFmiPressScaling(),
-      itsShortDir(NFmiString(thePsSymbol.itsShortDir)),
+NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol& thePsSymbol)
+    : itsShortDir(NFmiString(thePsSymbol.itsShortDir)),
       itsOrigDir(NFmiString(thePsSymbol.itsOrigDir))
 {
 }
@@ -83,7 +84,6 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest()
   if (itsLogFile)
     *itsLogFile << "*** INFO: Use " << fileName << endl;
 
-  if (itsInFile)
     delete itsInFile;
   itsInFile = new ifstream;
   itsInFile->open(fileName, ios::in | ios::binary);
@@ -159,7 +159,7 @@ bool NFmiPsSymbol::ConvertOrig2Short()
     mess += NFmiString(" BEGINS ********************");
     output.write(mess.CharPtr(), 40);
     output.write(static_cast<char *>(NFmiString("\n")), 1);
-    short num;
+    short num = 0;
     char endLine = '\n';
     while (input.getline(inBuf, lineSize, endLine))  // newline PC:lle
     {
@@ -254,9 +254,9 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
-  double r1, r2, r3, r4;
-  double xmin, xmax, ymin, ymax;
-  double x, y;
+  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
+  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
+  double x = NAN, y = NAN;
   xmin = ymin = 0;
   xmax = ymax = 1;
 
@@ -299,7 +299,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
           break;
         if (ReadDouble(x))
         {
-          double xh, yh;
+          double xh = NAN, yh = NAN;
           xh = yh = 1.;
           if (x > 0.)
             xh = c20 / x;

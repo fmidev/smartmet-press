@@ -41,8 +41,8 @@ class NFmiPressComputerTimeText : public NFmiPressTimeText
   bool WritePS(FmiPressOutputMode theOutput) override;
 
  protected:
-  short itsDeltaDays;
-  short itsDeltaHours;
+  short itsDeltaDays = 0;
+  short itsDeltaHours = 0;
 
 };  // class NFmiPressComputerTimeText
 
@@ -52,10 +52,7 @@ class NFmiPressComputerTimeText : public NFmiPressTimeText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressComputerTimeText::NFmiPressComputerTimeText()
-    : NFmiPressTimeText(), itsDeltaDays(0), itsDeltaHours(0)
-{
-}
+inline NFmiPressComputerTimeText::NFmiPressComputerTimeText() {}
 
 // ----------------------------------------------------------------------
 /*!

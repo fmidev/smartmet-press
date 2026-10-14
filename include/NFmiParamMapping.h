@@ -47,7 +47,7 @@ class NFmiParamMapping : public NFmiSize
   NFmiString* Map(const double theValue, bool& outIsScaled);
 
  private:
-  NFmiMappingInterval* itsMappingIntervals;
+  NFmiMappingInterval* itsMappingIntervals = nullptr;
 
 };  // class NFmiParamMapping
 
@@ -57,7 +57,7 @@ class NFmiParamMapping : public NFmiSize
  */
 // ----------------------------------------------------------------------
 
-inline NFmiParamMapping::NFmiParamMapping() : NFmiSize(0), itsMappingIntervals(nullptr) {}
+inline NFmiParamMapping::NFmiParamMapping() : NFmiSize(0) {}
 #endif  // NFMIPARAMMAPPING_H
 
 // ======================================================================

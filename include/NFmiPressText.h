@@ -109,33 +109,33 @@ class NFmiPressText : public NFmiPressScaling
   NFmiPressText* GetSubText() const;
 
  protected:
-  double itsLastLineStep;  // tarvitaan jotta ei uusi kappale alkaisi kuin olisi vanha rivinväli
-  double itsLineStep;
-  double itsLineStepFactor;
-  double itsTopMargin;
-  double itsRightMargin;
-  double itsLeftMargin;
-  double itsIndent;
-  bool fRightJustification;
-  bool fLoopErrorReported;
-  bool fInParagraph;
-  bool fInFreeArea;
+  double itsLastLineStep = 0.;  // tarvitaan jotta ei uusi kappale alkaisi kuin olisi vanha rivinväli
+  double itsLineStep = 0.;
+  double itsLineStepFactor = 0.;
+  double itsTopMargin = -1000.;
+  double itsRightMargin = 0;
+  double itsLeftMargin = 0;
+  double itsIndent = 0.;
+  bool fRightJustification = true;
+  bool fLoopErrorReported = false;
+  bool fInParagraph = false;
+  bool fInFreeArea = false;
   NFmiPoint itsParagraphMove;
   NFmiString itsAddInFront;
   NFmiString itsAddAfter;
-  bool fUpperCase;
-  bool fLowerCase;
-  bool fFirstUpperCase;
-  bool fAddLocalTime;
-  NFmiString* itsText;
+  bool fUpperCase = false;
+  bool fLowerCase = false;
+  bool fFirstUpperCase = false;
+  bool fAddLocalTime = false;
+  NFmiString* itsText = nullptr;
   NFmiPressText* itsSubText;
-  double itsCharSpace;
+  double itsCharSpace = 0.;
   unsigned long itsMaxLen;
-  double itsWidthFactor;
+  double itsWidthFactor = 1.;
   std::vector<NFmiPoint> itsFreePath;
   // std::vector<NFmiHyphenationString> itsNextTexts;
   std::vector<NFmiPressText> itsNextTexts;
-  bool fNarrowColumn;
+  bool fNarrowColumn = false;
 };  // class NFmiPressText
 
 // ----------------------------------------------------------------------
@@ -144,28 +144,8 @@ class NFmiPressText : public NFmiPressScaling
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressText::NFmiPressText()
-    : NFmiPressScaling(),
-      itsLastLineStep(0.),
-      itsLineStep(0.),
-      itsLineStepFactor(0.),
-      itsTopMargin(-1000.),
-      itsRightMargin(0),
-      itsLeftMargin(0),
-      itsIndent(0.),
-      fRightJustification(true),
-      fLoopErrorReported(false),
-      fInParagraph(false),
-      fInFreeArea(false),
-      fUpperCase(false),
-      fLowerCase(false),
-      fFirstUpperCase(false),
-      fAddLocalTime(false),
-      itsText(nullptr),
-      itsCharSpace(0.),
-      itsMaxLen(kUnsignedLongMissing),
-      itsWidthFactor(1.),
-      fNarrowColumn(false)
+inline NFmiPressText::NFmiPressText() : itsMaxLen(kUnsignedLongMissing)
+
 {
   itsSubText = nullptr;
   itsLanguage = kFinnish;
@@ -193,7 +173,6 @@ inline bool NFmiPressText::SetText()
 
 inline void NFmiPressText::SetText(NFmiString theText)
 {
-  if (itsText)
     delete itsText;
   itsText = new NFmiString(theText);
 }
@@ -260,7 +239,7 @@ inline NFmiPressText* NFmiPressText::GetSubText() const
 
 inline bool NFmiPressText::HasSubText() const
 {
-  return itsSubText ? true : false;
+  return itsSubText != nullptr;
 }
 // ----------------------------------------------------------------------
 /*!

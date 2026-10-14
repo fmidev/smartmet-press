@@ -10,6 +10,7 @@
 #endif
 
 #include "NFmiPressText.h"
+
 #include "NFmiFileString.h"
 #include "NFmiFileSystem.h"
 #include "NFmiHyphenationString.h"
@@ -17,8 +18,9 @@
 #include "NFmiPressDataTimeText.h"
 #include "NFmiPressGivenTimeText.h"
 #include <iostream>
+#include <cmath>
 
-extern std::list<std::string> errors;
+#include "NFmiPressErrors.h"
 
 using namespace std;
 
@@ -31,9 +33,8 @@ using namespace std;
 
 NFmiPressText::~NFmiPressText()
 {
-  if (itsText)
     delete itsText;
-  if (itsSubText)
+
     delete itsSubText;
 }
 
@@ -89,7 +90,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
   NFmiString textFile, textPath, textDir;
-  double r1, r2, r3, x;
+  double r1 = NAN, r2 = NAN, r3 = NAN, x = NAN;
   NFmiPoint point;
 
   // itsFont = NFmiString("Times-Roman");
@@ -504,10 +505,10 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
     std::fstream in(dataFile, ios::in | ios::in);
     const short lineSize = 2800;
     char inBuf[lineSize];
-    unsigned long tagBeg, tagBegH, tagEnd;
+    unsigned long tagBeg = 0, tagBegH = 0, tagEnd = 0;
     bool firstText = true;
     std::string stdNextStr;
-    unsigned long posDuobleSpace, numDuobleSpace;
+    unsigned long posDuobleSpace = 0, numDuobleSpace = 0;
 
     std::string string0, string1, string2, string3;
 
@@ -523,7 +524,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
     if (mainHeaderSize == 0.)
       mainHeaderSize = headerSize;
 
-    bool isHeader, isMainHeader;
+    bool isHeader = false, isMainHeader = false;
     NFmiString baseFont = GetFont();
     double baseSize = itsRectSize.Y();
     double baseLineStep = GetLineStep();
@@ -672,7 +673,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
 bool NFmiPressText::ReadRemaining()
 {
-  double r1;
+  double r1 = NAN;
   NFmiString helpString;
   NFmiValueString valueString;
   switch (itsIntObject)
@@ -724,8 +725,8 @@ bool NFmiPressText::ReadRemaining()
 
     case dSubTextObject:
     {
-      if (itsSubText)  // onko mahdollista
-        delete itsSubText;
+      // onko mahdollista
+      delete itsSubText;
       itsSubText = new NFmiPressText;
       itsSubText->SetHome(GetHome());
       itsSubText->SetEnvironment(itsEnvironment);
@@ -742,7 +743,6 @@ bool NFmiPressText::ReadRemaining()
     }
     case dSubTimeTextObject:
     {
-      if (itsSubText)
         delete itsSubText;
       itsSubText = new NFmiPressGivenTimeText;
       itsSubText->SetHome(GetHome());
@@ -763,7 +763,6 @@ bool NFmiPressText::ReadRemaining()
 
     case dSubComputerTimeTextObject:
     {
-      if (itsSubText)
         delete itsSubText;
       itsSubText = new NFmiPressComputerTimeText;
       itsSubText->SetHome(GetHome());
@@ -1027,7 +1026,7 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
   double heightHalfY = .5 * rect.Height();     // kokeellinen vakio, tämä sijoittaa samoin kuin
   // entinen itsRotatingPoint ainakin yhdellä koolla
 
-  double x, y;
+  double x = NAN, y = NAN;
   if (itsRotatingAngle == 90.)
   {
     x = centerX + heightHalfX;
@@ -1241,7 +1240,7 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
     if (fInArea)
     {
       NFmiString actualFont;
-      double actualHeight;
+      double actualHeight = NAN;
       double yMove = itsParagraphMove.Y() - lineStepAdd;
       *itsOutFile << "/Leading " << lineStep << " def" << endl;
       *itsOutFile << itsParagraphMove.X() << " " <<  // EI ONNAA X

@@ -55,7 +55,7 @@ bool NFmiPressComputerTimeText::SetText()
 
 bool NFmiPressComputerTimeText::ReadRemaining()
 {
-  long long1;
+  long long1 = 0;
 
   switch (itsIntObject)
   {
