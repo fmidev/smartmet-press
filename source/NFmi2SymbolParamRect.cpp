@@ -99,8 +99,7 @@ int NFmi2SymbolParamRect::ConvertDefText(NFmiString& object)
 
   if (lowChar == NFmiString("secondparameter") || lowChar == NFmiString("toinenparametri"))
     return dSecondPar;
-  else
-    return NFmiSymbolParamRect::ConvertDefText(object);
+  return NFmiSymbolParamRect::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------

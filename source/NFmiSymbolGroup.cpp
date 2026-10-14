@@ -67,7 +67,7 @@ NFmiSymbolGroup::~NFmiSymbolGroup()
   if (itsRectScale)
     delete itsRectScale;
 
-    delete itsPsSymbol;
+  delete itsPsSymbol;
   itsPressScalingObjects.Clear(isTrue);
 }
 
@@ -238,11 +238,13 @@ void NFmiSymbolGroup::InitMissing()
 bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
-  double x = NAN, y = NAN;
+  double x = NAN;
+  double y = NAN;
 
   NFmiPressScaling* psObject = nullptr;
   bool sizeGiven = false;
-  bool isWindSpeed = false, isWindDirection = false;
+  bool isWindSpeed = false;
+  bool isWindDirection = false;
 
   ReadNext();
   while (itsIntObject != 9999 || itsCommentLevel)

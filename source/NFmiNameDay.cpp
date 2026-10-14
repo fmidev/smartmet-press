@@ -37,7 +37,8 @@ bool NFmiNameDay::ReadFile(const NFmiString& theFileName)
 
   char dateBuff[20];
   char nameBuff[20];
-  NFmiString name, date;
+  NFmiString name;
+  NFmiString date;
   NFmiString lastDate("tyhjä");
   ifstream in(theFileName, ios::in);
   short julDay = 0;
@@ -76,11 +77,9 @@ bool NFmiNameDay::ReadFile(const NFmiString& theFileName)
       fValue = true;
       return true;
     }
-    else
-      return false;
-  }
-  else
     return false;
+  }
+  return false;
 }
 
 // ----------------------------------------------------------------------

@@ -46,7 +46,7 @@ class NFmiPsWriting
   bool WriteGRestore();
   void Rotate();
   bool WritePSConcat();
-  bool WritePSConcatRotating(float);
+  bool WritePSConcatRotating(float /*theDirection*/);
   bool WritePSEnd();
   bool WriteEPSConcatClipping(NFmiRect theClippingRect);
   bool WriteEPSConcatClipping(std::vector<NFmiPoint> points);

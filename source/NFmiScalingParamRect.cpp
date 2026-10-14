@@ -117,14 +117,13 @@ int NFmiScalingParamRect::ConvertDefText(NFmiString& object)
   if (lowChar == NFmiString("heightscale") || lowChar == NFmiString("korkeusskaala"))
     return dHeightScale;
 
-  else if (lowChar == NFmiString("widthscale") || lowChar == NFmiString("leveysskaala"))
+  if (lowChar == NFmiString("widthscale") || lowChar == NFmiString("leveysskaala"))
     return dWidthScale;
 
-  else if (lowChar == NFmiString("scalingparameter") || lowChar == NFmiString("skaalaavaparametri"))
+  if (lowChar == NFmiString("scalingparameter") || lowChar == NFmiString("skaalaavaparametri"))
     return dSecondPar;
 
-  else
-    return NFmi2SymbolParamRect::ConvertDefText(object);
+  return NFmi2SymbolParamRect::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------

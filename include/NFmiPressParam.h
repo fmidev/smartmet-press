@@ -293,17 +293,17 @@ inline NFmiPressParam::~NFmiPressParam()
   itsTimeDepObjects.Clear(isTrue);
   itsStationDepObjects.Clear(isTrue);
 
-    delete itsDataIter;
+  delete itsDataIter;
 
-    delete itsPrimaryDataIter;
+  delete itsPrimaryDataIter;
 
-    delete itsAreaMask;
+  delete itsAreaMask;
 
-    delete itsOptionLocation;
+  delete itsOptionLocation;
 
-    delete itsDayChangeText;
+  delete itsDayChangeText;
 
-    delete itsCurrentStationPoint;
+  delete itsCurrentStationPoint;
 }
 
 // ----------------------------------------------------------------------

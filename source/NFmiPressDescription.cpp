@@ -35,7 +35,7 @@ FmiDirection NFmiPressDescription::String2FmiDirection(const NFmiString &theStri
       lowChar == NFmiString("keski"))
     return kCenter;
 
-  else if (lowChar == NFmiString("right") || lowChar == NFmiString("oikealaita") ||
+  if (lowChar == NFmiString("right") || lowChar == NFmiString("oikealaita") ||
            lowChar == NFmiString("oikea"))
     return kRight;
 
@@ -58,7 +58,10 @@ bool NFmiPressDescription::ReadRemaining()
 {
   // tässä tulisi olla kaikki mitä ConvertDefText:ssäkin
   FmiRGBColor rgb = FmiRGBColor();
-  double r1 = 0, r2 = 0, r3 = 0, r4 = 0;
+  double r1 = 0;
+  double r2 = 0;
+  double r3 = 0;
+  double r4 = 0;
   float f1 = NAN;
   unsigned int i1 = 0;
   unsigned long helpLong = 0;

@@ -62,7 +62,10 @@ NFmiParamRect* NFmiNumberParamRect::Clone() const
 bool NFmiNumberParamRect::ReadDescription(NFmiString &retString)
 {
   long long1 = 0;
-  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
+  double r1 = NAN;
+  double r2 = NAN;
+  double r3 = NAN;
+  double r4 = NAN;
   itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
 
   itsFormat = NFmiString("%.f");
@@ -267,7 +270,7 @@ int NFmiNumberParamRect::ConvertDefText(NFmiString &object)
 
   if (lowChar == NFmiString("format") || lowChar == NFmiString("formaatti"))
     return dFormat;
-  else if (lowChar == NFmiString("zerowithminus") || lowChar == NFmiString("nollaviivalla"))
+  if (lowChar == NFmiString("zerowithminus") || lowChar == NFmiString("nollaviivalla"))
     return dZeroMinus;
   else if (lowChar == NFmiString("detachsign") || lowChar == NFmiString("irrotaetumerkki"))
     return dDetachSign;
@@ -306,8 +309,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       *itsLogFile << "  backup station not needed for #Number" << endl;
       return true;
     }
-    else
-      *itsLogFile << "  backup station used for #Number" << endl;
+    *itsLogFile << "  backup station used for #Number" << endl;
   }
 
   float value = kFloatMissing;

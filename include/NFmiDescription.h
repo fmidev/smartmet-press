@@ -182,11 +182,9 @@ class NFmiDescription
       theString = NFmiString();
       return ReadOne(retValue2);
     }
-    else
-    {
-      theString = itsValueHelpString;
-      return ReadTwo(retValue1, retValue2);
-    }
+
+    theString = itsValueHelpString;
+    return ReadTwo(retValue1, retValue2);
   }
 
   // ----------------------------------------------------------------------

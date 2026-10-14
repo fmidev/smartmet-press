@@ -193,8 +193,7 @@ NFmiStationPoint NFmiPressParam::GetFirstStationPoint()
   {
     return *static_cast<const NFmiStationPoint *>(itsStations.Location());
   }
-  else
-    return {};
+  return {};
 }
 
 // ----------------------------------------------------------------------
@@ -212,8 +211,7 @@ NFmiPoint NFmiPressParam::GetFirstPoint()
     const auto* statPoint = static_cast<const NFmiStationPoint*>(itsStations.Location());
     return statPoint->Point();
   }
-  else
-    return {};
+  return {};
 }
 // ----------------------------------------------------------------------
 /*!
@@ -254,8 +252,10 @@ bool NFmiPressParam::SetMaxMinPoints()
 
   itsMaxMinLocations.clear();
   unsigned long index = 0;
-  bool isMax = false, isMin = false;
-  float allowedXDist = NAN, allowedYDist = NAN;
+  bool isMax = false;
+  bool isMin = false;
+  float allowedXDist = NAN;
+  float allowedYDist = NAN;
   NFmiSuperSmartInfo info(*itsDataIter);
   NFmiLocationBag tempStations(itsStations);
   tempStations.Reset();
@@ -266,7 +266,13 @@ bool NFmiPressParam::SetMaxMinPoints()
   list<FmiMaxMinPoint>::iterator pos;
   vector<list<FmiMaxMinPoint>::iterator> eraseVector;
   vector<list<FmiMaxMinPoint>::iterator>::iterator posErase;
-  NFmiPoint point, point1, point2, point3, pointDiffX, pointDiffY, pointJust;
+  NFmiPoint point;
+  NFmiPoint point1;
+  NFmiPoint point2;
+  NFmiPoint point3;
+  NFmiPoint pointDiffX;
+  NFmiPoint pointDiffY;
+  NFmiPoint pointJust;
 
   while (tempStations.Next())
   {
@@ -354,15 +360,15 @@ bool NFmiPressParam::SetMaxMinPoints()
       // a,b,c(=value) ratkaistavissa kolmen pisteen avulla
 
       // X-suunta
-      float a1 = (value5 + value1) / 2.f - value;
-      float b1 = (value1 - value5) / 2.f;
-      float just1 = -b1 / (2.f * a1);
+      float a1 = (value5 + value1) / 2.F - value;
+      float b1 = (value1 - value5) / 2.F;
+      float just1 = -b1 / (2.F * a1);
       pointJust = NFmiPoint(pointDiffX.X() * just1, pointDiffX.Y() * just1);
 
       // Y-suunta
-      float a2 = (value3 + value7) / 2.f - value;
-      float b2 = (value7 - value3) / 2.f;
-      float just2 = -b2 / (2.f * a2);
+      float a2 = (value3 + value7) / 2.F - value;
+      float b2 = (value7 - value3) / 2.F;
+      float just2 = -b2 / (2.F * a2);
       pointJust += NFmiPoint(pointDiffY.X() * just2, pointDiffY.Y() * just2);
 
       point += pointJust;
@@ -467,7 +473,7 @@ bool NFmiPressParam::SetData(const NFmiString &dataName)
 {
   // t‰nne eik‰ writeps:‰‰n koska tarvitaan pressScaling-objektien initialisoinnissa
 
-    delete itsDataIter;
+  delete itsDataIter;
 
   bool yearData = false;
   fYearData = false;
@@ -639,15 +645,32 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
   NFmiPoint stationStepSize;
   NFmiString dataFileName;
   NFmiValueString valueString;
-  long long1 = 0, long2 = 0, long3 = 0;
-  unsigned short numOfTableStations = 0, currentStationNum = 0;  // taulukoissa
+  long long1 = 0;
+  long long2 = 0;
+  long long3 = 0;
+  unsigned short numOfTableStations = 0;
+  unsigned short currentStationNum = 0;  // taulukoissa
   unsigned short currentStationNumOnMap = 0;
-  NFmiString string1, string2;
-  NFmiPoint point0, point1, point2, scaledTimeLast, unscaledTimeLast, firstUnscaledPoint;
-  NFmiPoint unscaledTableMove, scaledTableMove;
-  double tableX1 = 0, tableX2 = NAN, tableY1 = 0, tableY2 = NAN;
-  double x = 0, y = 0;
-  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
+  NFmiString string1;
+  NFmiString string2;
+  NFmiPoint point0;
+  NFmiPoint point1;
+  NFmiPoint point2;
+  NFmiPoint scaledTimeLast;
+  NFmiPoint unscaledTimeLast;
+  NFmiPoint firstUnscaledPoint;
+  NFmiPoint unscaledTableMove;
+  NFmiPoint scaledTableMove;
+  double tableX1 = 0;
+  double tableX2 = NAN;
+  double tableY1 = 0;
+  double tableY2 = NAN;
+  double x = 0;
+  double y = 0;
+  double xmin = NAN;
+  double xmax = NAN;
+  double ymin = NAN;
+  double ymax = NAN;
   bool timeOrLevelTableSet = false;
   long statNum = 0;
   double lat = kFloatMissing;
@@ -1766,7 +1789,12 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dStationPlaceMatrixOnMap:
       {
-        float xStart = 0, yStart = 0, xStop = 0, yStop = 0, xIncr = 0, yIncr = 0;
+        float xStart = 0;
+        float yStart = 0;
+        float xStop = 0;
+        float yStop = 0;
+        float xIncr = 0;
+        float yIncr = 0;
         if (SetSix(xStart, yStart, xStop, yStop, xIncr, yIncr))
         {
           NFmiString name;
@@ -2016,7 +2044,10 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
 
       case dStationsFromDataCropping:
       {
-        float x1 = NAN, y1 = NAN, x2 = NAN, y2 = NAN;
+        float x1 = NAN;
+        float y1 = NAN;
+        float x2 = NAN;
+        float y2 = NAN;
         if (SetFour(x1, y1, x2, y2))
         {
           NFmiRect croppingRect(NFmiPoint(x1, y1), NFmiPoint(x2, y2));
@@ -2611,7 +2642,8 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
   stationPointMovement.Set(0., 0.);
   itsCurrentStationIndex = 0;
   FmiCounter statAll = 0;
-  bool done = false, supplementLater = false;
+  bool done = false;
+  bool supplementLater = false;
   fPrimaryDataOk = true;
   bool primaryDataTimeOk = true;
 
@@ -2729,7 +2761,7 @@ bool NFmiPressParam::WritePS(const NFmiRectScale &theScale,
           // NFmiStationPoint statPoint = *static_cast<const NFmiStationPoint
           // *>(itsStations.Location());
 
-            delete itsCurrentStationPoint;
+          delete itsCurrentStationPoint;
           auto* itsCurrentStationPoint =
               new NFmiStationPoint(*static_cast<const NFmiStationPoint*>(itsStations.Location()));
 
@@ -3178,11 +3210,8 @@ bool NFmiPressParam::SetLonLat(NFmiStationPoint &theStation)
       theStation.SetLatitude(itsDataIter->Location()->GetLatitude());
       return true;
     }
-    else
-    {
-      *itsLogFile << "*** ERROR: Could not extract lat/lon from data" << endl;
-      return false;
-    }
+    *itsLogFile << "*** ERROR: Could not extract lat/lon from data" << endl;
+    return false;
   }
 
   // muuten asema/LonLat-tiedostosta

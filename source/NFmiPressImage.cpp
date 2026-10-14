@@ -51,7 +51,8 @@ NFmiPressImage::~NFmiPressImage(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiPressImage::NFmiPressImage(const NFmiPressImage& thePressImage)
-    : itsPath(thePressImage.itsPath),
+    : NFmiPressScaling(),
+      itsPath(thePressImage.itsPath),
       itsImageScale(thePressImage.itsImageScale),
       itsClippingRect(thePressImage.itsClippingRect),
       itsClippingPoints(thePressImage.itsClippingPoints),
@@ -78,9 +79,19 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
 {
   NFmiString tempString;
   NFmiValueString valueString;
-  double r1 = 0, r2 = 0, r3 = 0;
-  double x1 = 0, x2 = 0, x3 = 0, y1 = 0, y2 = 0, y3 = 0;
-  double xmin = 0, xmax = 1, ymin = 0, ymax = 1;
+  double r1 = 0;
+  double r2 = 0;
+  double r3 = 0;
+  double x1 = 0;
+  double x2 = 0;
+  double x3 = 0;
+  double y1 = 0;
+  double y2 = 0;
+  double y3 = 0;
+  double xmin = 0;
+  double xmax = 1;
+  double ymin = 0;
+  double ymax = 1;
   bool timeStamp = false;
   SetPreReadingTimes();
   NFmiString imageFileWithoutTimeStamp;
@@ -711,7 +722,7 @@ bool NFmiPressImage::WritePS(FmiPressOutputMode theOutput)
 
   ScalePlotting();
 
-    delete itsInFile;
+  delete itsInFile;
   itsInFile = new ifstream;
 
 #ifdef UNIX

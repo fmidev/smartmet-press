@@ -56,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fixed a double delete of the data iterator and a leak of mapping names, initialize values that could be used uninitialized
 - Do not write to the log file when none has been set
 - Fixed mechanical clang-tidy findings (internal linkage, unused parameters, initialization, redundant code), no functional changes
+- Fixed clang-tidy style findings (loops, nested conditionals, dead code)
 
 * Sun Oct 11 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.11-1.fmi
 - Invalid numbers are now detected instead of silently becoming 0 or a numeric prefix

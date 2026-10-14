@@ -101,7 +101,7 @@ bool NFmiPressGivenTimeText::SetText()
       SetText((static_cast<NFmiPressTime>(itsFirstPlotTime))
                   .InterpretToStr(itsStringNameTimeFormat, itsLanguage));
     else
-      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f)))
+      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.F)))
                   .InterpretToStr(itsStringNameTimeFormat, itsLanguage));
   }
   else
@@ -109,7 +109,7 @@ bool NFmiPressGivenTimeText::SetText()
     if (fWriteAsUtc)
       SetText((static_cast<NFmiPressTime>(itsFirstPlotTime)).ToStr(itsFormat, itsLanguage));
     else
-      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.f)))
+      SetText((static_cast<NFmiPressTime>(itsFirstPlotTime.LocalTime(25.F)))
                   .ToStr(itsFormat, itsLanguage));
   }
   return true;

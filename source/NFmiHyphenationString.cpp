@@ -190,7 +190,8 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char* theHyphenationMar
   unsigned long posChar = 0;
   unsigned long posReturn = 0;
   unsigned long posLast = 0;
-  std::string hyphWord, word;
+  std::string hyphWord;
+  std::string word;
   std::vector<std::string>::iterator posWord;
   for (posWord = itsIrregularHyphens.begin(); posWord != itsIrregularHyphens.end(); ++posWord)
   {
@@ -545,11 +546,8 @@ bool NFmiHyphenationString::BackPosition()
 {
   if (itsCurrentCharPos == 0)
     return false;
-  else
-  {
-    --itsCurrentCharPos;
-    return true;
-  }
+  --itsCurrentCharPos;
+  return true;
 }
 
 // ----------------------------------------------------------------------

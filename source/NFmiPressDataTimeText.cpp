@@ -68,8 +68,7 @@ int NFmiPressDataTimeText::ConvertDefText(NFmiString &object)
 
   if (lowChar == NFmiString("analysistime") || lowChar == NFmiString("analyysiaika"))
     return dUseOriginTime;
-  else
-    return NFmiPressTimeText::ConvertDefText(object);
+  return NFmiPressTimeText::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------

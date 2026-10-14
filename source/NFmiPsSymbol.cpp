@@ -38,7 +38,8 @@ NFmiPsSymbol::~NFmiPsSymbol(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol& thePsSymbol)
-    : itsShortDir(NFmiString(thePsSymbol.itsShortDir)),
+    : NFmiPressScaling(),
+      itsShortDir(NFmiString(thePsSymbol.itsShortDir)),
       itsOrigDir(NFmiString(thePsSymbol.itsOrigDir))
 {
 }
@@ -84,7 +85,7 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest()
   if (itsLogFile)
     *itsLogFile << "*** INFO: Use " << fileName << endl;
 
-    delete itsInFile;
+  delete itsInFile;
   itsInFile = new ifstream;
   itsInFile->open(fileName, ios::in | ios::binary);
   //  itsInFile->open(fileName, ios::in|ios::in);
@@ -98,8 +99,7 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest()
     itsInFile->clear();
     return isTrue;
   }
-  else
-    itsInFile->close();
+  itsInFile->close();
   itsInFile->clear();
   return isFalse;
 }
@@ -212,8 +212,7 @@ bool NFmiPsSymbol::ConvertOrig2Short()
     output.clear();
     return isTrue;
   }
-  else
-    return isFalse;
+  return isFalse;
 }
 
 // ----------------------------------------------------------------------
@@ -228,8 +227,10 @@ bool NFmiPsSymbol::ConvertOrig2Short()
 bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
-  NFmiPoint sizePoint1Size, sizePoint2Size;
-  NFmiPoint sizePoint1NotSize, sizePoint2NotSize;
+  NFmiPoint sizePoint1Size;
+  NFmiPoint sizePoint2Size;
+  NFmiPoint sizePoint1NotSize;
+  NFmiPoint sizePoint2NotSize;
   sizePoint1Size.Set(0, 0);
   sizePoint2Size.Set(c40, c40);  // ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
   double c20 = c40 / 2.;
@@ -254,9 +255,16 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
   *itsDescriptionFile >> itsObject;
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
-  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
-  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
-  double x = NAN, y = NAN;
+  double r1 = NAN;
+  double r2 = NAN;
+  double r3 = NAN;
+  double r4 = NAN;
+  double xmin = NAN;
+  double xmax = NAN;
+  double ymin = NAN;
+  double ymax = NAN;
+  double x = NAN;
+  double y = NAN;
   xmin = ymin = 0;
   xmax = ymax = 1;
 
@@ -299,7 +307,8 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
           break;
         if (ReadDouble(x))
         {
-          double xh = NAN, yh = NAN;
+          double xh = NAN;
+          double yh = NAN;
           xh = yh = 1.;
           if (x > 0.)
             xh = c20 / x;
@@ -480,16 +489,15 @@ int NFmiPsSymbol::ConvertDefText(NFmiString &object)
       lowChar == NFmiString("kuvakansio") || lowChar == NFmiString("hakemisto"))
     return dSymbolDir;
 
-  else if (lowChar == NFmiString("name") || lowChar == NFmiString("nimi") ||
-           lowChar == NFmiString("tiedosto"))
+  if (lowChar == NFmiString("name") || lowChar == NFmiString("nimi") ||
+      lowChar == NFmiString("tiedosto"))
     return dConstantSymbol;
 
-  else if (lowChar == NFmiString("scale") || lowChar == NFmiString("sizefactor") ||
-           lowChar == NFmiString("kokokerroin"))
+  if (lowChar == NFmiString("scale") || lowChar == NFmiString("sizefactor") ||
+      lowChar == NFmiString("kokokerroin"))
     return dPsRelSize;
 
-  else
-    return NFmiPressScaling::ConvertDefText(object);
+  return NFmiPressScaling::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -510,29 +518,25 @@ bool NFmiPsSymbol::MakeAndWritePS(NFmiPoint place)
   {
     return isTrue;
   }
-  else
-  {
-    if (ConvertOrig2Short())  // itsOrigDir
-    {
-      if (itsLogFile)
-        *itsLogFile << "Symbol " << static_cast<char *>(itsSymbol) << " converted" << endl;
 
-      if (CopyShortSymbol2Dest())  // itsShortDir
-      {
-        return isTrue;
-      }
-      else
-      {
-        if (itsLogFile)
-          *itsLogFile << "*** ERROR: Symbol not found after conversion: "
-                      << static_cast<char *>(itsSymbol) << endl;
-        return isFalse;
-      }
+  if (ConvertOrig2Short())  // itsOrigDir
+  {
+    if (itsLogFile)
+      *itsLogFile << "Symbol " << static_cast<char*>(itsSymbol) << " converted" << endl;
+
+    if (CopyShortSymbol2Dest())  // itsShortDir
+    {
+      return isTrue;
     }
-    else if (itsLogFile)
-      *itsLogFile << "*** ERROR: Missing Symbol: " << static_cast<char *>(itsSymbol) << endl;
-    return isFalse;
+
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: Symbol not found after conversion: "
+                  << static_cast<char*>(itsSymbol) << endl;
+      return isFalse;
   }
+  if (itsLogFile)
+    *itsLogFile << "*** ERROR: Missing Symbol: " << static_cast<char*>(itsSymbol) << endl;
+  return isFalse;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -569,29 +573,24 @@ bool NFmiPsSymbol::WritePS(FmiPressOutputMode theOutput)
     return isTrue;
   }
 
-  else
+  if (ConvertOrig2Short())  // itsOrigDir
   {
-    if (ConvertOrig2Short())  // itsOrigDir
-    {
-      if (itsLogFile)
-        *itsLogFile << "Symbol " << static_cast<char *>(itsSymbol) << " converted" << endl;
+    if (itsLogFile)
+      *itsLogFile << "Symbol " << static_cast<char*>(itsSymbol) << " converted" << endl;
 
-      if (CopyShortSymbol2Dest())  // itsShortDir
-      {
-        return isTrue;
-      }
-      else
-      {
-        if (itsLogFile)
-          *itsLogFile << "*** ERROR: Symbol not found after conversion: "
-                      << static_cast<char *>(itsSymbol) << endl;
-        return isFalse;
-      }
+    if (CopyShortSymbol2Dest())  // itsShortDir
+    {
+      return isTrue;
     }
-    else if (itsLogFile)
-      *itsLogFile << "*** ERROR: Missing Symbol: " << static_cast<char *>(itsSymbol) << endl;
-    return isFalse;
+
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: Symbol not found after conversion: "
+                  << static_cast<char*>(itsSymbol) << endl;
+      return isFalse;
   }
+  if (itsLogFile)
+    *itsLogFile << "*** ERROR: Missing Symbol: " << static_cast<char*>(itsSymbol) << endl;
+  return isFalse;
 }
 
 // ======================================================================

@@ -73,7 +73,8 @@ bool NFmiCopyFileCroppingWithoutShowpage(ifstream *inFile, ofstream *outFile, NF
   const short lineSize = 2800;
 
   char inBuf[lineSize];
-  unsigned short n = 0, num = 0;
+  unsigned short n = 0;
+  unsigned short num = 0;
   // NFmiString notShowpage("gsave annotatepage grestore");
   NFmiString bbZero("%%BoundingBox: 0 0 0 0");
   NFmiString str;
@@ -228,7 +229,9 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  unsigned short nSlash = 0, num = 0, nColor = 0;
+  unsigned short nSlash = 0;
+  unsigned short num = 0;
+  unsigned short nColor = 0;
   bool BBFound = false;
   NFmiString newBounding("%%BoundingBox: ");
   NFmiString bounding("%%BoundingBox:");
@@ -239,7 +242,10 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
   NFmiString zeroX("0 x");
   NFmiString pc("Pc");
   NFmiString f("f ");
-  NFmiString str, str2, hString, colorName;
+  NFmiString str;
+  NFmiString str2;
+  NFmiString hString;
+  NFmiString colorName;
   short nProc2 = 0;
   short nZeroX = 0;
   short nPc = 0;
@@ -368,7 +374,8 @@ bool NFmiCopyFileCropping(ifstream &inFile, ofstream &outFile, NFmiRect theRect)
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  unsigned short nSlash = 0, num = 0;
+  unsigned short nSlash = 0;
+  unsigned short num = 0;
   bool BBFound = false;
   NFmiString newBounding("%%BoundingBox: ");
   NFmiString str;
@@ -424,7 +431,8 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream &inFile,
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  unsigned short nSlash = 0, num = 0;
+  unsigned short nSlash = 0;
+  unsigned short num = 0;
   bool PsFound = false;
   // bool BbFound = false;
   NFmiString line("%!PS-Adobe-3.0 EPSF-3.0\n");
@@ -601,7 +609,7 @@ bool NFmiWritePSConcatRotating(NFmiRectScale theScale, float theDirection, ofstr
   // m‰‰rittelysymboli n‰ytt‰‰ l‰nteen
   // ja PS kiert‰‰ eri suuntaan kuin meteorologiassa
 
-  outFile << (270.f - theDirection) << " rotate" << endl;
+  outFile << (270.F - theDirection) << " rotate" << endl;
 
   return true;
 }

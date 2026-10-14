@@ -89,8 +89,13 @@ NFmiPressText::NFmiPressText(const NFmiPressText &thePressText)
 bool NFmiPressText::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
-  NFmiString textFile, textPath, textDir;
-  double r1 = NAN, r2 = NAN, r3 = NAN, x = NAN;
+  NFmiString textFile;
+  NFmiString textPath;
+  NFmiString textDir;
+  double r1 = NAN;
+  double r2 = NAN;
+  double r3 = NAN;
+  double x = NAN;
   NFmiPoint point;
 
   // itsFont = NFmiString("Times-Roman");
@@ -505,12 +510,18 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
     std::fstream in(dataFile, ios::in | ios::in);
     const short lineSize = 2800;
     char inBuf[lineSize];
-    unsigned long tagBeg = 0, tagBegH = 0, tagEnd = 0;
+    unsigned long tagBeg = 0;
+    unsigned long tagBegH = 0;
+    unsigned long tagEnd = 0;
     bool firstText = true;
     std::string stdNextStr;
-    unsigned long posDuobleSpace = 0, numDuobleSpace = 0;
+    unsigned long posDuobleSpace = 0;
+    unsigned long numDuobleSpace = 0;
 
-    std::string string0, string1, string2, string3;
+    std::string string0;
+    std::string string1;
+    std::string string2;
+    std::string string3;
 
     // int textNum = -1;
     // int numCR = 0;
@@ -524,7 +535,8 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
     if (mainHeaderSize == 0.)
       mainHeaderSize = headerSize;
 
-    bool isHeader = false, isMainHeader = false;
+    bool isHeader = false;
+    bool isMainHeader = false;
     NFmiString baseFont = GetFont();
     double baseSize = itsRectSize.Y();
     double baseLineStep = GetLineStep();
@@ -985,7 +997,8 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
   if (text == NFmiString("ERROR"))
     OutputLog('E', "Teksti puuttuu tekstioliolta", "Text missing from text object");
 
-  NFmiHyphenationString hypString, helpString;
+  NFmiHyphenationString hypString;
+  NFmiHyphenationString helpString;
   bool firstParagraph = fInParagraph && itsTopMargin > -100.;
   bool nParagraph = fInParagraph && !firstParagraph;
   bool widthScaling = itsWidthFactor != 1.;
@@ -1026,7 +1039,8 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
   double heightHalfY = .5 * rect.Height();     // kokeellinen vakio, tämä sijoittaa samoin kuin
   // entinen itsRotatingPoint ainakin yhdellä koolla
 
-  double x = NAN, y = NAN;
+  double x = NAN;
+  double y = NAN;
   if (itsRotatingAngle == 90.)
   {
     x = centerX + heightHalfX;

@@ -308,7 +308,7 @@ bool NFmiPsWriting::WritePSConcatRotating(float theDirection)
               << yTrans << "] concat" << endl;
 
   // määrittelysymboli näyttää länteen ja PS kiertää eri suuntaan kuin meteorologiassa
-  *itsOutFile << (270.f - theDirection) << " rotate" << endl;
+  *itsOutFile << (270.F - theDirection) << " rotate" << endl;
 
   *itsOutFile << "%********* WritePSConcatRotating done ******" << endl;
 

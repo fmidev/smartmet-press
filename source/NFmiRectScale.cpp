@@ -70,8 +70,8 @@ void NFmiRectScale::SetScales(const NFmiRect& theStartRect, const NFmiRect& theE
 
 void NFmiRectScale::RescaleEndScales(double withFactor)
 {
-  double deltaX = withFactor * (itsXEndScale.Difference()) / 2.f;
-  double deltaY = withFactor * (itsYEndScale.Difference()) / 2.f;
+  double deltaX = withFactor * (itsXEndScale.Difference()) / 2.F;
+  double deltaY = withFactor * (itsYEndScale.Difference()) / 2.F;
 
   SetEndScales(NFmiRect(GetEndCenter().X() - deltaX,
                         GetEndCenter().Y() + deltaY,

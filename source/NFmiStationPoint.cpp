@@ -96,7 +96,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
 {
   NFmiString str;
   NFmiString name;
-  char object[255], ch = 0;
+  char object[255];
+  char ch = 0;
   int iobject = 0;
   double value = NAN;
 
@@ -147,7 +148,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
       }
       case dLonLat:
       {
-        double lon = NAN, lat = NAN;
+        double lon = NAN;
+        double lat = NAN;
         *itsDescriptionFile >> ch;
         *itsDescriptionFile >> lon >> lat;
         SetLongitude(lon);
@@ -225,7 +227,7 @@ int NFmiStationPoint::ConvertDefText(NFmiString &object)
 {
   if (object == NFmiString("LonLat"))
     return dLonLat;
-  else if (object == NFmiString("Latitude"))
+  if (object == NFmiString("Latitude"))
     return dLatitude;
   else if (object == NFmiString("Longitude"))
     return dLongitude;
@@ -309,14 +311,12 @@ bool NFmiStationPoint::LocalWmoTime(NFmiTime &utc) const
   {
     return false;
   }
-  else
-  {
-    double min = NAN, hour = NAN;
-    min = modf(diffHour, &hour) * 60.;
-    utc.ChangeByHours(static_cast<long>(hour));
-    utc.ChangeByMinutes(static_cast<long>(min));
-    return true;
-  }
+      double min = NAN;
+    double hour = NAN;
+  min = modf(diffHour, &hour) * 60.;
+  utc.ChangeByHours(static_cast<long>(hour));
+  utc.ChangeByMinutes(static_cast<long>(min));
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -337,12 +337,12 @@ NFmiString NFmiStationPoint::LocalWmoTime(int utc) const
   NFmiValueString retString;
   if (diffHour < -80.)
     retString = NFmiString("-");
-  else if (fmod(diffHour, 1.0f) == 0.)
+  else if (fmod(diffHour, 1.0F) == 0.)
     retString.SetValue(static_cast<int>(diffHour), NFmiString("%02d"));
   else
   {
     int hour = static_cast<int>(diffHour);
-    float corrDiffHour = static_cast<float>(hour) + (diffHour - hour) * 0.6f;
+    float corrDiffHour = static_cast<float>(hour) + (diffHour - hour) * 0.6F;
     retString.SetValue(corrDiffHour, NFmiString("%05.2f"));
   }
 
@@ -448,7 +448,7 @@ float NFmiStationPoint::GetWmoDifference() const
   }
   else if (wmoCode == 42182 || wmoCode == 43192)  // Delhi  HUOMIO 5h 30 min
   {
-    zoneDifferenceHour = 5.5f;  // 550; HUOM/Lasse //oli 530
+    zoneDifferenceHour = 5.5F;  // 550; HUOM/Lasse //oli 530
     useSummerTime = false;
   }                                              //***** AFRIKKA
   else if (wmoCode >= 60000 && wmoCode < 60400)  // marokko

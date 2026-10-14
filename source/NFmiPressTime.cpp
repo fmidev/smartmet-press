@@ -174,9 +174,15 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
   bool noConversion = false;
   int ind = 1;
   int len = theTimeCode.GetLen();
-  NFmiString str6, str4, str3, str2, str1, strh;
+  NFmiString str6;
+  NFmiString str4;
+  NFmiString str3;
+  NFmiString str2;
+  NFmiString str1;
+  NFmiString strh;
   NFmiValueString theString;
-  int plusInd = 0, subPlusInd = 0;
+  int plusInd = 0;
+  int subPlusInd = 0;
 
   while (ind <= len)
   {
@@ -188,7 +194,7 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
       ind++;
       continue;
     }
-    else if (noConversion)
+    if (noConversion)
     {
       theString += str1;
       ind++;

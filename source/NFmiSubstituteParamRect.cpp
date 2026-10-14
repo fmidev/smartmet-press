@@ -179,8 +179,7 @@ int NFmiSubstituteParamRect::ConvertDefText(NFmiString &object)
   if (lowChar == NFmiString("mappingvaluetosubstitute") ||
       lowChar == NFmiString("korvattavamuunnosarvo"))
     return dMappingSubstituteValue;
-  else
-    return NFmiTextParamRect::ConvertDefText(object);
+  return NFmiTextParamRect::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -209,8 +208,7 @@ bool NFmiSubstituteParamRect::WritePS(const NFmiRect& /*theAbsoluteRectOfSymbolG
       *itsLogFile << "  backup station not needed for Text element" << endl;
       return true;
     }
-    else
-      *itsLogFile << "  backup station used in Text element" << endl;
+    *itsLogFile << "  backup station used in Text element" << endl;
   }
 
   itsCurrentSegmentTime = (static_cast<NFmiQueryInfo *>(theQI))->Time();

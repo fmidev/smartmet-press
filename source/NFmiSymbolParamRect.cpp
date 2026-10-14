@@ -93,10 +93,11 @@ NFmiParamRect* NFmiSymbolParamRect::Clone() const
 
 bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
 {
-  double x = NAN, y = NAN;
+  double x = NAN;
+  double y = NAN;
   NFmiValueString valueString;
 
-    delete itsOrigDir;
+  delete itsOrigDir;
   NFmiString origDir;
   NFmiString inDir;
 
@@ -146,10 +147,15 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsString = itsObject;
   itsIntObject = ConvertDefText(itsString);
 
-  long long1 = 0, long2 = 0;
-  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
+  long long1 = 0;
+  long long2 = 0;
+  double r1 = NAN;
+  double r2 = NAN;
+  double r3 = NAN;
+  double r4 = NAN;
   double intervalEps = 0.00001;
-  NFmiPoint sizePoint1, sizePoint2;
+  NFmiPoint sizePoint1;
+  NFmiPoint sizePoint2;
   sizePoint1.Set(0., 0.);
   sizePoint2.Set(c40, c40);  // ksymbolgrupin oletus on myös tämä -> skaala 1 : 1
 
@@ -163,7 +169,8 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsMultiMapping = nullptr;
   bool symbDirGiven = false;
   // bool symbSizeGiven = false;
-  double xh = NAN, yh = NAN;
+  double xh = NAN;
+  double yh = NAN;
   xh = yh = 1.;
 
   while (itsIntObject != 9999 || itsCommentLevel)
@@ -413,7 +420,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   itsSizeFactor = NFmiPoint(xh, yh);
   //	}
 
-    delete itsSubDir;
+  delete itsSubDir;
   itsSubDir = new NFmiString(inDir);  // oikeastaan koko polku
   itsSymbolSetName = subDir;
 
@@ -578,8 +585,7 @@ bool NFmiSymbolParamRect::CopyShortSymbol2Dest(NFmiString *symbolFile,
     itsPreviousPoint = currentPoint;
     return isTrue;
   }
-  else
-    return false;
+  return false;
 }
 
 // ----------------------------------------------------------------------
@@ -694,8 +700,7 @@ bool NFmiSymbolParamRect::ConvertOrig2Short(NFmiString *symbolFile)
 
     return isTrue;
   }
-  else
-    return false;
+  return false;
 }
 
 // ----------------------------------------------------------------------
@@ -726,8 +731,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       *itsLogFile << "  backup station not needed for Symbol" << endl;
       return true;
     }
-    else
-      *itsLogFile << "  backup station used for Symbol" << endl;
+    *itsLogFile << "  backup station used for Symbol" << endl;
   }
 
   if (!ActiveTimeIndex(itsPressParam->GetCurrentStep()))
@@ -825,10 +829,7 @@ bool NFmiSymbolParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
             GetPressProduct()->SetLastSymbolStatus(false);
             return false;
           }
-          else
-          {
-            symbolFile = itsMissingString;
-          }
+          symbolFile = itsMissingString;
         }
       }
       isScaled = false;  // skaalaus vielä poissa
@@ -989,13 +990,10 @@ bool NFmiSymbolParamRect::ReadValues(NFmiFastQueryInfo *theQI, bool setRelHour)
   {
     return ReadCurrentValueArray(theQI);
   }
-  else
-  {
-    if (!PointOnParam(theQI, GetDataIdent().GetParam()) || !PointOnLevel(theQI))
-      return false;
+  if (!PointOnParam(theQI, GetDataIdent().GetParam()) || !PointOnLevel(theQI))
+    return false;
 
-    return ReadCurrentValue(theQI, itsCurrentParamValue);
-  }
+  return ReadCurrentValue(theQI, itsCurrentParamValue);
 }
 
 // ======================================================================

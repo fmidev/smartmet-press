@@ -64,7 +64,10 @@ bool NFmiExtremePlaceParamRect::ReadDescription(NFmiString& retString)
   NFmiString helpString;
   NFmiValueString helpValueString;
   long long1 = 0;
-  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
+  double r1 = NAN;
+  double r2 = NAN;
+  double r3 = NAN;
+  double r4 = NAN;
 
   itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
   itsMapping = new NFmiParamMapping;

@@ -100,10 +100,9 @@ int NFmiPressNameDay::ConvertDefText(NFmiString &object)
   lowChar.LowerCase();
   if (lowChar == NFmiString("maxnumber") || lowChar == NFmiString("maksimim‰‰r‰"))
     return dMaxNumber;
-  else if (lowChar == NFmiString("maxlength") || lowChar == NFmiString("maksimipituus"))
+  if (lowChar == NFmiString("maxlength") || lowChar == NFmiString("maksimipituus"))
     return dMaxLength;
-  else
-    return NFmiPressText::ConvertDefText(object);
+  return NFmiPressText::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -170,8 +169,7 @@ bool NFmiPressNameDay::WritePS(FmiPressOutputMode theOutput)
 
     return WriteString(NFmiString("NameDay"), theOutput);
   }
-  else
-    return false;
+  return false;
 }
 
 // ======================================================================

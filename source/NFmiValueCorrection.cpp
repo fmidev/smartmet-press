@@ -41,7 +41,9 @@ bool NFmiValueCorrection::ReadFile()
 {
   fRead = true;
   // fValue = false;
-  string str1, str2, str3;
+  string str1;
+  string str2;
+  string str3;
 
   // string includePath(itsFile);
   // ifstream in(includePath.c_str(),ios::in|ios::binary);
@@ -54,7 +56,12 @@ bool NFmiValueCorrection::ReadFile()
     return false;
   }
 
-  string::size_type start1 = 0, end1 = 0, start2 = 0, end2 = 0, start3 = 0, end3 = 0;
+  string::size_type start1 = 0;
+  string::size_type end1 = 0;
+  string::size_type start2 = 0;
+  string::size_type end2 = 0;
+  string::size_type start3 = 0;
+  string::size_type end3 = 0;
   const string delims(" \t");
   string line;
   while (getline(in, line))
@@ -81,17 +88,15 @@ bool NFmiValueCorrection::ReadFile()
       *itsLogFile << "***ERROR: invalid line in Lampokorjaus: " << line << endl;
       continue;
     }
-    else
-    {
-      FmiTempCorrections tempCorrection;
-      str1 = line.substr(start1, end1 - start1);
-      str2 = line.substr(start2, end2 - start2);
-      str3 = line.substr(start3, end3 - start3);
-      tempCorrection.stationName = str1;
-      tempCorrection.dayCorr = static_cast<float>(Fmi::stod(str2));
-      tempCorrection.nightCorr = static_cast<float>(Fmi::stod(str3));
-      itsTempCorrections.push_back(tempCorrection);
-    }
+
+    FmiTempCorrections tempCorrection;
+    str1 = line.substr(start1, end1 - start1);
+    str2 = line.substr(start2, end2 - start2);
+    str3 = line.substr(start3, end3 - start3);
+    tempCorrection.stationName = str1;
+    tempCorrection.dayCorr = static_cast<float>(Fmi::stod(str2));
+    tempCorrection.nightCorr = static_cast<float>(Fmi::stod(str3));
+    itsTempCorrections.push_back(tempCorrection);
   }
   *itsLogFile << "   Lampokorjaus-tiedosto luettu" << endl;
   in.close();

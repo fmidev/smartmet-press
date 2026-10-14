@@ -76,7 +76,9 @@ bool NFmiPressScaling::SetScale(const NFmiRectScale &theScale)
 
 bool NFmiPressScaling::ReadRemaining()
 {
-  double r1 = NAN, r2 = NAN, r3 = NAN;
+  double r1 = NAN;
+  double r2 = NAN;
+  double r3 = NAN;
   NFmiValueString valueString;
   switch (itsIntObject)
   {
@@ -288,7 +290,7 @@ NFmiFileString NFmiPressScaling::CreatePath(NFmiString defDir,
   NFmiFileString fileStr;
   if (!givenPath.IsValue())
   {
-    if (!defDir.IsValue() || defDir[1ul] != kFmiDirectorySeparator)
+    if (!defDir.IsValue() || defDir[1UL] != kFmiDirectorySeparator)
     {
       fileStr = GetHome();
       fileStr += kFmiDirectorySeparator;

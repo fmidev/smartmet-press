@@ -201,9 +201,8 @@ int domain(int argc, const char** argv)
 
     if (errors.empty())
       return (ok ? EXIT_SUCCESS : EXIT_FAILURE);
-    else
-      throw runtime_error("Encountered errors building product:\n" +
-                          boost::algorithm::join(errors, "\n"));
+    throw runtime_error("Encountered errors building product:\n" +
+                        boost::algorithm::join(errors, "\n"));
   }
 
   throw runtime_error("Tuntematon tiedostotyyppi");

@@ -33,7 +33,7 @@ NFmiPressArea::~NFmiPressArea()
  */
 // ----------------------------------------------------------------------
 
-NFmiPressArea::NFmiPressArea(const NFmiPressArea &theOtherArea)
+NFmiPressArea::NFmiPressArea(const NFmiPressArea &theOtherArea) : NFmiPressDescription()
 {
   itsArea = theOtherArea.GetArea()->Clone();
   fIsXyRequest = theOtherArea.fIsXyRequest;
@@ -52,15 +52,25 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
 {
   // toistaiseksi vain ykj-projektio
 
-  double blLon = 0, blLat = 0, trLon = 0, trLat = 0;
+  double blLon = 0;
+  double blLat = 0;
+  double trLon = 0;
+  double trLat = 0;
 
   // HUOM lonLat on alavasen ja yläoikea mutta xy:t ylävasen ja alaoikea
-  double tlX = 0, tlY = 0, brX = 0, brY = 0;
+  double tlX = 0;
+  double tlY = 0;
+  double brX = 0;
+  double brY = 0;
 
-  double tlwX = 0, tlwY = 0, brwX = 0, brwY = 0;  // world
+  double tlwX = 0;
+  double tlwY = 0;
+  double brwX = 0;
+  double brwY = 0;  // world
   double trueLat = 0.0;
   trLat = brY = brwY = kFloatMissing;
-  NFmiString helpString, helpString2;
+  NFmiString helpString;
+  NFmiString helpString2;
   unsigned long proj = kNFmiYKJArea;
   double orientation = 0;
 
@@ -148,7 +158,8 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
         helpString = ReadString();
         helpString2 = ReadString();
 
-        NFmiPoint lonLat1, lonLat2;
+        NFmiPoint lonLat1;
+        NFmiPoint lonLat2;
         if (itsPressProduct->FindLonLatFromList(helpString, lonLat1) &&
             itsPressProduct->FindLonLatFromList(helpString2, lonLat2))
         {
@@ -219,7 +230,7 @@ bool NFmiPressArea::ReadDescription(NFmiString &retString)
 
       return true;
     }
-    else if (brwY != kFloatMissing)
+    if (brwY != kFloatMissing)
     {
       if (itsArea)
       {

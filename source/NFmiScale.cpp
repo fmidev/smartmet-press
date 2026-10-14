@@ -27,7 +27,7 @@ NFmiScale::~NFmiScale(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiScale::NFmiScale() : itsStartValue(kFloatMissing), itsEndValue(kFloatMissing), itsEpsilon(0.f)
+NFmiScale::NFmiScale() : itsStartValue(kFloatMissing), itsEndValue(kFloatMissing), itsEpsilon(0.F)
 {
 }
 
@@ -41,7 +41,7 @@ NFmiScale::NFmiScale() : itsStartValue(kFloatMissing), itsEndValue(kFloatMissing
 // ----------------------------------------------------------------------
 
 NFmiScale::NFmiScale(float theStartValue, float theEndValue)
-    : itsStartValue(theStartValue), itsEndValue(theEndValue), itsEpsilon(0.f)
+    : itsStartValue(theStartValue), itsEndValue(theEndValue), itsEpsilon(0.F)
 {
   Check();
 }
@@ -144,9 +144,9 @@ void NFmiScale::ExcludePositive()
   {
     {
       if (itsStartValue > 0.)
-        itsStartValue = 0.f;
+        itsStartValue = 0.F;
       if (itsEndValue > 0.)
-        itsStartValue = 0.f;
+        itsStartValue = 0.F;
     }
     Check();
   }
@@ -164,9 +164,9 @@ void NFmiScale::ExcludeNegative()
   {
     {
       if (itsStartValue < 0.)
-        itsStartValue = 0.f;
+        itsStartValue = 0.F;
       if (itsEndValue < 0.)
-        itsStartValue = 0.f;
+        itsStartValue = 0.F;
     }
     Check();
   }
@@ -190,12 +190,12 @@ void NFmiScale::StartFromZeroOptionally(float theFactor)
     float fabsStart = fabs(itsStartValue);
     //	  if ((itsEndValue-itsStartValue)*theFactor > std::min(fabs(itsEndValue),
     // fabs(itsStartValue))
-    if ((itsEndValue - itsStartValue) * theFactor > std::min(fabsEnd, fabsStart) && !Inside(0.f))
+    if ((itsEndValue - itsStartValue) * theFactor > std::min(fabsEnd, fabsStart) && !Inside(0.F))
     {
       if (itsStartValue > 0.)
-        itsStartValue = 0.f;
+        itsStartValue = 0.F;
       else
-        itsEndValue = 0.f;
+        itsEndValue = 0.F;
     }
   }
 }
@@ -312,10 +312,10 @@ float NFmiScale::RelLocation(float theValue) const
   float value = kFloatMissing;
   if (itsDataOk && theValue != kFloatMissing)
   {
-    if (Difference() > 0.f)
+    if (Difference() > 0.F)
       value = (theValue - itsStartValue) / Difference();
     else
-      value = 0.f;
+      value = 0.F;
   }
 
   return (value == kFloatMissing || (!Inside(theValue) && itsLimitCheck)) ? kFloatMissing : value;

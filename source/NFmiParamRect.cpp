@@ -52,7 +52,7 @@ NFmiParamRect::~NFmiParamRect()
     delete itsMultiMapping;
   }
 
-    delete itsMissingString;
+  delete itsMissingString;
 }
 
 // ----------------------------------------------------------------------
@@ -65,6 +65,7 @@ NFmiParamRect::~NFmiParamRect()
 
 NFmiParamRect::NFmiParamRect(const NFmiParamRect& theRect)
     : NFmiRect(NFmiRect(theRect.TopLeft(), theRect.BottomRight())),
+      NFmiPressTimeDescription(),
       fModifierUsed(theRect.fModifierUsed),
       itsInterval2NumberMin(theRect.itsInterval2NumberMin),
       itsInterval2NumberMax(theRect.itsInterval2NumberMax),
@@ -273,8 +274,13 @@ int NFmiParamRect::NumOfMappingParams()
 
 bool NFmiParamRect::ReadRemaining()
 {
-  long long1 = 0, long2 = 0, long3 = 0;
-  float r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
+  long long1 = 0;
+  long long2 = 0;
+  long long3 = 0;
+  float r1 = NAN;
+  float r2 = NAN;
+  float r3 = NAN;
+  float r4 = NAN;
   NFmiValueString valueString;
   switch (itsIntObject)
   {
@@ -1257,12 +1263,9 @@ bool NFmiParamRect::ReadCurrentValue(NFmiFastQueryInfo *theQueryInfo,
 
     return true;
   }
-  else
-  {
-    value = static_cast<float>(value * itsValueFactor);
+  value = static_cast<float>(value * itsValueFactor);
 
-    return true;
-  }
+  return true;
 }
 
 // ----------------------------------------------------------------------
@@ -1411,8 +1414,7 @@ int NFmiParamRect::PreWeaWithPrecForm(int value, NFmiFastQueryInfo *theData)
   {
     if (value == 61)
       return 68;
-    else
-      return 69;
+    return 69;
   }
   return newValue;
 }
@@ -1903,7 +1905,8 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
   // to use the next nearest time
   if (fUseBackupTime && value == kFloatMissing)
   {
-    NFmiMetTime actualTime, newTime;  // for the log
+    NFmiMetTime actualTime;
+    NFmiMetTime newTime;  // for the log
     NFmiString status("  value now ok");
     actualTime = theQueryInfo->Time();
     fUseBackupTimeForward ? theQueryInfo->NextTime() : theQueryInfo->PreviousTime();
@@ -2050,9 +2053,9 @@ bool NFmiParamRect::FloatValue(NFmiFastQueryInfo *theQueryInfo, float &value)
       (par != kFmiTemperature || !itsMultiMapping || itsCurrentMultiParNum <= 1))
     JustifyConturPlace(theQueryInfo, value);
 
-    delete modif;
+  delete modif;
 
-    delete areaModif;
+  delete areaModif;
 
   return true;
 }
@@ -2093,7 +2096,8 @@ void NFmiParamRect::JustifyConturPlace(NFmiFastQueryInfo *theQueryInfo, float &v
       gradienPoint = ySwitched + NFmiPoint(-itsEquiRadius, 0.);
       gradientPoints[3] = itsPressParam->GetGeoArea()->ToLatLon(gradienPoint);
       float minDist = kFloatMissing;
-      float distValue = NAN, curDist = NAN;
+      float distValue = NAN;
+      float curDist = NAN;
       long help = static_cast<long>((value + (itsEquiDistance / 2.)) / itsEquiDistance);
       float plotValue = static_cast<float>(help) * itsEquiDistance;
       int dirInd = -1;
@@ -2296,20 +2300,20 @@ bool NFmiParamRect::RandomModify(float &theValue, unsigned long theParIdent) con
     switch (theParIdent)
     {
       case kFmiTemperature:
-        Randomize(theValue, 1.2f, -100.f, 100.f);
+        Randomize(theValue, 1.2F, -100.F, 100.F);
         break;
       case kFmiTotalCloudCover:
         // 35-> 50%:sta n. joka 7. muuta kuin puolipilvistä
         //      0%:sta n. joka 5. melk.selkeätä
-        if (theValue < 99.f)
-          Randomize(theValue, 35.f, 0.f, 100.f);
+        if (theValue < 99.F)
+          Randomize(theValue, 35.F, 0.F, 100.F);
         break;
       case kFmiPrecipitation1h:
-        RandomizeRelatively(theValue, .8f, 0.f, 100.f);
+        RandomizeRelatively(theValue, .8f, 0.F, 100.F);
         break;
       case kFmiProbabilityThunderstorm:
-        if (theValue > 1.f)
-          Randomize(theValue, 6.f, 0.f, 100.f);
+        if (theValue > 1.F)
+          Randomize(theValue, 6.F, 0.F, 100.F);
         break;
     }
   }

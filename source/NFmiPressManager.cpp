@@ -92,9 +92,12 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
                                                FmiPressOutputMode theOutMode)
 {
   theManagerReadFailed = false;
-  long long1 = 0, long2 = 0, statNum = 0;
+  long long1 = 0;
+  long long2 = 0;
+  long statNum = 0;
   unsigned long uLong = 0;
-  double lon = 0, lat = 0;
+  double lon = 0;
+  double lat = 0;
   NFmiString helpString;
 
   itsLogFile = thePressProduct.GetLogFile();
@@ -122,7 +125,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
 
   *itsLogFile << "the manager would be: " << static_cast<char *>(inputFileName) << endl;
 
-    delete itsDescriptionFile;
+  delete itsDescriptionFile;
 
   itsDescriptionFile = new ifstream(inputFileName, ios::in);
   if (!itsDescriptionFile)
@@ -138,7 +141,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       *itsLogFile << "no manager found" << endl;
     return false;
   }
-  else if (itsLogFile)
+  if (itsLogFile)
     *itsLogFile << "Manager file opened: " << static_cast<char *>(inputFileName) << endl;
 
   SetSeasonsStatus(thePressProduct.GetSeasonsStatus());
@@ -254,7 +257,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       }
       case dManStationNewName:
       {
-        NFmiString string1, string2;
+        NFmiString string1;
+        NFmiString string2;
         lon = kFloatMissing;
         lat = kFloatMissing;
         statNum = 0;

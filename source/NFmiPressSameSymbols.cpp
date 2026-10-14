@@ -45,11 +45,19 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
   NFmiPoint* place = nullptr;
   char object[255];
   long long1 = 0;
-  unsigned short numOfTablePlaces = 0, currentPlaceNum = 0;
+  unsigned short numOfTablePlaces = 0;
+  unsigned short currentPlaceNum = 0;
   NFmiString string1;
   NFmiPoint point1;
-  double tableX = 0, tableY1 = 0, tableY2 = 0, x = NAN, y = NAN;
-  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
+  double tableX = 0;
+  double tableY1 = 0;
+  double tableY2 = 0;
+  double x = NAN;
+  double y = NAN;
+  double xmin = NAN;
+  double xmax = NAN;
+  double ymin = NAN;
+  double ymax = NAN;
 
   *itsDescriptionFile >> object;
   str = object;

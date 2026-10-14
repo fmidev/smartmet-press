@@ -91,22 +91,22 @@ NFmiPressProduct::~NFmiPressProduct()
 {
     delete itsNameDayFi;
 
-    delete itsNameDaySw;
+  delete itsNameDaySw;
 
-    delete itsCurrentDataIter;
+  delete itsCurrentDataIter;
   delete itsNameToLonLat;
   itsParams.Clear(true);
   itsSameSymbols.Clear(true);
   itsEpsFileNames.Clear(true);
   itsDatas.Clear(true);
 
-    delete itsLogFile;
+  delete itsLogFile;
 
-    delete itsPalette;
+  delete itsPalette;
     // owner of NFmiTimeDescription member
     delete itsDescriptionFile;
 
-    delete itsTempCorrection;
+  delete itsTempCorrection;
 }
 
 // ----------------------------------------------------------------------
@@ -122,7 +122,9 @@ NFmiPressProduct::~NFmiPressProduct()
 NFmiString NFmiPressProduct::CutOffString(const NFmiString& theString, int toMaxChars) const
 {
   NFmiString outString(theString);
-  unsigned long lastPos1 = 0, lastPos2 = 0, lastPos = 0;
+  unsigned long lastPos1 = 0;
+  unsigned long lastPos2 = 0;
+  unsigned long lastPos = 0;
   unsigned char sep1(',');
   unsigned char sep2(' ');
   while (static_cast<int>(outString.GetLen()) > toMaxChars)
@@ -203,10 +205,7 @@ bool NFmiPressProduct::GetSegmentTimeStatus(int theSegmentNum) const
   {
     return false;
   }
-  else
-  {
-    return itsSegmentDoneTimes.at(theSegmentNum - 1);
-  }
+  return itsSegmentDoneTimes.at(theSegmentNum - 1);
 }
 // ----------------------------------------------------------------------
 /*!
@@ -299,10 +298,7 @@ bool NFmiPressProduct::SetLogFile(bool OnOff)
     }
     return false;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 // ----------------------------------------------------------------------
@@ -528,7 +524,8 @@ bool NFmiPressProduct::SetImagePreNames(const NFmiLocation &theLocation)
   NFmiPressImage* image = nullptr;
   objectIter.Reset();
   NFmiHyphenationString oldFile;
-  NFmiFileString path, newFile;
+  NFmiFileString path;
+  NFmiFileString newFile;
   NFmiString dummy;
 
   // ennen alaviiva oleva osa korvataan uudella asemanimellä
@@ -790,13 +787,10 @@ bool NFmiPressProduct::ReadNameToLonLatList()
     *itsLogFile << "  Name2LongLat.txt read, ok" << endl;
     return true;
   }
-  else
-  {
-    string msg = "Name2LongLat.txt reading failed";
-    errors.push_back(msg);
-    *itsLogFile << "*** ERROR: " << msg << endl;
-    return false;
-  }
+  string msg = "Name2LongLat.txt reading failed";
+  errors.push_back(msg);
+  *itsLogFile << "*** ERROR: " << msg << endl;
+  return false;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -935,7 +929,12 @@ bool NFmiPressProduct::ReadSeasonsStatus()
     return true;
   }
 
-  string::size_type start1 = 0, end1 = 0, start2 = 0, end2 = 0, start3 = 0, end3 = 0;
+  string::size_type start1 = 0;
+  string::size_type end1 = 0;
+  string::size_type start2 = 0;
+  string::size_type end2 = 0;
+  string::size_type start3 = 0;
+  string::size_type end3 = 0;
   const string delims(" \t");
   string line;
   while (getline(in, line))
@@ -1179,7 +1178,8 @@ bool NFmiPressProduct::PreProcessProduct(ifstream &origInput, ofstream &output)
 {
   const short lineSize = 130;  // max rivipituus
   char inBuf[lineSize];
-  NFmiString str, file;
+  NFmiString str;
+  NFmiString file;
   NFmiString incString = NFmiString("#Include");
   NFmiString liitaString = NFmiString("#Liitä");
 
@@ -1471,7 +1471,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
     return false;
   }
 
-    delete itsDescriptionFile;
+  delete itsDescriptionFile;
 
   itsDescriptionFile = new ifstream(tempInput, ios::in);
 
@@ -1572,7 +1572,8 @@ bool NFmiPressProduct::ReadData()
   *itsLogFile << "  data path: " << static_cast<char *>(str) << endl;
 
   // kaksi datahakemistoa, luupituksella voisi ottaa useampiakin
-  NFmiString dataPath, dataPath2;
+  NFmiString dataPath;
+  NFmiString dataPath2;
   str.NextSubString(NFmiString(";"), dataPath);
   bool secondDir = false;
   bool twoOptinalTypes = true;
@@ -1584,8 +1585,10 @@ bool NFmiPressProduct::ReadData()
   NFmiNamedQueryData* nData = nullptr;
   NFmiVoidPtrIterator iter(itsDatas);
   NFmiString name;
-  NFmiFileString dataFile, dataFile2;
-  NFmiFileString dataFileSqd, dataFileSqd2;
+  NFmiFileString dataFile;
+  NFmiFileString dataFile2;
+  NFmiFileString dataFileSqd;
+  NFmiFileString dataFileSqd2;
   iter.Reset();
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   short loop = 1;
@@ -1640,10 +1643,14 @@ bool NFmiPressProduct::ReadData()
           itsSeasonsStatus->editdata)
       {
         errorWarning = true;
-        time_t fileTime = 0, fileTimeRemote = 0;
-        std::string theFoundFileName, theFoundFileNameRemote;
-        std::string path, pathRemote;
-        std::string dir, dirRemote;
+        time_t fileTime = 0;
+        time_t fileTimeRemote = 0;
+        std::string theFoundFileName;
+        std::string theFoundFileNameRemote;
+        std::string path;
+        std::string pathRemote;
+        std::string dir;
+        std::string dirRemote;
         if (itsSeasonsStatus->editdataOwn)
         {
           dir = dataPath;
@@ -1829,8 +1836,7 @@ NFmiQueryData* NFmiPressProduct::FirstData()
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   if (nData)
     return nData->GetData();
-  else
-    return nullptr;
+  return nullptr;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -1847,8 +1853,7 @@ NFmiNamedQueryData* NFmiPressProduct::FirstNamedData()
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   if (nData)
     return nData;
-  else
-    return nullptr;
+  return nullptr;
 }
 
 // ----------------------------------------------------------------------
@@ -1867,8 +1872,7 @@ NFmiString NFmiPressProduct::FirstDataName()
   nData = static_cast<NFmiNamedQueryData *>(iter.Next());
   if (nData)
     return nData->GetName();
-  else
-    return {};
+  return {};
 }
 
 // ----------------------------------------------------------------------
@@ -1930,8 +1934,13 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
   bool thisFileNewest = false;
   bool yearData = false;
   itsLanguage = kFinnish;
-  double xmin = NAN, xmax = NAN, ymin = NAN, ymax = NAN;
-  long long1 = 0, long2 = 0, long3 = 0;
+  double xmin = NAN;
+  double xmax = NAN;
+  double ymin = NAN;
+  double ymax = NAN;
+  long long1 = 0;
+  long long2 = 0;
+  long long3 = 0;
 
   long firstDeltaDays = 1 + itsEnvironment.GetDayAdvance();
   long origFirstDeltaDays = firstDeltaDays;
@@ -3141,7 +3150,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   if (itsOutputMode != kPostScript)
     output = itsOutputMode;
 
-    delete itsCurrentDataIter;
+  delete itsCurrentDataIter;
   if (FirstData())
     itsCurrentDataIter = new NFmiSuperSmartInfo(FirstData());
   else
@@ -3780,7 +3789,7 @@ bool NFmiPressProduct::ConstructOutFileName()
     if (fTimeStamp)
     {
       NFmiMetTime computerTime = NFmiMetTime(1);
-      NFmiMetTime localTime(computerTime.LocalTime(25.f), 1);
+      NFmiMetTime localTime(computerTime.LocalTime(25.F), 1);
       NFmiPressTime pressLocalTime(localTime);  // jotta oikea ToStr
       NFmiString timeStampT;
       if (timeFormat.IsValue())
@@ -3816,7 +3825,8 @@ bool NFmiPressProduct::ConstructOutFileName()
   }
   else
   {
-    NFmiHyphenationString subString, smallString;
+    NFmiHyphenationString subString;
+    NFmiHyphenationString smallString;
     itsProductNameFormat.ResetPosition();
     while (itsProductNameFormat.NextSubString(NFmiString("/"), subString))
     {
@@ -3845,7 +3855,7 @@ bool NFmiPressProduct::ConstructOutFileName()
       else if (lowerString == NFmiString("aikaleima") || lowerString == NFmiString("timestamp"))
       {
         NFmiMetTime computerTime = NFmiMetTime(1);
-        NFmiMetTime localTime(computerTime.LocalTime(25.f), 1);
+        NFmiMetTime localTime(computerTime.LocalTime(25.F), 1);
         NFmiPressTime localPressTime(localTime);
         if (timeFormat.IsValue())  // ei testattu
           addString = localPressTime.InterpretToStr(timeFormat);

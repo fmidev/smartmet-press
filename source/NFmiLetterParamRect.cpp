@@ -72,7 +72,10 @@ bool NFmiLetterParamRect::ReadDescription(NFmiString &retString)
   NFmiString helpString;
   NFmiValueString helpValueString;
   long long1 = 0;
-  double r1 = NAN, r2 = NAN, r3 = NAN, r4 = NAN;
+  double r1 = NAN;
+  double r2 = NAN;
+  double r3 = NAN;
+  double r4 = NAN;
 
   itsRelRect.Set(NFmiPoint(0., 0.), NFmiPoint(1., 1.));
   itsMapping = new NFmiParamMapping;
@@ -245,8 +248,7 @@ int NFmiLetterParamRect::ConvertDefText(NFmiString &object)
   lowChar.LowerCase();
   if (lowChar == "#columntext" || lowChar == "#palstateksti")
     return dColumnText;
-  else
-    return NFmiTextParamRect::ConvertDefText(object);
+  return NFmiTextParamRect::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -280,8 +282,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       *itsLogFile << "  backup station not needed for text element" << endl;
       return true;
     }
-    else
-      *itsLogFile << "  backup station used for text element" << endl;
+    *itsLogFile << "  backup station used for text element" << endl;
   }
 
   bool isMax = false;
@@ -366,8 +367,7 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
           GetPressProduct()->SetLastTextStatus(false);
           return false;
         }
-        else
-          mapString = itsMissingString;
+        mapString = itsMissingString;
       }
     }
   }
@@ -418,24 +418,20 @@ bool NFmiLetterParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
       // OK return itsColumnText->WritePS(NFmiPoint(100,50), theOutput);
       return itsColumnText->WritePS(correctedRect.Place(), theOutput);
     }
-    else
-      return WriteCode(Construct(&str),
-                       correctedRect,
-                       theDestinationFile,
-                       NFmiString("TEXT from data"),
-                       theOutput);
+    return WriteCode(Construct(&str),
+                     correctedRect,
+                     theDestinationFile,
+                     NFmiString("TEXT from data"),
+                     theOutput);
   }
-  else if (!mapString)
+  if (!mapString)
   {
     *itsLogFile << "WARNING: No transformation needed for value " << value << " in #consttext data"
                 << endl;
     GetPressProduct()->SetLastTextStatus(false);
     return false;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 // ----------------------------------------------------------------------
 /*!

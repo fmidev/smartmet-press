@@ -74,7 +74,7 @@ void NFmiParamMapping::AddMappingInterval(const NFmiMappingInterval &theInterval
   tempIntervals[j].itsSymbol = theInterval.itsSymbol;  // newStr;
   tempIntervals[j].fIsScaled = theInterval.fIsScaled;
 
-    delete[] itsMappingIntervals;
+  delete[] itsMappingIntervals;
 
   itsMappingIntervals = new NFmiMappingInterval[GetSize() + 1];
   itsSize = GetSize() + 1;
@@ -133,8 +133,7 @@ NFmiString *NFmiParamMapping::Map(const double theValue)
   }
   if (j == static_cast<int>(itsSize))
     return nullptr;
-  else
-    return &itsMappingIntervals[j].itsSymbol;
+  return &itsMappingIntervals[j].itsSymbol;
 }
 
 // ----------------------------------------------------------------------
@@ -176,8 +175,7 @@ NFmiString *NFmiParamMapping::Map(const double theValue, bool &outIsScaled)
   }
   if (j == static_cast<int>(itsSize))
     return nullptr;
-  else
-    outIsScaled = itsMappingIntervals[j].fIsScaled;
+  outIsScaled = itsMappingIntervals[j].fIsScaled;
   return &itsMappingIntervals[j].itsSymbol;
 }
 

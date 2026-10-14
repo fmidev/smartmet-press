@@ -461,8 +461,7 @@ inline bool NFmiPressEnvironment::ChangeMask(unsigned long theMaskNumber, FmiEnu
     itsEnumSpace = theEnumSpace;
     return true;
   }
-  else
-    return false;
+  return false;
 }
 // ----------------------------------------------------------------------
 /*!
@@ -480,8 +479,7 @@ inline bool NFmiPressEnvironment::ChangeMaskNumber(unsigned long theMaskNumber)
     itsMaskNumber = theMaskNumber;
     return true;
   }
-  else
-    return false;
+  return false;
 }
 
 // ----------------------------------------------------------------------

@@ -97,12 +97,11 @@ int NFmiSunTimeParamRect::ConvertDefText(NFmiString &object)
       lowChar == NFmiString("nousu"))
     return dSunRise;
 
-  else if (lowChar == NFmiString("sunset") || lowChar == NFmiString("auringonlasku") ||
-           lowChar == NFmiString("lasku"))
+  if (lowChar == NFmiString("sunset") || lowChar == NFmiString("auringonlasku") ||
+      lowChar == NFmiString("lasku"))
     return dSunSet;
 
-  else
-    return NFmiTimeParamRect::ConvertDefText(object);
+  return NFmiTimeParamRect::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------
@@ -131,10 +130,9 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo* /*theQI*/)
     // fIsValidTime; false jos ei laske/nouse
     return itsStationPoint.TimeOfSunrise(tim, fIsValidTime);
   }
-  else
-  {
-    return itsStationPoint.TimeOfSunset(tim, fIsValidTime);
-  }
+
+  return itsStationPoint.TimeOfSunset(tim, fIsValidTime);
+
   /*
     // auringonnousu/lasku ei toimi, vaan ainakin nyt kev‰‰ll‰ antaa eilisen nousun t‰m‰n
     // p‰iv‰n sijasta ja lasku saman suuntaan pieleen

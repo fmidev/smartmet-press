@@ -100,10 +100,9 @@ int NFmiPressComputerTimeText::ConvertDefText(NFmiString& object)
   if (lowChar == NFmiString("day") || lowChar == NFmiString("daydifference") ||
       lowChar == NFmiString("päivä") || lowChar == NFmiString("päiväerotus"))
     return dTimeTextDays;
-  else if (lowChar == NFmiString("hourdifference") || lowChar == NFmiString("tuntiero"))
+  if (lowChar == NFmiString("hourdifference") || lowChar == NFmiString("tuntiero"))
     return dTimeTextHours;
-  else
-    return NFmiPressTimeText::ConvertDefText(object);
+  return NFmiPressTimeText::ConvertDefText(object);
 }
 
 // ----------------------------------------------------------------------

@@ -61,7 +61,8 @@ bool NFmiPressTimeText::ReadDescription(NFmiString &retString)
 {
   NFmiValueString valueString;
   NFmiString helpString;
-  double r1 = NAN, r2 = NAN;
+  double r1 = NAN;
+  double r2 = NAN;
 
   // itsFont = NFmiString("Times-Roman");
 
@@ -231,8 +232,7 @@ int NFmiPressTimeText::ConvertDefText(NFmiString &object)
   lowChar.LowerCase();  // kaikille pitäisi sallia vapaa isot/pienet kirj.
   if (lowChar == NFmiString("format") || lowChar == NFmiString("formaatti"))
     return dTimeTextFormat;
-  else
-    return NFmiPressText::ConvertDefText(object);
+  return NFmiPressText::ConvertDefText(object);
 }
 
 // ======================================================================

@@ -38,7 +38,11 @@ using namespace std;
 bool NFmiPressTimeDescription::WeekdayDirectiveActive(const string& theDefinition,
                                                       const FmiPressSeasons* theSeasons) const
 {
-  string::size_type start1 = 0, end1 = 0, start2 = 0, end2 = 0, pos = 0;
+  string::size_type start1 = 0;
+  string::size_type end1 = 0;
+  string::size_type start2 = 0;
+  string::size_type end2 = 0;
+  string::size_type pos = 0;
   const string delims(" \t\n");
   pos = theDefinition.find("#Viikonpäivä");
   if (pos == string::npos)
@@ -134,7 +138,9 @@ bool NFmiPressTimeDescription::PreProcessConditionally(
     const string& theConditionalEndDirective,
     const string& theConditionalElseDirective)
 {
-  bool res1 = false, res2 = false, res3 = false;
+  bool res1 = false;
+  bool res2 = false;
+  bool res3 = false;
   res1 = thePrepr.SetConditionalStripping(theCondValue,
                                           theConditionalBeginDirective,
                                           theConditionalNotBeginDirective,
@@ -186,7 +192,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
 
 {
   NFmiPreProcessor prePr;
-  bool res = false, res2 = false;
+  bool res = false;
+  bool res2 = false;
   NFmiTime tim;
   bool isUnix = false;
 
@@ -251,11 +258,24 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
 
     set<string>::const_iterator pos;
     // set<string>::const_iterator dayPos;
-    string condition, conditionBody, conditionBody2, conditionBodyLow, firstToLower;
+    string condition;
+    string conditionBody;
+    string conditionBody2;
+    string conditionBodyLow;
+    string firstToLower;
     string conditionMode;
-    string notDir, elseDir, endDir, numStr;
-    string numStr1, numStr2, numStr3, numStr4, dayStr, todayStr;
-    bool hourCondition = false, multiDayCondition = false;
+    string notDir;
+    string elseDir;
+    string endDir;
+    string numStr;
+    string numStr1;
+    string numStr2;
+    string numStr3;
+    string numStr4;
+    string dayStr;
+    string todayStr;
+    bool hourCondition = false;
+    bool multiDayCondition = false;
     NFmiMetTime now;
     // int hour = now.GetHour();
     for (pos = optinalDirectives.begin(); pos != optinalDirectives.end(); ++pos)
@@ -367,7 +387,8 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
           *itsLogFile << "*** ERROR: " << msg << endl;
           continue;
         }
-        NFmiMetTime dirTime1, dirTime2;
+        NFmiMetTime dirTime1;
+        NFmiMetTime dirTime2;
         dirTime1.SetDay(day1);
         dirTime1.SetMonth(month1);
         dirTime2.SetDay(day2);
@@ -534,7 +555,9 @@ unsigned long NFmiPressTimeDescription::ReadTimeFormat(bool isSecond)
 
 bool NFmiPressTimeDescription::ReadRemaining()
 {
-  long long1 = 0, long2 = 0, long3 = 0;
+  long long1 = 0;
+  long long2 = 0;
+  long long3 = 0;
   NFmiValueString valueString;
   switch (itsIntObject)
   {
@@ -665,7 +688,7 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString& object)
     return dRelDay;
   if (lowChar == NFmiString("dayaddition") || lowChar == NFmiString("päivälisäys"))
     return dDayAddition;
-  else if (lowChar == NFmiString("minute") || lowChar == NFmiString("minuutti"))
+  if (lowChar == NFmiString("minute") || lowChar == NFmiString("minuutti"))
     return dMinute;
   else if (lowChar == NFmiString("hour") || lowChar == NFmiString("tunti"))
     return dHour;
@@ -855,8 +878,7 @@ NFmiMetTime NFmiPressTimeDescription::TimeToWrite(NFmiMetTime givenTime) const
 {
   if (fWriteAsUtc)
     return givenTime;
-  else
-    return NFmiMetTime(givenTime.LocalTime(25.f), 1);
+      return NFmiMetTime(givenTime.LocalTime(25.F), 1);
 }
 
 // ======================================================================

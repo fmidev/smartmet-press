@@ -73,7 +73,8 @@ NFmiTextParamRect::NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect)
 
 bool NFmiTextParamRect::ReadRemaining()
 {
-  double r1 = NAN, r2 = NAN;
+  double r1 = NAN;
+  double r2 = NAN;
   NFmiValueString helpValueString;
   NFmiString helpString;
   double intervalEps = 0.00001;
@@ -508,7 +509,10 @@ bool NFmiTextParamRect::WriteCode(const NFmiString &theText,
                                     .IsEqual(longMinus);  // suluissa pitkä miinus tai numeroväli
     // tyyppiä 6-10, kuitenkin vaikeuksia joten
     // poistettu alla -> käytä lyhyttä miinusta
-    NFmiString restString, emptyString, widthString, minusWidth;
+    NFmiString restString;
+    NFmiString emptyString;
+    NFmiString widthString;
+    NFmiString minusWidth;
     /*
               if(!(firstIs226 || secondIs226)) //ei ongelmia
                     {

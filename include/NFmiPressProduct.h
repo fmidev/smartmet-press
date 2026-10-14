@@ -128,7 +128,7 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   ~NFmiPressProduct() override;
   NFmiPressProduct();
 
-  bool WritePS(FmiPressOutputMode = kPostScript);
+  bool WritePS(FmiPressOutputMode /*theGivenOutput*/ = kPostScript);
 
   void ReadPalette();
   virtual bool ReadDescriptionFile(NFmiString inputFileName);
@@ -194,8 +194,8 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   NFmiVoidPtrList itsObjects;  // osakuvat voivat tuoda rekursiivisesti lisäkuvia
   bool IsSummerWeather(const NFmiString& theCountryPart);
   std::vector<bool> itsSegmentDoneTimes;
-  void SetNameDay(NFmiNameDay* nameDay, FmiLanguage = kFinnish);
-  NFmiNameDay* GetNameDay(FmiLanguage = kFinnish) const;
+  void SetNameDay(NFmiNameDay* nameDay, FmiLanguage /*theLanguage*/ = kFinnish);
+  NFmiNameDay* GetNameDay(FmiLanguage /*theLanguage*/ = kFinnish) const;
   NFmiArea* itsMainArea;  // jonkun PressArean pressProduktissa tai Paramissa, joka omistaa
 
   bool LastSymbolStatus() const;
@@ -414,8 +414,7 @@ inline NFmiNameDay* NFmiPressProduct::GetNameDay(FmiLanguage theLanguage) const
 {
   if (theLanguage == kFinnish)
     return itsNameDayFi;
-  else
-    return itsNameDaySw;
+  return itsNameDaySw;
 }
 
 // ----------------------------------------------------------------------

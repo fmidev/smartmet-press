@@ -99,19 +99,19 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retVal
   {
     if (itsValueHelpString == NFmiString(","))
       return true;
-    else if (itsValueHelpString == NFmiString("-,"))
+    if (itsValueHelpString == NFmiString("-,"))
     {
       return true;
     }
-    else if (itsValueHelpString == NFmiString("-"))
+    if (itsValueHelpString == NFmiString("-"))
     {
       // floatmissing, on jo
       *itsDescriptionFile >> itsObject;
       itsString = itsObject;
       return itsString == NFmiString(",");
     }
-    else  // tiedostonimi
-      return false;
+     // tiedostonimi
+    return false;
   }
 
   *itsDescriptionFile >> itsObject;
@@ -124,21 +124,20 @@ bool NFmiDescription::ReadMaxTwoFloatToDelimiter(float &retValue1, float &retVal
     itsString = itsObject;
     return itsString == NFmiString(",");
   }
-  else if (itsValueHelpString == NFmiString("-,"))
+  if (itsValueHelpString == NFmiString("-,"))
   {
     return true;
   }
-  else if (std::strcmp(itsObject, "-") == 0)
+  if (std::strcmp(itsObject, "-") == 0)
   {
     // floatmissing, on jo
     *itsDescriptionFile >> itsObject;
     itsString = itsObject;
     return itsString == NFmiString(",");
   }
-  else if (itsValueHelpString == NFmiString(","))
+  if (itsValueHelpString == NFmiString(","))
     return true;
-  else
-    return false;
+  return false;
 }
 
 // ----------------------------------------------------------------------
@@ -274,8 +273,7 @@ NFmiString NFmiDescription::ReadString()
 
     return helpObject.GetChars(1, helpObject.GetLen() - 1);
   }
-  else
-    return itsObject;
+  return itsObject;
 }
 
 // ----------------------------------------------------------------------
@@ -456,22 +454,19 @@ int NFmiDescription::ConvertDefText(NFmiString &object)
       itsCommentLevel++;
     return dComment;
   }
-  else if (len >= 2 && NFmiString(object.GetCharsPtr(len - 1, 2)) == NFmiString("*/"))
+  if (len >= 2 && NFmiString(object.GetCharsPtr(len - 1, 2)) == NFmiString("*/"))
   {
     itsCommentLevel--;
     return dEndComment;
   }
-  else if (len >= 2 && NFmiString(object.GetCharsPtr(1, 2)) == NFmiString("//"))
+  if (len >= 2 && NFmiString(object.GetCharsPtr(1, 2)) == NFmiString("//"))
     return dComment;
 
-  else if (len >= 1 && NFmiString(object.GetCharsPtr(1, 1)) == NFmiString("#"))
+  if (len >= 1 && NFmiString(object.GetCharsPtr(1, 1)) == NFmiString("#"))
   {
     return dEnd;
   }
-  else
-  {
-    return dOther;
-  }
+  return dOther;
 }
 
 // ======================================================================

@@ -64,7 +64,8 @@ NFmiParamRect* NFmiRotatingParamRect::Clone() const
 bool NFmiRotatingParamRect::ReadRemaining()
 {
   //	whar_t wideh L'\0';
-  double double1 = NAN, double2 = NAN;
+  double double1 = NAN;
+  double double2 = NAN;
 
   switch (itsIntObject)
   {
@@ -179,8 +180,7 @@ bool NFmiRotatingParamRect::CopyShortSymbol2Dest(NFmiString* symbolFile,
     NFmiWritePSEnd(theDestinationFile);
     return isTrue;
   }
-  else
-    return isFalse;
+  return isFalse;
 }
 
 // ----------------------------------------------------------------------
@@ -221,13 +221,12 @@ float NFmiRotatingParamRect::AdjustToMap(float theDirection) const
     double lon = itsPressParam->GetCurrentStation().GetLongitude();
     if (lon != kFloatMissing)
       return theDirection - static_cast<float>(lon) + static_cast<float>(itsVerticalLong);
-    else
-    {
-      //*itsLogFile << "*** ERROR: longitudi puuttuu tuulensuuntaa varten asemalta "
-      *itsLogFile << "*** ERROR: longitude missing from station, needed for wind direction "
-                  << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
-      return theDirection;
-    }
+
+    //*itsLogFile << "*** ERROR: longitudi puuttuu tuulensuuntaa varten asemalta "
+    if (itsLogFile)
+    *itsLogFile << "*** ERROR: longitude missing from station, needed for wind direction "
+                << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
+    return theDirection;
   }
 
   return theDirection;
