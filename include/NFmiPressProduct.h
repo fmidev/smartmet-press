@@ -220,8 +220,6 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   FmiPageSize itsPageSize;
   NFmiString itsPaletteName;
   NFmiCmykColorBag* itsPalette;
-  unsigned long itsProducer = 0;
-  unsigned short itsHourStep = 0;
   NFmiString itsPath;
   NFmiVoidPtrList itsEpsFileNames;
   NFmiString itsDataFileName;

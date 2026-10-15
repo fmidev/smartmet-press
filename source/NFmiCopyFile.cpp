@@ -169,39 +169,9 @@ bool NFmiCopyFileColoring(ifstream& inFile, ofstream& outFile, NFmiCmykColorBag*
   const short lineSize = 2800;
   char inBuf[lineSize];
 
-  short nColor = 0;
-  NFmiString ownColor("LampoVari");
-  NFmiString proc2("%%");
-  NFmiString zeroX("0 x");
-  NFmiString pc("Pc");
-  NFmiString str;
-  short nProc2 = 0;
-  short nZeroX = 0;
-  short nPc = 0;
   while (inFile.getline(inBuf, lineSize, '\n'))
   {
-    short num = inFile.gcount();
-    nColor = static_cast<short>(str.Search(ownColor));
-    if (nColor > 0)
-    {
-      if (str.Search(proc2))
-      {
-        nProc2++;
-      }
-      if (str.Search(zeroX))
-      {
-        nZeroX++;
-      }
-      if (str.Search(pc))
-      {
-        nPc++;
-      }
-      outFile.write(inBuf, num - 1);
-    }
-    else
-    {
-      outFile.write(inBuf, num - 1);
-    }
+    outFile.write(inBuf, inFile.gcount() - 1);
     outFile.put('\x0A');  // jotta difference käytettävissä
   }
   return true;
@@ -246,9 +216,6 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
   NFmiString str2;
   NFmiString hString;
   NFmiString colorName;
-  short nProc2 = 0;
-  short nZeroX = 0;
-  short nPc = 0;
 
   inFile.getline(inBuf, lineSize, '\n');
   num = inFile.gcount();
@@ -286,7 +253,6 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
         {
           if (!str2.Search(proc2par) && !str2.Search(customColors))
           {
-            nProc2++;
             if (str2.Search(customColors))
               hString = NFmiString("%%CMYKCustomColor: ");
             else
@@ -299,7 +265,6 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
         }
         if (str2.Search(zeroX))
         {
-          nZeroX++;
           if (str2.Search(f))
             hString = NFmiString("f ");  // ON PELKÄLLÄ CR:LLÄ EROTETTU !!
           else
@@ -312,7 +277,6 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
         if (str2.Search(pc))
         {
           // \12 oli alkupaletissa ja iltiksessä vähän erilainen
-          nPc++;
           str = colorBag->GetColorString(colorName);  // HUOM ed. rivi
           str += NFmiString("k");
         }

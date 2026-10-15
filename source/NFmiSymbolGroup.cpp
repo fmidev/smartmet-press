@@ -89,7 +89,6 @@ NFmiSymbolGroup::NFmiSymbolGroup(NFmiPressParam* pressParam,
       itsPsSymbol(nullptr),
       itsParamRects(new NFmiParamRect *[numOfItems]), itsRectSize(NFmiPoint(40, 40)),
       itsRectScale(nullptr),
-      itsQueryData(nullptr),
       itsQueryDataIter(nullptr)
 {
 

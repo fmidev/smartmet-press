@@ -69,7 +69,6 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
   NFmiPoint itsRectSize;
 
   NFmiRectScale* itsRectScale;
-  NFmiQueryData* itsQueryData;
   NFmiFastQueryInfo* itsQueryDataIter;
   std::ofstream* itsOutFile = nullptr;
 
@@ -88,7 +87,6 @@ inline NFmiSymbolGroup::NFmiSymbolGroup()
       itsParamRects(nullptr),
       itsRectSize(40, 40),
       itsRectScale(nullptr),
-      itsQueryData(nullptr),
       itsQueryDataIter(nullptr)
 {
 }

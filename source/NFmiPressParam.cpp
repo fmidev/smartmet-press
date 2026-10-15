@@ -2018,10 +2018,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           double bottom = (itsArea.GetArea())->Bottom();
           double top = (itsArea.GetArea())->Top();
           NFmiPoint lonlat;
-          int num = 0;
           while (itsDataIter->NextLocation())
           {
-            num++;
             currentStationNumOnMap++;
             lonlat = itsDataIter->LatLon();
             point0 = itsArea.GetArea()->ToXY(lonlat);
@@ -2071,10 +2069,8 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             double bottom = (itsArea.GetArea())->Bottom();
             double top = (itsArea.GetArea())->Top();
             NFmiPoint lonlat;
-            int num = 0;
             while (itsDataIter->NextLocation())
             {
-              num++;
               currentStationNumOnMap++;
               lonlat = itsDataIter->LatLon();
               point0 = itsArea.GetArea()->ToXY(lonlat);
