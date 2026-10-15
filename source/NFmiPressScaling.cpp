@@ -220,7 +220,7 @@ bool NFmiPressScaling::AddValidTimeTimeStamp(NFmiString &theFile,
 {
   if (theFormat.IsValue())
   {
-    NFmiPressTime pressTime(theValidTime);
+    const NFmiPressTime& pressTime(theValidTime);
     NFmiString string1(pressTime.InterpretToStr(theFormat));
     NFmiString string2(theFile);
 
@@ -249,7 +249,7 @@ bool NFmiPressScaling::AddTimeStamp(NFmiString &theFile, const NFmiString &theFo
 #ifndef UNIX
     unsigned long nSep = theFile.SearchLast(&kFmiDirectorySeparator);
 #else
-    unsigned long nSep = static_cast<string>(theFile).find("/");
+    unsigned long nSep = static_cast<string>(theFile).find('/');
 #endif
     if (nSep > 0 && nSep != string::npos)
     {
@@ -297,7 +297,7 @@ NFmiFileString NFmiPressScaling::CreatePath(NFmiString defDir,
       fileStr += kFmiDirectorySeparator;
     }
 #ifdef UNIX
-    if (static_cast<string>(givenFile).find("/") == string::npos)
+    if (static_cast<string>(givenFile).find('/') == string::npos)
 #else
     if (givenFile.Search(&(kFmiDirectorySeparator)) <= 0)  // sisältyykö hekemisto nimeen
 #endif

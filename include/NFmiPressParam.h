@@ -118,11 +118,11 @@ class NFmiPressParam : public NFmiPressTimeDescription
   NFmiPressParam();
 
   NFmiPressParam(const NFmiRectScale& scale,
-                 const short firstDeltaDays,
-                 const short firstPlotHours,
-                 const short firstPlotMinutes,
-                 const short hourStep,
-                 const unsigned long producer,
+                 short firstDeltaDays,
+                 short firstPlotHours,
+                 short firstPlotMinutes,
+                 short hourStep,
+                 unsigned long producer,
                  NFmiPressProduct* pressProduct);
   NFmiPressParam(const NFmiPressParam&) = delete;
   NFmiPressParam& operator=(const NFmiPressParam&) = delete;
@@ -168,7 +168,7 @@ class NFmiPressParam : public NFmiPressTimeDescription
   bool IsAreaOperation() const;
   NFmiArea* GetGeoArea();
   bool ChangeMaskNumber(unsigned long theMask, FmiEnumSpace theEnumSpace);
-  void PutInStorage(const float value, int storageQueue);
+  void PutInStorage(float value, int storageQueue);
   float UseFromStorage(int storageQueue);
   FmiCounter GetCurrentStep() const;
   bool IsActive() const;

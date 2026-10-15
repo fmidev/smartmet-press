@@ -1406,7 +1406,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   *itsLogFile << endl << "** Log file opened " << time << " **" << endl;
   //*******
   NFmiString retString;
-  NFmiString origInputFileName = inputFile;
+  const NFmiString& origInputFileName = inputFile;
   itsInFileName = inputFileName.Header();
 
   NFmiFileString tempInput;

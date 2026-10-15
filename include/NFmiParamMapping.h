@@ -42,10 +42,10 @@ class NFmiParamMapping : public NFmiSize
   void AddMappingInterval(const NFmiMappingInterval& theInterval);
   void AddMappingInterval(double theBottomValue, double theTopValue, const NFmiString& theSymbol);
 
-  bool IsInFirst(const double theValue);
+  bool IsInFirst(double theValue);
 
-  NFmiString* Map(const double theValue);
-  NFmiString* Map(const double theValue, bool& outIsScaled);
+  NFmiString* Map(double theValue);
+  NFmiString* Map(double theValue, bool& outIsScaled);
 
  private:
   NFmiMappingInterval* itsMappingIntervals = nullptr;

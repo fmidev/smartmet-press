@@ -58,8 +58,7 @@ bool NFmiPressManager::PreProcessManager(const NFmiFileString &inputFile)
   tempInput += inputFileName.FileName();
   tempInput += NFmiString("pssm");
 
-  NFmiString outFileName = inputOnlyFile;
-
+  
   inputFileName += NFmiString("pssm");
 
   string inputStdName(inputFile);

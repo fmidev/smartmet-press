@@ -3146,7 +3146,7 @@ bool NFmiPressParam::FindQDStationName(const NFmiStationPoint &theStation)
     return false;
 
   NFmiString dataName;
-  NFmiString plotName = theStation.GetName();
+  const NFmiString& plotName = theStation.GetName();
 
   if (!itsDataIter->IsGrid())  // perinteinen asemannimellä haku
   {

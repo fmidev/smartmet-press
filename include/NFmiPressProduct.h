@@ -166,7 +166,7 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   bool SetFirstObjectActivity(bool theActivity);
   bool ChangeFirstPossibleObject(bool toNewActivity);
   bool SetFirstSegmentActivity(bool theActivity);
-  void PutInStorage(const float value, int queueNum = 1);
+  void PutInStorage(float value, int queueNum = 1);
   float UseFromStorage(int queueNum = 1, bool errorReport = true);
   bool GetElementsAfterSegments() const;
   bool ReadSeasonsStatus();

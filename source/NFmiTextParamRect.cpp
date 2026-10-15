@@ -395,7 +395,7 @@ bool NFmiTextParamRect::WriteCode(const NFmiString &theText,
 
   NFmiString longMinus("\\226");
   // bool isLongMinus = itsEnvironment.GetLongNumberMinus();
-  NFmiString locText(theText);
+  const NFmiString& locText(theText);
 
   NFmiRect numberRect = AbsoluteRectOfSymbolGroup.ToAbs(NFmiRect(TopLeft(), BottomRight()));
   if (IsEquiDistanceAndCorrMode())

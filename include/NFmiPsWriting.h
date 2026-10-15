@@ -54,7 +54,7 @@ class NFmiPsWriting
   bool WriteEPSConcat();
   bool WriteEPSEnd();
   void SetRotatingPoint(const NFmiPoint& thePoint);
-  void SetRotBeforeScale(const bool rBeforeS);
+  void SetRotBeforeScale(bool rBeforeS);
   NFmiString AlignmentToMeta(const FmiDirection& pressAlignment) const;
   void SetFile(std::ofstream& theDestinationFile);
 

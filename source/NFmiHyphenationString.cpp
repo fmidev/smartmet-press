@@ -197,7 +197,7 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char* theHyphenationMar
   {
     hyphWord = *posWord;
     word = hyphWord;
-    posChar = word.find("-");
+    posChar = word.find('-');
     int posDiff = 0;
     while (posChar != string::npos)
     {
@@ -207,7 +207,7 @@ void NFmiHyphenationString::CreateIrregularHyphens(const char* theHyphenationMar
       //	word.erase(posCharNot, 1);
 
       hyphWord.replace(posChar + posDiff, 1, theHyphenationMark);
-      posChar = word.find("-");
+      posChar = word.find('-');
       posDiff++;
     }
     posChar = stdString.find(word);

@@ -59,11 +59,11 @@ class NFmiPressTime : public NFmiTime
   using NFmiTime::ToStr;
 
   NFmiString ToStr(const unsigned long theTimeMask) const { return ToStr(theTimeMask, kFinnish); }
-  NFmiString ToStr(const unsigned long theTimeMask, const FmiLanguage theLanguage) const;
+  NFmiString ToStr(unsigned long theTimeMask, FmiLanguage theLanguage) const;
 
   // koodattu myös emoon ToStr-nimellä vähän kehitettynä
-  NFmiString InterpretToStr(const NFmiString theTimeCode,
-                            const FmiLanguage theLanguage = kFinnish) const;
+  NFmiString InterpretToStr(NFmiString theTimeCode,
+                            FmiLanguage theLanguage = kFinnish) const;
 
  protected:
   NFmiString RelativeDay(FmiLanguage theLanguage, NFmiString theStr6, int& thePlusInd) const;
