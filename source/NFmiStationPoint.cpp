@@ -413,7 +413,7 @@ float NFmiStationPoint::GetWmoDifference() const
   {
     zoneDifferenceHour = 3;
   }
-  else if ((wmoCode == 33345))  // Kiova
+  else if (wmoCode == 33345)  // Kiova
   {
     zoneDifferenceHour = 2;
   }
@@ -464,11 +464,11 @@ float NFmiStationPoint::GetWmoDifference() const
     zoneDifferenceHour = 1;  // AFRIKKA
     useSummerTime = false;
   }
-  else if ((wmoCode == 62366))  // Kairo,
+  else if (wmoCode == 62366)  // Kairo,
   {
     zoneDifferenceHour = 2;
   }
-  else if ((wmoCode == 68816))  // ,Kapkaupunki
+  else if (wmoCode == 68816)  // ,Kapkaupunki
   {
     zoneDifferenceHour = 2;
     useSummerTime = false;

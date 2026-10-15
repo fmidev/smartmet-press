@@ -533,7 +533,7 @@ bool NFmiLetterParamRect::ModifyTextBySeason(NFmiString &theString)
   startInd = stdString.find("varmt_för_årstiden");
   if (startInd != string::npos)
   {
-    if (mon >= 6 || mon <= 8)
+    if (mon >= 6 && mon <= 8)
       stdString.replace(startInd, 18, "varmt");
     changed = true;
   }
