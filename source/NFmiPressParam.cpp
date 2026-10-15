@@ -509,6 +509,7 @@ bool NFmiPressParam::SetData(const NFmiString &dataName)
       {
         (static_cast<NFmiPressDataTimeText *>(scaleObject))->SetData(itsDataIter);
       }
+      break;
       case kNFmiNone:
       default:
       {
