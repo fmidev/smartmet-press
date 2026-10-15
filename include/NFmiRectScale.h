@@ -25,6 +25,8 @@ class NFmiRectScale
   virtual ~NFmiRectScale();
   NFmiRectScale();
   NFmiRectScale(const NFmiRect& theStartRect, const NFmiRect& theEndRect);
+  NFmiRectScale(const NFmiRectScale&) = default;
+  NFmiRectScale& operator=(const NFmiRectScale&) = default;
 
   void SetStartScales(const NFmiRect& startRect);
   void SetXStartScale(const NFmiScale& scale);

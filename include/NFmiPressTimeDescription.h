@@ -85,6 +85,8 @@ class NFmiPressTimeDescription : public NFmiPressDescription
   NFmiPressTimeDescription(short theFirstPlotMinutes,
                            short theFirstPlotHours,
                            short theFirstDeltaDays);
+  NFmiPressTimeDescription(const NFmiPressTimeDescription&) = default;
+  NFmiPressTimeDescription& operator=(const NFmiPressTimeDescription&) = default;
 
   bool ReadRemaining() override;
   int ConvertDefText(NFmiString& object) override;
