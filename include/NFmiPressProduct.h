@@ -47,6 +47,7 @@
 #include <locale>
 #include <map>
 #include <queue>
+#include <utility>
 #include <vector>
 
 class NFmiLocationFinder;
@@ -140,7 +141,7 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   bool PreProcessProduct(std::ifstream& origInput, std::ofstream& output);
   bool SetAllLanguages(FmiLanguage theLanguage);
   NFmiStationPoint FirstParamLocation();
-  NFmiQueryData* DataByName(NFmiString givenName, bool& isYearData);
+  NFmiQueryData* DataByName(const NFmiString& givenName, bool& isYearData);
   NFmiQueryData* FirstData();
   NFmiNamedQueryData* FirstNamedData();
   NFmiString FirstDataName();
@@ -270,7 +271,7 @@ class NFmiPressProduct : public NFmiPressTimeDescription
 // ----------------------------------------------------------------------
 inline void NFmiPressProduct::SetEncoding(std::string theEncoding)
 {
-  itsEnvironment.SetEncoding(theEncoding);
+  itsEnvironment.SetEncoding(std::move(theEncoding));
 }
 // ----------------------------------------------------------------------
 /*!

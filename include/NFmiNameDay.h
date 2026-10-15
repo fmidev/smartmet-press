@@ -53,7 +53,7 @@ class NFmiNameDay
 
   bool ReadFile(const NFmiString& theFileName);
 
-  NFmiString GetName(NFmiMetTime theTime,
+  NFmiString GetName(const NFmiMetTime& theTime,
                      FmiCounter maxNumber = kShortMissing,
                      FmiCounter maxLength = kShortMissing);
 
@@ -70,9 +70,9 @@ class NFmiNameDay
  */
 // ----------------------------------------------------------------------
 
-inline NFmiNameDay::NFmiNameDay()
+inline NFmiNameDay::NFmiNameDay() : fRead(false)
 {
-  fRead = false;
+
   fValue = false;
 }
 

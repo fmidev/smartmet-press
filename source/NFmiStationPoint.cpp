@@ -231,7 +231,7 @@ int NFmiStationPoint::ConvertDefText(NFmiString &object)
     return dLonLat;
   if (object == NFmiString("Latitude"))
     return dLatitude;
-  else if (object == NFmiString("Longitude"))
+  if (object == NFmiString("Longitude"))
     return dLongitude;
   else if (object == NFmiString("PrintName"))
     return dPrintName;

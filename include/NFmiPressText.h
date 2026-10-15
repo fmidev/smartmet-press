@@ -145,10 +145,10 @@ class NFmiPressText : public NFmiPressScaling
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressText::NFmiPressText() : itsMaxLen(kUnsignedLongMissing)
+inline NFmiPressText::NFmiPressText() : itsSubText(nullptr), itsMaxLen(kUnsignedLongMissing)
 
 {
-  itsSubText = nullptr;
+
   itsLanguage = kFinnish;
 }
 

@@ -203,7 +203,7 @@ bool NFmiParamRect::Set(NFmiDataIdent theParam, NFmiRect theRect)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiParamRect::SetIdent(NFmiDataIdent theParam)
+bool NFmiParamRect::SetIdent(const NFmiDataIdent& theParam)
 {
   itsDataIdent = theParam;
   return true;
@@ -218,7 +218,7 @@ bool NFmiParamRect::SetIdent(NFmiDataIdent theParam)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiParamRect::SetRect(NFmiRect theRect)
+bool NFmiParamRect::SetRect(const NFmiRect& theRect)
 {
   NFmiRect::Set(theRect.TopLeft(), theRect.BottomRight());
   return true;

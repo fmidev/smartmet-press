@@ -39,7 +39,7 @@ FmiDirection NFmiPressDescription::String2FmiDirection(const NFmiString &theStri
            lowChar == NFmiString("oikea"))
     return kRight;
 
-  else if (lowChar == NFmiString("left") || lowChar == NFmiString("vasenlaita") ||
+  if (lowChar == NFmiString("left") || lowChar == NFmiString("vasenlaita") ||
            lowChar == NFmiString("vasen"))
     return kLeft;
   else

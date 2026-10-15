@@ -171,7 +171,7 @@ NFmiString NFmiPressTime::ToStr(const unsigned long theTimeMask,
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
+NFmiString NFmiPressTime::InterpretToStr(const NFmiString& theTimeCode,
                                          const FmiLanguage theLanguage) const
 {
   bool noConversion = false;
@@ -410,7 +410,7 @@ const char *reldays[] = {"alivuoto",
 // ----------------------------------------------------------------------
 
 NFmiString NFmiPressTime::RelativeDay(FmiLanguage theLanguage,
-                                      NFmiString theStr6,
+                                      const NFmiString& theStr6,
                                       int &thePlusInd) const
 {
   NFmiTime currentTime;

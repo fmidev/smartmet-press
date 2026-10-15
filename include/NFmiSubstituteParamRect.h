@@ -56,11 +56,11 @@ class NFmiSubstituteParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiSubstituteParamRect::NFmiSubstituteParamRect()
+inline NFmiSubstituteParamRect::NFmiSubstituteParamRect() : itsSubstituteMappingValue(0.)
 {
   itsMapping = nullptr;
   fUseSelectLatinFont = true;
-  itsSubstituteMappingValue = 0.;
+
   itsIdentPar = 0;
 }
 

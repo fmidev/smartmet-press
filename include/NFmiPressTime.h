@@ -62,11 +62,11 @@ class NFmiPressTime : public NFmiTime
   NFmiString ToStr(unsigned long theTimeMask, FmiLanguage theLanguage) const;
 
   // koodattu myös emoon ToStr-nimellä vähän kehitettynä
-  NFmiString InterpretToStr(NFmiString theTimeCode,
+  NFmiString InterpretToStr(const NFmiString& theTimeCode,
                             FmiLanguage theLanguage = kFinnish) const;
 
  protected:
-  NFmiString RelativeDay(FmiLanguage theLanguage, NFmiString theStr6, int& thePlusInd) const;
+  NFmiString RelativeDay(FmiLanguage theLanguage, const NFmiString& theStr6, int& thePlusInd) const;
 
  private:
 };  // class NFmiPressTime

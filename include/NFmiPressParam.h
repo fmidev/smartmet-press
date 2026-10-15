@@ -36,6 +36,7 @@
 
 //#include <vector>
 #include <list>
+#include <utility>
 
 class NFmiPressProduct;
 class NFmiArea;
@@ -140,8 +141,8 @@ class NFmiPressParam : public NFmiPressTimeDescription
   void SetMaskIter(std::shared_ptr<NFmiFastQueryInfo> info);
   std::shared_ptr<NFmiFastQueryInfo> GetMaskIter();
   NFmiInfoAreaMask* GetAreaMask();
-  void SetDataName(NFmiString name);
-  void SetPrimaryDataName(NFmiString name);
+  void SetDataName(const NFmiString& name);
+  void SetPrimaryDataName(const NFmiString& name);
   void SetLanguage(FmiLanguage theLanguage);
   FmiLanguage GetLanguage();
   NFmiString GetName();
@@ -160,9 +161,9 @@ class NFmiPressParam : public NFmiPressTimeDescription
   NFmiString MakeLogComment() const;
   void SetNewGeoArea(const NFmiPressArea& theArea);
   NFmiTime GetOptionTime() const;
-  void SetOptionTime(NFmiTime theTime);
+  void SetOptionTime(const NFmiTime& theTime);
   NFmiLocation* GetOptionLocation();
-  void SetOptionLocation(NFmiLocation theLocation);
+  void SetOptionLocation(const NFmiLocation& theLocation);
   void SetEncoding(std::string theEncoding);
   void DeleteOptionLocation();
   bool IsAreaOperation() const;
@@ -694,7 +695,7 @@ inline void NFmiPressParam::SetPrimaryData(NFmiQueryData* data)
 
 inline void NFmiPressParam::SetMaskIter(std::shared_ptr<NFmiFastQueryInfo> info)
 {
-  itsMaskIter = info;
+  itsMaskIter = std::move(info);
 }
 
 // ----------------------------------------------------------------------
@@ -730,7 +731,7 @@ inline NFmiInfoAreaMask* NFmiPressParam::GetAreaMask()
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetDataName(NFmiString name)
+inline void NFmiPressParam::SetDataName(const NFmiString& name)
 {
   itsDataName = name;
 }
@@ -742,7 +743,7 @@ inline void NFmiPressParam::SetDataName(NFmiString name)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetPrimaryDataName(NFmiString name)
+inline void NFmiPressParam::SetPrimaryDataName(const NFmiString& name)
 {
   itsPrimaryDataName = name;
 }
@@ -888,7 +889,7 @@ inline NFmiTime NFmiPressParam::GetOptionTime() const
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetOptionTime(NFmiTime theTime)
+inline void NFmiPressParam::SetOptionTime(const NFmiTime& theTime)
 {
   itsOptionTime = theTime;
 }
@@ -912,7 +913,7 @@ inline NFmiLocation* NFmiPressParam::GetOptionLocation()
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressParam::SetOptionLocation(NFmiLocation theLocation)
+inline void NFmiPressParam::SetOptionLocation(const NFmiLocation& theLocation)
 {
   itsOptionLocation = new NFmiLocation(theLocation);
 }

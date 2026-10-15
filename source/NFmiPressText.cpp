@@ -66,14 +66,14 @@ NFmiPressText::NFmiPressText(const NFmiPressText &thePressText)
       fLowerCase(thePressText.fLowerCase),
       fFirstUpperCase(thePressText.fFirstUpperCase),
       fAddLocalTime(thePressText.fAddLocalTime),
-      itsCharSpace(thePressText.itsCharSpace),
+      itsText(thePressText.itsText ? new NFmiString(*thePressText.itsText) : nullptr), itsCharSpace(thePressText.itsCharSpace),
       itsMaxLen(thePressText.itsMaxLen),
       itsWidthFactor(thePressText.itsWidthFactor),
       itsFreePath(thePressText.itsFreePath),
       itsNextTexts(thePressText.itsNextTexts),
       fNarrowColumn(thePressText.fNarrowColumn)
 {
-  itsText = thePressText.itsText ? new NFmiString(*thePressText.itsText) : nullptr;
+
   itsSubText = thePressText.itsSubText ? new NFmiPressText(*thePressText.itsSubText) : nullptr;
 }
 

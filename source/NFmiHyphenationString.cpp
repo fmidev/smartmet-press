@@ -23,10 +23,10 @@ NFmiHyphenationString::~NFmiHyphenationString(void) = default;
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::NFmiHyphenationString()
+NFmiHyphenationString::NFmiHyphenationString() : fIrregularHyphensInited(false)
 {
   ResetPosition();
-  fIrregularHyphensInited = false;
+
   fNarrowColumn = false;
 }
 
@@ -38,10 +38,10 @@ NFmiHyphenationString::NFmiHyphenationString()
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::NFmiHyphenationString(const char* theText) : NFmiString(theText)
+NFmiHyphenationString::NFmiHyphenationString(const char* theText) : NFmiString(theText), fIrregularHyphensInited(false)
 {
   ResetPosition();
-  fIrregularHyphensInited = false;
+
   fNarrowColumn = false;
 }
 
@@ -53,10 +53,10 @@ NFmiHyphenationString::NFmiHyphenationString(const char* theText) : NFmiString(t
  */
 // ----------------------------------------------------------------------
 
-NFmiHyphenationString::NFmiHyphenationString(const NFmiString& theText) : NFmiString(theText)
+NFmiHyphenationString::NFmiHyphenationString(const NFmiString& theText) : NFmiString(theText), fIrregularHyphensInited(false)
 {
   ResetPosition();
-  fIrregularHyphensInited = false;
+
   fNarrowColumn = false;
 }
 // ----------------------------------------------------------------------

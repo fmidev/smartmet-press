@@ -272,7 +272,7 @@ int NFmiNumberParamRect::ConvertDefText(NFmiString &object)
     return dFormat;
   if (lowChar == NFmiString("zerowithminus") || lowChar == NFmiString("nollaviivalla"))
     return dZeroMinus;
-  else if (lowChar == NFmiString("detachsign") || lowChar == NFmiString("irrotaetumerkki"))
+  if (lowChar == NFmiString("detachsign") || lowChar == NFmiString("irrotaetumerkki"))
     return dDetachSign;
   else if (lowChar == NFmiString("dottocomma") || lowChar == NFmiString("pistepilkuksi"))
     return dDotToComma;
@@ -436,7 +436,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
 
   /* || value == kFloatMissing       // pitkät miinukset näkyviin
         && itsEnvironment.GetLongNumberMinus()*/
-  ;
+
 
   if (mapString)  // mappingmahdollisuus myös numerolle
   {

@@ -62,11 +62,11 @@ class NFmiLetterParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiLetterParamRect::NFmiLetterParamRect()
+inline NFmiLetterParamRect::NFmiLetterParamRect() : itsColumnText(nullptr)
 {
   itsMapping = nullptr;
   fUseSelectLatinFont = true;
-  itsColumnText = nullptr;
+
 }
 
 #endif  // NFMILETTERPARAMRECT_H

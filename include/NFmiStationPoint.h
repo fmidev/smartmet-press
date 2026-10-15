@@ -70,8 +70,8 @@ class NFmiStationPoint : public NFmiStation, public NFmiDescription
   //  Ei hyvä, eihän se säily kun ei tehdä new:llä
   NFmiStation* Station() const;
   NFmiPoint Point() const;
-  void Station(NFmiStation theStation);
-  void Location(NFmiLocation theLocation);
+  void Station(const NFmiStation& theStation);
+  void Location(const NFmiLocation& theLocation);
   void Point(NFmiPoint thePoint);
   bool IsBackup() const;
   void SetBackup(bool theStatus);
@@ -249,7 +249,7 @@ inline double NFmiStationPoint::Y() const
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiStationPoint::Station(NFmiStation theStation)
+inline void NFmiStationPoint::Station(const NFmiStation& theStation)
 {
   SetIdent(theStation.GetIdent());
   SetName(theStation.GetName());
@@ -265,7 +265,7 @@ inline void NFmiStationPoint::Station(NFmiStation theStation)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiStationPoint::Location(NFmiLocation theLocation)
+inline void NFmiStationPoint::Location(const NFmiLocation& theLocation)
 {
   SetLatitude(theLocation.GetLatitude());
   SetLongitude(theLocation.GetLongitude());

@@ -696,7 +696,7 @@ int NFmiPressTimeDescription::ConvertDefText(NFmiString& object)
     return dDayAddition;
   if (lowChar == NFmiString("minute") || lowChar == NFmiString("minuutti"))
     return dMinute;
-  else if (lowChar == NFmiString("hour") || lowChar == NFmiString("tunti"))
+  if (lowChar == NFmiString("hour") || lowChar == NFmiString("tunti"))
     return dHour;
   else if (lowChar == NFmiString("relativehours") || lowChar == NFmiString("relativehour") ||
            lowChar == NFmiString("relhour") || lowChar == NFmiString("suhteellinentunti"))
@@ -881,7 +881,7 @@ bool NFmiPressTimeDescription::SetDataHour(NFmiFastQueryInfo* data, const NFmiSt
  */
 // ----------------------------------------------------------------------
 
-NFmiMetTime NFmiPressTimeDescription::TimeToWrite(NFmiMetTime givenTime) const
+NFmiMetTime NFmiPressTimeDescription::TimeToWrite(const NFmiMetTime& givenTime) const
 {
   if (fWriteAsUtc)
     return givenTime;

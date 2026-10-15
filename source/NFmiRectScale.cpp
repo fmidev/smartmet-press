@@ -35,7 +35,7 @@ NFmiRectScale::NFmiRectScale()
  */
 // ----------------------------------------------------------------------
 
-NFmiRectScale::NFmiRectScale(NFmiRect theStartRect, NFmiRect theEndRect)
+NFmiRectScale::NFmiRectScale(const NFmiRect& theStartRect, const NFmiRect& theEndRect)
     : itsXStartScale(static_cast<float>(theStartRect.Left()),
                      static_cast<float>(theStartRect.Right())),
       itsYStartScale(static_cast<float>(theStartRect.Top()),

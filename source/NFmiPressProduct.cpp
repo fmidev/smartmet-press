@@ -1777,7 +1777,7 @@ bool NFmiPressProduct::ReadData()
   }
 
   return !mandatoryNotFound;
-  ;
+
 }
 
 // ----------------------------------------------------------------------
@@ -1884,7 +1884,7 @@ NFmiString NFmiPressProduct::FirstDataName()
  */
 // ----------------------------------------------------------------------
 
-NFmiQueryData *NFmiPressProduct::DataByName(NFmiString givenName, bool &isYearData)
+NFmiQueryData *NFmiPressProduct::DataByName(const NFmiString& givenName, bool &isYearData)
 {
   NFmiNamedQueryData* nData = nullptr;
   NFmiVoidPtrIterator iter(itsDatas);

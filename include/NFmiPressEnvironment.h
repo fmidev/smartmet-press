@@ -18,6 +18,8 @@
 #ifndef NFMIPRESSENVIRONMENT_H
 #define NFMIPRESSENVIRONMENT_H
 
+#include <utility>
+
 #include "NFmiGlobals.h"
 #include "NFmiPoint.h"
 #include "NFmiPressTypes.h"
@@ -112,7 +114,7 @@ class NFmiPressEnvironment
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressEnvironment::NFmiPressEnvironment() : itsEncoding("latin")
+inline NFmiPressEnvironment::NFmiPressEnvironment() : itsVersion(1), itsEncoding("latin")
 {
   // HUOM vain jompikumpi värijärjestelmä
   itsGenericColor.color.cmyk.cyan = 0.;
@@ -126,7 +128,7 @@ inline NFmiPressEnvironment::NFmiPressEnvironment() : itsEncoding("latin")
   itsTextAttributes.alignment = kCenter;
   // itsTextAttributes.color;                    //käyttöön myöhemmin
   itsTextAttributes.fLongNumberMinus = false;  // käyttöön myöhemmin
-  itsVersion = 1;
+
   itsSegmentMove = NFmiPoint(0., 0.);
   itsSymbolSet = NFmiString("Kymi");
   itsSymbolSizeFactor = 1.;
@@ -142,7 +144,7 @@ inline NFmiPressEnvironment::NFmiPressEnvironment() : itsEncoding("latin")
 // ----------------------------------------------------------------------
 inline void NFmiPressEnvironment::SetEncoding(std::string theEncoding)
 {
-  itsEncoding = theEncoding;
+  itsEncoding = std::move(theEncoding);
 }
 // ----------------------------------------------------------------------
 /*!

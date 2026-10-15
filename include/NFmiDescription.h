@@ -473,9 +473,9 @@ inline NFmiDescription::NFmiDescription()
  */
 // ----------------------------------------------------------------------
 
-inline NFmiDescription::NFmiDescription(std::ofstream* theLogFile, unsigned short theMaxLoopNum)
+inline NFmiDescription::NFmiDescription(std::ofstream* theLogFile, unsigned short theMaxLoopNum) : itsMaxLoopNum(theMaxLoopNum)
 {
-  itsMaxLoopNum = theMaxLoopNum;
+
   itsLogFile = theLogFile;
   itsDescriptionFile = nullptr;
   itsLoopNum = 0;

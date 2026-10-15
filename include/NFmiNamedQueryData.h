@@ -26,7 +26,7 @@ class NFmiNamedQueryData
   ~NFmiNamedQueryData();
   NFmiNamedQueryData();
   NFmiNamedQueryData(NFmiQueryData* data,
-                     NFmiString name,
+                     const NFmiString& name,
                      bool mandatory = false,
                      bool newest = false,
                      bool yearData = false);
@@ -70,7 +70,7 @@ inline NFmiNamedQueryData::NFmiNamedQueryData()
 // ----------------------------------------------------------------------
 
 inline NFmiNamedQueryData::NFmiNamedQueryData(
-    NFmiQueryData* data, NFmiString name, bool mandatory, bool newest, bool yearData)
+    NFmiQueryData* data, const NFmiString& name, bool mandatory, bool newest, bool yearData)
     : itsData(data), itsName(name), fMandatory(mandatory), fNewest(newest), fYearData(yearData)
 {
 }

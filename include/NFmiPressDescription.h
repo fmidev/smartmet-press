@@ -153,9 +153,9 @@ inline NFmiPressDescription::~NFmiPressDescription() = default;
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDescription::NFmiPressDescription()
+inline NFmiPressDescription::NFmiPressDescription() : fOnlyForMissingPrecedingElement(false)
 {
-  fOnlyForMissingPrecedingElement = false;
+
 }
 // ----------------------------------------------------------------------
 /*!
@@ -193,9 +193,9 @@ inline NFmiPressDescription::NFmiPressDescription(const NFmiPressDescription& th
 
 inline NFmiPressDescription::NFmiPressDescription(std::ofstream* theLogFile,
                                                   unsigned short theMaxLoopNum)
-    : NFmiDescription(theLogFile, theMaxLoopNum)
+    : NFmiDescription(theLogFile, theMaxLoopNum), fOnlyForMissingPrecedingElement(false)
 {
-  fOnlyForMissingPrecedingElement = false;
+
 }
 
 // ----------------------------------------------------------------------

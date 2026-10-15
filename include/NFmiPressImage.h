@@ -77,7 +77,7 @@ class NFmiPressImage : public NFmiPressScaling
   void SetTempImageFile(const NFmiString& theFile);
   void SetImageScale(const NFmiRectScale& theScale);
   void SetClippingRect(const NFmiRect& theRect);
-  void SetClippingPoints(std::vector<NFmiPoint> thePoints);
+  void SetClippingPoints(const std::vector<NFmiPoint>& thePoints);
 
  private:
   // tempit tarvitaan nyt rekursion takia
@@ -171,7 +171,7 @@ inline void NFmiPressImage::SetClippingRect(const NFmiRect& theRect)
  */
 // ----------------------------------------------------------------------
 
-inline void NFmiPressImage::SetClippingPoints(const std::vector<NFmiPoint> thePoints)
+inline void NFmiPressImage::SetClippingPoints(const std::vector<NFmiPoint>& thePoints)
 {
   itsClippingPoints = thePoints;
 }  // ----------------------------------------------------------------------

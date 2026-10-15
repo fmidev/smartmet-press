@@ -128,8 +128,8 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
 
   NFmiParamRect();
   NFmiParamRect(const NFmiParamRect& theRect);
-  NFmiParamRect(NFmiDataIdent theParam,
-                NFmiRect theRect,
+  NFmiParamRect(const NFmiDataIdent& theParam,
+                const NFmiRect& theRect,
                 std::ofstream* theLogFile,
                 unsigned short theMaxLoopNum);
   NFmiParamRect& operator=(const NFmiParamRect&) = default;
@@ -146,8 +146,8 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
 
   bool SetPressParam(NFmiPressParam* pressParam);
   virtual bool Set(NFmiDataIdent theParam, NFmiRect theRect);
-  bool SetIdent(NFmiDataIdent theParam);
-  bool SetRect(NFmiRect theRect);
+  bool SetIdent(const NFmiDataIdent& theParam);
+  bool SetRect(const NFmiRect& theRect);
   long NumOfMissing() const;
   void InitMissing();
   int ConvertDefText(NFmiString& object) override;
@@ -181,8 +181,8 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   virtual bool PointOnLevel(NFmiFastQueryInfo* theQI);
   bool ReadRemaining() override;
   float SunElevation(NFmiFastQueryInfo* theQueryInfo);
-  float GetRandomInterval() const { return itsRandomInterval; };
-  bool IsRandom() const { return GetRandomInterval() > .00001f; };
+  float GetRandomInterval() const { return itsRandomInterval; }
+  bool IsRandom() const { return GetRandomInterval() > .00001f; }
   bool IsEquiDistanceMode() const;
   bool IsEquiDistanceAndCorrMode() const;
   bool ActiveStationIndex(int currentInd) const;  // vain TimeParamRect toistaiseksi
@@ -358,8 +358,8 @@ inline NFmiParamRect::NFmiParamRect()
  */
 // ----------------------------------------------------------------------
 
-inline NFmiParamRect::NFmiParamRect(NFmiDataIdent theParam,
-                                    NFmiRect theRect,
+inline NFmiParamRect::NFmiParamRect(const NFmiDataIdent& theParam,
+                                    const NFmiRect& theRect,
                                     std::ofstream* theLogFile,
                                     unsigned short theMaxLoopNum)
     : NFmiRect(theRect),

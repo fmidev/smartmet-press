@@ -282,11 +282,11 @@ bool NFmiPressScaling::AddTimeStamp(NFmiString &theFile, const NFmiString &theFo
  */
 // ----------------------------------------------------------------------
 
-NFmiFileString NFmiPressScaling::CreatePath(NFmiString defDir,
-                                            NFmiString givenPath,
-                                            NFmiString givenDir,
-                                            NFmiString givenFile,
-                                            NFmiString theExtension)
+NFmiFileString NFmiPressScaling::CreatePath(const NFmiString& defDir,
+                                            const NFmiString& givenPath,
+                                            const NFmiString& givenDir,
+                                            const NFmiString& givenFile,
+                                            const NFmiString& theExtension)
 {
   NFmiFileString fileStr;
   if (!givenPath.IsValue())

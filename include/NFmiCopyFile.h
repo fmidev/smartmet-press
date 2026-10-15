@@ -21,7 +21,7 @@ bool NFmiCopyFile(std::ifstream& inFile, std::ofstream& outFile);
 bool NFmiCopyFileWithoutShowpage(std::ifstream& inFile, std::ofstream& outFile);
 bool NFmiCopyFileCroppingWithoutShowpage(std::ifstream* inFile,
                                          std::ofstream* outFile,
-                                         NFmiRect theRect);
+                                         const NFmiRect& theRect);
 
 bool NFmiCopyFileColoring(std::ifstream& inFile,
                           std::ofstream& outFile,
@@ -29,12 +29,12 @@ bool NFmiCopyFileColoring(std::ifstream& inFile,
 
 bool NFmiCopyFileCroppingAndColoring(std::ifstream& inFile,
                                      std::ofstream& outFile,
-                                     NFmiRect theRect,
+                                     const NFmiRect& theRect,
                                      NFmiCmykColorBag* colorBag);
 
-bool NFmiWriteBoundingBox(std::ofstream& outFile, NFmiRect theRect);
+bool NFmiWriteBoundingBox(std::ofstream& outFile, const NFmiRect& theRect);
 
-bool NFmiCopyFileCropping(std::ifstream& inFile, std::ofstream& outFile, NFmiRect theRect);
+bool NFmiCopyFileCropping(std::ifstream& inFile, std::ofstream& outFile, const NFmiRect& theRect);
 
 bool NFmiGenerateAndCopyUniversalSize(std::ifstream& inFile,
                                       std::ofstream& outFile,
@@ -42,16 +42,16 @@ bool NFmiGenerateAndCopyUniversalSize(std::ifstream& inFile,
                                       const NFmiString& theName,
                                       const NFmiString& theDate);
 
-bool NFmiWritePSConcat(NFmiRectScale theScale,
+bool NFmiWritePSConcat(const NFmiRectScale& theScale,
                        std::ofstream& outFile,
                        float theRotating = kFloatMissing);
-bool NFmiWriteEPSConcat(NFmiRectScale theScale, std::ofstream& outFile);
+bool NFmiWriteEPSConcat(const NFmiRectScale& theScale, std::ofstream& outFile);
 
-bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale,
+bool NFmiWriteEPSConcatClipping(const NFmiRectScale& theScale,
                                 std::ofstream& outFile,
-                                NFmiRect theClippingRect);
+                                const NFmiRect& theClippingRect);
 
-bool NFmiWritePSConcatRotating(NFmiRectScale theScale, float theDirection, std::ofstream& outFile);
+bool NFmiWritePSConcatRotating(const NFmiRectScale& theScale, float theDirection, std::ofstream& outFile);
 
 bool NFmiWritePSEnd(std::ofstream& outFile);
 bool NFmiWriteEPSEnd(std::ofstream& outFile);

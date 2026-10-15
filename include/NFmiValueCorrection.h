@@ -77,9 +77,9 @@ class NFmiValueCorrection
  */
 // ----------------------------------------------------------------------
 
-inline NFmiValueCorrection::NFmiValueCorrection()
+inline NFmiValueCorrection::NFmiValueCorrection() : fRead(false)
 {
-  fRead = false;
+
   fMissing = false;
 }
 

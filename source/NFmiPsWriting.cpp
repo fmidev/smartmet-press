@@ -202,7 +202,7 @@ bool NFmiPsWriting::WriteEPSConcat()
  */
 // ----------------------------------------------------------------------
 
-bool NFmiPsWriting::WriteEPSConcatClipping(NFmiRect theClippingRect)
+bool NFmiPsWriting::WriteEPSConcatClipping(const NFmiRect& theClippingRect)
 {
   double xScale = itsWriteScale.GetXScaling();
   double yScale = itsWriteScale.GetYScaling();

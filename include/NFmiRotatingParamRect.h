@@ -68,9 +68,9 @@ class NFmiRotatingParamRect : public NFmi2SymbolParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiRotatingParamRect::NFmiRotatingParamRect()
+inline NFmiRotatingParamRect::NFmiRotatingParamRect() : itsNotRotatingMinValue(10.)
 {
-  itsNotRotatingMinValue = 10.;
+
   itsNotRotatingMaxValue = -10.;
   itsVerticalLong = kFloatMissing;
 }

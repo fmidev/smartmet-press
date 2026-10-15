@@ -96,7 +96,7 @@ class NFmiPressTimeDescription : public NFmiPressDescription
            short theFirstPlotHours,
            short theFirstDeltaDays,
            short theFirstOriginalDeltaDays,
-           NFmiMetTime theFirstPlotTime);
+           const NFmiMetTime& theFirstPlotTime);
 
   short GetFirstPlotHours() const;
   short GetFirstPlotMinutes() const;
@@ -106,7 +106,7 @@ class NFmiPressTimeDescription : public NFmiPressDescription
   bool SetDataHour(NFmiFastQueryInfo* data, const NFmiString& calledFrom);
   unsigned long ReadTimeFormat(bool isSecond = false);
   NFmiMetTime NextUseTime(long relHours, long hourRes, long hourDelta);
-  NFmiMetTime TimeToWrite(NFmiMetTime givenTime) const;
+  NFmiMetTime TimeToWrite(const NFmiMetTime& givenTime) const;
   bool ActiveTimeIndex(int currentInd) const;
   bool IsWriteAsUtc() const;
   FmiPressSeasons* GetSeasonsStatus() const;
@@ -183,9 +183,9 @@ inline NFmiPressTimeDescription::NFmiPressTimeDescription()
 
 inline NFmiPressTimeDescription::NFmiPressTimeDescription(short theFirstPlotMinutes,
                                                           short theFirstPlotHours,
-                                                          short theFirstDeltaDays)
+                                                          short theFirstDeltaDays) : itsFirstPlotMinutes(theFirstPlotMinutes)
 {
-  itsFirstPlotMinutes = theFirstPlotMinutes;
+
   itsFirstPlotHours = theFirstPlotHours;
   itsFirstDeltaDays = theFirstDeltaDays;
   fIsHourLoop = false;
@@ -248,7 +248,7 @@ inline void NFmiPressTimeDescription::Set(short theFirstPlotMinutes,
                                           short theFirstPlotHours,
                                           short theFirstDeltaDays,
                                           short theFirstOriginalDeltaDays,
-                                          NFmiMetTime theFirstPlotTime)
+                                          const NFmiMetTime& theFirstPlotTime)
 {
   itsFirstPlotMinutes = theFirstPlotMinutes;
   itsFirstPlotHours = theFirstPlotHours;

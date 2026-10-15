@@ -87,13 +87,13 @@ class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
 
  protected:
   virtual void ScalePlotting();
-  NFmiFileString CreatePath(NFmiString defaultDir,
-                            NFmiString givenPath,
-                            NFmiString givenDir,
-                            NFmiString givenFile,
-                            NFmiString extension = NFmiString());
+  NFmiFileString CreatePath(const NFmiString& defaultDir,
+                            const NFmiString& givenPath,
+                            const NFmiString& givenDir,
+                            const NFmiString& givenFile,
+                            const NFmiString& extension = NFmiString());
 
-  int GetTimestampDayGap() const { return itsTimestampDayGap; };
+  int GetTimestampDayGap() const { return itsTimestampDayGap; }
   bool AddValidTimeTimeStamp(NFmiString& theFile,
                              const NFmiString& theFormat,
                              const NFmiPressTime& theValidTime) const;

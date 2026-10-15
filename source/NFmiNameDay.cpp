@@ -93,7 +93,7 @@ bool NFmiNameDay::ReadFile(const NFmiString& theFileName)
  */
 // ----------------------------------------------------------------------
 
-NFmiString NFmiNameDay::GetName(NFmiMetTime theTime, FmiCounter maxNumber, FmiCounter maxLength)
+NFmiString NFmiNameDay::GetName(const NFmiMetTime& theTime, FmiCounter maxNumber, FmiCounter maxLength)
 {
   int indYear = theTime.GetJulianDay();
   // karkausvuotena kaatui

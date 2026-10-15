@@ -61,7 +61,7 @@ bool NFmiCopyFile(ifstream &inFile, ofstream &outFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileCroppingWithoutShowpage(ifstream *inFile, ofstream *outFile, NFmiRect theRect)
+bool NFmiCopyFileCroppingWithoutShowpage(ifstream *inFile, ofstream *outFile, const NFmiRect& theRect)
 {
   // lis‰tty showpagen poisto koska itse tuotteessa on se varsinainen showpage
   // kaksi showpagea saa jotkut ohjelmat tekem‰‰n animaation
@@ -222,7 +222,7 @@ bool NFmiCopyFileColoring(ifstream& inFile, ofstream& outFile, NFmiCmykColorBag*
 
 bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
                                      ofstream &outFile,
-                                     NFmiRect theRect,
+                                     const NFmiRect& theRect,
                                      NFmiCmykColorBag *colorBag)
 {
   // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰
@@ -340,7 +340,7 @@ bool NFmiCopyFileCroppingAndColoring(ifstream &inFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWriteBoundingBox(ofstream &outFile, NFmiRect theRect)
+bool NFmiWriteBoundingBox(ofstream &outFile, const NFmiRect& theRect)
 {
   outFile.put('\x0A');
   NFmiString newBounding("%%BoundingBox: ");
@@ -368,7 +368,7 @@ bool NFmiWriteBoundingBox(ofstream &outFile, NFmiRect theRect)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiCopyFileCropping(ifstream &inFile, ofstream &outFile, NFmiRect theRect)
+bool NFmiCopyFileCropping(ifstream &inFile, ofstream &outFile, const NFmiRect& theRect)
 {
   // 1.6 Metview:n ps-driveri tuottaa 513 pitki‰ rivej‰
   const short lineSize = 2800;
@@ -510,7 +510,7 @@ bool NFmiGenerateAndCopyUniversalSize(ifstream &inFile,
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream &outFile, float theRotating)
+bool NFmiWritePSConcat(const NFmiRectScale& theScale, ofstream &outFile, float theRotating)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
@@ -534,7 +534,7 @@ bool NFmiWritePSConcat(NFmiRectScale theScale, ofstream &outFile, float theRotat
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWriteEPSConcat(NFmiRectScale theScale, ofstream &outFile)
+bool NFmiWriteEPSConcat(const NFmiRectScale& theScale, ofstream &outFile)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
@@ -559,7 +559,7 @@ bool NFmiWriteEPSConcat(NFmiRectScale theScale, ofstream &outFile)
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale, ofstream &outFile, NFmiRect theClippingRect)
+bool NFmiWriteEPSConcatClipping(const NFmiRectScale& theScale, ofstream &outFile, const NFmiRect& theClippingRect)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
@@ -596,7 +596,7 @@ bool NFmiWriteEPSConcatClipping(NFmiRectScale theScale, ofstream &outFile, NFmiR
  */
 // ----------------------------------------------------------------------
 
-bool NFmiWritePSConcatRotating(NFmiRectScale theScale, float theDirection, ofstream &outFile)
+bool NFmiWritePSConcatRotating(const NFmiRectScale& theScale, float theDirection, ofstream &outFile)
 {
   double xScale = theScale.GetXScaling();
   double yScale = theScale.GetYScaling();
