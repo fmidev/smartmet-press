@@ -100,6 +100,7 @@ FmiMultiMapping NFmiMultiParamMapping::ReadOneMapping(ifstream *inFile)
   }
   if (str == NFmiString("-"))  // loppuu: - symboli
     hyphOnePair.NextSubString(str);
+  // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
   mapping.symbol = str;
   return mapping;
 }

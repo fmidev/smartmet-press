@@ -1362,7 +1362,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   {
     std::filesystem::create_directory(static_cast<string>(fmiString));
   }
-  catch (exception &e)
+  catch (exception &)
   {
     cout << "Creating the log directory failed." << endl;
   }
@@ -1428,7 +1428,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   {
     std::filesystem::create_directory(static_cast<string>(tempInput));
   }
-  catch (exception &e)
+  catch (exception &)
   {
     cout << "Creating the tmp directory " << tempInput << " failed." << endl;
   }
@@ -2162,6 +2162,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
       case dMandatoryDataFile:
       {
         thisDataFileCritical = true;  // must be set to false before next
+        [[fallthrough]];
       }
       case dNewestDataFile:  // sekä Mandatory että newest ei voi antaa
       {
@@ -2170,6 +2171,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
           thisFileNewest = true;  // must be set to false before next
           fNewestDataMode = true;
         }
+        [[fallthrough]];
       }
       case dYearDataFile:  // yksi vain näistä: Mandatory,Newest,YearData
         // ilmastokeskiarvokamaa, vuosi ei relevantti
@@ -2178,6 +2180,7 @@ bool NFmiPressProduct::ReadDescription(NFmiString &retString)
           {
             yearData = true;  // must be set to false before next
           }
+          [[fallthrough]];
         }
       case dDataFile:
       {
@@ -3397,14 +3400,15 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
               NFmiWriteEPSConcatClipping(itsScale, outFile, itsClippingRect);
 
             if (itsBoundingBorder.IsEmpty())
+            {
               if (itsPalette)
                 NFmiCopyFileColoring(mapFile, outFile, itsPalette);
               else
                 NFmiCopyFileWithoutShowpage(mapFile, outFile);  // writeps:n
-
-            else  // Epsiin voi laittaa nolla-BoundaryBording koska alussa on oikea ja maximi
-                  // otetaan
-                if (itsPalette)  // ei käytössä
+            }
+            // Epsiin voi laittaa nolla-BoundaryBording koska alussa on oikea ja maximi
+            // otetaan
+            else if (itsPalette)  // ei käytössä
               NFmiCopyFileCroppingAndColoring(
                   mapFile, outFile, NFmiRect(NFmiPoint(0., 0.), NFmiPoint(0., 0.)), itsPalette);
             else
@@ -3773,7 +3777,7 @@ bool NFmiPressProduct::ConstructOutFileName()
   {
     std::filesystem::create_directory(static_cast<string>(itsOutFile));
   }
-  catch (exception &e)
+  catch (exception &)
   {
     cout << "Creating the output directory failed." << endl;
   }
@@ -3963,6 +3967,7 @@ bool NFmiPressProduct::ConstructOutFileName()
           addString.LowerCase();
       }
       else
+        // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the text is wanted
         addString = subString;
 
       name += addString;

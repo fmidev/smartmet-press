@@ -40,6 +40,7 @@ class NFmiScalingParamRect : public NFmi2SymbolParamRect
   ~NFmiScalingParamRect() override;
   NFmiScalingParamRect();
   NFmiScalingParamRect(const NFmiScalingParamRect& theSymbolRect);
+  NFmiScalingParamRect& operator=(const NFmiScalingParamRect&) = default;
 
   bool ReadRemaining() override;
 
@@ -51,8 +52,8 @@ class NFmiScalingParamRect : public NFmi2SymbolParamRect
   bool ReadSymbolScale(FmiValueScaling& theScale);
   void ScaleByValue() override;
 
-  FmiValueScaling itsXValueScaling;
-  FmiValueScaling itsYValueScaling;
+  FmiValueScaling itsXValueScaling{};
+  FmiValueScaling itsYValueScaling{};
 
  private:
 };  // class NFmiScalingParamRect

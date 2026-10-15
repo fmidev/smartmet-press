@@ -31,6 +31,7 @@ class NFmiNamedQueryData
                      bool newest = false,
                      bool yearData = false);
   NFmiNamedQueryData(const NFmiNamedQueryData& theNQD);
+  NFmiNamedQueryData& operator=(const NFmiNamedQueryData&) = default;
 
   void SetData(NFmiQueryData* theData);
   NFmiQueryData* GetData();

@@ -35,7 +35,7 @@ const int FmiMaxNumOfMappingParams = 9;  // pitääkö olla yksi enemmän kuin tarve
 //! Undocumented
 struct FmiMultiMapping
 {
-  FmiMappingInterval mappingInterval[FmiMaxNumOfMappingParams];
+  FmiMappingInterval mappingInterval[FmiMaxNumOfMappingParams]{};
   NFmiString symbol;
 };
 
@@ -47,6 +47,7 @@ class NFmiMultiParamMapping : public NFmiSize
 
   NFmiMultiParamMapping();
   NFmiMultiParamMapping(const NFmiMultiParamMapping &theParamMapping);
+  NFmiMultiParamMapping& operator=(const NFmiMultiParamMapping&) = default;
 
   FmiMultiMapping ReadOneMapping(std::ifstream *inFile);
 

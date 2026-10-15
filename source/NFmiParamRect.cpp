@@ -620,6 +620,7 @@ bool NFmiParamRect::ReadRemaining()
           itsIntegrationPeriod.centreWeight = kFloatMissing;
           itsIntegrationPeriod.endWeight = kFloatMissing;
 
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
         }
       }
@@ -718,6 +719,7 @@ bool NFmiParamRect::ReadRemaining()
         }
         else
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
         }
 
@@ -2168,6 +2170,7 @@ float NFmiParamRect::SunElevation(NFmiFastQueryInfo *theQueryInfo)
   NFmiLocation location;
   if (theQueryInfo->IsGrid())
   {
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the location is wanted
     location = itsPressParam->GetCurrentStation();
   }
   else
@@ -2314,6 +2317,8 @@ bool NFmiParamRect::RandomModify(float &theValue, unsigned long theParIdent) con
       case kFmiProbabilityThunderstorm:
         if (theValue > 1.F)
           Randomize(theValue, 6.F, 0.F, 100.F);
+        break;
+      default:
         break;
     }
   }

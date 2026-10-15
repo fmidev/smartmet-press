@@ -29,6 +29,7 @@ class NFmiExtremePlaceParamRect : public NFmiTextParamRect
   ~NFmiExtremePlaceParamRect() override;
   NFmiExtremePlaceParamRect();
   NFmiExtremePlaceParamRect(const NFmiExtremePlaceParamRect& theTextParamRect);
+  NFmiExtremePlaceParamRect& operator=(const NFmiExtremePlaceParamRect&) = default;
 
   NFmiParamRect* Clone() const override;
   bool ReadDescription(NFmiString& retString) override;

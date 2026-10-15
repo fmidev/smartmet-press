@@ -729,6 +729,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       case dLogTextAdd:
       {
         fTwoPartLogComment = true;
+        [[fallthrough]];
       }  // huom jatkuu seuraavaan
       case dLogText:
       {
@@ -769,6 +770,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           else
           {
             y = 0.;
+            // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
             itsString = valueString;
           }
           point1.Set(x, y);
@@ -811,6 +813,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dSegmentHybridLevel:
         levelType = kFmiHybridLevel;
+        [[fallthrough]];
       case dSegmentLevel:
       {
         if (!ReadEqualChar())
@@ -839,6 +842,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
       }
       case dHybridLevelPlace:
         levelType = kFmiHybridLevel;
+        [[fallthrough]];
       case dLevelPlace:
       {
         if (!ReadEqualChar())
@@ -1506,6 +1510,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         else
         {
           statNum = itsLoopNum;  // toimii satunnaislukuna,näin saadaan bagiin useita samannimisiä
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           string1 = valueString;  // Object;
         }
         string2 = ReadString();
@@ -1541,12 +1546,14 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
               else
                 hasOwnPoint = false;
 
+              // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
               itsString = valueString;
             }
             MoveSegmentPlaceConditionally(x, y);
           }
           else  // 1 luku
           {
+            // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
             itsString = valueString;
             if (numOfTableStations < 1)
             {
@@ -1558,6 +1565,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         }
         else  // 0 lukua
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
           if (numOfTableStations < 1)
             helpBool = false;
@@ -1620,6 +1628,7 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
         else
         {
           statNum = itsLoopNum;  // toimii satunnaislukuna,näin saadaan bagiin useita samannimisiä
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           string1 = valueString;
         }
         valueString = ReadString();
@@ -1653,18 +1662,21 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
               else
                 hasOwnPoint = false;
 
+              // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
               itsString = valueString;
             }
             MoveSegmentPlaceConditionally(x, y);
           }
           else  // 1 luku
           {
+            // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
             itsString = valueString;
             helpBool = false;
           }
         }
         else  // 0 lukua
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
           if (numOfTableStations < 1)
           {
@@ -1776,7 +1788,6 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             {
               itsName = station.GetName();
               firstUnscaledPoint = NFmiPoint(x, y);
-              firstStation = false;
             }
             firstStation = false;
           }
@@ -1856,7 +1867,6 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
                 {
                   itsName = station.GetName();
                   firstUnscaledPoint = NFmiPoint(x, y);
-                  firstStation = false;
                 }
                 firstStation = false;
               }
@@ -1904,7 +1914,6 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
               {
                 itsName = station.GetName();
                 firstUnscaledPoint = NFmiPoint(point1);
-                firstStation = false;
               }
               firstStation = false;
             }
@@ -1955,7 +1964,6 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             {
               itsName = station.GetName();
               firstUnscaledPoint = NFmiPoint(point1);
-              firstStation = false;
             }
             firstStation = false;
           }
@@ -2030,7 +2038,6 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
             {
               itsName = station.GetName();
               firstUnscaledPoint = NFmiPoint(x, y);
-              firstStation = false;
             }
             firstStation = false;
           }
@@ -2086,7 +2093,6 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
               {
                 itsName = station.GetName();
                 firstUnscaledPoint = NFmiPoint(x, y);
-                firstStation = false;
               }
               firstStation = false;
             }

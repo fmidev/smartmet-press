@@ -51,6 +51,7 @@ class NFmiPressImage : public NFmiPressScaling
   ~NFmiPressImage() override;
   NFmiPressImage();
   NFmiPressImage(const NFmiPressImage& theOtherImage);
+  NFmiPressImage& operator=(const NFmiPressImage&) = default;
 
   bool ReadDescription(NFmiString& retString) override;
   int ConvertDefText(NFmiString& object) override;

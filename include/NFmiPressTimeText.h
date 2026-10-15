@@ -50,7 +50,7 @@ class NFmiPressTimeText : public NFmiPressText
 
  protected:
   unsigned long itsFormat;
-  unsigned long itsOrigFormat;
+  unsigned long itsOrigFormat = 0;
   NFmiString itsOrigFont;
 
 };  // class NFmiPressTimeText

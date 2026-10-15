@@ -36,6 +36,7 @@ class NFmiLetterParamRect : public NFmiTextParamRect
 
   NFmiLetterParamRect();
   NFmiLetterParamRect(const NFmiLetterParamRect &theLetterParamRect);
+  NFmiLetterParamRect& operator=(const NFmiLetterParamRect&) = default;
 
   bool ReadDescription(NFmiString& retString) override;
   NFmiParamRect* Clone() const override;

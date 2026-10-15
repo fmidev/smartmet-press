@@ -39,6 +39,7 @@ class NFmiPsWriting
   ~NFmiPsWriting();
   NFmiPsWriting();
   NFmiPsWriting(const NFmiPsWriting& thePsWriting);
+  NFmiPsWriting& operator=(const NFmiPsWriting&) = default;
 
   bool WriteOutString(const NFmiString& outString);
   bool CopyPsFile();

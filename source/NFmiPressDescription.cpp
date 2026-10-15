@@ -71,6 +71,7 @@ bool NFmiPressDescription::ReadRemaining()
     // tänne vaikka vain Produktissa ja segmentissä käytössä
     case dMaskNumber:  // vain tiealueet
       helpEnumSpace = kRoadRegions;
+      [[fallthrough]];
     case dPressMaskNumber:  // muut kuin tiealueet
     {
       if (!ReadEqualChar())
@@ -137,7 +138,7 @@ bool NFmiPressDescription::ReadRemaining()
           break;
         if (Read4Double(r1, r2, r3, r4))
         {
-          FmiGenericColor color;
+          FmiGenericColor color{};
           color.color.cmyk.cyan = r1;
           color.color.cmyk.magenta = r2;
           color.color.cmyk.yellow = r3;
@@ -245,6 +246,8 @@ bool NFmiPressDescription::ReadRemaining()
         break;
       }
     }
+    default:
+      break;
   }
   return true;
 }
@@ -375,8 +378,12 @@ int NFmiPressDescription::ConvertDefText(NFmiString &object)
 
 bool NFmiPressDescription::IsPureBlack() const
 {
-  return (GetColor().color.cmyk.cyan <= 0. && GetColor().color.cmyk.magenta <= 0. &&
-          GetColor().color.cmyk.yellow <= 0. && GetColor().color.cmyk.black >= 1.);
+  const FmiGenericColor& color = GetColor();
+  if (color.isRgb)
+    return (color.color.rgb.red <= 0. && color.color.rgb.green <= 0. &&
+            color.color.rgb.blue <= 0.);
+  return (color.color.cmyk.cyan <= 0. && color.color.cmyk.magenta <= 0. &&
+          color.color.cmyk.yellow <= 0. && color.color.cmyk.black >= 1.);
 }
 
 // ======================================================================

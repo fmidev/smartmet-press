@@ -117,6 +117,7 @@ bool NFmiPressScaling::ReadRemaining()
         }
         else
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
           itsIntObject = ConvertDefText(itsString);
         }

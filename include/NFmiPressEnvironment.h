@@ -28,10 +28,10 @@ class NFmiPressArea;
 struct FmiPressTextAttributes
 {
   NFmiString font;
-  double size;
+  double size = 0.0;
   FmiDirection alignment;
-  FmiGenericColor color;  // käyttöön myöhemmin
-  bool fLongNumberMinus;  // käyttöön myöhemmin
+  FmiGenericColor color{};  // käyttöön myöhemmin
+  bool fLongNumberMinus = false;  // käyttöön myöhemmin
 };
 
 //! Undocumented
@@ -41,6 +41,7 @@ class NFmiPressEnvironment
   ~NFmiPressEnvironment();
   NFmiPressEnvironment();
   NFmiPressEnvironment(const NFmiPressEnvironment& aTime);
+  NFmiPressEnvironment& operator=(const NFmiPressEnvironment&) = default;
 
   void SetMaskNumber(unsigned long theMaskNumber);
   void SetEnumSpace(FmiEnumSpace theEnumSpace);
@@ -92,7 +93,7 @@ class NFmiPressEnvironment
   unsigned long itsMaskNumber = 0;
   FmiEnumSpace itsEnumSpace = kNoneEnumSpace;
   bool fLongNumberMinus = false;
-  FmiGenericColor itsGenericColor;
+  FmiGenericColor itsGenericColor{};
   long itsAdditionalDayAdvance = 0;
   FmiPressTextAttributes itsTextAttributes;
   int itsVersion;

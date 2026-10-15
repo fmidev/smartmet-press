@@ -217,6 +217,8 @@ bool NFmiPressSameSymbols::ReadDescription(NFmiString &retString)
         iobject = ConvertDefText(str);
         break;
       }
+      default:
+        break;
     }
   }
   retString = str;

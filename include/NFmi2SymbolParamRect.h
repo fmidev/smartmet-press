@@ -32,6 +32,7 @@ class NFmi2SymbolParamRect : public NFmiSymbolParamRect
   ~NFmi2SymbolParamRect() override;
   NFmi2SymbolParamRect();
   NFmi2SymbolParamRect(const NFmi2SymbolParamRect& theSymbolRect);
+  NFmi2SymbolParamRect& operator=(const NFmi2SymbolParamRect&) = default;
 
   bool ReadRemaining() override;
 
@@ -43,7 +44,7 @@ class NFmi2SymbolParamRect : public NFmiSymbolParamRect
   bool ReadValues(NFmiFastQueryInfo* theQI, bool SetRelHour = true) override;
   NFmiDataIdent GetSecondDataIdent() const;
 
-  float itsSecondParamValue;
+  float itsSecondParamValue = 0.0F;
   NFmiDataIdent itsSecondDataIdent;
 
  private:

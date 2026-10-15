@@ -412,6 +412,7 @@ NFmiTime NFmiTimeParamRect::TimeToWrite(NFmiFastQueryInfo *theQI)
     tim = (static_cast<NFmiQueryInfo *>(theQI))->Time();
     theQI->Time(saveTime);
   }
+  // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the time is wanted, not the time step
   return tim;
 }
 

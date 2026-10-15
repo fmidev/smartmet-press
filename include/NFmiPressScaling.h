@@ -56,6 +56,7 @@ class NFmiPressScaling : public NFmiPressTimeDescription, public NFmiPsWriting
   ~NFmiPressScaling() override;
   NFmiPressScaling();
   NFmiPressScaling(const NFmiPressScaling& thePsSymbol);
+  NFmiPressScaling& operator=(const NFmiPressScaling&) = default;
 
   int ConvertDefText(NFmiString& object) override;
   bool ReadDescription(NFmiString& retString) override = 0;

@@ -30,7 +30,7 @@ struct NFmiCmykColor
 //! Representation of a named CMYK color
 struct NFmiNamedCmykColor
 {
-  NFmiCmykColor color;
+  NFmiCmykColor color{};
   NFmiString name;
 };
 
@@ -45,6 +45,7 @@ class NFmiCmykColorBag : public NFmiSize
   ~NFmiCmykColorBag() override;
   NFmiCmykColorBag();
   NFmiCmykColorBag(const NFmiCmykColorBag& theCmykColorBag);
+  NFmiCmykColorBag& operator=(const NFmiCmykColorBag&) = default;
 
   void AddColor(const NFmiNamedCmykColor& theColor);
   NFmiCmykColor* GetColor(const NFmiString& theName) const;

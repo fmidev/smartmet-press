@@ -127,6 +127,7 @@ NFmiString NFmiPressStationText::StationName()
   if (itsData->IsGrid())
     name = itsPressParam->GetCurrentStation().GetName();
   else if (fStationNumberMode)
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
     name = NFmiValueString(itsData->Location()->GetIdent());
   else
     name = itsData->Location()->GetName();

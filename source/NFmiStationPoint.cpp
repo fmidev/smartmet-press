@@ -207,6 +207,8 @@ bool NFmiStationPoint::ReadDescription(NFmiString &retString)
         iobject = ConvertDefText(str);
         break;
       }
+      default:
+        break;
     }
   }  // while
 
@@ -346,6 +348,7 @@ NFmiString NFmiStationPoint::LocalWmoTime(int utc) const
     retString.SetValue(corrDiffHour, NFmiString("%05.2f"));
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
   return retString;
 }
 

@@ -212,7 +212,6 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         NFmiString string1;
         lon = kFloatMissing;
         lat = kFloatMissing;
-        statNum = 0;
 
         if (!ReadEqualChar())
           break;
@@ -226,6 +225,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         else
         {
           statNum = itsLoopNum;
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           string1 = valueString;
         }
         valueString = ReadString();
@@ -238,6 +238,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         }
         else
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
           itsIntObject = ConvertDefText(itsString);
         }
@@ -261,7 +262,6 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         NFmiString string2;
         lon = kFloatMissing;
         lat = kFloatMissing;
-        statNum = 0;
 
         if (!ReadEqualChar())
           break;
@@ -275,6 +275,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         else
         {
           statNum = itsLoopNum;
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           string1 = valueString;
         }
 
@@ -290,6 +291,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
         }
         else
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
           itsIntObject = ConvertDefText(itsString);
         }
@@ -311,6 +313,7 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       case dManMaskNumber:  // vain tiemaskit;
         // MANAGERISSA TOSIN EI ONNISTUNE ENUMSPACEN VAIHTO
         helpEnumSpace = kRoadRegions;
+        [[fallthrough]];
       case dManPressMaskNumber:  // muut kuin tiemaskit
       {
         if (!ReadEqualChar())
@@ -525,6 +528,8 @@ bool NFmiPressManager::ReadDescriptionAndWrite(NFmiPressProduct &thePressProduct
       {
         return true;
       }
+      default:
+        break;
     }
   }
   return true;

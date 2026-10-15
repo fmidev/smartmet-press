@@ -32,6 +32,7 @@ class NFmiSunTimeParamRect : public NFmiTimeParamRect
   ~NFmiSunTimeParamRect() override;
   NFmiSunTimeParamRect();
   NFmiSunTimeParamRect(const NFmiSunTimeParamRect& theTimeParamRect);
+  NFmiSunTimeParamRect& operator=(const NFmiSunTimeParamRect&) = default;
 
   bool ReadRemaining() override;
   NFmiParamRect* Clone() const override;

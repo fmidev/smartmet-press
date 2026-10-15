@@ -44,6 +44,7 @@ class NFmiHyphenationString : public NFmiString
   NFmiHyphenationString(const char* theText);
   NFmiHyphenationString(const NFmiString& theText);
   NFmiHyphenationString(const NFmiHyphenationString& theText);
+  NFmiHyphenationString& operator=(const NFmiHyphenationString&) = default;
 
   NFmiString CreateHyphens(const char* theHyphenationMark);
   NFmiString DeleteShortSyllables(const char* theHyphenationMark);
@@ -71,8 +72,8 @@ class NFmiHyphenationString : public NFmiString
   void CreateIrregularHyphens(const char* theHyphenationMark);
   bool EnoughOnRow() const;
 
-  unsigned short itsCurrentCharPos;
-  unsigned short itsLastCharPosition;
+  unsigned short itsCurrentCharPos = 0;
+  unsigned short itsLastCharPosition = 0;
   bool fIrregularHyphensInited;
   std::vector<std::string> itsIrregularHyphens;
   bool fNarrowColumn;

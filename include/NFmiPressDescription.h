@@ -69,6 +69,7 @@ class NFmiPressDescription : public NFmiDescription
   NFmiPressDescription();
   NFmiPressDescription(const NFmiPressDescription& theD);
   NFmiPressDescription(std::ofstream* theLogFile, unsigned short theMaxLoopNum);
+  NFmiPressDescription& operator=(const NFmiPressDescription&) = default;
 
   int ConvertDefText(NFmiString& object) override;
 

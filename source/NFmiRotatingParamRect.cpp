@@ -224,8 +224,8 @@ float NFmiRotatingParamRect::AdjustToMap(float theDirection) const
 
     //*itsLogFile << "*** ERROR: longitudi puuttuu tuulensuuntaa varten asemalta "
     if (itsLogFile)
-    *itsLogFile << "*** ERROR: longitude missing from station, needed for wind direction "
-                << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
+      *itsLogFile << "*** ERROR: longitude missing from station, needed for wind direction "
+                  << static_cast<char *>(itsPressParam->GetCurrentStation().GetName()) << endl;
     return theDirection;
   }
 

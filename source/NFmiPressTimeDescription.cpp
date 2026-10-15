@@ -209,7 +209,12 @@ bool NFmiPressTimeDescription::PreProcessDefinition(const string& inFileName,
   // res = prePr.ReadFile(inFileName);
   set<string> optinalDirectives;
   // HUOM kaikki optiot esitelt‰v‰ p‰‰tasolla, vaikka includeissa k‰yetett‰isiin
-  res = prePr.ReadFileCheckingOptions(inFileName, "#ifCondition", optinalDirectives);
+  if (!prePr.ReadFileCheckingOptions(inFileName, "#ifCondition", optinalDirectives))
+  {
+    if (itsLogFile)
+      *itsLogFile << "*** ERROR: Cannot read " << inFileName << endl;
+    return false;
+  }
 
   if (!PreProcessConditionally(prePr, isUnix, "#ifUnix", "#ifNotUnix", "#unixEndif", "#unixElse"))
     return false;
@@ -613,6 +618,7 @@ bool NFmiPressTimeDescription::ReadRemaining()
         }
         else
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
         }
 
@@ -809,6 +815,7 @@ void NFmiPressTimeDescription::SetPreReadingTimes()
   NFmiTime curDate;
   curDate.SetHour(0);
   curDate.SetMin(0);
+  // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the time is wanted, not the time step
   NFmiTime firstPlotDate = NFmiTime(itsFirstPlotTime);
   firstPlotDate.SetHour(0);
   firstPlotDate.SetMin(0);

@@ -31,6 +31,7 @@ NFmiString NFmiPressTime::ToStr(const unsigned long theTimeMask,
   if (kI & theTimeMask)
   {
     theString += NFmiValueString(GetWeekday(), "%01d");
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
     return theString;
   }
 
@@ -53,6 +54,7 @@ NFmiString NFmiPressTime::ToStr(const unsigned long theTimeMask,
 
     theString += NFmiValueString(GetYear(), "%04d");
 
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
     return theString;
   }
 
@@ -125,6 +127,7 @@ NFmiString NFmiPressTime::ToStr(const unsigned long theTimeMask,
       theString += NFmiValueString(GetMin(), "%02d");
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
   return theString;
 }
 
@@ -321,6 +324,7 @@ NFmiString NFmiPressTime::InterpretToStr(const NFmiString theTimeCode,
     }
     ind += plusInd;
   }
+  // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
   return theString;
 }
 

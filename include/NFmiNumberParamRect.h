@@ -35,6 +35,7 @@ class NFmiNumberParamRect : public NFmiTextParamRect
 
   NFmiNumberParamRect();
   NFmiNumberParamRect(const NFmiNumberParamRect& theNumberParamRect);
+  NFmiNumberParamRect& operator=(const NFmiNumberParamRect&) = default;
 
   bool ReadDescription(NFmiString& retString) override;
   bool ReadRemaining() override;

@@ -24,10 +24,10 @@
 //! Undocumented
 struct NFmiMappingInterval
 {
-  double itsBottomValue;
-  double itsTopValue;
+  double itsBottomValue = 0.0;
+  double itsTopValue = 0.0;
   NFmiString itsSymbol;
-  bool fIsScaled;
+  bool fIsScaled = false;
 };
 
 //! Undocumented
@@ -37,6 +37,7 @@ class NFmiParamMapping : public NFmiSize
   ~NFmiParamMapping() override;
   NFmiParamMapping();
   NFmiParamMapping(const NFmiParamMapping& theParamMapping);
+  NFmiParamMapping& operator=(const NFmiParamMapping&) = default;
 
   void AddMappingInterval(const NFmiMappingInterval& theInterval);
   void AddMappingInterval(double theBottomValue, double theTopValue, const NFmiString& theSymbol);

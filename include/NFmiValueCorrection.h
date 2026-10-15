@@ -45,8 +45,8 @@
 struct FmiTempCorrections
 {
   NFmiString stationName;
-  float dayCorr;
-  float nightCorr;
+  float dayCorr = 0.0F;
+  float nightCorr = 0.0F;
 };
 //! Undocumented
 class NFmiValueCorrection
@@ -64,7 +64,7 @@ class NFmiValueCorrection
   bool ReadFile();
 
   std::string itsFile;
-  std::ofstream* itsLogFile;
+  std::ofstream* itsLogFile = nullptr;
   std::vector<FmiTempCorrections> itsTempCorrections;
   bool fRead;
   bool fMissing;

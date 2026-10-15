@@ -42,8 +42,8 @@ enum FmiPageSize
   kUniversal
 };
 
-//! Undocumented
-union FmiUnionColor
+//! The color in either model (FmiGenericColor::isRgb tells which one is used)
+struct FmiUnionColor
 {
   FmiRGBColor rgb;
   FmiCMYK cmyk;

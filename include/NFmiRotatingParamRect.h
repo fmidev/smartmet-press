@@ -35,6 +35,7 @@ class NFmiRotatingParamRect : public NFmi2SymbolParamRect
   ~NFmiRotatingParamRect() override;
   NFmiRotatingParamRect();
   NFmiRotatingParamRect(const NFmiRotatingParamRect& theSymbolRect);
+  NFmiRotatingParamRect& operator=(const NFmiRotatingParamRect&) = default;
 
   bool ReadRemaining() override;
   int ConvertDefText(NFmiString& object) override;

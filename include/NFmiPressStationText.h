@@ -53,7 +53,7 @@ class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
 
  protected:
   NFmiVoidPtrList* itsNewNames = nullptr;
-  NFmiPressParam* itsPressParam;
+  NFmiPressParam* itsPressParam = nullptr;
 
  private:
   bool fStationNumberMode = false;

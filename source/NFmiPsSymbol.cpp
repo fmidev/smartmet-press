@@ -325,6 +325,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
           else
           {
             yh = xh;
+            // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
             itsString = valueString;
           }
 
@@ -388,6 +389,7 @@ bool NFmiPsSymbol::ReadDescription(NFmiString &retString)
           else
           {
             y = x;
+            // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
             itsString = valueString;
           }
           itsRectSize.Set(x, y);

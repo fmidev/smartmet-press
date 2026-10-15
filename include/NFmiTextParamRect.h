@@ -62,6 +62,7 @@ class NFmiTextParamRect : public NFmiParamRect
 
   NFmiTextParamRect();
   NFmiTextParamRect(const NFmiTextParamRect& theTextParamRect);
+  NFmiTextParamRect& operator=(const NFmiTextParamRect&) = default;
 
   bool ReadDescription(NFmiString& retString) override = 0;
   int ConvertDefText(NFmiString& object) override;
@@ -109,7 +110,7 @@ class NFmiTextParamRect : public NFmiParamRect
   bool fUseSelectLatinFont = false;
   bool fParenthesis = false;
   NFmiParamMapping* itsMapping = nullptr;
-  FmiPressColorMapping itsColorMapping[maxNumOfColMaps];
+  FmiPressColorMapping itsColorMapping[maxNumOfColMaps]{};
   unsigned long itsCurrentNumOfColMaps = 0;
   double itsRelCharWidth = 0.;
   double itsWidthFactor = 1.;

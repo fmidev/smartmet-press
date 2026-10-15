@@ -44,6 +44,7 @@ class NFmiSymbolParamRect : public NFmiParamRect
 
   NFmiSymbolParamRect();
   NFmiSymbolParamRect(const NFmiSymbolParamRect& theSymbolRect);
+  NFmiSymbolParamRect& operator=(const NFmiSymbolParamRect&) = default;
 
   int ConvertDefText(NFmiString& object) override;
   bool ReadDescription(NFmiString& retString) override;

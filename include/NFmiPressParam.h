@@ -94,16 +94,16 @@ enum NFmiPressParamObjects
 
 struct FmiValuePoint
 {
-  long value;
+  long value = 0;
   NFmiPoint point;
 };
 struct FmiMaxMinPoint
 {
-  float value;
-  bool isMax;
-  unsigned long index;
+  float value = 0.0F;
+  bool isMax = false;
+  unsigned long index = 0;
   NFmiPoint point;
-  float significance;
+  float significance = 0.0F;
 };
 
 //! Undocumented
@@ -124,6 +124,8 @@ class NFmiPressParam : public NFmiPressTimeDescription
                  const short hourStep,
                  const unsigned long producer,
                  NFmiPressProduct* pressProduct);
+  NFmiPressParam(const NFmiPressParam&) = delete;
+  NFmiPressParam& operator=(const NFmiPressParam&) = delete;
 
   bool WritePS(const NFmiRectScale& theScale, std::ofstream& theFile, FmiPressOutputMode theOutput);
 
@@ -220,15 +222,15 @@ class NFmiPressParam : public NFmiPressTimeDescription
 
   bool fActivity;
   bool fStationNotNeeded;
-  bool fErrorReported[4];
-  bool fIsFirstStation;
+  bool fErrorReported[4]{};
+  bool fIsFirstStation = false;
   bool fStationsAreLocalTime;
   bool fGridMode;
   NFmiStation itsCurrentStation;
   NFmiString itsName;
-  bool fLonLatMode;
+  bool fLonLatMode = false;
   NFmiPressProduct* itsPressProduct;
-  unsigned long itsProducer;
+  unsigned long itsProducer = 0;
   short itsHourStep;
   NFmiString itsDataName;
   NFmiString itsPrimaryDataName;
@@ -236,15 +238,15 @@ class NFmiPressParam : public NFmiPressTimeDescription
   NFmiFastQueryInfo* itsPrimaryDataIter;
   std::shared_ptr<NFmiFastQueryInfo> itsMaskIter;
   NFmiInfoAreaMask* itsAreaMask;
-  FmiCounter itsCurrentStep;
+  FmiCounter itsCurrentStep = 0;
   FmiCounter itsNumberOfSteps;
-  unsigned long itsCurrentStationIndex;
+  unsigned long itsCurrentStationIndex = 0;
   NFmiLevel itsLevels[kMaxNumOfTableElements];
   NFmiPoint itsSteps[kMaxNumOfTableElements];
   NFmiPoint itsUnscaledSteps[kMaxNumOfTableElements];
-  long itsTimeSteps[kMaxNumOfTableElements];
-  bool fIsTimeLoop;
-  bool fIsLevelLoop;
+  long itsTimeSteps[kMaxNumOfTableElements]{};
+  bool fIsTimeLoop = false;
+  bool fIsLevelLoop = false;
   bool fIsPureRegTimeLoop;
   NFmiRectScale itsCurrentStationScale;
   NFmiRectScale itsScale;
@@ -252,7 +254,7 @@ class NFmiPressParam : public NFmiPressTimeDescription
   NFmiVoidPtrList itsTimeDepObjects;
   NFmiVoidPtrList itsStationDepObjects;
   NFmiSymbolGroup itsSymbols;
-  bool fTwoPartLogComment;
+  bool fTwoPartLogComment = false;
   NFmiString itsLogComment;
   NFmiPressArea itsArea;
   bool fIsAreaOperation;

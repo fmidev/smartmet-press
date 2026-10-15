@@ -65,7 +65,7 @@ class NFmiPressSameSymbols : public NFmiPressDescription
   NFmiRectScale itsScale;
   NFmiVoidPtrList itsPlaces;
   NFmiPsSymbol itsPsSymbol;
-  NFmiPressProduct* itsPressProduct;  // no owner
+  NFmiPressProduct* itsPressProduct = nullptr;  // no owner
 
 };  // class NFmiPressSameSymbols
 

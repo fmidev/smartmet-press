@@ -300,6 +300,7 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
           else
           {
             y = x;
+            // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
             itsString = valueString;
           }
 
@@ -366,6 +367,7 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
       }
       case dWindSpeed:
         isWindSpeed = true;
+        [[fallthrough]];
       case dNumber:
       {
         NFmiNumberParamRect tempNPar;
@@ -498,6 +500,7 @@ bool NFmiSymbolGroup::ReadDescription(NFmiString &retString)
       }
       case dWindDirection:
         isWindDirection = true;
+        [[fallthrough]];
       case dRotating:
       {
         NFmiRotatingParamRect tempRPar;

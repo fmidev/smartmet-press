@@ -132,6 +132,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
                 NFmiRect theRect,
                 std::ofstream* theLogFile,
                 unsigned short theMaxLoopNum);
+  NFmiParamRect& operator=(const NFmiParamRect&) = default;
 
   virtual NFmiParamRect* Clone() const = 0;
 
@@ -220,7 +221,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   NFmiMetTime itsCurrentTime;
   unsigned long itsCurrentMultiParNum;
   unsigned long itsCombinedIdent;
-  unsigned long itsCurrentPar;
+  unsigned long itsCurrentPar = 0;
   unsigned long itsRealPar;
   float itsCurrentParamValue;
   double itsValueFactor;
@@ -256,7 +257,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   float itsEquiRadius;
   bool fMarkingValue;
   unsigned long itsSymbolGroupOrder;
-  FmiLoopActivity itsStationLoopActivity;
+  FmiLoopActivity itsStationLoopActivity{};
   bool fMeanWindToMax;
   long itsRoundingNumber;
   bool fSupplementForMissing;

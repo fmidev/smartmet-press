@@ -137,6 +137,7 @@ NFmiString NFmiCmykColorBag::GetColorString(const NFmiString &theName) const
     str = NFmiString("0. 0. 0. 0.");
   else
   {
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
     str = NFmiValueString(static_cast<float>(itsColors[j].color.c), format);
     str += NFmiString(" ");
     str += NFmiValueString(static_cast<float>(itsColors[j].color.m), format);

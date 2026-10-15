@@ -36,6 +36,7 @@ class NFmiPsSymbol : public NFmiPressScaling
   ~NFmiPsSymbol() override;
   NFmiPsSymbol();
   NFmiPsSymbol(const NFmiPsSymbol& thePsSymbol);
+  NFmiPsSymbol& operator=(const NFmiPsSymbol&) = default;
 
   int ConvertDefText(NFmiString& object) override;
   bool ReadDescription(NFmiString& retString) override;

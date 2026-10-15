@@ -111,7 +111,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
   {
     std::filesystem::create_directory(static_cast<string>(inDir));
   }
-  catch (exception &e)
+  catch (exception &)
   {
     cout << "Creating the symbol cache directory failed." << endl;
   }
@@ -310,6 +310,7 @@ bool NFmiSymbolParamRect::ReadDescription(NFmiString &retString)
           else
           {
             yh = xh;
+            // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
             itsString = valueString;
           }
           // itsRelRect.Inflate((xh-1.)/2., (yh-1)/2.);

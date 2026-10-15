@@ -29,6 +29,7 @@ class NFmiPressDataObject
 
   NFmiPressDataObject(NFmiFastQueryInfo* theData);
   NFmiPressDataObject(const NFmiPressDataObject& theRect);
+  NFmiPressDataObject& operator=(const NFmiPressDataObject&) = default;
 
   void SetData(NFmiFastQueryInfo* theData);
   NFmiFastQueryInfo* GetData() const;

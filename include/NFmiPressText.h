@@ -71,6 +71,7 @@ class NFmiPressText : public NFmiPressScaling
   ~NFmiPressText() override;
   NFmiPressText();
   NFmiPressText(const NFmiPressText& theTextParamRect);
+  NFmiPressText& operator=(const NFmiPressText&) = default;
 
   bool ReadDescription(NFmiString& retString) override;
   bool ReadRemaining() override;

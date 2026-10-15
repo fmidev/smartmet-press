@@ -56,6 +56,7 @@ class NFmiDescription
   NFmiDescription();
   NFmiDescription(std::ofstream* theLogFile, unsigned short theMaxLoopNum);
   NFmiDescription(const NFmiDescription& theD);
+  NFmiDescription& operator=(const NFmiDescription&) = default;
 
   void SetLogFile(std::ofstream* logFile);
   void SetDescriptionFile(std::ifstream* descFile);
@@ -183,6 +184,7 @@ class NFmiDescription
       return ReadOne(retValue2);
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
     theString = itsValueHelpString;
     return ReadTwo(retValue1, retValue2);
   }

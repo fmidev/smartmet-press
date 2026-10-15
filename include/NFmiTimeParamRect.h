@@ -34,6 +34,7 @@ class NFmiTimeParamRect : public NFmiTextParamRect
   ~NFmiTimeParamRect() override;
   NFmiTimeParamRect();
   NFmiTimeParamRect(const NFmiTimeParamRect& theTimeParamRect);
+  NFmiTimeParamRect& operator=(const NFmiTimeParamRect&) = default;
 
   bool ReadDescription(NFmiString& retString) override;
   NFmiParamRect* Clone() const override;
@@ -50,7 +51,7 @@ class NFmiTimeParamRect : public NFmiTextParamRect
   virtual NFmiTime TimeToWrite(NFmiFastQueryInfo* theQI);
 
   unsigned long itsFormat;
-  unsigned long itsOrigFormat;
+  unsigned long itsOrigFormat = 0;
   NFmiString itsOrigFont;
   NFmiStationPoint itsStationPoint;
   bool fIsValidTime = true;

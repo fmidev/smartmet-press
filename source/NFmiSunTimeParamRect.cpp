@@ -128,9 +128,11 @@ NFmiTime NFmiSunTimeParamRect::TimeToWrite(NFmiFastQueryInfo* /*theQI*/)
   if (fIsSunRise)  // toimii marraskuussa 2011 eli korjaus pois
   {
     // fIsValidTime; false jos ei laske/nouse
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the time is wanted, not the time step
     return itsStationPoint.TimeOfSunrise(tim, fIsValidTime);
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the time is wanted, not the time step
   return itsStationPoint.TimeOfSunset(tim, fIsValidTime);
 
   /*

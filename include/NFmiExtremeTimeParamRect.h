@@ -28,6 +28,7 @@ class NFmiExtremeTimeParamRect : public NFmiTimeParamRect
   ~NFmiExtremeTimeParamRect() override;
   NFmiExtremeTimeParamRect();
   NFmiExtremeTimeParamRect(const NFmiExtremeTimeParamRect& theTimeParamRect);
+  NFmiExtremeTimeParamRect& operator=(const NFmiExtremeTimeParamRect&) = default;
 
   NFmiParamRect* Clone() const override;
 

@@ -402,6 +402,7 @@ bool NFmiNumberParamRect::WritePS(const NFmiRect &theAbsoluteRectOfSymbolGroup,
   {
     hypString = hypString.DropChar(NFmiString("("));
     hypString = hypString.DropChar(NFmiString(")"));
+    // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the text is wanted
     format = hypString;
   }
 

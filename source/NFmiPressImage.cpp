@@ -190,6 +190,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dNewImageRelWithTimeStamp:
         timeStamp = true;
+        [[fallthrough]];
       case dNewImageRel:
       {
         if (!ReadEqualChar())
@@ -322,6 +323,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
       }
       case dImageFileWithTimeStamp:
         timeStamp = true;
+        [[fallthrough]];
       case dImageFile:
       {
         if (!ReadEqualChar())
@@ -503,6 +505,7 @@ bool NFmiPressImage::ReadDescription(NFmiString& retString)
               *itsLogFile << "*** ERROR: " << msg << endl;
             }
           }
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
           itsIntObject = ConvertDefText(valueString);
         }

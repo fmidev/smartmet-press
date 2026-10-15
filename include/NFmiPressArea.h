@@ -47,6 +47,7 @@ class NFmiPressArea : public NFmiPressDescription
   ~NFmiPressArea() override;
   NFmiPressArea();
   NFmiPressArea(const NFmiPressArea& anArea);
+  NFmiPressArea& operator=(const NFmiPressArea&) = default;
 
   int ConvertDefText(NFmiString& object) override;
   bool ReadDescription(NFmiString& retString) override;

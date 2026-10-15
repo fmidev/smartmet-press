@@ -406,6 +406,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
           *itsLogFile << "*** ERROR: Text AreaBorders only " << numPoints << " points" << endl;
           fInFreeArea = false;
         }
+        // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
         itsString = valueString;
         itsIntObject = ConvertDefText(valueString);
 
@@ -604,6 +605,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
         if (firstText)
         {
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the text is wanted
           *itsText = nextString;
           if (isHeader)
           {
@@ -632,6 +634,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
         else
         {
           NFmiPressText newText(*this);
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the text is wanted
           newText.SetText(nextString);
           if (isHeader)
           {
@@ -718,6 +721,7 @@ bool NFmiPressText::ReadRemaining()
         else
         {
           itsParagraphMove = NFmiPoint(0, r1);
+          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
           itsString = valueString;
           itsIntObject = ConvertDefText(itsString);
         }
@@ -1134,6 +1138,7 @@ bool NFmiPressText::WriteString(const NFmiString &commentString, FmiPressOutputM
       if (fCV ||
           hypString ==
               NFmiString("*"))  //!!!!!!!!!!!!!!! päiväVaihtoteksti vaati, pitää tutkia; ks alla
+        // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the text is wanted
         text = hypString;
       else
         text = hypString.ReplaceChar(NFmiString("-"),

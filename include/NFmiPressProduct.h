@@ -127,6 +127,8 @@ class NFmiPressProduct : public NFmiPressTimeDescription
  public:
   ~NFmiPressProduct() override;
   NFmiPressProduct();
+  NFmiPressProduct(const NFmiPressProduct&) = default;
+  NFmiPressProduct& operator=(const NFmiPressProduct&) = default;
 
   bool WritePS(FmiPressOutputMode /*theGivenOutput*/ = kPostScript);
 
@@ -213,12 +215,12 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   NFmiNameDay* itsNameDayFi;
   NFmiNameDay* itsNameDaySw;
   bool fChangeScandinavian;
-  bool fDataRead;
+  bool fDataRead = false;
   FmiPageSize itsPageSize;
   NFmiString itsPaletteName;
   NFmiCmykColorBag* itsPalette;
-  unsigned long itsProducer;
-  unsigned short itsHourStep;
+  unsigned long itsProducer = 0;
+  unsigned short itsHourStep = 0;
   NFmiString itsPath;
   NFmiVoidPtrList itsEpsFileNames;
   NFmiString itsDataFileName;
@@ -226,17 +228,17 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   NFmiString itsMagicSavePath;
   NFmiString itsOutDir;
   NFmiHyphenationString itsProductNameFormat;
-  bool fTimeStamp;
-  bool fDataTimeStamp;
+  bool fTimeStamp = false;
+  bool fDataTimeStamp = false;
   NFmiFileString itsOutFile;
   NFmiString itsOutFileName;
   std::ofstream outFile;
   NFmiString itsInFileName;
-  bool fMapIsEps;
-  double itsMapGap;
-  double itsMargin;
-  FmiCounter itsNumberOfMaps;
-  FmiCounter itsCurrentMap;
+  bool fMapIsEps = false;
+  double itsMapGap = 0.0;
+  double itsMargin = 0.0;
+  FmiCounter itsNumberOfMaps = 0;
+  FmiCounter itsCurrentMap = 0;
   NFmiRectScale itsScale;
   NFmiRect itsPlottingRect;
   NFmiRect itsClippingRect;
@@ -249,13 +251,13 @@ class NFmiPressProduct : public NFmiPressTimeDescription
   NFmiString itsLogFileName;
   unsigned long itsNameTimeFormat;
   unsigned long itsSecondNameTimeFormat;
-  FmiPressOutputMode itsOutputMode;
+  FmiPressOutputMode itsOutputMode{};
   long itsCurrentNumberToName;
   unsigned long itsNumOfWritePS;
   NFmiPressArea itsArea;
   bool fNewestDataMode;
   bool fSupplementMode;
-  FmiElementStatus itsLastElementStatus;
+  FmiElementStatus itsLastElementStatus{};
   NFmiValueCorrection* itsTempCorrection;
 };  // class NFmiPressProduct
 

@@ -33,6 +33,7 @@ class NFmiSubstituteParamRect : public NFmiTextParamRect
 
   NFmiSubstituteParamRect();
   NFmiSubstituteParamRect(const NFmiSubstituteParamRect& theSubstituteParamRect);
+  NFmiSubstituteParamRect& operator=(const NFmiSubstituteParamRect&) = default;
 
   bool ReadDescription(NFmiString& retString) override;
   NFmiParamRect* Clone() const override;

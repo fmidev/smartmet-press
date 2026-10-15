@@ -36,6 +36,8 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
   ~NFmiSymbolGroup() override;
   NFmiSymbolGroup();
   NFmiSymbolGroup(NFmiPressParam* pressParam, NFmiParamRect** theSymbolList, int num);
+  NFmiSymbolGroup(const NFmiSymbolGroup&) = default;
+  NFmiSymbolGroup& operator=(const NFmiSymbolGroup&) = default;
 
   long NumOfMissing() const;
   void InitMissing();
@@ -59,8 +61,8 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
   void SetScalingMode();
 
   NFmiPressParam* itsPressParam;
-  bool fNewScaling;
-  unsigned long itsProducer;
+  bool fNewScaling = false;
+  unsigned long itsProducer = 0;
   NFmiPsSymbol* itsPsSymbol;
   NFmiVoidPtrList itsPressScalingObjects;
   NFmiParamRect** itsParamRects;
@@ -69,7 +71,7 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
   NFmiRectScale* itsRectScale;
   NFmiQueryData* itsQueryData;
   NFmiFastQueryInfo* itsQueryDataIter;
-  std::ofstream* itsOutFile;
+  std::ofstream* itsOutFile = nullptr;
 
 };  // class NFmiSymbolGroup
 
