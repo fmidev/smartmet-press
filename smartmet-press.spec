@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 26.10.13
+Version: 26.10.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -19,9 +19,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-newbase-devel >= 26.10.13
+BuildRequires: smartmet-library-newbase-devel >= 26.10.15
 BuildRequires: %{smartmet_boost}-devel
-Requires: smartmet-library-newbase >= 26.10.13
+Requires: smartmet-library-newbase >= 26.10.15
 Requires: %{smartmet_boost}-iostreams
 Requires: %{smartmet_boost}-filesystem
 Requires: %{smartmet_boost}-system
@@ -50,9 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/qdpress.1.gz
 
 %changelog
-* Tue Oct 13 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.13-1.fmi
+* Thu Oct 15 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.15-1.fmi
 - Declare member functions and parameters const where nothing is modified (const correctness), no functional changes
-- Requires 26.10.13 versions of newbase due to their ABI changes
+- Requires 26.10.15 versions of newbase due to their ABI changes
 - Fixed a double delete of the data iterator and a leak of mapping names, initialize values that could be used uninitialized
 - Do not write to the log file when none has been set
 - Fixed mechanical clang-tidy findings (internal linkage, unused parameters, initialization, redundant code), no functional changes
