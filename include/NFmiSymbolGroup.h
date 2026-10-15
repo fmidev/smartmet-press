@@ -37,7 +37,7 @@ class NFmiSymbolGroup : public NFmiSize, public NFmiPressTimeDescription
   NFmiSymbolGroup();
   NFmiSymbolGroup(NFmiPressParam* pressParam, NFmiParamRect** theSymbolList, int num);
   NFmiSymbolGroup(const NFmiSymbolGroup&) = default;
-  NFmiSymbolGroup& operator=(const NFmiSymbolGroup&) = default;
+  NFmiSymbolGroup& operator=(const NFmiSymbolGroup&) = delete;
 
   long NumOfMissing() const;
   void InitMissing();

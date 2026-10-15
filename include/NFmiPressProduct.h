@@ -127,8 +127,8 @@ class NFmiPressProduct : public NFmiPressTimeDescription
  public:
   ~NFmiPressProduct() override;
   NFmiPressProduct();
-  NFmiPressProduct(const NFmiPressProduct&) = default;
-  NFmiPressProduct& operator=(const NFmiPressProduct&) = default;
+  NFmiPressProduct(const NFmiPressProduct&) = delete;
+  NFmiPressProduct& operator=(const NFmiPressProduct&) = delete;
 
   bool WritePS(FmiPressOutputMode /*theGivenOutput*/ = kPostScript);
 
