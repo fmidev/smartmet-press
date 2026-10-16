@@ -106,6 +106,55 @@ bool NFmiPsSymbol::CopyShortSymbol2Dest()
 
 // ----------------------------------------------------------------------
 /*!
+ * Copy the layer lines of the original symbol to the output
+ *
+ * \return The number of copied lines
+ */
+// ----------------------------------------------------------------------
+
+unsigned long NFmiPsSymbol::CopySymbolLayer(std::ifstream &input, std::ofstream &output)
+{
+  const short lineSize = 250;  // HUOM max rivipituus
+  char inBuf[lineSize];
+  bool copyOn = isFalse;
+  unsigned long copiedLines = 0;
+  short num = 0;
+  char endLine = '\n';
+  while (input.getline(inBuf, lineSize, endLine))  // newline PC:lle
+  {
+    NFmiString apu = NFmiString(inBuf);
+
+    if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 && copyOn)
+    //	      if(NFmiString(inBuf) == NFmiString("%AI5_BeginLayer") && copyOn)
+    {
+      if (itsLogFile)
+        *itsLogFile << "*** ERROR: Conversion of " << static_cast<char *>(itsSymbol)
+                    << " to short symbol failed, nested BeginLayers" << endl;
+      copyOn = isTrue;
+    }
+    else if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 &&
+             apu.Search(NFmiString("%AI5_EndLayer")) < 1)
+    {
+      copyOn = isTrue;
+    }
+
+    if (copyOn)
+    {
+      num = input.gcount();
+      output.write(inBuf, num - 1);
+      output.put('\x0A');  // jotta difference käytettävissä
+      copiedLines++;
+    }
+    if (apu.Search(NFmiString("%AI5_EndLayer")) > 0 && copyOn)
+    {
+      copyOn = isFalse;
+    }
+  }
+  return copiedLines;
+}
+
+// ----------------------------------------------------------------------
+/*!
  * Undocumented
  *
  * \return Undocumented
@@ -150,47 +199,12 @@ bool NFmiPsSymbol::ConvertOrig2Short()
     if (!output && itsLogFile)
       *itsLogFile << "*** ERROR: Opening of '" << outputName << "' for output failed" << endl;
 
-    const short lineSize = 250;  // HUOM max rivipituus
-    char inBuf[lineSize];
-    bool copyOn = isFalse;
-    unsigned long copiedLines = 0;
     NFmiString mess = NFmiString("%****** ");
     mess += itsSymbol;
     mess += NFmiString(" BEGINS ********************");
     output.write(mess.CharPtr(), 40);
     output.write(static_cast<char *>(NFmiString("\n")), 1);
-    short num = 0;
-    char endLine = '\n';
-    while (input.getline(inBuf, lineSize, endLine))  // newline PC:lle
-    {
-      NFmiString apu = NFmiString(inBuf);
-
-      if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 && copyOn)
-      //	      if(NFmiString(inBuf) == NFmiString("%AI5_BeginLayer") && copyOn)
-      {
-        if (itsLogFile)
-          *itsLogFile << "*** ERROR: Conversion of " << static_cast<char *>(itsSymbol)
-                      << " to short symbol failed, nested BeginLayers" << endl;
-        copyOn = isTrue;
-      }
-      else if (apu.Search(NFmiString("%AI5_BeginLayer")) > 0 &&
-               apu.Search(NFmiString("%AI5_EndLayer")) < 1)
-      {
-        copyOn = isTrue;
-      }
-
-      if (copyOn)
-      {
-        num = input.gcount();
-        output.write(inBuf, num - 1);
-        output.put('\x0A');  // jotta difference käytettävissä
-        copiedLines++;
-      }
-      if (apu.Search(NFmiString("%AI5_EndLayer")) > 0 && copyOn)
-      {
-        copyOn = isFalse;
-      }
-    }
+    unsigned long copiedLines = CopySymbolLayer(input, output);
     mess = NFmiString("%****** ");
     mess += itsSymbol;
     mess += NFmiString(" ENDS ************************");

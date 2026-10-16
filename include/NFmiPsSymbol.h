@@ -50,6 +50,7 @@ class NFmiPsSymbol : public NFmiPressScaling
  protected:
   virtual bool CopyShortSymbol2Dest();
   virtual bool ConvertOrig2Short();
+  unsigned long CopySymbolLayer(std::ifstream& input, std::ofstream& output);
 
   NFmiString itsShortDir;
   NFmiString itsOrigDir;
