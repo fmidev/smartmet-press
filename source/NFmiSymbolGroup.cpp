@@ -62,10 +62,8 @@ enum NFmiSymbolGroupObjects
 
 NFmiSymbolGroup::~NFmiSymbolGroup()
 {
-  if (itsParamRects)
-    delete[] itsParamRects;
-  if (itsRectScale)
-    delete itsRectScale;
+  delete[] itsParamRects;
+  delete itsRectScale;
 
   delete itsPsSymbol;
   itsPressScalingObjects.Clear(isTrue);
@@ -111,8 +109,7 @@ bool NFmiSymbolGroup::Set(const NFmiRectScale& theRectScale,
                           NFmiFastQueryInfo *theQueryDataIter,
                           ofstream &theDestinationFile)
 {
-  if (itsRectScale)
-    delete itsRectScale;
+  delete itsRectScale;
   itsRectScale = new NFmiRectScale(theRectScale);
   itsQueryDataIter = theQueryDataIter;
   itsOutFile = &theDestinationFile;
@@ -180,8 +177,7 @@ bool NFmiSymbolGroup::Add(const NFmiParamRect &theParamRect)
     tempRects[j] = itsParamRects[j];
   tempRects[j] = theParamRect.Clone();
 
-  if (itsParamRects)
-    delete[] itsParamRects;
+  delete[] itsParamRects;
 
   itsParamRects = new NFmiParamRect *[itsSize + 1];
   itsSize = itsSize + 1;

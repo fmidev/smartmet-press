@@ -27,8 +27,7 @@ using namespace std;
 
 NFmiTextParamRect::~NFmiTextParamRect()
 {
-  if (itsMapping)
-    delete itsMapping;
+  delete itsMapping;
 }
 
 // ----------------------------------------------------------------------

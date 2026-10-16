@@ -3129,8 +3129,6 @@ void NFmiPressProduct::ReadPalette()
   }
   palFile.close();
   palFile.clear();
-
-  return;  // palette;
 }
 
 // ----------------------------------------------------------------------

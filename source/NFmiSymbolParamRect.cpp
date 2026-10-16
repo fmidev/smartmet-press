@@ -37,12 +37,9 @@ using namespace std;
 
 NFmiSymbolParamRect::~NFmiSymbolParamRect()
 {
-  if (itsSubDir)
-    delete itsSubDir;
-  if (itsMapping)
-    delete itsMapping;
-  if (itsOrigDir)
-    delete itsOrigDir;
+  delete itsSubDir;
+  delete itsMapping;
+  delete itsOrigDir;
 }
 
 // ----------------------------------------------------------------------

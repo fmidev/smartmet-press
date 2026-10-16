@@ -17,8 +17,7 @@
 
 NFmiCmykColorBag::~NFmiCmykColorBag()
 {
-  if (itsColors)
-    delete[] itsColors;
+  delete[] itsColors;
 }
 
 // ----------------------------------------------------------------------
@@ -70,8 +69,7 @@ void NFmiCmykColorBag::AddColor(const NFmiNamedCmykColor &theColor)
   tempColors[j].color = theColor.color;
   tempColors[j].name = theColor.name;
 
-  if (itsColors)
-    delete[] itsColors;
+  delete[] itsColors;
 
   itsColors = new NFmiNamedCmykColor[GetSize() + 1];
   itsSize = GetSize() + 1;
