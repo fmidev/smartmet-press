@@ -552,6 +552,54 @@ unsigned long NFmiPressTimeDescription::ReadTimeFormat(bool isSecond)
 
 // ----------------------------------------------------------------------
 /*!
+ * Read the time table looping definition (start, step and optional stop)
+ */
+// ----------------------------------------------------------------------
+
+void NFmiPressTimeDescription::ReadTimeTableActive()
+{
+  long long1 = 0;
+  long long2 = 0;
+  long long3 = 0;
+  NFmiValueString valueString;
+
+  if (!ReadEqualChar())
+    return;
+
+  long3 = 1000;
+  if (ReadTwo(long1, long2))
+  {
+    *itsDescriptionFile >> itsObject;
+    valueString = itsObject;
+    if (valueString.IsNumeric())
+    {
+      long3 = static_cast<long>(valueString);
+
+      *itsDescriptionFile >> itsObject;
+      itsString = itsObject;
+    }
+    else
+    {
+      // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
+      itsString = valueString;
+    }
+
+    if (long1 > 0 && long2 > 0 && long3 > 0 && long1 <= long3)
+    {
+      itsLoopActivity.startIndex = long1;
+      itsLoopActivity.step = long2;
+      itsLoopActivity.stopIndex = long3;
+    }
+    else
+      *itsLogFile << "*** ERROR: Not valid looping (start,step,stop): " << long1 << long2
+                  << long3 << endl;
+  }
+
+  itsIntObject = ConvertDefText(itsString);
+}
+
+// ----------------------------------------------------------------------
+/*!
  * Undocumented
  *
  * \return Undocumented
@@ -561,9 +609,6 @@ unsigned long NFmiPressTimeDescription::ReadTimeFormat(bool isSecond)
 bool NFmiPressTimeDescription::ReadRemaining()
 {
   long long1 = 0;
-  long long2 = 0;
-  long long3 = 0;
-  NFmiValueString valueString;
   switch (itsIntObject)
   {
     case dDayAddition:  // toimii vain Segmentin päätasolla
@@ -601,39 +646,7 @@ bool NFmiPressTimeDescription::ReadRemaining()
     }
     case dTimeTableActive:
     {
-      if (!ReadEqualChar())
-        break;
-
-      long3 = 1000;
-      if (ReadTwo(long1, long2))
-      {
-        *itsDescriptionFile >> itsObject;
-        valueString = itsObject;
-        if (valueString.IsNumeric())
-        {
-          long3 = static_cast<long>(valueString);
-
-          *itsDescriptionFile >> itsObject;
-          itsString = itsObject;
-        }
-        else
-        {
-          // NOLINTNEXTLINE(cppcoreguidelines-slicing): only the formatted text is wanted
-          itsString = valueString;
-        }
-
-        if (long1 > 0 && long2 > 0 && long3 > 0 && long1 <= long3)
-        {
-          itsLoopActivity.startIndex = long1;
-          itsLoopActivity.step = long2;
-          itsLoopActivity.stopIndex = long3;
-        }
-        else
-          *itsLogFile << "*** ERROR: Not valid looping (start,step,stop): " << long1 << long2
-                      << long3 << endl;
-      }
-
-      itsIntObject = ConvertDefText(itsString);
+      ReadTimeTableActive();
 
       break;
     }

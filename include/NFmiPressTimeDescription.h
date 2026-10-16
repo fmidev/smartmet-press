@@ -145,6 +145,7 @@ class NFmiPressTimeDescription : public NFmiPressDescription
   std::map<std::string, std::string> itsReplaceMap;
 
  private:
+  void ReadTimeTableActive();
 };  // class NFmiPressTimeDescription
 
 // ----------------------------------------------------------------------
