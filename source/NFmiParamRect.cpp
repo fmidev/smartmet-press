@@ -1144,6 +1144,32 @@ bool NFmiParamRect::PointOnLevel(NFmiFastQueryInfo *theQI)
 
 // ----------------------------------------------------------------------
 /*!
+ * Log the local time of the first station and the nearest data time
+ */
+// ----------------------------------------------------------------------
+
+void NFmiParamRect::LogFirstStationTime(NFmiFastQueryInfo *theQueryInfo)
+{
+  if (itsMultiMapping)
+  {
+    *itsLogFile << "    first station: local time= "
+                << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH")) << " utc; par=multi"
+                << endl;
+  }
+  else
+  {
+    unsigned long par = theQueryInfo->ParamDescriptor().Param().GetParam()->GetIdent();
+    *itsLogFile << "    first station: local time= "
+                << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
+                << " utc; par=" << par << endl;
+  }
+  *itsLogFile << "      -> nearest data-time= "
+              << static_cast<char*>((theQueryInfo)->Time().ToStr("DD.MM.YYYY HH")) << " utc"
+              << endl;
+}
+
+// ----------------------------------------------------------------------
+/*!
  * Undocumented
  *
  * \param theQueryInfo Undocumented
@@ -1217,24 +1243,7 @@ bool NFmiParamRect::ReadCurrentValue(NFmiFastQueryInfo *theQueryInfo,
 
   if (itsPressParam->IsFirstStation() && (!itsMultiMapping || itsCurrentMultiParNum <= 1) &&
       itsPressParam->IsStationLocalTimeMode())
-  {
-    if (itsMultiMapping)
-    {
-      *itsLogFile << "    first station: local time= "
-                  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH")) << " utc; par=multi"
-                  << endl;
-    }
-    else
-    {
-      unsigned long par = theQueryInfo->ParamDescriptor().Param().GetParam()->GetIdent();
-      *itsLogFile << "    first station: local time= "
-                  << static_cast<char *>(itsCurrentTime.ToStr("DD.MM.YYYY HH"))
-                  << " utc; par=" << par << endl;
-    }
-    *itsLogFile << "      -> nearest data-time= "
-                << static_cast<char*>((theQueryInfo)->Time().ToStr("DD.MM.YYYY HH")) << " utc"
-                << endl;
-  }
+    LogFirstStationTime(theQueryInfo);
 
   if (IsMoonPhase())
   {

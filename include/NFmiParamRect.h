@@ -174,6 +174,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   virtual FmiInterpolationMethod InterpolationMethod(NFmiFastQueryInfo* theQueryInfo);
   bool ReadCurrentValueArray(NFmiFastQueryInfo* theQueryInfo);
   bool ReadCurrentValue(NFmiFastQueryInfo* theQueryInfo, float& value, bool localTimeSet = false);
+  void LogFirstStationTime(NFmiFastQueryInfo* theQueryInfo);
   bool FloatValue(NFmiFastQueryInfo* theQueryInfo, float& value);
   NFmiPressProduct* GetPressProduct() const;
   virtual bool PointOnParam(NFmiFastQueryInfo* theQI, NFmiParam* theParam);
