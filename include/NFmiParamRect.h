@@ -205,10 +205,10 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
  protected:
   bool fModifierUsed;
   float itsInterval2NumberMin;
-  float itsInterval2NumberMax;
-  float itsInterval2NumberValue;
+  float itsInterval2NumberMax{};
+  float itsInterval2NumberValue{};
   float itsValueIntervalMin;
-  float itsValueIntervalMax;
+  float itsValueIntervalMax{};
   bool fAllowMissing;
   bool fUseFromStorage;
   bool fUseFromStorageInFrontOf;
@@ -219,20 +219,20 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   NFmiLevel itsLevel;
   NFmiMetTime itsCurrentSegmentTime;
   NFmiMetTime itsCurrentTime;
-  unsigned long itsCurrentMultiParNum;
-  unsigned long itsCombinedIdent;
+  unsigned long itsCurrentMultiParNum{};
+  unsigned long itsCombinedIdent{};
   unsigned long itsCurrentPar = 0;
   unsigned long itsRealPar;
-  float itsCurrentParamValue;
+  float itsCurrentParamValue{};
   double itsValueFactor;
   NFmiRect itsRelRect;  // Suhteellisen alueen muutokset ker‰t‰‰n t‰h‰n
-  bool fNewScaling;
+  bool fNewScaling{};
   bool fParamErrorReported;
   bool fLevelErrorReported;
   bool fTimeErrorReported;
   long itsNumOfMissing;
-  NFmiPressParam* itsPressParam;
-  FmiIntegrationPeriod itsIntegrationPeriod;
+  NFmiPressParam* itsPressParam{};
+  FmiIntegrationPeriod itsIntegrationPeriod{};
 
   // yhteinen symbolille ja letterille vaikka tav mappi ilmeisesti erikseen
   NFmiMultiParamMapping* itsMultiMapping;
@@ -240,11 +240,11 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   std::vector<float> itsCurrentParamArray;
   FmiParameterName* itsMultiParams;
   long itsFirstExtremRelHour;
-  long itsLastExtremRelHour;
-  long itsFirstExtremHour;
-  long itsLastExtremHour;
+  long itsLastExtremRelHour{};
+  long itsFirstExtremHour{};
+  long itsLastExtremHour{};
   long itsFirstExtremYear;
-  long itsLastExtremYear;
+  long itsLastExtremYear{};
   FmiModifier itsModifier;
   FmiModifier itsAreaModifier;
   FmiPressValueOption itsValueOption;

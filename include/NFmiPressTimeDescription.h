@@ -130,13 +130,13 @@ class NFmiPressTimeDescription : public NFmiPressDescription
                                const std::string& theConditionalEndDirective,
                                const std::string& theConditionalElseDirective);
 
-  FmiLoopActivity itsLoopActivity;
+  FmiLoopActivity itsLoopActivity{};
   bool fGivenHoursAreRelative;
   bool fIsHourLoop;
   short itsFirstPlotHours;
   short itsFirstPlotMinutes;
   short itsFirstDeltaDays;
-  short itsFirstOriginalDeltaDays;
+  short itsFirstOriginalDeltaDays{};
   NFmiMetTime itsFirstPlotTime;
   NFmiString itsStringNameTimeFormat;
   NFmiString itsSecondStringNameTimeFormat;

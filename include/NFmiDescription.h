@@ -432,7 +432,7 @@ class NFmiDescription
   std::ifstream* itsDescriptionFile;
   unsigned short itsLoopNum;
   unsigned short itsMaxLoopNum;
-  char itsObject[255];
+  char itsObject[255]{};
   int itsIntObject;
   NFmiValueString itsValueHelpString;
   NFmiString itsString;
