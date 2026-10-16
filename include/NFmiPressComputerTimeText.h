@@ -52,7 +52,7 @@ class NFmiPressComputerTimeText : public NFmiPressTimeText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressComputerTimeText::NFmiPressComputerTimeText() {}
+inline NFmiPressComputerTimeText::NFmiPressComputerTimeText() = default;
 
 // ----------------------------------------------------------------------
 /*!

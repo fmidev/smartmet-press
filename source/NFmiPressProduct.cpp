@@ -1333,7 +1333,7 @@ bool NFmiPressProduct::ReadDescriptionFile(NFmiString inputFile)
   endFileName += kFmiDirectorySeparator;
 
   endFileName += NFmiString("endA4.eps");
-  ifstream endFile(endFileName, ios::in | ios::in);
+  ifstream endFile(endFileName, ios::in);
   if (!endFile)
   {
     cout << "** Home directory " << GetHome().GetCharPtr() << " missing**" << endl;
@@ -3113,7 +3113,7 @@ void NFmiPressProduct::ReadPalette()
 
   palFileName += itsPaletteName;
   palFileName += NFmiString(".pal");
-  ifstream palFile(palFileName, ios::in | ios::in);
+  ifstream palFile(palFileName, ios::in);
 
   while (!palFile.eof())
   {
@@ -3176,7 +3176,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
 #endif
 
   endFileName += NFmiString("endA4.eps");
-  ifstream endFile(endFileName, ios::in | ios::in);
+  ifstream endFile(endFileName, ios::in);
 
   NFmiString startFileName;
 
@@ -3211,7 +3211,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
   if (!ConstructOutFileName())
     return false;
 
-  ifstream startFile(startFileName, ios::in | ios::in);
+  ifstream startFile(startFileName, ios::in);
 
   if (output == kPostScript || itsNumOfWritePS < 2)
   {
@@ -3380,7 +3380,7 @@ bool NFmiPressProduct::WritePS(FmiPressOutputMode theGivenOutput)
         NFmiString fullEpsFileName = mapFilePath;
         fullEpsFileName += *epsFileName;
         fullEpsFileName += NFmiString(".eps");
-        mapFile.open(fullEpsFileName, ios::in | ios::in);
+        mapFile.open(fullEpsFileName, ios::in);
         if (!mapFile.good() || mapFile.eof())
         {
           string msg =

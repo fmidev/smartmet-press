@@ -56,7 +56,7 @@ class NFmi2SymbolParamRect : public NFmiSymbolParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmi2SymbolParamRect::NFmi2SymbolParamRect() {}
+inline NFmi2SymbolParamRect::NFmi2SymbolParamRect() = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

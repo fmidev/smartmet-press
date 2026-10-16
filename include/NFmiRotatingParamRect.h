@@ -56,7 +56,7 @@ class NFmiRotatingParamRect : public NFmi2SymbolParamRect
 
   void WriteMetaCode(NFmiString* symbolFile, NFmiPoint realPos, std::ofstream& os) override;
 
-  double itsNotRotatingMinValue;
+  double itsNotRotatingMinValue{10.};
   double itsNotRotatingMaxValue;
   double itsVerticalLong;
 
@@ -68,7 +68,7 @@ class NFmiRotatingParamRect : public NFmi2SymbolParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiRotatingParamRect::NFmiRotatingParamRect() : itsNotRotatingMinValue(10.)
+inline NFmiRotatingParamRect::NFmiRotatingParamRect()
 {
 
   itsNotRotatingMaxValue = -10.;

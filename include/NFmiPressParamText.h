@@ -52,7 +52,7 @@ inline NFmiPressParamText::~NFmiPressParamText() = default;
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressParamText::NFmiPressParamText() {}
+inline NFmiPressParamText::NFmiPressParamText() = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

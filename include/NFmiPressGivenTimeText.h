@@ -45,7 +45,7 @@ class NFmiPressGivenTimeText : public NFmiPressTimeText
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressGivenTimeText::NFmiPressGivenTimeText() {}
+inline NFmiPressGivenTimeText::NFmiPressGivenTimeText() = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

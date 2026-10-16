@@ -46,7 +46,7 @@ class NFmiSubstituteParamRect : public NFmiTextParamRect
 
  protected:
  private:
-  float itsSubstituteMappingValue;
+  float itsSubstituteMappingValue{0.};
 
 };  // class NFmiSubstituteParamRect
 
@@ -56,7 +56,7 @@ class NFmiSubstituteParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiSubstituteParamRect::NFmiSubstituteParamRect() : itsSubstituteMappingValue(0.)
+inline NFmiSubstituteParamRect::NFmiSubstituteParamRect()
 {
   itsMapping = nullptr;
   fUseSelectLatinFont = true;

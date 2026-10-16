@@ -63,7 +63,7 @@ class NFmiPsSymbol : public NFmiPressScaling
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPsSymbol::NFmiPsSymbol() {}
+inline NFmiPsSymbol::NFmiPsSymbol() = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

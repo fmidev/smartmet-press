@@ -508,7 +508,7 @@ bool NFmiPressText::ReadDescription(NFmiString &retString)
 
     *itsLogFile << "#Text: " << static_cast<char *>(dataFile);
 
-    std::fstream in(dataFile, ios::in | ios::in);
+    std::fstream in(dataFile, ios::in);
     const short lineSize = 2800;
     char inBuf[lineSize];
     unsigned long tagBeg = 0;

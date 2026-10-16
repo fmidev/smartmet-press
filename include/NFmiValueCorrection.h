@@ -66,7 +66,7 @@ class NFmiValueCorrection
   std::string itsFile;
   std::ofstream* itsLogFile = nullptr;
   std::vector<FmiTempCorrections> itsTempCorrections;
-  bool fRead;
+  bool fRead{false};
   bool fMissing;
 
 };  // class NFmiValueCorrection
@@ -77,7 +77,7 @@ class NFmiValueCorrection
  */
 // ----------------------------------------------------------------------
 
-inline NFmiValueCorrection::NFmiValueCorrection() : fRead(false)
+inline NFmiValueCorrection::NFmiValueCorrection()
 {
 
   fMissing = false;

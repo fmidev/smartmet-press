@@ -129,7 +129,7 @@ class NFmiPressText : public NFmiPressScaling
   bool fFirstUpperCase = false;
   bool fAddLocalTime = false;
   NFmiString* itsText = nullptr;
-  NFmiPressText* itsSubText;
+  NFmiPressText* itsSubText{nullptr};
   double itsCharSpace = 0.;
   unsigned long itsMaxLen;
   double itsWidthFactor = 1.;
@@ -145,7 +145,7 @@ class NFmiPressText : public NFmiPressScaling
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressText::NFmiPressText() : itsSubText(nullptr), itsMaxLen(kUnsignedLongMissing)
+inline NFmiPressText::NFmiPressText() :  itsMaxLen(kUnsignedLongMissing)
 
 {
 

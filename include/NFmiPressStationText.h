@@ -66,7 +66,7 @@ class NFmiPressStationText : public NFmiPressText, public NFmiPressDataObject
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressStationText::NFmiPressStationText() {}
+inline NFmiPressStationText::NFmiPressStationText() = default;
 
 // ----------------------------------------------------------------------
 /*!

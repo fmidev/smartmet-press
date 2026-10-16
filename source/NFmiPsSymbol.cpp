@@ -207,7 +207,7 @@ bool NFmiPsSymbol::ConvertOrig2Short()
     // itsInFile.open(outputName, ios::in|ios::in);
     // itsInFile.close();
 
-    itsInFile->open(outputName, ios::in | ios::in);
+    itsInFile->open(outputName, ios::in);
     itsInFile->close();
     output.clear();
     return isTrue;

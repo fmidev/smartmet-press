@@ -98,7 +98,7 @@ class NFmiPressEnvironment
   FmiGenericColor itsGenericColor{};
   long itsAdditionalDayAdvance = 0;
   FmiPressTextAttributes itsTextAttributes;
-  int itsVersion;
+  int itsVersion{1};
   NFmiPoint itsSegmentMove;
   NFmiString itsSymbolSet;
   float itsSymbolSizeFactor;
@@ -114,7 +114,7 @@ class NFmiPressEnvironment
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressEnvironment::NFmiPressEnvironment() : itsVersion(1), itsEncoding("latin")
+inline NFmiPressEnvironment::NFmiPressEnvironment() :  itsEncoding("latin")
 {
   // HUOM vain jompikumpi värijärjestelmä
   itsGenericColor.color.cmyk.cyan = 0.;

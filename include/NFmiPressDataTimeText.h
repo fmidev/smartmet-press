@@ -57,7 +57,7 @@ class NFmiPressDataTimeText : public NFmiPressTimeText, public NFmiPressDataObje
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressDataTimeText::NFmiPressDataTimeText() {}
+inline NFmiPressDataTimeText::NFmiPressDataTimeText() = default;
 
 // ----------------------------------------------------------------------
 /*!

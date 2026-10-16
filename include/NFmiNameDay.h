@@ -59,7 +59,7 @@ class NFmiNameDay
 
  private:
   NFmiString itsNames[366];  // 0 ei käytetä
-  bool fRead;
+  bool fRead{false};
   bool fValue;
 
 };  // class NFmiNameDay
@@ -70,7 +70,7 @@ class NFmiNameDay
  */
 // ----------------------------------------------------------------------
 
-inline NFmiNameDay::NFmiNameDay() : fRead(false)
+inline NFmiNameDay::NFmiNameDay()
 {
 
   fValue = false;

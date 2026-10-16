@@ -70,7 +70,7 @@ class NFmiPressArea : public NFmiPressDescription
  */
 // ----------------------------------------------------------------------
 
-inline NFmiPressArea::NFmiPressArea() {}
+inline NFmiPressArea::NFmiPressArea() = default;
 // ----------------------------------------------------------------------
 /*!
  * Undocumented

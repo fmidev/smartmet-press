@@ -52,7 +52,7 @@ class NFmiLetterParamRect : public NFmiTextParamRect
  protected:
  private:
   bool ModifyTextBySeason(NFmiString &theString);
-  NFmiPressText *itsColumnText;
+  NFmiPressText *itsColumnText{nullptr};
 
 };  // class NFmiLetterParamRect
 
@@ -62,7 +62,7 @@ class NFmiLetterParamRect : public NFmiTextParamRect
  */
 // ----------------------------------------------------------------------
 
-inline NFmiLetterParamRect::NFmiLetterParamRect() : itsColumnText(nullptr)
+inline NFmiLetterParamRect::NFmiLetterParamRect()
 {
   itsMapping = nullptr;
   fUseSelectLatinFont = true;
