@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 26.10.16
+Version: 26.10.17
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -21,7 +21,7 @@ BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: smartmet-library-newbase-devel >= 26.10.16
 BuildRequires: %{smartmet_boost}-devel
-Requires: smartmet-library-newbase >= 26.10.16
+Requires: smartmet-library-newbase >= 26.10.17
 Requires: %{smartmet_boost}-iostreams
 Requires: %{smartmet_boost}-filesystem
 Requires: %{smartmet_boost}-system
@@ -50,6 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/qdpress.1.gz
 
 %changelog
+* Sat Oct 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.17-1.fmi
+- Split functions with a cognitive complexity above 25 into smaller helpers, no functional changes
+
 * Fri Oct 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.16-1.fmi
 - The 'varmt för årstiden' replacement is limited to June-August as intended (the month test was
   always true)
