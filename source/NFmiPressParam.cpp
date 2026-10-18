@@ -677,7 +677,9 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
   double lat = kFloatMissing;
   double lon = kFloatMissing;
 
-  auto* newNames = new NFmiVoidPtrList;
+  if (!itsNewNames)
+    itsNewNames = new NFmiVoidPtrList;
+  NFmiVoidPtrList* newNames = itsNewNames;
 
   SetPreReadingTimes();
 
@@ -2154,7 +2156,10 @@ bool NFmiPressParam::ReadDescription(NFmiString &retString)
           // text->Place(point1);
         }
         else
+        {
           delete itsDayChangeText;
+          itsDayChangeText = nullptr;
+        }
 
         itsIntObject = ConvertDefText(itsString);
         break;

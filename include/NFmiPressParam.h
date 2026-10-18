@@ -280,6 +280,7 @@ class NFmiPressParam : public NFmiPressTimeDescription
   bool fOptimizeGlobalObs;
   bool fBackupDayReported;
   NFmiStationPoint* itsCurrentStationPoint;
+  NFmiVoidPtrList* itsNewNames = nullptr;  // owns the renamings shared by the station texts
   bool fReportProseccedNumber;
 };
 // ----------------------------------------------------------------------
@@ -307,6 +308,19 @@ inline NFmiPressParam::~NFmiPressParam()
   delete itsDayChangeText;
 
   delete itsCurrentStationPoint;
+
+  if (itsNewNames)
+  {
+    NFmiVoidPtrIterator iter(itsNewNames);
+    iter.Reset();
+    auto* renaming = static_cast<NFmiRenaming*>(iter.Next());
+    while (renaming)
+    {
+      delete renaming;
+      renaming = static_cast<NFmiRenaming*>(iter.Next());
+    }
+    delete itsNewNames;
+  }
 }
 
 // ----------------------------------------------------------------------

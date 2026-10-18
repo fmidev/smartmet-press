@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 26.10.17
+Version: 26.10.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -50,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/qdpress.1.gz
 
 %changelog
+* Sun Oct 18 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.18-1.fmi
+- #DayChangeText: a definition that fails to parse no longer leaves a dangling pointer
+- #Segment: the station renaming list is owned and released by the segment
+
 * Sat Oct 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.17-1.fmi
 - Split functions with a cognitive complexity above 25 into smaller helpers, no functional changes
 
