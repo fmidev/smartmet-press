@@ -42,29 +42,6 @@ NFmiPressImage::NFmiPressImage()
 // ----------------------------------------------------------------------
 
 NFmiPressImage::~NFmiPressImage(void) = default;
-// ----------------------------------------------------------------------
-/*!
- * Copy constructor
- *
- * \param thePressImage The object to copy
- */
-// ----------------------------------------------------------------------
-
-NFmiPressImage::NFmiPressImage(const NFmiPressImage& thePressImage)
-    : NFmiPressScaling(thePressImage),
-      itsPath(thePressImage.itsPath),
-      itsImageScale(thePressImage.itsImageScale),
-      itsClippingRect(thePressImage.itsClippingRect),
-      itsClippingPoints(thePressImage.itsClippingPoints),
-      itsPressProduct(thePressImage.itsPressProduct),
-      itsTempImageFile(thePressImage.itsTempImageFile),
-      itsFileWithoutTimeStamp(thePressImage.itsFileWithoutTimeStamp),
-      itsTempImagePath(thePressImage.itsTempImagePath),
-      itsTempImageDir(thePressImage.itsTempImageDir),
-      itsRelHoursFromFirst(thePressImage.itsRelHoursFromFirst),
-      itsShear(thePressImage.itsShear)
-{
-}
 
 // ----------------------------------------------------------------------
 /*!

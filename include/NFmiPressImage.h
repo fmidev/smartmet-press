@@ -50,7 +50,7 @@ class NFmiPressImage : public NFmiPressScaling
  public:
   ~NFmiPressImage() override;
   NFmiPressImage();
-  NFmiPressImage(const NFmiPressImage& theOtherImage);
+  NFmiPressImage(const NFmiPressImage& theOtherImage) = default;
   NFmiPressImage& operator=(const NFmiPressImage&) = default;
 
   bool ReadDescription(NFmiString& retString) override;
