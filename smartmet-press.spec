@@ -3,7 +3,7 @@
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
 Version: 26.11.7
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Tools
 URL: https://github.com/fmidev/smartmet-press
@@ -50,6 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/qdpress.1.gz
 
 %changelog
+* Sat Nov 7 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.7-2.fmi
+- Removed redundant member initializers
+
 * Sat Nov 7 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.7-1.fmi
 - Initialize member variables that some constructors left uninitialized
 - Copy constructors now copy their base classes; copies no longer share the owned input file stream

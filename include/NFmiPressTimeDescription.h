@@ -162,8 +162,7 @@ inline NFmiPressTimeDescription::~NFmiPressTimeDescription() = default;
 // ----------------------------------------------------------------------
 
 inline NFmiPressTimeDescription::NFmiPressTimeDescription()
-    : fGivenHoursAreRelative(false),
-      fIsHourLoop(false),
+    : fIsHourLoop(false),
       itsFirstPlotHours(12),
       itsFirstPlotMinutes(0),
       itsFirstDeltaDays(+1),

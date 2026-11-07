@@ -458,7 +458,6 @@ inline NFmiDescription::NFmiDescription()
       itsDescriptionFile(nullptr),
       itsLoopNum(0),
       itsMaxLoopNum(4000),
-      itsIntObject(0),
       itsCommentLevel(0)
 {
   itsObject[0] = '\0';
