@@ -39,7 +39,7 @@ class NFmiPsWriting
   ~NFmiPsWriting();
   NFmiPsWriting();
   NFmiPsWriting(const NFmiPsWriting& thePsWriting);
-  NFmiPsWriting& operator=(const NFmiPsWriting&) = default;
+  NFmiPsWriting& operator=(const NFmiPsWriting& thePsWriting);
 
   bool WriteOutString(const NFmiString& outString);
   bool CopyPsFile();
@@ -76,7 +76,7 @@ class NFmiPsWriting
   NFmiPoint itsRotatingPoint;
   double itsRotatingAngle = 0.;
   bool fOverPrint = false;
-  std::ifstream* itsInFile = nullptr;
+  std::ifstream* itsInFile = nullptr;   // owned, never shared by copies
   std::ofstream* itsOutFile = nullptr;  // does not own, does not destroy
   NFmiRectScale itsWriteScale;
   bool fLineFeed = true;

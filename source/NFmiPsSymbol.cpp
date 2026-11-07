@@ -38,7 +38,7 @@ NFmiPsSymbol::~NFmiPsSymbol(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiPsSymbol::NFmiPsSymbol(const NFmiPsSymbol& thePsSymbol)
-    : NFmiPressScaling(),
+    : NFmiPressScaling(thePsSymbol),
       itsShortDir(NFmiString(thePsSymbol.itsShortDir)),
       itsOrigDir(NFmiString(thePsSymbol.itsOrigDir))
 {

@@ -33,7 +33,8 @@ NFmiPressArea::~NFmiPressArea()
  */
 // ----------------------------------------------------------------------
 
-NFmiPressArea::NFmiPressArea(const NFmiPressArea &theOtherArea) : NFmiPressDescription()
+NFmiPressArea::NFmiPressArea(const NFmiPressArea &theOtherArea)
+    : NFmiPressDescription(theOtherArea)
 {
   itsArea = theOtherArea.GetArea()->Clone();
   fIsXyRequest = theOtherArea.fIsXyRequest;

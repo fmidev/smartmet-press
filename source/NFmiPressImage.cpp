@@ -51,7 +51,7 @@ NFmiPressImage::~NFmiPressImage(void) = default;
 // ----------------------------------------------------------------------
 
 NFmiPressImage::NFmiPressImage(const NFmiPressImage& thePressImage)
-    : NFmiPressScaling(),
+    : NFmiPressScaling(thePressImage),
       itsPath(thePressImage.itsPath),
       itsImageScale(thePressImage.itsImageScale),
       itsClippingRect(thePressImage.itsClippingRect),

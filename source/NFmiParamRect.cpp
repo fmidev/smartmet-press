@@ -65,7 +65,7 @@ NFmiParamRect::~NFmiParamRect()
 
 NFmiParamRect::NFmiParamRect(const NFmiParamRect& theRect)
     : NFmiRect(NFmiRect(theRect.TopLeft(), theRect.BottomRight())),
-      NFmiPressTimeDescription(),
+      NFmiPressTimeDescription(theRect),
       fModifierUsed(theRect.fModifierUsed),
       itsInterval2NumberMin(theRect.itsInterval2NumberMin),
       itsInterval2NumberMax(theRect.itsInterval2NumberMax),

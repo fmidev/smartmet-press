@@ -135,7 +135,7 @@ inline NFmiStationPoint::NFmiStationPoint(const NFmiStation &theStation, const N
 
 inline NFmiStationPoint::NFmiStationPoint(const NFmiStationPoint& theStation)
     : NFmiStation(*theStation.Station()),
-      NFmiDescription(),
+      NFmiDescription(theStation),
       itsPoint(theStation.Point()),
       fIsBackup(theStation.fIsBackup),
       itsAlternatingSizeFactor(theStation.GetAlternatingSizeFactor())

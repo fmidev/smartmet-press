@@ -27,6 +27,9 @@ NFmiPsWriting::~NFmiPsWriting()
 /*!
  * Copy constructor
  *
+ * The input stream is owned and deleted by the destructor, so it is not
+ * shared with the copy. The copy opens its own input file when needed.
+ *
  * \param thePsWriting The object to copy
  */
 // ----------------------------------------------------------------------
@@ -37,11 +40,38 @@ NFmiPsWriting::NFmiPsWriting(const NFmiPsWriting &thePsWriting)
       itsRotatingPoint(thePsWriting.itsRotatingPoint),
       itsRotatingAngle(thePsWriting.itsRotatingAngle),
       fOverPrint(thePsWriting.fOverPrint),
-      itsInFile(thePsWriting.itsInFile),
       itsOutFile(thePsWriting.itsOutFile),
       itsWriteScale(thePsWriting.itsWriteScale),
       fLineFeed(thePsWriting.fLineFeed)
 {
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * Assignment operator
+ *
+ * Keeps the own input stream, see the copy constructor.
+ *
+ * \param thePsWriting The object to copy
+ * \return This object
+ */
+// ----------------------------------------------------------------------
+
+NFmiPsWriting &NFmiPsWriting::operator=(const NFmiPsWriting &thePsWriting)
+{
+  if (this != &thePsWriting)
+  {
+    fActivity = thePsWriting.fActivity;
+    fWriteAsLast = thePsWriting.fWriteAsLast;
+    fRotBeforeScale = thePsWriting.fRotBeforeScale;
+    itsRotatingPoint = thePsWriting.itsRotatingPoint;
+    itsRotatingAngle = thePsWriting.itsRotatingAngle;
+    fOverPrint = thePsWriting.fOverPrint;
+    itsOutFile = thePsWriting.itsOutFile;
+    itsWriteScale = thePsWriting.itsWriteScale;
+    fLineFeed = thePsWriting.fLineFeed;
+  }
+  return *this;
 }
 
 // ----------------------------------------------------------------------
