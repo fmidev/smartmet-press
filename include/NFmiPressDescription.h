@@ -132,7 +132,7 @@ class NFmiPressDescription : public NFmiDescription
   NFmiString itsOutPath;
   NFmiString itsLogPath;
 
-  FmiLanguage itsLanguage;
+  FmiLanguage itsLanguage = kFinnish;
   bool fOnlyForMissingPrecedingElement;
   void MoveSegmentPlace(double& theX, double& theY) const;
   void MoveSegmentPlaceConditionally(double& theX, double& theY) const;

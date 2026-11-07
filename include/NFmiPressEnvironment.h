@@ -31,7 +31,7 @@ struct FmiPressTextAttributes
 {
   NFmiString font;
   double size = 0.0;
-  FmiDirection alignment;
+  FmiDirection alignment = kNoDirection;
   FmiGenericColor color{};  // käyttöön myöhemmin
   bool fLongNumberMinus = false;  // käyttöön myöhemmin
 };

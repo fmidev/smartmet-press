@@ -215,7 +215,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
   bool fUseFromStorageInFrontOf;
   bool fUseFromStorageConditionally;
   bool fPutInStorage;
-  int itsStorageQueue;
+  int itsStorageQueue = 0;
   bool fIsProbability;
   NFmiLevel itsLevel;
   NFmiMetTime itsCurrentSegmentTime;
@@ -240,7 +240,7 @@ class NFmiParamRect : public NFmiRect, public NFmiPressTimeDescription
 
   std::vector<float> itsCurrentParamArray;
   FmiParameterName* itsMultiParams;
-  long itsFirstExtremRelHour;
+  long itsFirstExtremRelHour = 0;
   long itsLastExtremRelHour{};
   long itsFirstExtremHour{};
   long itsLastExtremHour{};

@@ -433,7 +433,7 @@ class NFmiDescription
   unsigned short itsLoopNum;
   unsigned short itsMaxLoopNum;
   char itsObject[255]{};
-  int itsIntObject;
+  int itsIntObject = 0;
   NFmiValueString itsValueHelpString;
   NFmiString itsString;
   unsigned short itsCommentLevel;  // Vain olion sisällä tietysti

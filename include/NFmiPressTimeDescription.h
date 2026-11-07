@@ -131,7 +131,7 @@ class NFmiPressTimeDescription : public NFmiPressDescription
                                const std::string& theConditionalElseDirective);
 
   FmiLoopActivity itsLoopActivity{};
-  bool fGivenHoursAreRelative;
+  bool fGivenHoursAreRelative = false;
   bool fIsHourLoop;
   short itsFirstPlotHours;
   short itsFirstPlotMinutes;

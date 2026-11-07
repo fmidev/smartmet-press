@@ -2,7 +2,7 @@
 %define RPMNAME smartmet-%{BINNAME}
 Summary: Press Weather Chart Renderer
 Name: %{RPMNAME}
-Version: 26.10.18
+Version: 26.11.7
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Tools
@@ -50,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/qdpress.1.gz
 
 %changelog
+* Sat Nov 7 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.7-1.fmi
+- Initialize member variables that some constructors left uninitialized
+- Copy constructors now copy their base classes; copies no longer share the owned input file stream
+
 * Sun Oct 18 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.18-1.fmi
 - #DayChangeText: a definition that fails to parse no longer leaves a dangling pointer
 - #Segment: the station renaming list is owned and released by the segment
