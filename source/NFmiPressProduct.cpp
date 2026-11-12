@@ -11,36 +11,48 @@
 
 // press
 #include "NFmiPressProduct.h"
-#include "NFmiCopyFile.h"
-#include "NFmiHyphenationString.h"
-#include "NFmiPressArea.h"
-#include "NFmiPressComputerTimeText.h"
-#include "NFmiPressGivenTimeText.h"
-#include "NFmiPressNameDay.h"
-#include "NFmiPressStationText.h"
-#include "NFmiPsSymbol.h"
-
-// newbase
-#include "NFmiLocationFinder.h"
-#include "NFmiSettings.h"
-#include "NFmiSuperSmartInfo.h"
-//#undef CopyFile
-#include "NFmiFileSystem.h"
-
 // Boost
 #include <boost/filesystem/operations.hpp>
-
 // system
+#include "NFmiCmykColorBag.h"
+#include "NFmiCopyFile.h"
+#include "NFmiDescription.h"
 #include <macgyver/StringConversion.h>
+#include <cmath>
 #include <cstdlib>
+#include <ctime>
+#include <exception>
+#include <filesystem>
 #include <iostream>
 #include <list>
 #include <locale>
-#include <cmath>
 #include <memory>
+#include <stdexcept>
 #include <string>
-
+// #undef CopyFile
+#include "NFmiFileSystem.h"
+#include "NFmiHyphenationString.h"
+// newbase
+#include "NFmiLocationFinder.h"
+#include "NFmiNameDay.h"
+#include "NFmiNamedQueryData.h"
+#include "NFmiPressArea.h"
+#include "NFmiPressComputerTimeText.h"
+#include "NFmiPressDescription.h"
 #include "NFmiPressErrors.h"
+#include "NFmiPressGivenTimeText.h"
+#include "NFmiPressImage.h"
+#include "NFmiPressNameDay.h"
+#include "NFmiPressParam.h"
+#include "NFmiPressSameSymbols.h"
+#include "NFmiPressScaling.h"
+#include "NFmiPressStationText.h"
+#include "NFmiPressText.h"
+#include "NFmiPressTime.h"
+#include "NFmiPsSymbol.h"
+#include "NFmiSettings.h"
+#include "NFmiSuperSmartInfo.h"
+#include "NFmiValueCorrection.h"
 
 using namespace std;
 

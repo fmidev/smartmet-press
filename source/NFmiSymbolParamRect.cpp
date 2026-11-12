@@ -10,22 +10,31 @@
 #endif
 
 #include "NFmiSymbolParamRect.h"
-
+// Boost
+#include "NFmiCopyFile.h"
+#include "NFmiDescription.h"
 #include "NFmiFileSystem.h"
+#include "NFmiMultiParamMapping.h"
+#include "NFmiParamMapping.h"
+#include "NFmiPressDescription.h"
+#include "NFmiPressEnvironment.h"
+#include "NFmiPressErrors.h"
 #include "NFmiPressParam.h"
 #include "NFmiPressProduct.h"
+#include "NFmiPressTimeDescription.h"
 #include "NFmiPsWriting.h"
 #include "NFmiRectScale.h"
 #include "NFmiSettings.h"
+#include <boost/filesystem/operations.hpp>
+#include <cmath>
+#include <exception>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <list>
-#include <cmath>
 #include <string>
+#include <vector>
 
-#include "NFmiPressErrors.h"
-
-// Boost
-#include <boost/filesystem/operations.hpp>
 using namespace std;
 
 // ----------------------------------------------------------------------
