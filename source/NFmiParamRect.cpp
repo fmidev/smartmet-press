@@ -9,6 +9,15 @@
 #pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
+#include "NFmiDataModifierSum.h"
+#include "NFmiDataModifierPrecFormUnion.h"
+#include "NFmiDataModifierMin.h"
+#include "NFmiDataModifierMax.h"
+#include "NFmiDataModifierDummy.h"
+#include "NFmiDataModifierAvg.h"
+#include "NFmiDataModifierAllValidSum.h"
+#include "NFmiDataModifierAllValidAvg.h"
+#include "NFmiDataModifierCombi.h"
 #include "NFmiParamRect.h"
 
 #include "NFmiPressParam.h"

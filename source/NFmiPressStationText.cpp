@@ -9,6 +9,8 @@
 #pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
+#include "NFmiVoidPtrList.h"
+#include "NFmiVoidPtrList.h"
 #include "NFmiPressStationText.h"
 #include "NFmiPressParam.h"
 #include "NFmiStationPoint.h"

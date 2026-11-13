@@ -9,6 +9,7 @@
 #pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
+#include "NFmiDef.h"
 #include "NFmiPressScaling.h"
 
 #include "NFmiPressTime.h"

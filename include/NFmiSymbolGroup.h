@@ -18,6 +18,7 @@
 #define NFMISYMBOLGROUP_H
 
 // press
+#include "NFmiVoidPtrList.h"
 #include "NFmiParamRect.h"
 #include "NFmiPressTimeDescription.h"
 #include "NFmiRectScale.h"

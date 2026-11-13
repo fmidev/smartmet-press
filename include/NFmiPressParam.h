@@ -19,6 +19,9 @@
 
 // press
 //#include "NFmiPressProduct.h"
+#include "NFmiVoidPtrList.h"
+#include "NFmiVoidPtrList.h"
+#include "NFmiLocationBag.h"
 #include "NFmiPressArea.h"
 #include "NFmiPressStationText.h"
 #include "NFmiPressTimeDescription.h"

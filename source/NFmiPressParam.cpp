@@ -10,6 +10,7 @@
 #endif
 
 // press
+#include "NFmiLocationBag.h"
 #include "NFmiPressParam.h"
 
 #include "NFmiMultiParamMapping.h"

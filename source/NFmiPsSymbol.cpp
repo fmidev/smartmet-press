@@ -10,6 +10,7 @@
 #endif
 
 // press
+#include "NFmiDef.h"
 #include "NFmiPsSymbol.h"
 
 #include <cmath>

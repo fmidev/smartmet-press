@@ -9,6 +9,7 @@
 #pragma warning(disable : 4786)  // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta
 #endif
 
+#include "NFmiDef.h"
 #include "NFmiPressImage.h"
 #include "NFmiCopyFile.h"
 #include "NFmiPressProduct.h"

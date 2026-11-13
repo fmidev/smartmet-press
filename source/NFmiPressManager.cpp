@@ -10,6 +10,7 @@
 #endif
 
 // press
+#include "NFmiDef.h"
 #include "NFmiPressManager.h"
 // newbase
 #include "NFmiEnumConverter.h"

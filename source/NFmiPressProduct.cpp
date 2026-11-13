@@ -10,6 +10,7 @@
 #endif
 
 // press
+#include "NFmiDef.h"
 #include "NFmiPressProduct.h"
 // Boost
 #include <boost/filesystem/operations.hpp>
